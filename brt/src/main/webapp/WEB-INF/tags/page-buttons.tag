@@ -13,24 +13,24 @@
     
         <button type="button" class="btn btn-default" data-page-btn="reload" onclick="window.location.reload();"><i class="cqc-cw"></i></button>
         
+        <c:if test="${authGroupMenu.exlAh eq 'Y'}">
+            <button type="button" class="btn btn-info" data-page-btn="excel"><i class="cqc-file-excel-o"></i> <%=MessageUtils.getMessage(request, "ax.admin.excel")%></button>
+        </c:if>
+        
         <c:if test="${authGroupMenu.schAh eq 'Y'}">
             <button type="button" class="btn btn-info" data-page-btn="search"><i class="cqc-magnifier"></i> <%=MessageUtils.getMessage(request, "ax.admin.inquery")%> </button>
+        </c:if>
+        
+        <c:if test="${authGroupMenu.fn1Ah eq 'Y'}">
+            <button type="button" class="btn btn-info" data-page-btn="new"><i class="cqc-plus"></i> <%=MessageUtils.getMessage(request, "ax.admin.new")%> </button>
+        </c:if>
+        
+        <c:if test="${authGroupMenu.delAh eq 'Y'}">
+            <button type="button" class="btn btn-info" data-page-btn="delete"><i class="cqc-minus"></i> <%=MessageUtils.getMessage(request, "ax.admin.delete")%></button>
         </c:if>
 
         <c:if test="${authGroupMenu.savAh eq 'Y'}">
             <button type="button" class="btn btn-info" data-page-btn="save"><i class="cqc-save"></i> <%=MessageUtils.getMessage(request, "ax.admin.save")%></button>
-        </c:if>
-
-        <c:if test="${authGroupMenu.exlAh eq 'Y'}">
-            <button type="button" class="btn btn-info" data-page-btn="excel"><i class="cqc-file-excel-o"></i> <%=MessageUtils.getMessage(request, "ax.admin.excel")%></button>
-        </c:if>
-
-        <c:if test="${authGroupMenu.delAh eq 'Y'}">
-            <button type="button" class="btn btn-fn1" data-page-btn="fn1"><i class="cqc-minus"></i> <%=MessageUtils.getMessage(request, "ax.admin.delete")%></button>
-        </c:if>
-
-        <c:if test="${authGroupMenu.fn1Ah eq 'Y'}">
-            <button type="button" class="btn btn-fn1" data-page-btn="fn1">${function1Label}</button>
         </c:if>
 
         <c:if test="${authGroupMenu.fn2Ah eq 'Y'}">

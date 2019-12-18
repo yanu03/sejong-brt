@@ -15,6 +15,7 @@
             "files": "/api/v1/files",
             "samples": "/api/v1/samples",
             "product": "/api/v1/product",
+            "corporation": "/api/v1/corporation",
         };
 
         axboot.def["MODAL"] = {
