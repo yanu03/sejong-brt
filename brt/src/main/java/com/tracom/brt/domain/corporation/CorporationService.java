@@ -15,12 +15,9 @@ public class CorporationService extends BaseService<Corporation, String> {
         return corporationMapper.findAll(requestParams.getString("filter"));
     }
     
-    public boolean saveCorporation(Corporation vo) {
-    	if(corporationMapper.save(vo) > 0) {
-    		return true;
-    	} else {
-    		return false;
-    	}
+    public String saveCorporation(Corporation vo) {
+    	corporationMapper.insert(vo);
+    	return vo.getCorpId();
     }
     
     public boolean updateCorporation(Corporation vo) {

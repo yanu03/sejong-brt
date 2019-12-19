@@ -16,7 +16,11 @@
     	</where>
     </select>
 
-    <insert id="save" parameterType="corporation">
+    <insert id="insert" parameterType="corporation">
+    	<selectKey keyProperty="corpId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('CP', LPAD(NEXTVAL(SEQ_BM_CORP_INFO_0), 5, '0'))
+    	</selectKey>
+    
     	INSERT INTO BM_CORP_INFO(
     		  CORP_ID
     		, CORP_NM
@@ -34,7 +38,7 @@
     		, UPDATED_AT
     		, UPDATED_BY)
    		VALUES(
-   			  CONCAT('CP', LPAD(NEXTVAL(SEQ_BM_CORP_INFO_0), 5, '0'))
+   			  #{corpId}
    			, #{corpNm}
    			, #{corpNo}
    			, #{email}

@@ -56,7 +56,7 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
                             <ax:td label="ax.admin.corporation.form.id" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="corpId" class="form-control" readonly="readonly"/>
+                                <input type="text" data-ax-path="corpId" data-key="true" class="form-control" readonly="readonly"/>
                             </ax:td>
                             <ax:td label="ax.admin.corporation.form.name" width="300px" labelClazz="required">
                                 <input type="text" data-ax-path="corpNm" title="<ax:lang id="ax.admin.corporation.form.name"/>" class="form-control" data-ax-validate="required" />

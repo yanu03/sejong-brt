@@ -10,10 +10,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
-    	if(dataFlag) {
-    		caller.searchView.clear();
-    	}
-    	
     	var filter = $.extend({}, caller.searchView.getData());
     	
         axboot.ajax({
@@ -26,9 +22,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 if(res.list.length == 0) {
                 	isUpdate = false;
 	                caller.formView01.clear();
+	                caller.formView01.disable();
                 } else {
                 	if(dataFlag) {
-	                	caller.gridView01.selectLastRow();
+	                	caller.gridView01.selectIdRow(data);
 	                } else {
 		                if(selectedRow != null) {
 		                	caller.gridView01.selectRow(selectedRow.__index);
@@ -108,9 +105,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                         }
                     });
                 })
-                .then(function (ok) {
+                .then(function (ok, fail, data) {
                 	if(type == "POST") {
-                		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, isUpdate);
+                		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
                 	} else if(type == "PUT") {
                 		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 	}
@@ -289,6 +286,14 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
         	ACTIONS.dispatch(ACTIONS.ITEM_CLICK, data);
     	}
     },
+    selectIdRow: function(id) {
+    	for(var i = 0; i < this.target.list.length; i++) {
+    		if(this.target.list[i].corpId == id) {
+    			this.selectRow(i);
+    			break;
+    		}
+    	}
+    },
     selectAll: function(flag) {
     	this.target.selectAll({selected: flag});
     }
@@ -326,8 +331,6 @@ fnObj.formView01 = axboot.viewExtend(axboot.formView, {
         if (typeof data === "undefined") data = this.getDefaultData();
         data = $.extend({}, data);
 
-        this.target.find('[data-ax-path="key"]').attr("readonly", "readonly");
-
         this.model.setModel(data);
         this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
     },
@@ -339,6 +342,15 @@ fnObj.formView01 = axboot.viewExtend(axboot.formView, {
             return false;
         }
         return true;
+    },
+    enable: function() {
+    	
+    },
+    disable: function() {
+    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    		console.log(element);
+    		//element.attr("readonly", "readonly");
+    	});
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());

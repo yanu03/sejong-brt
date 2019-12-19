@@ -36,8 +36,9 @@ public class CorporationController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST, produces = APPLICATION_JSON)
     public ApiResponse save(@RequestBody Corporation request) {
-        corporationService.saveCorporation(request);
-        return ok();
+        String corpId = corporationService.saveCorporation(request);
+        
+        return ok(corpId);
     }
     
     @RequestMapping(method = RequestMethod.PUT, produces = APPLICATION_JSON)

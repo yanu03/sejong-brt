@@ -6,7 +6,7 @@ import com.chequer.axboot.core.mybatis.MyBatisMapper;
 
 public interface CorporationMapper extends MyBatisMapper {
 	List<Corporation> findAll(String filter);
-	int save(Corporation vo);
+	int insert(Corporation vo);
 	int update(Corporation vo);
 	int delete(Corporation vo);
 }
