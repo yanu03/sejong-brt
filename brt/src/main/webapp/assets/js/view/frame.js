@@ -513,6 +513,9 @@ fnObj.tabView = axboot.viewExtend({
         this.target.find('.tooltip').remove();
         this.resize();
     },
+    closeActiveTab: function () {
+    	this.close($(".tab-item.on").attr("data-tab-id"))
+    },
     bindEvent: function () {
         var _this = this;
         this.target.find('.tab-item').unbind("click").bind("click", function (e) {
@@ -555,16 +558,18 @@ fnObj.tabView = axboot.viewExtend({
  */
 fnObj.activityTimerView = axboot.viewExtend({
     initView: function () {
+    	/*
         this.$target = $("#account-activity-timer");
-        /*
+        
          $(document.body).on("click", function () {
          fnObj.activityTimerView.update();
          });
-         */
+         
         this.update();
         setInterval(function () {
             fnObj.activityTimerView.print();
         }, 1000);
+        */
     },
     update: function () {
         this.initTime = (new Date()).getTime();

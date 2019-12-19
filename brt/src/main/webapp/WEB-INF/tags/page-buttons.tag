@@ -34,7 +34,7 @@
         </c:if>
 
         <c:if test="${authGroupMenu.fn2Ah eq 'Y'}">
-            <button type="button" class="btn btn-info" data-page-btn="fn2">${function2Label}</button>
+            <button type="button" class="btn btn-info" data-page-btn="close"><i class="cqc-cancel"></i> <%=MessageUtils.getMessage(request, "ax.admin.close")%></button>
         </c:if>
 
         <c:if test="${authGroupMenu.fn3Ah eq 'Y'}">

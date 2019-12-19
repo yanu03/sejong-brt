@@ -19,16 +19,8 @@
             <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
-                        <ax:td label='ax.admin.sample.search.condition' width="500px">
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    <input type="text" id="compStorLabel" class="form-control W150" value=""/>
-                                    <button type="button" class="btn btn-primary">
-                                        <i class="cqc-magnifier"></i>
-                                        <ax:lang id="ax.admin.search"/>
-                                    </button>
-                                </div>
-                            </div>
+                        <ax:td label='ax.admin.search' width="300px">
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.corporation.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -63,11 +55,11 @@
                 <ax:form name="formView01">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
-                            <ax:td label="ax.admin.corporation.form.id" width="300px">
-                                <input type="text" data-ax-path="corpId" class="form-control" data-ax-validate="required" readonly="readonly"/>
+                            <ax:td label="ax.admin.corporation.form.id" width="300px" labelClazz="required">
+                                <input type="text" data-ax-path="corpId" class="form-control" readonly="readonly"/>
                             </ax:td>
-                            <ax:td label="ax.admin.corporation.form.name" width="300px">
-                                <input type="text" data-ax-path="corpNm" class="form-control" data-ax-validate="required" />
+                            <ax:td label="ax.admin.corporation.form.name" width="300px" labelClazz="required">
+                                <input type="text" data-ax-path="corpNm" title="<ax:lang id="ax.admin.corporation.form.name"/>" class="form-control" data-ax-validate="required" />
                             </ax:td>
                         </ax:tr>
                         
@@ -77,19 +69,19 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.corporation.form.crn" width="300px">
-                                <input type="text" data-ax-path="comRgstNum" class="form-control" data-ax-validate="required" />
+                                <input type="text" data-ax-path="corpNo" class="form-control"  />
                             </ax:td>
                             <ax:td label="ax.admin.corporation.form.email" width="300px">
-                            	<input type="text" data-ax-path="email" class="form-control" data-ax-validate="required" />
+                            	<input type="text" data-ax-path="email" class="form-control"/>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
                             <ax:td label="ax.admin.corporation.form.phone" width="300px">
-                            	<input type="text" data-ax-path="phone" class="form-control" data-ax-validate="required" />
+                            	<input type="text" data-ax-path="phone" class="form-control"/>
                             </ax:td>
                             <ax:td label="ax.admin.corporation.form.fax" width="300px">
-                            	<input type="text" data-ax-path="fax" class="form-control" data-ax-validate="required" />
+                            	<input type="text" data-ax-path="fax" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
                        	
@@ -98,32 +90,32 @@
                         </ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.corporation.form.location" width="300px">
-                            	<input type="text" data-ax-path="loc" class="form-control" data-ax-validate="required" />
+                            <ax:td label="ax.admin.corporation.form.addr1" width="300px">
+                            	<input type="text" data-ax-path="addr1" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.corporation.form.zip.number" width="300px">
-                            	<input type="text" data-ax-path="zipNum" class="form-control" data-ax-validate="required" />
+                       		<ax:td label="ax.admin.corporation.form.zip.no" width="300px">
+                            	<input type="text" data-ax-path="zipNo" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.corporation.form.zip.address" width="300px">
-                            	<input type="text" data-ax-path="zipAddr" class="form-control" data-ax-validate="required" />
+                            <ax:td label="ax.admin.corporation.form.addr2" width="300px">
+                            	<input type="text" data-ax-path="addr2" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.corporation.form.garage" width="300px">
-                            	<input type="text" data-ax-path="garage" class="form-control" data-ax-validate="required" />
+                            	<input type="text" data-ax-path="garage" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.corporation.form.remark" width="300px">
-                            	<input type="text" data-ax-path="remark" class="form-control" data-ax-validate="required" />
+                            	<input type="text" data-ax-path="remark" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
                         <%-- 

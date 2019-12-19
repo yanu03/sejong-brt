@@ -133,9 +133,11 @@
 
     <div class="ax-frame-foot">
         <div class="ax-split-col" style="height: 100%;">
-            <div class="ax-split-panel text-align-left"> ${config.copyrights} </div>
+            <div class="ax-split-panel text-align-left">
+            	<!-- Last account activity <b id="account-activity-timer">00</b> ago. -->
+            </div>
             <div class="ax-split-panel text-align-right">
-                Last account activity <b id="account-activity-timer">00</b> ago.
+                ${config.copyrights}
             </div>
         </div>
     </div>

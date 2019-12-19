@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.corporation.CorporationMapper">
+
+    <select id="findAll" parameterType="String" resultType="corporation">
+    	SELECT
+    		*
+    	FROM
+    		BM_CORP_INFO
+    	<where>
+	    	<if test="value != null">
+				CORP_ID LIKE CONCAT('%', #{value}, '%')
+				OR CORP_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+    </select>
+
+    <insert id="save" parameterType="corporation">
+    	INSERT INTO BM_CORP_INFO(
+    		  CORP_ID
+    		, CORP_NM
+    		, CORP_NO
+    		, EMAIL
+    		, PHONE
+    		, FAX
+    		, ADDR1
+    		, ZIP_NO
+    		, ADDR2
+    		, GARAGE
+    		, REMARK
+    		, CREATED_AT
+    		, CREATED_BY
+    		, UPDATED_AT
+    		, UPDATED_BY)
+   		VALUES(
+   			  CONCAT('CP', LPAD(NEXTVAL(SEQ_BM_CORP_INFO_0), 5, '0'))
+   			, #{corpNm}
+   			, #{corpNo}
+   			, #{email}
+   			, #{phone}
+   			, #{fax}
+   			, #{addr1}
+   			, #{zipNo}
+   			, #{addr2}
+   			, #{garage}
+   			, #{remark}
+   			, #{createdAt}
+   			, #{createdBy}
+   			, #{updatedAt}
+   			, #{updatedBy}
+   		)
+    </insert>
+    
+    <update id="update" parameterType="corporation">
+    	UPDATE BM_CORP_INFO
+    	SET
+    		  CORP_NM		=	#{corpNm}
+    		, CORP_NO		=	#{corpNo}
+    		, EMAIL			=	#{email}
+    		, PHONE			=	#{phone}
+    		, FAX			=	#{fax}
+    		, ADDR1			=	#{addr1}
+    		, ZIP_NO		=	#{zipNo}
+    		, ADDR2			=	#{addr2}
+    		, GARAGE		=	#{garage}
+    		, REMARK		=	#{remark}
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		CORP_ID = #{corpId}
+    </update>
+    
+    <delete id="delete" parameterType="corporation">
+    	DELETE
+    		FROM BM_CORP_INFO
+    	WHERE
+    		CORP_ID = #{corpId}
+    </delete>
+</mapper>

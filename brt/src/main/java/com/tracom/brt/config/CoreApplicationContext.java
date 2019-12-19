@@ -87,7 +87,9 @@ public class CoreApplicationContext {
         sqlSessionFactoryBean.setTypeAliasesPackage(GlobalConstants.DOMAIN_PACKAGE);
         sqlSessionFactoryBean.setTypeHandlers(axBootContextConfig.getMyBatisTypeHandlers());
         sqlSessionFactoryBean.setTransactionFactory(springManagedTransactionFactory);
-        return sqlSessionFactoryBean.getObject();
+        SqlSessionFactory factory = sqlSessionFactoryBean.getObject();
+        factory.getConfiguration().setMapUnderscoreToCamelCase(true);
+        return factory;
     }
 
     @Bean
