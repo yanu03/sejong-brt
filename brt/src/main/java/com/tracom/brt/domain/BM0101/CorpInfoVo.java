@@ -1,4 +1,4 @@
-package com.tracom.brt.domain.corporation;
+package com.tracom.brt.domain.BM0101;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +24,7 @@ import lombok.Setter;
 @Table(name = "BM_CORP_INFO")
 @Comment(value = "운수사정보")
 @Alias("corporation")
-public class Corporation extends BaseJpaModel<String> {
+public class CorpInfoVo extends BaseJpaModel<String> {
 	@Id
 	@Column(name = "CORP_ID", length = 7, nullable = false)
 	@Comment(value = "운수사ID")

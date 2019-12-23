@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.tracom.brt.domain.corporation.CorporationMapper">
+<mapper namespace="com.tracom.brt.domain.BM0101.BM0101Mapper">
 
-    <select id="findAll" parameterType="String" resultType="corporation">
+    <select id="BM0101G0S0" parameterType="String" resultType="corporation">
     	SELECT
     		*
     	FROM
@@ -16,7 +16,7 @@
     	</where>
     </select>
 
-    <insert id="insert" parameterType="corporation">
+    <insert id="BM0101F0I0" parameterType="corporation">
     	<selectKey keyProperty="corpId" resultType="String" order="BEFORE">
     		SELECT CONCAT('CP', LPAD(NEXTVAL(SEQ_BM_CORP_INFO_0), 5, '0'))
     	</selectKey>
@@ -56,7 +56,7 @@
    		)
     </insert>
     
-    <update id="update" parameterType="corporation">
+    <update id="BM0101F0U0" parameterType="corporation">
     	UPDATE BM_CORP_INFO
     	SET
     		  CORP_NM		=	#{corpNm}
@@ -75,7 +75,7 @@
     		CORP_ID = #{corpId}
     </update>
     
-    <delete id="delete" parameterType="corporation">
+    <delete id="BM0101G0D0" parameterType="corporation">
     	DELETE
     		FROM BM_CORP_INFO
     	WHERE

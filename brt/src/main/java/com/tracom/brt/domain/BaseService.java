@@ -5,9 +5,7 @@ import java.io.Serializable;
 import com.chequer.axboot.core.domain.base.AXBootBaseService;
 import com.chequer.axboot.core.domain.base.AXBootJPAQueryDSLRepository;
 import com.tracom.brt.domain.code.QCommonCode;
-import com.tracom.brt.domain.corporation.QCorporation;
 import com.tracom.brt.domain.file.QCommonFile;
-import com.tracom.brt.domain.prdt.QProduct;
 import com.tracom.brt.domain.program.QProgram;
 import com.tracom.brt.domain.program.menu.QMenu;
 import com.tracom.brt.domain.user.QUser;
@@ -26,8 +24,6 @@ public class BaseService<T, ID extends Serializable> extends AXBootBaseService<T
     protected QUserAuth qUserAuth = QUserAuth.userAuth;
     protected QMenu qMenu = QMenu.menu;
     protected QCommonFile qCommonFile = QCommonFile.commonFile;
-    protected QProduct qProduct = QProduct.product;
-    protected QCorporation qCorporation = QCorporation.corporation;
 
     protected AXBootJPAQueryDSLRepository<T, ID> repository;
 

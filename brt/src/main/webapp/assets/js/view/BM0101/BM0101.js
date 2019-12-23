@@ -3,12 +3,19 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {
         axboot.ajax({
             type: "GET",
-            url: ["product"],
+            url: ["samples", "parent"],
             data: caller.searchView.getData(),
             callback: function (res) {
                 caller.gridView01.setData(res);
+            },
+            options: {
+                // axboot.ajax 함수에 2번째 인자는 필수가 아닙니다. ajax의 옵션을 전달하고자 할때 사용합니다.
+                onError: function (err) {
+                    console.log(err);
+                }
             }
         });
+
         return false;
     },
     PAGE_SAVE: function (caller, act, data) {
@@ -17,19 +24,31 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
         axboot.ajax({
             type: "PUT",
-            url: ["product"],
+            url: ["samples", "parent"],
             data: JSON.stringify(saveList),
             callback: function (res) {
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                axToast.push(LANG("onsave"));
+                axToast.push("저장 되었습니다");
             }
         });
+    },
+    ITEM_CLICK: function (caller, act, data) {
+
     },
     ITEM_ADD: function (caller, act, data) {
         caller.gridView01.addRow();
     },
     ITEM_DEL: function (caller, act, data) {
         caller.gridView01.delRow("selected");
+    },
+    dispatch: function (caller, act, data) {
+        var result = ACTIONS.exec(caller, act, data);
+        if (result != "error") {
+            return result;
+        } else {
+            // 직접코딩
+            return false;
+        }
     }
 });
 
@@ -55,6 +74,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "save": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
+            },
+            "excel": function () {
+
             }
         });
     }
@@ -86,18 +108,19 @@ fnObj.searchView = axboot.viewExtend(axboot.searchView, {
 fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
     initView: function () {
         var _this = this;
+
         this.target = axboot.gridBuilder({
             showRowSelector: true,
             frozenColumnIndex: 0,
-            sortable: true,
             multipleSelect: true,
             target: $('[data-ax5grid="grid-view-01"]'),
             columns: [
-            	{key: "prdtCd", label: "제품코드", width: 100, align: "center", editor: "text"},
-                {key: "prdtNm", label: "제품명", width: 200, align: "center", editor: "text"},
-                {key: "origin", label: "원산지", width: 100, align: "center", editor: "text"},
-                {key: "purchasePrice", label: "매입가격", width: 150, align: "right", editor: "number"},
-                {key: "salesPrice", label: "판매가격", width: 150, align: "right", editor: "number"}
+                {key: "key", label: "KEY", width: 160, align: "left", editor: "text"},
+                {key: "value", label: "VALUE", width: 350, align: "left", editor: "text"},
+                {key: "etc1", label: "ETC1", width: 100, align: "center", editor: "text"},
+                {key: "etc2", label: "ETC2", width: 100, align: "center", editor: "text"},
+                {key: "etc3", label: "ETC3", width: 100, align: "center", editor: "text"},
+                {key: "etc4", label: "ETC4", width: 100, align: "center", editor: "text"}
             ],
             body: {
                 onClick: function () {
@@ -121,7 +144,8 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
 
         if (_type == "modified" || _type == "deleted") {
             list = ax5.util.filter(_list, function () {
-                return this.prdtCd;
+                delete this.deleted;
+                return this.key;
             });
         } else {
             list = _list;
@@ -129,6 +153,6 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
         return list;
     },
     addRow: function () {
-        this.target.addRow({__created__: true, posUseYn: "N", useYn: "Y"}, "last");
+        this.target.addRow({__created__: true}, "last");
     }
 });
