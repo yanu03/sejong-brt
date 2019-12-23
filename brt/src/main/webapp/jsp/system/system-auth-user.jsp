@@ -89,6 +89,23 @@
                             </ax:td>
                         </ax:tr>
                         <ax:tr labelWidth="120px">
+                            <ax:td label="ax.admin.user.scd.password" width="300px">
+                                <input type="password" name="scdPs" data-ax-path="scdPs" maxlength="128" class="form-control W120" value="" readonly="readonly"/>
+                            </ax:td>
+                            <ax:td label="ax.admin.user.scd.password.confirm" width="460px">
+                                <input type="password" name="scdPs_chk" data-ax-path="scdPs_chk" maxlength="128" class="form-control inline-block W120" value="" readonly="readonly"/>
+                                &nbsp;
+                                <label>
+                                    <input type="checkbox" data-ax-path="scd_password_change" name="scd_password_change" value="Y"/>
+                                    <ax:lang id="ax.admin.user.password.change"/>
+                                </label>
+                                <label>
+                                    <input type="checkbox" data-ax-path="scdPsUseYn" name="scdPsUseYn" value="Y"/>
+                                    <ax:lang id="ax.admin.useyn"/>
+                                </label>
+                            </ax:td>
+                        </ax:tr>
+                        <ax:tr labelWidth="120px">
                             <ax:td label="ax.admin.user.email" width="300px">
                                 <input type="text" name="email" data-ax-path="email" maxlength="50" title="이메일" placeholder="abc@abc.com" class="av-email form-control" value=""/>
                             </ax:td>

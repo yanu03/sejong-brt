@@ -45,6 +45,7 @@ public class UserService extends BaseService<User, String> {
                 delete(qUserAuth).where(qUserAuth.userCd.eq(user.getUserCd())).execute();
 
                 String password = bCryptPasswordEncoder.encode(user.getUserPs());
+                String scdPassword = bCryptPasswordEncoder.encode(user.getScdPs());
                 User originalUser = userRepository.findOne(user.getUserCd());
 
                 if (originalUser != null) {
@@ -53,6 +54,13 @@ public class UserService extends BaseService<User, String> {
                         user.setUserPs(password);
                     } else {
                         user.setUserPs(originalUser.getUserPs());
+                    }
+                    
+                    if(isNotEmpty(user.getScdPs())) {
+                    	user.setScdPsUpdateDate(Instant.now(Clock.systemUTC()));
+                    	user.setScdPs(scdPassword);
+                    } else {
+                    	user.setScdPs(originalUser.getScdPs());
                     }
                 } else {
                     user.setPasswordUpdateDate(Instant.now(Clock.systemUTC()));

@@ -45,6 +45,12 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath remark = createString("remark");
 
+    public final StringPath scdPs = createString("scdPs");
+
+    public final DateTimePath<java.time.Instant> scdPsUpdateDate = createDateTime("scdPsUpdateDate", java.time.Instant.class);
+
+    public final EnumPath<com.chequer.axboot.core.code.AXBootTypes.Used> scdPsUseYn = createEnum("scdPsUseYn", com.chequer.axboot.core.code.AXBootTypes.Used.class);
+
     //inherited
     public final DateTimePath<java.time.Instant> updatedAt = _super.updatedAt;
 

@@ -223,6 +223,16 @@ fnObj.formView01 = axboot.viewExtend(axboot.formView, {
                 _this.target.find('[data-ax-path="userPs_chk"]').attr("readonly", "readonly");
             }
         });
+        
+        this.model.onChange("scd_password_change", function () {
+            if (this.value == "Y") {
+                _this.target.find('[data-ax-path="scdPs"]').removeAttr("readonly");
+                _this.target.find('[data-ax-path="scdPs_chk"]').removeAttr("readonly");
+            } else {
+                _this.target.find('[data-ax-path="scdPs"]').attr("readonly", "readonly");
+                _this.target.find('[data-ax-path="scdPs_chk"]').attr("readonly", "readonly");
+            }
+        });
     },
     getData: function () {
         var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
@@ -238,6 +248,9 @@ fnObj.formView01 = axboot.viewExtend(axboot.formView, {
         }
 
         data.roleList = ACTIONS.dispatch(ACTIONS.ROLE_GRID_DATA_GET);
+        
+        if(data.scdPsUseYn == "")
+        	data.scdPsUseYn = "N";
 
         return $.extend({}, data);
     },
@@ -253,11 +266,15 @@ fnObj.formView01 = axboot.viewExtend(axboot.formView, {
             });
         }
         ACTIONS.dispatch(ACTIONS.ROLE_GRID_DATA_INIT, {userCd: data.userCd, roleList: data.roleList});
-
+        
         data.userPs = "";
+        data.scdPs = "";
         data.password_change = "";
+        
         this.target.find('[data-ax-path="userPs"]').attr("readonly", "readonly");
         this.target.find('[data-ax-path="userPs_chk"]').attr("readonly", "readonly");
+        this.target.find('[data-ax-path="scdPs"]').attr("readonly", "readonly");
+        this.target.find('[data-ax-path="scdPs_chk"]').attr("readonly", "readonly");
         this.model.setModel(data);
         this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
 
