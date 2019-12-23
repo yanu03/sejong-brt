@@ -24,6 +24,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                caller.formView01.clear();
 	                caller.formView01.disable();
                 } else {
+                	caller.formView01.enable();
                 	if(dataFlag) {
 	                	caller.gridView01.selectIdRow(data);
 	                } else {
@@ -48,6 +49,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = false;
     	caller.gridView01.selectAll(false);
         caller.formView01.clear();
+        caller.formView01.enable();
+        caller.formView01.validate(true);
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -75,6 +78,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 })
                 .then(function (ok) {
                 	caller.formView01.clear();
+                	axToast.push(LANG("ondelete"));
                     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
@@ -107,8 +111,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 })
                 .then(function (ok, fail, data) {
                 	if(type == "POST") {
+                		axToast.push(LANG("onadd"));
                 		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
                 	} else if(type == "PUT") {
+                		axToast.push(LANG("onupdate"));
                 		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 	}
                     isUpdate = true;
@@ -334,22 +340,25 @@ fnObj.formView01 = axboot.viewExtend(axboot.formView, {
         this.model.setModel(data);
         this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
     },
-    validate: function () {
+    validate: function (flag) {
         var rs = this.model.validate();
         if (rs.error) {
-            alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        	if(!flag) {
+        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        	}
             rs.error[0].jquery.focus();
             return false;
         }
         return true;
     },
     enable: function() {
-    	
+    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    		$(element).attr("readonly", false);
+    	});
     },
     disable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		console.log(element);
-    		//element.attr("readonly", "readonly");
+    		$(element).attr("readonly", true);
     	});
     },
     clear: function () {
