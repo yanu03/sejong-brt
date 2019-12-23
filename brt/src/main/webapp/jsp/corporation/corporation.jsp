@@ -28,6 +28,7 @@
             <div class="H10"></div>
         </div>
 
+
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="500" style="padding-right: 10px;">
                 <!-- 목록 -->
