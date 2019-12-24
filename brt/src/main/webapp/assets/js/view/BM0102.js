@@ -14,7 +14,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0101G0S0",
+            url: "/api/v1/BM0102G0S0",
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);
@@ -69,7 +69,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0101G0D0",
+	                    url: "/api/v1/BM0102G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -96,7 +96,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0101F0I0",
+                        url: "/api/v1/BM0102F0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -122,7 +122,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                     	type: "POST",
-                        url: "/api/v1/BM0101F0U0",
+                        url: "/api/v1/BM0102F0U0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -239,8 +239,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "corpId", label: "운수사ID", width: 80},
-                {key: "corpNm", label: "운수사명", width: 80},
+                {key: "custId", label: "거래처ID", width: 80},
+                {key: "custNm", label: "거래처명", width: 80},
                 {key: "corpNo", label: "사업자등록번호", width: 120},
                 {key: "email", label: "이메일", width: 120},
                 {key: "phone", label: "전화번호", width: 120},
@@ -248,7 +248,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "fax", label: "팩스", width: 120},
                 {key: "zipNo", label: "우편번호", width: 70},
                 {key: "addr2", label: "우편물수령지", width: 120},
-                {key: "garage", label: "차고지", width: 70},
                 {key: "remark", label: "비고", width: 70},
             ],
             body: {
@@ -313,7 +312,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].corpId == id) {
+    		if(this.target.list[i].custId == id) {
     			this.selectRow(i);
     			break;
     		}

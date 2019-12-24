@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0102.BM0102Mapper">
+
+    <select id="BM0102G0S0" parameterType="String" resultType="custInfoVo">
+    	SELECT
+    		*
+    	FROM
+    		BM_CUST_INFO
+    	<where>
+	    	<if test="value != null">
+				CUST_ID LIKE CONCAT('%', #{value}, '%')
+				OR CUST_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+    </select>
+
+    <insert id="BM0102F0I0" parameterType="custInfoVo">
+    	<selectKey keyProperty="custId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('CT', LPAD(NEXTVAL(SEQ_BM_CUST_INFO_0), 5, '0'))
+    	</selectKey>
+    
+    	INSERT INTO BM_CUST_INFO(
+    		  CUST_ID
+    		, CUST_NM
+    		, CORP_NO
+    		, EMAIL
+    		, PHONE
+    		, FAX
+    		, ADDR1
+    		, ZIP_NO
+    		, ADDR2
+    		, REMARK
+    		, CREATED_AT
+    		, CREATED_BY
+    		, UPDATED_AT
+    		, UPDATED_BY)
+   		VALUES(
+   			  #{custId}
+   			, #{custNm}
+   			, #{corpNo}
+   			, #{email}
+   			, #{phone}
+   			, #{fax}
+   			, #{addr1}
+   			, #{zipNo}
+   			, #{addr2}
+   			, #{remark}
+   			, #{createdAt}
+   			, #{createdBy}
+   			, #{updatedAt}
+   			, #{updatedBy}
+   		)
+    </insert>
+    
+    <update id="BM0102F0U0" parameterType="custInfoVo">
+    	UPDATE BM_CUST_INFO
+    	SET
+    		  CUST_NM		=	#{custNm}
+    		, CORP_NO		=	#{corpNo}
+    		, EMAIL			=	#{email}
+    		, PHONE			=	#{phone}
+    		, FAX			=	#{fax}
+    		, ADDR1			=	#{addr1}
+    		, ZIP_NO		=	#{zipNo}
+    		, ADDR2			=	#{addr2}
+    		, REMARK		=	#{remark}
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		CUST_ID = #{custId}
+    </update>
+    
+    <delete id="BM0102G0D0" parameterType="custInfoVo">
+    	DELETE
+    		FROM BM_CUST_INFO
+    	WHERE
+    		CUST_ID = #{custId}
+    </delete>
+</mapper>
