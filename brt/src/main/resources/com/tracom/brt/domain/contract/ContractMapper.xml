@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.contract.ContractMapper">
+
+    <select id="findAll" parameterType="String" resultType="contract">
+    	SELECT
+    		*
+    	FROM
+    		BM_CON_INFO
+    	<where>
+	    	<if test="value != null">
+				CON_ID LIKE CONCAT('%', #{value}, '%')
+				OR CON_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+    </select>
+
+    <insert id="insert" parameterType="contract">
+    	<selectKey keyProperty="corpId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('CP', LPAD(NEXTVAL(SEQ_BM_CON_INFO_0), 5, '0'))
+    	</selectKey>
+    
+    	INSERT INTO BM_CON_INFO(
+    		  CON_ID
+    		, CON_NM
+    		, CON_FST_DATE
+    		, CON_ST_DATE
+    		, CON_ED_DATE
+    		, CONFIRM_YN
+    		, SUPP_AMT
+    		, VAT_AMT
+    		, CUST_ID
+    		, REMARK
+    		, CON_NO
+    		
+    		)
+   		VALUES(
+   			  #{conId}
+   			, #{conNm}
+   			, #{contFstDate}
+   			, #{conStDate}
+   			, #{conEdDate}
+   			, #{confirmYn}
+   			, #{suppAmt}
+   			, #{vatAmt}
+   			, #{custId}
+   			, #{remark}
+   			, #{conNo}
+   			
+   		)
+    </insert>
+    
+    <update id="update" parameterType="contract">
+    	UPDATE BM_CON_INFO
+    	SET
+    		  CON_NM			=	#{conNm}
+    		, CON_FST_DATE		=	#{contFstDate}
+    		, CON_ST_DATE		=	#{conStDate}
+    		, CON_ED_DATE		=	#{conEdDate}
+    		, CONFIRM_YN		=	#{confirmYn}
+    		, SUPP_AMT			=	#{suppAmt}
+    		, VAT_AMT			=	#{vatAmt}
+    		, CUST_ID			=	#{custId}
+    		, REMARK			=	#{remark}
+    		, CON_NO			=	#{conNo}
+    	
+    	WHERE
+    		CON_ID = #{conId}
+    </update>
+    
+    <delete id="delete" parameterType="contract">
+    	DELETE
+    		FROM BM_CON_INFO
+    	WHERE
+    		CON_ID = #{conId}
+    </delete>
+</mapper>
