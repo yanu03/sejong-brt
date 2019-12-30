@@ -9,6 +9,7 @@
 <ax:layout name="base">
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
+        <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0101/BM0101.js' />"></script>
     </jsp:attribute>
     <jsp:body>
@@ -60,7 +61,7 @@
                                 <input type="text" data-ax-path="corpId" data-key="true" class="form-control" readonly="readonly"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0101F0.corp.name" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="corpNm" title="<ax:lang id="ax.admin.corporation.form.name"/>" class="form-control" data-ax-validate="required" />
+                                <input type="text" data-ax-path="corpNm" title="<ax:lang id="ax.admin.BM0101F0.corp.name"/>" class="form-control" data-ax-validate="required" />
                             </ax:td>
                         </ax:tr>
                         
