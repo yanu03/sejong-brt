@@ -1,2 +1,4 @@
 brt/target/classes/
+brt/target/m2e-wtp/
+brt/target/maven-status/
 brt/src/main/resources/axboot-local.properties
