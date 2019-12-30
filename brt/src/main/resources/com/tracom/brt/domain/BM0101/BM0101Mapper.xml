@@ -3,7 +3,7 @@
 
 <mapper namespace="com.tracom.brt.domain.BM0101.BM0101Mapper">
 
-    <select id="BM0101G0S0" parameterType="String" resultType="corpInfoVo">
+    <select id="BM0101G0S0" parameterType="String" resultType="corpInfoVO">
     	SELECT
     		*
     	FROM
@@ -16,7 +16,7 @@
     	</where>
     </select>
 
-    <insert id="BM0101F0I0" parameterType="corpInfoVo">
+    <insert id="BM0101F0I0" parameterType="corpInfoVO">
     	<selectKey keyProperty="corpId" resultType="String" order="BEFORE">
     		SELECT CONCAT('CP', LPAD(NEXTVAL(SEQ_BM_CORP_INFO_0), 5, '0'))
     	</selectKey>
@@ -56,7 +56,7 @@
    		)
     </insert>
     
-    <update id="BM0101F0U0" parameterType="corpInfoVo">
+    <update id="BM0101F0U0" parameterType="corpInfoVO">
     	UPDATE BM_CORP_INFO
     	SET
     		  CORP_NM		=	#{corpNm}
@@ -75,7 +75,7 @@
     		CORP_ID = #{corpId}
     </update>
     
-    <delete id="BM0101G0D0" parameterType="corpInfoVo">
+    <delete id="BM0101G0D0" parameterType="corpInfoVO">
     	DELETE
     		FROM BM_CORP_INFO
     	WHERE
