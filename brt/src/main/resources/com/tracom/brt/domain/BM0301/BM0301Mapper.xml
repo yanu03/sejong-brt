@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.tracom.brt.domain.contract.ContractMapper">
+<mapper namespace="com.tracom.brt.domain.BM0301.BM0301Mapper">
 
-    <select id="findAll" parameterType="String" resultType="contract">
+    <select id="BM0301G0S0" parameterType="String" resultType="contractInfoVO">
     	SELECT
     		*
     	FROM
     		BM_CON_INFO
     	<where>
 	    	<if test="value != null">
-				CON_ID LIKE CONCAT('%', #{value}, '%')
+				CON_NO LIKE CONCAT('%', #{value}, '%')
 				OR CON_NM LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     	</where>
     </select>
 
-    <insert id="insert" parameterType="contract">
-    	<selectKey keyProperty="corpId" resultType="String" order="BEFORE">
-    		SELECT CONCAT('CP', LPAD(NEXTVAL(SEQ_BM_CON_INFO_0), 5, '0'))
+    <insert id="BM0301F0I0" parameterType="contractInfoVO">
+    	<selectKey keyProperty="conId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('CN', LPAD(NEXTVAL(SEQ_BM_CON_INFO_0), 5, '0'))
     	</selectKey>
     
     	INSERT INTO BM_CON_INFO(
-    		  CON_ID
+			  CON_ID
     		, CON_NM
-    		, CON_FST_DATE
-    		, CON_ST_DATE
-    		, CON_ED_DATE
+    		, CON_FST_DATE	
+    		, CON_ST_DATE			
+    		, CON_ED_DATE			
     		, CONFIRM_YN
-    		, SUPP_AMT
-    		, VAT_AMT
-    		, CUST_ID
-    		, REMARK
+    		, SUPP_AMT				
+    		, VAT_AMT				
+    		, CUST_ID				
+    		, REMARK			
     		, CON_NO
-    		
     		)
-   		VALUES(
+    					
+   		VALUES( 		
    			  #{conId}
    			, #{conNm}
-   			, #{contFstDate}
+   			, #{conFstDate}
    			, #{conStDate}
    			, #{conEdDate}
    			, #{confirmYn}
@@ -51,11 +51,11 @@
    		)
     </insert>
     
-    <update id="update" parameterType="contract">
+    <update id="BM0301F0U0" parameterType="contractInfoVO">
     	UPDATE BM_CON_INFO
     	SET
     		  CON_NM			=	#{conNm}
-    		, CON_FST_DATE		=	#{contFstDate}
+    		, CON_FST_DATE		=	#{conFstDate}
     		, CON_ST_DATE		=	#{conStDate}
     		, CON_ED_DATE		=	#{conEdDate}
     		, CONFIRM_YN		=	#{confirmYn}
@@ -69,7 +69,7 @@
     		CON_ID = #{conId}
     </update>
     
-    <delete id="delete" parameterType="contract">
+    <delete id="BM0301G0D0" parameterType="contractInfoVO">
     	DELETE
     		FROM BM_CON_INFO
     	WHERE

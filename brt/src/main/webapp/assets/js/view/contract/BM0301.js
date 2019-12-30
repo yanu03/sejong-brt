@@ -11,28 +11,28 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
-    	var filter = $.extend({}, caller.searchView.getData());
+    	var filter = $.extend({}, caller.searchView0.getData());
     	
         axboot.ajax({
             type: "GET",
-            url: ["contract"],
+            url: "/api/v1/BM0301G0S0",
             data: filter,
             callback: function (res) {
-                caller.gridView01.setData(res);
+                caller.gridView0.setData(res);
                 
                 if(res.list.length == 0) {
                 	isUpdate = false;
-	                caller.formView01.clear();
-	                caller.formView01.disable();
+	                caller.formView0.clear();
+	                caller.formView0.disable();
                 } else {
-                	caller.formView01.enable();
+                	caller.formView0.enable();
                 	if(dataFlag) {
-	                	caller.gridView01.selectIdRow(data);
+	                	caller.gridView0.selectIdRow(data);
 	                } else {
 		                if(selectedRow != null) {
-		                	caller.gridView01.selectRow(selectedRow.__index);
+		                	caller.gridView0.selectRow(selectedRow.__index);
 		                } else {
-		                	caller.gridView01.selectFirstRow();
+		                	caller.gridView0.selectFirstRow();
 		                }
 	                }
                 }
@@ -43,19 +43,19 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView01.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("data.xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;
-    	caller.gridView01.selectAll(false);
-        caller.formView01.clear();
-        caller.formView01.enable();
-        caller.formView01.validate(true);
+    	caller.gridView0.selectAll(false);
+        caller.formView0.clear();
+        caller.formView0.enable();
+        caller.formView0.validate(true);
     },
     
     PAGE_DELETE: function(caller, act, data) {
-    	var grid = caller.gridView01.target;
+    	var grid = caller.gridView0.target;
     	
     	if(typeof grid.selectedDataIndexs[0] === "undefined") {
     		axDialog.alert(LANG("ax.script.alert.requireselect"));
@@ -69,8 +69,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	axboot.promise()
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
-	                    type: "DELETE",
-	                    url: ["contract"],
+	                    type: "POST",
+	                    url: "/api/v1/BM0301G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -90,20 +90,39 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SAVE: function (caller, act, data) {
-    	var type = "POST";
-    		
-    	if(isUpdate) {
-    		type = "PUT";
-    	}
-    	
-        if (caller.formView01.validate()) {
-            var formData = caller.formView01.getData();
+    	 if (caller.formView0.validate()) {
+             var formData = caller.formView0.getData();
+             axboot.promise()
+                 .then(function (ok, fail, data) {
+                     axboot.ajax({
+                         type: "POST",
+                         url: "/api/v1/BM0301F0I0",
+                         data: JSON.stringify(formData),
+                         callback: function (res) {
+                             ok(res);
+                         }
+                     });
+                 })
+                 .then(function (ok, fail, data) {
+             		axToast.push(LANG("onadd"));
+             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+                     isUpdate = true;
+                 })
+                 .catch(function () {
+
+                 });
+         }
+    },
+    
+    PAGE_UPDATE: function(caller, act, data) {
+        if (caller.formView0.validate()) {
+            var formData = caller.formView0.getData();
 
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
-                        type: type,
-                        url: ["contract"],
+                    	type: "POST",
+                        url: "/api/v1/BM0301F0U0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -111,20 +130,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
-                	if(type == "POST") {
-                		axToast.push(LANG("onadd"));
-                		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-                	} else if(type == "PUT") {
-                		axToast.push(LANG("onupdate"));
-                		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                	}
-                    isUpdate = true;
+            		axToast.push(LANG("onupdate"));
+            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
 
                 });
         }
-        //*/
     },
     
     // 탭닫기
@@ -135,7 +147,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
     	selectedRow = data;
-        caller.formView01.setData(data);
+        caller.formView0.setData(data);
     }
 });
 /********************************************************************************************************************/
@@ -145,9 +157,9 @@ fnObj.pageStart = function () {
 	var _this = this;
 	
     this.pageButtonView.initView();
-    this.searchView.initView();
-    this.gridView01.initView();
-    this.formView01.initView();
+    this.searchView0.initView();
+    this.gridView0.initView();
+    this.formView0.initView();
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -177,7 +189,11 @@ fnObj.pageButtonView = axboot.viewExtend({
             	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
             },
             "save": function () {
-                ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
+            	if(isUpdate) {
+            		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
+            	} else {
+            		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
+            	}
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
@@ -189,13 +205,14 @@ fnObj.pageButtonView = axboot.viewExtend({
 
 //== view 시작
 /**
- * searchView
+ * searchView0
  */
-fnObj.searchView = axboot.viewExtend(axboot.searchView, {
+fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
     initView: function () {
         this.target = $(document["searchView0"]);
         this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
         this.filter = $("#filter");
+        
     },
     getData: function () {
         return {
@@ -208,9 +225,9 @@ fnObj.searchView = axboot.viewExtend(axboot.searchView, {
 });
 
 /**
- * gridView01
+ * gridView0
  */
-fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
+fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     page: {
         pageNumber: 0,
         pageSize: 10
@@ -221,18 +238,19 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
         this.target = axboot.gridBuilder({
             frozenColumnIndex: 0,
             sortable: true,
-            target: $('[data-ax5grid="grid-view-01"]'),
+            target: $('[data-ax5grid="gridView0"]'),
             columns: [
+            	
+            	{key: "conNo", label: "계약번호", width: 80},
                 {key: "conId", label: "계약ID", width: 80},
                 {key: "conNm", label: "계약명", width: 80},
-                {key: "contFstDate", label: "최초계약일", width: 120},
-                {key: "email", label: "이메일", width: 120},
-                {key: "phone", label: "전화번호", width: 120},
-                {key: "addr1", label: "소재지", width: 120},
-                {key: "fax", label: "팩스", width: 120},
-                {key: "zipNo", label: "우편번호", width: 70},
-                {key: "addr2", label: "우편물수령지", width: 120},
-                {key: "garage", label: "차고지", width: 70},
+                {key: "conFstDate", label: "최초계약일", width: 120},
+                {key: "conStDate", label: "계약시작일", width: 120},
+                {key: "conEdDate", label: "계약종료일", width: 120},
+                {key: "confirmYn", label: "확정여부", width: 70},
+                {key: "suppAmt", label: "공급가액", width: 120},
+                {key: "vatAmt", label: "부가세", width: 70},
+                {key: "custId", label: "거래처ID", width: 120},
                 {key: "remark", label: "비고", width: 70},
             ],
             body: {
@@ -294,11 +312,19 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
     	}
     },
     selectIdRow: function(id) {
-    	for(var i = 0; i < this.target.list.length; i++) {
+    	var i;
+    	var length = this.target.list.length;
+    	for(i = 0; i < length; i++) {
     		if(this.target.list[i].corpId == id) {
     			this.selectRow(i);
     			break;
     		}
+    	}
+    	
+    	if(i == length) {
+    		isUpdate = false;
+    		fnObj.formView0.clear();
+    		fnObj.formView0.disable();
     	}
     },
     selectAll: function(flag) {
@@ -307,18 +333,27 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
 });
 
 /**
- * formView01
+ * formView0
  */
-fnObj.formView01 = axboot.viewExtend(axboot.formView, {
+fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     getDefaultData: function () {
         return $.extend({}, axboot.formView.defaultData, {});
     },
     initView: function () {
-        this.target = $("#formView01");
+        this.target = $("#formView0");
         this.model = new ax5.ui.binder();
         this.model.setModel(this.getDefaultData(), this.target);
         this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
         this.initEvent();
+        
+        console.log(this.target);
+        
+        this.target.find('[data-ax5picker="date"]').ax5picker({
+            direction: "auto",
+            content: {
+                type: 'date'
+            }
+        });
 
         axboot.buttonClick(this, "data-form-view-01-btn", {
             "form-clear": function () {
@@ -328,6 +363,30 @@ fnObj.formView01 = axboot.viewExtend(axboot.formView, {
     },
     initEvent: function () {
         var _this = this;
+        
+        
+        var myCalendar = new ax5.ui.calendar({
+            control: {
+                left: '<i class="cqc-chevron-left"></i>',
+                yearTmpl: '%s',
+                monthTmpl: '%s',
+                right: '<i class="cqc-chevron-right"></i>',
+                yearFirst: true
+            },
+            target: document.getElementById("calendar-target"),
+            displayDate: (new Date()),
+            onClick: function () {
+                //console.log(this);
+                //console.log(myCalendar.getSelection());
+            },
+            onStateChanged: function () {
+                //console.log(this);
+            }
+        });
+
+        myCalendar.setSelection([(new Date())]);
+        
+        axboot.layoutResize(1);
     },
     getData: function () {
         var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.

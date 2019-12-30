@@ -1,4 +1,4 @@
-package com.tracom.brt.domain.contract;
+package com.tracom.brt.domain.BM0301;
 
 import com.chequer.axboot.core.annotations.ColumnPosition;
 import com.tracom.brt.domain.SimpleJpaModel;
