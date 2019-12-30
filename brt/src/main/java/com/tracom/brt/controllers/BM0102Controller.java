@@ -30,26 +30,25 @@ public class BM0102Controller extends BaseController {
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
     })
-    public Responses.ListResponse list(RequestParams<CustInfoVo> requestParams) {
+    public Responses.ListResponse BM0102G0S0(RequestParams<CustInfoVo> requestParams) {
         List<CustInfoVo> list = service.BM0102G0S0(requestParams);
         return Responses.ListResponse.of(list);
     }
 
     @PostMapping("/BM0102F0I0")
-    public ApiResponse save(@RequestBody CustInfoVo request) {
+    public ApiResponse BM0102F0I0(@RequestBody CustInfoVo request) {
         String corpId = service.BM0102F0I0(request);
-        
         return ok(corpId);
     }
     
     @PostMapping("/BM0102F0U0")
-    public ApiResponse update(@RequestBody CustInfoVo request) {
+    public ApiResponse BM0102F0U0(@RequestBody CustInfoVo request) {
     	service.BM0102F0U0(request);
     	return ok();
     }
     
     @PostMapping("/BM0102G0D0")
-    public ApiResponse delete(@RequestBody CustInfoVo request) {
+    public ApiResponse BM0102G0D0(@RequestBody CustInfoVo request) {
     	service.BM0102G0D0(request);
     	return ok();
     }

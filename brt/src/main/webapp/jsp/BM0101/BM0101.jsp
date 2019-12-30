@@ -9,7 +9,7 @@
 <ax:layout name="base">
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
-        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0101.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0101/BM0101.js' />"></script>
     </jsp:attribute>
     <jsp:body>
 
@@ -20,7 +20,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.corporation.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0101S0.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -35,7 +35,7 @@
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.corporation.grid.title"/> </h2>
+                            <ax:lang id="ax.admin.BM0101G0.title"/> </h2>
                     </div>
                     <div class="right">
 
@@ -49,17 +49,17 @@
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-news"></i>
-                            <ax:lang id="ax.admin.corporation.form.title"/>
+                            <ax:lang id="ax.admin.BM0101F0.title"/>
                         </h2>
                     </div>
                 </div>
                 <ax:form name="formView0">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
-                            <ax:td label="ax.admin.corporation.form.id" width="300px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0101F0.corp.id" width="300px" labelClazz="required">
                                 <input type="text" data-ax-path="corpId" data-key="true" class="form-control" readonly="readonly"/>
                             </ax:td>
-                            <ax:td label="ax.admin.corporation.form.name" width="300px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0101F0.corp.name" width="300px" labelClazz="required">
                                 <input type="text" data-ax-path="corpNm" title="<ax:lang id="ax.admin.corporation.form.name"/>" class="form-control" data-ax-validate="required" />
                             </ax:td>
                         </ax:tr>
@@ -69,19 +69,19 @@
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.corporation.form.crn" width="300px">
+                            <ax:td label="ax.admin.BM0101F0.corp.no" width="300px">
                                 <input type="text" data-ax-path="corpNo" class="form-control"  />
                             </ax:td>
-                            <ax:td label="ax.admin.corporation.form.email" width="300px">
+                            <ax:td label="ax.admin.BM0101F0.email" width="300px">
                             	<input type="text" data-ax-path="email" class="form-control"/>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.corporation.form.phone" width="300px">
+                            <ax:td label="ax.admin.BM0101F0.phone" width="300px">
                             	<input type="text" data-ax-path="phone" class="form-control"/>
                             </ax:td>
-                            <ax:td label="ax.admin.corporation.form.fax" width="300px">
+                            <ax:td label="ax.admin.BM0101F0.fax" width="300px">
                             	<input type="text" data-ax-path="fax" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
@@ -91,31 +91,31 @@
                         </ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.corporation.form.addr1" width="300px">
+                            <ax:td label="ax.admin.BM0101F0.addr1" width="300px">
                             	<input type="text" data-ax-path="addr1" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                       		<ax:td label="ax.admin.corporation.form.zip.no" width="300px">
+                       		<ax:td label="ax.admin.BM0101F0.zip.no" width="300px">
                             	<input type="text" data-ax-path="zipNo" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.corporation.form.addr2" width="300px">
+                            <ax:td label="ax.admin.BM0101F0.addr2" width="300px">
                             	<input type="text" data-ax-path="addr2" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.corporation.form.garage" width="300px">
+                            <ax:td label="ax.admin.BM0101F0.garage" width="300px">
                             	<input type="text" data-ax-path="garage" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.corporation.form.remark" width="300px">
+                            <ax:td label="ax.admin.BM0101F0.remark" width="300px">
                             	<input type="text" data-ax-path="remark" class="form-control"/>
                             </ax:td>
                        	</ax:tr>

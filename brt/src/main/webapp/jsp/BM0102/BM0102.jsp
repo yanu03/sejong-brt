@@ -9,7 +9,7 @@
 <ax:layout name="base">
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
-        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0102.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0102/BM0102.js' />"></script>
     </jsp:attribute>
     <jsp:body>
 
@@ -20,7 +20,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0102G0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0102S0.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
