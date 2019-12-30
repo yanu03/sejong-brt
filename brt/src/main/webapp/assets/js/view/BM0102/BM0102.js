@@ -40,7 +40,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
         return false;
     },
-    
     PAGE_EXCEL: function(caller, act, data) {
     	caller.gridView0.target.exportExcel("data.xls");
     },
@@ -150,6 +149,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.setData(data);
     }
 });
+
 /********************************************************************************************************************/
 
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
@@ -167,7 +167,6 @@ fnObj.pageStart = function () {
 fnObj.pageResize = function () {
 
 };
-
 /********************************************************************************************************************/
 
 
@@ -176,11 +175,11 @@ fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
             "search": function () {
-            	selectedRow = null;
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
             "excel": function () {
-            	ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
+            	selectedRow = null;
+                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
             "new": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
@@ -201,6 +200,7 @@ fnObj.pageButtonView = axboot.viewExtend({
         });
     }
 });
+
 /********************************************************************************************************************/
 
 //== view 시작
@@ -215,13 +215,13 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
     },
     getData: function () {
         return {
+            pageNumber: this.pageNumber,
+            pageSize: this.pageSize,
             filter: this.filter.val()
         }
-    },
-    clear: function() {
-    	this.filter.val("");
     }
 });
+
 
 /**
  * gridView0
@@ -235,7 +235,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-            frozenColumnIndex: 0,
+        	frozenColumnIndex: 0,
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
@@ -256,10 +256,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
                 }
             },
-            onPageChange: function (pageNumber) {
-                _this.setPageData({pageNumber: pageNumber});
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-            }
         });
     },
     getData: function (_type) {
@@ -268,6 +264,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         if (_type == "modified" || _type == "deleted") {
             list = ax5.util.filter(_list, function () {
+                delete this.deleted;
                 return this.key;
             });
         } else {

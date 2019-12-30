@@ -2,8 +2,7 @@ package com.tracom.brt.domain.altercontract;
 
 import org.springframework.stereotype.Service;
 import com.tracom.brt.domain.BaseService;
-import com.tracom.brt.domain.contract.ContractMapper;
-import com.tracom.brt.domain.corporation.Corporation;
+import com.tracom.brt.domain.BM0301.BM0301Mapper;
 
 import javax.inject.Inject;
 import com.chequer.axboot.core.parameter.RequestParams;

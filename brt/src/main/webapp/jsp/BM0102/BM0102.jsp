@@ -60,7 +60,7 @@
                                 <input type="text" data-ax-path="custId" data-key="true" class="form-control" readonly="readonly"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0102F0.cust.name" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="custNm" title="<ax:lang id="ax.admin.corporation.form.name"/>" class="form-control" data-ax-validate="required" />
+                                <input type="text" data-ax-path="custNm" title="<ax:lang id="ax.admin.BM0102F0.cust.name"/>" class="form-control" data-ax-validate="required" />
                             </ax:td>
                         </ax:tr>
                         
