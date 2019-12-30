@@ -8,6 +8,39 @@ selectedRow = null;
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
+	PAGE_SEARCH: function (caller, act, data) {
+    	// 새로운 레코드 추가할 시 검색어 삭제
+    	var dataFlag = typeof data !== "undefined";
+    	var filter = $.extend({}, caller.searchView0.getData());
+    	
+        axboot.ajax({
+            type: "GET",
+            url: "/api/v1/BM0101G0S0",
+            data: filter,
+            callback: function (res) {
+                caller.gridView0.setData(res);
+                
+                if(res.list.length == 0) {
+                	isUpdate = false;
+	                caller.formView0.clear();
+	                caller.formView0.disable();
+                } else {
+                	caller.formView0.enable();
+                	if(dataFlag) {
+	                	caller.gridView0.selectIdRow(data);
+	                } else {
+		                if(selectedRow != null) {
+		                	caller.gridView0.selectRow(selectedRow.__index);
+		                } else {
+		                	caller.gridView0.selectFirstRow();
+		                }
+	                }
+                }
+            }
+        });
+
+        return false;
+    },
 	PAGE_EXCEL: function(caller, act, data) {
     	caller.gridView0.target.exportExcel("data.xls");
     },
