@@ -14,7 +14,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0101G0S0",
+            url: "/api/v1/SM0104G0S0",
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);
@@ -69,7 +69,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0101G0D0",
+	                    url: "/api/v1/SM0104G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -96,7 +96,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0101F0I0",
+                        url: "/api/v1/SM0104F0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -122,7 +122,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                     	type: "POST",
-                        url: "/api/v1/BM0101F0U0",
+                        url: "/api/v1/SM0104F0U0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -239,17 +239,11 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "corpId", label: ADMIN("ax.admin.BM0101F0.corp.id"), width: 80},
-                {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), width: 80},
-                {key: "corpNo", label: ADMIN("ax.admin.BM0101F0.corp.no"), width: 120},
-                {key: "email", label: ADMIN("ax.admin.BM0101F0.email"), width: 120},
-                {key: "phone", label: ADMIN("ax.admin.BM0101F0.phone"), width: 120},
-                {key: "addr1", label: ADMIN("ax.admin.BM0101F0.addr1"), width: 120},
-                {key: "fax", label: ADMIN("ax.admin.BM0101F0.fax"), width: 120},
-                {key: "zipNo", label: ADMIN("ax.admin.BM0101F0.zip.no"), width: 70},
-                {key: "addr2", label: ADMIN("ax.admin.BM0101F0.addr2"), width: 120},
-                {key: "garage", label: ADMIN("ax.admin.BM0101F0.garage"), width: 70},
-                {key: "remark", label: ADMIN("ax.admin.BM0101F0.remark"), width: 70},
+                {key: "coCd", label: ADMIN("ax.admin.SM0104F0.co.cd"), width: 150},
+                {key: "coCdNm", label: ADMIN("ax.admin.SM0104F0.co.cd.nm"), width: 150},
+                {key: "coCdEnm", label: ADMIN("ax.admin.SM0104F0.co.cd.enm"), width: 150},
+                {key: "useYn", label: ADMIN("ax.admin.SM0104F0.useyn"), width: 80},
+                {key: "remark", label: ADMIN("ax.admin.SM0104F0.remark"), width: 200},
             ],
             body: {
                 onClick: function () {
@@ -377,12 +371,12 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         return true;
     },
     enable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    	this.target.find('[data-ax-path]').each(function(index, element) {
     		$(element).attr("readonly", false);
     	});
     },
     disable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    	this.target.find('[data-ax-path]').each(function(index, element) {
     		$(element).attr("readonly", true);
     	});
     },
