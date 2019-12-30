@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CommonCodeInfoVo extends BaseVO {
+public class CommonCodeInfoVO extends BaseVO {
 	private String coCd;
 	private String coCdNm;
 	private String coCdEnm;

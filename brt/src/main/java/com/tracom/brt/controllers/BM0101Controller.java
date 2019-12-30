@@ -15,7 +15,7 @@ import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BM0101.BM0101Service;
-import com.tracom.brt.domain.BM0101.CorpInfoVo;
+import com.tracom.brt.domain.BM0101.CorpInfoVO;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
 
@@ -30,26 +30,26 @@ public class BM0101Controller extends BaseController {
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
     })
-    public Responses.ListResponse BM0101G0S0(RequestParams<CorpInfoVo> requestParams) {
-        List<CorpInfoVo> list = service.BM0101G0S0(requestParams);
+    public Responses.ListResponse BM0101G0S0(RequestParams<CorpInfoVO> requestParams) {
+        List<CorpInfoVO> list = service.BM0101G0S0(requestParams);
         return Responses.ListResponse.of(list);
     }
 
     @PostMapping("/BM0101F0I0")
-    public ApiResponse BM0101F0I0(@RequestBody CorpInfoVo request) {
+    public ApiResponse BM0101F0I0(@RequestBody CorpInfoVO request) {
         String corpId = service.BM0101F0I0(request);
         
         return ok(corpId);
     }
     
     @PostMapping("/BM0101F0U0")
-    public ApiResponse BM0101F0U0(@RequestBody CorpInfoVo request) {
+    public ApiResponse BM0101F0U0(@RequestBody CorpInfoVO request) {
     	service.BM0101F0U0(request);
     	return ok();
     }
     
     @PostMapping("/BM0101G0D0")
-    public ApiResponse BM0101G0D0(@RequestBody CorpInfoVo request) {
+    public ApiResponse BM0101G0D0(@RequestBody CorpInfoVO request) {
     	service.BM0101G0D0(request);
     	return ok();
     }

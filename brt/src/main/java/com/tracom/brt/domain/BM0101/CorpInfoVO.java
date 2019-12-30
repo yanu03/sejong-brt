@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CorpInfoVo extends BaseVO {
+public class CorpInfoVO extends BaseVO {
 	private String corpId;
 	private String corpNm;
 	private String corpNo;

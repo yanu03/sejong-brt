@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CommonCodeDetailInfoVo extends BaseVO {
+public class CommonCodeDetailInfoVO extends BaseVO {
 	private String coCd;
 	private String dlCd;
 	private String dlCdNm;
