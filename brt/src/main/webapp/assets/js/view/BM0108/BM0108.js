@@ -17,7 +17,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0108G0S0",
             data: filter,
             callback: function (res) {
-                caller.gridView0.setData(res);
+            	caller.gridView0.setData(res);
                 
                 if(res.list.length == 0) {
                 	isUpdate = false;
@@ -115,10 +115,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
-            var formData = caller.formView0.getData();
-            var data = JSON.stringify(formData);
-            console.log(formData);
-            console.log(formData.retireYn);
+            var formData = caller.formView0.getData();         
+            
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
@@ -233,9 +231,11 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         pageNumber: 0,
         pageSize: 10
     },
+    
     initView: function () {
         var _this = this;
 
+        
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
             sortable: true,
@@ -246,7 +246,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "phone", label: "전화번호", width: 120},
                 {key: "corpId", label: "운수사", width: 120},
                 {key: "busDiv", label: "운행버스구분", width: 80},
-                {key: "retireYn", label: "재직여부", width: 40},
+                {key: "retireYn", label: "재직여부", width: 80},
                 {key: "eplyDate1", label: "입사일1", width: 100},
                 {key: "eplyDate2", label: "입사일2", width: 100},
                 {key: "licenNo", label: "운전면허번호", width: 120},
@@ -312,7 +312,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].custId == id) {
+    		if(this.target.list[i].eplyId == id) {
     			this.selectRow(i);
     			break;
     		}
@@ -348,9 +348,15 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
                 ACTIONS.dispatch(ACTIONS.FORM_CLEAR);
             }
         });
+        
+        this.target.find('[data-ax5picker="date"]').ax5picker({
+            direction: "auto",
+            content: {
+                type: 'date'
+            }
+        });
     },
     initEvent: function () {
-        var _this = this;
     },
     getData: function () {
         var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
@@ -390,3 +396,23 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.target.find('[data-ax-path="key"]').removeAttr("readonly");
     }
 });
+
+/********************************************************************************************************************/
+/**/
+/********************************************************************************************************************/
+//승무사원이미지가 있다면 파일 불러와서 미리보기, 없다면 기본 이미지 미리보기
+function preview_Image(input){
+	
+}
+
+//승무사원이미지 변경시 미리보기
+function preview_ChangeImage(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+    	$('#previewImg').attr('src', e.target.result);
+        }
+    	reader.readAsDataURL(input.files[0]);
+    }
+}

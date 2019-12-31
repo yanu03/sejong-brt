@@ -10,7 +10,6 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0108/BM0108.js' />"></script>
-        <%-- <script type="text/javascript" src="<c:url value='/assets/js/view/BM0102/BM0102.js' />"></script> --%>
     </jsp:attribute>
     <jsp:body>
 
@@ -64,6 +63,7 @@
                     			<input type="text" data-ax-path="eplyNm" data-key="true" class="form-control"/>
                     		</ax:td>
                     	</ax:tr>
+                    	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.phone" width="300px" labelClazz="required">
                     			<input type="text" data-ax-path="phone" data-key="true" class="form-control"/>
@@ -79,6 +79,7 @@
 	                        	</div>
                     		</ax:td>
                     	</ax:tr>
+                    	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.bus.div" width="300px" labelClazz="required">
 	     					 	<select class="form-control" id="" name="" data-ax-path="busDiv" >
@@ -90,69 +91,50 @@
 								</select>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.retire.yn" width="300px" labelClazz="required">
-                    			<input type="checkbox" data-ax-path="retireYn" name="retireYn">
+                    			<ax:common-code groupCd="RETIRE_YN" dataPath="retireYn" clazz="form-control" type="radio"/>
                     		</ax:td>
                     	</ax:tr>
+                    	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.eply.date1" width="300px" labelClazz="required">
 	                            <div class="input-group" data-ax5picker="date">
-<!-- 	                                <input type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax-path="eplyDate1"/>
+ 	                          		<input  readonly="readonly" type="text" class="form-control" id="eplyDate1" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-path="eplyDate1" />
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
- -->	                                <input readonly="readonly" type="text" class="form-control" id="eplyDate1" onchange="" placeholder="yyyy/mm/dd" data-ax-path="eplyDate1" />
-	                                <span class="input-group-addon"><i id="eplyDateCal1" class="cqc-calendar"></i></span>
-	                                <div class="input-group">
-	                            </div>
 	                            </div>
                     		</ax:td>
+
                     		<ax:td label="ax.admin.BM0108F0.eply.date2" width="300px">
                     			<div class="input-group" data-ax5picker="date">
-	                                <input type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax-path="eplyDate2"/>
+	                                <input readonly="readonly" type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax-path="eplyDate2"/>
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                     		</ax:td>
                     	</ax:tr>
+                    	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.licen.no" width="300px" labelClazz="required">
                     			<input type="text" data-ax-path="licenNo" data-key="true" class="form-control"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.certi.date" width="300px" labelClazz="required">
                     			<div class="input-group" data-ax5picker="date">
-	                                <input type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax-path="certiDate"/>
+	                                <input readonly="readonly" type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax-path="certiDate"/>
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                     		</ax:td>
                     	</ax:tr>
+                    	
                     	<ax:tr style="height:300px;">
                     		<ax:td labelStyle="height:300px;" label="ax.admin.BM0108F0.att.file" width="300px">
-                    			사원이미지
+                    			<div style="width: 150px;height: 260px;">
+	                                <img id="previewImg" src="#" alt="승무사원 이미지" style="width:150px;height:250px">
+                    			</div>
+
                     			<div class="input-group">
-	                        		
-		                            <div class="input-group">
-                                        <input type="file" name="upload" class="form-control" width="100px"/>
-                                        <span class="input-group-btn">
-                                            <button type="submit" name="Upload" class="btn btn-primary"><i class="cqc-upload"></i> 업로드</button>
-                                        </span>
-                                    </div><!-- /input-group -->
+	                                <input type="file" name="upload" class="form-control" onchange="preview_ChangeImage(this);" style="width: 300px;"/>
 	                        	</div>
-                    			
-       			                <ax:form name="formView01">
-				                    <div data-fit-height-aside="form-view-01">
-				                        <div class="ax-button-group">
-				                            <div class="left">
-				                                <h2>
-				                                    <i class="cqc-blackboard"></i>
-				                                </h2>
-				                            </div>
-				                            <div class="right">
-				                            </div>
-				                        </div>	
-				                    </div>
-				                    <div class="H10"></div>
-				                    <div id="preview-target"></div>
-				                </ax:form>
-                    			
                     		</ax:td>
                     	</ax:tr>
+                    	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.remark" width="300px">
                     			<input type="text" maxlength="100" data-ax-path="remark" data-key="true" class="form-control"/>
