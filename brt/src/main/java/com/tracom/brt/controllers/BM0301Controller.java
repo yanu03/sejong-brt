@@ -52,6 +52,12 @@ public class BM0301Controller extends BaseController {
     	return ok();
     }
     
+    @PostMapping("/BM0301F0U1")
+    public ApiResponse ynupdate(@RequestBody ContractInfoVO request) {
+    	service.BM0301F0U1(request);
+    	return ok();
+    }
+    
     @PostMapping("/BM0301G0D0")
     public ApiResponse delete(@RequestBody ContractInfoVO request) {
     	service.BM0301G0D0(request);
