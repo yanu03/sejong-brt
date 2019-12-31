@@ -126,6 +126,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
+            
+            console.log(formData);
 
             axboot.promise()
                 .then(function (ok, fail, data) {
@@ -200,6 +202,19 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     // 탭닫기
     PAGE_CLOSE: function(caller, act, data) {
     	window.parent.fnObj.tabView.closeActiveTab();
+    },
+    
+    OPEN_BM0102_MODAL: function(caller, act, data) {
+    	axboot.modal.open({
+            modalType: "BM0102",
+            param: "",
+            callback: function (data) {
+            	// 운수사, 거래처 등을 선택한 후 이벤트 ex) input에 값을 넣어 주는 등의 로직을 작성하면됨
+            	caller.formView0.model.set("custId", data.custId);
+            	caller.formView0.model.set("custNm", data.custNm);
+                this.close();
+            }
+        });
     },
     
     ITEM_CLICK: function (caller, act, data) {
@@ -416,9 +431,9 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
             }
         });
 
-        axboot.buttonClick(this, "data-form-view-01-btn", {
-            "form-clear": function () {
-                ACTIONS.dispatch(ACTIONS.FORM_CLEAR);
+        axboot.buttonClick(this, "data-form-view-0-btn", {
+            "selectBM0102": function() {
+            	ACTIONS.dispatch(ACTIONS.OPEN_BM0102_MODAL);
             }
         });
     },

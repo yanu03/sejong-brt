@@ -154,8 +154,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
 fnObj.pageStart = function () {
-	var _this = this;
-	
     this.pageButtonView.initView();
     this.searchView0.initView();
     this.gridView0.initView();

@@ -40,7 +40,23 @@
                     url: "/jsp/system/system-config-common-code-modal.jsp"
                 },
                 header: false
-            }
+            },
+            "BM0101": {
+            	width: 400,
+            	height: 450,
+            	iframe: {
+            		url: "/jsp/common/BM0101_modal.jsp"
+            	},
+            	header: false
+            },
+            "BM0102": {
+            	width: 400,
+            	height: 450,
+            	iframe: {
+            		url: "/jsp/common/BM0102_modal.jsp"
+            	},
+            	header: false
+            },
         };
     }
 
