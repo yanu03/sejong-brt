@@ -18,6 +18,7 @@ public class ContractInfoVO extends BaseVO{
 	private String suppAmt;
 	private String vatAmt;
 	private String custId;
+	private String custNm;
 	private String remark;
 	private String conNo;
 	

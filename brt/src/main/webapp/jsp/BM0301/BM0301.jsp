@@ -76,7 +76,13 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.contract.form.custnm" width="300px"  labelClazz="required">
-                                <input type="text" data-ax-path="custId" class="form-control"/>
+                           		<div class="input-group">
+	                        		<input type="text" data-ax-path="custId" data-key="true" class="form-control W70" readonly="readonly">
+	                        		<input type="text" data-ax-path="custNm" data-key="true" class="form-control W70" readonly="readonly">
+                        			<button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0102">
+	                                	<ax:lang id="ax.admin.select"/>
+	                            	</button>
+	                        	</div>
                             </ax:td>
                             <ax:td label="ax.admin.contract.form.confd" width="300px">
                             	<div class="input-group" data-ax5picker="date">
