@@ -31,6 +31,14 @@ public class BM0301Service extends BaseService<ContractInfoVO, String> {
     	}
     }
     
+    public boolean BM0301F0U1(ContractInfoVO vo) {
+    	if(mapper.BM0301F0U1(vo) > 0) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
     public boolean BM0301G0D0(ContractInfoVO vo) {
     	if(mapper.BM0301G0D0(vo) > 0) {
     		return true;
