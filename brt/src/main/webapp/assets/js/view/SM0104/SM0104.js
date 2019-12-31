@@ -90,26 +90,46 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SAVE: function (caller, act, data) {
         if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
-
+            
             axboot.promise()
-                .then(function (ok, fail, data) {
-                    axboot.ajax({
-                        type: "POST",
-                        url: "/api/v1/SM0104F0I0",
-                        data: JSON.stringify(formData),
-                        callback: function (res) {
-                            ok(res);
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onadd"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-                    isUpdate = true;
-                })
-                .catch(function () {
+	            .then(function (ok, fail, data) {
+	                axboot.ajax({
+	                    type: "POST",
+	                    url: "/api/v1/SM0104F0S0",
+	                    data: JSON.stringify(formData),
+	                    callback: function (res) {
+	                        ok(res);
+	                    }
+	                });
+	            })
+	            .then(function (ok, fail, data) {
+	            	if(data.message == "true") {
+	            		axboot.promise()
+	                    .then(function (ok, fail, data) {
+	                        axboot.ajax({
+	                            type: "POST",
+	                            url: "/api/v1/SM0104F0I0",
+	                            data: JSON.stringify(formData),
+	                            callback: function (res) {
+	                                ok(res);
+	                            }
+	                        });
+	                    })
+	                    .then(function (ok, fail, data) {
+	                		axToast.push(LANG("onadd"));
+	                		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+	                        isUpdate = true;
+	                    })
+	                    .catch(function () {
 
-                });
+	                    });
+	            	} else {
+	            		alert(ADMIN("ax.admin.SM0104F0.duplicate.cd"));
+	            	}
+	            })
+	            .catch(function () {
+	
+	            });
         }
     },
     
@@ -147,6 +167,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = true;
     	selectedRow = data;
         caller.formView0.setData(data);
+        caller.formView0.enable();
     }
 });
 
@@ -178,8 +199,7 @@ fnObj.pageButtonView = axboot.viewExtend({
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
             "excel": function () {
-            	selectedRow = null;
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "new": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
@@ -304,7 +324,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].corpId == id) {
+    		if(this.target.list[i].coCd == id) {
     			this.selectRow(i);
     			break;
     		}
@@ -334,12 +354,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.model.setModel(this.getDefaultData(), this.target);
         this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
         this.initEvent();
-
-        axboot.buttonClick(this, "data-form-view-01-btn", {
-            "form-clear": function () {
-                ACTIONS.dispatch(ACTIONS.FORM_CLEAR);
-            }
-        });
     },
     initEvent: function () {
         var _this = this;
@@ -369,16 +383,19 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     enable: function() {
     	this.target.find('[data-ax-path]').each(function(index, element) {
-    		$(element).attr("readonly", false);
+    		if($(element).data("key") && isUpdate) {
+    			$(element).attr("readonly", true);
+    		} else {
+    			$(element).attr("readonly", false).attr("disabled", false);
+    		}
     	});
     },
     disable: function() {
     	this.target.find('[data-ax-path]').each(function(index, element) {
-    		$(element).attr("readonly", true);
+    		$(element).attr("readonly", true).attr("disabled", true);
     	});
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());
-        this.target.find('[data-ax-path="key"]').removeAttr("readonly");
     }
 });

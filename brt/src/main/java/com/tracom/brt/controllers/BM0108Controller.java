@@ -1,5 +1,5 @@
 package com.tracom.brt.controllers;
-
+ 
 import java.util.List;
 
 import javax.inject.Inject;
@@ -14,42 +14,43 @@ import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
-import com.tracom.brt.domain.BM0101.BM0101Service;
-import com.tracom.brt.domain.BM0101.CorpInfoVO;
+import com.tracom.brt.domain.BM0108.BM0108Service;
+import com.tracom.brt.domain.BM0108.EplyInfoVO;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
-
+ 
 @RestController
 @RequestMapping(value = "/api/v1")
-public class BM0101Controller extends BaseController {
-
+public class BM0108Controller extends BaseController {
+ 
     @Inject
-    private BM0101Service service;
-
-    @GetMapping("/BM0101G0S0")
+    private BM0108Service service;
+ 
+    @GetMapping("/BM0108G0S0")
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
     })
-    public Responses.ListResponse BM0101G0S0(RequestParams<CorpInfoVO> requestParams) {
-        List<CorpInfoVO> list = service.BM0101G0S0(requestParams);
+    public Responses.ListResponse BM0108G0S0(RequestParams<EplyInfoVO> requestParams) {
+        List<EplyInfoVO> list = service.BM0108G0S0(requestParams);
         return Responses.ListResponse.of(list);
     }
-
-    @PostMapping("/BM0101F0I0")
-    public ApiResponse BM0101F0I0(@RequestBody CorpInfoVO request) {
-        String corpId = service.BM0101F0I0(request);
+    
+    @PostMapping("/BM0108F0I0")
+    public ApiResponse BM0102F0I0(@RequestBody EplyInfoVO request) {
+        String corpId = service.BM0108F0I0(request);
         return ok(corpId);
     }
     
-    @PostMapping("/BM0101F0U0")
-    public ApiResponse BM0101F0U0(@RequestBody CorpInfoVO request) {
-    	service.BM0101F0U0(request);
+    @PostMapping("/BM0108F0U0")
+    public ApiResponse BM0102F0U0(@RequestBody EplyInfoVO request) {
+    	service.BM0108F0U0(request);
     	return ok();
     }
     
-    @PostMapping("/BM0101G0D0")
-    public ApiResponse BM0101G0D0(@RequestBody CorpInfoVO request) {
-    	service.BM0101G0D0(request);
+    @PostMapping("/BM0108G0D0")
+    public ApiResponse BM0102G0D0(@RequestBody EplyInfoVO request) {
+    	service.BM0108G0D0(request);
     	return ok();
     }
+
 }

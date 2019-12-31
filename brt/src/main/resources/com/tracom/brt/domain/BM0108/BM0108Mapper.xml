@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0108.BM0108Mapper">
+
+    <select id="BM0108G0S0" parameterType="String" resultType="eplyInfoVO">
+    	SELECT
+    		*
+    	FROM
+    		BM_EPLY_INFO
+    	<where>
+	    	<if test="value != null">
+				EPLY_ID LIKE CONCAT('%', #{value}, '%')
+				OR EPLY_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+    </select>
+    
+    <insert id="BM0108F0I0" parameterType="eplyInfoVo">
+    	<selectKey keyProperty="eplyId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('EP', LPAD(NEXTVAL(SEQ_BM_EPLY_INFO_0), 5, '0'))
+    	</selectKey>
+    
+    	INSERT INTO BM_EPLY_INFO(
+    		  EPLY_ID
+    		, EPLY_NM
+    		, PHONE
+    		, BUS_DIV
+    		, RETIRE_YN
+    		, EPLY_DATE1
+    		, EPLY_DATE2
+    		, LICEN_NO
+    		, CERTI_DATE
+    		, ATT_FILE
+    		, REMARK
+    		, CORP_ID
+    		)
+   		VALUES(
+   			  #{eplyId}
+   			, #{eplyNm}
+   			, #{phone}
+   			, #{busDiv}
+   			, #{retireYn}
+   			, #{eplyDate1}
+   			, #{eplyDate2}
+   			, #{licenNo}
+   			, #{certiDate}
+   			, #{attFile}
+   			, #{remark} 
+   			, #{corpId}
+   		)
+    </insert>
+    
+     <update id="BM0108F0U0" parameterType="eplyInfoVo">
+    	UPDATE BM_EPLY_INFO
+    	SET
+    		  EPLY_NM		=	#{eplyNm}
+    		, PHONE			=	#{phone}
+    		, BUS_DIV		=	#{busDiv}
+    		, RETIRE_YN		=	#{retireYn}
+    		, EPLY_DATE1	=	#{eplyDate1}
+    		, EPLY_DATE2	=	#{eplyDate2}
+    		, LICEN_NO		=	#{licenNo}
+    		, CERTI_DATE	=	#{certiDate}
+    		, ATT_FILE		=	#{attFile}
+    		, REMARK		=	#{remark}
+    		, CORP_ID		=	#{corpId}
+    	WHERE
+    		EPLY_ID = #{eplyId}
+    </update>
+    
+    <delete id="BM0108G0D0" parameterType="eplyInfoVo">
+    	DELETE
+    		FROM BM_EPLY_INFO
+    	WHERE
+    		EPLY_ID = #{eplyId}
+    </delete>
+    
+</mapper>
