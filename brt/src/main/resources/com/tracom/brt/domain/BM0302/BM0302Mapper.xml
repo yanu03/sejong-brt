@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.tracom.brt.domain.BM0301.BM0301Mapper">
+<mapper namespace="com.tracom.brt.domain.BM0302.BM0302Mapper">
 
-    <select id="BM0301G0S0" parameterType="String" resultType="contractInfoVO">
+    <select id="BM0302G0S0" parameterType="String" resultType="altContractInfoVO">
     	SELECT
     		*
     	FROM
-    		BM_CON_INFO
+    		BM_CON_CON
     	<where>
 	    	<if test="value != null">
 				CON_NO LIKE CONCAT('%', #{value}, '%')
@@ -16,7 +16,7 @@
     	</where>
     </select>
 
-    <insert id="BM0301F0I0" parameterType="contractInfoVO">
+    <insert id="BM0302F0I0" parameterType="altContractInfoVO">
     	<selectKey keyProperty="conId" resultType="String" order="BEFORE">
     		SELECT CONCAT('CN', LPAD(NEXTVAL(SEQ_BM_CON_INFO_0), 5, '0'))
     	</selectKey>
@@ -51,7 +51,7 @@
    		)
     </insert>
     
-    <update id="BM0301F0U0" parameterType="contractInfoVO">
+    <update id="BM0302F0U0" parameterType="altContractInfoVO">
     	UPDATE BM_CON_INFO
     	SET
     		  CON_NM			=	#{conNm}
@@ -69,7 +69,7 @@
     		CON_ID = #{conId}
     </update>
     
-    <update id="BM0301F0U1" parameterType="contractInfoVO">
+    <update id="BM0302F0U1" parameterType="altContractInfoVO">
     
     	UPDATE BM_CON_INFO
     	SET
@@ -90,7 +90,7 @@
     
     </update>
     
-    <delete id="BM0301G0D0" parameterType="contractInfoVO">
+    <delete id="BM0302G0D0" parameterType="altContractInfoVO">
     	DELETE
     		FROM BM_CON_INFO
     	WHERE

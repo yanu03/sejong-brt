@@ -38,7 +38,7 @@
         </c:if>
 
         <c:if test="${authGroupMenu.fn3Ah eq 'Y'}">
-            <button type="button" class="btn btn-info" data-page-btn="fn3">${function3Label}</button>
+            <button type="button" class="btn btn-info" data-page-btn="confirmyn"><i value="확 정 "></i> <%=MessageUtils.getMessage(request, "ax.admin.confirmyn")%></button>
         </c:if>
 
         <c:if test="${authGroupMenu.fn4Ah eq 'Y'}">
