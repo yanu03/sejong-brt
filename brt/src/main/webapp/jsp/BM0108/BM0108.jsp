@@ -117,7 +117,7 @@
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.certi.date" width="300px" labelClazz="required">
                     			<div class="input-group" data-ax5picker="date">
-	                                <input type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax5picker="certiDate"/>
+	                                <input type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax-path="certiDate"/>
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                     		</ax:td>
