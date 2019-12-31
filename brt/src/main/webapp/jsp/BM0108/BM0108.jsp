@@ -82,11 +82,11 @@
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.bus.div" width="300px" labelClazz="required">
 	     					 	<select class="form-control" id="" name="" data-ax-path="busDiv" >
-									 <option value="cityBus"><ax:lang id="ax.admin.BM0108F0.bus.ct.in"/></option>
-									 <option value="vilgBus"><ax:lang id="ax.admin.BM0108F0.bus.vilg"/></option>
-									 <option value="cntryBus"><ax:lang id="ax.admin.BM0108F0.bus.cnty"/></option>
-									 <option value="inctBus"><ax:lang id="ax.admin.BM0108F0.bus.ct.out"/></option>
-									 <option value="fastBus"><ax:lang id="ax.admin.BM0108F0.bus.fast"/></option>
+									 <option value="city"><ax:lang id="ax.admin.BM0108F0.bus.ct.in"/></option>
+									 <option value="vilg"><ax:lang id="ax.admin.BM0108F0.bus.vilg"/></option>
+									 <option value="cntry"><ax:lang id="ax.admin.BM0108F0.bus.cnty"/></option>
+									 <option value="intct"><ax:lang id="ax.admin.BM0108F0.bus.ct.out"/></option>
+									 <option value="fast"><ax:lang id="ax.admin.BM0108F0.bus.fast"/></option>
 								</select>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.retire.yn" width="300px" labelClazz="required">
@@ -126,14 +126,30 @@
                     		<ax:td labelStyle="height:300px;" label="ax.admin.BM0108F0.att.file" width="300px">
                     			사원이미지
                     			<div class="input-group">
-	                        		<input type="text" class="form-control" id="Keyword"  data-ax-path="Keyword" id="Keyword"/>
-	                        		<span class="input-group-btn">
-	                        			<button type="button" id="rightSearchButton" class="btn btn-primary" data-grid-view-01-btn="item-search">
-		                                	<ax:lang id="ax.admin.search"/>
-		                            	</button>
-		                            </span>
+	                        		
+		                            <div class="input-group">
+                                        <input type="file" name="upload" class="form-control" width="100px"/>
+                                        <span class="input-group-btn">
+                                            <button type="submit" name="Upload" class="btn btn-primary"><i class="cqc-upload"></i> 업로드</button>
+                                        </span>
+                                    </div><!-- /input-group -->
 	                        	</div>
                     			
+       			                <ax:form name="formView01">
+				                    <div data-fit-height-aside="form-view-01">
+				                        <div class="ax-button-group">
+				                            <div class="left">
+				                                <h2>
+				                                    <i class="cqc-blackboard"></i>
+				                                </h2>
+				                            </div>
+				                            <div class="right">
+				                            </div>
+				                        </div>	
+				                    </div>
+				                    <div class="H10"></div>
+				                    <div id="preview-target"></div>
+				                </ax:form>
                     			
                     		</ax:td>
                     	</ax:tr>

@@ -17,7 +17,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0108G0S0",
             data: filter,
             callback: function (res) {
-            	console.log(res);
                 caller.gridView0.setData(res);
                 
                 if(res.list.length == 0) {
@@ -69,7 +68,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0102G0D0",
+	                    url: "/api/v1/BM0108G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -96,7 +95,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0102F0I0",
+                        url: "/api/v1/BM0108F0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -117,12 +116,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
-
+            var data = JSON.stringify(formData);
+            console.log(formData);
+            console.log(formData.retireYn);
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                     	type: "POST",
-                        url: "/api/v1/BM0102F0U0",
+                        url: "/api/v1/BM0108F0U0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -240,17 +241,17 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "eplyId", label: "사원ID", width: 80},
+                {key: "eplyId", label: "사원ID", width: 100},
                 {key: "eplyNm", label: "사원명", width: 80},
                 {key: "phone", label: "전화번호", width: 120},
-                {key: "corpid", label: "운수사", width: 120},
-                {key: "busDiv", label: "운행버스구분", width: 120},
-                {key: "retireYn", label: "재직여부", width: 120},
-                {key: "eplyDate1", label: "입사일1", width: 120},
-                {key: "eplyDate2", label: "입사일2", width: 70},
+                {key: "corpId", label: "운수사", width: 120},
+                {key: "busDiv", label: "운행버스구분", width: 80},
+                {key: "retireYn", label: "재직여부", width: 40},
+                {key: "eplyDate1", label: "입사일1", width: 100},
+                {key: "eplyDate2", label: "입사일2", width: 100},
                 {key: "licenNo", label: "운전면허번호", width: 120},
-                {key: "certiDate", label: "자격취득일", width: 70},
-                {key: "remark", label: "비고", width: 70},
+                {key: "certiDate", label: "자격취득일", width: 100},
+                {key: "remark", label: "비고", width: 150},
             ],
             body: {
                 onClick: function () {
