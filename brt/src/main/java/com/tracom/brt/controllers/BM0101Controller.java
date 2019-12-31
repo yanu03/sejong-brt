@@ -38,7 +38,6 @@ public class BM0101Controller extends BaseController {
     @PostMapping("/BM0101F0I0")
     public ApiResponse BM0101F0I0(@RequestBody CorpInfoVO request) {
         String corpId = service.BM0101F0I0(request);
-        
         return ok(corpId);
     }
     
