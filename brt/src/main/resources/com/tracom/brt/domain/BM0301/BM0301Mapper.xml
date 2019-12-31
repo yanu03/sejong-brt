@@ -5,9 +5,12 @@
 
     <select id="BM0301G0S0" parameterType="String" resultType="contractInfoVO">
     	SELECT
-    		*
+    		  C.*
+    		, CU.CUST_NM
     	FROM
-    		BM_CON_INFO
+    		BM_CON_INFO C
+    		LEFT OUTER JOIN BM_CUST_INFO CU
+    		ON C.CUST_ID = CU.CUST_ID
     	<where>
 	    	<if test="value != null">
 				CON_NO LIKE CONCAT('%', #{value}, '%')
