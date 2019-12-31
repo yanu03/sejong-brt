@@ -75,8 +75,6 @@
     		, NUM_VAL6		=	#{numVal6}
     		, USE_YN		=	#{useYn}
     		, REMARK		=	#{remark}
-    		, CREATED_AT	=	#{createdAt}
-    		, CREATED_BY	=	#{createdBy}
     		, UPDATED_AT	=	#{updatedAt}
     		, UPDATED_BY	=	#{updatedBy}
     	WHERE
