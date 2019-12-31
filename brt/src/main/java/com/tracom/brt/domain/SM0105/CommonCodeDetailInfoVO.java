@@ -1,4 +1,4 @@
-package com.tracom.brt.domain.SM0104;
+package com.tracom.brt.domain.SM0105;
 
 import java.math.BigDecimal;
 

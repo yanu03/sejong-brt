@@ -3,7 +3,7 @@
 
 <mapper namespace="com.tracom.brt.domain.SM0104.SM0104Mapper">
 
-    <select id="SM0104G0S0" parameterType="String" resultType="commonCodeInfoVo">
+    <select id="SM0104G0S0" parameterType="String" resultType="commonCodeInfoVO">
     	SELECT
     		*
     	FROM
@@ -16,7 +16,7 @@
     	</where>
     </select>
     
-    <select id="SM0104F0S0" parameterType="String" resultType="commonCodeInfoVo">
+    <select id="SM0104F0S0" parameterType="String" resultType="commonCodeInfoVO">
     	SELECT
     		*
     	FROM
@@ -25,7 +25,7 @@
     		CO_CD = #{value}
     </select>
 
-    <insert id="SM0104F0I0" parameterType="commonCodeInfoVo">
+    <insert id="SM0104F0I0" parameterType="commonCodeInfoVO">
     	INSERT INTO SM_CO_CD_INFO(
     		  CO_CD
     		, CO_CD_NM
@@ -35,7 +35,7 @@
     		, CREATED_AT
     		, CREATED_BY
     		, UPDATED_AT
-    		, UPDATED_BY
+    		, UPDATED_BY)
    		VALUES(
    			  #{coCd}
    			, #{coCdNm}
@@ -49,10 +49,10 @@
    		)
     </insert>
     
-    <update id="SM0104F0U0" parameterType="commonCodeInfoVo">
+    <update id="SM0104F0U0" parameterType="commonCodeInfoVO">
     	UPDATE SM_CO_CD_INFO
     	SET
-    		, CO_CD_NM		=	#{coCdNm}
+    		  CO_CD_NM		=	#{coCdNm}
     		, CO_CD_ENM		=	#{coCdEnm}
     		, USE_YN		=	#{useYn}
     		, REMARK		=	#{remark}
@@ -60,7 +60,7 @@
     		CO_CD = #{coCd}
     </update>
     
-    <delete id="SM0104G0D0" parameterType="commonCodeInfoVo">
+    <delete id="SM0104G0D0" parameterType="commonCodeInfoVO">
     	DELETE
     		FROM SM_CO_CD_INFO
     	WHERE

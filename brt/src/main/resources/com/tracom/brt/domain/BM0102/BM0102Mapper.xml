@@ -3,7 +3,7 @@
 
 <mapper namespace="com.tracom.brt.domain.BM0102.BM0102Mapper">
 
-    <select id="BM0102G0S0" parameterType="String" resultType="custInfoVo">
+    <select id="BM0102G0S0" parameterType="String" resultType="custInfoVO">
     	SELECT
     		*
     	FROM
@@ -16,7 +16,7 @@
     	</where>
     </select>
 
-    <insert id="BM0102F0I0" parameterType="custInfoVo">
+    <insert id="BM0102F0I0" parameterType="custInfoVO">
     	<selectKey keyProperty="custId" resultType="String" order="BEFORE">
     		SELECT CONCAT('CT', LPAD(NEXTVAL(SEQ_BM_CUST_INFO_0), 5, '0'))
     	</selectKey>
@@ -54,7 +54,7 @@
    		)
     </insert>
     
-    <update id="BM0102F0U0" parameterType="custInfoVo">
+    <update id="BM0102F0U0" parameterType="custInfoVO">
     	UPDATE BM_CUST_INFO
     	SET
     		  CUST_NM		=	#{custNm}
@@ -72,7 +72,7 @@
     		CUST_ID = #{custId}
     </update>
     
-    <delete id="BM0102G0D0" parameterType="custInfoVo">
+    <delete id="BM0102G0D0" parameterType="custInfoVO">
     	DELETE
     		FROM BM_CUST_INFO
     	WHERE
