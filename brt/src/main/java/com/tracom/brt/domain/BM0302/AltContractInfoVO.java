@@ -1,6 +1,8 @@
 package com.tracom.brt.domain.BM0302;
 
-import com.chequer.axboot.core.vo.BaseVO;
+
+
+import com.tracom.brt.domain.BaseVO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

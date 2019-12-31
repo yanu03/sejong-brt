@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tracom.brt.domain.BM0301.BM0301Service;
 import com.tracom.brt.domain.BM0301.ContractInfoVO;
 import com.tracom.brt.domain.BM0302.AltContractInfoVO;
 //import com.tracom.brt.domain.BM0302.BM0302;
@@ -25,10 +26,10 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1")
 public class BM0302Controller extends BaseController {
-
-    @Inject
-    private BM0302Service service;
-
+	
+	@Inject
+	private BM0302Service service;
+	
     @GetMapping("/BM0302G0S0")
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")

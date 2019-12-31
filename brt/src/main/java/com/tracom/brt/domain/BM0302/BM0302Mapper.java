@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.chequer.axboot.core.mybatis.MyBatisMapper;
 
-public interface BM0302Mapper extends MyBatisMapper {	
+public interface BM0302Mapper extends MyBatisMapper {
 	List<AltContractInfoVO> BM0302G0S0(String filter);
 	int BM0302F0I0(AltContractInfoVO vo);
 	int BM0302F0U0(AltContractInfoVO vo);
