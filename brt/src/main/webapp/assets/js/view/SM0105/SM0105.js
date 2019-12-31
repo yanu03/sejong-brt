@@ -463,7 +463,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     	}
     },
     selectIdRow: function(id) {
-    	console.log(id);
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {

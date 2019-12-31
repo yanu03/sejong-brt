@@ -75,7 +75,7 @@
                         
                         <ax:tr>
                         	<ax:td label="ax.admin.SM0104F0.useyn" width="300px">
-                                <ax:common-code groupCd="USE_YN" dataPath="useYn" clazz="form-control W100"/>
+                                <ax:common-code groupCd="USE_YN" dataPath="useYn" clazz="form-control"/>
                             </ax:td>
                         </ax:tr>
                        	
