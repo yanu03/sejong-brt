@@ -46,9 +46,7 @@ public class BM0108Controller extends BaseController {
     }
     
     @PostMapping("/BM0108F0U0")
-    public ApiResponse BM0102F0U0(@ModelAttribute("data") EplyInfoVO request) {
-    	
-    	System.out.println(request);
+    public ApiResponse BM0102F0U0(@ModelAttribute EplyInfoVO request) {    	
     	service.BM0108F0U0(request);
     	return ok();
     }

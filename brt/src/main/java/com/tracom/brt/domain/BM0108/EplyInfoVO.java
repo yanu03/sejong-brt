@@ -1,6 +1,6 @@
 package com.tracom.brt.domain.BM0108;
  
-import java.time.LocalDate;
+import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,13 +23,13 @@ public class EplyInfoVO extends BaseVO {
  
 	private String retireYn;
  
-	private LocalDate eplyDate1;
+	private String eplyDate1;
  
-	private LocalDate eplyDate2;
+	private String eplyDate2;
  
 	private String licenNo;
  
-	private LocalDate certiDate;
+	private String certiDate;
  
 	private String attFile;
  

@@ -115,30 +115,26 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
-            var formData = caller.formView0.target[0];
-        	//var formData = caller.formView0.getData();
-        	//var temp = new FormData(document.getElementById('formView0'));
-            //console.log(formData);
+            var formData = new FormData(caller.formView0.target[0]);
+            formData.append("attFile", $("#employeeImg")[0].files[0].name);
             
-            console.log("--------------");
-            var temp = new FormData(formData);
-            for(var i of temp.entries()){
+            for(var i of formData.entries()){
             	console.log(i[0] + ', ' + i[1]);
             }
-            console.log(temp);
                       
             axboot.promise()
                 .then(function (ok, fail, data) {
-                    axboot.ajax({
+                	axboot.ajax({
                     	type: "POST",
                     	enctype: "multipart/form-data",
                     	processData: false,
-                    	contentType: false,
                         url: "/api/v1/BM0108F0U0",
-                        //data: JSON.stringify(formData),
-                        data: {data: temp},
+                        data: formData,
                         callback: function (res) {
                             ok(res);
+                        },
+                        options: {
+                        	contentType:false
                         }
                     });
                 })
@@ -268,6 +264,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "eplyDate2", label: "입사일2", width: 100},
                 {key: "licenNo", label: "운전면허번호", width: 120},
                 {key: "certiDate", label: "자격취득일", width: 100},
+                {key: "attFile", label: "파일명", width: 120},
                 {key: "remark", label: "비고", width: 150},
             ],
             body: {
