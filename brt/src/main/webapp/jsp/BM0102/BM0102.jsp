@@ -9,6 +9,7 @@
 <ax:layout name="base">
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
+        <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0102/BM0102.js' />"></script>
     </jsp:attribute>
     <jsp:body>
