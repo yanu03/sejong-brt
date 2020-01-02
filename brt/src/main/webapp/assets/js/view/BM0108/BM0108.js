@@ -115,14 +115,28 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
-            var formData = caller.formView0.getData();         
+            var formData = caller.formView0.target[0];
+        	//var formData = caller.formView0.getData();
+        	//var temp = new FormData(document.getElementById('formView0'));
+            //console.log(formData);
             
+            console.log("--------------");
+            var temp = new FormData(formData);
+            for(var i of temp.entries()){
+            	console.log(i[0] + ', ' + i[1]);
+            }
+            console.log(temp);
+                      
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                     	type: "POST",
+                    	enctype: "multipart/form-data",
+                    	processData: false,
+                    	contentType: false,
                         url: "/api/v1/BM0108F0U0",
-                        data: JSON.stringify(formData),
+                        //data: JSON.stringify(formData),
+                        data: {data: temp},
                         callback: function (res) {
                             ok(res);
                         }
@@ -147,6 +161,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = true;
     	selectedRow = data;
         caller.formView0.setData(data);
+        
+        //승무사원이미지 없을시 기본 이미지
+        preview_Image();
+
     }
 });
 
@@ -234,7 +252,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     
     initView: function () {
         var _this = this;
-
         
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
@@ -355,6 +372,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
                 type: 'date'
             }
         });
+
     },
     initEvent: function () {
     },
@@ -398,11 +416,13 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 });
 
 /********************************************************************************************************************/
-/**/
+/** 승무사원관리 전용 함수 **/
 /********************************************************************************************************************/
-//승무사원이미지가 있다면 파일 불러와서 미리보기, 없다면 기본 이미지 미리보기
-function preview_Image(input){
-	console.log("");
+//승무사원이미지가 있다면 파일 불러와서 미리보기(추가예정), 없다면 기본 이미지 미리보기
+function preview_Image(){
+	var path;
+	path = "/assets/images/BM0108/EmployeeDefault.png";//default path
+	document.getElementById('previewImg').src=path;
 }
 
 //승무사원이미지 변경시 미리보기
@@ -415,4 +435,9 @@ function preview_ChangeImage(input) {
         }
     	reader.readAsDataURL(input.files[0]);
     }
+}
+
+//파일 업로드 Form
+function uploadFile(){
+	
 }
