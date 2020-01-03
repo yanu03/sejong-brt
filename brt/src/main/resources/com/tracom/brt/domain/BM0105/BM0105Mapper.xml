@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0105.BM0105Mapper">
+
+    <select id="BM0105G0S0" parameterType="String" resultType="bmStaInfoVO">
+    	SELECT
+    		  STA_ID
+    		, STA_NM
+    		, STA_NO
+    		, LATI
+    		, LONGI
+    	FROM
+    		BM_STA_INFO
+    	<where>
+	    	<if test="value != null">
+				STA_ID LIKE CONCAT('%', #{value}, '%')
+				OR STA_NO LIKE CONCAT('%', #{value}, '%')
+				OR STA_NO LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+    </select>
+    
+</mapper>
