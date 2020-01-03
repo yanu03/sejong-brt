@@ -89,7 +89,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_SAVE: function (caller, act, data) {
         if (caller.formView0.validate()) {
-            var formData = caller.formView0.getData();
+            var formData = new FormData(caller.formView0.target[0]);
+            formData.append("attFile", $("#employeeImg")[0].files[0].name);
 
             axboot.promise()
                 .then(function (ok, fail, data) {
@@ -99,6 +100,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
+                        },
+                        enctype: "multipart/form-data",
+                        processData: false,
+                        options: {
+                        	contentType:false
                         }
                     });
                 })
@@ -117,10 +123,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if (caller.formView0.validate()) {
             var formData = new FormData(caller.formView0.target[0]);
             formData.append("attFile", $("#employeeImg")[0].files[0].name);
-            
-            for(var i of formData.entries()){
-            	console.log(i[0] + ', ' + i[1]);
-            }
+
                       
             axboot.promise()
                 .then(function (ok, fail, data) {

@@ -49,7 +49,7 @@
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-news"></i>
-                            <ax:lang id="ax.admin.BM0102F0.title"/>
+                            <ax:lang id="ax.admin.BM0108F0.title"/>
                         </h2>
                     </div>
                 </div>
@@ -57,10 +57,10 @@
                 <ax:form name="formView0" id="formView0">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0108F0.eply.id" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0108F0.eplyId" width="300px" labelClazz="required">
                     			<input type="text" name="eplyId" data-ax-path="eplyId" data-key="true" class="form-control" readonly="readonly"/>
                     		</ax:td>
-                    		<ax:td label="ax.admin.BM0108F0.eply.nm" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0108F0.eplyNm" width="300px" labelClazz="required">
                     			<input type="text" name="eplyNm" data-ax-path="eplyNm" data-key="true" class="form-control"/>
                     		</ax:td>
                     	</ax:tr>
@@ -69,7 +69,7 @@
                     		<ax:td label="ax.admin.BM0108F0.phone" width="300px" labelClazz="required">
                     			<input type="text" name="phone" data-ax-path="phone" data-key="true" class="form-control"/>
                     		</ax:td>
-                    		<ax:td label="ax.admin.BM0108F0.corp.id" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0108F0.corpId" width="300px" labelClazz="required">
                     			<div class="input-group">
 	                        		<input type="text" class="form-control" id=""  data-ax-path="Keyword" id="Keyword"/>
 	                        		<span class="input-group-btn">
@@ -82,29 +82,29 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0108F0.bus.div" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0108F0.busDiv" width="300px" labelClazz="required">
 	     					 	<select class="form-control" name="busDiv" data-ax-path="busDiv" >
-									 <option value="city"><ax:lang id="ax.admin.BM0108F0.bus.ct.in"/></option>
+									 <option value="city"><ax:lang id="ax.admin.BM0108F0.bus.ctin"/></option>
 									 <option value="vilg"><ax:lang id="ax.admin.BM0108F0.bus.vilg"/></option>
 									 <option value="cntry"><ax:lang id="ax.admin.BM0108F0.bus.cnty"/></option>
-									 <option value="intct"><ax:lang id="ax.admin.BM0108F0.bus.ct.out"/></option>
+									 <option value="intct"><ax:lang id="ax.admin.BM0108F0.bus.ctout"/></option>
 									 <option value="fast"><ax:lang id="ax.admin.BM0108F0.bus.fast"/></option>
 								</select>
                     		</ax:td>
-                    		<ax:td label="ax.admin.BM0108F0.retire.yn" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0108F0.retireYn" width="300px" labelClazz="required">
                     			<ax:common-code groupCd="RETIRE_YN" name="retireYn" dataPath="retireYn" clazz="form-control" type="radio"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0108F0.eply.date1" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0108F0.eplyDate1" width="300px" labelClazz="required">
 	                            <div class="input-group" data-ax5picker="date">
  	                          		<input  readonly="readonly" type="text" class="form-control" id="eplyDate1" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-path="eplyDate1" name="eplyDate1" />
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                     		</ax:td>
 
-                    		<ax:td label="ax.admin.BM0108F0.eply.date2" width="300px">
+                    		<ax:td label="ax.admin.BM0108F0.eplyDate2" width="300px">
                     			<div class="input-group" data-ax5picker="date">
 	                                <input readonly="readonly" type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax-path="eplyDate2" name="data-ax-path"/>
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
@@ -113,10 +113,10 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0108F0.licen.no" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0108F0.licenNo" width="300px" labelClazz="required">
                     			<input type="text" name="licenNo" data-ax-path="licenNo" data-key="true" class="form-control"/>
                     		</ax:td>
-                    		<ax:td label="ax.admin.BM0108F0.certi.date" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0108F0.certiDate" width="300px" labelClazz="required">
                     			<div class="input-group" data-ax5picker="date">
 	                                <input readonly="readonly" type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax-path="certiDate" name="certiDate"/>
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
@@ -125,7 +125,7 @@
                     	</ax:tr>
 
                     	<ax:tr style="height:300px;">
-                    		<ax:td labelStyle="height:300px;" label="ax.admin.BM0108F0.att.file" width="300px">
+                    		<ax:td labelStyle="height:300px;" label="ax.admin.BM0108F0.attFile" width="300px">
                     			<div style="width: 180px;height: 260px;">
 	                                <img id="previewImg" src="#" alt="승무사원 이미지" style="width:180px;height:250px">
                     			</div>
