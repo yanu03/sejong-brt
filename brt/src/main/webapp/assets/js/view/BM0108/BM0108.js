@@ -122,7 +122,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
             var formData = new FormData(caller.formView0.target[0]);
-            formData.append("attFile", $("#employeeImg")[0].files[0].name);
+            if($("#employeeImg")[0].files[0]){
+            	formData.append("attFile", $("#employeeImg")[0].files[0].name);
+            }
 
                       
             axboot.promise()
@@ -164,6 +166,19 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         //승무사원이미지 없을시 기본 이미지
         preview_Image();
 
+    },
+    
+    OPEN_BM0101_MODAL: function(caller, act, data) {
+    	axboot.modal.open({
+            modalType: "BM0101",
+            param: "",
+            callback: function (data) {
+            	// 운수사, 거래처 등을 선택한 후 이벤트 ex) input에 값을 넣어 주는 등의 로직을 작성하면됨
+            	caller.formView0.model.set("corpId", data.corpId);
+            	caller.formView0.model.set("corpNm", data.corpNm);
+                this.close();
+            }
+        });
     }
 });
 
@@ -363,6 +378,12 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         axboot.buttonClick(this, "data-form-view-01-btn", {
             "form-clear": function () {
                 ACTIONS.dispatch(ACTIONS.FORM_CLEAR);
+            }
+        });
+        
+        axboot.buttonClick(this, "data-form-view-0-btn", {
+            "selectBM0101": function() {
+            	ACTIONS.dispatch(ACTIONS.OPEN_BM0101_MODAL);
             }
         });
         

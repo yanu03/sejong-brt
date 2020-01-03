@@ -71,12 +71,11 @@
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.corpId" width="300px" labelClazz="required">
                     			<div class="input-group">
-	                        		<input type="text" class="form-control" id=""  data-ax-path="Keyword" id="Keyword"/>
-	                        		<span class="input-group-btn">
-	                        			<button type="button" id="rightSearchButton" class="btn btn-primary" data-grid-view-01-btn="item-search">
-		                                	<ax:lang id="ax.admin.search"/>
-		                            	</button>
-		                            </span>
+	                        		<input type="text" data-ax-path="corpId" name="corpId" data-key="true" class="form-control W70" readonly="readonly">
+	                        		<input type="text" data-ax-path="corpNm" name="corpNm" data-key="true" class="form-control W70" readonly="readonly">
+                        			<button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0101">
+	                                	<ax:lang id="ax.admin.select"/>
+	                            	</button>
 	                        	</div>
                     		</ax:td>
                     	</ax:tr>
