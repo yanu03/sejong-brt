@@ -40,28 +40,22 @@ public class BM0108Controller extends BaseController {
     }
     
     @PostMapping("/BM0108F0I0")
-    public ApiResponse BM0102F0I0(@RequestBody EplyInfoVO request) {
+    public ApiResponse BM0108F0I0(@RequestBody EplyInfoVO request) {
         String corpId = service.BM0108F0I0(request);
         return ok(corpId);
     }
     
     @PostMapping("/BM0108F0U0")
-    public ApiResponse BM0102F0U0(@ModelAttribute EplyInfoVO request) {    	
+    public ApiResponse BM0108F0U0(@ModelAttribute EplyInfoVO request) {    	
     	service.BM0108F0U0(request);
     	return ok();
     }
     
     @PostMapping("/BM0108G0D0")
-    public ApiResponse BM0102G0D0(@RequestBody EplyInfoVO request) {
+    public ApiResponse BM0108G0D0(@RequestBody EplyInfoVO request) {
     	service.BM0108G0D0(request);
     	return ok();
-    }
-    
-    @PostMapping("/BM0108test")
-    public ApiResponse BM0102test(@RequestBody MultipartFile imgFile) {
-    	return ok();
-    }
-    
+    }  
 
 
 }
