@@ -10,7 +10,7 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN"/>
-        <script type="text/javascript" src="<c:url value='/assets/js/common/Tmap.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/common/tmap.js' />"></script>
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0105/BM0105.js' />"></script>
         <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appkey=bbaeca8d-24d4-425d-9bd2-946552e4e2a7"></script>
     </jsp:attribute>
