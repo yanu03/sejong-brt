@@ -3,6 +3,10 @@ var fnObj = {}, CODE = {};
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
+
+//티맵용 전역변수
+var map, marker;
+var markers = [];
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -11,20 +15,22 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
-    	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0108G0S0",
+            url: "/api/v1/BM0105G0S0",
             data: filter,
             callback: function (res) {
+            	
+            	console.log(res);
+            	
             	caller.gridView0.setData(res);
                 
                 if(res.list.length == 0) {
                 	isUpdate = false;
-	                caller.formView0.clear();
-	                caller.formView0.disable();
+	                //caller.formView0.clear();
+	                //caller.formView0.disable();
                 } else {
-                	caller.formView0.enable();
+                	//caller.formView0.enable();
                 	if(dataFlag) {
 	                	caller.gridView0.selectIdRow(data);
 	                } else {
@@ -47,9 +53,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;
     	caller.gridView0.selectAll(false);
-        caller.formView0.clear();
-        caller.formView0.enable();
-        caller.formView0.validate(true);
+        //caller.formView0.clear();
+        //caller.formView0.enable();
+        //caller.formView0.validate(true);
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -68,7 +74,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0108G0D0",
+	                    url: "/api/v1/BM0105G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -76,7 +82,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                });
                 })
                 .then(function (ok) {
-                	caller.formView0.clear();
+                	//caller.formView0.clear();
                 	axToast.push(LANG("ondelete"));
                     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
@@ -87,24 +93,21 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     },
     
+    
     PAGE_SAVE: function (caller, act, data) {
-        if (caller.formView0.validate()) {
-            var formData = new FormData(caller.formView0.target[0]);
-            formData.append("attFile", $("#employeeImg")[0].files[0].name);
+        /*
+         * 
+    	if (caller.formView0.validate()) {
+            var formData = caller.formView0.getData();
 
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0108F0I0",
+                        url: "/api/v1/BM0105F0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
-                        },
-                        enctype: "multipart/form-data",
-                        processData: false,
-                        options: {
-                        	contentType:false
                         }
                     });
                 })
@@ -117,29 +120,21 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
                 });
         }
+         */
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-        if (caller.formView0.validate()) {
-            var formData = new FormData(caller.formView0.target[0]);
-            if($("#employeeImg")[0].files[0]){
-            	formData.append("attFile", $("#employeeImg")[0].files[0].name);
-            }
-
-                      
+    	/*
+    	if (caller.formView0.validate()) {
+            var formData = caller.formView0.getData();
             axboot.promise()
                 .then(function (ok, fail, data) {
                 	axboot.ajax({
                     	type: "POST",
-                    	enctype: "multipart/form-data",
-                    	processData: false,
-                        url: "/api/v1/BM0108F0U0",
-                        data: formData,
+                        url: "/api/v1/BM0105F0U0",
+                        data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
-                        },
-                        options: {
-                        	contentType:false
                         }
                     });
                 })
@@ -151,6 +146,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
                 });
         }
+        */
     },
     
     // 탭닫기
@@ -158,27 +154,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
     
-    ITEM_CLICK: function (caller, act, data) {
+        ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
     	selectedRow = data;
-        caller.formView0.setData(data);
+    	console.log(data);
+    	map_marker(data.lati, data.longi);
+        //caller.formView0.setData(data);
         
-        //승무사원이미지 없을시 기본 이미지
-        preview_Image();
-
-    },
-    
-    OPEN_BM0101_MODAL: function(caller, act, data) {
-    	axboot.modal.open({
-            modalType: "BM0101",
-            param: "",
-            callback: function (data) {
-            	// 운수사, 거래처 등을 선택한 후 이벤트 ex) input에 값을 넣어 주는 등의 로직을 작성하면됨
-            	caller.formView0.model.set("corpId", data.corpId);
-            	caller.formView0.model.set("corpNm", data.corpNm);
-                this.close();
-            }
-        });
     }
 });
 
@@ -191,7 +173,7 @@ fnObj.pageStart = function () {
     this.pageButtonView.initView();
     this.searchView0.initView();
     this.gridView0.initView();
-    this.formView0.initView();
+    initTmap();
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -272,18 +254,11 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "eplyId", label: "사원ID", width: 100},
-                {key: "eplyNm", label: "사원명", width: 80},
-                {key: "phone", label: "전화번호", width: 120},
-                {key: "corpId", label: "운수사", width: 120},
-                {key: "busDiv", label: "운행버스구분", width: 80},
-                {key: "retireYn", label: "재직여부", width: 80},
-                {key: "eplyDate1", label: "입사일1", width: 100},
-                {key: "eplyDate2", label: "입사일2", width: 100},
-                {key: "licenNo", label: "운전면허번호", width: 120},
-                {key: "certiDate", label: "자격취득일", width: 100},
-                {key: "attFile", label: "파일명", width: 120},
-                {key: "remark", label: "비고", width: 150},
+                {key: "staId", label: ADMIN("ax.admin.BM0105G0.staId"), width: 80},
+                {key: "staNm", label: ADMIN("ax.admin.BM0105G0.staNm"), width: 180},
+                {key: "staNo", label: ADMIN("ax.admin.BM0105G0.staNo"), width: 100},
+                {key: "lati", label: ADMIN("ax.admin.BM0105G0.lati"), width: 120},
+                {key: "longi", label: ADMIN("ax.admin.BM0105G0.longi"), width: 120},
             ],
             body: {
                 onClick: function () {
@@ -352,8 +327,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	
     	if(i == length) {
     		isUpdate = false;
-    		fnObj.formView0.clear();
-    		fnObj.formView0.disable();
+    		//fnObj.formView0.clear();
+    		//fnObj.formView0.disable();
     	}
     },
     selectAll: function(flag) {
@@ -361,104 +336,39 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     }
 });
 
-/**
- * formView0
- */
-fnObj.formView0 = axboot.viewExtend(axboot.formView, {
-    getDefaultData: function () {
-        return $.extend({}, axboot.formView.defaultData, {});
-    },
-    initView: function () {
-        this.target = $("#formView0");
-        this.model = new ax5.ui.binder();
-        this.model.setModel(this.getDefaultData(), this.target);
-        this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
-        this.initEvent();
-
-        axboot.buttonClick(this, "data-form-view-01-btn", {
-            "form-clear": function () {
-                ACTIONS.dispatch(ACTIONS.FORM_CLEAR);
-            }
-        });
-        
-        axboot.buttonClick(this, "data-form-view-0-btn", {
-            "selectBM0101": function() {
-            	ACTIONS.dispatch(ACTIONS.OPEN_BM0101_MODAL);
-            }
-        });
-        
-        this.target.find('[data-ax5picker="date"]').ax5picker({
-            direction: "auto",
-            content: {
-                type: 'date'
-            }
-        });
-
-    },
-    initEvent: function () {
-    },
-    getData: function () {
-        var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
-        return $.extend({}, data);
-    },
-    setData: function (data) {
-
-        if (typeof data === "undefined") data = this.getDefaultData();
-        data = $.extend({}, data);
-
-        this.model.setModel(data);
-        this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
-    },
-    validate: function (flag) {
-        var rs = this.model.validate();
-        if (rs.error) {
-        	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
-        	}
-            rs.error[0].jquery.focus();
-            return false;
-        }
-        return true;
-    },
-    enable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", false);
-    	});
-    },
-    disable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", true);
-    	});
-    },
-    clear: function () {
-        this.model.setModel(this.getDefaultData());
-        this.target.find('[data-ax-path="key"]').removeAttr("readonly");
-    }
-});
 
 /********************************************************************************************************************/
-/** 승무사원관리 전용 함수 **/
+/** 정류장연계 전용 **/
 /********************************************************************************************************************/
-//승무사원이미지가 있다면 파일 불러와서 미리보기(추가예정), 없다면 기본 이미지 미리보기
-function preview_Image(){
-	var path;
-	path = "/assets/images/BM0108/EmployeeDefault.png";//default path
-	document.getElementById('previewImg').src=path;
-}
 
-//승무사원이미지 변경시 미리보기
-function preview_ChangeImage(input) {
-    if (input.files && input.files[0]) {
-    var reader = new FileReader();
+//티맵 시작
+function initTmap(){
+	map = new Tmapv2.Map("mapView0",  
+	{
+		center: new Tmapv2.LatLng(36.502212, 127.256300), // 지도 초기 좌표
+		width: "100%", 
+		height: "100%",
+		zoom: 15
+	});
+	return map;
+} 
 
-    reader.onload = function (e) {
-    	$('#previewImg').attr('src', e.target.result);
-        }
-    	reader.readAsDataURL(input.files[0]);
-    }
-}
-
-//파일 업로드 Form
-function uploadFile(){
+//마커그리기
+function map_marker(lat, lng){
+	removeMarkers();
 	
+	marker = new Tmapv2.Marker({
+		position: new Tmapv2.LatLng(lat, lng), //Marker의 중심좌표 설정.
+		map: map //Marker가 표시될 Map 설정..
+	});
+	map.setCenter(new Tmapv2.LatLng(lat,lng));
+	markers.push(marker);
+}
+
+//마커삭제
+function removeMarkers() {
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(null);
+	}
+	markers = [];
 }

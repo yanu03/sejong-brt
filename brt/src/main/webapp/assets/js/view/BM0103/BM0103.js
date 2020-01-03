@@ -11,10 +11,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
-    	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0108G0S0",
+            url: "/api/v1/BM0103G0S0",
             data: filter,
             callback: function (res) {
             	caller.gridView0.setData(res);
@@ -68,7 +67,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0108G0D0",
+	                    url: "/api/v1/BM0103G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -89,22 +88,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_SAVE: function (caller, act, data) {
         if (caller.formView0.validate()) {
-            var formData = new FormData(caller.formView0.target[0]);
-            formData.append("attFile", $("#employeeImg")[0].files[0].name);
+            var formData = caller.formView0.getData();
 
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0108F0I0",
+                        url: "/api/v1/BM0103F0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
-                        },
-                        enctype: "multipart/form-data",
-                        processData: false,
-                        options: {
-                        	contentType:false
                         }
                     });
                 })
@@ -121,25 +114,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
-            var formData = new FormData(caller.formView0.target[0]);
-            if($("#employeeImg")[0].files[0]){
-            	formData.append("attFile", $("#employeeImg")[0].files[0].name);
-            }
-
-                      
+            var formData = caller.formView0.getData();
             axboot.promise()
                 .then(function (ok, fail, data) {
                 	axboot.ajax({
                     	type: "POST",
-                    	enctype: "multipart/form-data",
-                    	processData: false,
-                        url: "/api/v1/BM0108F0U0",
-                        data: formData,
+                        url: "/api/v1/BM0103F0U0",
+                        data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
-                        },
-                        options: {
-                        	contentType:false
                         }
                     });
                 })
@@ -158,16 +141,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
     
-    ITEM_CLICK: function (caller, act, data) {
-    	isUpdate = true;
-    	selectedRow = data;
-        caller.formView0.setData(data);
-        
-        //승무사원이미지 없을시 기본 이미지
-        preview_Image();
-
-    },
-    
     OPEN_BM0101_MODAL: function(caller, act, data) {
     	axboot.modal.open({
             modalType: "BM0101",
@@ -179,6 +152,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 this.close();
             }
         });
+    },
+    
+    ITEM_CLICK: function (caller, act, data) {
+    	isUpdate = true;
+    	selectedRow = data;
+        caller.formView0.setData(data);
+        
     }
 });
 
@@ -272,18 +252,20 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "eplyId", label: "사원ID", width: 100},
-                {key: "eplyNm", label: "사원명", width: 80},
-                {key: "phone", label: "전화번호", width: 120},
-                {key: "corpId", label: "운수사", width: 120},
-                {key: "busDiv", label: "운행버스구분", width: 80},
-                {key: "retireYn", label: "재직여부", width: 80},
-                {key: "eplyDate1", label: "입사일1", width: 100},
-                {key: "eplyDate2", label: "입사일2", width: 100},
-                {key: "licenNo", label: "운전면허번호", width: 120},
-                {key: "certiDate", label: "자격취득일", width: 100},
-                {key: "attFile", label: "파일명", width: 120},
-                {key: "remark", label: "비고", width: 150},
+                //{key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), width: 80},
+                {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcId"), width: 80},
+                {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 120},
+                {key: "corpId", label: ADMIN("ax.admin.BM0103F0.corpId"), width: 120},
+                {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), width: 120},
+                {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 120},
+                {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), width: 120},
+                {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), width: 70},
+                {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), width: 120},
+                {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), width: 70},
+                {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), width: 70},
+                {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), width: 70},
+                {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 70},
+                {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), width: 70},
             ],
             body: {
                 onClick: function () {
@@ -437,28 +419,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 });
 
 /********************************************************************************************************************/
-/** 승무사원관리 전용 함수 **/
+/** 차량관리 전용 함수 **/
 /********************************************************************************************************************/
-//승무사원이미지가 있다면 파일 불러와서 미리보기(추가예정), 없다면 기본 이미지 미리보기
-function preview_Image(){
-	var path;
-	path = "/assets/images/BM0108/EmployeeDefault.png";//default path
-	document.getElementById('previewImg').src=path;
-}
 
-//승무사원이미지 변경시 미리보기
-function preview_ChangeImage(input) {
-    if (input.files && input.files[0]) {
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-    	$('#previewImg').attr('src', e.target.result);
-        }
-    	reader.readAsDataURL(input.files[0]);
-    }
-}
-
-//파일 업로드 Form
-function uploadFile(){
-	
-}

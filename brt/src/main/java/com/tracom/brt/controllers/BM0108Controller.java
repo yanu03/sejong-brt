@@ -5,10 +5,14 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
@@ -36,21 +40,22 @@ public class BM0108Controller extends BaseController {
     }
     
     @PostMapping("/BM0108F0I0")
-    public ApiResponse BM0102F0I0(@RequestBody EplyInfoVO request) {
+    public ApiResponse BM0108F0I0(@RequestBody EplyInfoVO request) {
         String corpId = service.BM0108F0I0(request);
         return ok(corpId);
     }
     
     @PostMapping("/BM0108F0U0")
-    public ApiResponse BM0102F0U0(@RequestBody EplyInfoVO request) {
+    public ApiResponse BM0108F0U0(@ModelAttribute EplyInfoVO request) {    	
     	service.BM0108F0U0(request);
     	return ok();
     }
     
     @PostMapping("/BM0108G0D0")
-    public ApiResponse BM0102G0D0(@RequestBody EplyInfoVO request) {
+    public ApiResponse BM0108G0D0(@RequestBody EplyInfoVO request) {
     	service.BM0108G0D0(request);
     	return ok();
-    }
+    }  
+
 
 }

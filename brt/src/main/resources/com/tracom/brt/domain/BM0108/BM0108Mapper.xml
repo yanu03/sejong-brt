@@ -5,7 +5,18 @@
 
     <select id="BM0108G0S0" parameterType="String" resultType="eplyInfoVO">
     	SELECT
-    		*
+    		  EPLY_ID
+    		, EPLY_NM
+    		, PHONE
+    		, BUS_DIV
+    		, RETIRE_YN
+    		, EPLY_DATE1
+    		, EPLY_DATE2
+    		, LICEN_NO
+    		, CERTI_DATE
+    		, ATT_FILE
+    		, REMARK
+    		, CORP_ID
     	FROM
     		BM_EPLY_INFO
     	<where>
