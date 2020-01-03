@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0103.BM0103Mapper">
+
+    <select id="BM0103G0S0" parameterType="String" resultType="vhcInfoVO">
+    	SELECT
+    		  VHC_ID
+    		, VHC_NO
+    		, CHAS_NO
+    		, CORP_ID
+    		, AREA
+    		, MAKER
+    		, RELS_DATE
+    		, MODEL_NM
+    		, VHC_KIND
+    		, VHC_TYPE
+    		, LF_YN
+    		, VHC_FUEL
+    		, REMARK
+    		, USE_YN
+    	FROM
+    		BM_VHC_INFO
+    	<where>
+	    	<if test="value != null">
+				VHC_NO LIKE CONCAT('%', #{value}, '%')
+				OR MODEL_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+    </select>
+    
+    <insert id="BM0103F0I0" parameterType="vhcInfoVo">
+    	<selectKey keyProperty="vhcId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('VH', LPAD(NEXTVAL(SEQ_BM_VHC_INFO_0), 5, '0'))
+    	</selectKey>
+    
+    	INSERT INTO BM_VHC_INFO(
+    		  VHC_ID
+    		, VHC_NO
+    		, CHAS_NO
+    		, CORP_ID
+    		, AREA
+    		, MAKER
+    		, RELS_DATE
+    		, MODEL_NM
+    		, VHC_KIND
+    		, VHC_TYPE
+    		, LF_YN
+    		, VHC_FUEL
+    		, REMARK
+    		, USE_YN    		
+    		, CREATED_AT
+    		, CREATED_BY
+    		, UPDATED_AT
+    		, UPDATED_BY
+    		)
+   		VALUES(
+   			  #{vhcId}
+   			, #{vhcNo}
+   			, #{chasNo}
+   			, #{corpId}
+   			, #{area}
+   			, #{maker}
+   			, #{relsDate}
+   			, #{modelNm}
+   			, #{vhcKind}
+   			, #{vhcType}
+   			, #{lfYn} 
+   			, #{vhcFuel}
+   			, #{remark}
+   			, #{useYn}
+   			, #{createdAt}
+   			, #{createdBy}
+   			, #{updatedAt}
+   			, #{updatedBy}
+   			)
+    </insert>
+    
+     <update id="BM0103F0U0" parameterType="vhcInfoVo">
+    	UPDATE BM_VHC_INFO
+    	SET
+    		  VHC_NO		=	#{vhcNo}
+    		, CHAS_NO		=	#{chasNo}
+    		, CORP_ID		=	#{corpId}
+    		, AREA	 		=	#{area}
+    		, MAKER			=	#{maker}
+    		, RELS_DATE		=	#{relsDate}
+    		, MODEL_NM		=	#{modelNm}
+    		, VHC_KIND		=	#{vhcKind}
+    		, VHC_TYPE		=	#{vhcType}
+    		, LF_YN			=	#{lfYn}
+    		, VHC_FUEL		=	#{vhcFuel}
+    		, REMARK		= 	#{remark}
+    		, USE_YN		=	#{useYn}
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		VHC_ID = #{vhcId}
+    </update>
+    
+    <delete id="BM0103G0D0" parameterType="vhcInfoVo">
+    	DELETE
+    		FROM BM_VHC_INFO
+    	WHERE
+    		VHC_ID = #{vhcId}
+    </delete>
+    
+</mapper>
