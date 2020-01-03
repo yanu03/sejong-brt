@@ -124,36 +124,47 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-        if (caller.formView0.validate()) {
-            var formData = caller.formView0.getData();
-            
-            console.log(formData);
-
-            axboot.promise()
-                .then(function (ok, fail, data) {
-                    axboot.ajax({
-                    	type: "POST",
-                        url: "/api/v1/BM0301F0U0",
-                        data: JSON.stringify(formData),
-                        callback: function (res) {
-                            ok(res);
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onupdate"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-        }
+    	isUpdate = false;   	
+    	var confirmYn = $('#confirmYn').val();
+ 	
+    		if(confirmYn == "N"){
+    				console.log("N");
+    			if (caller.formView0.validate()) {
+    				var formData = caller.formView0.getData();
+    				
+    				console.log(formData);
+    				
+    				axboot.promise()
+    				.then(function (ok, fail, data) {
+    					axboot.ajax({
+    						type: "POST",
+    						url: "/api/v1/BM0301F0U0",
+    						data: JSON.stringify(formData),
+    						callback: function (res) {
+    							ok(res);
+    						}
+    					});
+    				})
+    				.then(function (ok, fail, data) {
+    					axToast.push(LANG("onupdate"));
+    					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    					isUpdate = true;
+    				})
+    				.catch(function () {
+    					
+    				});
+    			}
+    		}else{
+    			axDialog.alert({
+	                msg: LANG("ax.script.contractupdate")
+	            });
+    		}  	
     },
     
     //////////////////////////////// 확정
     
     PAGE_CONFIRMYN : function (caller, act, data) {
-    	isUpdate = false;
+    	isUpdate = false; 
     	var confirmYn = $('#confirmYn').val();
     	
     	axDialog.confirm({
@@ -162,7 +173,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		if(this.key == "ok"){
     			
     			if(confirmYn == "N"){
-    				console.log("N이지롱");
+    				//console.log("N이지롱");
     				if (caller.formView0.validate()) {
     					var formData = caller.formView0.getData();
     					
@@ -180,13 +191,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     					.then(function (ok, fail, data) {
     						axToast.push(LANG("onupdate"));
     						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    						isUpdate = true;
     					})
     					.catch(function () {
     						
     					});
     				}
     			}else {
-    				console.log("Y지롱");
+    				//console.log("Y지롱");
     				axDialog.alert({
     	                msg: LANG("ax.script.confirmres")
     	            });
@@ -262,10 +274,11 @@ fnObj.pageButtonView = axboot.viewExtend({
             	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
             },
             "save": function () {
-            	console.log("save");
             	if(isUpdate) {
+            		console.log("업데이트");
             		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
             	} else {
+            		console.log("세이브");
             		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             	}
             },
@@ -393,7 +406,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].corpId == id) {
+    		if(this.target.list[i].conId == id) {
     			this.selectRow(i);
     			break;
     		}

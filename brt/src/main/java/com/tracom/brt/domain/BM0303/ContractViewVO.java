@@ -1,6 +1,4 @@
-package com.tracom.brt.domain.BM0302;
-
-
+package com.tracom.brt.domain.BM0303;
 
 import com.tracom.brt.domain.BaseVO;
 
@@ -10,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 
-public class AltContractInfoVO extends BaseVO{
-	
+public class ContractViewVO extends BaseVO{
+
 	private String conId;
 	private String seq;
 	private String conNm;

@@ -1,6 +1,6 @@
 package com.tracom.brt.domain.BM0301;
 
-import com.chequer.axboot.core.vo.BaseVO;
+import com.tracom.brt.domain.BaseVO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,5 +21,6 @@ public class ContractInfoVO extends BaseVO{
 	private String custNm;
 	private String remark;
 	private String conNo;
+	
 
 }

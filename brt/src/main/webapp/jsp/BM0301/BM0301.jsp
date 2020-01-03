@@ -20,7 +20,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.contract.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0301S0.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -35,7 +35,7 @@
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.contract.grid.title"/>
+                            <ax:lang id="ax.admin.BM0301G0.title"/>
                         </h2>
                     </div>
                     <div class="right">
@@ -50,32 +50,32 @@
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-news"></i>
-                             <ax:lang id="ax.admin.contract.form.title"/>
+                             <ax:lang id="ax.admin.BM0301F0.title"/>
                         </h2>
                     </div>
                 </div>
-                <ax:form name="formView0">                  
+                <ax:form name="formView0">                 
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                      	<ax:tr>
-							<ax:td label="ax.admin.contract.form.confirmyn" width="300px" >
+							<ax:td label="ax.admin.BM0301F0.confirmyn" width="300px" >
 								<input type="text" id="confirmYn" data-ax-path="confirmYn" data-key="true" class="form-control" readonly="readonly">
 							</ax:td>
-							<ax:td label="ax.admin.contract.grid.conid" width="300px" labelClazz="required">
+							<ax:td label="ax.admin.BM0301F0.conid" width="300px" labelClazz="required">
 							    <input type="text" data-ax-path="conId" data-key="true" class="form-control" readonly="readonly">
 							</ax:td>                    
                     	</ax:tr>
                     
                         <ax:tr>
-                            <ax:td label="ax.admin.contract.form.conno" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="conNo" title="<ax:lang id="ax.admin.contract.form.conno"/>" class="form-control" data-ax-validate="required"/>
+                            <ax:td label="ax.admin.BM0301F0.conno" width="300px" labelClazz="required">
+                                <input type="text" data-ax-path="conNo" title="<ax:lang id="ax.admin.BM0301F0.conno"/>" class="form-control" data-ax-validate="required"/>
                             </ax:td>
-                            <ax:td label="ax.admin.contract.form.name" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="conNm" title="<ax:lang id="ax.admin.contract.form.name"/>" class="form-control" data-ax-validate="required" />
+                            <ax:td label="ax.admin.BM0301F0.name" width="300px" labelClazz="required">
+                                <input type="text" data-ax-path="conNm" title="<ax:lang id="ax.admin.BM0301F0.name"/>" class="form-control" data-ax-validate="required" />
                             </ax:td>
                         </ax:tr>                      
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.contract.form.custnm" width="300px"  labelClazz="required">
+                            <ax:td label="ax.admin.BM0301F0.custnm" width="300px"  labelClazz="required">
                            		<div class="input-group">
 	                        		<input type="text" data-ax-path="custId" data-key="true" class="form-control W70" readonly="readonly">
 	                        		<input type="text" data-ax-path="custNm" data-key="true" class="form-control W70" readonly="readonly">
@@ -84,7 +84,7 @@
 	                            	</button>
 	                        	</div>
                             </ax:td>
-                            <ax:td label="ax.admin.contract.form.confd" width="300px">
+                            <ax:td label="ax.admin.BM0301F0.confd" width="300px">
                             	<div class="input-group" data-ax5picker="date">
 	                            	<input type="text" class="form-control" data-ax-path="conFstDate" data-ax5formatter="date" placeholder="yyyy/mm/dd" />
 	                            	<span class="input-group-addon"><i class="cqc-calendar"></i></span>
@@ -96,7 +96,7 @@
                         
  <!-- 12월26일 -->                     
                       <ax:tr>
-                         <ax:td label='ax.admin.contract.form.consd' width="300px" labelClazz="required">
+                         <ax:td label='ax.admin.BM0301F0.consd' width="300px" labelClazz="required">
 
                             <div class="input-group" data-ax5picker="date">
                                 <input type="text" class="form-control" data-ax-path="conStDate" title="<ax:lang id="ax.admin.contract.form.consd"/>" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-validate="required"/>
@@ -105,7 +105,7 @@
 
                         </ax:td>
                         
-                        <ax:td label='ax.admin.contract.form.coned' width="300px" labelClazz="required"> 
+                        <ax:td label='ax.admin.BM0301F0.coned' width="300px" labelClazz="required"> 
 
                             <div class="input-group" data-ax5picker="date">
                                 <input type="text" class="form-control" data-ax-path="conEdDate" title="<ax:lang id="ax.admin.contract.form.coned"/>" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-validate="required"/>
@@ -121,10 +121,10 @@
  <!-- 12월26일 -->                     	
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.contract.form.suppamt" width="300px">
+                            <ax:td label="ax.admin.BM0301F0.suppamt" width="300px">
                             	<input type="text" data-ax-path="suppAmt" class="form-control" data-ax5formatter="money"/>
                             </ax:td>
-                            <ax:td label="ax.admin.contract.form.vatamt" width="300px">
+                            <ax:td label="ax.admin.BM0301F0.vatamt" width="300px">
                             	<input type="text" data-ax-path="vatAmt" class="form-control" data-ax5formatter="money"/>
                             </ax:td>
                        	</ax:tr>
@@ -137,7 +137,7 @@
                        	</ax:tr>
                        	 --%>
                        	<ax:tr>
-                       		<ax:td label="ax.admin.contract.form.remark" width="100%">
+                       		<ax:td label="ax.admin.BM0301F0.remark" width="100%">
                             	<input type="text" data-ax-path="remark" class="form-control"/>
                             </ax:td>
                        	</ax:tr>

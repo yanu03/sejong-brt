@@ -13,7 +13,7 @@
     		ON C.CUST_ID = CU.CUST_ID
     	<where>
 	    	<if test="value != null">
-				CON_NO LIKE CONCAT('%', #{value}, '%')
+				CON_ID LIKE CONCAT('%', #{value}, '%')
 				OR CON_NM LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     	</where>
@@ -36,6 +36,10 @@
     		, CUST_ID				
     		, REMARK			
     		, CON_NO
+    		, CREATED_AT
+    		, CREATED_BY
+    		, UPDATED_AT
+    		, UPDATED_BY
     		)
     					
    		VALUES( 		
@@ -50,6 +54,10 @@
    			, #{custId}
    			, #{remark}
    			, #{conNo}
+   			, #{createdAt}
+   			, #{createdBy}
+   			, #{updatedAt}
+   			, #{updatedBy}
    			
    		)
     </insert>
@@ -67,6 +75,8 @@
     		, CUST_ID			=	#{custId}
     		, REMARK			=	#{remark}
     		, CON_NO			=	#{conNo}
+    		, UPDATED_AT		=	#{updatedAt}
+    		, UPDATED_BY		=	#{updatedBy}
     	
     	WHERE
     		CON_ID = #{conId}
@@ -86,6 +96,8 @@
     		, CUST_ID			=	#{custId}
     		, REMARK			=	#{remark}
     		, CON_NO			=	#{conNo}
+    		, UPDATED_AT		=	#{updatedAt}
+    		, UPDATED_BY		=	#{updatedBy}
     	
     	WHERE
     		CON_ID = #{conId}

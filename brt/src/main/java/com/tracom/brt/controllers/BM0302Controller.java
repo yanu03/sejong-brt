@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.tracom.brt.domain.BM0301.ContractInfoVO;
 import com.tracom.brt.domain.BM0302.AltContractInfoVO;
 //import com.tracom.brt.domain.BM0302.BM0302;
 import com.tracom.brt.domain.BM0302.BM0302Service;
+import com.tracom.brt.domain.SM0105.CommonCodeDetailInfoVO;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
 
@@ -25,23 +25,37 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1")
 public class BM0302Controller extends BaseController {
-
-    @Inject
-    private BM0302Service service;
-
-    @GetMapping("/BM0302G0S0")
+	
+	@Inject
+	private BM0302Service service;
+	
+	@GetMapping("/BM0302G0S0")
+    @ApiImplicitParams({
+    	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
+    })
+    public Responses.ListResponse leftList(RequestParams<AltContractInfoVO> requestParams) {
+        List<AltContractInfoVO> list = service.BM0302G0S0(requestParams);
+        return Responses.ListResponse.of(list);
+    }
+	
+    @GetMapping("/BM0302G1S0")
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
     })
     public Responses.ListResponse list(RequestParams<AltContractInfoVO> requestParams) {
-        List<AltContractInfoVO> list = service.BM0302G0S0(requestParams);
+        List<AltContractInfoVO> list = service.BM0302G1S0(requestParams);
         return Responses.ListResponse.of(list);
+    }
+    
+    @PostMapping("/BM0302F0S0")
+    public ApiResponse SM0105F0S0(@RequestBody AltContractInfoVO request) {
+    	boolean duplicateSeq = service.BM0302F0S0(request);
+    	return ok(Boolean.toString(duplicateSeq));
     }
 
     @PostMapping("/BM0302F0I0")
     public ApiResponse save(@RequestBody AltContractInfoVO request) {
         String conId = service.BM0302F0I0(request);
-       
         return ok(conId);
     }
     
