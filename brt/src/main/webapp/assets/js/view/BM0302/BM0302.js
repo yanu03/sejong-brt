@@ -3,12 +3,12 @@ var fnObj = {}, CODE = {};
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
-var a;
+selectedRowG1 = null;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
-    PAGE_SEARCH: function (caller, act, data) {
+	PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
@@ -26,14 +26,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                caller.formView0.disable();
                 } else {
                 	caller.formView0.enable();
-                	if(dataFlag) {
-	                	caller.gridView0.selectIdRow(data);
+	                if(selectedRow != null) {
+	                	caller.gridView0.selectRow(selectedRow.__index);
 	                } else {
-		                if(selectedRow != null) {
-		                	caller.gridView0.selectRow(selectedRow.__index);
-		                } else {
-		                	caller.gridView0.selectFirstRow();
-		                }
+	                	caller.gridView0.selectFirstRow();
 	                }
                 }
             }
@@ -43,15 +39,27 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	if(selectedRow != null){   		
+    		caller.gridView1.target.exportExcel(selectedRow.conId + "data.xls");
+    	}else {
+    		alert("계약 항목을 선택해주세요");
+    	}
     },
     
     PAGE_NEW: function (caller, act, data) {
-    	isUpdate = false;
-    	caller.gridView0.selectAll(false);
+    	isUpdate = false;    	
+    	var formData = caller.formView0.getData();
+        formData["altDiv"] = selectedRow.altDiv;
+        
+        if(formData["altDiv"] == "종료"){
+        	alert("종료된 계약은 추가하실수 없습니다.");
+        }else{
+    	
+    	caller.gridView1.selectAll(false);
         caller.formView0.clear();
         caller.formView0.enable();
         caller.formView0.validate(true);
+        }
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -73,8 +81,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0301G0D0",
-	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+	                    url: "/api/v1/BM0302G0D0",
+	                    data: JSON.stringify({conId : selectedRow.conId , seq : selectedRowG1.seq}),
 	                    callback: function (res) {
 	                        ok(res);
 	                    }
@@ -99,18 +107,39 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SAVE: function (caller, act, data) {
+
     	 if (caller.formView0.validate()) {
+    		
              var formData = caller.formView0.getData();
+             formData["conId"] = selectedRow.conId;
+
+             console.log(formData["conId"]);
+            
              axboot.promise()
+             	.then(function (ok, fail, data) {
+	                axboot.ajax({
+	                    type: "POST",
+	                    url: "/api/v1/BM0302F0S0",
+	                    data: JSON.stringify(formData),
+	                    callback: function (res) {
+	                        ok(res);
+	                        console.log("서치");
+	                    }
+	                });
+	            })          
                  .then(function (ok, fail, data) {
-                     axboot.ajax({
-                         type: "POST",
-                         url: "/api/v1/BM0301F0I0",
-                         data: JSON.stringify(formData),
-                         callback: function (res) {
-                             ok(res);
-                         }
-                     });
+                	 if(data.message == "true"){
+                	  axboot.promise()
+                	  .then(function(ok, fail , data) {
+                		  axboot.ajax({
+                			  type: "POST",
+                			  url: "/api/v1/BM0302F0I0",
+                			  data: JSON.stringify(formData),
+                			  callback: function (res) {
+                				  ok(res);
+                				  console.log("insert");
+                			  }
+                		  });
                  })
                  .then(function (ok, fail, data) {
              		axToast.push(LANG("onadd"));
@@ -119,39 +148,59 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                  })
                  .catch(function () {
 
-                 });
+                 	});
+                 }else{
+                	
+                 	}
+                 })
+                 .catch(function() {
+					
+				});
          }
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-        if (caller.formView0.validate()) {
-            var formData = caller.formView0.getData();
-
-            axboot.promise()
-                .then(function (ok, fail, data) {
-                    axboot.ajax({
-                    	type: "POST",
-                        url: "/api/v1/BM0301F0U0",
-                        data: JSON.stringify(formData),
-                        callback: function (res) {
-                            ok(res);
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onupdate"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-        }
+    	isUpdate = false;   	
+    	var confirmYn = $('#confirmYn').val();
+ 	
+    		if(confirmYn == "N"){
+    				console.log("N");
+    			if (caller.formView0.validate()) {
+    				var formData = caller.formView0.getData();
+    				
+    				console.log(formData);
+    				
+    				axboot.promise()
+    				.then(function (ok, fail, data) {
+    					axboot.ajax({
+    						type: "POST",
+    						url: "/api/v1/BM0302F0U0",
+    						data: JSON.stringify(formData),
+    						callback: function (res) {
+    							ok(res);
+    						}
+    					});
+    				})
+    				.then(function (ok, fail, data) {
+    					axToast.push(LANG("onupdate"));
+    					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    					isUpdate = true;
+    				})
+    				.catch(function () {
+    					
+    				});
+    			}
+    		}else{
+    			axDialog.alert({
+	                msg: LANG("ax.script.contractupdate")
+	            });
+    		}  	
     },
     
     //////////////////////////////// 확정
     
     PAGE_CONFIRMYN : function (caller, act, data) {
-    	isUpdate = false;
+    	isUpdate = false; 
     	var confirmYn = $('#confirmYn').val();
     	
     	axDialog.confirm({
@@ -160,7 +209,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		if(this.key == "ok"){
     			
     			if(confirmYn == "N"){
-    				console.log("N이지롱");
+    				//console.log("N이지롱");
     				if (caller.formView0.validate()) {
     					var formData = caller.formView0.getData();
     					
@@ -168,7 +217,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     					.then(function (ok, fail, data) {
     						axboot.ajax({
     							type: "POST",
-    							url: "/api/v1/BM0301F0U1",
+    							url: "/api/v1/BM0302F0U1",
     							data: JSON.stringify(formData),
     							callback: function (res) {
     								ok(res);
@@ -178,13 +227,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     					.then(function (ok, fail, data) {
     						axToast.push(LANG("onupdate"));
     						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    						isUpdate = true;
     					})
     					.catch(function () {
     						
     					});
     				}
     			}else {
-    				console.log("Y지롱");
+    				//console.log("Y지롱");
     				axDialog.alert({
     	                msg: LANG("ax.script.confirmres")
     	            });
@@ -202,10 +252,49 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
     
+    // gridView0항목 클릭 이벤트
     ITEM_CLICK: function (caller, act, data) {
-    	isUpdate = true;
     	selectedRow = data;
-        caller.formView0.setData(data);
+    	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
+    },
+    
+ // gridView1 항목 클릭 이벤트
+    ITEM_CLICK_G1: function(caller, act, data) {
+    	isUpdate = true;
+    	selectedRowG1 = data;
+    	caller.formView0.setData(data);
+    	caller.formView0.enable();
+    },
+    
+    RELOAD_G1: function(caller, act, data) {
+    	var dataFlag = typeof data !== "undefined";
+    	
+    	axboot.ajax({
+            type: "GET",
+            url: "/api/v1/BM0302G1S0",
+            data: {conId: selectedRow.conId},
+            callback: function (res) {
+                caller.gridView1.setData(res);
+                
+                console.log("리로드쪽"+data);
+                
+                if(res.list.length == 0) {
+                	isUpdate = false;
+	                caller.formView0.clear();
+                	caller.formView0.disable();
+                } else {
+                	if(dataFlag) {
+	                	caller.gridView1.selectIdRow(data);
+	                } else {
+		                if(selectedRowG1 != null) {
+		                	caller.gridView1.selectRow(selectedRowG1.__index);
+		                } else {
+		                	caller.gridView1.selectFirstRow();
+		                }
+	                }
+                }
+            }
+        });
     }
 });
 /********************************************************************************************************************/
@@ -217,6 +306,7 @@ fnObj.pageStart = function () {
     this.pageButtonView.initView();
     this.searchView0.initView();
     this.gridView0.initView();
+    this.gridView1.initView();
     this.formView0.initView();
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
@@ -247,10 +337,11 @@ fnObj.pageButtonView = axboot.viewExtend({
             	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
             },
             "save": function () {
-            	console.log("save");
             	if(isUpdate) {
+            		console.log("업데이트");
             		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
             	} else {
+            		console.log("세이브");
             		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             	}
             },
@@ -278,12 +369,11 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
         
     },
     getData: function () {
-        return {
-            filter: this.filter.val()
-        }
-    },
-    clear: function() {
-    	this.filter.val("");
+    	 return {
+             pageNumber: this.pageNumber,
+             pageSize: this.pageSize,
+             filter: this.filter.val()
+         }
     }
 });
 
@@ -302,30 +392,25 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
-            columns: [
-            	
-            	{key: "conNo", label: "계약번호", width: 80},
-                {key: "conId", label: "계약ID", width: 80},
-                {key: "conNm", label: "계약명", width: 80},
-                {key: "conFstDate", label: "최초계약일", width: 120},
-                {key: "conStDate", label: "계약시작일", width: 120},
-                {key: "conEdDate", label: "계약종료일", width: 120},
-                {key: "confirmYn", label: "확정여부", width: 70},
-                {key: "suppAmt", label: "공급가액", width: 120},
-                {key: "vatAmt", label: "부가세", width: 70},
-                {key: "custId", label: "거래처ID", width: 120},
-                {key: "remark", label: "비고", width: 70},
-            ],
+
+            
+            	 columns: [         		
+                 	
+            		{key: "altDiv", label: "계약상태", width: 80},
+                 	//{key: "conNo", label: "계약번호", width: 80},
+                    {key: "conId", label: "계약ID", width: 80},
+                    {key: "conNm", label: "계약명", width: 80},              
+                    {key: "suppAmt", label: "공급가액", width: 120},
+                    {key: "vatAmt", label: "부가세", width: 70},
+                    {key: "remark", label: "비고", width: 200},
+                 ],
+            
             body: {
                 onClick: function () {
                     this.self.select(this.dindex);
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
                 }
             },
-            onPageChange: function (pageNumber) {
-                _this.setPageData({pageNumber: pageNumber});
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-            }
         });
     },
     getData: function (_type) {
@@ -378,7 +463,110 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].corpId == id) {
+    		if(this.target.list[i].conId == id) {
+    			this.selectRow(i);
+    			break;
+    		}
+    	}
+    	
+    	if(i == length) {
+    		isUpdate = false;
+    		fnObj.formView0.clear();
+    		fnObj.formView0.disable();
+    	}
+    },
+    selectAll: function(flag) {
+    	this.target.selectAll({selected: flag});
+    }
+});
+
+/**
+ * gridView1
+ */
+fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
+    page: {
+        pageNumber: 0,
+        pageSize: 10
+    },
+    initView: function () {
+        var _this = this;
+
+        this.target = axboot.gridBuilder({
+        	frozenColumnIndex: 0,
+            sortable: true,
+            target: $('[data-ax5grid="gridView1"]'),
+            columns: [
+            	{key: "confirmYn", label: ADMIN("ax.admin.BM0301F0.confirmyn"), width: 80},
+            	{key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"), width: 80},
+                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 80},
+                //{key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), width: 80},
+                {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), width: 150},
+                {key: "conStDate", label: ADMIN("ax.admin.BM0302F0.altsd"), width: 150},
+                {key: "conEdDate", label: ADMIN("ax.admin.BM0302F0.alted"), width: 80},
+                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 150},
+                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 150},
+                {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
+            ],
+            body: {
+                onClick: function () {
+                    this.self.select(this.dindex);
+                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
+                }
+            },
+        });
+    },
+    getData: function (_type) {
+        var list = [];
+        var _list = this.target.getList(_type);
+
+        if (_type == "modified" || _type == "deleted") {
+            list = ax5.util.filter(_list, function () {
+                delete this.deleted;
+                return this.key;
+            });
+        } else {
+            list = _list;
+        }
+        return list;
+    },
+    addRow: function (data) {
+    	if(typeof data === "undefined") {
+    		this.target.addRow({__created__: true}, "last");
+    	} else {
+    		data["__created__"] = true;
+            this.target.addRow(data, "last");
+    	}
+    },
+    selectFirstRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(0);
+    	} else {
+    		isUpdate = false;
+    	}
+    },
+    selectLastRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(this.target.list.length - 1);
+    	} else {
+    		isUpdate = false;
+    	}
+    },
+    selectRow: function(index) {
+    	isUpdate = true;
+    	var data = this.target.list[index];
+    	
+    	if(typeof data === "undefined") {
+    		this.selectLastRow();
+    	} else {
+    		this.target.select(index);
+        	ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, data);
+    	}
+    },
+    selectIdRow: function(id) {
+    	var i;
+    	var length = this.target.list.length;
+    	for(i = 0; i < length; i++) {
+    		if(this.target.list[i].seq == id) {
     			this.selectRow(i);
     			break;
     		}
@@ -416,14 +604,14 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
             }
         });
 
-        axboot.buttonClick(this, "data-form-view-01-btn", {
-            "form-clear": function () {
-                ACTIONS.dispatch(ACTIONS.FORM_CLEAR);
+        axboot.buttonClick(this, "data-form-view-0-btn", {
+            "selectBM0102": function() {
+            	ACTIONS.dispatch(ACTIONS.OPEN_BM0102_MODAL);
             }
         });
     },
     initEvent: function () {
-        
+        var _this = this;
     },
     
     getData: function () {

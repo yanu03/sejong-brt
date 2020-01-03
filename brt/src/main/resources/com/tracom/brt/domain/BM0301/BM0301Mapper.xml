@@ -13,7 +13,7 @@
     		ON C.CUST_ID = CU.CUST_ID
     	<where>
 	    	<if test="value != null">
-				CON_NO LIKE CONCAT('%', #{value}, '%')
+				CON_ID LIKE CONCAT('%', #{value}, '%')
 				OR CON_NM LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     	</where>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0303.BM0303Mapper">
+
+	<select id="BM0303G1S0" parameterType="String" resultType="contractViewVO">
+    	SELECT
+    	  	  C.CON_ID
+    	  	, AT.CON_ID
+    	  	, AT.SEQ
+    	  	, AT.ALT_DIV
+    	  	, AT.ALT_CON_DATE
+    	  	, AT.CON_ST_DATE
+    	  	, AT.CON_ED_DATE
+    	  	, AT.SUPP_AMT
+    	  	, AT.VAT_AMT
+    	  	, AT.REMARK
+    	  	, AT.CONFIRM_YN
+    	  	, AT.CON_NO
+    	  	, CU.CUST_NM
+    	FROM
+    		BM_CON_INFO C
+    		LEFT OUTER JOIN BM_CON_ALT AT
+    		ON C.CON_ID = AT.CON_ID
+    		LEFT OUTER JOIN BM_CUST_INFO CU
+    		ON C.CUST_ID = CU.CUST_ID
+    	WHERE
+    		C.CON_ID = #{value}
+    </select>
+    
+</mapper>

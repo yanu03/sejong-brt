@@ -3,46 +3,112 @@
 
 <mapper namespace="com.tracom.brt.domain.BM0302.BM0302Mapper">
 
+    <select id="BM0302G1S0" parameterType="String" resultType="altContractInfoVO">
+    	SELECT
+    	  	  C.CON_ID
+    	  	, AT.CON_ID
+    	  	, AT.SEQ
+    	  	, AT.ALT_DIV
+    	  	, AT.ALT_CON_DATE
+    	  	, AT.CON_ST_DATE
+    	  	, AT.CON_ED_DATE
+    	  	, AT.SUPP_AMT
+    	  	, AT.VAT_AMT
+    	  	, AT.REMARK
+    	  	, AT.CONFIRM_YN
+    	  	, AT.CON_NO
+    	  	, CU.CUST_NM
+    	FROM
+    		BM_CON_INFO C
+    		LEFT OUTER JOIN BM_CON_ALT AT
+    		ON C.CON_ID = AT.CON_ID
+    		LEFT OUTER JOIN BM_CUST_INFO CU
+    		ON C.CUST_ID = CU.CUST_ID
+    	WHERE
+    		C.CON_ID = #{value}
+    </select>
+    
     <select id="BM0302G0S0" parameterType="String" resultType="altContractInfoVO">
+	SELECT
+		*
+	FROM
+		(SELECT
+		  C.CON_ID
+		, C.CON_NO AS CN
+		, C.CON_NM 
+		, C.CON_FST_DATE
+		, C.CUST_ID
+		, AT.SEQ
+		, AT.ALT_DIV
+		, AT.ALT_CON_DATE
+		, AT.CON_ST_DATE
+		, AT.CON_ED_DATE
+		, AT.SUPP_AMT
+		, AT.VAT_AMT
+		, AT.REMARK
+		, AT.CONFIRM_YN
+		, AT.CON_NO
+		, AT.CREATED_AT
+		, AT.CREATED_BY
+		, AT.UPDATED_AT
+		, AT.UPDATED_BY
+	
+		FROM
+		   BM_CON_INFO C
+		   LEFT OUTER JOIN BM_CON_ALT AT
+		   ON C.CON_ID = AT.CON_ID
+		<where>
+		    C.CONFIRM_YN = "Y"
+			<if test="value != null">
+			AND			
+				(C.CON_ID LIKE CONCAT('%', #{value}, '%')
+				OR AT.ALT_DIV LIKE CONCAT('%', #{value}, '%'))
+	    	</if>
+		GROUP BY C.CON_ID, AT.SEQ DESC) AS A
+	GROUP BY CON_ID
+		</where>
+	
+	
+    </select>
+    
+     <select id="BM0302F0S0" parameterType="String" resultType="altContractInfoVO">
     	SELECT
     		*
     	FROM
-    		BM_CON_INFO
-    	<where>
-	    	<if test="value != null">
-				CON_NO LIKE CONCAT('%', #{value}, '%')
-				OR CON_NM LIKE CONCAT('%', #{value}, '%')
-	    	</if>
-    	</where>
+    		BM_CON_ALT
+    	WHERE
+    		SEQ = #{value}
     </select>
 
     <insert id="BM0302F0I0" parameterType="altContractInfoVO">
-    	<selectKey keyProperty="conId" resultType="String" order="BEFORE">
-    		SELECT CONCAT('CN', LPAD(NEXTVAL(SEQ_BM_CON_INFO_0), 5, '0'))
+    	<selectKey keyProperty="seq" resultType="String" order="BEFORE">
+    		SELECT NEXTVAL(SEQ_BM_CON_ALT_0)
     	</selectKey>
-    
+    	
     	INSERT INTO BM_CON_ALT(
 			  CON_ID
     		, SEQ
     		, ALT_DIV
+    		, CON_NM
     		, ALT_CON_DATE			
     		, CON_ST_DATE			
     		, CON_ED_DATE
     		, SUPP_AMT			
     		, VAT_AMT				
     		, REMARK				
-    		, CONFIRM_YM			
+    		, CONFIRM_YN			
     		, CON_NO
     		, CREATED_AT
     		, CREATED_BY
     		, UPDATED_AT
-    		, UPDATED_BY   		
+    		, UPDATED_BY  		
     		)
     					
    		VALUES( 		
    			  #{conId}
    			, #{seq}
    			, #{altDiv}
+   			, #{conNm}
    			, #{altConDate}
    			, #{conStDate}
    			, #{conEdDate}
@@ -59,52 +125,48 @@
     </insert>
     
     <update id="BM0302F0U0" parameterType="altContractInfoVO">
-    	UPDATE BM_CON_INFO
+    	UPDATE BM_CON_ALT
     	SET
-    		  CON_ID			=	#{conId}
-    		, SEQ				=	#{seq}
-    		, ALT_DIV			=	#{altDiv}
+    	
+    		  ALT_DIV			=	#{altDiv}
     		, ALT_CON_DATE		=	#{altConDate}
     		, CON_ST_DATE		=	#{conStDate}
     		, CON_ED_DATE		=	#{conEdDate}
     		, SUPP_AMT			=	#{suppAmt}
     		, VAT_AMT			=	#{vatAmt}
     		, REMARK			=	#{remark}
-    		, CONFIRM_YM        =   #{confirmYn}
+    		, CONFIRM_YN        =   #{confirmYn}
     		, CON_NO			=	#{conNo}
     		, UPDATED_AT		=	#{updatedAt}
     		, UPDATED_BY		=	#{updatedBy}
     		
     	WHERE
-    		CON_ID = #{conId}
+    		SEQ = #{seq}
     </update>
     
     <update id="BM0302F0U1" parameterType="altContractInfoVO">
-    	UPDATE BM_CON_INFO
+    	UPDATE BM_CON_ALT
     	SET
-    		  CON_ID			=	#{conId}
-    		, SEQ				=	#{seq}
-    		, ALT_DIV			=	#{altDiv}
+    		  ALT_DIV			=	#{altDiv}
     		, ALT_CON_DATE		=	#{altConDate}
     		, CON_ST_DATE		=	#{conStDate}
     		, CON_ED_DATE		=	#{conEdDate}
     		, SUPP_AMT			=	#{suppAmt}
     		, VAT_AMT			=	#{vatAmt}
     		, REMARK			=	#{remark}
-    		, CONFIRM_YM        =   "Y"
+    		, CONFIRM_YN        =   "Y"
     		, CON_NO			=	#{conNo}
     		, UPDATED_AT		=	#{updatedAt}
     		, UPDATED_BY		=	#{updatedBy}
     		
     	WHERE
-    		CON_ID = #{conId}
+    		SEQ = #{seq}
     </update>
     
     <delete id="BM0302G0D0" parameterType="altContractInfoVO">
     	DELETE
     		FROM BM_CON_ALT
     	WHERE
-    		CON_ID = #{conId},
     		SEQ = #{seq}
     </delete>
 </mapper>

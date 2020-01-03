@@ -2,6 +2,9 @@ package com.tracom.brt.domain.BM0302;
 
 import org.springframework.stereotype.Service;
 import com.tracom.brt.domain.BaseService;
+import com.tracom.brt.domain.BM0108.EplyInfoVO;
+import com.tracom.brt.domain.SM0105.CommonCodeDetailInfoVO;
+
 import javax.inject.Inject;
 import com.chequer.axboot.core.parameter.RequestParams;
 import java.util.List;
@@ -11,12 +14,26 @@ public class BM0302Service extends BaseService<AltContractInfoVO, String> {
 	
 	@Inject
     private BM0302Mapper mapper;
-
+	
+	//Select
     public List<AltContractInfoVO> BM0302G0S0(RequestParams<AltContractInfoVO> requestParams) {
         return mapper.BM0302G0S0(requestParams.getString("filter"));
     }
+
+    public List<AltContractInfoVO> BM0302G1S0(RequestParams<AltContractInfoVO> requestParams) {
+        return mapper.BM0302G1S0(requestParams.getString("conId"));
+    }
+    
+    public boolean BM0302F0S0(AltContractInfoVO vo) {
+		if(mapper.BM0302F0S0(vo.getSeq()) == null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
     
     public String BM0302F0I0(AltContractInfoVO vo) {
+    	System.out.println("뭘까?");
     	mapper.BM0302F0I0(vo);
     	return vo.getConId();
 		
