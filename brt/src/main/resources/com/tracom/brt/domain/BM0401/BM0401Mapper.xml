@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0401.BM0401Mapper">
+
+    <select id="BM0401G0S0" parameterType="String" resultType="voiceInfoVO">
+    	SELECT
+    		*
+    	FROM
+    		BM_VOC_INFO
+    	WHERE
+    		VOC_DIV = 'BSVOC'
+	    	<if test="value != null">
+				AND VOC_ID LIKE CONCAT('%', #{value}, '%')
+				OR VOC_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    </select>
+    
+    <insert id="BM0401F0I0" parameterType="voiceInfoVO">
+    	<selectKey keyProperty="vocId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('BV', LPAD(NEXTVAL(SEQ_BM_BS_VOC_INFO_0), 5, '0'))
+    	</selectKey>
+    	
+    	INSERT INTO BM_VOC_INFO(
+    		  VOC_ID
+    		, VOC_NM
+    		, PLAY_ST_DATE
+    		, PLAY_TYPE
+    		, KR_TTS
+    		, EN_TTS
+    		, SCR_TXT
+    		, REMARK
+    		, PLAY_TM
+    		, VOC_DIV
+    		, CON_ID
+    		, DRV_EVT
+    		, PLAY_ED_DATE
+    		, ATT_FILE
+    		, CREATED_AT
+    		, CREATED_BY
+    		, UPDATED_AT
+    		, UPDATED_BY)
+   		VALUES(
+   			  #{vocId}
+   			, #{vocNm}
+   			, #{playStDate}
+   			, #{playType}
+   			, #{krTts}
+   			, #{enTts}
+   			, #{scrTxt}
+   			, #{remark}
+   			, #{playTm}
+   			, #{playEdDate}
+   			, #{attFile}
+   			, #{createdAt}
+   			, #{createdBy}
+   			, #{updatedAt}
+   			, #{updatedBy}
+   		)
+    </insert>
+    
+    <update id="BM0401F0U0" parameterType="voiceInfoVO">
+    	UPDATE BM_VOC_INFO
+    	SET
+    		  VOC_NM		=	#{vocNm}
+    		, PLAY_ST_DATE	=	#{playStDate}
+    		, PLAY_TYPE		=	#{playType}
+    		, KR_TTS		=	#{krTts}
+    		, EN_TTS		=	#{enTts}
+    		, SCR_TXT		=	#{scrTxt}
+    		, REMARK		=	#{remark}
+    		, PLAY_TM		=	#{playTm}
+    		, PLAY_ED_DATE	=	#{playEdDate}
+    		, ATT_FILE		=	#{attFile}
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		VOC_ID = #{vocId}
+    </update>
+    
+    <delete id="BM0401G0D0" parameterType="voiceInfoVO">
+    	DELETE
+    		FROM BM_VOC_INFO
+    	WHERE
+    		CO_CD = #{coCd}
+    		AND DL_CD = #{dlCd}
+    </delete>
+</mapper>

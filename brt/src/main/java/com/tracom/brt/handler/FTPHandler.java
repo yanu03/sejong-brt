@@ -35,10 +35,10 @@ public class FTPHandler {
 	@Value("${sftp.local.directory}")
     private String ROOT_LOCAL_PATH;
     
-	public File ROOT_LOCAL_DIRECTORY;
+	private File ROOT_LOCAL_DIRECTORY;
 	
-	public ArrayList<String> serverContentList;
-	public ArrayList<String> pathList;
+	private ArrayList<String> serverContentList;
+	private ArrayList<String> pathList;
 	
 	// 승무사원 관리 승무사원 사진 업로드
 	public void uploadBM0108(String id, MultipartFile file) {
@@ -48,8 +48,6 @@ public class FTPHandler {
 		
 		File saveFile = Paths.get(dir1, fileName).toFile();
 		try {
-			setServerDirectory();
-			
 			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
 			
 			File[] fileList = Paths.get(dir2).toFile().listFiles();
@@ -60,14 +58,21 @@ public class FTPHandler {
 				}
 			}
 			
-			synchronize(ROOT_LOCAL_DIRECTORY, ROOT_SERVER_PATH);
+			processSynchronize();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	
+	private void processSynchronize() throws Exception {
+		setServerDirectory();
+		synchronize(ROOT_LOCAL_DIRECTORY, ROOT_SERVER_PATH);
+	}
+	
+	/************************************************************************ FTP 공통 모듈 *****************************************************************************************/
 	// 초기 디렉토리 셋팅
-	public void setServerDirectory() throws SftpException {
+	private void setServerDirectory() throws SftpException {
 		try{
 			sftpChannel.cd(ROOT_SERVER_PATH);
 		}catch(Exception e){
@@ -120,7 +125,7 @@ public class FTPHandler {
 	 * FTP synchronization 
 	 */
 	@SuppressWarnings("unchecked")
-	public void synchronize(File localFolder, String serverDir) throws SftpException, FileNotFoundException{
+	private void synchronize(File localFolder, String serverDir) throws SftpException, FileNotFoundException{
 		if(sftpChannel.pwd() != serverDir){
 			sftpChannel.cd(serverDir);
 		}
@@ -219,7 +224,7 @@ public class FTPHandler {
 	/*
 	 * FTP 서버에 파일이 있는지 검사 후 없으면 생성 있으면 수정 날짜 비교 후 덮어쓰기
 	 */
-	public void checkFile(File file, String path) throws SftpException, FileNotFoundException{
+	private void checkFile(File file, String path) throws SftpException, FileNotFoundException{
 		sftpChannel.cd(path);
 		
 		if(!serverContentList.contains(file.getName())){
@@ -248,7 +253,7 @@ public class FTPHandler {
 	/*
 	 * 해당 경로의 폴더가 있는지 검사
 	 */
-	public boolean checkFolder(File folder, String path) throws SftpException{
+	private boolean checkFolder(File folder, String path) throws SftpException{
 		sftpChannel.cd(path);
 		
 		if(serverContentList.contains(folder.getName())){
@@ -257,4 +262,5 @@ public class FTPHandler {
 			return false;
 		}
 	}
+	/*************************************************************************************************************************************************************************************/
 }
