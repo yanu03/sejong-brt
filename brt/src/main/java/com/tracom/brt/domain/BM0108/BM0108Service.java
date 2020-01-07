@@ -8,12 +8,16 @@ import org.springframework.stereotype.Service;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
+import com.tracom.brt.handler.FTPHandler;
  
 @Service
 public class BM0108Service extends BaseService<EplyInfoVO, String> {
 
 	@Inject
 	private BM0108Mapper mapper;
+	
+	@Inject
+	private FTPHandler handler;
 	
 	//Select
     public List<EplyInfoVO> BM0108G0S0(RequestParams<EplyInfoVO> requestParams) {
@@ -23,12 +27,14 @@ public class BM0108Service extends BaseService<EplyInfoVO, String> {
     //Insert
     public String BM0108F0I0(EplyInfoVO vo) {
     	mapper.BM0108F0I0(vo);
+    	handler.uploadBM0108(vo.getEplyId(), vo.getImgFile());
     	return vo.getEplyId();
     }
     
     //Update
     public boolean BM0108F0U0(EplyInfoVO vo) {
     	if(mapper.BM0108F0U0(vo) > 0) {
+    		handler.uploadBM0108(vo.getEplyId(), vo.getImgFile());
     		return true;
     	} else {
     		return false;
