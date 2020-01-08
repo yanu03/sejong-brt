@@ -13,6 +13,14 @@
     
         <button type="button" class="btn btn-default" data-page-btn="reload" onclick="window.location.reload();"><i class="cqc-cw"></i></button>
         
+        <c:if test="${authGroupMenu.fn4Ah eq 'Y'}">
+            <button type="button" class="btn btn-info" data-page-btn="reservation"><%=MessageUtils.getMessage(request, "ax.admin.reservation")%></button>
+        </c:if>
+
+        <c:if test="${authGroupMenu.fn5Ah eq 'Y'}">
+            <button type="button" class="btn btn-info" data-page-btn="now"><%=MessageUtils.getMessage(request, "ax.admin.now")%></button>
+        </c:if>
+        
         <c:if test="${authGroupMenu.exlAh eq 'Y'}">
             <button type="button" class="btn btn-info" data-page-btn="excel"><i class="cqc-file-excel-o"></i> <%=MessageUtils.getMessage(request, "ax.admin.excel")%></button>
         </c:if>
@@ -39,14 +47,6 @@
 
         <c:if test="${authGroupMenu.fn3Ah eq 'Y'}">
             <button type="button" class="btn btn-info" data-page-btn="confirmyn"><i class="cqc-check"></i> <%=MessageUtils.getMessage(request, "ax.admin.confirmyn")%></button>
-        </c:if>
-
-        <c:if test="${authGroupMenu.fn4Ah eq 'Y'}">
-            <button type="button" class="btn btn-info" data-page-btn="fn4">${function4Label}</button>
-        </c:if>
-
-        <c:if test="${authGroupMenu.fn5Ah eq 'Y'}">
-            <button type="button" class="btn btn-info" data-page-btn="fn5">${function5Label}</button>
         </c:if>
 
         <jsp:doBody/>

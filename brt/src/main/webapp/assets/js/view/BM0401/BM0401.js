@@ -15,7 +15,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0101G0S0",
+            url: "/api/v1/BM0401G0S0",
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);
@@ -159,6 +159,25 @@ fnObj.pageStart = function () {
     this.gridView0.initView();
     this.formView0.initView();
     
+    $("#jquery_jplayer_1").jPlayer({
+		ready: function (event) {
+			$(this).jPlayer("setMedia", {
+				m4a: "http://jplayer.org/audio/m4a/Miaow-07-Bubble.m4a",
+				oga: "http://jplayer.org/audio/ogg/Miaow-07-Bubble.ogg",
+				
+			});
+		},
+		swfPath: "/assets/js/jplayer",
+		supplied: "wav",
+		wmode: "window",
+		useStateClassSkin: true,
+		autoBlur: false,
+		smoothPlayBar: true,
+		keyEnabled: true,
+		remainingDuration: true,
+		toggleDuration: true
+	});
+    
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -236,17 +255,15 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "corpId", label: ADMIN("ax.admin.BM0101F0.corp.id"), width: 80},
-                {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), width: 80},
-                {key: "corpNo", label: ADMIN("ax.admin.BM0101F0.corp.no"), width: 120},
-                {key: "email", label: ADMIN("ax.admin.BM0101F0.email"), width: 120},
-                {key: "phone", label: ADMIN("ax.admin.BM0101F0.phone"), width: 120},
-                {key: "addr1", label: ADMIN("ax.admin.BM0101F0.addr1"), width: 120},
-                {key: "fax", label: ADMIN("ax.admin.BM0101F0.fax"), width: 120},
-                {key: "zipNo", label: ADMIN("ax.admin.BM0101F0.zip.no"), width: 70},
-                {key: "addr2", label: ADMIN("ax.admin.BM0101F0.addr2"), width: 120},
-                {key: "garage", label: ADMIN("ax.admin.BM0101F0.garage"), width: 70},
-                {key: "remark", label: ADMIN("ax.admin.BM0101F0.remark"), width: 70},
+                {key: "vocId", label: ADMIN("ax.admin.BM0401F0.voc.id"), width: 80},
+                {key: "vocNm", label: ADMIN("ax.admin.BM0401F0.voc.name"), width: 80},
+                {key: "playType", label: ADMIN("ax.admin.BM0401F0.play.type"), width: 120},
+                {key: "playTm", label: ADMIN("ax.admin.BM0401F0.play.time"), width: 120},
+                {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 120},
+                {key: "krTts", label: ADMIN("ax.admin.BM0401F0.kr.tts"), width: 120},
+                {key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 120},
+                {key: "scrTxt", label: ADMIN("ax.admin.BM0401F0.scr.txt"), width: 70},
+                {key: "remark", label: ADMIN("ax.admin.BM0401F0.remark"), width: 120},
             ],
             body: {
                 onClick: function () {
@@ -337,6 +354,13 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.model.setModel(this.getDefaultData(), this.target);
         this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
         this.initEvent();
+
+        this.target.find('[data-ax5picker="date"]').ax5picker({
+            direction: "auto",
+            content: {
+                type: 'date'
+            }
+        });
     },
     initEvent: function () {
         var _this = this;
