@@ -13,17 +13,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var filter = $.extend({}, caller.searchView0.getData());
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0105G0S0",
+            url: "/api/v1/BM0103G0S0",
             data: filter,
             callback: function (res) {
             	caller.gridView0.setData(res);
                 
                 if(res.list.length == 0) {
                 	isUpdate = false;
-	                //caller.formView0.clear();
-	                //caller.formView0.disable();
+	                caller.formView0.clear();
+	                caller.formView0.disable();
                 } else {
-                	//caller.formView0.enable();
+                	caller.formView0.enable();
                 	if(dataFlag) {
 	                	caller.gridView0.selectIdRow(data);
 	                } else {
@@ -46,9 +46,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;
     	caller.gridView0.selectAll(false);
-        //caller.formView0.clear();
-        //caller.formView0.enable();
-        //caller.formView0.validate(true);
+        caller.formView0.clear();
+        caller.formView0.enable();
+        caller.formView0.validate(true);
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -67,7 +67,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0105G0D0",
+	                    url: "/api/v1/BM0103G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -75,7 +75,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                });
                 })
                 .then(function (ok) {
-                	//caller.formView0.clear();
+                	caller.formView0.clear();
                 	axToast.push(LANG("ondelete"));
                     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
@@ -86,18 +86,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     },
     
-    
     PAGE_SAVE: function (caller, act, data) {
-        /*
-         * 
-    	if (caller.formView0.validate()) {
+        if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
 
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0105F0I0",
+                        url: "/api/v1/BM0103F0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -113,18 +110,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
                 });
         }
-         */
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-    	/*
-    	if (caller.formView0.validate()) {
+        if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
             axboot.promise()
                 .then(function (ok, fail, data) {
                 	axboot.ajax({
                     	type: "POST",
-                        url: "/api/v1/BM0105F0U0",
+                        url: "/api/v1/BM0103F0U0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -139,17 +134,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
                 });
         }
-        */
-    	
-        axboot.ajax({
-            type: "POST",
-            url: "/api/v1/test",
-            data: {},
-            callback: function (res) {
-            }
-        });
-        
-        
     },
     
     // 탭닫기
@@ -157,10 +141,24 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
     
-        ITEM_CLICK: function (caller, act, data) {
+    OPEN_BM0101_MODAL: function(caller, act, data) {
+    	axboot.modal.open({
+            modalType: "BM0101",
+            param: "",
+            callback: function (data) {
+            	// 운수사, 거래처 등을 선택한 후 이벤트 ex) input에 값을 넣어 주는 등의 로직을 작성하면됨
+            	caller.formView0.model.set("corpId", data.corpId);
+            	caller.formView0.model.set("corpNm", data.corpNm);
+                this.close();
+            }
+        });
+    },
+    
+    ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
     	selectedRow = data;
-    	map_marker(data.lati, data.longi);
+        caller.formView0.setData(data);
+        
     }
 });
 
@@ -173,7 +171,7 @@ fnObj.pageStart = function () {
     this.pageButtonView.initView();
     this.searchView0.initView();
     this.gridView0.initView();
-    initTmap("100%", "490px");
+    this.formView0.initView();
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -254,11 +252,20 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "staId", label: ADMIN("ax.admin.BM0105G0.staId"), width: 80},
-                {key: "staNm", label: ADMIN("ax.admin.BM0105G0.staNm"), width: 180},
-                {key: "staNo", label: ADMIN("ax.admin.BM0105G0.staNo"), width: 100},
-                {key: "lati", label: ADMIN("ax.admin.BM0105G0.lati"), width: 120},
-                {key: "longi", label: ADMIN("ax.admin.BM0105G0.longi"), width: 120},
+                //{key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), width: 80},
+                {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcId"), width: 80},
+                {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 120},
+                {key: "corpId", label: ADMIN("ax.admin.BM0103F0.corpId"), width: 120},
+                {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), width: 120},
+                {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 120},
+                {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), width: 120},
+                {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), width: 70},
+                {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), width: 120},
+                {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), width: 70},
+                {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), width: 70},
+                {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), width: 70},
+                {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 70},
+                {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), width: 70},
             ],
             body: {
                 onClick: function () {
@@ -327,8 +334,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	
     	if(i == length) {
     		isUpdate = false;
-    		//fnObj.formView0.clear();
-    		//fnObj.formView0.disable();
+    		fnObj.formView0.clear();
+    		fnObj.formView0.disable();
     	}
     },
     selectAll: function(flag) {
@@ -336,7 +343,190 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     }
 });
 
+/**
+ * gridView1
+ */
+fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
+    page: {
+        pageNumber: 0,
+        pageSize: 10
+    },
+    
+    initView: function () {
+        var _this = this;
+        
+        this.target = axboot.gridBuilder({
+        	frozenColumnIndex: 0,
+            sortable: true,
+            target: $('[data-ax5grid="gridView1"]'),
+            columns: [
+                //{key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), width: 80},
+                {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcId"), width: 80},
+                {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 120},
+                {key: "corpId", label: ADMIN("ax.admin.BM0103F0.corpId"), width: 120},
+                {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), width: 120},
+                {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 120},
+                {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), width: 120},
+                {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), width: 70},
+                {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), width: 120},
+                {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), width: 70},
+                {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), width: 70},
+                {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), width: 70},
+                {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 70},
+                {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), width: 70},
+            ],
+            body: {
+                onClick: function () {
+                    this.self.select(this.dindex);
+                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
+                }
+            },
+        });
+    },
+    getData: function (_type) {
+        var list = [];
+        var _list = this.target.getList(_type);
+
+        if (_type == "modified" || _type == "deleted") {
+            list = ax5.util.filter(_list, function () {
+                delete this.deleted;
+                return this.key;
+            });
+        } else {
+            list = _list;
+        }
+        return list;
+    },
+    addRow: function (data) {
+    	if(typeof data === "undefined") {
+    		this.target.addRow({__created__: true}, "last");
+    	} else {
+    		data["__created__"] = true;
+            this.target.addRow(data, "last");
+    	}
+    },
+    selectFirstRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(0);
+    	} else {
+    		isUpdate = false;
+    	}
+    },
+    selectLastRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(this.target.list.length - 1);
+    	} else {
+    		isUpdate = false;
+    	}
+    },
+    selectRow: function(index) {
+    	isUpdate = true;
+    	var data = this.target.list[index];
+    	
+    	if(typeof data === "undefined") {
+    		this.selectLastRow();
+    	} else {
+    		this.target.select(index);
+        	ACTIONS.dispatch(ACTIONS.ITEM_CLICK, data);
+    	}
+    },
+    selectIdRow: function(id) {
+    	var i;
+    	var length = this.target.list.length;
+    	for(i = 0; i < length; i++) {
+    		if(this.target.list[i].eplyId == id) {
+    			this.selectRow(i);
+    			break;
+    		}
+    	}
+    	
+    	if(i == length) {
+    		isUpdate = false;
+    		fnObj.formView0.clear();
+    		fnObj.formView0.disable();
+    	}
+    },
+    selectAll: function(flag) {
+    	this.target.selectAll({selected: flag});
+    }
+});
+
+/**
+ * formView0
+ */
+fnObj.formView0 = axboot.viewExtend(axboot.formView, {
+    getDefaultData: function () {
+        return $.extend({}, axboot.formView.defaultData, {});
+    },
+    initView: function () {
+        this.target = $("#formView0");
+        this.model = new ax5.ui.binder();
+        this.model.setModel(this.getDefaultData(), this.target);
+        this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
+        this.initEvent();
+
+        axboot.buttonClick(this, "data-form-view-01-btn", {
+            "form-clear": function () {
+                ACTIONS.dispatch(ACTIONS.FORM_CLEAR);
+            }
+        });
+        
+        axboot.buttonClick(this, "data-form-view-0-btn", {
+            "selectBM0101": function() {
+            	ACTIONS.dispatch(ACTIONS.OPEN_BM0101_MODAL);
+            }
+        });
+        
+        this.target.find('[data-ax5picker="date"]').ax5picker({
+            direction: "auto",
+            content: {
+                type: 'date'
+            }
+        });
+
+    },
+    initEvent: function () {
+    },
+    getData: function () {
+        var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
+        return $.extend({}, data);
+    },
+    setData: function (data) {
+
+        if (typeof data === "undefined") data = this.getDefaultData();
+        data = $.extend({}, data);
+
+        this.model.setModel(data);
+        this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
+    },
+    validate: function (flag) {
+        var rs = this.model.validate();
+        if (rs.error) {
+        	if(!flag) {
+        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        	}
+            rs.error[0].jquery.focus();
+            return false;
+        }
+        return true;
+    },
+    enable: function() {
+    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    		$(element).attr("readonly", false);
+    	});
+    },
+    disable: function() {
+    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    		$(element).attr("readonly", true);
+    	});
+    },
+    clear: function () {
+        this.model.setModel(this.getDefaultData());
+        this.target.find('[data-ax-path="key"]').removeAttr("readonly");
+    }
+});
 
 /********************************************************************************************************************/
-/** 정류장연계 전용 **/
+/** 차량관리 전용 함수 **/
 /********************************************************************************************************************/
+

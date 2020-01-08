@@ -15,7 +15,6 @@
         <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appkey=bbaeca8d-24d4-425d-9bd2-946552e4e2a7"></script>
     </jsp:attribute>
     <jsp:body>
-
         <ax:page-buttons></ax:page-buttons>
 
         <div role="page-header">
