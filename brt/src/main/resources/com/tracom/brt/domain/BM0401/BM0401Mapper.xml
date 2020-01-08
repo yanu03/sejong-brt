@@ -32,8 +32,6 @@
     		, REMARK
     		, PLAY_TM
     		, VOC_DIV
-    		, CON_ID
-    		, DRV_EVT
     		, PLAY_ED_DATE
     		, ATT_FILE
     		, CREATED_AT
@@ -50,6 +48,7 @@
    			, #{scrTxt}
    			, #{remark}
    			, #{playTm}
+   			, 'BSVOC'
    			, #{playEdDate}
    			, #{attFile}
    			, #{createdAt}

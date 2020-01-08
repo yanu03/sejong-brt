@@ -24,8 +24,8 @@ public class BM0401Controller extends BaseController {
 	@Inject
     private BM0401Service service;
     
-    @GetMapping("/BM0401G1S0")
-    public Responses.ListResponse BM0401G1S0(RequestParams<VoiceInfoVO> requestParams) {
+    @GetMapping("/BM0401G0S0")
+    public Responses.ListResponse BM0401G0S0(RequestParams<VoiceInfoVO> requestParams) {
     	List<VoiceInfoVO> list = service.BM0401G0S0(requestParams);
         return Responses.ListResponse.of(list);
     }
@@ -42,8 +42,8 @@ public class BM0401Controller extends BaseController {
     	return ok();
     }
     
-    @PostMapping("/BM0401G1D0")
-    public ApiResponse BM0401G1D0(@RequestBody VoiceInfoVO request) {
+    @PostMapping("/BM0401G0D0")
+    public ApiResponse BM0401G0D0(@RequestBody VoiceInfoVO request) {
     	service.BM0401G0D0(request);
     	return ok();
     }

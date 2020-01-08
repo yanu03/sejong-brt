@@ -15,6 +15,7 @@ import java.util.Vector;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -30,10 +31,10 @@ public class FTPHandler {
 	private ChannelSftp sftpChannel;
 	
 	@Value("${sftp.remote.directory}")
-    private String ROOT_SERVER_PATH;
+    public static String ROOT_SERVER_PATH;
 	
 	@Value("${sftp.local.directory}")
-    private String ROOT_LOCAL_PATH;
+    public static String ROOT_LOCAL_PATH;
     
 	private File ROOT_LOCAL_DIRECTORY;
 	
@@ -44,7 +45,7 @@ public class FTPHandler {
 	public void uploadBM0108(String id, MultipartFile file) {
 		String dir1 = Paths.get(ROOT_LOCAL_PATH, "/common/employee").toString();
 		String dir2 = Paths.get(ROOT_LOCAL_PATH, "/vehicle").toString();
-		String fileName = id + "." + file.getContentType().split("/")[1];
+		String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
 		
 		File saveFile = Paths.get(dir1, fileName).toFile();
 		try {
@@ -89,7 +90,7 @@ public class FTPHandler {
 			} catch (Exception e){
 				sftpChannel.cd(ROOT_LOCAL_DIRECTORY.getName());
 			}
-			this.ROOT_SERVER_PATH = ROOT_SERVER_PATH + "/" + ROOT_LOCAL_DIRECTORY.getName();
+			ROOT_SERVER_PATH = ROOT_SERVER_PATH + "/" + ROOT_LOCAL_DIRECTORY.getName();
 		}
 		
 		serverContentList = new ArrayList<String>();
