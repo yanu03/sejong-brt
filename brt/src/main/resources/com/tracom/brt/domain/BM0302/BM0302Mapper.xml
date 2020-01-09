@@ -163,7 +163,7 @@
     		SEQ = #{seq}
     </update>
     
-    <delete id="BM0302G0D0" parameterType="altContractInfoVO">
+    <delete id="BM0302G1D0" parameterType="altContractInfoVO">
     	DELETE
     		FROM BM_CON_ALT
     	WHERE

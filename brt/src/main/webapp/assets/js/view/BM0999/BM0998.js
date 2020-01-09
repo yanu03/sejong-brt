@@ -11,19 +11,30 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
+    	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0105G0S0",
+            url: "/api/v1/BM0998G0S0",
             data: filter,
             callback: function (res) {
             	caller.gridView0.setData(res);
+                var x_arr = [];
+                var y_arr = [];
+                var id_arr = [];
+                var seq_arr = [];
+                for(var i=0; i < res.list.length; i++){
+                	x_arr.push(res.list[i].x);
+                	y_arr.push(res.list[i].y);
+                	id_arr.push(res.list[i].nodeId);
+                	seq_arr.push(res.list[i].seq);
+                	popUp(res.list[i].y, res.list[i].x, res.list[i].seq+","+res.list[i].nodeId);
+                }
+                draw_line2(y_arr, x_arr, seq_arr);
+                addMarkers(y_arr, x_arr, id_arr);
                 
                 if(res.list.length == 0) {
                 	isUpdate = false;
-	                //caller.formView0.clear();
-	                //caller.formView0.disable();
                 } else {
-                	//caller.formView0.enable();
                 	if(dataFlag) {
 	                	caller.gridView0.selectIdRow(data);
 	                } else {
@@ -36,7 +47,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 }
             }
         });
-
         return false;
     },
     PAGE_EXCEL: function(caller, act, data) {
@@ -46,9 +56,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;
     	caller.gridView0.selectAll(false);
-        //caller.formView0.clear();
-        //caller.formView0.enable();
-        //caller.formView0.validate(true);
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -67,7 +74,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0105G0D0",
+	                    url: "/api/v1/BM0999M0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -75,7 +82,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                });
                 })
                 .then(function (ok) {
-                	//caller.formView0.clear();
                 	axToast.push(LANG("ondelete"));
                     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
@@ -86,18 +92,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     },
     
-    
     PAGE_SAVE: function (caller, act, data) {
-        /*
-         * 
-    	if (caller.formView0.validate()) {
+/*    	if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
 
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0105F0I0",
+                        url: "/api/v1/BM0106F0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -112,19 +115,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .catch(function () {
 
                 });
-        }
-         */
+        }*/
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-    	/*
-    	if (caller.formView0.validate()) {
+    	/*if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
             axboot.promise()
                 .then(function (ok, fail, data) {
                 	axboot.ajax({
                     	type: "POST",
-                        url: "/api/v1/BM0105F0U0",
+                        url: "/api/v1/BM0106F0U0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -136,20 +137,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
-
                 });
-        }
-        */
-    	
-        axboot.ajax({
-            type: "POST",
-            url: "/api/v1/test",
-            data: {},
-            callback: function (res) {
-            }
-        });
-        
-        
+        }*/
     },
     
     // 탭닫기
@@ -157,10 +146,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
     
-        ITEM_CLICK: function (caller, act, data) {
+    ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
     	selectedRow = data;
-    	map_marker(data.lati, data.longi);
+        //map_marker(data.y, data.x);
     }
 });
 
@@ -173,8 +162,8 @@ fnObj.pageStart = function () {
     this.pageButtonView.initView();
     this.searchView0.initView();
     this.gridView0.initView();
-    initTmap("100%", "490px");
     
+    initTmap("100%", "100%", true);
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -254,11 +243,12 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "staId", label: ADMIN("ax.admin.BM0105G0.staId"), width: 80},
-                {key: "staNm", label: ADMIN("ax.admin.BM0105G0.staNm"), width: 180},
-                {key: "staNo", label: ADMIN("ax.admin.BM0105G0.staNo"), width: 100},
-                {key: "lati", label: ADMIN("ax.admin.BM0105G0.lati"), width: 120},
-                {key: "longi", label: ADMIN("ax.admin.BM0105G0.longi"), width: 120},
+                {key: "routId", label: "노선ID", width: 100},
+                {key: "seq", label: "순번", width: 120},
+                {key: "nodeId", label: "노드ID", width: 120},
+                {key: "nodeType", label: "노드타입", width: 120},
+                {key: "x", label: "X", width: 120},
+                {key: "y", label: "Y", width: 120},
             ],
             body: {
                 onClick: function () {
@@ -327,8 +317,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	
     	if(i == length) {
     		isUpdate = false;
-    		//fnObj.formView0.clear();
-    		//fnObj.formView0.disable();
+    		fnObj.formView0.clear();
+    		fnObj.formView0.disable();
     	}
     },
     selectAll: function(flag) {
@@ -336,7 +326,74 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     }
 });
 
+/**
+ * formView0
+ */
+fnObj.formView0 = axboot.viewExtend(axboot.formView, {
+    getDefaultData: function () {
+        return $.extend({}, axboot.formView.defaultData, {});
+    },
+    initView: function () {
+        this.target = $("#formView0");
+        this.model = new ax5.ui.binder();
+        this.model.setModel(this.getDefaultData(), this.target);
+        this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
+        this.initEvent();
+
+        axboot.buttonClick(this, "data-form-view-01-btn", {
+            "form-clear": function () {
+                ACTIONS.dispatch(ACTIONS.FORM_CLEAR);
+            }
+        });
+        
+        axboot.buttonClick(this, "data-form-view-0-btn", {
+            "selectBM0101": function() {
+            	ACTIONS.dispatch(ACTIONS.OPEN_BM0101_MODAL);
+            }
+        });
+
+    },
+    initEvent: function () {
+    },
+    getData: function () {
+        var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
+        return $.extend({}, data);
+    },
+    setData: function (data) {
+
+        if (typeof data === "undefined") data = this.getDefaultData();
+        data = $.extend({}, data);
+
+        this.model.setModel(data);
+        this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
+    },
+    validate: function (flag) {
+        var rs = this.model.validate();
+        if (rs.error) {
+        	if(!flag) {
+        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        	}
+            rs.error[0].jquery.focus();
+            return false;
+        }
+        return true;
+    },
+    enable: function() {
+    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    		$(element).attr("readonly", false);
+    	});
+    },
+    disable: function() {
+    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    		$(element).attr("readonly", true);
+    	});
+    },
+    clear: function () {
+        this.model.setModel(this.getDefaultData());
+        this.target.find('[data-ax-path="key"]').removeAttr("readonly");
+    }
+});
 
 /********************************************************************************************************************/
-/** 정류장연계 전용 **/
+/** 정류장관리 전용 **/
 /********************************************************************************************************************/

@@ -15,11 +15,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0302G0S0",
+            url: "/api/v1/BM0201G0S0",
             data: filter,
-            callback: function (res) {
+            callback: function (res) {           	
                 caller.gridView0.setData(res);
-                
+                console.log("BM0201.js.search"+res);
                 if(res.list.length == 0) {
                 	isUpdate = false;
 	                caller.formView0.clear();
@@ -34,6 +34,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 }
             }
         });
+        
+        axboot.ajax({
+        	type:"GET",
+        	url:"/api/v1/BM0201F0S0",
+        	data: filter,
+        	callback : function(res){
+        		caller.formView0.setData(res);
+        	}
+        })
 
         return false;
     },
@@ -47,26 +56,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_NEW: function (caller, act, data) {
-    	isUpdate = false;    	
-    	var formData = caller.formView0.getData();
-        formData["altDiv"] = selectedRow.altDiv;
-        
-        if(formData["altDiv"] == "종료"){
-        	axDialog.alert({
-                msg: LANG("ax.script.alert.altDelete")
-            });
-        }else{
-    	
+    	isUpdate = false;    	 	
     	caller.gridView1.selectAll(false);
         caller.formView0.clear();
         caller.formView0.enable();
         caller.formView0.validate(true);
-        }
+        
     },
     
     PAGE_DELETE: function(caller, act, data) {
     	var grid = caller.gridView0.target;
-    	var confirmYn = $('#confirmYn').val();
     	
     	if(typeof grid.selectedDataIndexs[0] === "undefined") {
     		axDialog.alert(LANG("ax.script.alert.requireselect"));
@@ -76,17 +75,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	axDialog.confirm({
             msg: LANG("ax.script.deleteconfirm")
         }, function() {
-        	if(confirmYn == "N") {  		
-        	
+      	
             if (this.key == "ok") {
             	axboot.promise()
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0302G1D0",
-	                    data: JSON.stringify({conId : selectedRow.conId , seq : selectedRowG1.seq}),
+	                    url: "/api/v1/BM0201G1D0",
+	                    data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
 	                    callback: function (res) {
 	                        ok(res);
+	                        console.log(data);
 	                    }
 	                });
                 })
@@ -99,11 +98,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
                 });
             }
-        }else{
-        	axDialog.alert({
-                msg: LANG("ax.script.contractdelete")
-            });
-        }
         });
     	
     },
@@ -113,33 +107,33 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	 if (caller.formView0.validate()) {
     		
              var formData = caller.formView0.getData();
-             formData["conId"] = selectedRow.conId;
-
-             console.log(formData["conId"]);
-            
+             
+             formData["vhcId"] = selectedRow.vhcId; 
+             
              axboot.promise()
              	.then(function (ok, fail, data) {
 	                axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0302F0S0",
+	                    url: "/api/v1/BM0201F0S1",
 	                    data: JSON.stringify(formData),
 	                    callback: function (res) {
 	                        ok(res);
-	                        console.log("서치");
+	                        console.log("BM0201F0S1");
 	                    }
 	                });
-	            })          
+	            })
                  .then(function (ok, fail, data) {
                 	 if(data.message == "true"){
                 	  axboot.promise()
                 	  .then(function(ok, fail , data) {
                 		  axboot.ajax({
                 			  type: "POST",
-                			  url: "/api/v1/BM0302F0I0",
+                			  url: "/api/v1/BM0201F0I0",
                 			  data: JSON.stringify(formData),
                 			  callback: function (res) {
                 				  ok(res);
-                				  console.log("insert");
+                				  console.log("BM0201F0I0");
+                				  ACTIONS.dispatch(ACTIONS.OPEN_BM0201_MODAL);
                 			  }
                 		  });
                  })
@@ -163,10 +157,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_UPDATE: function(caller, act, data) {
     	isUpdate = false;   	
-    	var confirmYn = $('#confirmYn').val();
- 	
-    		if(confirmYn == "N"){
-    				console.log("N");
+    		
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
     				
@@ -176,7 +167,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				.then(function (ok, fail, data) {
     					axboot.ajax({
     						type: "POST",
-    						url: "/api/v1/BM0302F0U0",
+    						url: "/api/v1/BM0201F0U0",
     						data: JSON.stringify(formData),
     						callback: function (res) {
     							ok(res);
@@ -192,59 +183,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     					
     				});
     			}
-    		}else{
-    			axDialog.alert({
-	                msg: LANG("ax.script.contractupdate")
-	            });
-    		}  	
-    },
-    
-    //////////////////////////////// 확정
-    
-    PAGE_CONFIRMYN : function (caller, act, data) {
-    	isUpdate = false; 
-    	var confirmYn = $('#confirmYn').val();
-    	
-    	axDialog.confirm({
-    		msg: LANG("ax.script.contractconfirm")
-    	}, function() {
-    		if(this.key == "ok"){
-    			
-    			if(confirmYn == "N"){
-    				if (caller.formView0.validate()) {
-    					var formData = caller.formView0.getData();
-    					
-    					axboot.promise()
-    					.then(function (ok, fail, data) {
-    						axboot.ajax({
-    							type: "POST",
-    							url: "/api/v1/BM0302F0U1",
-    							data: JSON.stringify(formData),
-    							callback: function (res) {
-    								ok(res);
-    							}
-    						});
-    					})
-    					.then(function (ok, fail, data) {
-    						axToast.push(LANG("onupdate"));
-    						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-    						isUpdate = true;
-    					})
-    					.catch(function () {
-    						
-    					});
-    				}
-    			}else {
-    				axDialog.alert({
-    	                msg: LANG("ax.script.confirmres")
-    	            });
-    			}
-    			
-    		}
-		}
-    	)
-    	
-    
     },
     
     // 탭닫기
@@ -262,6 +200,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
     	selectedRowG1 = data;
+    	console.log("gridView1="+data);
     	caller.formView0.setData(data);
     	caller.formView0.enable();
     },
@@ -271,12 +210,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
     	axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0302G1S0",
-            data: {conId: selectedRow.conId},
+            url: "/api/v1/BM0201G1S0",
+            data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
                 caller.gridView1.setData(res);
                 
-                console.log("리로드쪽"+data);
+                console.log("리로드쪽"+res);
                 
                 if(res.list.length == 0) {
                 	isUpdate = false;
@@ -295,7 +234,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 }
             }
         });
-    }
+    },
+    
+    OPEN_BM0201_MODAL: function(caller, act, data) {
+    	axboot.modal.open({
+            modalType: "BM0201",
+            param: "",
+            callback: function (data) {
+                
+            }
+        });
+    },
 });
 /********************************************************************************************************************/
 
@@ -347,11 +296,7 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
-            },
-            
-            "confirmyn" : function(){     	 
-            	 ACTIONS.dispatch(ACTIONS.PAGE_CONFIRMYN);
-            }
+            },       
         });
     }
 });
@@ -372,7 +317,7 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
     	 return {
              pageNumber: this.pageNumber,
              pageSize: this.pageSize,
-             filter: this.filter.val()
+             filter: this.filter.val(),
          }
     }
 });
@@ -392,16 +337,21 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
-
-            
-            	 columns: [         		
-                 	
-            		{key: "altDiv", label: "계약상태", width: 80},
-                    {key: "conId", label: "계약ID", width: 80},
-                    {key: "conNm", label: "계약명", width: 80},              
-                    {key: "suppAmt", label: "공급가액", width: 120},
-                    {key: "vatAmt", label: "부가세", width: 70},
-                    {key: "remark", label: "비고", width: 200},
+            columns: [         		
+            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), width: 80},
+                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), width: 80},
+                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 120},
+                     {key: "corpId", label: ADMIN("ax.admin.BM0103F0.corpId"), width: 120},
+                     {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), width: 120},
+                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 120},
+                     {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), width: 120},
+                     {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), width: 70},
+                     {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), width: 120},
+                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), width: 70},
+                     {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), width: 70},
+                     {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), width: 70},
+                     {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 70},
+                     {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), width: 70},
                  ],
             
             body: {
@@ -495,15 +445,14 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "confirmYn", label: ADMIN("ax.admin.BM0301F0.confirmyn"), width: 80},
-            	{key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"), width: 80},
-                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 80},
-                {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), width: 150},
-                {key: "conStDate", label: ADMIN("ax.admin.BM0302F0.altsd"), width: 150},
-                {key: "conEdDate", label: ADMIN("ax.admin.BM0302F0.alted"), width: 80},
-                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 150},
-                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 150},
-                {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
+            	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), width: 80},
+            	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), width: 80},
+                {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), width: 80},
+                {key: "dvcType", label: ADMIN("ax.admin.BM0201F0.dvctype"), width: 150},
+                {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), width: 150},
+                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), width: 80},
+                {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), width: 150},
+                {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
             ],
             body: {
                 onClick: function () {
@@ -595,21 +544,62 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
         this.initEvent();
         
-        this.target.find('[data-ax5picker="date"]').ax5picker({
-            direction: "auto",
-            content: {
-                type: 'date'
-            }
-        });
-
-        axboot.buttonClick(this, "data-form-view-0-btn", {
-            "selectBM0102": function() {
-            	ACTIONS.dispatch(ACTIONS.OPEN_BM0102_MODAL);
-            }
-        });
     },
     initEvent: function () {
-        var _this = this;
+    	var _this = this;
+    	
+                	/*$('[data-ax5select="dvcKind"]').ax5select({
+                		columnKeys: {
+                			optionValue: "optionValue", optionText: "optionText"
+                		},
+                		options: [        			
+                			{optionValue: 1, optionText: "행선지안내기"},
+                			{optionValue: 2, optionText: "승객용안내기"},
+                			{optionValue: 3, optionText: "전자노선도"},
+                			{optionValue: 4, optionText: "OBE"},
+                			]
+         
+                	});
+                	
+                	$('[data-ax5select="dvctype"]').ax5select({
+                		columnKeys: {
+                			optionValue: "optionValue", optionText: "optionText"
+                		},
+                		options: [        			
+                			{optionValue: 1, optionText: "장치1"},
+                			{optionValue: 2, optionText: "장치2"},
+                			{optionValue: 3, optionText: "장치3"},
+                			{optionValue: 4, optionText: "장치4"},
+                			]
+         
+                	});
+                	
+                	$('[data-ax5select="instloc"]').ax5select({
+                		columnKeys: {
+                			optionValue: "optionValue", optionText: "optionText"
+                		},
+                		options: [        			
+                			{optionValue: 1, optionText: "설치위치1"},
+                			{optionValue: 2, optionText: "설치위치2"},
+                			{optionValue: 3, optionText: "설치위치3"},
+                			{optionValue: 4, optionText: "설치위치4"},
+                			]
+         
+                	});
+                	
+                	$('[data-ax5select="maker"]').ax5select({
+                		columnKeys: {
+                			optionValue: "optionValue", optionText: "optionText"
+                		},
+                		options: [        			
+                			{optionValue: 1, optionText: "제조사1"},
+                			{optionValue: 2, optionText: "제조사2"},
+                			{optionValue: 3, optionText: "제조사3"},
+                			{optionValue: 4, optionText: "제조사4"},
+                			]
+         
+                	});*/
+    	
     },
     
     getData: function () {

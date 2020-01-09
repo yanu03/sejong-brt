@@ -11,10 +11,11 @@
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN"/>
         <script type="text/javascript" src="<c:url value='/assets/js/common/tmap.js' />"></script>
-        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0106/BM0106.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0999/BM0999.js' />"></script>
         <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appkey=bbaeca8d-24d4-425d-9bd2-946552e4e2a7"></script>
     </jsp:attribute>
     <jsp:body>
+
         <ax:page-buttons></ax:page-buttons>
 
         <div role="page-header">
@@ -47,53 +48,6 @@
             </ax:split-panel>
             <ax:splitter></ax:splitter>
             <ax:split-panel width="*" style="padding-left: 10px;" scroll="scroll">
-            	<div class="ax-button-group">
-	                <div class="left">
-	                    <h3>
-	                        <i class="cqc-list"></i>
-	                        <ax:lang id="ax.admin.BM0106F0.title"/>
-	                    </h3>
-                    </div>
-                </div>
-
-                 <ax:form name="formView0" id="formView0">
-                    <ax:tbl clazz="ax-form-tbl" minWidth="500px">
-                    
-                   		<input type="hidden" name="staId" data-ax-path="staId" data-key="true" class="form-control" readonly="readonly"/>
-                    	
-                    	<ax:tr>
-                    		<ax:td label="ax.admin.BM0106F0.staNm" width="300px" labelClazz="required">
-                    			<input type="text" name="staNm" data-ax-path="staNm" data-key="true" class="form-control" readonly="readonly"/>
-                    		</ax:td>
-                    	</ax:tr>
-                    	
-                       	<ax:tr>
-                    		<ax:td label="ax.admin.BM0106F0.krNm" width="300px">
-                    			<input type="text" name="krNm" data-ax-path="krNm" data-key="true" class="form-control"/>
-                    		</ax:td>
-                    	
-                    		<ax:td label="ax.admin.BM0106F0.enNm" width="300px">
-                    			<input type="text" name="enNm" data-ax-path="enNm" data-key="true" class="form-control"/>
-                    		</ax:td>
-                    	</ax:tr>
-                    	        
-      	            	<ax:tr>
-                    		<ax:td label="ax.admin.BM0106F0.cnNm" width="300px">
-                    			<input type="text" name="cnNm" data-ax-path="cnNm" data-key="true" class="form-control"/>
-                    		</ax:td>
-
-                    		<ax:td label="ax.admin.BM0106F0.jpNm" width="300px">
-                    			<input type="text" name="jpNm" data-ax-path="jpNm" data-key="true" class="form-control"/>
-                    		</ax:td>
-                    	</ax:tr>
-                    	
-                    	<ax:tr>
-                    		<ax:td label="ax.admin.BM0106F0.remark" width="300px">
-                    			<input type="text" name="remark" data-ax-path="remark" data-key="true" class="form-control"/>
-                    		</ax:td>
-                    	</ax:tr>
-                    </ax:tbl>
-               	</ax:form>       
             
                 <!-- 지도 -->
                 <div class="ax-button-group" role="panel-header">

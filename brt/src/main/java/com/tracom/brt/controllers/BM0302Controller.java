@@ -33,7 +33,7 @@ public class BM0302Controller extends BaseController {
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
     })
-    public Responses.ListResponse leftList(RequestParams<AltContractInfoVO> requestParams) {
+    public Responses.ListResponse BM0302G0S0(RequestParams<AltContractInfoVO> requestParams) {
         List<AltContractInfoVO> list = service.BM0302G0S0(requestParams);
         return Responses.ListResponse.of(list);
     }
@@ -42,7 +42,7 @@ public class BM0302Controller extends BaseController {
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
     })
-    public Responses.ListResponse list(RequestParams<AltContractInfoVO> requestParams) {
+    public Responses.ListResponse BM0302G1S0(RequestParams<AltContractInfoVO> requestParams) {
         List<AltContractInfoVO> list = service.BM0302G1S0(requestParams);
         return Responses.ListResponse.of(list);
     }
@@ -54,26 +54,26 @@ public class BM0302Controller extends BaseController {
     }
 
     @PostMapping("/BM0302F0I0")
-    public ApiResponse save(@RequestBody AltContractInfoVO request) {
+    public ApiResponse BM0302F0I0(@RequestBody AltContractInfoVO request) {
         String conId = service.BM0302F0I0(request);
         return ok(conId);
     }
     
     @PostMapping("/BM0302F0U0")
-    public ApiResponse update(@RequestBody AltContractInfoVO request) {
+    public ApiResponse BM0302F0U0(@RequestBody AltContractInfoVO request) {
     	service.BM0302F0U0(request);
     	return ok();
     }
     
     @PostMapping("/BM0302F0U1")
-    public ApiResponse ynupdate(@RequestBody AltContractInfoVO request) {
+    public ApiResponse BM0302F0U1(@RequestBody AltContractInfoVO request) {
     	service.BM0302F0U1(request);
     	return ok();
     }
     
-    @PostMapping("/BM0302G0D0")
-    public ApiResponse delete(@RequestBody AltContractInfoVO request) {
-    	service.BM0302G0D0(request);
+    @PostMapping("/BM0302G1D0")
+    public ApiResponse BM0302G1D0(@RequestBody AltContractInfoVO request) {
+    	service.BM0302G1D0(request);
     	return ok();
     }
 }
