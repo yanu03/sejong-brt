@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0201.BM0201Mapper">
+
+    <select id="BM0201G0S0" parameterType="String" resultType="vhcDeviceVO">
+    	SELECT
+    		  VHC_ID
+    		, VHC_NO
+    		, CHAS_NO
+    		, CORP_ID
+    		, AREA
+    		, MAKER
+    		, RELS_DATE
+    		, MODEL_NM
+    		, VHC_KIND
+    		, VHC_TYPE
+    		, LF_YN
+    		, VHC_FUEL
+    		, REMARK
+    		, USE_YN
+    	FROM
+    		BM_VHC_INFO
+    	<where>
+	    	<if test="value != null">
+				VHC_ID LIKE CONCAT('%', #{value}, '%')
+				OR VHC_NO LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+    </select>
+    
+    <select id="BM0201F0S0" parameterType="String" resultType="vhcDeviceVO">
+    	SELECT
+    	  	  D.DL_CD
+    	  	, D.DL_CD_NM
+    	  	, C.CO_CD
+    	  	, D.TXT_VAL1
+    	  	, D.TXT_VAL2
+    	FROM
+    	    SM_DL_CD_INFO D
+    	    LEFT OUTER JOIN SM_CO_CD_INFO C
+    	    ON D.CO_CD = C.CO_CD
+    	WHERE
+    	 	C.CO_CD = "DK001";
+    </select>
+    
+    <select id="BM0201F0S1" parameterType="String" resultType="vhcDeviceVO">
+    	SELECT
+    		  DVC_ID
+    		, MAKER
+    		, DVC_KIND
+    		, DVC_TYPE
+    		, INST_LOC
+    		, MNG_ID
+    		, DVC_IP
+    		, VHC_ID
+    		, REMARK
+    	FROM
+    		BM_DVC_INFO
+    	WHERE
+    		DVC_ID = #{value}
+    </select>
+    
+    <select id="BM0201M0S0" parameterType="String" resultType="vhcDeviceVO">
+    	SELECT
+    		  DVC_ID
+    		, DVC_KIND
+    	FROM
+    		BM_DVC_INFO
+    	ORDER BY DVC_ID DESC LIMIT 1
+    </select>
+    
+    <select id="BM0201G1S0" parameterType="String" resultType="vhcDeviceVO">
+    	SELECT
+    	  	  D.VHC_ID
+    	  	, D.DVC_ID
+    	  	, D.MAKER
+    	  	, D.DVC_KIND
+    	  	, D.DVC_TYPE
+    	  	, D.INST_LOC
+    	  	, D.MNG_ID
+    	  	, D.DVC_IP
+    	  	, D.REMARK
+    	  	, V.VHC_ID
+    	FROM
+    		BM_DVC_INFO D
+    		LEFT OUTER JOIN BM_VHC_INFO V
+    		ON D.VHC_ID = V.VHC_ID
+    	WHERE
+    		V.VHC_ID = #{value}
+    </select>
+    
+    <insert id="BM0201F0I0" parameterType="vhcInfoVo">
+    	<selectKey keyProperty="dvcId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('DV', LPAD(NEXTVAL(SEQ_BM_DVC_INFO_0), 5, '0'))
+    	</selectKey>
+    
+    	INSERT INTO BM_DVC_INFO(
+    		  DVC_ID
+    		, MAKER
+    		, DVC_KIND
+    		, DVC_TYPE
+    		, INST_LOC
+    		, MNG_ID
+    		, DVC_IP
+    		, REMARK
+    		, VHC_ID  		
+    		, CREATED_AT
+    		, CREATED_BY
+    		, UPDATED_AT
+    		, UPDATED_BY
+    		)
+   		VALUES(
+   			  #{dvcId}
+   			, #{maker}
+   			, #{dvcKind}
+   			, #{dvcType}
+   			, #{instLoc}
+   			, #{mngId}
+   			, #{dvcIp}
+   			, #{remark}
+   			, #{vhcId}
+   			, #{createdAt}
+   			, #{createdBy}
+   			, #{updatedAt}
+   			, #{updatedBy}
+   			)
+    </insert>
+    
+    <insert id="BM0201M0I0" parameterType="vhcInfoVo">
+    	<selectKey keyProperty="seq" resultType="String" order="BEFORE">
+    		SELECT NEXTVAL(SEQ_BM_DVC_HIST_0)
+    	</selectKey>
+    
+    	INSERT INTO BM_DVC_HIST(
+    		  DEV_SERIAL_NO
+    		, MODEL_NM
+    		, APLY_DATE
+    		, WORK_TYPE
+    		, WORK_AMT
+    		, REMARK
+    		, DVC_ID
+    		, SEQ
+    		, CREATED_AT
+    		, CREATED_BY
+    		, UPDATED_AT
+    		, UPDATED_BY
+    		)
+   		VALUES(
+   			  #{devSerialNo}
+   			, #{modelNm}
+   			, #{aplyDate}
+   			, #{workType}
+   			, #{workAmt}
+   			, #{remark}
+   			, #{dvcId}
+   			, #{seq}
+   			, #{createdAt}
+   			, #{createdBy}
+   			, #{updatedAt}
+   			, #{updatedBy}
+   			)
+    </insert>
+    
+     <update id="BM0201F0U0" parameterType="vhcInfoVo">
+    	UPDATE BM_DVC_INFO
+    	SET
+    		  DVC_ID		=	#{dvcId}
+    		, MAKER			=	#{maker}
+    		, DVC_KIND		=	#{dvcKind}
+    		, DVC_TYPE	 	=	#{dvcType}
+    		, INST_LOC		=	#{instLoc}
+    		, MNG_ID		=	#{mngId}
+    		, DVC_IP		=	#{dvcIp}
+    		, REMARK		=	#{remark}
+    		, VHC_ID		=	#{vhcId}
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		DVC_ID = #{dvcId}
+    </update>
+    
+    <delete id="BM0201G1D0" parameterType="vhcInfoVo">
+    	DELETE
+    		FROM BM_DVC_INFO
+    	WHERE
+    		DVC_ID = #{dvcId}
+    </delete>
+    
+</mapper>

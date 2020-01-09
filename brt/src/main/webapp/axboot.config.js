@@ -14,7 +14,6 @@
             "errorLogs": "/api/v1/errorLogs",
             "files": "/api/v1/files",
             "samples": "/api/v1/samples",
-            "contract": "/api/v1/contract",
         };
 
         axboot.def["MODAL"] = {
@@ -54,6 +53,14 @@
             	height: 450,
             	iframe: {
             		url: "/jsp/common/BM0102_modal.jsp"
+            	},
+            	header: false
+            },
+            "BM0201": {
+            	width: 400,
+            	height: 450,
+            	iframe: {
+            		url: "/jsp/common/BM0201_modal.jsp"
             	},
             	header: false
             },

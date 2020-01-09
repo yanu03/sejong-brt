@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tracom.brt.domain.BM0202.BM0202Mapper">
+
+	<select id="BM0202G2S0" parameterType="String" resultType="dvcHistoryVO">
+		SELECT
+		     DH.DEV_SERIAL_NO
+    	   , DH.MODEL_NM
+    	   , DH.APLY_DATE
+    	   , DH.WORK_TYPE
+    	   , DH.WORK_AMT
+   		   , DH.REMARK
+   		   , DH.DVC_ID
+   		   , DH.SEQ
+   		   , DI.DVC_ID			
+   		   , DI.DVC_KIND
+        FROM
+    		BM_DVC_HIST DH
+    		LEFT OUTER JOIN BM_DVC_INFO DI
+    		ON DH.DVC_ID = DI.DVC_ID
+   		WHERE
+   			DH.DVC_ID = #{value}	
+	</select>
+	
+	<select id="BM0202G2S1" parameterType="Map" resultType="dvcHistoryVO">
+		SELECT
+		     DH.DEV_SERIAL_NO
+    	   , DH.MODEL_NM
+    	   , DH.APLY_DATE
+    	   , DH.WORK_TYPE
+    	   , DH.WORK_AMT
+   		   , DH.REMARK
+   		   , DH.DVC_ID
+   		   , DH.SEQ
+   		   , DI.DVC_ID			
+   		   , DI.DVC_KIND
+        FROM
+    		BM_DVC_HIST DH
+    		LEFT OUTER JOIN BM_DVC_INFO DI
+    		ON DH.DVC_ID = DI.DVC_ID
+   		WHERE
+   			DH.DVC_ID = #{gridDvcId}
+   			AND DH.APLY_DATE &lt;= #{filter}
+	</select>
+	
+	<delete id="BM0202G2D0" parameterType="String">
+		DELETE
+			FROM BM_DVC_HIST
+		WHERE
+			SEQ = #{seq}
+	</delete>
+</mapper>

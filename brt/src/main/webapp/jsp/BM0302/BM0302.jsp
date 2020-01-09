@@ -20,13 +20,6 @@
             <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
-                    	<%-- <ax:td width="100px">
-                    		<select class="form-control" id="" name="" data-ax-path="serDiv" >
-                    			<option value="all"><ax:lang id="ax.admin.BM0302F0.div.extension"/></option>
-								<option value="exten"><ax:lang id="ax.admin.BM0302F0.div.extension"/></option>
-								<option value="termi"><ax:lang id="ax.admin.BM0302F0.div.terminated"/></option>
-							</select>
-                    	</ax:td> --%>
                         <ax:td label='ax.admin.search' width="300px">
                             <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0301S0.search"/>
                         </ax:td>
