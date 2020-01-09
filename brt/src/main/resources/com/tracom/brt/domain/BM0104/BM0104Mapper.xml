@@ -3,4 +3,51 @@
 
 <mapper namespace="com.tracom.brt.domain.BM0104.BM0104Mapper">
 
+	<select id="BM0104G0S0" parameterType="String" resultType="bmRoutInfoVO">
+		SELECT
+			  ROUT_ID
+		    , ROUT_NM
+		    , WAY_DIV
+		    , SHORT_ROUT_NM
+		    , UPDATED_AT
+		FROM
+			BM_ROUT_INFO
+		<where>
+			<if test="value != null">
+				ROUT_ID LIKE CONCAT('%', #{value}, '%')
+			    OR
+			    ROUT_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+		</where>
+    </select>
+    
+	<select id="BM0104G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
+		SELECT
+			  NI.STA_ID
+		    , SI.STA_NM
+		    , SI.STA_NO
+		    , SI.LATI
+		    , SI.LONGI
+		    , SI.UPDATED_AT
+		FROM
+			BM_ROUT_NODE_INFO NI
+		    LEFT JOIN
+			BM_STA_INFO SI
+		    ON NI.STA_ID = SI.STA_ID
+		WHERE
+			ROUT_ID = #{routId}
+		    AND
+			NI.STA_ID IS NOT NULL
+			<if test="value != null">
+				AND(
+				NI.STA_ID LIKE CONCAT('%', #{filter1}, '%')
+				OR
+				SI.STA_NM LIKE CONCAT('%', #{filter1}, '%')
+				OR
+				SI.STA_NO LIKE CONCAT('%', #{filter1}, '%')
+				)
+	    	</if>
+		ORDER BY SEQ
+    </select>
+    
 </mapper>
