@@ -357,12 +357,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
         this.initEvent();
 
-        axboot.buttonClick(this, "data-form-view-01-btn", {
-            "form-clear": function () {
-                ACTIONS.dispatch(ACTIONS.FORM_CLEAR);
-            }
-        });
-        
         axboot.buttonClick(this, "data-form-view-0-btn", {
             "selectBM0101": function() {
             	ACTIONS.dispatch(ACTIONS.OPEN_BM0101_MODAL);

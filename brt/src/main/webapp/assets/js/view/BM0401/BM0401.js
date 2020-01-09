@@ -25,7 +25,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                caller.formView0.clear();
 	                caller.formView0.disable();
                 } else {
-                	caller.formView0.enable();
                 	if(dataFlag) {
 	                	caller.gridView0.selectIdRow(data);
 	                } else {
@@ -69,7 +68,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0101G0D0",
+	                    url: "/api/v1/BM0401G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -90,15 +89,25 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_SAVE: function (caller, act, data) {  
         if (caller.formView0.validate()) {
-            var formData = caller.formView0.getData();
+        	var formData = new FormData(caller.formView0.target[0]);
+        	
+        	ACTIONS.dispatch(ACTIONS.CHECK_WAV, {
+        		formData: formData
+        	});
+        	
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0101F0I0",
-                        data: JSON.stringify(formData),
+                        url: "/api/v1/BM0401F0I0",
+                        enctype: "multipart/form-data",
+                        processData: false,
+                        data: formData,
                         callback: function (res) {
                             ok(res);
+                        },
+                        options: {
+                        	contentType:false
                         }
                     });
                 })
@@ -110,21 +119,31 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .catch(function () {
 
                 });
+            //*/
         }
     },
     
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
-            var formData = caller.formView0.getData();
-
+        	var formData = new FormData(caller.formView0.target[0]);
+        	
+        	ACTIONS.dispatch(ACTIONS.CHECK_WAV, {
+        		formData: formData
+        	});
+            
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                     	type: "POST",
-                        url: "/api/v1/BM0101F0U0",
-                        data: JSON.stringify(formData),
+                        url: "/api/v1/BM0401F0U0",
+                        enctype: "multipart/form-data",
+                        processData: false,
+                        data: formData,
                         callback: function (res) {
                             ok(res);
+                        },
+                        options: {
+                        	contentType:false
                         }
                     });
                 })
@@ -135,6 +154,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .catch(function () {
 
                 });
+			//*/
         }
     },
     
@@ -147,7 +167,70 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = true;
     	selectedRow = data;
         caller.formView0.setData(data);
+        caller.formView0.enable();
     },
+    
+    CHANGE_PLAY_TYPE: function(caller, cat, data) {
+    	if(data.playType == "TTS") {
+    		// wav 파일 관련
+    		_this.target.find("[data-ax-td-label='wavLabel']").removeClass("required");
+    		_this.target.find("#wavFile").attr("readonly", true).attr("disabled", true).attr("data-ax-validate", null);
+    		_this.target.find("[data-btn-test='wav']").attr("disabled", true);
+    		
+    		// TTS 입력관련
+    		_this.target.find("[data-ax-td-label='krTtsLabel']").addClass("required");
+    		_this.target.find("[data-ax-td-label='enTtsLabel']").addClass("required");
+    		_this.target.find("[data-ax-path='krTts']").attr("readonly", false).attr("data-ax-validate", "required");
+    		_this.target.find("[data-ax-path='enTts']").attr("readonly", false).attr("data-ax-validate", "required");
+    		
+    		// TTS 미리듣기 기본문구 버튼 관련
+    		_this.target.find("[data-btn-test='krTts']").attr("disabled", false);
+    		_this.target.find("[data-btn-test='enTts']").attr("disabled", false);
+    		_this.target.find("[data-btn-common-txt='krTts']").attr("disabled", false);
+    		_this.target.find("[data-btn-common-txt='enTts']").attr("disabled", false);
+    		
+    	} else if(data.playType == "WAV") {
+    		// wav 파일 관련
+    		_this.target.find("[data-ax-td-label='wavLabel']").addClass("required");
+    		_this.target.find("#wavFile").attr("readonly", false).attr("disabled", false).attr("data-ax-validate", "required");
+    		_this.target.find("[data-btn-test='wav']").attr("disabled", false);
+    		
+    		// TTS 입력관련
+    		_this.target.find("[data-ax-td-label='krTtsLabel']").removeClass("required");
+    		_this.target.find("[data-ax-td-label='enTtsLabel']").removeClass("required");
+    		_this.target.find("[data-ax-path='krTts']").attr("readonly", true).attr("data-ax-validate", null);
+    		_this.target.find("[data-ax-path='enTts']").attr("readonly", true).attr("data-ax-validate", null);
+    		
+    		// TTS 미리듣기 기본문구 버튼 관련
+    		_this.target.find("[data-btn-test='krTts']").attr("disabled", true);
+    		_this.target.find("[data-btn-test='enTts']").attr("disabled", true);
+    		_this.target.find("[data-btn-common-txt='krTts']").attr("disabled", true);
+    		_this.target.find("[data-btn-common-txt='enTts']").attr("disabled", true);
+    	}
+    },
+    
+    CHECK_WAV: function(caller, act, data) {
+    	var formData = data.formData;
+    	var element = $("#wavFile");
+    	
+    	if(element[0].files[0]){
+        	formData.append("attFile", $("#wavFile")[0].files[0].name);
+        } else {
+        	alert(element.attr("title") + "을 선택해주세요");
+        }
+    },
+    
+    TEST_TTS: function(caller, act, data) {
+    	data["checkChime"] = caller.formView0.getData().chimeYn;
+    	var url = "/api/v1/getWavBuffer?" + $.param(data);
+    	window.location.href = url;
+		
+    	// TODO 플레이어 재생 로직 작성
+		$("#jquery_jplayer_1").jPlayer("setMedia", {
+			wav: url
+		}).jPlayer("play");
+		//*/
+    }
 });
 
 /********************************************************************************************************************/
@@ -162,9 +245,6 @@ fnObj.pageStart = function () {
     $("#jquery_jplayer_1").jPlayer({
 		ready: function (event) {
 			$(this).jPlayer("setMedia", {
-				m4a: "http://jplayer.org/audio/m4a/Miaow-07-Bubble.m4a",
-				oga: "http://jplayer.org/audio/ogg/Miaow-07-Bubble.ogg",
-				
 			});
 		},
 		swfPath: "/assets/js/jplayer",
@@ -256,13 +336,14 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
                 {key: "vocId", label: ADMIN("ax.admin.BM0401F0.voc.id"), width: 80},
-                {key: "vocNm", label: ADMIN("ax.admin.BM0401F0.voc.name"), width: 80},
+                {key: "vocNm", label: ADMIN("ax.admin.BM0401F0.voc.nm"), width: 120},
                 {key: "playType", label: ADMIN("ax.admin.BM0401F0.play.type"), width: 120},
-                {key: "playTm", label: ADMIN("ax.admin.BM0401F0.play.time"), width: 120},
-                {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 120},
+                {key: "playTm", label: ADMIN("ax.admin.BM0401F0.play.time"), width: 80},
+                {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 150},
                 {key: "krTts", label: ADMIN("ax.admin.BM0401F0.kr.tts"), width: 120},
                 {key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 120},
-                {key: "scrTxt", label: ADMIN("ax.admin.BM0401F0.scr.txt"), width: 70},
+                {key: "scrTxt", label: ADMIN("ax.admin.BM0401F0.scr.txt"), width: 200},
+                {key: "scrTxtEn", label: ADMIN("ax.admin.BM0401F0.scr.txt.en"), width: 200},
                 {key: "remark", label: ADMIN("ax.admin.BM0401F0.remark"), width: 120},
             ],
             body: {
@@ -324,7 +405,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].corpId == id) {
+    		if(this.target.list[i].vocId == id) {
     			this.selectRow(i);
     			break;
     		}
@@ -346,9 +427,13 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
  */
 fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     getDefaultData: function () {
-        return $.extend({}, axboot.formView.defaultData, {});
+        return $.extend({}, axboot.formView.defaultData, {
+        	playStDate: "2020-01-09",
+        	playEdDate: "9999-12-31"
+        });
     },
     initView: function () {
+    	_this = this;
         this.target = $("#formView0");
         this.model = new ax5.ui.binder();
         this.model.setModel(this.getDefaultData(), this.target);
@@ -360,6 +445,29 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
             content: {
                 type: 'date'
             }
+        });
+        
+        axboot.buttonClick(this, "data-btn-test", {
+            "krTts": function () {
+                ACTIONS.dispatch(ACTIONS.TEST_TTS, {
+                	pText: _this.target.find("[data-ax-path='krTts']").val(),
+                	nLanguage: 0,
+                	nSpeakerId: 0,
+                });
+            },
+            "enTts": function() {
+            	ACTIONS.dispatch(ACTIONS.TEST_TTS, {
+                	pText: _this.target.find("[data-ax-path='enTts']").val(),
+                	nLanguage: 1,
+                	nSpeakerId: 2,
+                });
+            }
+        });
+        
+        this.target.find("[data-ax-path='playType']").on("change", function(e) {
+        	ACTIONS.dispatch(ACTIONS.CHANGE_PLAY_TYPE, {
+        		playType: $(this).val()
+        	})
         });
     },
     initEvent: function () {
@@ -373,7 +481,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 
         if (typeof data === "undefined") data = this.getDefaultData();
         data = $.extend({}, data);
-
+        
         this.model.setModel(data);
         this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
     },
@@ -389,13 +497,15 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         return true;
     },
     enable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", false);
+    	var _this = this;
+    	this.target.find("[data-btn],[data-ax-path][data-key!=true]").each(function(index, element) {
+    		$(element).attr("readonly", false).attr("disabled", false);
     	});
+    	$("[data-ax-path='playType']").trigger("change");
     },
     disable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", true);
+    	this.target.find('#wavFile,[data-btn],[data-ax-path][data-key!=true]').each(function(index, element) {
+    		$(element).attr("readonly", true).attr("disabled", true);
     	});
     },
     clear: function () {
