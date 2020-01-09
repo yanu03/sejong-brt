@@ -220,17 +220,22 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         }
     },
     
+    TEST_WAV: function(caller, act, data) {
+    	var blob = window.URL || window.webkitURL;
+    	var file = $("#wavFile")[0].files[0];
+    	var fileURL = blob.createObjectURL(file);
+    	console.log(fileURL)
+    	$("#wavPlayer").attr("src", fileURL).trigger("play");
+    },
+    
     TEST_TTS: function(caller, act, data) {
     	data["checkChime"] = caller.formView0.getData().chimeYn;
-    	var url = "/api/v1/getWavBuffer?" + $.param(data);
-    	window.location.href = url;
-		
-    	// TODO 플레이어 재생 로직 작성
-		$("#jquery_jplayer_1").jPlayer("setMedia", {
-			wav: url
-		}).jPlayer("play");
-		//*/
-    }
+    	var wavDownloadUrl = "/api/v1/getWavBuffer?" + $.param(data);
+    	var wavTest = "/api/v1/getWavTest?" + $.param(data);
+    	window.location.href = wavDownloadUrl;
+    	
+    	$("#wavPlayer").attr("src", wavTest).trigger("play");
+    },
 });
 
 /********************************************************************************************************************/
@@ -241,10 +246,11 @@ fnObj.pageStart = function () {
     this.searchView0.initView();
     this.gridView0.initView();
     this.formView0.initView();
-    
+    /*
     $("#jquery_jplayer_1").jPlayer({
 		ready: function (event) {
 			$(this).jPlayer("setMedia", {
+				wav: "/api/v1/getWavBuffer?pText=test&nLanguage=0&nSpeakerId=0&checkChime=Y"
 			});
 		},
 		swfPath: "/assets/js/jplayer",
@@ -257,6 +263,7 @@ fnObj.pageStart = function () {
 		remainingDuration: true,
 		toggleDuration: true
 	});
+	//*/
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -461,6 +468,9 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
                 	nLanguage: 1,
                 	nSpeakerId: 2,
                 });
+            },
+            "wav": function() {
+            	ACTIONS.dispatch(ACTIONS.TEST_WAV);
             }
         });
         

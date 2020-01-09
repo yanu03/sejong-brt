@@ -146,7 +146,8 @@
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.test" width="300px">
-                            	<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+                            	<audio controls id="wavPlayer"></audio>
+                            	<!-- <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 								<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
 									<div class="jp-type-single">
 										<div class="jp-gui jp-interface">
@@ -175,7 +176,7 @@
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> -->
                             </ax:td>
                        	</ax:tr>
                        	
