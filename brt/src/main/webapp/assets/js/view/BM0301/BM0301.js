@@ -339,9 +339,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "conStDate", label: "계약시작일", width: 120},
                 {key: "conEdDate", label: "계약종료일", width: 120},
                 {key: "confirmYn", label: "확정여부", width: 70},
+                {key: "custId", label: "거래처ID", width: 120},
                 {key: "suppAmt", label: "공급가액", width: 120},
                 {key: "vatAmt", label: "부가세", width: 70},
-                {key: "custId", label: "거래처ID", width: 120},
                 {key: "remark", label: "비고", width: 70},
             ],
             body: {

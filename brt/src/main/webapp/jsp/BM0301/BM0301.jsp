@@ -128,53 +128,13 @@
                             	<input type="text" data-ax-path="vatAmt" class="form-control" data-ax5formatter="money"/>
                             </ax:td>
                        	</ax:tr>
-                       	
-                       	
-                   <%--     	<ax:tr>
-                            <ax:td label="ax.admin.contract.form.custid" width="300px">
-                            	<input type="text" data-ax-path="custid" class="form-control"/>
-                            </ax:td>
-                       	</ax:tr>
-                       	 --%>
+
                        	<ax:tr>
                        		<ax:td label="ax.admin.BM0301F0.remark" width="100%">
                             	<input type="text" data-ax-path="remark" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
-                       <%-- 	<ax:tr>
-                            <ax:td label="ax.admin.corporation.form.addr2" width="300px">
-                            	<input type="text" data-ax-path="addr2" class="form-control"/>
-                            </ax:td>
-                       	</ax:tr>
-                       	
-                       	<ax:tr>
-                            <ax:td label="ax.admin.corporation.form.garage" width="300px">
-                            	<input type="text" data-ax-path="garage" class="form-control"/>
-                            </ax:td>
-                       	</ax:tr>
-                       	
-                       	<ax:tr>
-                            <ax:td label="ax.admin.corporation.form.remark" width="300px">
-                            	<input type="text" data-ax-path="remark" class="form-control"/>
-                            </ax:td>
-                       	</ax:tr> --%>
-                        <%-- 
-                        <ax:tr>
-                            <ax:td label="ax.admin.sample.form.etc3" width="300px">
-                                <select data-ax-path="etc3" class="form-control W100">
-                                    <option value="Y"><ax:lang id="ax.admin.used"/></option>
-                                    <option value="N"><ax:lang id="ax.admin.not.used"/></option>
-                                </select>
-                            </ax:td>
-                            <ax:td label="ax.admin.sample.form.etc4" width="220px">
-                                <ax:common-code groupCd="USER_STATUS" dataPath="userStatus"/>
-                            </ax:td>
-                        </ax:tr>
-                        <ax:tr>
-                            <ax:td label="ax.admin.sample.form.etc5" width="100%">
-                                <textarea data-ax-path="etc5" class="form-control"></textarea>
-                            </ax:td>
-                        </ax:tr> --%>
+ 
                     </ax:tbl>
                 </ax:form>
             </ax:split-panel>
