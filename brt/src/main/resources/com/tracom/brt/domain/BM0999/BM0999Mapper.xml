@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0999.BM0999Mapper">
+
+    <select id="BM0999G0S0" parameterType="String" resultType="tsRoutNodeVO">
+    	SELECT
+    		*
+    	FROM
+    		TS_ROUT_NODE
+    	<where>
+    	ROUT_ID = 'VBR009001'
+	    	<if test="value != null">
+	    	AND
+				ROUT_ID LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+    	ORDER BY ROUT_ID, SEQ
+
+    </select>
+    
+    <select id="BM0999G0S1" parameterType="String" resultType="tsRoutNodeVO">
+		SELECT
+			  ROUT_ID
+		    , NULL AS SEQ
+		    , RS.STA_ID AS NODE_ID
+		    , LONGI AS X
+		    , LATI AS Y
+		FROM
+			TS_ROUT_STA RS
+			LEFT JOIN
+		    BM_STA_INFO SI
+			ON
+		    RS.STA_ID = SI.STA_ID
+		WHERE
+			ROUT_ID = 'VBR009003'
+		
+		UNION
+		
+		SELECT
+			  ROUT_ID
+		    , NULL AS SEQ
+		    , RA.AUDIO_ID AS NODE_ID
+		    , X
+		    , Y
+		FROM
+			TS_ROUT_AUDIO RA
+		    LEFT JOIN
+		    TS_AUDIO_INFO AI
+		    ON RA.AUDIO_ID = AI.AUDIO_ID
+		WHERE
+			ROUT_ID = '293000183'
+		
+		UNION
+			
+		SELECT
+			*
+		FROM
+			TS_ROUT_NODE
+		WHERE
+			ROUT_ID = 'VBR009003'
+	
+    </select>
+    
+    <select id="BM0998G0S0" parameterType="String" resultType="tsRoutNodeVO">
+		SELECT
+			  ROUT_ID
+		    , NULL AS SEQ
+		    , RS.STA_ID AS NODE_ID
+		    , LONGI AS X
+		    , LATI AS Y
+		FROM
+			TS_ROUT_STA RS
+			LEFT JOIN
+		    BM_STA_INFO SI
+			ON
+		    RS.STA_ID = SI.STA_ID
+		WHERE
+			ROUT_ID = 'VBR009003'
+		
+		UNION
+		
+		SELECT
+			  ROUT_ID
+		    , NULL AS SEQ
+		    , RA.AUDIO_ID AS NODE_ID
+		    , X
+		    , Y
+		FROM
+			TS_ROUT_AUDIO RA
+		    LEFT JOIN
+		    TS_AUDIO_INFO AI
+		    ON RA.AUDIO_ID = AI.AUDIO_ID
+		WHERE
+			ROUT_ID = '293000183'
+		
+		UNION
+			
+		SELECT
+			*
+		FROM
+			TS_ROUT_NODE
+		WHERE
+			ROUT_ID = 'VBR009003'
+			
+		
+		UNION
+			
+		SELECT
+			    ROUT_ID
+			  , SEQ
+			  , NULL AS NODE_ID
+			  , X
+			  , Y
+		FROM
+			TS_ROUT_NODE_TEMP
+		WHERE
+			ROUT_ID = 'VBR009003'
+			
+    </select>
+    
+    <insert id="BM0999M0I0" parameterType="bmValMapVO">
+    	INSERT INTO
+    		TS_ROUT_NODE_TEMP(ROUT_ID, X, Y)
+    	VALUES('VBR009003', #{x}, #{y})
+    </insert>
+    
+    <delete id="BM0999M0D0" parameterType="bmValMapVO">
+    	DELETE
+    	FROM
+    		TS_ROUT_NODE_TEMP
+    	WHERE
+    		X = #{x}
+    		AND
+    		Y = #{y}
+    </delete>
+</mapper>

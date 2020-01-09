@@ -16,7 +16,7 @@
 	    	<if test="value != null">
 				STA_ID LIKE CONCAT('%', #{value}, '%')
 				OR STA_NO LIKE CONCAT('%', #{value}, '%')
-				OR STA_NO LIKE CONCAT('%', #{value}, '%')
+				OR STA_NM LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     	</where>
     </select>

@@ -3,10 +3,6 @@ var fnObj = {}, CODE = {};
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
-
-//티맵용 전역변수
-var map, marker;
-var markers = [];
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -20,9 +16,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0105G0S0",
             data: filter,
             callback: function (res) {
-            	
-            	console.log(res);
-            	
             	caller.gridView0.setData(res);
                 
                 if(res.list.length == 0) {
@@ -147,6 +140,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 });
         }
         */
+    	
+        axboot.ajax({
+            type: "POST",
+            url: "/api/v1/test",
+            data: {},
+            callback: function (res) {
+            }
+        });
+        
+        
     },
     
     // 탭닫기
@@ -157,10 +160,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
     	selectedRow = data;
-    	console.log(data);
     	map_marker(data.lati, data.longi);
-        //caller.formView0.setData(data);
-        
     }
 });
 
@@ -173,7 +173,7 @@ fnObj.pageStart = function () {
     this.pageButtonView.initView();
     this.searchView0.initView();
     this.gridView0.initView();
-    initTmap();
+    initTmap("100%", "490px");
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -340,35 +340,3 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 /********************************************************************************************************************/
 /** 정류장연계 전용 **/
 /********************************************************************************************************************/
-
-//티맵 시작
-function initTmap(){
-	map = new Tmapv2.Map("mapView0",  
-	{
-		center: new Tmapv2.LatLng(36.502212, 127.256300), // 지도 초기 좌표
-		width: "100%", 
-		height: "100%",
-		zoom: 15
-	});
-	return map;
-} 
-
-//마커그리기
-function map_marker(lat, lng){
-	removeMarkers();
-	
-	marker = new Tmapv2.Marker({
-		position: new Tmapv2.LatLng(lat, lng), //Marker의 중심좌표 설정.
-		map: map //Marker가 표시될 Map 설정..
-	});
-	map.setCenter(new Tmapv2.LatLng(lat,lng));
-	markers.push(marker);
-}
-
-//마커삭제
-function removeMarkers() {
-	for (var i = 0; i < markers.length; i++) {
-		markers[i].setMap(null);
-	}
-	markers = [];
-}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0106.BM0106Mapper">
+
+    <select id="BM0106G0S0" parameterType="String" resultType="bmStaNmInfoVO">
+    	SELECT
+			  STA.STA_ID
+		    , STA.STA_NM
+		    , STA.LATI
+		    , STA.LONGI
+		    , NM.KR_NM
+		    , NM.EN_NM
+		    , NM.CN_NM
+		    , NM.JP_NM
+		    , REMARK
+		FROM
+			BM_STA_INFO STA
+		    LEFT JOIN
+			BM_STA_NM_INFO NM
+		    ON STA.STA_ID = NM.STA_ID
+    	<where>
+	    	<if test="value != null">
+				STA.STA_ID LIKE CONCAT('%', #{value}, '%')
+				OR STA.STA_NM LIKE CONCAT('%', #{value}, '%')
+				OR NM.KR_NM LIKE CONCAT('%', #{value}, '%')
+				OR NM.EN_NM LIKE CONCAT('%', #{value}, '%')
+				OR NM.CN_NM LIKE CONCAT('%', #{value}, '%')
+				OR NM.JP_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+    </select>
+        
+    <select id="BM0106G0S1" parameterType="String" resultType="Integer">
+    	SELECT
+    		COUNT(*)
+    	FROM
+    		BM_STA_NM_INFO
+    	<where>
+    		STA_ID = #{value}
+    	</where>
+    </select>
+    <insert id="BM0106F0I0" parameterType="bmStaNmInfoVo">
+    	INSERT INTO BM_STA_NM_INFO(
+    		  STA_ID
+    		, KR_NM
+    		, EN_NM
+    		, CN_NM
+    		, JP_NM
+    		, REMARK
+    		)
+   		VALUES(
+   			  #{staId}
+   			, #{krNm}
+   			, #{enNm}
+   			, #{cnNm}
+   			, #{jpNm}
+   			, #{remark}
+   		)
+    </insert>
+    
+    <update id="BM0106F0U0" parameterType="bmStaNmInfoVo">
+    	UPDATE BM_STA_NM_INFO
+    	SET
+    		  KR_NM		=	#{krNm}
+    		, EN_NM		=	#{enNm}
+    		, CN_NM		=	#{cnNm}
+    		, JP_NM		=	#{jpNm}
+    		, REMARK	=	#{remark}
+    	WHERE
+    		STA_ID = #{staId}
+    </update>
+    
+    
+</mapper>

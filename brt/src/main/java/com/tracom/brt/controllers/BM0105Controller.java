@@ -46,12 +46,5 @@ public class BM0105Controller extends BaseController {
     	service.BM0105F0U0(request);
     	return ok();
     }
-    
-    @PostMapping("/BM0105G0D0")
-    public ApiResponse BM0105G0D0(@RequestBody BmStaInfoVO request) {
-    	service.BM0105G0D0(request);
-    	return ok();
-    }  
-
 
 }

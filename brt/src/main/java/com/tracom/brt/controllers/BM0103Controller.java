@@ -43,7 +43,7 @@ public class BM0103Controller extends BaseController {
     }
     
     @PostMapping("/BM0103F0U0")
-    public ApiResponse BM0102F0U0(@RequestBody VHCInfoVO request) {
+    public ApiResponse BM0103F0U0(@RequestBody VHCInfoVO request) {
     	service.BM0103F0U0(request);
     	return ok();
     }

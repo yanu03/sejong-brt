@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
+import com.tracom.brt.handler.FTPHandler;
 
 @Service
 public class BM0103Service extends BaseService<VHCInfoVO, String> {

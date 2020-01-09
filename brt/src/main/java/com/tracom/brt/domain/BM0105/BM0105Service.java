@@ -31,12 +31,5 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
     		return false;
     	}
     }
-    
-    public boolean BM0105G0D0(BmStaInfoVO vo) {
-    	if(mapper.BM0105G0D0(vo) > 0) {
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
+
 }

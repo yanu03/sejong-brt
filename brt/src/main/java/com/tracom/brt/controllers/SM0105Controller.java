@@ -23,7 +23,6 @@ public class SM0105Controller extends BaseController {
 
     @Inject
     private SM0105Service service;
-
     
     @GetMapping("/SM0105G1S0")
     public Responses.ListResponse SM0105G1S0(RequestParams<CommonCodeDetailInfoVO> requestParams) {
