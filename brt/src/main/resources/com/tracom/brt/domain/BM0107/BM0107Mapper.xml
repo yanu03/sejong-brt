@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.tracom.brt.domain.BM0104.BM0104Mapper">
+<mapper namespace="com.tracom.brt.domain.BM0107.BM0107Mapper">
 
-	<select id="BM0104G0S0" parameterType="String" resultType="bmRoutInfoVO">
+	<select id="BM0107G0S0" parameterType="String" resultType="bmRoutInfoVO">
 		SELECT
 			  ROUT_ID
 		    , ROUT_NM
@@ -21,7 +21,7 @@
 		</where>
     </select>
     
-	<select id="BM0104G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
+	<select id="BM0107G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
 		SELECT
 			  NI.STA_ID
 		    , SI.STA_NM
@@ -49,5 +49,39 @@
 	    	</if>
 		ORDER BY SEQ
     </select>
+    
+    <insert id="BM0107G1I0" parameterType="bmRoutNodeInfoVO">
+    	INSERT INTO
+    		BM_ROUT_NODE_INFO
+    			(
+    				  NODE_ID
+    				, NODE_NM
+    				, LATI
+    				, LONGI
+    				, SEQ
+    				, ROUT_ID
+    				, STA_ID
+    				, CREATED_AT
+    				, CREATED_BY
+    				, UPDATED_AT
+    				, UPDATED_BY
+    			)
+		VALUES
+			<foreach collection="voList" item="voList" separator=",">
+			(
+  			      CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_ROUT_NODE_INFO_0), 6, '0'))
+				, #{voList.nodeNm}
+				, #{voList.lati}
+				, #{voList.longi} 
+				, #{voList.seq}
+				, #{voList.routId}
+				, #{voList.staId}
+				, #{voList.createdAt}
+				, #{voList.createdBy}
+				, #{voList.updatedAt}
+				, #{voList.updatedBy}
+			)
+			</foreach>
+    </insert>
     
 </mapper>

@@ -94,18 +94,10 @@
                     	</ax:tr>
                     </ax:tbl>
                	</ax:form>       
-            
-                <!-- 지도 -->
-                <div class="ax-button-group" role="panel-header">
-                    <div class="left">
-                        <h2><i class="cqc-news"></i>
-                            <ax:lang id="ax.admin.BM0106M0.title"/>
-                        </h2>
-                    </div>
-                </div>
 
-                <div id="mapView0" data-fit-height-content="mapView0" style="height:400px;">
-                </div>
+				<div style="height:100%; padding-bottom:200px; overflow:hidden;">
+		             <div id="mapView0" style="overflow:hidden;"></div>				
+	            </div>
             </ax:split-panel>
         </ax:split-layout>
 

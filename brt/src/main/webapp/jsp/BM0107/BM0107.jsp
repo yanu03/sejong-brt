@@ -11,7 +11,7 @@
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN"/>
         <script type="text/javascript" src="<c:url value='/assets/js/common/tmap.js' />"></script>
-        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0104/BM0104.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0107/BM0107.js' />"></script>
         <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appkey=bbaeca8d-24d4-425d-9bd2-946552e4e2a7"></script>
     </jsp:attribute>
     <jsp:body>
@@ -23,7 +23,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0104S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0107S0.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -39,7 +39,7 @@
 	                <div class="ax-button-group" data-fit-height-aside="gridView0">
 	                    <div class="left">
 	                        <h2><i class="cqc-list"></i>
-	                            <ax:lang id="ax.admin.BM0104G0.title"/> </h2>
+	                            <ax:lang id="ax.admin.BM0107G0.title"/> </h2>
 	                    </div>
 	                </div>
 	                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
@@ -49,7 +49,7 @@
 	                    <ax:tr>
 	                        <ax:td label='ax.admin.search' width="400px">
 	                        	<div class="input-group" >
-		                            <ax:input type="text" name="filter1" id="filter1" placeholder="ax.admin.BM0104S1.search" clazz="inline-block" style="width:180px; margin-right:20px;"/>
+		                            <ax:input type="text" name="filter1" id="filter1" placeholder="ax.admin.BM0107S1.search" clazz="inline-block" style="width:180px; margin-right:20px;"/>
 		                            <button type="button" id="searchSta" class="btn btn-primary" onclick="">
 			                         	<ax:lang id="ax.admin.search"/>
 			                        </button>
@@ -70,7 +70,7 @@
 	                <div class="ax-button-group" role="panel-header">
 	                    <div class="left">
 	                        <h2><i class="cqc-news"></i>
-	                            <ax:lang id="ax.admin.BM0104M0.title"/>
+	                            <ax:lang id="ax.admin.BM0107M0.title"/>
 	                        </h2>
 	                    </div>
 	                </div>
