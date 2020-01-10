@@ -18,7 +18,7 @@ import com.tracom.brt.domain.BM0105.BM0105Service;
 import com.tracom.brt.domain.BM0105.BmStaInfoVO;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
- 
+
 @RestController
 @RequestMapping(value = "/api/v1")
 public class BM0105Controller extends BaseController {

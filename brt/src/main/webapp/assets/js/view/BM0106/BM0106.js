@@ -160,7 +160,7 @@ fnObj.pageStart = function () {
     this.gridView0.initView();
     this.formView0.initView();
     
-    initTmap("100%", "300px");
+    initTmap("100%", "100%");
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 

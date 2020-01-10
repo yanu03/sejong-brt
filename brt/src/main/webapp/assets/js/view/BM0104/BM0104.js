@@ -143,6 +143,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     ITEM_CLICK_G1: function (caller, act, data) {
     	selectedRow = data;
+        map_marker(data.lati, data.longi);
     }
 });
 
@@ -157,7 +158,7 @@ fnObj.pageStart = function () {
     this.searchView1.initView();
     this.gridView0.initView();
     this.gridView1.initView();
-    initTmap("100%", "490px");
+    initTmap("100%", "100%");
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -352,6 +353,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             ],
             body: {
                 onClick: function () {
+                	console.log('22');
                     this.self.select(this.dindex);
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
                 }
