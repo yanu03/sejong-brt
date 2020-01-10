@@ -80,6 +80,11 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
     @Comment(value = "기능키5권한")
     @ColumnPosition(11)
     private String fn5Ah = AXBootTypes.Used.NO.getLabel();
+    
+    @Column(name = "FN6_AH", length = 1)
+    @Comment(value = "기능키6권한")
+    @ColumnPosition(12)
+    private String fn6Ah = AXBootTypes.Used.NO.getLabel();
 
     @Transient
     private AXBootTypes.Used useYn;
@@ -94,6 +99,7 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
         this.fn3Ah = positive(this.fn3Ah, authGroupMenu.getFn3Ah());
         this.fn4Ah = positive(this.fn4Ah, authGroupMenu.getFn4Ah());
         this.fn5Ah = positive(this.fn5Ah, authGroupMenu.getFn5Ah());
+        this.fn6Ah = positive(this.fn6Ah, authGroupMenu.getFn5Ah());
     }
 
     public void updateAuthorization(Program program) {
@@ -106,6 +112,7 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
         this.fn3Ah = negative(this.fn3Ah, program.getFn3Ah());
         this.fn4Ah = negative(this.fn4Ah, program.getFn4Ah());
         this.fn5Ah = negative(this.fn5Ah, program.getFn5Ah());
+        this.fn6Ah = negative(this.fn6Ah, program.getFn6Ah());
     }
 
     public String positive(String originValue, String newValue) {
@@ -143,7 +150,7 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
         private Long menuId;
     }
 
-    public static AuthGroupMenu of(String grpAuthCd, Long menuId, String schAh, String savAh, String exlAh, String delAh, String fn1Ah, String fn2Ah, String fn3Ah, String fn4Ah, String fn5Ah) {
+    public static AuthGroupMenu of(String grpAuthCd, Long menuId, String schAh, String savAh, String exlAh, String delAh, String fn1Ah, String fn2Ah, String fn3Ah, String fn4Ah, String fn5Ah, String fn6Ah) {
         AuthGroupMenu authGroupMenu = new AuthGroupMenu();
         authGroupMenu.setGrpAuthCd(grpAuthCd);
         authGroupMenu.setMenuId(menuId);
@@ -156,6 +163,7 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
         authGroupMenu.setFn3Ah(fn3Ah);
         authGroupMenu.setFn4Ah(fn4Ah);
         authGroupMenu.setFn5Ah(fn5Ah);
+        authGroupMenu.setFn6Ah(fn6Ah);
         return authGroupMenu;
     }
 }
