@@ -211,30 +211,44 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     CHECK_WAV: function(caller, act, data) {
     	var formData = data.formData;
-    	var element = $("#wavFile");
     	
-    	if(element[0].files[0]){
-        	formData.append("attFile", $("#wavFile")[0].files[0].name);
-        } else {
-        	alert(element.attr("title") + "을 선택해주세요");
-        }
+    	if(formData.playType == "WAV") {
+	    	var element = $("#wavFile");
+	    	
+	    	if(element[0].files[0]){
+	        	formData.append("attFile", $("#wavFile")[0].files[0].name);
+	        } else {
+	        	alert(element.attr("title") + "을 선택해주세요");
+	        }
+    	}
     },
     
     TEST_WAV: function(caller, act, data) {
-    	var blob = window.URL || window.webkitURL;
-    	var file = $("#wavFile")[0].files[0];
-    	var fileURL = blob.createObjectURL(file);
-    	console.log(fileURL)
-    	$("#wavPlayer").attr("src", fileURL).trigger("play");
+    	var element = $("#wavFile");
+    	if(element[0].files[0]) {
+	    	var blob = window.URL || window.webkitURL;
+	    	var file = element[0].files[0];
+	    	var fileURL = blob.createObjectURL(file);
+	
+	    	$("#wavPlayer").attr("src", fileURL).trigger("play");
+    	}
     },
     
     TEST_TTS: function(caller, act, data) {
     	data["checkChime"] = caller.formView0.getData().chimeYn;
-    	var wavDownloadUrl = "/api/v1/getWavBuffer?" + $.param(data);
+    	var wavDownloadUrl = "/api/v1/getWavDownload?" + $.param(data);
     	var wavTest = "/api/v1/getWavTest?" + $.param(data);
-    	window.location.href = wavDownloadUrl;
+    	
+    	// wav 다운로드
+    	// window.location.href = wavDownloadUrl;
     	
     	$("#wavPlayer").attr("src", wavTest).trigger("play");
+    	
+    	/*
+    	$("#jquery_jplayer_1").jPlayer("setMedia", {
+    		wav: wavTest
+    	}).jPlayer("play");
+    	//*/
     },
 });
 
@@ -246,13 +260,9 @@ fnObj.pageStart = function () {
     this.searchView0.initView();
     this.gridView0.initView();
     this.formView0.initView();
+    
     /*
     $("#jquery_jplayer_1").jPlayer({
-		ready: function (event) {
-			$(this).jPlayer("setMedia", {
-				wav: "/api/v1/getWavBuffer?pText=test&nLanguage=0&nSpeakerId=0&checkChime=Y"
-			});
-		},
 		swfPath: "/assets/js/jplayer",
 		supplied: "wav",
 		wmode: "window",

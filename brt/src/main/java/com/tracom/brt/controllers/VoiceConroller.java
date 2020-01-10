@@ -11,13 +11,11 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,8 +35,7 @@ public class VoiceConroller extends BaseController {
 	@Inject
 	private FTPHandler handler;
 	
-	@CrossOrigin("*")
-	@GetMapping("/getWavBuffer")
+	@GetMapping("/getWavDownload")
 	public ResponseEntity<byte[]> getWavBuffer(RequestParams<VoiceInfoVO> requestParams) {
 		String pText = requestParams.getString("pText");
 		int nLanguage = requestParams.getInt("nLanguage");
