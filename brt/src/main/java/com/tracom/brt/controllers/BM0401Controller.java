@@ -33,8 +33,8 @@ public class BM0401Controller extends BaseController {
     
     @PostMapping("/BM0401F0I0")
     public ApiResponse BM0401F0I0(@ModelAttribute VoiceInfoVO request) {
-    	String dlCd = service.BM0401F0I0(request);
-    	return ok(dlCd);
+    	String vocId = service.BM0401F0I0(request);
+    	return ok(vocId);
     }
     
     @PostMapping("/BM0401F0U0")

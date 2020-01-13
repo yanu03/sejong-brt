@@ -84,6 +84,18 @@ public class FTPHandler {
 		}
 	}
 	
+	// 음성 TEMP파일(WAV) MP3로 업로드
+	public void uploadWavTemp(MultipartFile file) {
+		String dir = Paths.get(ROOT_LOCAL_PATH, "/temp/wav_temp.wav").toString();
+		File saveFile = Paths.get(dir).toFile();
+		
+		try {
+			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// 음성파일(TTS) 업로드
 	public void uploadVoiceTTS(String id, String krText, String enText) {
 		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
@@ -98,7 +110,6 @@ public class FTPHandler {
 			e.printStackTrace();
 		}
 	}
-	
 	
 	private void processSynchronize() throws Exception {
 		setServerDirectory();

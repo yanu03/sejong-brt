@@ -64,6 +64,14 @@
             	},
             	header: false
             },
+            "COMMON_SENTENCE": {
+            	width: 600,
+            	height: 450,
+            	iframe: {
+            		url: "/jsp/common/common-sentence_modal.jsp"
+            	},
+            	header: false
+            },
         };
     }
 

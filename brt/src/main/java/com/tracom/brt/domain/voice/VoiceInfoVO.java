@@ -1,7 +1,5 @@
 package com.tracom.brt.domain.voice;
 
-import java.time.LocalDate;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tracom.brt.domain.BaseVO;

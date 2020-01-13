@@ -5,11 +5,23 @@
 
     <select id="SM0105G1S0" parameterType="String" resultType="commonCodeDetailInfoVO">
     	SELECT
-    		*
+    		  CO_CD
+    		, DL_CD
+    		, DL_CD_NM
+    		, SORT_ODR
+    		, TXT_VAL1
+    		, TXT_VAL2
+    		, TXT_VAL3
+    		, NUM_VAL4
+    		, NUM_VAL5
+    		, NUM_VAL6
+    		, USE_YN
+    		, REMARK
     	FROM
     		SM_DL_CD_INFO
     	WHERE
     		CO_CD = #{value}
+    	ORDER BY SORT_ODR ASC
     </select>
     
     <select id="SM0105F0S0" parameterType="String" resultType="commonCodeDetailInfoVO">

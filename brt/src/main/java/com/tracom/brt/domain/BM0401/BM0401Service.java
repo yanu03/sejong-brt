@@ -52,7 +52,9 @@ public class BM0401Service extends BaseService<VoiceInfoVO, String> {
     	if(vo.getPlayType().equals("TTS")) {
     		handler.uploadVoiceTTS(vocId, vo.getKrTts(), vo.getEnTts());
     	} else if(vo.getPlayType().equals("WAV")) {
-    		handler.uploadVoice(vocId, vo.getWavFile());
+    		if(vo.getWavFile() != null) {
+    			handler.uploadVoice(vocId, vo.getWavFile());
+    		}
     	}
     }
 }

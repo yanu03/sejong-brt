@@ -154,7 +154,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .catch(function () {
 
                 });
-			//*/
         }
     },
     
@@ -168,6 +167,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	selectedRow = data;
         caller.formView0.setData(data);
         caller.formView0.enable();
+        
+        // 미리듣기 초기화
+        $("#jquery_jplayer_1").jPlayer("setMedia", {
+    		mp3: null
+    	});
+        
+        if(data.playType == "WAV") {
+        	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
+        }
     },
     
     CHANGE_PLAY_TYPE: function(caller, cat, data) {
@@ -223,32 +231,100 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     },
     
+    // WAV 미리듣기
     TEST_WAV: function(caller, act, data) {
     	var element = $("#wavFile");
     	if(element[0].files[0]) {
 	    	var blob = window.URL || window.webkitURL;
 	    	var file = element[0].files[0];
 	    	var fileURL = blob.createObjectURL(file);
-	
-	    	$("#wavPlayer").attr("src", fileURL).trigger("play");
+	    	
+	    	if(checkIe()) {
+	    		var formData = new FormData(caller.formView0.target[0]);
+	        	
+	        	ACTIONS.dispatch(ACTIONS.CHECK_WAV, {
+	        		formData: formData
+	        	});
+	            
+	            axboot.promise()
+	                .then(function (ok, fail, data) {
+	                    axboot.ajax({
+	                    	type: "POST",
+	                        url: "/api/v1/uplaodWavTemp",
+	                        enctype: "multipart/form-data",
+	                        processData: false,
+	                        data: formData,
+	                        callback: function (res) {
+	                            ok(res);
+	                        },
+	                        options: {
+	                        	contentType:false
+	                        }
+	                    });
+	                })
+	                .then(function (ok, fail, data) {
+	                	$("#jquery_jplayer_1").jPlayer("setMedia", {
+	    	        		mp3: "/api/v1/getWavTest?type=temp",
+	    	        	}).jPlayer("play");
+	                })
+	                .catch(function () {
+	                });
+	    	} else {
+	    		$("#jquery_jplayer_1").jPlayer("setMedia", {
+	        		wav: fileURL,
+	        	}).jPlayer("play");
+	    	}
     	}
     },
     
+    // TTS 미리듣기
     TEST_TTS: function(caller, act, data) {
     	data["checkChime"] = caller.formView0.getData().chimeYn;
     	var wavDownloadUrl = "/api/v1/getWavDownload?" + $.param(data);
-    	var wavTest = "/api/v1/getWavTest?" + $.param(data);
     	
     	// wav 다운로드
     	// window.location.href = wavDownloadUrl;
     	
-    	$("#wavPlayer").attr("src", wavTest).trigger("play");
+    	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
+    },
+    
+    SET_AUDIO: function(caller, act, data) {
+    	var wavTest = "/api/v1/getWavTest?" + $.param(data);
     	
-    	/*
-    	$("#jquery_jplayer_1").jPlayer("setMedia", {
-    		wav: wavTest
-    	}).jPlayer("play");
-    	//*/
+    	if(checkIe()) {
+    		$("#jquery_jplayer_1").jPlayer("setMedia", {
+        		mp3: wavTest,
+        	});
+    		
+    	} else {
+    		$("#jquery_jplayer_1").jPlayer("setMedia", {
+        		wav: wavTest,
+        	});
+    	}
+    	
+    	// WAV 미리듣기가 아닐경우 자동 재생
+    	if(typeof data.vocId === "undefined") {
+			$("#jquery_jplayer_1").jPlayer("play");
+		}
+    },
+    
+    OPEN_COMMON_SENTENCE_MODAL: function(caller, act, data) {
+    	var _this = this;
+    	axboot.modal.open({
+            modalType: "COMMON_SENTENCE",
+            param: "",
+            callback: function (result) {
+            	this.close();
+            	
+            	axDialog.confirm({
+		            msg: "기본문구 삽입시 작성된 내용이<br>기본문구로 초기화됩니다."
+		        }, function() {
+		            if (this.key == "ok") {
+		            	caller.formView0.model.set(data.dataPath, result.dlCdNm);
+		            }
+		        });
+            }
+        });
     },
 });
 
@@ -261,19 +337,20 @@ fnObj.pageStart = function () {
     this.gridView0.initView();
     this.formView0.initView();
     
-    /*
     $("#jquery_jplayer_1").jPlayer({
+		ready: function (event) {
+		},
 		swfPath: "/assets/js/jplayer",
-		supplied: "wav",
+		supplied: "wav, mp3",
+		cssSelectorAncestor: "#jp_container_1",
 		wmode: "window",
 		useStateClassSkin: true,
-		autoBlur: false,
+		autoBlur: true,
 		smoothPlayBar: true,
 		keyEnabled: true,
 		remainingDuration: true,
 		toggleDuration: true
 	});
-	//*/
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -483,6 +560,19 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
             	ACTIONS.dispatch(ACTIONS.TEST_WAV);
             }
         });
+        
+        axboot.buttonClick(this, "data-btn-common-txt", {
+        	"krTts": function() {
+        		ACTIONS.dispatch(ACTIONS.OPEN_COMMON_SENTENCE_MODAL, {
+        			dataPath: "krTts"
+        		});
+        	},
+        	"enTts": function() {
+        		ACTIONS.dispatch(ACTIONS.OPEN_COMMON_SENTENCE_MODAL, {
+        			dataPath: "enTts"
+        		});
+        	}
+        })
         
         this.target.find("[data-ax-path='playType']").on("change", function(e) {
         	ACTIONS.dispatch(ACTIONS.CHANGE_PLAY_TYPE, {

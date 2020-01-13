@@ -92,7 +92,7 @@
                        	
                        	<ax:tr>
                             <ax:td id="wavLabel" label="ax.admin.BM0401F0.wav" width="500px">
-                            	<input type="file" id="wavFile" name="wavFile" class="form-control inline-block W180" accept="audio/wav" title="<ax:lang id="ax.admin.BM0401F0.wav"/>"/>
+                            	<input type="file" id="wavFile" name="wavFile" data-ax-path="wavFile" class="form-control inline-block W180" accept="audio/wav" title="<ax:lang id="ax.admin.BM0401F0.wav"/>"/>
                             	<button type="button" class="btn btn-primary" data-btn data-btn-test="wav">
                                 	<ax:lang id="ax.admin.test"/>
                             	</button>
@@ -101,7 +101,7 @@
                        	
                        	<ax:tr>
                             <ax:td id="krTtsLabel" label="ax.admin.BM0401F0.kr.tts" width="100%">
-                            	<span>차임벨: </span><ax:common-code groupCd="CHIME_YN" dataPath="chimeYn" clazz="form-control" />
+                            	<%-- <span>차임벨: </span><ax:common-code groupCd="CHIME_YN" dataPath="chimeYn" clazz="form-control" /> --%>
                             	<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0401F0.kr.tts"/>" class="form-control"></textarea>
                             	
                             	<div style="margin-top: 4px; text-align: right;">
@@ -146,7 +146,40 @@
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.test" width="300px">
-                            	<audio controls id="wavPlayer"></audio>
+                            	<!-- <audio controls id="wavPlayer"></audio> -->
+                            	
+                            	<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+								<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
+									<div class="jp-type-single">
+										<div class="jp-gui jp-interface">
+											<div class="jp-controls">
+												<button class="jp-play" role="button" tabindex="0">play</button>
+												<button class="jp-stop" role="button" tabindex="0">stop</button>
+											</div>
+											<div class="jp-progress">
+												<div class="jp-seek-bar">
+													<div class="jp-play-bar"></div>
+												</div>
+											</div>
+											<div class="jp-volume-controls">
+												<button class="jp-mute" role="button" tabindex="0">mute</button>
+												<button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+												<div class="jp-volume-bar">
+													<div class="jp-volume-bar-value"></div>
+												</div>
+											</div>
+											<div class="jp-time-holder">
+												<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+												<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+												<div class="jp-toggles">
+													<button class="jp-repeat" role="button" tabindex="0">repeat</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								
                             </ax:td>
                        	</ax:tr>
                        	
