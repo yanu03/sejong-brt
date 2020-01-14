@@ -66,49 +66,50 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
                             <ax:td label="ax.admin.BM0401F0.voc.id" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="vocId" data-key="true" class="form-control" readonly="readonly"/>
+                                <input type="text" name="vocId" data-ax-path="vocId" data-key="true" class="form-control" readonly="readonly"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0401F0.voc.nm" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="vocNm" title="<ax:lang id="ax.admin.BM0401F0.voc.nm"/>" class="form-control" data-ax-validate="required" />
+                                <input type="text" name="vocNm" data-ax-path="vocNm" title="<ax:lang id="ax.admin.BM0401F0.voc.nm"/>" class="form-control" data-ax-validate="required" />
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0401F0.play.date" width="400px">
+                            <ax:td label="ax.admin.BM0401F0.play.date" width="400px" labelClazz="required">
 	                            <div class="input-group" data-ax5picker="date">
-	                                <input type="text" data-ax-path="playStDate" class="form-control" placeholder="0000-00-00">
+	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
 	                                <span class="input-group-addon">~</span>
-	                                <input type="text" data-ax-path="playEdDate" class="form-control" placeholder="0000-00-00">
+	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0401F0.play.type" width="300px">
-                            	<ax:common-code groupCd="TTS" dataPath="playType" clazz="form-control" />
+                            <ax:td label="ax.admin.BM0401F0.play.type" width="300px" labelClazz="required">
+                            	<ax:common-code groupCd="TTS" name="playType" dataPath="playType" clazz="form-control" />
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.test" width="500px">
-	                            	<input type="file" id="wavFile" class="form-control inline-block W180" accept="audio/wav"/>
-	                            	<button type="button" id="testButton" class="btn btn-primary">
-	                                	<ax:lang id="ax.admin.test"/>
-	                            	</button>
+                            <ax:td id="wavLabel" label="ax.admin.BM0401F0.wav" width="500px">
+                            	<input type="file" id="wavFile" name="wavFile" data-ax-path="wavFile" class="form-control inline-block W180" accept="audio/wav" title="<ax:lang id="ax.admin.BM0401F0.wav"/>"/>
+                            	<button type="button" class="btn btn-primary" data-btn data-btn-test="wav">
+                                	<ax:lang id="ax.admin.test"/>
+                            	</button>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.BM0401F0.kr.tts" width="100%">
-                            	<textarea data-ax-path="krTts" class="form-control"></textarea>
+                            <ax:td id="krTtsLabel" label="ax.admin.BM0401F0.kr.tts" width="100%">
+                            	<%-- <span>차임벨: </span><ax:common-code groupCd="CHIME_YN" dataPath="chimeYn" clazz="form-control" /> --%>
+                            	<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0401F0.kr.tts"/>" class="form-control"></textarea>
                             	
                             	<div style="margin-top: 4px; text-align: right;">
-	                            	<button type="button" data-test-btn="krTts" class="btn btn-primary">
+	                            	<button type="button" class="btn btn-primary" data-btn data-btn-test="krTts">
 	                                	<ax:lang id="ax.admin.test"/>
 	                            	</button>
 	                            	
-	                            	<button type="button" class="btn btn-primary" data-common-txt-btn="krTts">
+	                            	<button type="button" class="btn btn-primary" data-btn data-btn-common-txt="krTts">
 	                                	<ax:lang id="ax.admin.common.txt"/>
 	                            	</button>
 	                            </div>
@@ -116,15 +117,15 @@
                        	</ax:tr>
                        	
                        	<ax:tr>
-                       		<ax:td label="ax.admin.BM0401F0.en.tts" width="100%">
-                            	<textarea data-ax-path="enTts" class="form-control"></textarea>
+                       		<ax:td id="enTtsLabel" label="ax.admin.BM0401F0.en.tts" width="100%">
+                            	<textarea name="enTts" data-ax-path="enTts" title="<ax:lang id="ax.admin.BM0401F0.en.tts"/>" class="form-control"></textarea>
                             	
                             	<div style="margin-top: 4px; text-align: right;">
-	                            	<button type="button" data-test-btn="enTts" class="btn btn-primary">
+	                            	<button type="button" class="btn btn-primary" data-btn data-btn-test="enTts">
 	                                	<ax:lang id="ax.admin.test"/>
 	                            	</button>
 	                            	
-	                            	<button type="button" class="btn btn-primary" data-common-txt-btn="enTts">
+	                            	<button type="button" class="btn btn-primary" data-btn data-btn-common-txt="enTts">
 	                                	<ax:lang id="ax.admin.common.txt"/>
 	                            	</button>
 	                            </div>
@@ -133,18 +134,20 @@
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0401F0.scr.txt" width="100%">
-                            	<textarea data-ax-path="scrTxt" class="form-control"></textarea>
+                            	<textarea name="scrTxt" data-ax-path="scrTxt" class="form-control"></textarea>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0401F0.scr.txt.en" width="100%">
-                            	<textarea data-ax-path="scrTxtEn" class="form-control"></textarea>
+                            	<textarea name="scrTxtEn" data-ax-path="scrTxtEn" class="form-control"></textarea>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.test" width="300px">
+                            	<!-- <audio controls id="wavPlayer"></audio> -->
+                            	
                             	<div id="jquery_jplayer_1" class="jp-jplayer"></div>
 								<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
 									<div class="jp-type-single">
@@ -175,12 +178,14 @@
 										</div>
 									</div>
 								</div>
+								
+								
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0401F0.remark" width="300px">
-                            	<input type="text" data-ax-path="remark" class="form-control"/>
+                            	<input type="text" name="remark" data-ax-path="remark" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
                     </ax:tbl>

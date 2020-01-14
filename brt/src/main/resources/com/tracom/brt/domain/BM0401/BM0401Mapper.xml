@@ -5,7 +5,18 @@
 
     <select id="BM0401G0S0" parameterType="String" resultType="voiceInfoVO">
     	SELECT
-    		*
+    		  VOC_ID
+    		, VOC_NM
+    		, PLAY_ST_DATE
+    		, PLAY_TYPE
+    		, KR_TTS
+    		, EN_TTS
+    		, SCR_TXT
+    		, REMARK
+    		, PLAY_TM
+    		, PLAY_ED_DATE
+    		, ATT_FILE
+    		, CONCAT(DATE_FORMAT(PLAY_ST_DATE, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(PLAY_ED_DATE, '%Y-%m-%d')) PLAY_DATE
     	FROM
     		BM_VOC_INFO
     	WHERE
@@ -18,7 +29,7 @@
     
     <insert id="BM0401F0I0" parameterType="voiceInfoVO">
     	<selectKey keyProperty="vocId" resultType="String" order="BEFORE">
-    		SELECT CONCAT('BV', LPAD(NEXTVAL(SEQ_BM_BS_VOC_INFO_0), 5, '0'))
+    		SELECT CONCAT('BV', LPAD(NEXTVAL(SEQ_BM_BV_VOC_INFO_0), 5, '0'))
     	</selectKey>
     	
     	INSERT INTO BM_VOC_INFO(
@@ -81,7 +92,6 @@
     	DELETE
     		FROM BM_VOC_INFO
     	WHERE
-    		CO_CD = #{coCd}
-    		AND DL_CD = #{dlCd}
+    		VOC_ID = #{vocId}
     </delete>
 </mapper>

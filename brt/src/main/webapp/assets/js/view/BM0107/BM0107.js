@@ -1,92 +1,210 @@
-var fnObj = {};
+var fnObj = {}, CODE = {};
+
+/***************************************** 전역 변수 초기화 ******************************************************/
+isUpdate = false;
+selectedRow = null;
+/*************************************************************************************************************/
+
+/***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {
+    	// 새로운 레코드 추가할 시 검색어 삭제
+    	var dataFlag = typeof data !== "undefined";
+    	var filter = $.extend({}, caller.searchView0.getData());
         axboot.ajax({
             type: "GET",
-            url: ["samples", "parent"],
-            data: caller.searchView.getData(),
+            url: "/api/v1/BM0107G0S0",
+            data: filter,
             callback: function (res) {
-                caller.gridView01.setData(res);
-            },
-            options: {
-                // axboot.ajax 함수에 2번째 인자는 필수가 아닙니다. ajax의 옵션을 전달하고자 할때 사용합니다.
-                onError: function (err) {
-                    console.log(err);
+            	caller.gridView0.setData(res);
+                if(res.list.length == 0) {
+                } else {
+                	if(dataFlag) {
+	                	caller.gridView0.selectIdRow(data);
+	                } else {
+		                if(selectedRow != null) {
+		                	caller.gridView0.selectRow(selectedRow.__index);
+		                } else {
+		                	caller.gridView0.selectFirstRow();
+		                }
+	                }
                 }
             }
         });
 
         return false;
     },
-    PAGE_SAVE: function (caller, act, data) {
-        var saveList = [].concat(caller.gridView01.getData("modified"));
-        saveList = saveList.concat(caller.gridView01.getData("deleted"));
+    PAGE_EXCEL: function(caller, act, data) {
+    	caller.gridView0.target.exportExcel("data.xls");
+    },
+    
+    PAGE_NEW: function (caller, act, data) {
+    	isUpdate = false;
+    	caller.gridView0.selectAll(false);
+        //caller.formView0.clear();
+        //caller.formView0.enable();
+        //caller.formView0.validate(true);
+    },
+    
+    PAGE_DELETE: function(caller, act, data) {
+    	console.log('rrr2');
+    	var grid = caller.gridView0.target;
+    	
+    	if(typeof grid.selectedDataIndexs[0] === "undefined") {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("ax.script.deleteconfirm")
+        }, function() {
+            if (this.key == "ok") {
+            	axboot.promise()
+                .then(function (ok, fail, data) {
+	            	axboot.ajax({
+	                    type: "POST",
+	                    url: "/api/v1/test",
+	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+	                    callback: function (res) {
+	                        ok(res);
+	                    }
+	                });
+                })
+                .then(function (ok) {
+                	//caller.formView0.clear();
+                	axToast.push(LANG("ondelete"));
+                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                })
+                .catch(function () {
 
-        axboot.ajax({
-            type: "PUT",
-            url: ["samples", "parent"],
-            data: JSON.stringify(saveList),
-            callback: function (res) {
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                axToast.push("저장 되었습니다");
+                });
             }
         });
     },
-    ITEM_CLICK: function (caller, act, data) {
+    
+    PAGE_SAVE: function (caller, act, data) {
+        //if (caller.formView0.validate()) {
+            //var formData = caller.formView0.getData();
+    	console.log('rr');
+formData = null;
+            axboot.promise()
+                .then(function (ok, fail, data) {
+                    axboot.ajax({
+                        type: "POST",
+                        url: "/api/v1/test",
+                        data: JSON.stringify(formData),
+                        callback: function (res) {
+                            ok(res);
+                        }
+                    });
+                })
+                .then(function (ok, fail, data) {
+            		axToast.push(LANG("onadd"));
+            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+                    isUpdate = true;
+                })
+                .catch(function () {
 
+                });
+        //}
     },
-    ITEM_ADD: function (caller, act, data) {
-        caller.gridView01.addRow();
+    
+    PAGE_UPDATE: function(caller, act, data) {
+        /*if (caller.formView0.validate()) {
+            var formData = caller.formView0.getData();
+            axboot.promise()
+                .then(function (ok, fail, data) {
+                	axboot.ajax({
+                    	type: "POST",
+                        url: "/api/v1/BM0103F0U0",
+                        data: JSON.stringify(formData),
+                        callback: function (res) {
+                            ok(res);
+                        }
+                    });
+                })
+                .then(function (ok, fail, data) {
+            		axToast.push(LANG("onupdate"));
+            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                })
+                .catch(function () {
+
+                });
+        }*/
     },
-    ITEM_DEL: function (caller, act, data) {
-        caller.gridView01.delRow("selected");
+    
+    // 탭닫기
+    PAGE_CLOSE: function(caller, act, data) {
+    	window.parent.fnObj.tabView.closeActiveTab();
     },
-    dispatch: function (caller, act, data) {
-        var result = ACTIONS.exec(caller, act, data);
-        if (result != "error") {
-            return result;
-        } else {
-            // 직접코딩
-            return false;
-        }
+    
+    ITEM_CLICK_G0: function (caller, act, data) {
+    	//data.filter1 = $.extend({}, caller.searchView1.getData());
+    	searchGrid1(caller, act, data);
+    },
+    
+    ITEM_CLICK_G1: function (caller, act, data) {
+    	selectedRow = data;
+        map_marker(data.lati, data.longi);
     }
 });
 
-// fnObj 기본 함수 스타트와 리사이즈
-fnObj.pageStart = function () {
-    this.pageButtonView.initView();
-    this.searchView.initView();
-    this.gridView01.initView();
+/********************************************************************************************************************/
 
+/******************************************* 페이지 처음 로딩시 호출 ******************************************************/
+fnObj.pageStart = function () {
+	var _this = this;
+	
+    this.pageButtonView.initView();
+    this.searchView0.initView();
+    this.searchView1.initView();
+    this.gridView0.initView();
+    this.gridView1.initView();
+    initTmap("100%", "100%");
+    
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
 fnObj.pageResize = function () {
 
 };
+/********************************************************************************************************************/
 
 
+/******************************************** 공통 버튼 클릭 이벤트 ******************************************************/
 fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
             "search": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
-            "save": function () {
-                ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
-            },
             "excel": function () {
-
+            	selectedRow = null;
+                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+            },
+            "new": function() {
+            	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
+            },
+            "delete": function() {
+            	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
+            },
+            "save": function () {
+            	
+            },
+            "close": function() {
+            	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             }
         });
     }
 });
 
+/********************************************************************************************************************/
+
 //== view 시작
 /**
- * searchView
+ * searchView0
  */
-fnObj.searchView = axboot.viewExtend(axboot.searchView, {
+fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
     initView: function () {
         this.target = $(document["searchView0"]);
         this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
@@ -101,41 +219,52 @@ fnObj.searchView = axboot.viewExtend(axboot.searchView, {
     }
 });
 
+/**
+ * searchView1
+ */
+fnObj.searchView1 = axboot.viewExtend(axboot.searchView, {
+    initView: function () {
+        this.target = $(document["searchView1"]);
+        this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
+        this.filter = $("#filter");
+    },
+    getData: function () {
+        return {
+            pageNumber: this.pageNumber,
+            pageSize: this.pageSize,
+            filter: this.filter.val()
+        }
+    }
+});
+
 
 /**
- * gridView
+ * gridView0
  */
-fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
+fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
+    page: {
+        pageNumber: 0,
+        pageSize: 10
+    },
+    
     initView: function () {
         var _this = this;
-
+        
         this.target = axboot.gridBuilder({
-            showRowSelector: true,
-            frozenColumnIndex: 0,
-            multipleSelect: true,
-            target: $('[data-ax5grid="grid-view-01"]'),
+        	frozenColumnIndex: 0,
+            sortable: true,
+            target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "key", label: "KEY", width: 160, align: "left", editor: "text"},
-                {key: "value", label: "VALUE", width: 350, align: "left", editor: "text"},
-                {key: "etc1", label: "ETC1", width: 100, align: "center", editor: "text"},
-                {key: "etc2", label: "ETC2", width: 100, align: "center", editor: "text"},
-                {key: "etc3", label: "ETC3", width: 100, align: "center", editor: "text"},
-                {key: "etc4", label: "ETC4", width: 100, align: "center", editor: "text"}
+                {key: "routId", label: ADMIN("ax.admin.BM0107G0.routId"), width: 80},
+                {key: "routNm", label: ADMIN("ax.admin.BM0107G0.routNm"), width: 180},
+                {key: "updatedAt", label: ADMIN("ax.admin.BM0107G0.updatedAt"), width: 160},
             ],
             body: {
                 onClick: function () {
-                    this.self.select(this.dindex, {selectedClear: true});
+                    this.self.select(this.dindex);
+                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G0, this.item);
                 }
-            }
-        });
-
-        axboot.buttonClick(this, "data-grid-view-01-btn", {
-            "add": function () {
-                ACTIONS.dispatch(ACTIONS.ITEM_ADD);
             },
-            "delete": function () {
-                ACTIONS.dispatch(ACTIONS.ITEM_DEL);
-            }
         });
     },
     getData: function (_type) {
@@ -152,7 +281,170 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
         }
         return list;
     },
-    addRow: function () {
-        this.target.addRow({__created__: true}, "last");
+    addRow: function (data) {
+    	if(typeof data === "undefined") {
+    		this.target.addRow({__created__: true}, "last");
+    	} else {
+    		data["__created__"] = true;
+            this.target.addRow(data, "last");
+    	}
+    },
+    selectFirstRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(0);
+    	} else {
+    	}
+    },
+    selectLastRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(this.target.list.length - 1);
+    	} else {
+    	}
+    },
+    selectRow: function(index) {
+    	var data = this.target.list[index];
+    	
+    	if(typeof data === "undefined") {
+    		this.selectLastRow();
+    	} else {
+    		this.target.select(index);
+        	ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G0, data);
+    	}
+    },
+    selectIdRow: function(id) {
+    	var i;
+    	var length = this.target.list.length;
+    	for(i = 0; i < length; i++) {
+    		if(this.target.list[i].routId == id) {
+    			this.selectRow(i);
+    			break;
+    		}
+    	}
+    	
+    	if(i == length) {
+    	}
+    },
+    selectAll: function(flag) {
+    	this.target.selectAll({selected: flag});
     }
 });
+
+/**
+ * gridView1
+ */
+fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
+    page: {
+        pageNumber: 0,
+        pageSize: 10
+    },
+    
+    initView: function () {
+        var _this = this;
+        
+        this.target = axboot.gridBuilder({
+        	frozenColumnIndex: 0,
+            sortable: true,
+            target: $('[data-ax5grid="gridView1"]'),
+            columns: [
+                {key: "staId", label: ADMIN("ax.admin.BM0107G1.staId"), width: 80},
+                {key: "staNm", label: ADMIN("ax.admin.BM0107G1.staNm"), width: 120},
+                {key: "staNo", label: ADMIN("ax.admin.BM0107G1.staNo"), width: 120},
+                {key: "lati", label: ADMIN("ax.admin.BM0107G1.lati"), width: 120},
+                {key: "longi", label: ADMIN("ax.admin.BM0107G1.longi"), width: 120},
+                {key: "updatedAt", label: ADMIN("ax.admin.BM0107G1.updatedAt"), width: 120},
+            ],
+            body: {
+                onClick: function () {
+                	console.log('22');
+                    this.self.select(this.dindex);
+                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
+                }
+            },
+        });
+    },
+    getData: function (_type) {
+        var list = [];
+        var _list = this.target.getList(_type);
+
+        if (_type == "modified" || _type == "deleted") {
+            list = ax5.util.filter(_list, function () {
+                delete this.deleted;
+                return this.key;
+            });
+        } else {
+            list = _list;
+        }
+        return list;
+    },
+    addRow: function (data) {
+    	if(typeof data === "undefined") {
+    		this.target.addRow({__created__: true}, "last");
+    	} else {
+    		data["__created__"] = true;
+            this.target.addRow(data, "last");
+    	}
+    },
+    selectFirstRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(0);
+    	} else {
+    	}
+    },
+    selectLastRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(this.target.list.length - 1);
+    	} else {
+    	}
+    },
+    selectRow: function(index) {
+    	var data = this.target.list[index];
+    	
+    	if(typeof data === "undefined") {
+    		this.selectLastRow();
+    	} else {
+    		this.target.select(index);
+        	ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, data);
+    	}
+    },
+    selectIdRow: function(id) {
+    	var i;
+    	var length = this.target.list.length;
+    	for(i = 0; i < length; i++) {
+    		if(this.target.list[i].staId == id) {
+    			this.selectRow(i);
+    			break;
+    		}
+    	}
+    	
+    	if(i == length) {
+    	}
+    },
+    selectAll: function(flag) {
+    	this.target.selectAll({selected: flag});
+    }
+});
+
+/*****************************************/
+function searchGrid1(caller, act, data){
+	var dataFlag = typeof data !== "undefined";
+	axboot.ajax({
+        type: "GET",
+        url: "/api/v1/BM0107G1S0",
+        data: data,
+        callback: function (res) {
+        	caller.gridView1.setData(res);
+            if(res.list.length == 0) {
+            } else {
+            	if(dataFlag) {
+                	caller.gridView1.selectIdRow(data);
+                } else {
+	                if(selectedRow != null) {
+	                	caller.gridView1.selectRow(selectedRow.__index);
+	                } else {
+	                	caller.gridView1.selectFirstRow();
+	                }
+                }
+            }
+        }
+    });
+}

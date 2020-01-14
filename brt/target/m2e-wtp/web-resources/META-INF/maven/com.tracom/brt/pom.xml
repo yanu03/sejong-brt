@@ -24,6 +24,12 @@
                 <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
+        
+	    <repository>
+	        <id>in-project</id>
+	        <name>In Project Repo</name>
+	        <url>file://${project.basedir}/libs</url>
+	    </repository>
     </repositories>
 
     <properties>
@@ -96,14 +102,12 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
         
 		<dependency>
 		    <groupId>org.mariadb.jdbc</groupId>
 		    <artifactId>mariadb-java-client</artifactId>
-		    <version>2.5.2</version>
 		</dependency>
 		
 		<dependency>
@@ -117,7 +121,40 @@
 		    <version>0.1.55</version>
 		</dependency>
 		
-
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.mashape.unirest</groupId>
+		    <artifactId>unirest-java</artifactId>
+		    <version>1.4.9</version>
+		</dependency>
+		
+ 		<dependency>
+			<groupId>selvytts</groupId>
+			<artifactId>selvytts</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>ws.schild</groupId>
+		    <artifactId>jave-core</artifactId>
+		    <version>2.7.2</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>ws.schild</groupId>
+		    <artifactId>jave-nativebin-win64</artifactId>
+		    <version>2.7.2</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>ws.schild</groupId>
+		    <artifactId>jave-nativebin-linux64</artifactId>
+		    <version>2.7.2</version>
+		</dependency>
     </dependencies>
 
     <build>
@@ -132,7 +169,6 @@
                             <goal>process</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>target/generated-sources/java</outputDirectory>
                             <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
                         </configuration>
                     </execution>

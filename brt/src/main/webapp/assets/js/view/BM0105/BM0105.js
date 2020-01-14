@@ -173,7 +173,7 @@ fnObj.pageStart = function () {
     this.pageButtonView.initView();
     this.searchView0.initView();
     this.gridView0.initView();
-    initTmap("100%", "490px");
+    initTmap("100%", "100%");
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -319,7 +319,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].eplyId == id) {
+    		if(this.target.list[i].staId == id) {
     			this.selectRow(i);
     			break;
     		}

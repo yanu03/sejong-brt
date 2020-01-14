@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BM0401.BM0401Service;
-import com.tracom.brt.domain.BM0401.VoiceInfoVO;
+import com.tracom.brt.domain.voice.VoiceInfoVO;
 
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -31,13 +32,13 @@ public class BM0401Controller extends BaseController {
     }
     
     @PostMapping("/BM0401F0I0")
-    public ApiResponse BM0401F0I0(@RequestBody VoiceInfoVO request) {
-    	String dlCd = service.BM0401F0I0(request);
-    	return ok(dlCd);
+    public ApiResponse BM0401F0I0(@ModelAttribute VoiceInfoVO request) {
+    	String vocId = service.BM0401F0I0(request);
+    	return ok(vocId);
     }
     
     @PostMapping("/BM0401F0U0")
-    public ApiResponse BM0401F0U0(@RequestBody VoiceInfoVO request) {
+    public ApiResponse BM0401F0U0(@ModelAttribute VoiceInfoVO request) {
     	service.BM0401F0U0(request);
     	return ok();
     }

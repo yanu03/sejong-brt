@@ -40,7 +40,7 @@ public class BM0108Controller extends BaseController {
     }
     
     @PostMapping("/BM0108F0I0")
-    public ApiResponse BM0108F0I0(@RequestBody EplyInfoVO request) {
+    public ApiResponse BM0108F0I0(@ModelAttribute EplyInfoVO request) {
         String corpId = service.BM0108F0I0(request);
         return ok(corpId);
     }

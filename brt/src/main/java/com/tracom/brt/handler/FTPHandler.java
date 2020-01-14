@@ -14,9 +14,10 @@ import java.util.Date;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,17 +25,21 @@ import org.springframework.web.multipart.MultipartFile;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpException;
+import com.tracom.brt.domain.voice.VoiceService;
 
 @Component
 public class FTPHandler {
-	@Autowired
-	private ChannelSftp sftpChannel;
-	
 	@Value("${sftp.remote.directory}")
-    public static String ROOT_SERVER_PATH;
+    public String ROOT_SERVER_PATH;
 	
 	@Value("${sftp.local.directory}")
-    public static String ROOT_LOCAL_PATH;
+    public String ROOT_LOCAL_PATH;
+	
+	@Inject
+	private ChannelSftp sftpChannel;
+	
+	@Inject
+	private VoiceService voiceService;
     
 	private File ROOT_LOCAL_DIRECTORY;
 	
@@ -65,6 +70,46 @@ public class FTPHandler {
 		}
 	}
 	
+	// 음성파일(WAV) 업로드
+	public void uploadVoice(String id, MultipartFile file) {
+		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
+		String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
+		
+		File saveFile = Paths.get(dir, fileName).toFile();
+		try {
+			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+			processSynchronize();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 음성 TEMP파일(WAV) MP3로 업로드
+	public void uploadWavTemp(MultipartFile file) {
+		String dir = Paths.get(ROOT_LOCAL_PATH, "/temp/wav_temp.wav").toString();
+		File saveFile = Paths.get(dir).toFile();
+		
+		try {
+			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 음성파일(TTS) 업로드
+	public void uploadVoiceTTS(String id, String krText, String enText) {
+		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
+		String fileNameKr = id + "_KR.wav";
+		String fileNameEn = id + "_EN.wav";
+		
+		try {
+			FileUtils.writeByteArrayToFile(Paths.get(dir, fileNameKr).toFile(), voiceService.getWavBuffer(krText, 0, 0));
+			FileUtils.writeByteArrayToFile(Paths.get(dir, fileNameEn).toFile(), voiceService.getWavBuffer(enText, 1, 2));
+			processSynchronize();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private void processSynchronize() throws Exception {
 		setServerDirectory();
@@ -264,4 +309,13 @@ public class FTPHandler {
 		}
 	}
 	/*************************************************************************************************************************************************************************************/
+	
+	
+	public String getRootServerPath() {
+		return ROOT_SERVER_PATH;
+	}
+	
+	public String getRootLocalPath() {
+		return ROOT_LOCAL_PATH;
+	}
 }

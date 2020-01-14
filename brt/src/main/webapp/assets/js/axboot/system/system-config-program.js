@@ -105,6 +105,7 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
                 {key: "fn3Ah", label: "FN3", width: 50, align: "center", editor: "checkYn"},
                 {key: "fn4Ah", label: "FN4", width: 50, align: "center", editor: "checkYn"},
                 {key: "fn5Ah", label: "FN5", width: 50, align: "center", editor: "checkYn"},
+                {key: "fn6Ah", label: "FN6", width: 50, align: "center", editor: "checkYn"},
                 {key: "remark", label: COL("ax.admin.remark"), width: 300, editor: "text"}
             ],
             body: {

@@ -1,6 +1,6 @@
-package com.tracom.brt.domain.BM0401;
+package com.tracom.brt.domain.voice;
 
-import java.time.LocalDate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tracom.brt.domain.BaseVO;
 
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class VoiceInfoVO extends BaseVO {
 	private String vocId;
 	private String vocNm;
-	private LocalDate playStDate;
+	private String playStDate;
 	private String playType;
 	private String krTts;
 	private String enTts;
@@ -22,6 +22,8 @@ public class VoiceInfoVO extends BaseVO {
 	private String vocDiv;
 	private String conId;
 	private String drvEvt;
-	private LocalDate playEdDate;
+	private String playEdDate;
+	private String playDate;
 	private String attFile;
+	private MultipartFile wavFile;
 }
