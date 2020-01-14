@@ -69,7 +69,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0401G0S0",
+            url: "/api/v1/BM0402G0S0",
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);
@@ -123,7 +123,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0401G0D0",
+	                    url: "/api/v1/BM0402G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -161,7 +161,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0401F0I0",
+                        url: "/api/v1/BM0402F0I0",
                         enctype: "multipart/form-data",
                         processData: false,
                         data: formData,
@@ -193,7 +193,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                     	type: "POST",
-                        url: "/api/v1/BM0401F0U0",
+                        url: "/api/v1/BM0402F0U0",
                         enctype: "multipart/form-data",
                         processData: false,
                         data: formData,
@@ -372,6 +372,21 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             }
         });
     },
+    
+    // 계약팝업 료출
+    OPEN_BM0301_MODAL: function(caller, act, data) {
+    	var _this = this;
+    	axboot.modal.open({
+            modalType: "BM0301",
+            param: "",
+            callback: function (result) {
+            	this.close();
+            	
+            	caller.formView0.model.set("playStDate", result.conStDate);
+            	caller.formView0.model.set("playEdDate", result.conEnDate);
+            }
+        });
+    }
 });
 
 /********************************************************************************************************************/
@@ -451,6 +466,12 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
         this.target = $(document["searchView0"]);
         this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
         this.filter = $("#filter");
+        
+        axboot.buttonClick(this, "data-form-view-0-btn", {
+            "selectBM0301": function() {
+            	ACTIONS.dispatch(ACTIONS.OPEN_BM0301_MODAL);
+            }
+        });
     },
     getData: function () {
         return {
@@ -571,8 +592,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     getDefaultData: function () {
         return $.extend({}, axboot.formView.defaultData, {
-        	playStDate: new Date().yyyymmdd(),
-        	playEdDate: "9999-12-31"
+        	conId: 'CN02003'
         });
     },
     initView: function () {

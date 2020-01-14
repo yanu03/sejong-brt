@@ -30,6 +30,12 @@ fnObj.pageStart = function () {
         },
         target: document.getElementById("reservationDate"),
         displayDate: (new Date()),
+        selectable: {
+        	range: [{
+        		from: new Date(),
+        		to: new Date(2100, 12, 31)
+        	}]
+        }
     });
 
     this.reservationDate.setSelection([(new Date())]);

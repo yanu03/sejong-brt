@@ -18,7 +18,7 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
-        <script type="text/javascript" src="<c:url value="/assets/js/view/BM0401/BM0401.js"/>"></script>
+        <script type="text/javascript" src="<c:url value="/assets/js/view/BM0402/BM0402.js"/>"></script>
     </jsp:attribute>
     <jsp:body>
 
@@ -65,33 +65,45 @@
                 <ax:form name="formView0">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0401F0.voc.id" width="300px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0402F0.voc.id" width="300px" labelClazz="required">
                                 <input type="text" name="vocId" data-ax-path="vocId" data-key="true" class="form-control" readonly="readonly"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0401F0.voc.nm" width="300px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0402F0.voc.nm" width="300px" labelClazz="required">
                                 <input type="text" name="vocNm" data-ax-path="vocNm" title="<ax:lang id="ax.admin.BM0401F0.voc.nm"/>" class="form-control" data-ax-validate="required" />
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0401F0.play.date" width="400px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0402F0.con.title" width="100%" labelClazz="required">
+	                            <div class="input-group">
+	                        		<input type="text" data-ax-path="conId" name="conId" data-key="true" class="form-control W90" readonly="readonly" title="<ax:lang id="ax.admin.BM0402F0.con.id"/>" data-ax-validate="required">
+	                        		<input type="text" data-ax-path="conNm" name="conNm" data-key="true" class="form-control W90" readonly="readonly">
+	                       			<button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0301">
+	                                	<ax:lang id="ax.admin.select"/>
+	                            	</button>
+	                            </div>
+                            </ax:td>
+                        </ax:tr>
+                        
+                        <ax:tr>
+                            <ax:td label="ax.admin.BM0402F0.play.date" width="400px" labelClazz="required">
 	                            <div class="input-group" data-ax5picker="date">
-	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
+	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0402F0.play.date"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
 	                                <span class="input-group-addon">~</span>
-	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
+	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0402F0.play.date"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0401F0.play.type" width="300px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0402F0.play.type" width="300px" labelClazz="required">
                             	<ax:common-code groupCd="TTS" name="playType" dataPath="playType" clazz="form-control" />
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td id="wavLabel" label="ax.admin.BM0401F0.wav" width="100%">
+                            <ax:td id="wavLabel" label="ax.admin.BM0402F0.wav" width="100%">
                             	<input type="file" id="wavFile" name="wavFile" class="form-control inline-block W180" accept="audio/wav" title="<ax:lang id="ax.admin.BM0401F0.wav"/>"/>
                             	<button type="button" class="btn btn-default" data-btn data-btn-test="wav">
                                 	<ax:lang id="ax.admin.test"/>
@@ -100,8 +112,7 @@
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td id="krTtsLabel" label="ax.admin.BM0401F0.kr.tts" width="100%">
-                            	<%-- <span>차임벨: </span><ax:common-code groupCd="CHIME_YN" dataPath="chimeYn" clazz="form-control" /> --%>
+                            <ax:td id="krTtsLabel" label="ax.admin.BM0402F0.kr.tts" width="100%">
                             	<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0401F0.kr.tts"/>" class="form-control"></textarea>
                             	
                             	<div style="margin-top: 4px; text-align: right;">
@@ -117,7 +128,7 @@
                        	</ax:tr>
                        	
                        	<ax:tr>
-                       		<ax:td id="enTtsLabel" label="ax.admin.BM0401F0.en.tts" width="100%">
+                       		<ax:td id="enTtsLabel" label="ax.admin.BM0402F0.en.tts" width="100%">
                             	<textarea name="enTts" data-ax-path="enTts" title="<ax:lang id="ax.admin.BM0401F0.en.tts"/>" class="form-control"></textarea>
                             	
                             	<div style="margin-top: 4px; text-align: right;">
@@ -129,18 +140,6 @@
 	                                	<ax:lang id="ax.admin.common.txt"/>
 	                            	</button>
 	                            </div>
-                            </ax:td>
-                       	</ax:tr>
-                       	
-                       	<ax:tr>
-                            <ax:td label="ax.admin.BM0401F0.scr.txt" width="100%">
-                            	<textarea name="scrTxt" data-ax-path="scrTxt" class="form-control" maxlength="100"></textarea>
-                            </ax:td>
-                       	</ax:tr>
-                       	
-                       	<ax:tr>
-                            <ax:td label="ax.admin.BM0401F0.scr.txt.en" width="100%">
-                            	<textarea name="scrTxtEn" data-ax-path="scrTxtEn" class="form-control" maxlength="100"></textarea>
                             </ax:td>
                        	</ax:tr>
                        	
@@ -182,7 +181,7 @@
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.BM0401F0.remark" width="300px">
+                            <ax:td label="ax.admin.BM0402F0.remark" width="300px">
                             	<input type="text" name="remark" data-ax-path="remark" class="form-control"/>
                             </ax:td>
                        	</ax:tr>

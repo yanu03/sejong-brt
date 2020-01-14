@@ -21,6 +21,7 @@ public class VoiceInfoVO extends BaseVO {
 	private Integer playTm;
 	private String vocDiv;
 	private String conId;
+	private String conNm;
 	private String drvEvt;
 	private String playEdDate;
 	private String playDate;
