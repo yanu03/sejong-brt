@@ -24,6 +24,10 @@
         <c:if test="${authGroupMenu.exlAh eq 'Y'}">
             <button type="button" class="btn btn-info" data-page-btn="excel"><i class="cqc-file-excel-o"></i> <%=MessageUtils.getMessage(request, "ax.admin.excel")%></button>
         </c:if>
+
+        <c:if test="${authGroupMenu.fn6Ah eq 'Y'}">
+            <button type="button" class="btn btn-info" data-page-btn="interface"><%=MessageUtils.getMessage(request, "ax.admin.interface")%></button>
+        </c:if>
         
         <c:if test="${authGroupMenu.schAh eq 'Y'}">
             <button type="button" class="btn btn-info" data-page-btn="search"><i class="cqc-magnifier"></i> <%=MessageUtils.getMessage(request, "ax.admin.inquery")%> </button>
@@ -49,9 +53,6 @@
             <button type="button" class="btn btn-info" data-page-btn="confirmyn"><i class="cqc-check"></i> <%=MessageUtils.getMessage(request, "ax.admin.confirmyn")%></button>
         </c:if>
         
-        <c:if test="${authGroupMenu.fn6Ah eq 'Y'}">
-            <button type="button" class="btn btn-info" data-page-btn="fn6">fn6</button>
-        </c:if>
 
         <jsp:doBody/>
     </div>

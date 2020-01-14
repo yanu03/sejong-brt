@@ -9,7 +9,7 @@
     	FROM
     		TS_ROUT_NODE
     	<where>
-    	ROUT_ID = 'VBR009003'
+    	ROUT_ID = 'VBR009001'
 	    	<if test="value != null">
 	    	AND
 				ROUT_ID LIKE CONCAT('%', #{value}, '%')
@@ -62,7 +62,7 @@
 	
     </select>
     
-    <select id="BM0998G0S0" parameterType="String" resultType="tsRoutNodeVO">
+    <select id="BM0998G0S1" parameterType="String" resultType="tsRoutNodeVO">
 		SELECT
 			  ROUT_ID
 		    , NULL AS SEQ
@@ -106,6 +106,20 @@
 		
 		UNION
 			
+		SELECT
+			    ROUT_ID
+			  , SEQ
+			  , NULL AS NODE_ID
+			  , X
+			  , Y
+		FROM
+			TS_ROUT_NODE_TEMP
+		WHERE
+			ROUT_ID = 'VBR009002'
+			
+    </select>
+    
+    <select id="BM0998G0S0" parameterType="String" resultType="tsRoutNodeVO">	
 		SELECT
 			    ROUT_ID
 			  , SEQ

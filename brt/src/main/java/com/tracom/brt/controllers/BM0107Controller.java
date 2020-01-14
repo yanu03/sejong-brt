@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +16,8 @@ import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
-import com.tracom.brt.domain.BM0104.DataInterface;
 import com.tracom.brt.domain.BM0107.BM0107Service;
+import com.tracom.brt.domain.Interface.DataInterface;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
 
@@ -46,10 +47,9 @@ public class BM0107Controller extends BaseController {
         return Responses.ListResponse.of(list);
     }
     
-    @PostMapping("/test")
+    @PostMapping("/BM0107G0U0")
     public ApiResponse BM0107G0U0() {
-    	DataInterface ri = new DataInterface();
-    	int result = service.BM0107G1I0("293000099");
+    	int result = service.BM0107G1I0();
     	
     	if(result > 0) {
     		return ok();
