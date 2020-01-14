@@ -69,7 +69,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0401G0S0",
+            url: "/api/v1/BM0403G0S0",
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);
@@ -106,7 +106,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.enable();
         caller.formView0.validate(true);
         
-        // 미리듣기 초기화
+    	// 미리듣기 초기화
         $("#jquery_jplayer_1").jPlayer("setMedia", {
     		mp3: null
     	});
@@ -128,7 +128,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0401G0D0",
+	                    url: "/api/v1/BM0403G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -166,7 +166,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0401F0I0",
+                        url: "/api/v1/BM0403F0I0",
                         enctype: "multipart/form-data",
                         processData: false,
                         data: formData,
@@ -198,7 +198,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                     	type: "POST",
-                        url: "/api/v1/BM0401F0U0",
+                        url: "/api/v1/BM0403F0U0",
                         enctype: "multipart/form-data",
                         processData: false,
                         data: formData,
@@ -490,8 +490,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 150},
                 {key: "krTts", label: ADMIN("ax.admin.BM0401F0.kr.tts"), width: 120},
                 {key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 120},
-                {key: "scrTxt", label: ADMIN("ax.admin.BM0401F0.scr.txt"), width: 200},
-                {key: "scrTxtEn", label: ADMIN("ax.admin.BM0401F0.scr.txt.en"), width: 200},
                 {key: "remark", label: ADMIN("ax.admin.BM0401F0.remark"), width: 120},
             ],
             body: {

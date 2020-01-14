@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.tracom.brt.domain.BM0402.BM0402Mapper">
+<mapper namespace="com.tracom.brt.domain.BM0403.BM0403Mapper">
 
-    <select id="BM0402G0S0" parameterType="String" resultType="voiceInfoVO">
+    <select id="BM0403G0S0" parameterType="String" resultType="voiceInfoVO">
     	SELECT
-    		  V.VOC_ID
-    		, V.VOC_NM
-    		, V.PLAY_ST_DATE
-    		, V.PLAY_TYPE
-    		, V.KR_TTS
-    		, V.EN_TTS
-    		, V.REMARK
-    		, V.PLAY_TM
-    		, V.CON_ID
-    		, C.CON_NM
-    		, V.PLAY_ED_DATE
-    		, CONCAT(DATE_FORMAT(V.PLAY_ST_DATE, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(V.PLAY_ED_DATE, '%Y-%m-%d')) PLAY_DATE
+    		  VOC_ID
+    		, VOC_NM
+    		, PLAY_ST_DATE
+    		, PLAY_TYPE
+    		, KR_TTS
+    		, EN_TTS
+    		, REMARK
+    		, PLAY_TM
+    		, PLAY_ED_DATE
+    		, CONCAT(DATE_FORMAT(PLAY_ST_DATE, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(PLAY_ED_DATE, '%Y-%m-%d')) PLAY_DATE
     	FROM
-    		BM_VOC_INFO V
-    		LEFT OUTER JOIN BM_CON_INFO C
-    		ON V.CON_ID = C.CON_ID
+    		BM_VOC_INFO
     	WHERE
-    		V.VOC_DIV = 'ADVOC'
+    		VOC_DIV = 'ECVOC'
 	    	<if test="value != null">
-				AND V.VOC_ID LIKE CONCAT('%', #{value}, '%')
-				OR V.VOC_NM LIKE CONCAT('%', #{value}, '%')
+				AND VOC_ID LIKE CONCAT('%', #{value}, '%')
+				OR VOC_NM LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     </select>
     
-    <insert id="BM0402F0I0" parameterType="voiceInfoVO">
+    <insert id="BM0403F0I0" parameterType="voiceInfoVO">
     	<selectKey keyProperty="vocId" resultType="String" order="BEFORE">
-    		SELECT CONCAT('AV', LPAD(NEXTVAL(SEQ_BM_AV_VOC_INFO_0), 5, '0'))
+    		SELECT CONCAT('EV', LPAD(NEXTVAL(SEQ_BM_EV_VOC_INFO_0), 5, '0'))
     	</selectKey>
     	
     	INSERT INTO BM_VOC_INFO(
@@ -44,7 +40,6 @@
     		, REMARK
     		, PLAY_TM
     		, VOC_DIV
-    		, CON_ID
     		, PLAY_ED_DATE
     		, CREATED_AT
     		, CREATED_BY
@@ -61,8 +56,7 @@
    			, #{enTts}
    			, #{remark}
    			, #{playTm}
-   			, 'ADVOC'
-   			, #{conId}
+   			, 'ECVOC'
    			, #{playEdDate}
    			, #{createdAt}
    			, #{createdBy}
@@ -73,7 +67,7 @@
    		)
     </insert>
     
-    <update id="BM0402F0U0" parameterType="voiceInfoVO">
+    <update id="BM0403F0U0" parameterType="voiceInfoVO">
     	UPDATE BM_VOC_INFO
     	SET
     		  VOC_NM		=	#{vocNm}
@@ -85,7 +79,6 @@
     		<if test="playTm != null">
     			, PLAY_TM		=	#{playTm}
     		</if>
-    		, CON_ID		=	#{conId}
     		, PLAY_ED_DATE	=	#{playEdDate}
     		, UPDATED_AT	=	#{updatedAt}
     		, UPDATED_BY	=	#{updatedBy}
@@ -94,7 +87,7 @@
     		VOC_ID = #{vocId}
     </update>
     
-    <delete id="BM0402G0D0" parameterType="voiceInfoVO">
+    <delete id="BM0403G0D0" parameterType="voiceInfoVO">
     	DELETE
     		FROM BM_VOC_INFO
     	WHERE

@@ -80,7 +80,9 @@
     		, EN_TTS		=	#{enTts}
     		, SCR_TXT		=	#{scrTxt}
     		, REMARK		=	#{remark}
-    		, PLAY_TM		=	#{playTm}
+    		<if test="playTm != null">
+    			, PLAY_TM		=	#{playTm}
+    		</if>
     		, PLAY_ED_DATE	=	#{playEdDate}
     		, UPDATED_AT	=	#{updatedAt}
     		, UPDATED_BY	=	#{updatedBy}

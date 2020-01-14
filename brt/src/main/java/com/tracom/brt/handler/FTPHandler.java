@@ -78,7 +78,8 @@ public class FTPHandler {
     	if(vo.getPlayType().equals("TTS")) {
     		uploadVoiceTTS(vo);
     	} else if(vo.getPlayType().equals("WAV")) {
-    		if(vo.getWavFile() != null) {
+    		System.out.println(vo.getPlayTm());
+    		if(vo.getWavFile() != null && vo.getWavFile().getSize() != 0) {
     			uploadVoiceWAV(vo);
     		}
     	}
