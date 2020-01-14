@@ -1,7 +1,5 @@
 package com.tracom.brt.domain.voice;
 
-import java.time.LocalDate;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tracom.brt.domain.BaseVO;
@@ -23,6 +21,7 @@ public class VoiceInfoVO extends BaseVO {
 	private Integer playTm;
 	private String vocDiv;
 	private String conId;
+	private String conNm;
 	private String drvEvt;
 	private String playEdDate;
 	private String playDate;

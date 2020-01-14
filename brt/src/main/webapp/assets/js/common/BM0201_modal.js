@@ -13,7 +13,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: caller.searchView0.getData(),
             callback: function (res) {
             	caller.formView0.setData(res);
-                console.log(res);
             }
         });
         return false;
@@ -21,38 +20,18 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     
     PAGE_SAVE: function (caller, act, data) {
-
-   	 if (caller.formView0.validate()) {
-   		
+        if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
-
-            console.log(formData["vhcId"]);
-           
             axboot.promise()
-            	.then(function (ok, fail, data) {
-	                axboot.ajax({
-	                    type: "GET",
-	                    url: "/api/v1/BM0201M0S0",
-	                    data: JSON.stringify(formData),
-	                    callback: function (res) {
-	                        ok(res);
-	                        console.log("서치");
-	                    }
-	                });
-	            })          
                 .then(function (ok, fail, data) {
-               	 if(data.message == "true"){
-               	  axboot.promise()
-               	  .then(function(ok, fail , data) {
-               		  axboot.ajax({
-               			  type: "POST",
-               			  url: "/api/v1/BM0201M0I0",
-               			  data: JSON.stringify(formData),
-               			  callback: function (res) {
-               				  ok(res);
-               				  console.log("insert");
-               			  }
-               		  });
+                    axboot.ajax({
+                        type: "POST",
+                        url: "/api/v1/BM0201M0I0",
+                        data: JSON.stringify(formData),
+                        callback: function (res) {
+                            ok(res);
+                        }
+                    });
                 })
                 .then(function (ok, fail, data) {
             		axToast.push(LANG("onadd"));
@@ -61,17 +40,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 })
                 .catch(function () {
 
-                	});
-                }else{
-               	
-                	}
-                })
-                .catch(function() {
-					
-				});
+                });
         }
-   	 
-   },
+    },
    
     ITEM_CLICK: function (caller, act, data) {
     },
@@ -97,8 +68,8 @@ fnObj.pageResize = function () {
 fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
-            "choice": function () {
-                ACTIONS.dispatch(ACTIONS.PAGE_CHOICE);
+            "save": function () {
+                ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             },
             "close": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
@@ -164,7 +135,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         if (typeof data === "undefined") data = this.getDefaultData();
         console.log("data1");
         console.log(data);
-        data = $.extend({}, data);
+        data = $.extend({}, data.list[0]);
         console.log("setData2"+data);
 
         this.model.setModel(data);

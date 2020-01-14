@@ -8,6 +8,60 @@ selectedRow = null;
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
+	PAGE_RESERVATION: function(caller, act, data) {
+    	if(selectedRow == null) {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+        axboot.ajax({
+            type: "GET",
+            url: "/api/v1/checkVoiceReservation",
+            data: {
+        		vocId: selectedRow.vocId,
+            },
+            callback: function (res) {
+                if(res.message == "true") {
+	        		// 예약적용일때
+        			axboot.modal.open({
+        	            modalType: "RESERVATION",
+        	            param: "",
+        	            callback: function (result) {
+        	            	this.close();
+        	            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
+        	            		date: result
+        	            	});
+        	            }
+        	        });
+	        	} else {
+	        		axDialog.alert(LANG("ax.script.check.organization"));
+	        	}
+            }
+        });
+    },
+    
+    INSERT_RESERVATION: function(caller, act, data) {
+    	axboot.promise()
+	        .then(function (ok, fail, _data) {
+	            axboot.ajax({
+	                type: "POST",
+	                url: "/api/v1/voiceReservation",
+	                data: JSON.stringify({
+	            		vocId: selectedRow.vocId,
+	            		rsvDate: data.date
+	                }),
+	                callback: function (res) {
+	                    ok(res);
+	                }
+	            });
+	        })
+	        .then(function (ok, fail, data) {
+	        })
+	        .catch(function () {
+	
+	        });
+    },
+    
 	PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
@@ -46,10 +100,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;
+    	selectedRow = null;
     	caller.gridView0.selectAll(false);
         caller.formView0.clear();
         caller.formView0.enable();
         caller.formView0.validate(true);
+        
+        // 미리듣기 초기화
+        $("#jquery_jplayer_1").jPlayer("setMedia", {
+    		mp3: null
+    	});
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -91,9 +151,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if (caller.formView0.validate()) {
         	var formData = new FormData(caller.formView0.target[0]);
         	
-        	ACTIONS.dispatch(ACTIONS.CHECK_WAV, {
-        		formData: formData
-        	});
+        	if(formData.get("playType") == "WAV") {
+    	    	var element = $("#wavFile");
+    	    	
+    	    	if(element[0].files[0]){
+    	        	formData.append("attFile", $("#wavFile")[0].files[0].name);
+    	        } else {
+    	        	alert(element.attr("title") + "을 선택해주세요");
+    	        	return false;
+    	        }
+        	}
         	
             axboot.promise()
                 .then(function (ok, fail, data) {
@@ -127,10 +194,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if (caller.formView0.validate()) {
         	var formData = new FormData(caller.formView0.target[0]);
         	
-        	ACTIONS.dispatch(ACTIONS.CHECK_WAV, {
-        		formData: formData
-        	});
-            
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
@@ -154,7 +217,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .catch(function () {
 
                 });
-			//*/
         }
     },
     
@@ -168,6 +230,18 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	selectedRow = data;
         caller.formView0.setData(data);
         caller.formView0.enable();
+        
+        // wav input file 클리어
+        $("#wavFile").val(null);
+        
+        // 미리듣기 초기화
+        $("#jquery_jplayer_1").jPlayer("setMedia", {
+    		mp3: null
+    	});
+        
+        if(data.playType == "WAV") {
+        	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
+        }
     },
     
     CHANGE_PLAY_TYPE: function(caller, cat, data) {
@@ -209,46 +283,99 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     },
     
-    CHECK_WAV: function(caller, act, data) {
-    	var formData = data.formData;
-    	
-    	if(formData.playType == "WAV") {
-	    	var element = $("#wavFile");
-	    	
-	    	if(element[0].files[0]){
-	        	formData.append("attFile", $("#wavFile")[0].files[0].name);
-	        } else {
-	        	alert(element.attr("title") + "을 선택해주세요");
-	        }
-    	}
-    },
-    
+    // WAV 미리듣기
     TEST_WAV: function(caller, act, data) {
     	var element = $("#wavFile");
+    	
     	if(element[0].files[0]) {
 	    	var blob = window.URL || window.webkitURL;
 	    	var file = element[0].files[0];
 	    	var fileURL = blob.createObjectURL(file);
-	
-	    	$("#wavPlayer").attr("src", fileURL).trigger("play");
+	    	
+	    	if(checkIe()) {
+	            axboot.promise()
+	                .then(function (ok, fail, data) {
+	                    axboot.ajax({
+	                    	type: "POST",
+	                        url: "/api/v1/uplaodWavTemp",
+	                        enctype: "multipart/form-data",
+	                        processData: false,
+	                        data: formData,
+	                        callback: function (res) {
+	                            ok(res);
+	                        },
+	                        options: {
+	                        	contentType:false
+	                        }
+	                    });
+	                })
+	                .then(function (ok, fail, data) {
+	                	$("#jquery_jplayer_1").jPlayer("setMedia", {
+	    	        		mp3: "/api/v1/getWavTest?type=temp",
+	    	        	}).jPlayer("play");
+	                })
+	                .catch(function () {
+	                });
+	    	} else {
+	    		$("#jquery_jplayer_1").jPlayer("setMedia", {
+	        		wav: fileURL,
+	        	}).jPlayer("play");
+	    	}
+    	} else {
+    		alert(element.attr("title") + "을 선택해주세요");
     	}
     },
     
+    // TTS 미리듣기
     TEST_TTS: function(caller, act, data) {
     	data["checkChime"] = caller.formView0.getData().chimeYn;
     	var wavDownloadUrl = "/api/v1/getWavDownload?" + $.param(data);
-    	var wavTest = "/api/v1/getWavTest?" + $.param(data);
     	
     	// wav 다운로드
     	// window.location.href = wavDownloadUrl;
     	
-    	$("#wavPlayer").attr("src", wavTest).trigger("play");
+    	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
+    },
+    
+    // 플레이어에 오디오 파일 셋팅
+    SET_AUDIO: function(caller, act, data) {
+    	var wavTest = "/api/v1/getWavTest?" + $.param(data);
     	
-    	/*
-    	$("#jquery_jplayer_1").jPlayer("setMedia", {
-    		wav: wavTest
-    	}).jPlayer("play");
-    	//*/
+    	if(checkIe()) {
+    		$("#jquery_jplayer_1").jPlayer("setMedia", {
+        		mp3: wavTest,
+        	});
+    		
+    	} else {
+    		$("#jquery_jplayer_1").jPlayer("setMedia", {
+        		wav: wavTest,
+        	});
+    	}
+    	
+    	// WAV 미리듣기가 아닐경우 자동 재생
+    	if(typeof data.vocId === "undefined") {
+			$("#jquery_jplayer_1").jPlayer("play");
+		}
+    },
+    
+    // 기본 문구 삽입 팝업 표출
+    OPEN_COMMON_SENTENCE_MODAL: function(caller, act, data) {
+    	var _this = this;
+    	axboot.modal.open({
+            modalType: "COMMON_SENTENCE",
+            param: "",
+            callback: function (result) {
+            	this.close();
+            	
+            	axDialog.confirm({
+		            msg: "기본문구 삽입시 작성된 내용이<br>기본문구로 초기화됩니다."
+		        }, function() {
+		            if (this.key == "ok") {
+		            	caller.formView0.model.set(data.dataPath, result.dlCdNm);
+		            }
+		        });
+            }
+        });
     },
 });
 
@@ -261,19 +388,20 @@ fnObj.pageStart = function () {
     this.gridView0.initView();
     this.formView0.initView();
     
-    /*
     $("#jquery_jplayer_1").jPlayer({
+		ready: function (event) {
+		},
 		swfPath: "/assets/js/jplayer",
-		supplied: "wav",
+		supplied: "wav, mp3",
+		cssSelectorAncestor: "#jp_container_1",
 		wmode: "window",
 		useStateClassSkin: true,
-		autoBlur: false,
+		autoBlur: true,
 		smoothPlayBar: true,
 		keyEnabled: true,
 		remainingDuration: true,
 		toggleDuration: true
 	});
-	//*/
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -288,6 +416,9 @@ fnObj.pageResize = function () {
 fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
+        	"reservation": function() {
+        		ACTIONS.dispatch(ACTIONS.PAGE_RESERVATION);
+        	},
             "search": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
@@ -445,7 +576,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     getDefaultData: function () {
         return $.extend({}, axboot.formView.defaultData, {
-        	playStDate: "2020-01-09",
+        	playStDate: new Date().yyyymmdd(),
         	playEdDate: "9999-12-31"
         });
     },
@@ -483,6 +614,19 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
             	ACTIONS.dispatch(ACTIONS.TEST_WAV);
             }
         });
+        
+        axboot.buttonClick(this, "data-btn-common-txt", {
+        	"krTts": function() {
+        		ACTIONS.dispatch(ACTIONS.OPEN_COMMON_SENTENCE_MODAL, {
+        			dataPath: "krTts"
+        		});
+        	},
+        	"enTts": function() {
+        		ACTIONS.dispatch(ACTIONS.OPEN_COMMON_SENTENCE_MODAL, {
+        			dataPath: "enTts"
+        		});
+        	}
+        })
         
         this.target.find("[data-ax-path='playType']").on("change", function(e) {
         	ACTIONS.dispatch(ACTIONS.CHANGE_PLAY_TYPE, {

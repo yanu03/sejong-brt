@@ -91,6 +91,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SAVE: function (caller, act, data) {  
         if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
+            
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
@@ -346,7 +347,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         return $.extend({}, data);
     },
     setData: function (data) {
-
         if (typeof data === "undefined") data = this.getDefaultData();
         data = $.extend({}, data);
 

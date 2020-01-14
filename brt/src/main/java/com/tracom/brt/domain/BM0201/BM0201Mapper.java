@@ -6,8 +6,7 @@ import com.chequer.axboot.core.mybatis.MyBatisMapper;
 
 public interface BM0201Mapper extends MyBatisMapper{
 
-	List<VhcDeviceVO> BM0201G0S0(String filter);
-	List<VhcDeviceVO> BM0201F0S0(String filter);
+	List<VhcDeviceVO> BM0201G0S0(String coCd);
 	List<VhcDeviceVO> BM0201G1S0(String vhcId);
 	List<VhcDeviceVO> BM0201M0S0(String filter);
 	VhcDeviceVO BM0201F0S1(String dvcId);

@@ -48,7 +48,7 @@ public class BM0302Controller extends BaseController {
     }
     
     @PostMapping("/BM0302F0S0")
-    public ApiResponse SM0105F0S0(@RequestBody AltContractInfoVO request) {
+    public ApiResponse BM0302F0S0(@RequestBody AltContractInfoVO request) {
     	boolean duplicateSeq = service.BM0302F0S0(request);
     	return ok(Boolean.toString(duplicateSeq));
     }

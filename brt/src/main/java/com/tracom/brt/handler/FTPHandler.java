@@ -25,7 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpException;
+import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
+import com.tracom.brt.utils.Utils;
 
 @Component
 public class FTPHandler {
@@ -70,36 +72,94 @@ public class FTPHandler {
 		}
 	}
 	
+	
+	// 음성파일(WAV, TTS) 업로드
+	public void uploadVoice(VoiceInfoVO vo) {
+    	if(vo.getPlayType().equals("TTS")) {
+    		uploadVoiceTTS(vo);
+    	} else if(vo.getPlayType().equals("WAV")) {
+    		System.out.println(vo.getPlayTm());
+    		if(vo.getWavFile() != null && vo.getWavFile().getSize() != 0) {
+    			uploadVoiceWAV(vo);
+    		}
+    	}
+    }
+	
 	// 음성파일(WAV) 업로드
-	public void uploadVoice(String id, MultipartFile file) {
+	public void uploadVoiceWAV(VoiceInfoVO vo) {
+		String id = vo.getVocId();
+		MultipartFile file = vo.getWavFile();
+		
 		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
 		String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
+		String fileNameKr = id + "_KR.wav";
+		String fileNameEn = id + "_EN.wav";
 		
 		File saveFile = Paths.get(dir, fileName).toFile();
+		File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
+		File ttsEnFile = Paths.get(dir, fileNameEn).toFile();
 		try {
 			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+			
+			vo.setPlayTm(Utils.getAudioTotalTime(saveFile));
+			
+			// 기존 TTS WAV파일 삭제
+			if(ttsKrFile.exists()) {
+				ttsKrFile.delete();
+			}
+			if(ttsEnFile.exists()) {
+				ttsEnFile.delete();
+			}
+			
 			processSynchronize();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 음성 TEMP파일(WAV) MP3로 업로드
+	public void uploadWavTemp(MultipartFile file) {
+		String dir = Paths.get(ROOT_LOCAL_PATH, "/temp/wav_temp.wav").toString();
+		File saveFile = Paths.get(dir).toFile();
+		
+		try {
+			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	// 음성파일(TTS) 업로드
-	public void uploadVoiceTTS(String id, String krText, String enText) {
+	public void uploadVoiceTTS(VoiceInfoVO vo) {
+		String id = vo.getVocId();
+		String krText = vo.getKrTts();
+		String enText = vo.getEnTts();
 		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
+		String fileName = id + ".wav";
 		String fileNameKr = id + "_KR.wav";
 		String fileNameEn = id + "_EN.wav";
 		
+		File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
+		File ttsEnFile = Paths.get(dir, fileNameEn).toFile();
+		File file = Paths.get(dir, fileName).toFile();
 		try {
-			FileUtils.writeByteArrayToFile(Paths.get(dir, fileNameKr).toFile(), voiceService.getWavBuffer(krText, 0, 0));
-			FileUtils.writeByteArrayToFile(Paths.get(dir, fileNameEn).toFile(), voiceService.getWavBuffer(enText, 1, 2));
+			FileUtils.writeByteArrayToFile(ttsKrFile, voiceService.getWavBuffer(krText, 0, 0));
+			FileUtils.writeByteArrayToFile(ttsEnFile, voiceService.getWavBuffer(enText, 1, 2));
+			
+			vo.setPlayTm(Utils.getAudioTotalTime(ttsKrFile) + Utils.getAudioTotalTime(ttsEnFile));
+			
+			// 기존 WAV 업로드 삭제
+			if(file.exists()) {
+				file.delete();
+			}
+			
 			processSynchronize();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	
+	// 서버FTP와 Synchronization
 	private void processSynchronize() throws Exception {
 		setServerDirectory();
 		synchronize(ROOT_LOCAL_DIRECTORY, ROOT_SERVER_PATH);

@@ -19,6 +19,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0201G0S0",
             data: filter,
             callback: function (res) {
+            	console.log(res);
                 caller.gridView0.setData(res);             
 	               
 	                if(selectedRow != null) {
@@ -154,7 +155,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     RELOAD_G2: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
-    	
+    	console.log("리로드2");
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0202G2S0",
@@ -176,14 +177,31 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     },
     
-    OPEN_BM0201_MODAL: function(caller, act, data) {
+    OPEN_BM0202_MODAL: function(caller, act, data) {
+    	var formData = caller.gridView1.getData();
+    	formData["dvcId"] = selectedRowG1.dvcId;
+    	formData["dvcKind"] = selectedRowG1.dvcKind;
+    	var formDataDvcId = formData["dvcId"];
+    	var formDataDvcKind = formData["dvcKind"];
+    	
     	axboot.modal.open({
-            modalType: "BM0201",
+            modalType: "BM0202",
             param: "",
+            sendData : function (){
+            	return {
+            		"dvcId" : formDataDvcId,
+            		"dvcKind" : formDataDvcKind
+            	};
+            },
             callback: function (data) {
-                
-            }
+            	console.log(data);
+            	ACTIONS.dispatch(ACTIONS.RELOAD_G2);
+                }
         });
+    },
+    
+    PAGE_CLOSE: function(caller, act, data) {
+    	window.parent.fnObj.tabView.closeActiveTab();
     },
         
 });
@@ -222,7 +240,7 @@ fnObj.pageButtonView = axboot.viewExtend({
             	ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "new": function() {
-            	ACTIONS.dispatch(ACTIONS.OPEN_BM0201_MODAL);
+            	ACTIONS.dispatch(ACTIONS.OPEN_BM0202_MODAL);
             },
             "delete": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
@@ -496,7 +514,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
  * gridView2
  */
 
-// 영상, 음성 데이터와 연계해서 grid 뿌려줘야함
 fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
     page: {
         pageNumber: 0,
@@ -577,7 +594,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].seq == id) {
+    		if(this.target.list[i].devSerialNo == id) {
     			this.selectRow(i);
     			break;
     		}

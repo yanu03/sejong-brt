@@ -60,45 +60,27 @@
                      	<ax:tr>
 							<ax:td label="ax.admin.BM0201F0.dvcid" width="300px" labelClazz="required">
 								<input type="text" id="dvcId" data-ax-path="dvcId" data-key="true" class="form-control" readonly="readonly">
-							</ax:td>
-							<ax:td label="ax.admin.BM0201F0.maker" width="300px" labelClazz="required">
-                                <select class="form-control" id="" name="" data-ax-path="maker">
-									 <option value="제조사1"><ax:lang id="ax.admin.BM0201F0.mak1"/></option>
-									 <option value="제조사2"><ax:lang id="ax.admin.BM0201F0.mak2"/></option>
-									 <option value="제조사3"><ax:lang id="ax.admin.BM0201F0.mak3"/></option>
-								</select>
-                            </ax:td>                   
+							</ax:td>                         
+                             <ax:td label="ax.admin.BM0201F0.maker" width="300px">
+                            	<ax:common-code groupCd="DVC_MAKER" dataPath="maker" clazz="form-control"/>
+                            </ax:td>                  
                     	</ax:tr>
                     
-						 <ax:tr>		
-                    		<ax:td label="ax.admin.BM0201F0.dvckind" width="300px" labelClazz="required">
-                               <select class="form-control" id="" name="" data-ax-path="dvcKind">
-									 <option value="행안"><ax:lang id="ax.admin.BM0201F0.deviceK1"/></option>
-									 <option value="승안"><ax:lang id="ax.admin.BM0201F0.deviceK2"/></option>
-									 <option value="노선도"><ax:lang id="ax.admin.BM0201F0.deviceK3"/></option>
-									 <option value="OBE"><ax:lang id="ax.admin.BM0201F0.deviceK4"/></option>
-								</select>
+						 <ax:tr>
+							<ax:td label="ax.admin.BM0201F0.dvckind" width="300px" labelClazz="required">
+                            	<ax:common-code groupCd="DVC_KIND" dataPath="dvcKind" clazz="form-control"/>
                             </ax:td>
-                            
+                                          
                             <ax:td label="ax.admin.BM0201F0.dvctype" width="300px" labelClazz="required">
-                                <select class="form-control" id="" name="" data-ax-path="dvcType">
-									 <option value="장치1"><ax:lang id="ax.admin.BM0201F0.deviceT1"/></option>
-									 <option value="장치2"><ax:lang id="ax.admin.BM0201F0.deviceT2"/></option>
-									 <option value="장치3"><ax:lang id="ax.admin.BM0201F0.deviceT3"/></option>
-								</select>
-                            </ax:td>                   		
+                            	<ax:common-code groupCd="DVC_TYPE" dataPath="dvcType" clazz="form-control"/>
+                            </ax:td>                  		
 						</ax:tr>              
                  		                    
                         
                         <ax:tr>
-                       
-							<ax:td label="ax.admin.BM0201F0.instloc" width="600px" labelClazz="required">
-                                <select class="form-control" id="" name="" data-ax-path="instLoc">
-									 <option value="위치1"><ax:lang id="ax.admin.BM0201F0.Loc1"/></option>
-									 <option value="위치2"><ax:lang id="ax.admin.BM0201F0.Loc2"/></option>
-									 <option value="위치3"><ax:lang id="ax.admin.BM0201F0.Loc3"/></option>
-								</select>
-                            </ax:td>
+                            <ax:td label="ax.admin.BM0201F0.instloc" width="600px" labelClazz="required">
+                            	<ax:common-code groupCd="INST_LOC" dataPath="instloc" clazz="form-control"/>
+                            </ax:td>                           
                         </ax:tr>                     	
                         
                         <ax:tr>
@@ -114,15 +96,14 @@
                        		<ax:td label="ax.admin.BM0301F0.remark" width="100%">
                             	<input type="text" data-ax-path="remark" class="form-control"/>
                             </ax:td>
-                       	</ax:tr>
-
+                       	</ax:tr>                      	
                     </ax:tbl>
                     
                     <div class="ax-button-group">
                         <div class="left">
                             <h3>
                                 <i class="cqc-list"></i>
-                                <ax:lang id="aax.admin.BM0201G1.title"/>
+                                <ax:lang id="ax.admin.BM0201G1.title"/>
                             </h3>
                         </div>
                     </div>

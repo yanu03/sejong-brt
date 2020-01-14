@@ -72,6 +72,29 @@
             	},
             	header: false
             },
+           "BM0202": {
+            	width: 400,
+            	height: 450,
+            	iframe: {
+            		url: "/jsp/common/BM0202_modal.jsp"
+            	}
+           },
+            "COMMON_SENTENCE": {
+            	width: 600,
+            	height: 450,
+            	iframe: {
+            		url: "/jsp/common/common-sentence_modal.jsp"
+            	},
+            	header: false
+            },
+            "RESERVATION": {
+            	width: 340,
+            	height: 420,
+            	iframe: {
+            		url: "/jsp/common/reservation_modal.jsp"
+            	},
+            	header: false
+            }
         };
     }
 

@@ -1,12 +1,9 @@
 package com.tracom.brt.domain.BM0202;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.chequer.axboot.core.mybatis.MyBatisMapper;
-import com.chequer.axboot.core.parameter.RequestParams;
 
 public interface BM0202Mapper extends MyBatisMapper{
 

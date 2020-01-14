@@ -1851,6 +1851,10 @@
 		},
 		_updateInterface: function() {
 			if(this.css.jq.seekBar.length) {
+				if(this.status.seekPercent == 0) {
+					this.status.seekPercent = 100
+				}
+					
 				this.css.jq.seekBar.width(this.status.seekPercent+"%");
 			}
 			if(this.css.jq.playBar.length) {

@@ -70,15 +70,9 @@
                        	</ax:tr>
                        	
                        	<ax:tr>
-							<ax:td label="ax.admin.BM0201M0.worktype" width="300px" labelClazz="required">
-	     					 	<select class="form-control" id="" name="" data-ax-path="workType">
-									 <option value="최초"><ax:lang id="ax.admin.BM0201M0.first"/></option>
-									 <option value="교체"><ax:lang id="ax.admin.BM0201M0.change"/></option>
-									 <option value="수리"><ax:lang id="ax.admin.BM0201M0.repair"/></option>
-									 <option value="이전"><ax:lang id="ax.admin.BM0201M0.relocation"/></option>
-									 <option value="제거"><ax:lang id="ax.admin.BM0201M0.remove"/></option>
-								</select>
-                    		</ax:td>
+                    		<ax:td label="ax.admin.BM0201M0.worktype" width="300px" labelClazz="required" >
+                            	<ax:common-code groupCd="WORK_TYPE" dataPath="workType" clazz="form-control"/>
+                            </ax:td>
 						</ax:tr>
 						
 						<ax:tr>
