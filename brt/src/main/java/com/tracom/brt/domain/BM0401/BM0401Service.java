@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
@@ -20,19 +21,20 @@ public class BM0401Service extends BaseService<VoiceInfoVO, String> {
 	private FTPHandler handler;
 	
     public List<VoiceInfoVO> BM0401G0S0(RequestParams<VoiceInfoVO> requestParams) {
-        return mapper.BM0401G0S0(requestParams.getString("coCd"));
+        return mapper.BM0401G0S0(requestParams.getString("filter"));
     }
     
+    @Transactional
     public String BM0401F0I0(VoiceInfoVO vo) {
     	mapper.BM0401F0I0(vo);
-    	uploadVoice(vo);
+    	handler.uploadVoice(vo);
+    	mapper.BM0401F0U0(vo);
     	return vo.getVocId();
     }
     
     public boolean BM0401F0U0(VoiceInfoVO vo) {
+    	handler.uploadVoice(vo);
     	if(mapper.BM0401F0U0(vo) > 0) {
-    		uploadVoice(vo);
-        	
     		return true;
     	} else {
     		return false;
@@ -44,17 +46,6 @@ public class BM0401Service extends BaseService<VoiceInfoVO, String> {
     		return true;
     	} else {
     		return false;
-    	}
-    }
-    
-    private void uploadVoice(VoiceInfoVO vo) {
-    	String vocId = vo.getVocId();
-    	if(vo.getPlayType().equals("TTS")) {
-    		handler.uploadVoiceTTS(vocId, vo.getKrTts(), vo.getEnTts());
-    	} else if(vo.getPlayType().equals("WAV")) {
-    		if(vo.getWavFile() != null) {
-    			handler.uploadVoice(vocId, vo.getWavFile());
-    		}
     	}
     }
 }

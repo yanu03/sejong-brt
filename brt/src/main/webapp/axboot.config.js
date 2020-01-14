@@ -72,6 +72,14 @@
             	},
             	header: false
             },
+            "RESERVATION": {
+            	width: 340,
+            	height: 420,
+            	iframe: {
+            		url: "/jsp/common/reservation_modal.jsp"
+            	},
+            	header: false
+            }
         };
     }
 

@@ -91,9 +91,9 @@
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td id="wavLabel" label="ax.admin.BM0401F0.wav" width="500px">
-                            	<input type="file" id="wavFile" name="wavFile" data-ax-path="wavFile" class="form-control inline-block W180" accept="audio/wav" title="<ax:lang id="ax.admin.BM0401F0.wav"/>"/>
-                            	<button type="button" class="btn btn-primary" data-btn data-btn-test="wav">
+                            <ax:td id="wavLabel" label="ax.admin.BM0401F0.wav" width="100%">
+                            	<input type="file" id="wavFile" name="wavFile" class="form-control inline-block W180" accept="audio/wav" title="<ax:lang id="ax.admin.BM0401F0.wav"/>"/>
+                            	<button type="button" class="btn btn-default" data-btn data-btn-test="wav">
                                 	<ax:lang id="ax.admin.test"/>
                             	</button>
                             </ax:td>
@@ -105,11 +105,11 @@
                             	<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0401F0.kr.tts"/>" class="form-control"></textarea>
                             	
                             	<div style="margin-top: 4px; text-align: right;">
-	                            	<button type="button" class="btn btn-primary" data-btn data-btn-test="krTts">
+	                            	<button type="button" class="btn btn-default" data-btn data-btn-test="krTts">
 	                                	<ax:lang id="ax.admin.test"/>
 	                            	</button>
 	                            	
-	                            	<button type="button" class="btn btn-primary" data-btn data-btn-common-txt="krTts">
+	                            	<button type="button" class="btn btn-default" data-btn data-btn-common-txt="krTts">
 	                                	<ax:lang id="ax.admin.common.txt"/>
 	                            	</button>
 	                            </div>
@@ -121,11 +121,11 @@
                             	<textarea name="enTts" data-ax-path="enTts" title="<ax:lang id="ax.admin.BM0401F0.en.tts"/>" class="form-control"></textarea>
                             	
                             	<div style="margin-top: 4px; text-align: right;">
-	                            	<button type="button" class="btn btn-primary" data-btn data-btn-test="enTts">
+	                            	<button type="button" class="btn btn-default" data-btn data-btn-test="enTts">
 	                                	<ax:lang id="ax.admin.test"/>
 	                            	</button>
 	                            	
-	                            	<button type="button" class="btn btn-primary" data-btn data-btn-common-txt="enTts">
+	                            	<button type="button" class="btn btn-default" data-btn data-btn-common-txt="enTts">
 	                                	<ax:lang id="ax.admin.common.txt"/>
 	                            	</button>
 	                            </div>
@@ -134,13 +134,13 @@
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0401F0.scr.txt" width="100%">
-                            	<textarea name="scrTxt" data-ax-path="scrTxt" class="form-control"></textarea>
+                            	<textarea name="scrTxt" data-ax-path="scrTxt" class="form-control" maxlength="100"></textarea>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0401F0.scr.txt.en" width="100%">
-                            	<textarea name="scrTxtEn" data-ax-path="scrTxtEn" class="form-control"></textarea>
+                            	<textarea name="scrTxtEn" data-ax-path="scrTxtEn" class="form-control" maxlength="100"></textarea>
                             </ax:td>
                        	</ax:tr>
                        	

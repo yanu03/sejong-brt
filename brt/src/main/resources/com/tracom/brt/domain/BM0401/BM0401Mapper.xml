@@ -47,8 +47,10 @@
     		, ATT_FILE
     		, CREATED_AT
     		, CREATED_BY
+    		, CREATED_IP
     		, UPDATED_AT
-    		, UPDATED_BY)
+    		, UPDATED_BY
+    		, UPDATED_IP)
    		VALUES(
    			  #{vocId}
    			, #{vocNm}
@@ -64,8 +66,10 @@
    			, #{attFile}
    			, #{createdAt}
    			, #{createdBy}
+   			, #{createdIp}
    			, #{updatedAt}
    			, #{updatedBy}
+   			, #{updatedIp}
    		)
     </insert>
     
@@ -84,6 +88,7 @@
     		, ATT_FILE		=	#{attFile}
     		, UPDATED_AT	=	#{updatedAt}
     		, UPDATED_BY	=	#{updatedBy}
+    		, UPDATED_IP	=	#{updatedIp}
     	WHERE
     		VOC_ID = #{vocId}
     </update>
