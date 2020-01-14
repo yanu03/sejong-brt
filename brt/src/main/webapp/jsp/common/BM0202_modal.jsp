@@ -11,7 +11,7 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
-        <script type="text/javascript" src="<c:url value='/assets/js/common/BM0201_modal.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/common/BM0202_modal.js' />"></script>
     </jsp:attribute>
     <jsp:attribute name="header">
         <h3 class="title">
@@ -70,7 +70,7 @@
                        	</ax:tr>
                        	
                        	<ax:tr>
-                    		<ax:td label="ax.admin.BM0201M0.worktype" width="300px" labelClazz="required" >
+                    		<ax:td label="ax.admin.BM0201M0.worktype" width="300px" labelClazz="required">
                             	<ax:common-code groupCd="WORK_TYPE" dataPath="workType" clazz="form-control"/>
                             </ax:td>
 						</ax:tr>

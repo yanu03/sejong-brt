@@ -6,16 +6,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         }
     },
     
-    PAGE_SEARCH: function (caller, act, data) {    
-        axboot.ajax({
-            type: "GET",
-            url: "/api/v1/BM0201M0S0",
-            data: caller.searchView0.getData(),
-            callback: function (res) {
-            	caller.formView0.setData(res);
-            }
-        });
-        return false;
+    PAGE_SEARCH: function (caller, act, data) {
+    	
+    	caller.formView0.setData(parent.axboot.modal.getData());
     },
     
     
@@ -36,6 +29,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
             		axToast.push(LANG("onadd"));
             		ACTIONS.dispatch(ACTIONS.PAGE_CLOSE, data.message);
+            		
                     isUpdate = true;
                 })
                 .catch(function () {
@@ -135,8 +129,8 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         if (typeof data === "undefined") data = this.getDefaultData();
         console.log("data1");
         console.log(data);
-        data = $.extend({}, data.list[0]);
-        console.log("setData2"+data);
+        data = $.extend({}, data);
+        console.log(data);
 
         this.model.setModel(data);
         this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경

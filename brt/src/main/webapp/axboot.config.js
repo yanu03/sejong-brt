@@ -64,6 +64,13 @@
             	},
             	header: false
             },
+           "BM0202": {
+            	width: 400,
+            	height: 450,
+            	iframe: {
+            		url: "/jsp/common/BM0202_modal.jsp"
+            	}
+           },
             "COMMON_SENTENCE": {
             	width: 600,
             	height: 450,

@@ -36,15 +36,6 @@ public class BM0201Controller extends BaseController{
         return Responses.ListResponse.of(list);
     }
     
-    @GetMapping("/BM0201F0S0")
-    @ApiImplicitParams({
-    	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
-    })
-    public Responses.ListResponse BM0201F0S0(RequestParams<VhcDeviceVO> requestParams) {
-        List<VhcDeviceVO> list = service.BM0201F0S0(requestParams);
-        return Responses.ListResponse.of(list);
-    }
-    
     @GetMapping("/BM0201G1S0")
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")

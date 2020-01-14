@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tracom.brt.domain.BM0204.BM0204Mapper">
+
+<select id="BM0204G0S0" parameterType="String" resultType="obeConditionVO">
+		SELECT
+    		  DI.DVC_ID
+    		, DI.REMARK
+    		, DC.DVC_COND
+    		, V.VHC_NO
+    		, V.CORP_ID
+    		, V.AREA  <!--GPS 들어갈 자리입니다. -->
+    		, DL.DL_CD_NM
+    		, LOC.LATI
+    		, LOC.LONGI
+    	FROM
+    		BM_DVC_INFO DI
+    		LEFT OUTER JOIN BM_DVC_COND DC
+    		ON DI.DVC_ID = DC.DVC_ID
+    		LEFT OUTER JOIN BM_VHC_INFO V
+    		ON DI.VHC_ID = V.VHC_ID
+    		LEFT OUTER JOIN SM_DL_CD_INFO DL
+    		ON DC.DVC_COND = DL.DL_CD
+    		LEFT OUTER JOIN BM_DVC_LOC LOC
+    		ON DI.DVC_ID = LOC.DVC_ID
+    	<where>
+	    	<if test="value != null">
+				DI.DVC_ID LIKE CONCAT('%', #{value}, '%')
+				OR V.VHC_NO LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    			AND DVC_KIND = "CD004"
+    	ORDER BY DVC_ID
+    	</where>
+</select>
+
+</mapper>

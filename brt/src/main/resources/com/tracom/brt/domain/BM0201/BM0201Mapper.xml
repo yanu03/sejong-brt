@@ -29,21 +29,6 @@
     	</where>
     </select>
     
-    <select id="BM0201F0S0" parameterType="String" resultType="vhcDeviceVO">
-    	SELECT
-    	  	  D.DL_CD
-    	  	, D.DL_CD_NM
-    	  	, C.CO_CD
-    	  	, D.TXT_VAL1
-    	  	, D.TXT_VAL2
-    	FROM
-    	    SM_DL_CD_INFO D
-    	    LEFT OUTER JOIN SM_CO_CD_INFO C
-    	    ON D.CO_CD = C.CO_CD
-    	WHERE
-    	 	C.CO_CD = "DK001";
-    </select>
-    
     <select id="BM0201F0S1" parameterType="String" resultType="vhcDeviceVO">
     	SELECT
     		  DVC_ID
