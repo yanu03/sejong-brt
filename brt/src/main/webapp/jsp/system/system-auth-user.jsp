@@ -113,6 +113,8 @@
                                 <input type="text" name="hpNo" data-ax-path="hpNo" maxlength="15" placeholder="" class="av-phone form-control W120" data-ax5formatter="phone" value=""/>
                             </ax:td>
                         </ax:tr>
+                        
+                        <!--  -->
                         <ax:tr labelWidth="120px">
                             <ax:td label="ax.admin.user.language" width="300px">
                                 <ax:common-code groupCd="LOCALE" dataPath="locale" clazz="form-control W100"/>
@@ -126,6 +128,8 @@
                                 <ax:common-code groupCd="USER_STATUS" dataPath="userStatus"/>
                             </ax:td>
                         </ax:tr>
+                        <!--  -->
+                        
                         <ax:tr labelWidth="120px">
                             <ax:td label="ax.admin.remark" width="100%">
                                 <input type="text" name="remark" data-ax-path="remark" maxlength="100" class="form-control" value=""/>

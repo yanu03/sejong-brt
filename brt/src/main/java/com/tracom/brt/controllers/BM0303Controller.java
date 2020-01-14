@@ -28,7 +28,7 @@ public class BM0303Controller extends BaseController{
 	    @ApiImplicitParams({
 	    	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
 	    })
-	    public Responses.ListResponse list(RequestParams<ContractViewVO> requestParams) {
+	    public Responses.ListResponse BM0303G1S0(RequestParams<ContractViewVO> requestParams) {
 	        List<ContractViewVO> list = service.BM0303G1S0(requestParams);
 	        return Responses.ListResponse.of(list);
 	    }

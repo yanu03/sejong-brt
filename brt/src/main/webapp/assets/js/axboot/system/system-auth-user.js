@@ -190,6 +190,7 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
  * formView01
  */
 fnObj.formView01 = axboot.viewExtend(axboot.formView, {
+	
     getDefaultData: function () {
         return $.extend({}, axboot.formView.defaultData, {
             "compCd": "S0001",
@@ -213,6 +214,7 @@ fnObj.formView01 = axboot.viewExtend(axboot.formView, {
         ACTIONS.dispatch(ACTIONS.ROLE_GRID_DATA_INIT, {});
     },
     initEvent: function () {
+    	console.log("사용자관flview1");
         var _this = this;
         this.model.onChange("password_change", function () {
             if (this.value == "Y") {
@@ -235,9 +237,11 @@ fnObj.formView01 = axboot.viewExtend(axboot.formView, {
         });
     },
     getData: function () {
+    	console.log("사용자관flview2");
         var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
 
         data.authList = [];
+        console.log(data.grpAuthCd);
         if (data.grpAuthCd) {
             data.grpAuthCd.forEach(function (n) {
                 data.authList.push({

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tracom.brt.domain.BM0205.BM0205Mapper">
+	<select id="BM0205G0S0" parameterType="String" resultType="vhcDvcUpdateVO">
+		SELECT
+			 V.VHC_NO
+		   , V.VHC_KIND
+		   , V.VHC_TYPE
+		   , D.MAKER
+		   , D.DVC_KIND
+		   , D.DVC_TYPE
+		   , D.INST_LOC
+		   , DH.MODEL_NM
+		FROM
+		     BM_VHC_INFO V
+			 LEFT OUTER JOIN BM_DVC_INFO D
+			 ON V.VHC_ID = D.VHC_ID
+			 LEFT OUTER JOIN BM_DVC_HIST DH
+			 ON D.DVC_ID = DH.DVC_ID
+	   <where>
+	    	<if test="value != null">
+				DH.MODEL_NM LIKE CONCAT('%', #{value}, '%')
+				OR V.VHC_NO LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+		ORDER BY VHC_NO
+	</select>
+</mapper>

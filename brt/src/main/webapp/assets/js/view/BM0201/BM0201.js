@@ -19,7 +19,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: filter,
             callback: function (res) {           	
                 caller.gridView0.setData(res);
-                console.log("BM0201.js.search"+res);
+                console.log(res);
                 if(res.list.length == 0) {
                 	isUpdate = false;
 	                caller.formView0.clear();
@@ -34,24 +34,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 }
             }
         });
-        
-        axboot.ajax({
-        	type:"GET",
-        	url:"/api/v1/BM0201F0S0",
-        	data: filter,
-        	callback : function(res){
-        		caller.formView0.setData(res);
-        	}
-        })
-
-        return false;
     },
     
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRow != null){   		
     		caller.gridView1.target.exportExcel(selectedRow.conId + "data.xls");
     	}else {
-    		alert("계약 항목을 선택해주세요");
+    		alert("항목을 선택해주세요");
     	}
     },
     
@@ -241,9 +230,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             modalType: "BM0201",
             param: "",
             callback: function (data) {
-                
             }
         });
+    	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
     },
 });
 /********************************************************************************************************************/
@@ -412,7 +401,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].conId == id) {
+    		if(this.target.list[i].vhcId == id) {
     			this.selectRow(i);
     			break;
     		}
@@ -513,7 +502,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].seq == id) {
+    		if(this.target.list[i].dvcId == id) {
     			this.selectRow(i);
     			break;
     		}
@@ -546,60 +535,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         
     },
     initEvent: function () {
-    	var _this = this;
-    	
-                	/*$('[data-ax5select="dvcKind"]').ax5select({
-                		columnKeys: {
-                			optionValue: "optionValue", optionText: "optionText"
-                		},
-                		options: [        			
-                			{optionValue: 1, optionText: "행선지안내기"},
-                			{optionValue: 2, optionText: "승객용안내기"},
-                			{optionValue: 3, optionText: "전자노선도"},
-                			{optionValue: 4, optionText: "OBE"},
-                			]
-         
-                	});
-                	
-                	$('[data-ax5select="dvctype"]').ax5select({
-                		columnKeys: {
-                			optionValue: "optionValue", optionText: "optionText"
-                		},
-                		options: [        			
-                			{optionValue: 1, optionText: "장치1"},
-                			{optionValue: 2, optionText: "장치2"},
-                			{optionValue: 3, optionText: "장치3"},
-                			{optionValue: 4, optionText: "장치4"},
-                			]
-         
-                	});
-                	
-                	$('[data-ax5select="instloc"]').ax5select({
-                		columnKeys: {
-                			optionValue: "optionValue", optionText: "optionText"
-                		},
-                		options: [        			
-                			{optionValue: 1, optionText: "설치위치1"},
-                			{optionValue: 2, optionText: "설치위치2"},
-                			{optionValue: 3, optionText: "설치위치3"},
-                			{optionValue: 4, optionText: "설치위치4"},
-                			]
-         
-                	});
-                	
-                	$('[data-ax5select="maker"]').ax5select({
-                		columnKeys: {
-                			optionValue: "optionValue", optionText: "optionText"
-                		},
-                		options: [        			
-                			{optionValue: 1, optionText: "제조사1"},
-                			{optionValue: 2, optionText: "제조사2"},
-                			{optionValue: 3, optionText: "제조사3"},
-                			{optionValue: 4, optionText: "제조사4"},
-                			]
-         
-                	});*/
-    	
+    	var _this = this; 	
     },
     
     getData: function () {
