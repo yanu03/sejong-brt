@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0404.BM0404Mapper">
+
+    <select id="BM0404G0S0" parameterType="String" resultType="voiceInfoVO">
+    	SELECT
+			R.ROUT_ID
+		    , R.ROUT_NM
+		    , R.WAY_DIV
+		    , R.SHORT_ROUT_NM
+		    , DATE_FORMAT(R.UPDATED_AT, '%Y-%m-%d %H:%i:%s') AS ROUT_UPDATED_AT
+		    , V.VOC_ID
+		    , V.PLAY_ST_DATE
+		    , V.PLAY_TYPE
+		    , V.KR_TTS
+		    , V.REMARK
+		    , V.PLAY_TM
+		    , V.PLAY_ED_DATE
+		    , CONCAT(DATE_FORMAT(V.PLAY_ST_DATE, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(V.PLAY_ED_DATE, '%Y-%m-%d')) PLAY_DATE
+		FROM
+			BM_ROUT_INFO R
+		    LEFT OUTER JOIN BM_VOC_INFO V
+		    ON R.ROUT_ID = V.ROUT_ID
+    	<where>
+	    	<if test="value != null">
+				R.ROUT_ID LIKE CONCAT('%', #{value}, '%')
+				OR R.ROUT_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+    </select>
+    
+    <insert id="BM0404F0I0" parameterType="voiceInfoVO">
+    	<selectKey keyProperty="vocId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('RV', LPAD(NEXTVAL(SEQ_BM_RV_VOC_INFO_0), 5, '0'))
+    	</selectKey>
+    	
+    	INSERT INTO BM_VOC_INFO(
+    		  VOC_ID
+    		, ROUT_ID
+    		, PLAY_ST_DATE
+    		, PLAY_TYPE
+    		, KR_TTS
+    		, REMARK
+    		, PLAY_TM
+    		, VOC_DIV
+    		, PLAY_ED_DATE
+    		, CREATED_AT
+    		, CREATED_BY
+    		, CREATED_IP
+    		, UPDATED_AT
+    		, UPDATED_BY
+    		, UPDATED_IP)
+   		VALUES(
+   			  #{vocId}
+   			, #{routId}
+   			, #{playStDate}
+   			, #{playType}
+   			, #{krTts}
+   			, #{remark}
+   			, #{playTm}
+   			, 'RTVOC'
+   			, #{playEdDate}
+   			, #{createdAt}
+   			, #{createdBy}
+   			, #{createdIp}
+   			, #{updatedAt}
+   			, #{updatedBy}
+   			, #{updatedIp}
+   		)
+    </insert>
+    
+    <update id="BM0404F0U0" parameterType="voiceInfoVO">
+    	UPDATE BM_VOC_INFO
+    	SET
+    		  PLAY_ST_DATE	=	#{playStDate}
+    		, PLAY_TYPE		=	#{playType}
+    		, KR_TTS		=	#{krTts}
+    		, REMARK		=	#{remark}
+    		<if test="playTm != null">
+    			, PLAY_TM		=	#{playTm}
+    		</if>
+    		, PLAY_ED_DATE	=	#{playEdDate}
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    		, UPDATED_IP	=	#{updatedIp}
+    	WHERE
+    		ROUT_ID = #{routId}
+    		AND VOC_ID = #{vocId}
+    </update>
+    
+    <delete id="BM0404G0D0" parameterType="voiceInfoVO">
+    	DELETE
+    		FROM BM_VOC_INFO
+    	WHERE
+    		VOC_ID = #{vocId}
+    </delete>
+</mapper>
