@@ -165,6 +165,7 @@ public class VoiceService {
 	public void wavTest(RequestParams<VoiceInfoVO> requestParams, HttpServletRequest request, HttpServletResponse response) {
 		String userAgent = request.getHeader("User-Agent");
 		String vocId = requestParams.getString("vocId");
+		String routId = requestParams.getString("routId");
 		String type = requestParams.getString("type");
 		String pText = requestParams.getString("pText");
 		int nLanguage = requestParams.getInt("nLanguage");
@@ -178,8 +179,13 @@ public class VoiceService {
 
 		try {
 			if(type == null) {
+				if(routId != null && !routId.equals("")) {
+					path = Paths.get(handler.getRootLocalPath(), "/common/audio", routId + "_select.wav").toString();
+					tempFile = new File(path);
+					file = tempFile;
+				}
 				// playType이 TTS일떄
-				if(vocId == null) {
+				else if(vocId == null) {
 					buffer = getWavBuffer(pText, nLanguage, nSpeakerId, chimeYn);
 					path = Paths.get(handler.getRootLocalPath(), "/temp/temp.wav").toString();
 					tempFile = new File(path);
