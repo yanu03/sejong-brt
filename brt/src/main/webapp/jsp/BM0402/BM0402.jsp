@@ -127,7 +127,7 @@
                             </ax:td>
                        	</ax:tr>
                        	
-                       	<ax:tr>
+<%--                        	<ax:tr>
                        		<ax:td id="enTtsLabel" label="ax.admin.BM0402F0.en.tts" width="100%">
                             	<textarea name="enTts" data-ax-path="enTts" title="<ax:lang id="ax.admin.BM0401F0.en.tts"/>" class="form-control"></textarea>
                             	
@@ -143,7 +143,7 @@
                             </ax:td>
                        	</ax:tr>
                        	
-                       	<ax:tr>
+ --%>                       	<ax:tr>
                             <ax:td label="ax.admin.test" width="300px">
                             	<div id="jquery_jplayer_1" class="jp-jplayer"></div>
 								<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">

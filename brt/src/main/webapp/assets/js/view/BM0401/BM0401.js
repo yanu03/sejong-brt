@@ -328,7 +328,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     // TTS 미리듣기
     TEST_TTS: function(caller, act, data) {
-    	data["checkChime"] = caller.formView0.getData().chimeYn;
     	var wavDownloadUrl = "/api/v1/getWavDownload?" + $.param(data);
     	
     	// wav 다운로드
@@ -587,7 +586,10 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.model.setModel(this.getDefaultData(), this.target);
         this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
         this.initEvent();
-
+    },
+    initEvent: function () {
+        var _this = this;
+        
         this.target.find('[data-ax5picker="date"]').ax5picker({
             direction: "auto",
             content: {
@@ -601,6 +603,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
                 	pText: _this.target.find("[data-ax-path='krTts']").val(),
                 	nLanguage: 0,
                 	nSpeakerId: 0,
+                	chimeYn: "Y"
                 });
             },
             "enTts": function() {
@@ -633,9 +636,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         		playType: $(this).val()
         	})
         });
-    },
-    initEvent: function () {
-        var _this = this;
     },
     getData: function () {
         var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.

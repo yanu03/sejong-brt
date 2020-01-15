@@ -27,7 +27,7 @@ public class VoiceConroller extends BaseController {
 	private VoiceService service;
 	
 	@GetMapping("/getWavDownload")
-	public ResponseEntity<byte[]> getWavBuffer(RequestParams<VoiceInfoVO> requestParams) {
+	public ResponseEntity<byte[]> getWavDownload(RequestParams<VoiceInfoVO> requestParams) {
 		String pText = requestParams.getString("pText");
 		int nLanguage = requestParams.getInt("nLanguage");
 		int nSpeakerId = requestParams.getInt("nSpeakerId");

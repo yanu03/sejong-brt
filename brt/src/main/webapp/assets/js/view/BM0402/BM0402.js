@@ -510,7 +510,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "playTm", label: ADMIN("ax.admin.BM0401F0.play.time"), width: 80},
                 {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 150},
                 {key: "krTts", label: ADMIN("ax.admin.BM0401F0.kr.tts"), width: 120},
-                {key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 120},
+                /*{key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 120},*/
                 {key: "remark", label: ADMIN("ax.admin.BM0401F0.remark"), width: 120},
             ],
             body: {

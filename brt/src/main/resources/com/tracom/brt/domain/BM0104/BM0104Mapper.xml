@@ -9,7 +9,7 @@
 		    , ROUT_NM
 		    , WAY_DIV
 		    , SHORT_ROUT_NM
-		    , UPDATED_AT
+		    , DATE_FORMAT(UPDATED_AT, '%Y-%m-%d %H:%i:%s') AS UPDATED_AT
 		FROM
 			BM_ROUT_INFO
 		<where>

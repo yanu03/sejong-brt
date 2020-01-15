@@ -328,12 +328,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     // TTS 미리듣기
     TEST_TTS: function(caller, act, data) {
-    	data["checkChime"] = caller.formView0.getData().chimeYn;
-    	var wavDownloadUrl = "/api/v1/getWavDownload?" + $.param(data);
-    	
-    	// wav 다운로드
-    	// window.location.href = wavDownloadUrl;
-    	
     	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
     },
     
@@ -489,7 +483,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "playTm", label: ADMIN("ax.admin.BM0401F0.play.time"), width: 80},
                 {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 150},
                 {key: "krTts", label: ADMIN("ax.admin.BM0401F0.kr.tts"), width: 120},
-                {key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 120},
+                /*{key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 120},*/
                 {key: "remark", label: ADMIN("ax.admin.BM0401F0.remark"), width: 120},
             ],
             body: {
