@@ -23,21 +23,18 @@
     
 	<select id="BM0107G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
 		SELECT
-			  NI.STA_ID
-		    , SI.STA_NM
-		    , SI.STA_NO
-		    , SI.LATI
-		    , SI.LONGI
-		    , SI.UPDATED_AT
+			  ROUT_ID
+			, NODE_ID
+		    , NODE_NM
+		    , LATI
+		    , LONGI 
+		    , UPDATED_AT
+		    , UPDATED_BY
 		FROM
-			BM_ROUT_NODE_INFO NI
-		    LEFT JOIN
-			BM_STA_INFO SI
-		    ON NI.STA_ID = SI.STA_ID
+			BM_ROUT_NODE_INFO
 		WHERE
-			ROUT_ID = #{routId}
-		    AND
-			NI.STA_ID IS NOT NULL
+			ROUT_ID = '293000099'
+
 			<if test="value != null">
 				AND(
 				NI.STA_ID LIKE CONCAT('%', #{filter1}, '%')

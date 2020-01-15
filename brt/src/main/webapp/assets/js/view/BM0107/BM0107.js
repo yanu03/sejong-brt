@@ -38,16 +38,34 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	caller.gridView0.target.exportExcel("data.xls");
     },
     
-    PAGE_NEW: function (caller, act, data) {
-    	isUpdate = false;
-    	caller.gridView0.selectAll(false);
-        //caller.formView0.clear();
-        //caller.formView0.enable();
-        //caller.formView0.validate(true);
+    DATA_INTERFACE: function(caller, act, data){
+    	axDialog.confirm({
+            msg: LANG("ax.script.interfaceConfirm")
+        }, function() {
+            if (this.key == "ok") {
+            	axboot.promise()
+                .then(function (ok, fail, data) {
+	            	axboot.ajax({
+	                    type: "POST",
+	                    url: "/api/v1/BM0107G0U0",
+	                    data: null,
+	                    callback: function (res) {
+	                        ok(res);
+	                    }
+	                });
+                })
+                .then(function (ok) {
+                	axToast.push(LANG("onInterface"));
+                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                })
+                .catch(function () {
+
+                });
+            }
+        });
     },
     
     PAGE_DELETE: function(caller, act, data) {
-    	console.log('rrr2');
     	var grid = caller.gridView0.target;
     	
     	if(typeof grid.selectedDataIndexs[0] === "undefined") {
@@ -82,56 +100,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     },
     
-    PAGE_SAVE: function (caller, act, data) {
-        //if (caller.formView0.validate()) {
-            //var formData = caller.formView0.getData();
-    	console.log('rr');
-formData = null;
-            axboot.promise()
-                .then(function (ok, fail, data) {
-                    axboot.ajax({
-                        type: "POST",
-                        url: "/api/v1/test",
-                        data: JSON.stringify(formData),
-                        callback: function (res) {
-                            ok(res);
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onadd"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-                    isUpdate = true;
-                })
-                .catch(function () {
-
-                });
-        //}
-    },
     
-    PAGE_UPDATE: function(caller, act, data) {
-        /*if (caller.formView0.validate()) {
-            var formData = caller.formView0.getData();
-            axboot.promise()
-                .then(function (ok, fail, data) {
-                	axboot.ajax({
-                    	type: "POST",
-                        url: "/api/v1/BM0103F0U0",
-                        data: JSON.stringify(formData),
-                        callback: function (res) {
-                            ok(res);
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onupdate"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-        }*/
-    },
     
     // 탭닫기
     PAGE_CLOSE: function(caller, act, data) {
@@ -182,14 +151,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             	selectedRow = null;
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
-            "new": function() {
-            	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
-            },
-            "delete": function() {
-            	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
-            },
-            "save": function () {
-            	
+            "interface": function() {
+            	console.log("test");
+            	ACTIONS.dispatch(ACTIONS.DATA_INTERFACE);
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);

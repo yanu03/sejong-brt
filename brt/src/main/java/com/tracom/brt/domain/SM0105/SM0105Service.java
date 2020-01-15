@@ -46,4 +46,8 @@ public class SM0105Service extends BaseService<CommonCodeDetailInfoVO, String> {
     		return false;
     	}
     }
+    
+    public CommonCodeDetailInfoVO BM0105G1S1(CommonCodeDetailInfoVO vo){
+    	return mapper.BM0105G1S1(vo);
+    }
 }
