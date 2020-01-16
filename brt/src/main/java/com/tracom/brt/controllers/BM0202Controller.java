@@ -53,4 +53,10 @@ public class BM0202Controller extends BaseController{
 		return ok();
 	}
 	
+	@PostMapping("/BM0202G2U0")
+	public ApiResponse BM0202G2U0(@RequestBody DvcHistoryVO request) {
+		service.BM0202G2U0(request);
+		return ok();
+	}
+	
 }

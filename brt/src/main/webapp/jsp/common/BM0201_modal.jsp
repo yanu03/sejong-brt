@@ -47,30 +47,27 @@
                     	</ax:tr>                                 
                         
                         <ax:tr>
-                           <ax:td label="ax.admin.BM0201M0.devserialno" width="300px" >
-								<input type="text" id="devSerialNo" data-ax-path="devSerialNo" data-key="true" class="form-control">
-							</ax:td>
+                          	<ax:td label='ax.admin.BM0201M0.aplydate' width="300px" labelClazz="required">
+	                            <div class="input-group" data-ax5picker="date">
+	                                <input type="text" class="form-control" data-ax-path="aplyDate" data-ax5formatter="date" title="<ax:lang id="ax.admin.BM0201M0.aplydate"/>" placeholder="yyyy/mm/dd" data-ax-validate="required" />
+	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
+	                            </div>
+                        	</ax:td>
                         </ax:tr>
                  
                      <ax:tr>
+                            <ax:td label="ax.admin.BM0201M0.devserialno" width="300px">
+								<input type="text" id="devSerialNo" data-ax-path="devSerialNo" data-key="true" class="form-control">
+							</ax:td>                    
+                     </ax:tr>                       	                       
+                     <ax:tr>
                          <ax:td label="ax.admin.BM0201M0.modelnm" width="300px" >
 								<input type="text" id="modelNm" data-ax-path="modelNm" data-key="true" class="form-control">
-						 </ax:td>                        
-                     </ax:tr>                       	
-                        
-                        <ax:tr>
-                            <ax:td label='ax.admin.BM0201M0.aplydate' width="300px" labelClazz="required">
-
-                            <div class="input-group" data-ax5picker="date">
-                                <input type="text" class="form-control" data-ax-path="aplyDate" data-ax5formatter="date" title="<ax:lang id="ax.admin.BM0201M0.aplydate"/>" placeholder="yyyy/mm/dd" data-ax-validate="required" />
-                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
-                            </div>
-
-                        	</ax:td>
-                       	</ax:tr>
+						 </ax:td>                     	                            
+                     </ax:tr>
                        	
-                       	<ax:tr>
-                    		<ax:td label="ax.admin.BM0201M0.worktype" width="300px" labelClazz="required" >
+                      <ax:tr>
+                    		<ax:td label="ax.admin.BM0201M0.worktype" width="300px" labelClazz="required">
                             	<ax:common-code groupCd="WORK_TYPE" dataPath="workType" clazz="form-control"/>
                             </ax:td>
 						</ax:tr>
@@ -82,7 +79,7 @@
 						</ax:tr>                                             	
         
                        	<ax:tr>
-                       		<ax:td label="ax.admin.BM0301F0.remark" width="100%">
+                       		<ax:td label="ax.admin.BM0301F0.remark" width="300px">
                             	<input type="text" data-ax-path="remark" class="form-control"/>
                             </ax:td>
                        	</ax:tr>

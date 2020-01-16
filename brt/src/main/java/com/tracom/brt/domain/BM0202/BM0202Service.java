@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
+import com.tracom.brt.domain.BM0201.VhcDeviceVO;
 
 
 @Service
@@ -38,5 +39,14 @@ public class BM0202Service extends BaseService<DvcHistoryVO, String>{
 			return false;
 		}
 	}
+
+	public boolean BM0202G2U0(DvcHistoryVO vo) {
+    	if(mapper.BM0202G2U0(vo) > 0 ) {
+    		return true;
+    	}else {   		
+    		return false;
+    	}  	
+    	
+    }
 
 }

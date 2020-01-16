@@ -122,6 +122,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
+        	showLineNumber: true,
         	showRowSelector: true,
         	multipleSelect : true,
             frozenColumnIndex: 0,
@@ -129,9 +130,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             
             	 columns: [          		 
-            		 {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), width: 150},
-            		 {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), width: 100},
-                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), width: 150},
+            		 {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), width: 100},
+            		 {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), width: 120},
+                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), width: 120},
                      {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 150},
                      {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), width: 150},
                      {key: "dvcType", label: ADMIN("ax.admin.BM0201F0.dvctype"), width: 150},
@@ -140,7 +141,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                  ],
             
             body: {
-                onClick: function () {
+            	 mergeCells:["vhcNo"]  
+                ,onClick: function () {
                     this.self.select(this.dindex);
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
                 }
@@ -208,7 +210,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	}
     },
     selectAll: function(flag) {
-    	console.log("여기왕?");
     	this.target.selectAll({selected: flag});
     }
 });

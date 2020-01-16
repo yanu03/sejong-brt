@@ -58,7 +58,7 @@
             },
             "BM0201": {
             	width: 400,
-            	height: 450,
+            	height: 500,
             	iframe: {
             		url: "/jsp/common/BM0201_modal.jsp"
             	},
@@ -66,7 +66,7 @@
             },
            "BM0202": {
             	width: 400,
-            	height: 450,
+            	height: 500,
             	iframe: {
             		url: "/jsp/common/BM0202_modal.jsp"
             	}
@@ -76,6 +76,14 @@
             	height: 450,
             	iframe: {
             		url: "/jsp/common/common-sentence_modal.jsp"
+            	},
+            	header: false
+            },
+            "BM0301": {
+            	width: 400,
+            	height: 450,
+            	iframe: {
+            		url: "/jsp/common/BM0301_modal.jsp"
             	},
             	header: false
             },
