@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -100,20 +103,16 @@ public class FTPHandler {
 		}
 		
 		File saveFile = Paths.get(dir, fileName).toFile();
-		File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
-		File ttsEnFile = Paths.get(dir, fileNameEn).toFile();
+		Path ttsKrFile = Paths.get(dir, fileNameKr);
+		Path ttsEnFile = Paths.get(dir, fileNameEn);
 		try {
 			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
 			
 			vo.setPlayTm(Utils.getAudioTotalTime(saveFile));
 			
 			// 기존 TTS WAV파일 삭제
-			if(ttsKrFile.exists()) {
-				ttsKrFile.delete();
-			}
-			if(ttsEnFile.exists()) {
-				ttsEnFile.delete();
-			}
+			Files.delete(ttsKrFile);
+			Files.delete(ttsEnFile);
 			
 			processSynchronize();
 		} catch(Exception e) {
@@ -155,7 +154,7 @@ public class FTPHandler {
 		
 		File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
 		File ttsEnFile = Paths.get(dir, fileNameEn).toFile();
-		File file = Paths.get(dir, fileName).toFile();
+		Path file = Paths.get(dir, fileName);
 		try {
 			if(krText != null && !krText.equals("")) {
 				FileUtils.writeByteArrayToFile(ttsKrFile, voiceService.getWavBuffer(krText, 0, 0, chimeYn));
@@ -171,9 +170,7 @@ public class FTPHandler {
 			vo.setPlayTm(ttsKrPlayTm + ttsEnPlayTm);
 			
 			// 기존 WAV 업로드 삭제
-			if(file.exists()) {
-				file.delete();
-			}
+			Files.delete(file);
 			
 			processSynchronize();
 		} catch(Exception e) {
@@ -191,29 +188,23 @@ public class FTPHandler {
 		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
 		
 		String routId = vo.getRoutId();
-		if(routId != null && !routId.equals("")) {
-			File file = Paths.get(dir, routId + "_select.wav").toFile();
-			
-			if(file.exists()) {
-				file.delete();
+		
+		try {
+			if(routId != null && !routId.equals("")) {
+				Path path = Paths.get(dir, routId + "_select.wav");
+				Files.delete(path);
+			} else if(playType.equals("TTS")) {
+				Path ttsKrFile = Paths.get(dir, fileNameKr);
+				Path ttsEnFile = Paths.get(dir, fileNameEn);
+				
+				Files.delete(ttsKrFile);
+				Files.delete(ttsEnFile);
+			} else if(playType.equals("WAV")) {
+				Path path = Paths.get(dir, fileName);
+				Files.delete(path);
 			}
-		} else if(playType.equals("TTS")) {
-			File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
-			File ttsEnFile = Paths.get(dir, fileNameEn).toFile();
-			
-			if(ttsKrFile.exists()) {
-				ttsKrFile.delete();
-			}
-			if(ttsEnFile.exists()) {
-				ttsEnFile.delete();
-			}
-		} else if(playType.equals("WAV")) {
-			File file = Paths.get(dir, fileName).toFile();
-			
-			// 기존 WAV 업로드 삭제
-			if(file.exists()) {
-				file.delete();
-			}
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
