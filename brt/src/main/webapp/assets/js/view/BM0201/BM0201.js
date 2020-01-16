@@ -62,10 +62,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     	
     	axDialog.confirm({
-            msg: LANG("ax.script.deleteconfirm")
-        }, function() {
-      	
-            if (this.key == "ok") {
+            msg: LANG("ax.script.dvcdeleteconfirm")
+        }, function() {          	          	
+                if (this.key == "ok") {      	
             	axboot.promise()
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
@@ -86,9 +85,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .catch(function () {
 
                 });
-            }
-        });
-    	
+            }   	
+        });   	
     },
     
     PAGE_SAVE: function (caller, act, data) {

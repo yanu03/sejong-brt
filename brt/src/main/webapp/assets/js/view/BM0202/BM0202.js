@@ -26,8 +26,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		                	caller.gridView0.selectRow(selectedRow.__index);
 		                } else {
 		                	caller.gridView0.selectFirstRow();
-		                }
-	                
+		                }	                
 	            }
 	        });
 
@@ -117,14 +116,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
  // gridView1 항목 클릭 이벤트
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
-    	selectedRowG1 = data
+    	selectedRowG1 = data;
     	ACTIONS.dispatch(ACTIONS.RELOAD_G2);
     },
     
  // gridView2 항목 클릭 이벤트
     ITEM_CLICK_G2: function(caller, act, data) {
     	isUpdate = true;
-    	selectedRowG2 = data
+    	selectedRowG2 = data;
     },
     
     RELOAD_G1: function(caller, act, data) {
@@ -161,10 +160,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0202G2S0",
             data: {dvcId: selectedRowG1.dvcId},
             callback: function (res) {
-                caller.gridView2.setData(res);                
+                caller.gridView2.setData(res);
+                console.log(res);
                  {
                 	if(dataFlag) {
-	                	caller.gridView2.selectIdRow2(data);
+	                	caller.gridView2.selectIdRow(data);
 	                	
 	                }if(selectedRowG2 != null) {
 	                	console.log("g2.검색");
@@ -177,27 +177,66 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     },
     
-    OPEN_BM0202_MODAL: function(caller, act, data) {
+    OPEN_BM0202_MODAL_NEW: function(caller, act, data) {
     	var formData = caller.gridView1.getData();
     	formData["dvcId"] = selectedRowG1.dvcId;
     	formData["dvcKind"] = selectedRowG1.dvcKind;
+
     	var formDataDvcId = formData["dvcId"];
     	var formDataDvcKind = formData["dvcKind"];
     	
-    	axboot.modal.open({
-            modalType: "BM0202",
-            param: "",
-            sendData : function (){
-            	return {
-            		"dvcId" : formDataDvcId,
-            		"dvcKind" : formDataDvcKind
-            	};
-            },
-            callback: function (data) {
-            	console.log(data);
-            	ACTIONS.dispatch(ACTIONS.RELOAD_G2);
-                }
-        });
+    		axboot.modal.open({
+    			modalType: "BM0202",
+    			param: "",
+    			sendData : function (){
+    				return {
+    					"dvcId" : formDataDvcId,
+    					"dvcKind" : formDataDvcKind,
+    				};
+    			},
+    			callback: function (data) {
+    				console.log(data);
+    				ACTIONS.dispatch(ACTIONS.RELOAD_G2);
+    			}
+    		});   	
+    },
+    
+    OPEN_BM0202_MODAL_UPDATE: function(caller, act, data) {
+    	var formData = caller.gridView1.getData();
+    	var formDataHist = caller.gridView2.getData();
+    	formData["dvcId"] = selectedRowG1.dvcId;
+    	formData["dvcKind"] = selectedRowG1.dvcKind;
+    	formDataHist["devSerialNo"] = selectedRowG2.devSerialNo;
+    	formDataHist["aplyDate"] = selectedRowG2.aplyDate;
+    	formDataHist["modelNm"] = selectedRowG2.modelNm;
+    	formDataHist["workType"] = selectedRowG2.workType;
+    	formDataHist["workAmt"] = selectedRowG2.workAmt;
+    	formDataHist["remark"] = selectedRowG2.remark;
+    	
+    	if(selectedRowG2 != null){
+    		axboot.modal.open({
+    			modalType: "BM0202",
+    			param: "",
+    			sendData : function (){
+    				return {
+    					"dvcId" : formData["dvcId"],
+    					"dvcKind" : formData["dvcKind"],
+    					"devSerialNo" : formDataHist["devSerialNo"],
+    					"aplyDate" : formDataHist["aplyDate"],
+    					"modelNm" : formDataHist["modelNm"],
+    					"workType" : formDataHist["workType"],
+    					"workAmt" : formDataHist["workAmt"],
+    					"remark" : formDataHist["remark"]
+    				};
+    			},
+    			callback: function (data) {
+    				console.log(data);
+    				ACTIONS.dispatch(ACTIONS.RELOAD_G2);
+    			}
+    		});
+    	}else{
+    		alert("이력을 선택해주세요.");
+    	}
     },
     
     PAGE_CLOSE: function(caller, act, data) {
@@ -239,9 +278,6 @@ fnObj.pageButtonView = axboot.viewExtend({
             "excel": function () {
             	ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
-            "new": function() {
-            	ACTIONS.dispatch(ACTIONS.OPEN_BM0202_MODAL);
-            },
             "delete": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
             },
@@ -250,7 +286,13 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "searchDate" : function(){
             	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);
-            }
+            },
+            "dvcHistSave" : function(){
+            	ACTIONS.dispatch(ACTIONS.OPEN_BM0202_MODAL_NEW);
+            },
+            "dvcHistUpdate" : function(){
+            	ACTIONS.dispatch(ACTIONS.OPEN_BM0202_MODAL_UPDATE);
+            },
         });
     }
 });
@@ -536,6 +578,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
             ],
             body: {
                 onClick: function () {
+                	console.log("그리드2.2");
                     this.self.select(this.dindex);
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G2, this.item);
                 }
@@ -587,14 +630,14 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
     		this.selectLastRow();
     	} else {
     		this.target.select(index);
-        	//ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, data);
+        	ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G2, data);
     	}
     },
     selectIdRow: function(id) {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].devSerialNo == id) {
+    		if(this.target.list[i].dvcId == id) {
     			this.selectRow(i);
     			break;
     		}

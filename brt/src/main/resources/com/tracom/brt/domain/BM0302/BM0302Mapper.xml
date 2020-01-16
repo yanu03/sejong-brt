@@ -59,8 +59,10 @@
 		   ON C.CON_ID = AT.CON_ID
 		<where>
 		    C.CONFIRM_YN = "Y"
+		    AND C.CON_ED_DATE > NOW()
+		    OR AT.CON_ED_DATE > NOW()
 			<if test="value != null">
-			AND			
+			AND		
 				(C.CON_ID LIKE CONCAT('%', #{value}, '%')
 				OR AT.ALT_DIV LIKE CONCAT('%', #{value}, '%'))
 	    	</if>
@@ -73,7 +75,18 @@
     
      <select id="BM0302F0S0" parameterType="String" resultType="altContractInfoVO">
     	SELECT
-    		*
+  			  CON_ID
+    		, SEQ
+    		, ALT_DIV
+    		, CON_NM
+    		, ALT_CON_DATE			
+    		, CON_ST_DATE			
+    		, CON_ED_DATE
+    		, SUPP_AMT			
+    		, VAT_AMT				
+    		, REMARK				
+    		, CONFIRM_YN			
+    		, CON_NO
     	FROM
     		BM_CON_ALT
     	WHERE

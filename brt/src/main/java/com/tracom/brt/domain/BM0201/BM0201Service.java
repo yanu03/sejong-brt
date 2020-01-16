@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
-import com.tracom.brt.domain.BM0302.AltContractInfoVO;
 
 @Service
 public class BM0201Service extends BaseService<VhcDeviceVO, String>{

@@ -17,11 +17,15 @@
         <ax:page-buttons></ax:page-buttons>
 
         <div role="page-header">
+        	<input type="file" id="file" name="file" data-ax-path="file" class="form-control inline-block W150" accept=".bin" style="position:absolute; width:200px; left:660px; top:20px"/>
+        	<button type="button" class="btn btn-primary" data-btn data-btn-test="wav" style="position:absolute; width:70px; left:860px; top:20px">
+            <ax:lang id="ax.admin.update"/>
+            </button>
             <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0204S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0205S0.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -37,7 +41,7 @@
                     <div class="left">
                         <h2>
                             <i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.commoncode.title"/>
+                            <ax:lang id="ax.admin.BM0103G0.title"/>
                         </h2>
                     </div>
                 </div>

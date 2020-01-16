@@ -1,4 +1,8 @@
 var fnObj = {};
+
+isUpdate = false;
+
+
 var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_CLOSE: function (caller, act, data) {
         if (parent) {
@@ -8,7 +12,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_SEARCH: function (caller, act, data) {
     	
-    	caller.formView0.setData(parent.axboot.modal.getData());
+    	caller.formView0.setData(parent.axboot.modal.getData());  	
+    	var formData = caller.formView0.getData();
+    	
+    	if(formData["devSerialNo"] != null){
+    		isUpdate = true;
+    	}
     },
     
     
@@ -37,6 +46,33 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 });
         }
     },
+    
+    PAGE_UPDATE : function(caller , act , data) {
+    	isUpdate = false;
+    	
+    			var formData = caller.formView0.getData();
+    			
+    			axboot.promise()
+    			.then(function (ok , fail , data){
+    				axboot.ajax({
+    					type : "POST",
+    					url : "/api/v1/BM0202G2U0",
+    					data : JSON.stringify(formData),
+    					callback : function(res){
+    						ok(res);
+    					}
+    				});
+    			})
+    			.then(function(ok , fail , data){
+    				axToast.push(LANG("onupdate"));
+    				ACTIONS.dispatch(ACTIONS.PAGE_CLOSE, data.message);
+					isUpdate = true;
+    			})
+    			.catch(function () {
+					
+				});
+    		
+	},
    
     ITEM_CLICK: function (caller, act, data) {
     },
@@ -63,7 +99,11 @@ fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
             "save": function () {
+            	if(isUpdate){
+            	ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
+            	}else{
                 ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
+            	}
             },
             "close": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);

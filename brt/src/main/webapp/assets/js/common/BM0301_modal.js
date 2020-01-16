@@ -8,7 +8,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0104G1S0",
+            url: "/api/v1/BM0101G0S0",
             data: caller.searchView.getData(),
             callback: function (res) {
                 caller.gridView01.setData(res);
@@ -18,25 +18,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     PAGE_CHOICE: function (caller, act, data) {
         var list = caller.gridView01.getData("selected");
-        
         if (list.length > 0) {
-        	alert(LANG("ax.script.interfaceConfirm"));
-            /*if (parent && parent.axboot && parent.axboot.modal) {
+            if (parent && parent.axboot && parent.axboot.modal) {
                 parent.axboot.modal.callback(list[0]);
-            }*/
-        	axboot.ajax({
-                type: "POST",
-                url: "/api/v1/BM0104G0U0",
-                data: JSON.stringify(list),
-                callback: function (res) {
-                	if(res.message.length > 0){
-                		alert(res.message);
-                	}else{
-                		alert("갱신된 노선이 없습니다.");                		
-                	}
-                }
-            });
-            return false;
+            }
         } else {
             alert(LANG("ax.script.requireselect"));
         }
@@ -108,16 +93,20 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
             showLineNumber: true,
-            showRowSelector: true,
-            multipleSelect: true,
             frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="grid-view-01"]'),
             columns: [
-            	{key: "routId", label: ADMIN("ax.admin.BM0104GO.modal.routId"), width: 80},
-                {key: "routNm", label: ADMIN("ax.admin.BM0104GO.modal.routNm"), width: 60},
-                {key: "stStaNm", label: ADMIN("ax.admin.BM0104GO.modal.stStaNm"), width: 180},
-                {key: "edStaNm", label: ADMIN("ax.admin.BM0104GO.modal.edStaNm"), width: 180}
+            	{key: "corpId", label: ADMIN("ax.admin.BM0101F0.corp.id"), width: 80},
+                {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), width: 80},
+                {key: "corpNo", label: ADMIN("ax.admin.BM0101F0.corp.no"), width: 120},
+                {key: "email", label: ADMIN("ax.admin.BM0101F0.email"), width: 120},
+                {key: "phone", label: ADMIN("ax.admin.BM0101F0.phone"), width: 120},
+                {key: "addr1", label: ADMIN("ax.admin.BM0101F0.addr1"), width: 120},
+                {key: "fax", label: ADMIN("ax.admin.BM0101F0.fax"), width: 120},
+                {key: "zipNo", label: ADMIN("ax.admin.BM0101F0.zip.no"), width: 70},
+                {key: "addr2", label: ADMIN("ax.admin.BM0101F0.addr2"), width: 120},
+                {key: "garage", label: ADMIN("ax.admin.BM0101F0.garage"), width: 70},
+                {key: "remark", label: ADMIN("ax.admin.BM0101F0.remark"), width: 70},
             ],
             body: {
                 onClick: function () {

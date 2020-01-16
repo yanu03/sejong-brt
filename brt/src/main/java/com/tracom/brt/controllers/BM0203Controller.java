@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
+import com.gargoylesoftware.htmlunit.javascript.host.Console;
 import com.tracom.brt.domain.BM0203.BM0203Service;
 import com.tracom.brt.domain.BM0203.DvcConditionVO;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
@@ -31,7 +32,17 @@ public class BM0203Controller extends BaseController{
 	})
 	public Responses.ListResponse BM0203G0S0(RequestParams<DvcConditionVO> requestParams){
 		List<DvcConditionVO> list = service.BM0203G0S0(requestParams);
-		System.out.println(list);
+		
+		for(int i = 0; i<list.size(); i++) {
+			String dlCdNm = list.get(i).getDlCdNm();
+			int dlCdNmInt = Integer.parseInt(dlCdNm);
+			
+			if(dlCdNmInt == 3) {
+				list.get(i).setDlCdNm("비정상");
+			}else {
+				list.get(i).setDlCdNm("정상");
+			}
+		}
 		return Responses.ListResponse.of(list);
 	}
 	
@@ -41,7 +52,6 @@ public class BM0203Controller extends BaseController{
     })
     public Responses.ListResponse BM0203G1S0(RequestParams<DvcConditionVO> requestParams) {
         List<DvcConditionVO> list = service.BM0203G1S0(requestParams);
-        System.out.println(list);
         return Responses.ListResponse.of(list);
     }
 	

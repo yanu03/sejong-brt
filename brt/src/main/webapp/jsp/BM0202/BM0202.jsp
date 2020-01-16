@@ -59,24 +59,14 @@
                             </h3>
                         </div>
                    <ax:form name="searchView1">
-                		<ax:tbl clazz="ax-search-tbl" minWidth="200px">
-                    		<ax:tr>
-                       			 <ax:td label='ax.admin.search' width="60px">
-                            		<div class="input-group" data-ax5picker="date" style="width:150px;">
-                                              		
-	                            		<input type="text" class="form-control" name="filterG2" id="filterG2" data-ax5formatter="date" placeholder="yyyy/mm/dd" />
-	                            		<div class="right">	          
-	                            		<button type="button" class="btn btn-info" data-page-btn="searchDate">                       		
-	                            		<i class="cqc-magnifier"></i>
-	                            		</button>
-	                            		</div>
-	                            	                            		
-                            		</div>                                               		
-                                 		 	
-                        		 </ax:td>                    		 
-                        		
-                   	 		</ax:tr>
-                		</ax:tbl>
+                   			<div class="right">           		
+                        		<div class="input-group" style="position:absolute; width:100px; right:170px;top:270px;">                                  		
+	                            		<input type="text" class="form-control" data-ax5picker="date" name="filterG2" id="filterG2" data-ax5formatter="date" placeholder="yyyy/mm/dd" width="50px"/>
+	                            			<button type="button" class="btn btn-info" data-page-btn="searchDate" style="position: absolute; top:0px;left:100px"><i class="cqc-magnifier"></i></button>
+	                            			<button type="button" class="btn btn-info" data-page-btn="dvcHistSave" style="position: absolute; top:0px;left:130px"><i class="cqc-plus"></i>추가</button>         	                            	                            		
+	                            			<button type="button" class="btn btn-info" data-page-btn="dvcHistUpdate" style="position: absolute; top:0px;left:186px"><i class="cqc-plus"></i>수정</button>
+                            	</div>
+                           </div> 	                                               		                                 		 	                 	 		
             		</ax:form>                      
                     </div>
                    <div data-ax5grid="gridView2" style="height: 200px;"></div>     

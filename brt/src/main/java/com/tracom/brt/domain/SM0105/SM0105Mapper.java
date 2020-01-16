@@ -10,5 +10,5 @@ public interface SM0105Mapper extends MyBatisMapper {
 	int SM0105F0I0(CommonCodeDetailInfoVO vo);
 	int SM0105F0U0(CommonCodeDetailInfoVO vo);
 	int SM0105G1D0(CommonCodeDetailInfoVO vo);
-	CommonCodeDetailInfoVO BM0105G1S1(CommonCodeDetailInfoVO vo);
+	CommonCodeDetailInfoVO SM0105G1S1(CommonCodeDetailInfoVO vo);
 }

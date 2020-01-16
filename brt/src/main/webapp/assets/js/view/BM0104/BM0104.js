@@ -182,13 +182,13 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
             	{key: "routId", label: ADMIN("ax.admin.BM0104G0.routId"), width: 80},
-            	{key: "routNm", label: ADMIN("ax.admin.BM0104G0.routNm"), width: 60},
+            	{key: "routNm", label: ADMIN("ax.admin.BM0104G0.routNm"), width: 100},
                 {key: "shortRoutNm", label: ADMIN("ax.admin.BM0104G0.shortRoutNm"), width: 160},
                 {key: "stStaNm", label: ADMIN("ax.admin.BM0104G0.stStaNm"), width: 160},
                 {key: "edStaNm", label: ADMIN("ax.admin.BM0104G0.edStaNm"), width: 160},
-                {key: "wayDiv", label: ADMIN("ax.admin.BM0104G0.wayDiv"), width: 120},
-                {key: "userWayDiv", label: ADMIN("ax.admin.BM0104G0.userWayDiv"), width: 120},
-                {key: "turnDiv", label: ADMIN("ax.admin.BM0104G0.turnDiv"), width: 80},
+                {key: "wayDiv", label: ADMIN("ax.admin.BM0104G0.wayDiv"), width: 140},
+                {key: "userWayDiv", label: ADMIN("ax.admin.BM0104G0.userWayDiv"), width: 140},
+                {key: "turnDiv", label: ADMIN("ax.admin.BM0104G0.turnDiv"), width: 100},
                 {key: "updatedAt", label: ADMIN("ax.admin.BM0104G0.updatedAt"), width: 180},
             ],
             body: {

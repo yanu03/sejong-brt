@@ -1,5 +1,7 @@
 package com.tracom.brt.domain.BM0105;
 
+import java.util.List;
+
 import com.tracom.brt.domain.BaseVO;
 
 import lombok.Data;
@@ -10,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BmStaInfoVO extends BaseVO {
 	 
+	private String routId;
+	
 	private String staId;
 	 
 	private String staNm;
@@ -19,5 +23,9 @@ public class BmStaInfoVO extends BaseVO {
 	private float lati;
  
 	private float longi;
+	
+	private int seq;
+	
+	private List<BmStaInfoVO> voList;
 	
 }

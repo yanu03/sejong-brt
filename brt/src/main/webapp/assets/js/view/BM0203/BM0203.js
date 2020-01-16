@@ -4,6 +4,7 @@ var fnObj = {}, CODE = {};
 isUpdate = false;
 selectedRow = null;
 selectedRowG1 = null;
+selectedLoc = null;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -63,6 +64,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
                 caller.gridView1.setData(res);
+                console.log(caller.gridView1.getData("instLoc"));
                 
                  {
                 	if(dataFlag) {
@@ -262,7 +264,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         pageSize: 10
     },
     initView: function () {
-    	console.log("그리드1");
         var _this = this;
 
         this.target = axboot.gridBuilder({
@@ -365,10 +366,11 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.model = new ax5.ui.binder();
         this.model.setModel(this.getDefaultData(), this.target);
         this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
-        this.initEvent();     
-
+        this.initEvent();
+        
     },
     initEvent: function () {
+    	
     },
     getData: function () {
         var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
