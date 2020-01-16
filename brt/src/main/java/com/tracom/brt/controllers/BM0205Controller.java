@@ -5,9 +5,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
@@ -30,6 +33,19 @@ public class BM0205Controller extends BaseController{
     public Responses.ListResponse BM0205G0S0(RequestParams<VhcDvcUpdateVO> requestParams) {
         List<VhcDvcUpdateVO> list = service.BM0205G0S0(requestParams);
         return Responses.ListResponse.of(list);
+    }
+    
+    @PostMapping("/BM0205F0I0")
+    public ApiResponse BM0205F0I0(@ModelAttribute VhcDvcUpdateVO request) {
+    	service.BM0205F0I0(request);
+    	return ok();
+    }
+    
+    @PostMapping("/BM0205Reservation")
+    public ApiResponse BM0205Reservation(RequestParams<VhcDvcUpdateVO> requestParams) {  	
+    	service.BM0205Reservation(requestParams);
+    	System.out.println(service.BM0205Reservation(requestParams));
+    	return ok();
     }
 	
 }

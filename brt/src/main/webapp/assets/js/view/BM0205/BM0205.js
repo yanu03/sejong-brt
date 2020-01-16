@@ -32,6 +32,63 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
         return false;
     },
+    
+    
+    PAGE_RESERVATION: function(caller, act, data) {
+    	if(selectedRow == null) {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+        axboot.ajax({
+            type: "GET",
+            url: "/api/v1/checkDvcReservation",
+            data: {
+        		dvcId: selectedRow.dvcId,
+            },
+            callback: function (res) {
+                if(res.message == "true") {
+	        		// 예약적용일때
+        			axboot.modal.open({
+        	            modalType: "RESERVATION",
+        	            param: "",
+        	            callback: function (result) {
+        	            	this.close();
+        	            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
+        	            		date: result
+        	            	});
+        	            }
+        	        });
+	        	} else {
+	        		axDialog.alert(LANG("ax.script.check.organization"));
+	        	}
+            }
+        });
+    },
+    
+    
+    INSERT_RESERVATION: function(caller, act, data) {
+    	axboot.promise()
+	        .then(function (ok, fail, _data) {
+	            axboot.ajax({
+	                type: "POST",
+	                url: "/api/v1/BM0205Reservation",
+	                data: JSON.stringify({
+	            		dvcId: selectedRow.dvcId,
+	            		modelNm : selectedRow.modelNm
+	                }),
+	                callback: function (res) {
+	                    ok(res);
+	                }
+	            });
+	        })
+	        .then(function (ok, fail, data) {
+	        })
+	        .catch(function () {
+	
+	        });
+    },
+    
    
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRow != null){   		
@@ -75,6 +132,9 @@ fnObj.pageResize = function () {
 fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
+        	"reservation": function() {
+        		ACTIONS.dispatch(ACTIONS.PAGE_RESERVATION);
+        	},
             "search": function () {
             	selectedRow = null;
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
