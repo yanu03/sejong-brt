@@ -14,6 +14,7 @@ import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
+import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0105.BM0105Service;
 import com.tracom.brt.domain.BM0105.BmStaInfoVO;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
@@ -26,25 +27,20 @@ public class BM0105Controller extends BaseController {
     @Inject
     private BM0105Service service;
  
-    @GetMapping("/BM0105G0S0")
+    @GetMapping("/BM0105G1S0")
     @ApiImplicitParams({
-    	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
+    	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query"),
+    	@ApiImplicitParam(name = "routId", value = "노선ID", dataType = "String", paramType = "query")
     })
-    public Responses.ListResponse BM0105G0S0(RequestParams<BmStaInfoVO> requestParams) {
-        List<BmStaInfoVO> list = service.BM0105G0S0(requestParams);
+    public Responses.ListResponse BM010510S0(RequestParams<BmStaInfoVO> requestParams) {
+    	System.out.println(requestParams);
+        List<BmStaInfoVO> list = service.BM0105G1S0(requestParams);
         return Responses.ListResponse.of(list);
     }
     
-    @PostMapping("/BM0105F0I0")
-    public ApiResponse BM0105F0I0(@RequestBody BmStaInfoVO request) {
-        String staId = service.BM0105F0I0(request);
-        return ok(staId);
+    @PostMapping("/BM0105G2U0")
+    public Responses.ListResponse BM0105G2U0(@RequestBody List<BmRoutInfoVO> requestParams) {
+    	List<String> list = service.BM0105G0U0(requestParams); 
+    	return Responses.ListResponse.of(list);
     }
-    
-    @PostMapping("/BM0105F0U0")
-    public ApiResponse BM0105F0U0(@RequestBody BmStaInfoVO request) {    	
-    	service.BM0105F0U0(request);
-    	return ok();
-    }
-
 }

@@ -33,26 +33,19 @@ public class BM0104Service extends BaseService<BmRoutInfoVO, String> {
         return mapper.BM0104G0S0(requestParams.getString("filter"));
     }
     
-    public List<BmRoutNodeInfoVO> BM0104G1S0(RequestParams<BmRoutNodeInfoVO> requestParams) {
-    	HashMap<String, String> map = new HashMap<String, String>();
-    	map.put("routId", requestParams.getString("routId"));
-    	map.put("filter1", requestParams.getString("filter1"));
-        return mapper.BM0104G1S0(map);
-    }
-    
-    public List<BmRoutInfoVO> BM0104G3S0(RequestParams<BmRoutInterfaceVO> requestParams){
+   
+    public List<BmRoutInfoVO> BM0104G1S0(RequestParams<BmRoutInterfaceVO> requestParams){
     	CommonCodeDetailInfoVO codeVO = new CommonCodeDetailInfoVO();
     	codeVO.setCoCd(di.INTERFACE_URL);
     	codeVO.setDlCd(di.URL_CODE_OPENAPI_ROUT);
-    	CommonCodeDetailInfoVO codeVO2 = mapper_0105.BM0105G1S1(codeVO);
+    	CommonCodeDetailInfoVO codeVO2 = mapper_0105.SM0105G1S1(codeVO);
     	
-    	String cityCode = codeVO2.getTxtVal2();
     	
     	String baseUrl = codeVO2.getRemark();
     	
     	codeVO.setCoCd(di.API_KEY);
     	codeVO.setDlCd(di.KEY_CODE_OPENAPI_ROUT);
-    	codeVO2 = mapper_0105.BM0105G1S1(codeVO);
+    	codeVO2 = mapper_0105.SM0105G1S1(codeVO);
     	
     	String apiKey = codeVO2.getRemark();
     	
@@ -62,11 +55,10 @@ public class BM0104Service extends BaseService<BmRoutInfoVO, String> {
     		routNo = requestParams.getString("filter");
     	}
     	
-    	String url = baseUrl + cityCode + "=12" + "&" + "routeNo=" + routNo + "&" + "serviceKey=" + apiKey; 
+    	String url = baseUrl + "cityCode=12&routeNo=" + routNo + "&serviceKey=" + apiKey; 
 
     	NodeList nodeList = di.interface_XML(url);
     	
-    	BmRoutInfoVO resultVO = new BmRoutInfoVO();
     	List<BmRoutInfoVO> voList = new ArrayList<>();
     	
     	for (int i = 0; i < nodeList.getLength(); i++) {
@@ -85,7 +77,7 @@ public class BM0104Service extends BaseService<BmRoutInfoVO, String> {
     }
     
     @Transactional
-    public String BM0104G3U0(List<BmRoutInfoVO> voList){
+    public String BM0104G0U0(List<BmRoutInfoVO> voList){
     	
     	//1. voList를 삽입함
     	BmRoutInfoVO insertVO = new BmRoutInfoVO();
@@ -104,7 +96,7 @@ public class BM0104Service extends BaseService<BmRoutInfoVO, String> {
     		//이걸로 교통정보시스템이랑 연계할거임
     		String json = di.interface_URL("POST", baseUrl + vo.getRoutId());
     		
-    		if(mapper.BM0104G3U0(di.parseJson_RouteInfo(json)) == 1) {
+    		if(mapper.BM0104G0U0(di.parseJson_RouteInfo(json)) == 1) {
     			resultList.add(vo);
     			resultString = resultString + vo.getRoutNm() + " (" + vo.getRoutId() + ")" + "\n";
     			resultCnt++;

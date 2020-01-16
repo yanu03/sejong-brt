@@ -25,7 +25,7 @@
     </select>
     
     <!-- JH 다른페이지에서 쿼리용 -->
-    <select id="BM0105G1S1" parameterType="String" resultType="commonCodeDetailInfoVO">
+    <select id="SM0105G1S1" parameterType="String" resultType="commonCodeDetailInfoVO">
     	SELECT
 			    CO_CD
 			  , DL_CD

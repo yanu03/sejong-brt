@@ -28,6 +28,7 @@ public class BM0104Controller extends BaseController {
     @Inject
     private BM0104Service service;
 
+    /** 갱신된 노선 그리드 출력 **/
     @GetMapping("/BM0104G0S0")
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
@@ -36,35 +37,20 @@ public class BM0104Controller extends BaseController {
         List<BmRoutInfoVO> list = service.BM0104G0S0(requestParams);
         return Responses.ListResponse.of(list);
     }
-    
+
+    /** 갱신할 노선 그리드 출력**/
     @GetMapping("/BM0104G1S0")
-    @ApiImplicitParams({
-    	@ApiImplicitParam(name = "routId", value = "선택", dataType = "String", paramType = "query"),
-    	@ApiImplicitParam(name = "filter1", value = "검색어", dataType = "String", paramType = "query")
-    })
-    public Responses.ListResponse BM0104G1S0(RequestParams<BmRoutNodeInfoVO> requestParams) {
-        List<BmRoutNodeInfoVO> list = service.BM0104G1S0(requestParams);
-        return Responses.ListResponse.of(list);
-    }
-    
-    @PostMapping("/BM0104G2S0")
-    public ApiResponse BM0104G2S0(@RequestBody BmRoutInfoVO request) {
-    	//service.BM0104G2S0(request);
-    	return ok();
-    }
-    
-    @GetMapping("/BM0104G3S0")
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
     })
-    public Responses.ListResponse BM0104G3S0(RequestParams<BmRoutInterfaceVO> requestParams){
-    	List<BmRoutInfoVO> list = service.BM0104G3S0(requestParams);
+    public Responses.ListResponse BM0104G1S0(RequestParams<BmRoutInterfaceVO> requestParams){
+    	List<BmRoutInfoVO> list = service.BM0104G1S0(requestParams);
     	return Responses.ListResponse.of(list);
     }
     
-    @PostMapping("/BM0104G3U0")
-    public ApiResponse BM0104G3U0(@RequestBody List<BmRoutInfoVO> requestParams) {
-    	//return ok(service.BM0104G3U0(requestParams).toString());
-    	return ok(service.BM0104G3U0(requestParams));
+    /** 갱신할 노선 선택 후 갱신 **/
+    @PostMapping("/BM0104G0U0")
+    public ApiResponse BM0104G0U0(@RequestBody List<BmRoutInfoVO> requestParams) {
+    	return ok(service.BM0104G0U0(requestParams));
     }
 }

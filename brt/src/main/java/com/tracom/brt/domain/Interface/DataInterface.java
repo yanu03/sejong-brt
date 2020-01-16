@@ -39,6 +39,8 @@ public class DataInterface {
 	
 	//공공데이터포털 노선검색 URL
 	public String URL_CODE_OPENAPI_ROUT = "IU002";
+	public String URL_CODE_OPENAPI_ROUT_STA = "IU003";
+	
 	//공공데이터포털 노선검색 KEY
 	public String KEY_CODE_OPENAPI_ROUT = "KA001";
 	
