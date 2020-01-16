@@ -7,9 +7,13 @@
 		SELECT
 			  ROUT_ID
 		    , ROUT_NM
+            , ST_STA_NM
+            , ED_STA_NM
 		    , WAY_DIV
+            , USER_WAY_DIV
+            , TURN_DIV
 		    , SHORT_ROUT_NM
-		    , UPDATED_AT
+		    , DATE_FORMAT(UPDATED_AT, '%Y-%m-%d %H:%i:%s') AS UPDATED_AT
 		FROM
 			BM_ROUT_INFO
 		<where>
@@ -50,4 +54,49 @@
 		ORDER BY SEQ
     </select>
     
+    <insert id="BM0104G0I0" parameterType="bmRoutInfoVO">
+    	INSERT INTO
+			BM_ROUT_INFO(
+						  ROUT_ID
+						, ROUT_NM
+						, ST_STA_NM
+		                , ED_STA_NM
+		                , CREATED_AT
+		                , CREATED_BY
+		                , UPDATED_AT
+		                , UPDATED_BY
+		                )
+		                
+			VALUES 
+			<foreach collection="voList" item="voList" separator=",">
+					( #{voList.routId}
+					, #{voList.routNm}
+			        , #{voList.stStaNm}
+			        , #{voList.edStaNm}
+			        , #{voList.createdAt}
+			        , #{voList.createdBy}
+			        , #{voList.updatedAt}
+			        , #{voList.updatedBy}
+			        )
+			</foreach>
+			ON DUPLICATE KEY UPDATE
+			      ROUT_ID		= VALUES(ROUT_ID)
+				, ROUT_NM		= VALUES(ROUT_NM)
+				, ST_STA_NM		= VALUES(ST_STA_NM)
+				, ED_STA_NM		= VALUES(ED_STA_NM)
+				, UPDATED_AT	= VALUES(UPDATED_AT)
+				, UPDATED_BY	= VALUES(UPDATED_BY)
+    </insert>
+
+	<update id="BM0104G3U0" parameterType="bmRoutInfoVO">
+		UPDATE
+			BM_ROUT_INFO
+		SET
+			  WAY_DIV		= #{wayDiv}
+		    , TURN_DIV		= #{turnDiv}
+		    , UPDATED_AT	= #{updatedAt}
+		    , UPDATED_BY	= #{updatedBy}
+		WHERE
+			ROUT_ID = #{routId}
+	</update>
 </mapper>

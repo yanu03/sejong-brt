@@ -8,6 +8,60 @@ selectedRow = null;
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
+	PAGE_RESERVATION: function(caller, act, data) {
+    	if(selectedRow == null) {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+        axboot.ajax({
+            type: "GET",
+            url: "/api/v1/checkVoiceReservation",
+            data: {
+        		vocId: selectedRow.vocId,
+            },
+            callback: function (res) {
+                if(res.message == "true") {
+	        		// 예약적용일때
+        			axboot.modal.open({
+        	            modalType: "RESERVATION",
+        	            param: "",
+        	            callback: function (result) {
+        	            	this.close();
+        	            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
+        	            		date: result
+        	            	});
+        	            }
+        	        });
+	        	} else {
+	        		axDialog.alert(LANG("ax.script.check.organization"));
+	        	}
+            }
+        });
+    },
+    
+    INSERT_RESERVATION: function(caller, act, data) {
+    	axboot.promise()
+	        .then(function (ok, fail, _data) {
+	            axboot.ajax({
+	                type: "POST",
+	                url: "/api/v1/voiceReservation",
+	                data: JSON.stringify({
+	            		vocId: selectedRow.vocId,
+	            		rsvDate: data.date
+	                }),
+	                callback: function (res) {
+	                    ok(res);
+	                }
+	            });
+	        })
+	        .then(function (ok, fail, data) {
+	        })
+	        .catch(function () {
+	
+	        });
+    },
+    
 	PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
@@ -46,10 +100,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;
+    	selectedRow = null;
     	caller.gridView0.selectAll(false);
         caller.formView0.clear();
         caller.formView0.enable();
         caller.formView0.validate(true);
+        
+        // 미리듣기 초기화
+        $("#jquery_jplayer_1").jPlayer("setMedia", {
+    		mp3: null
+    	});
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -91,9 +151,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if (caller.formView0.validate()) {
         	var formData = new FormData(caller.formView0.target[0]);
         	
-        	ACTIONS.dispatch(ACTIONS.CHECK_WAV, {
-        		formData: formData
-        	});
+        	if(formData.get("playType") == "WAV") {
+    	    	var element = $("#wavFile");
+    	    	
+    	    	if(element[0].files[0]){
+    	        	formData.append("attFile", $("#wavFile")[0].files[0].name);
+    	        } else {
+    	        	alert(element.attr("title") + "을 선택해주세요");
+    	        	return false;
+    	        }
+        	}
         	
             axboot.promise()
                 .then(function (ok, fail, data) {
@@ -127,10 +194,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if (caller.formView0.validate()) {
         	var formData = new FormData(caller.formView0.target[0]);
         	
-        	ACTIONS.dispatch(ACTIONS.CHECK_WAV, {
-        		formData: formData
-        	});
-            
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
@@ -167,6 +230,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	selectedRow = data;
         caller.formView0.setData(data);
         caller.formView0.enable();
+        
+        // wav input file 클리어
+        $("#wavFile").val(null);
         
         // 미리듣기 초기화
         $("#jquery_jplayer_1").jPlayer("setMedia", {
@@ -217,35 +283,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     },
     
-    CHECK_WAV: function(caller, act, data) {
-    	var formData = data.formData;
-    	
-    	if(formData.playType == "WAV") {
-	    	var element = $("#wavFile");
-	    	
-	    	if(element[0].files[0]){
-	        	formData.append("attFile", $("#wavFile")[0].files[0].name);
-	        } else {
-	        	alert(element.attr("title") + "을 선택해주세요");
-	        }
-    	}
-    },
-    
     // WAV 미리듣기
     TEST_WAV: function(caller, act, data) {
     	var element = $("#wavFile");
+    	
     	if(element[0].files[0]) {
 	    	var blob = window.URL || window.webkitURL;
 	    	var file = element[0].files[0];
 	    	var fileURL = blob.createObjectURL(file);
 	    	
 	    	if(checkIe()) {
-	    		var formData = new FormData(caller.formView0.target[0]);
-	        	
-	        	ACTIONS.dispatch(ACTIONS.CHECK_WAV, {
-	        		formData: formData
-	        	});
-	            
 	            axboot.promise()
 	                .then(function (ok, fail, data) {
 	                    axboot.ajax({
@@ -274,12 +321,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        		wav: fileURL,
 	        	}).jPlayer("play");
 	    	}
+    	} else {
+    		alert(element.attr("title") + "을 선택해주세요");
     	}
     },
     
     // TTS 미리듣기
     TEST_TTS: function(caller, act, data) {
-    	data["checkChime"] = caller.formView0.getData().chimeYn;
     	var wavDownloadUrl = "/api/v1/getWavDownload?" + $.param(data);
     	
     	// wav 다운로드
@@ -288,6 +336,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
     },
     
+    // 플레이어에 오디오 파일 셋팅
     SET_AUDIO: function(caller, act, data) {
     	var wavTest = "/api/v1/getWavTest?" + $.param(data);
     	
@@ -308,6 +357,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		}
     },
     
+    // 기본 문구 삽입 팝업 표출
     OPEN_COMMON_SENTENCE_MODAL: function(caller, act, data) {
     	var _this = this;
     	axboot.modal.open({
@@ -365,6 +415,9 @@ fnObj.pageResize = function () {
 fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
+        	"reservation": function() {
+        		ACTIONS.dispatch(ACTIONS.PAGE_RESERVATION);
+        	},
             "search": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
@@ -522,7 +575,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     getDefaultData: function () {
         return $.extend({}, axboot.formView.defaultData, {
-        	playStDate: "2020-01-09",
+        	playStDate: new Date().yyyymmdd(),
         	playEdDate: "9999-12-31"
         });
     },
@@ -533,7 +586,10 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.model.setModel(this.getDefaultData(), this.target);
         this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
         this.initEvent();
-
+    },
+    initEvent: function () {
+        var _this = this;
+        
         this.target.find('[data-ax5picker="date"]').ax5picker({
             direction: "auto",
             content: {
@@ -547,6 +603,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
                 	pText: _this.target.find("[data-ax-path='krTts']").val(),
                 	nLanguage: 0,
                 	nSpeakerId: 0,
+                	chimeYn: "Y"
                 });
             },
             "enTts": function() {
@@ -579,9 +636,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         		playType: $(this).val()
         	})
         });
-    },
-    initEvent: function () {
-        var _this = this;
     },
     getData: function () {
         var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.

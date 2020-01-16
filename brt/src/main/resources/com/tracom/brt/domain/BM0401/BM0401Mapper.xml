@@ -15,7 +15,6 @@
     		, REMARK
     		, PLAY_TM
     		, PLAY_ED_DATE
-    		, ATT_FILE
     		, CONCAT(DATE_FORMAT(PLAY_ST_DATE, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(PLAY_ED_DATE, '%Y-%m-%d')) PLAY_DATE
     	FROM
     		BM_VOC_INFO
@@ -44,11 +43,12 @@
     		, PLAY_TM
     		, VOC_DIV
     		, PLAY_ED_DATE
-    		, ATT_FILE
     		, CREATED_AT
     		, CREATED_BY
+    		, CREATED_IP
     		, UPDATED_AT
-    		, UPDATED_BY)
+    		, UPDATED_BY
+    		, UPDATED_IP)
    		VALUES(
    			  #{vocId}
    			, #{vocNm}
@@ -61,11 +61,12 @@
    			, #{playTm}
    			, 'BSVOC'
    			, #{playEdDate}
-   			, #{attFile}
    			, #{createdAt}
    			, #{createdBy}
+   			, #{createdIp}
    			, #{updatedAt}
    			, #{updatedBy}
+   			, #{updatedIp}
    		)
     </insert>
     
@@ -79,11 +80,13 @@
     		, EN_TTS		=	#{enTts}
     		, SCR_TXT		=	#{scrTxt}
     		, REMARK		=	#{remark}
-    		, PLAY_TM		=	#{playTm}
+    		<if test="playTm != null">
+    			, PLAY_TM		=	#{playTm}
+    		</if>
     		, PLAY_ED_DATE	=	#{playEdDate}
-    		, ATT_FILE		=	#{attFile}
     		, UPDATED_AT	=	#{updatedAt}
     		, UPDATED_BY	=	#{updatedBy}
+    		, UPDATED_IP	=	#{updatedIp}
     	WHERE
     		VOC_ID = #{vocId}
     </update>

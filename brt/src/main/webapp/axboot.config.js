@@ -56,9 +56,17 @@
             	},
             	header: false
             },
+            "BM0104": {
+            	width: 634,
+            	height: 450,
+            	iframe: {
+            		url: "/jsp/common/BM0104_modal.jsp"
+            	},
+            	header: false
+            },
             "BM0201": {
             	width: 400,
-            	height: 500,
+            	height: 450,
             	iframe: {
             		url: "/jsp/common/BM0201_modal.jsp"
             	},
@@ -66,7 +74,7 @@
             },
            "BM0202": {
             	width: 400,
-            	height: 500,
+            	height: 450,
             	iframe: {
             		url: "/jsp/common/BM0202_modal.jsp"
             	}
@@ -79,14 +87,14 @@
             	},
             	header: false
             },
-            "BM0301": {
-            	width: 400,
-            	height: 450,
+            "RESERVATION": {
+            	width: 340,
+            	height: 420,
             	iframe: {
-            		url: "/jsp/common/BM0301_modal.jsp"
+            		url: "/jsp/common/reservation_modal.jsp"
             	},
             	header: false
-            },
+            }
         };
     }
 

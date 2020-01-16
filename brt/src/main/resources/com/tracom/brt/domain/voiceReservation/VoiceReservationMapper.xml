@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.voiceReservation.VoiceReservationMapper">
+
+    <select id="checkVoiceReservation" parameterType="String" resultType="Integer">
+    	SELECT
+    		COUNT(*)
+    	FROM
+    		BM_VOC_ORGA_LIST
+    	WHERE
+    		VOC_ID = #{value}
+    </select>
+
+    <insert id="voiceReservation" parameterType="voiceReservationVO">
+    	INSERT INTO BM_VOC_RSV(
+    		  RSV_DATE
+    		, ORGA_ID
+    		, RSV_ID)
+		SELECT
+			  '${rsvDate}' AS RSV_DATE
+			, ORGA_ID
+			, CONCAT('RV', LPAD(NEXTVAL(SEQ_BM_VOC_ORGA_0), 5, '0')) AS RSV_ID
+		FROM
+			BM_VOC_ORGA_LIST
+		WHERE
+			VOC_ID = #{vocId}
+    </insert>
+</mapper>
