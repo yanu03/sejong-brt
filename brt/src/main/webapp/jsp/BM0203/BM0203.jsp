@@ -60,26 +60,12 @@
                 </div>
                      
             		<ax:form name="formView0">
-                    	<ax:tbl clazz="ax-form-tbl" minWidth="300px">
-                    		<ax:tr>
-                    		<ax:td label="ax.admin.BM0108F0.eplyId" width="150px">
-                    			<input type="checkbox" name="eplyId" data-ax-path="eplyId" data-key="true" class="form-control" readonly="readonly"/>
-                    		</ax:td>
-                    		<ax:td label="ax.admin.BM0108F0.eplyNm" width="150px" >
-                    			<input type="radio" name="eplyNm" data-ax-path="eplyNm" data-key="true" class="form-control"/>
-                    		</ax:td>
-                    		<ax:td label="ax.admin.BM0108F0.eplyNm" width="150px" >
-                    			<input type="text" name="eplyNm" data-ax-path="eplyNm" data-key="true" class="form-control"/>
-                    		</ax:td>
-                    	</ax:tr>
-                    	<ax:tr style="height:300px;">
-                    		<ax:td labelStyle="height:300px;" label="ax.admin.BM0108F0.attFile" width="100px">
-                    			<div style="width: 300px;height: 250px;">
-	                                <img id="previewImg" src="/assets/images/BM0203/BusImage.png" style="width:500px;height:250px">
-                    			</div>
-                    		</ax:td>
-                    	</ax:tr>
-                    
+                    	<ax:tbl clazz="ax-form-tbl" minWidth="300px">                                   		
+                    		<div style="width: 800px;height: 400px; background-image:url('/assets/images/BM0203/BusImage.png'); margin: 0px auto;">
+                    			<input type="text" name="eplyNm" data-ax-path="eplyNm" data-key="true" class="form-control" style="background-color:red;width:20px;height:20px; position: absolute; left: 900px; top: 100px;" readonly="readonly"/>                   		                  		
+                    			<input type="text" name="eplyNm" data-ax-path="eplyNm" data-key="true" class="form-control" style="background-color:green;width:20px;height:20px" readonly="readonly"/>                          	                            
+                    		</div>
+                   
             			</ax:tbl>
             		</ax:form>
             		

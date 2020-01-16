@@ -43,6 +43,23 @@
    			AND DH.APLY_DATE &lt;= #{filter}
 	</select>
 	
+	<update id="BM0202G2U0" parameterType="dvcHistoryVO">
+		UPDATE BM_DVC_HIST
+		SET
+			 DEV_SERIAL_NO = #{devSerialNo}
+    	   , MODEL_NM      = #{modelNm}
+    	   , APLY_DATE     = #{aplyDate}
+    	   , WORK_TYPE     = #{workType}
+    	   , WORK_AMT      = #{workAmt}
+   		   , REMARK        = #{remark}
+   		   , DVC_ID        = #{dvcId}
+   		   , UPDATED_AT	   = #{updatedAt}
+    	   , UPDATED_BY	   = #{updatedBy}
+    	WHERE
+    		DVC_ID = #{dvcId}
+    		AND DEV_SERIAL_NO = #{devSerialNo}		
+	</update>
+	
 	<delete id="BM0202G2D0" parameterType="String">
 		DELETE
 			FROM BM_DVC_HIST

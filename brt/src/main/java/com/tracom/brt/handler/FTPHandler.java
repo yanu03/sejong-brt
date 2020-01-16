@@ -78,7 +78,6 @@ public class FTPHandler {
     	if(vo.getPlayType().equals("TTS")) {
     		uploadVoiceTTS(vo);
     	} else if(vo.getPlayType().equals("WAV")) {
-    		System.out.println(vo.getPlayTm());
     		if(vo.getWavFile() != null && vo.getWavFile().getSize() != 0) {
     			uploadVoiceWAV(vo);
     		}
@@ -94,6 +93,11 @@ public class FTPHandler {
 		String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
 		String fileNameKr = id + "_KR.wav";
 		String fileNameEn = id + "_EN.wav";
+		
+		String routId = vo.getRoutId();
+		if(routId != null && !routId.equals("")) {
+			fileName = routId + "_select.wav";
+		}
 		
 		File saveFile = Paths.get(dir, fileName).toFile();
 		File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
@@ -134,19 +138,37 @@ public class FTPHandler {
 		String id = vo.getVocId();
 		String krText = vo.getKrTts();
 		String enText = vo.getEnTts();
+		String chimeYn = vo.getChimeYn();
+		
 		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
 		String fileName = id + ".wav";
 		String fileNameKr = id + "_KR.wav";
 		String fileNameEn = id + "_EN.wav";
 		
+		String routId = vo.getRoutId();
+		if(routId != null && !routId.equals("")) {
+			fileNameKr = routId + "_select.wav";
+		}
+		
+		int ttsKrPlayTm = 0;
+		int ttsEnPlayTm = 0;
+		
 		File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
 		File ttsEnFile = Paths.get(dir, fileNameEn).toFile();
 		File file = Paths.get(dir, fileName).toFile();
 		try {
-			FileUtils.writeByteArrayToFile(ttsKrFile, voiceService.getWavBuffer(krText, 0, 0));
-			FileUtils.writeByteArrayToFile(ttsEnFile, voiceService.getWavBuffer(enText, 1, 2));
+			if(krText != null && !krText.equals("")) {
+				FileUtils.writeByteArrayToFile(ttsKrFile, voiceService.getWavBuffer(krText, 0, 0, chimeYn));
+				ttsKrPlayTm = Utils.getAudioTotalTime(ttsKrFile);
+			}
 			
-			vo.setPlayTm(Utils.getAudioTotalTime(ttsKrFile) + Utils.getAudioTotalTime(ttsEnFile));
+			if(enText != null && !enText.equals("")) {
+				FileUtils.writeByteArrayToFile(ttsEnFile, voiceService.getWavBuffer(enText, 1, 2, "N"));
+				ttsEnPlayTm = Utils.getAudioTotalTime(ttsEnFile);
+			}
+			
+			// 재생시간 계산
+			vo.setPlayTm(ttsKrPlayTm + ttsEnPlayTm);
 			
 			// 기존 WAV 업로드 삭제
 			if(file.exists()) {
@@ -156,6 +178,42 @@ public class FTPHandler {
 			processSynchronize();
 		} catch(Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	// 음성 삭제시 저장된 음성파일 삭제
+	public void deleteVoice(VoiceInfoVO vo) {
+		String playType = vo.getPlayType();
+		String id = vo.getVocId();
+		String fileName = id + ".wav";
+		String fileNameKr = id + "_KR.wav";
+		String fileNameEn = id + "_EN.wav";
+		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
+		
+		String routId = vo.getRoutId();
+		if(routId != null && !routId.equals("")) {
+			File file = Paths.get(dir, routId + "_select.wav").toFile();
+			
+			if(file.exists()) {
+				file.delete();
+			}
+		} else if(playType.equals("TTS")) {
+			File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
+			File ttsEnFile = Paths.get(dir, fileNameEn).toFile();
+			
+			if(ttsKrFile.exists()) {
+				ttsKrFile.delete();
+			}
+			if(ttsEnFile.exists()) {
+				ttsEnFile.delete();
+			}
+		} else if(playType.equals("WAV")) {
+			File file = Paths.get(dir, fileName).toFile();
+			
+			// 기존 WAV 업로드 삭제
+			if(file.exists()) {
+				file.delete();
+			}
 		}
 	}
 	

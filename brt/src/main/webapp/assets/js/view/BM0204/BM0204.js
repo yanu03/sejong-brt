@@ -131,7 +131,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), width: 100},
                      {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), width: 150},
                      {key: "corpId", label: ADMIN("ax.admin.BM0103F0.corpId"), width: 150},
-                     {key: "area", label: ADMIN("ax.admin.BM0204G0.gps"), width: 150},
+                     {key: "gps", label: ADMIN("ax.admin.BM0204G0.gps"), width: 150},
                      {key: "lati", label: ADMIN("ax.admin.BM0204G0.lati"), width: 150},
                      {key: "longi", label: ADMIN("ax.admin.BM0204G0.longi"), width: 150},
                      {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 510},

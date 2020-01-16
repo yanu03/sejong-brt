@@ -26,6 +26,7 @@ public class BM0401Service extends BaseService<VoiceInfoVO, String> {
     
     @Transactional
     public String BM0401F0I0(VoiceInfoVO vo) {
+    	vo.setChimeYn("Y");
     	mapper.BM0401F0I0(vo);
     	handler.uploadVoice(vo);
     	mapper.BM0401F0U0(vo);
@@ -33,6 +34,7 @@ public class BM0401Service extends BaseService<VoiceInfoVO, String> {
     }
     
     public boolean BM0401F0U0(VoiceInfoVO vo) {
+    	vo.setChimeYn("Y");
     	handler.uploadVoice(vo);
     	if(mapper.BM0401F0U0(vo) > 0) {
     		return true;
@@ -43,6 +45,7 @@ public class BM0401Service extends BaseService<VoiceInfoVO, String> {
     
     public boolean BM0401G0D0(VoiceInfoVO vo) {
     	if(mapper.BM0401G0D0(vo) > 0) {
+    		handler.deleteVoice(vo);
     		return true;
     	} else {
     		return false;

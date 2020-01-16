@@ -72,16 +72,21 @@ public class VoiceService {
 	@Inject
 	private FTPHandler handler;
 	
-	public byte[] getWavBuffer(String pText, int nLanguage, int nSpeakerId) {
+	public byte[] getWavBuffer(String pText, int nLanguage, int nSpeakerId, String chimeYn) {
     	Pttsnet TTS = new Pttsnet();
     	
     	String pAudioFile = Paths.get(handler.getRootLocalPath(), "/common/audio", chimeFileName).toString();
     	
         try {
         	int ret = -100;
-        	if(nLanguage == 1) { // 영어일 경우 차임벨 미포함
-        		pAudioFile = "";
-        		chimeOffset = -1;
+
+        	String tempAudioFile = new String(pAudioFile);
+        	int tempLanguage = nLanguage;
+        	
+        	// 차임벨 미포함일 때 또는 영어일때
+        	if(chimeYn == null || chimeYn.equals("N") || nLanguage == 1) {
+        		tempAudioFile = "";
+        		tempLanguage = -1;
         	}
         	
         	ret = TTS.PTTSNET_BUFFER(
@@ -99,8 +104,8 @@ public class VoiceService {
 					nFlag,
 					contentType,
 					charset,
-					pAudioFile,
-					chimeOffset);
+					tempAudioFile,
+					tempLanguage);
 			
 			System.out.println("### TTS Result Message(" + ret + "): " + TTS.SpeechBuffer);
 			byte[] buffer = new byte[TTS.SpeechBuffer.length];
@@ -160,10 +165,13 @@ public class VoiceService {
 	public void wavTest(RequestParams<VoiceInfoVO> requestParams, HttpServletRequest request, HttpServletResponse response) {
 		String userAgent = request.getHeader("User-Agent");
 		String vocId = requestParams.getString("vocId");
+		String routId = requestParams.getString("routId");
 		String type = requestParams.getString("type");
 		String pText = requestParams.getString("pText");
 		int nLanguage = requestParams.getInt("nLanguage");
 		int nSpeakerId = requestParams.getInt("nSpeakerId");
+		String chimeYn = requestParams.getString("chimeYn");
+		
 		byte[] buffer = null;
 		String path;
 		File tempFile;
@@ -171,9 +179,14 @@ public class VoiceService {
 
 		try {
 			if(type == null) {
+				if(routId != null && !routId.equals("")) {
+					path = Paths.get(handler.getRootLocalPath(), "/common/audio", routId + "_select.wav").toString();
+					tempFile = new File(path);
+					file = tempFile;
+				}
 				// playType이 TTS일떄
-				if(vocId == null) {
-					buffer = getWavBuffer(pText, nLanguage, nSpeakerId);
+				else if(vocId == null) {
+					buffer = getWavBuffer(pText, nLanguage, nSpeakerId, chimeYn);
 					path = Paths.get(handler.getRootLocalPath(), "/temp/temp.wav").toString();
 					tempFile = new File(path);
 					file = tempFile;

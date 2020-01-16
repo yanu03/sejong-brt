@@ -69,7 +69,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0401G0S0",
+            url: "/api/v1/BM0404G0S0",
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);
@@ -94,22 +94,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
         return false;
     },
+    
 	PAGE_EXCEL: function(caller, act, data) {
     	caller.gridView0.target.exportExcel("data.xls");
-    },
-    
-    PAGE_NEW: function (caller, act, data) {
-    	isUpdate = false;
-    	selectedRow = null;
-    	caller.gridView0.selectAll(false);
-        caller.formView0.clear();
-        caller.formView0.enable();
-        caller.formView0.validate(true);
-        
-        // 미리듣기 초기화
-        $("#jquery_jplayer_1").jPlayer("setMedia", {
-    		mp3: null
-    	});
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -128,7 +115,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0401G0D0",
+	                    url: "/api/v1/BM0404G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -146,10 +133,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             }
         });
     },
-    
+
     PAGE_SAVE: function (caller, act, data) {  
         if (caller.formView0.validate()) {
         	var formData = new FormData(caller.formView0.target[0]);
+        	formData.set("routId", selectedRow.routId);
         	
         	if(formData.get("playType") == "WAV") {
     	    	var element = $("#wavFile");
@@ -166,7 +154,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0401F0I0",
+                        url: "/api/v1/BM0404F0I0",
                         enctype: "multipart/form-data",
                         processData: false,
                         data: formData,
@@ -193,12 +181,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
         	var formData = new FormData(caller.formView0.target[0]);
+        	formData.set("routId", selectedRow.routId);
         	
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                     	type: "POST",
-                        url: "/api/v1/BM0401F0U0",
+                        url: "/api/v1/BM0404F0U0",
                         enctype: "multipart/form-data",
                         processData: false,
                         data: formData,
@@ -226,8 +215,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK: function (caller, act, data) {
-    	isUpdate = true;
+    	if(typeof data.vocId === "undefined") {
+    		isUpdate = false;
+    	} else {
+    		isUpdate = true;
+    	}
+    	
     	selectedRow = data;
+    	
         caller.formView0.setData(data);
         caller.formView0.enable();
         
@@ -255,13 +250,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		_this.target.find("[data-ax-td-label='krTtsLabel']").addClass("required");
     		_this.target.find("[data-ax-td-label='enTtsLabel']").addClass("required");
     		_this.target.find("[data-ax-path='krTts']").attr("readonly", false).attr("data-ax-validate", "required");
-    		_this.target.find("[data-ax-path='enTts']").attr("readonly", false).attr("data-ax-validate", "required");
     		
     		// TTS 미리듣기 기본문구 버튼 관련
     		_this.target.find("[data-btn-test='krTts']").attr("disabled", false);
-    		_this.target.find("[data-btn-test='enTts']").attr("disabled", false);
     		_this.target.find("[data-btn-common-txt='krTts']").attr("disabled", false);
-    		_this.target.find("[data-btn-common-txt='enTts']").attr("disabled", false);
     		
     	} else if(data.playType == "WAV") {
     		// wav 파일 관련
@@ -273,13 +265,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		_this.target.find("[data-ax-td-label='krTtsLabel']").removeClass("required");
     		_this.target.find("[data-ax-td-label='enTtsLabel']").removeClass("required");
     		_this.target.find("[data-ax-path='krTts']").attr("readonly", true).attr("data-ax-validate", null);
-    		_this.target.find("[data-ax-path='enTts']").attr("readonly", true).attr("data-ax-validate", null);
     		
     		// TTS 미리듣기 기본문구 버튼 관련
     		_this.target.find("[data-btn-test='krTts']").attr("disabled", true);
-    		_this.target.find("[data-btn-test='enTts']").attr("disabled", true);
     		_this.target.find("[data-btn-common-txt='krTts']").attr("disabled", true);
-    		_this.target.find("[data-btn-common-txt='enTts']").attr("disabled", true);
     	}
     },
     
@@ -328,12 +317,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     // TTS 미리듣기
     TEST_TTS: function(caller, act, data) {
-    	var wavDownloadUrl = "/api/v1/getWavDownload?" + $.param(data);
-    	
-    	// wav 다운로드
-    	// window.location.href = wavDownloadUrl;
-    	
-    	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
+    	if(data.pText != "")
+    		ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
     },
     
     // 플레이어에 오디오 파일 셋팅
@@ -482,16 +467,14 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "vocId", label: ADMIN("ax.admin.BM0401F0.voc.id"), width: 80},
-                {key: "vocNm", label: ADMIN("ax.admin.BM0401F0.voc.nm"), width: 120},
-                {key: "playType", label: ADMIN("ax.admin.BM0401F0.play.type"), width: 120},
-                {key: "playTm", label: ADMIN("ax.admin.BM0401F0.play.time"), width: 80},
-                {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 150},
-                {key: "krTts", label: ADMIN("ax.admin.BM0401F0.kr.tts"), width: 120},
-                {key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 120},
-                {key: "scrTxt", label: ADMIN("ax.admin.BM0401F0.scr.txt"), width: 200},
-                {key: "scrTxtEn", label: ADMIN("ax.admin.BM0401F0.scr.txt.en"), width: 200},
-                {key: "remark", label: ADMIN("ax.admin.BM0401F0.remark"), width: 120},
+            	{key: "routId", label: ADMIN("ax.admin.BM0104G0.routId"), width: 80},
+                {key: "routNm", label: ADMIN("ax.admin.BM0104G0.routNm"), width: 180},
+                {key: "playType", label: ADMIN("ax.admin.BM0404F0.play.type"), width: 120},
+                {key: "playTm", label: ADMIN("ax.admin.BM0404F0.play.time"), width: 80},
+                {key: "playDate", label: ADMIN("ax.admin.BM0404F0.play.date"), width: 150},
+                {key: "krTts", label: ADMIN("ax.admin.BM0404F0.kr.tts"), width: 120},
+                {key: "remark", label: ADMIN("ax.admin.BM0404F0.remark"), width: 120},
+                {key: "routUpdatedAt", label: ADMIN("ax.admin.BM0104G0.updatedAt"), width: 160},
             ],
             body: {
                 onClick: function () {
@@ -551,8 +534,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     selectIdRow: function(id) {
     	var i;
     	var length = this.target.list.length;
+    	
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].vocId == id) {
+    		if(this.target.list[i].routId == id) {
     			this.selectRow(i);
     			break;
     		}
@@ -586,10 +570,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.model.setModel(this.getDefaultData(), this.target);
         this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
         this.initEvent();
-    },
-    initEvent: function () {
-        var _this = this;
-        
+
         this.target.find('[data-ax5picker="date"]').ax5picker({
             direction: "auto",
             content: {
@@ -603,7 +584,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
                 	pText: _this.target.find("[data-ax-path='krTts']").val(),
                 	nLanguage: 0,
                 	nSpeakerId: 0,
-                	chimeYn: "Y"
                 });
             },
             "enTts": function() {
@@ -636,6 +616,9 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         		playType: $(this).val()
         	})
         });
+    },
+    initEvent: function () {
+        var _this = this;
     },
     getData: function () {
         var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.

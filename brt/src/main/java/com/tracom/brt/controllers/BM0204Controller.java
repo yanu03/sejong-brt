@@ -31,7 +31,20 @@ public class BM0204Controller extends BaseController{
 	})
 	public Responses.ListResponse BM0204G0S0(RequestParams<ObeConditionVO> requestParams){
 		List<ObeConditionVO> list = service.BM0204G0S0(requestParams);
+		Float latiConfirm;
+		Float longiConfirm;
 		System.out.println(list);
-		return Responses.ListResponse.of(list);
-	}
+		
+		for(int i = 0;  i <list.size(); i++ ) {
+			latiConfirm = list.get(i).getLati();
+			longiConfirm = list.get(i).getLongi();
+			
+			if(latiConfirm == null || longiConfirm == 0) {
+				list.get(i).setGps("비정상");
+			}else {
+				list.get(i).setGps("정상");
+				  }
+			}
+			return Responses.ListResponse.of(list);
+		}
 }

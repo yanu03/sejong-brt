@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VoiceInfoVO extends BaseVO {
 	private String vocId;
+	private String routId;
+	private String routNm;
 	private String vocNm;
 	private String playStDate;
 	private String playType;
@@ -27,4 +29,6 @@ public class VoiceInfoVO extends BaseVO {
 	private String playDate;
 	private String attFile;
 	private MultipartFile wavFile;
+	private String chimeYn;
+	private String routUpdatedAt;
 }

@@ -28,6 +28,7 @@ public class ObeConditionVO extends BaseVO{
 	private String vhcKind;
 	private String vhcType;
 	private String dlCdNm;
-	private String lati;
-	private String longi;
+	private Float lati;
+	private Float longi;
+	private String gps;
 }

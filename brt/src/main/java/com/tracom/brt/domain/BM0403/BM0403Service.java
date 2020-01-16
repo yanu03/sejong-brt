@@ -43,6 +43,7 @@ public class BM0403Service extends BaseService<VoiceInfoVO, String> {
     
     public boolean BM0403G0D0(VoiceInfoVO vo) {
     	if(mapper.BM0403G0D0(vo) > 0) {
+    		handler.deleteVoice(vo);
     		return true;
     	} else {
     		return false;

@@ -1,4 +1,4 @@
-package com.tracom.brt.domain.BM0402;
+package com.tracom.brt.domain.BM0404;
 
 import java.util.List;
 
@@ -13,36 +13,36 @@ import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.handler.FTPHandler;
 
 @Service
-public class BM0402Service extends BaseService<VoiceInfoVO, String> {
+public class BM0404Service extends BaseService<VoiceInfoVO, String> {
 	@Inject
-	private BM0402Mapper mapper;
+	private BM0404Mapper mapper;
 	
 	@Inject
 	private FTPHandler handler;
 	
-    public List<VoiceInfoVO> BM0402G0S0(RequestParams<VoiceInfoVO> requestParams) {
-        return mapper.BM0402G0S0(requestParams.getString("filter"));
+    public List<VoiceInfoVO> BM0404G0S0(RequestParams<VoiceInfoVO> requestParams) {
+        return mapper.BM0404G0S0(requestParams.getString("filter"));
     }
     
     @Transactional
-    public String BM0402F0I0(VoiceInfoVO vo) {
-    	mapper.BM0402F0I0(vo);
+    public String BM0404F0I0(VoiceInfoVO vo) {
+    	mapper.BM0404F0I0(vo);
     	handler.uploadVoice(vo);
-    	mapper.BM0402F0U0(vo);
-    	return vo.getVocId();
+    	mapper.BM0404F0U0(vo);
+    	return vo.getRoutId();
     }
     
-    public boolean BM0402F0U0(VoiceInfoVO vo) {
+    public boolean BM0404F0U0(VoiceInfoVO vo) {
     	handler.uploadVoice(vo);
-    	if(mapper.BM0402F0U0(vo) > 0) {
+    	if(mapper.BM0404F0U0(vo) > 0) {
     		return true;
     	} else {
     		return false;
     	}
     }
     
-    public boolean BM0402G0D0(VoiceInfoVO vo) {
-    	if(mapper.BM0402G0D0(vo) > 0) {
+    public boolean BM0404G0D0(VoiceInfoVO vo) {
+    	if(mapper.BM0404G0D0(vo) > 0) {
     		handler.deleteVoice(vo);
     		return true;
     	} else {

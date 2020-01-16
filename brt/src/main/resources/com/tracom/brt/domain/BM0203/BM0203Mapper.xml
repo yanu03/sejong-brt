@@ -20,7 +20,7 @@
     		, V.VHC_FUEL
     		, V.REMARK
     		, V.USE_YN
-    		, DL.DL_CD_NM
+    		, MAX(CHAR_LENGTH(DL.DL_CD_NM)) AS DL_CD_NM
     	FROM
     		BM_DVC_INFO DI
     		LEFT OUTER JOIN BM_DVC_COND DC
