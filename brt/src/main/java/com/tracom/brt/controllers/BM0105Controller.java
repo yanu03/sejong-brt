@@ -39,9 +39,8 @@ public class BM0105Controller extends BaseController {
     }
     
     @PostMapping("/BM0105G2U0")
-    public ApiResponse BM0105G2U0(@RequestBody List<BmRoutInfoVO> requestParams) {
-    	//return ok(service.BM0105G2U0(requestParams));
-    	service.BM0105G0U0(requestParams);
-    	return null;
+    public Responses.ListResponse BM0105G2U0(@RequestBody List<BmRoutInfoVO> requestParams) {
+    	List<String> list = service.BM0105G0U0(requestParams); 
+    	return Responses.ListResponse.of(list);
     }
 }

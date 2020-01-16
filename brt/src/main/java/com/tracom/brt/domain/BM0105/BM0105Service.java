@@ -39,7 +39,8 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
     }
 
     @Transactional
-    public void BM0105G0U0(List<BmRoutInfoVO> requestParams) {
+    public List<String> BM0105G0U0(List<BmRoutInfoVO> requestParams) {
+    	List<String> resultList = new ArrayList();
     	
     	CommonCodeDetailInfoVO codeVO = new CommonCodeDetailInfoVO();
     	codeVO.setCoCd(di.INTERFACE_URL);
@@ -56,28 +57,23 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
     	String url = "";
     	String routId;
     	
-    	for(BmRoutInfoVO vo : requestParams) {
+    	for(BmRoutInfoVO vo : requestParams) {//노선에 걸리는 for문
     		routId = "SJB" + vo.getRoutId();
     		url = baseUrl + "serviceKey=" + apiKey + "&cityCode=12&routeId="+ routId;
     		int seq = 1;
     		BmStaInfoVO inputVO = new BmStaInfoVO();
+    		List<BmStaInfoVO> staList = new ArrayList<>();
     		
     		NodeList nodeList = di.interface_XML(url);
     		
-    		
-    		System.out.println("-=-------------------------------=-");
-    		System.out.println(routId);
-    		for(int i = 0; i < nodeList.getLength(); i++) {
+    		for(int i = 0; i < nodeList.getLength(); i++) { //노선별 정류장에 걸리는 for문
     			BmStaInfoVO tmp = new BmStaInfoVO();
     			Node child = nodeList.item(i);
 
-    			//한 노선 안의 정류장 리스트 vo
-    			List<BmStaInfoVO> staList = new ArrayList<>();
-    			
-    			//한 노선의 정류장 파싱
+    			//한 노선의 정류장 parse
     			if(child.getNodeType() == Node.ELEMENT_NODE) {
     				Element eElement = (Element)child;
-    				tmp.setRoutId(routId.substring(3));
+    				tmp.setRoutId(vo.getRoutId()/*routId.substring(3)*/);
     				tmp.setStaId(di.getTagValue("nodeid", eElement).substring(3));
     				tmp.setStaNm(di.getTagValue("nodenm", eElement));
     				tmp.setStaNo(di.getTagValue("nodeno", eElement));
@@ -88,17 +84,18 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
     				seq++;
     			}
     			//staList 인서트쿼리 예정
-    			System.out.println(staList);
-    			inputVO.setVoList(staList);
-    			int cnt = mapper.BM0105G1I0(inputVO);
-    			//mergeinto로 정류장에 넣어둠
-    			staList.clear();
     		}
+    		
+    		inputVO.setVoList(staList);
+    		//삽입,업데이트 정류장갯수
+    		mapper.BM0105G1D0(vo.getRoutId());
+    		int RScnt = mapper.BM0105G1I0(inputVO);
+    		int SIcnt = mapper.BM0105G1I1(inputVO);
+    		
+    		resultList.add(vo.getRoutId());
+    		//staList.clear();
     	}
-    	//1.rout_id 리스트를 이용해서 xml 불러옴
-    	//2.xml 파싱해서 순서대로 인서트
-    	//3.인서트한 노선 정보 리스트에 저장함
-    	//4.반환
+    	return resultList;
     }
 
 }

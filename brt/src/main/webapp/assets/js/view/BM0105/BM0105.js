@@ -215,15 +215,15 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "routId", label: ADMIN("ax.admin.BM0104G0.routId"), width: 80},
-            	{key: "routNm", label: ADMIN("ax.admin.BM0104G0.routNm"), width: 100},
-                {key: "shortRoutNm", label: ADMIN("ax.admin.BM0104G0.shortRoutNm"), width: 160},
-                {key: "stStaNm", label: ADMIN("ax.admin.BM0104G0.stStaNm"), width: 160},
-                {key: "edStaNm", label: ADMIN("ax.admin.BM0104G0.edStaNm"), width: 160},
-                {key: "wayDiv", label: ADMIN("ax.admin.BM0104G0.wayDiv"), width: 140},
-                {key: "userWayDiv", label: ADMIN("ax.admin.BM0104G0.userWayDiv"), width: 140},
-                {key: "turnDiv", label: ADMIN("ax.admin.BM0104G0.turnDiv"), width: 100},
-                {key: "updatedAt", label: ADMIN("ax.admin.BM0104G0.updatedAt"), width: 180},
+            	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),		width: 80},
+            	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),		width: 100},
+                {key: "shortRoutNm",	label: ADMIN("ax.admin.BM0104G0.shortRoutNm"),	width: 160},
+                {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),		width: 160},
+                {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),		width: 160},
+                {key: "wayDiv",			label: ADMIN("ax.admin.BM0104G0.wayDiv"),		width: 140},
+                {key: "userWayDiv",		label: ADMIN("ax.admin.BM0104G0.userWayDiv"),	width: 140},
+                {key: "turnDiv",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),		width: 100},
+                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),	width: 180},
             ],
             body: {
                 onClick: function () {
@@ -312,16 +312,15 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-                {key: "staId", label: ADMIN("ax.admin.BM0105G1.staId"), width: 80},
-                {key: "staNm", label: ADMIN("ax.admin.BM0105G1.staNm"), width: 120},
-                {key: "staNo", label: ADMIN("ax.admin.BM0105G1.staNo"), width: 120},
-                {key: "lati", label: ADMIN("ax.admin.BM0105G1.lati"), width: 120},
-                {key: "longi", label: ADMIN("ax.admin.BM0105G1.longi"), width: 120},
-                {key: "updatedAt", label: ADMIN("ax.admin.BM0105G1.updatedAt"), width: 120},
+                {key: "staId",		label: ADMIN("ax.admin.BM0105G1.staId"),		width: 80},
+                {key: "staNm",		label: ADMIN("ax.admin.BM0105G1.staNm"),		width: 160},
+                {key: "staNo",		label: ADMIN("ax.admin.BM0105G1.staNo"),		width: 120},
+                {key: "lati", 		label: ADMIN("ax.admin.BM0105G1.lati"),			width: 120},
+                {key: "longi",		label: ADMIN("ax.admin.BM0105G1.longi"),		width: 120},
+                {key: "updatedAt",	label: ADMIN("ax.admin.BM0105G1.updatedAt"),	width: 180},
             ],
             body: {
                 onClick: function () {
-                	console.log('22');
                     this.self.select(this.dindex);
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
                 }
@@ -397,7 +396,6 @@ function searchGrid1(caller, act, data){
 	
 	input.filter = caller.searchView1.getData().filter;
 	input.routId = data.routId;
-	console.log(input);
 	
 	axboot.ajax({
         type: "GET",

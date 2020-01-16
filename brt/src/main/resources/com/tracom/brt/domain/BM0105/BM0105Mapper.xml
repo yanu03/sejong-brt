@@ -30,7 +30,17 @@
    		ORDER BY ROUT.SEQ
     </select>
     
+    <delete id="BM0105G1D0" parameterType="String">
+    DELETE
+	FROM
+		BM_ROUT_STA_INFO
+	WHERE
+		ROUT_ID = #{routId}
+    </delete>
+    
     <insert id="BM0105G1I0" parameterType="bmStaInfoVO">
+    <!-- 삭제후삽입으로 수정할것! -->
+    
     	INSERT INTO
 			BM_ROUT_STA_INFO(
 							  ROUT_ID
@@ -44,7 +54,39 @@
 		        , #{voList.staId}
 		        )
 		</foreach>
+    </insert>
+    
+    <insert id="BM0105G1I1" parameterType="bmStaInfoVO">
+    	INSERT INTO
+			BM_STA_INFO ( STA_ID
+						, STA_NM
+		                , STA_NO
+		                , LATI
+		                , LONGI
+		                , CREATED_AT
+		                , CREATED_BY
+		                , UPDATED_AT
+		                , UPDATED_BY
+		                )
+				VALUES
+				<foreach collection="voList" item="voList" separator=",">
+						( #{voList.staId}
+						, #{voList.staNm}
+						, #{voList.staNo}
+						, #{voList.lati}
+						, #{voList.longi}
+						, #{voList.createdAt}
+						, #{voList.createdBy}
+						, #{voList.updatedAt}
+						, #{voList.updatedBy}
+						)
+				</foreach>
 		ON DUPLICATE KEY UPDATE
-			  STA_ID = VALUES(STA_ID)
+			  STA_NM		= VALUES(STA_NM)
+		    , STA_NO		= VALUES(STA_NO)
+		    , LATI			= VALUES(LATI)
+		    , LONGI			= VALUES(LONGI)
+		    , UPDATED_AT	= VALUES(UPDATED_AT)
+		    , UPDATED_BY	= VALUES(UPDATED_BY)
     </insert>
 </mapper>

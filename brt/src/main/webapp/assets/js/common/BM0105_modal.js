@@ -29,10 +29,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 url: "/api/v1/BM0105G2U0",
                 data: JSON.stringify(list),
                 callback: function (res) {
-                	if(res.message.size > 0){
-                		alert(res.message);
-                	}else{
-                		alert("갱신된 노선이 없습니다.");                		
+                	if(res.list.length > 0){
+                		alert("갱신 성공");
+                		ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
+                	}
+                	else{
+                		alert("갱신 실패");
                 	}
                 }
             });
