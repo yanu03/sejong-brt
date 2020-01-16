@@ -8,7 +8,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0104G1S0",
+            url: "/api/v1/BM0104G0S0",
             data: caller.searchView.getData(),
             callback: function (res) {
                 caller.gridView01.setData(res);
@@ -26,10 +26,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             }*/
         	axboot.ajax({
                 type: "POST",
-                url: "/api/v1/BM0104G0U0",
+                url: "/api/v1/BM0105G2U0",
                 data: JSON.stringify(list),
                 callback: function (res) {
-                	if(res.message.length > 0){
+                	if(res.message.size > 0){
                 		alert(res.message);
                 	}else{
                 		alert("갱신된 노선이 없습니다.");                		

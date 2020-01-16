@@ -22,15 +22,27 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 var y_arr = [];
                 var id_arr = [];
                 var seq_arr = [];
+                var x_arr2 = [];
+                var y_arr2 = [];
+                var id_arr2 = []; 
                 for(var i=0; i < res.list.length; i++){
+                	
                 	x_arr.push(res.list[i].x);
                 	y_arr.push(res.list[i].y);
                 	id_arr.push(res.list[i].nodeId);
                 	seq_arr.push(res.list[i].seq);
+                	//이프문있으면 정류장이랑 음성만
+                	if(res.list[i].nodeId.substring(0,3) != "VND"){
+                		x_arr2.push(res.list[i].x);
+                    	y_arr2.push(res.list[i].y);
+                    	id_arr2.push(res.list[i].nodeId);
                 	popUp(res.list[i].y, res.list[i].x, res.list[i].seq+","+res.list[i].nodeId);
+                	} 
+                	
                 }
                 draw_line2(y_arr, x_arr, seq_arr);
-                addMarkers(y_arr, x_arr, id_arr);
+                //addMarkers(y_arr, x_arr, id_arr);
+                addMarkers(y_arr2, x_arr2, id_arr2);
                 
                 if(res.list.length == 0) {
                 	isUpdate = false;
