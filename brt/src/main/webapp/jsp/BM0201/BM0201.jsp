@@ -74,14 +74,12 @@
                             <ax:td label="ax.admin.BM0201F0.dvctype" width="300px" labelClazz="required">
                             	<ax:common-code groupCd="DVC_TYPE" dataPath="dvcType" clazz="form-control"/>
                             </ax:td>                  		
-						</ax:tr>              
-                 		                    
-                        
+						</ax:tr>                   
                         <ax:tr>
                             <ax:td label="ax.admin.BM0201F0.instloc" width="600px" labelClazz="required">
-                            	<ax:common-code groupCd="INST_LOC" dataPath="instloc" clazz="form-control"/>
+                            	<ax:common-code groupCd="INST_LOC" dataPath="instLoc" clazz="form-control"/>
                             </ax:td>                           
-                        </ax:tr>                     	
+                        </ax:tr>                    	
                         
                         <ax:tr>
                             <ax:td label="ax.admin.BM0201F0.mngid" width="300px" labelClazz="required">

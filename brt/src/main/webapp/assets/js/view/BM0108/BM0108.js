@@ -91,7 +91,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if (caller.formView0.validate()) {
             var formData = new FormData(caller.formView0.target[0]);
             formData.append("attFile", $("#employeeImg")[0].files[0].name);
-
+            console.log(formData);
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({

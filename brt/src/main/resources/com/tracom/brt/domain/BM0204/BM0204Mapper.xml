@@ -9,10 +9,11 @@
     		, DC.DVC_COND
     		, V.VHC_NO
     		, V.CORP_ID
-    		, V.AREA  <!--GPS 들어갈 자리입니다. -->
     		, DL.DL_CD_NM
     		, LOC.LATI
     		, LOC.LONGI
+    		, LOC.SPD
+    		, LOC.HEADING
     	FROM
     		BM_DVC_INFO DI
     		LEFT OUTER JOIN BM_DVC_COND DC

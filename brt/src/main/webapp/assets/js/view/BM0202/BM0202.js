@@ -34,7 +34,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SEARCH_G2: function (caller, act, data) {
-    	// 새로운 레코드 추가할 시 검색어 삭제
+
     	var dataFlag = typeof data !== "undefined";
     	var gridData = caller.gridView1.getData();
     	gridData["dvcId"] = selectedRowG1.dvcId;
@@ -83,12 +83,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    callback: function (res) {
 	                        ok(res);
 	                        console.log(data);
+	                        ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 	                    }
 	                });
                 })
                 .then(function (ok) {
                 	axToast.push(LANG("ondelete"));
-                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                .catch(function () {
 
@@ -330,7 +330,13 @@ fnObj.searchView1 = axboot.viewExtend(axboot.searchView, {
         this.target.find('[data-ax5picker="date"]').ax5picker({
             direction: "auto",
             content: {
-                type: 'date'
+                type: 'date' , 
+                config : {
+            		mode : "year" , selectMode : "month"
+                },
+            formatter : {
+            	pattern : 'data(month)'
+            	}
             }
         });
         

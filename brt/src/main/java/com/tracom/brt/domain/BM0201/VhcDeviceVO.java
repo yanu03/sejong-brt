@@ -30,8 +30,8 @@ public class VhcDeviceVO extends BaseVO{
 	private String vhcFuel; 
 	private String remark; 
 	private String useYn;
-	private String textVal1;
-	private String textVal2;
+	private String txtVal1;
+	private String txtVal2;
 	private String devSerialNo;
 	private String aplyDate;
 	private String workType;

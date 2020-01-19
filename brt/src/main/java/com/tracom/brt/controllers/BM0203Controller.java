@@ -52,6 +52,7 @@ public class BM0203Controller extends BaseController{
     })
     public Responses.ListResponse BM0203G1S0(RequestParams<DvcConditionVO> requestParams) {
         List<DvcConditionVO> list = service.BM0203G1S0(requestParams);
+        System.out.println(list);
         return Responses.ListResponse.of(list);
     }
 	

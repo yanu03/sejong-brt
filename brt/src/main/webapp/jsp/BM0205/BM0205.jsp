@@ -17,10 +17,11 @@
         <ax:page-buttons></ax:page-buttons>
 
         <div role="page-header">
-        	<input type="file" id="file" name="dvcFileUp" class="form-control inline-block W150" accept=".bin" style="position:absolute; width:200px; left:660px; top:20px"/>
-        	<button type="button" class="btn btn-primary" data-btn data-btn-test="wav" style="position:absolute; width:70px; left:860px; top:20px">
+        	<input type="file" id="dvcFileUp" name="dvcFileUp" class="form-control inline-block W150" accept=".bin" style="position:absolute; width:200px; left:660px; top:20px"/>
+        	<button type="button" class="btn btn-primary" data-page-btn="fileUpdate" style="position:absolute; width:70px; left:860px; top:20px">
             <ax:lang id="ax.admin.update"/>
             </button>
+            
             <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>

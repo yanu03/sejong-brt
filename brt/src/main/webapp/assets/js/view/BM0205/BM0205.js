@@ -3,6 +3,7 @@ var fnObj = {}, CODE = {};
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
+date = null;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -33,68 +34,93 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     
-    
-    PAGE_RESERVATION: function(caller, act, data) {
-    	if(selectedRow == null) {
-    		axDialog.alert(LANG("ax.script.alert.requireselect"));
-    		return false;
+    RESERVATION_MODAL : function(caller, act , data){
+    	if(selectedRow != null){
+    		axboot.modal.open({
+	            modalType: "RESERVATION",
+	            param: "",
+	            callback: function (result) {
+	            	this.close();
+	            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
+	            		date: result
+	            	});
+	            }
+	        });
+    	}else{
+    		alert(LANG("ax.script.requireselect"));
     	}
-    	
-        axboot.ajax({
-            type: "GET",
-            url: "/api/v1/checkDvcReservation",
-            data: {
-        		dvcId: selectedRow.dvcId,
-            },
-            callback: function (res) {
-                if(res.message == "true") {
-	        		// 예약적용일때
-        			axboot.modal.open({
-        	            modalType: "RESERVATION",
-        	            param: "",
-        	            callback: function (result) {
-        	            	this.close();
-        	            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
-        	            		date: result
-        	            	});
-        	            }
-        	        });
-	        	} else {
-	        		axDialog.alert(LANG("ax.script.check.organization"));
-	        	}
-            }
-        });
     },
-    
-    
+        
     INSERT_RESERVATION: function(caller, act, data) {
-    	axboot.promise()
-	        .then(function (ok, fail, _data) {
+    	var list = caller.gridView0.getData("selected");
+        listRsv = data.date;
+        var data = {};
+        data.upList = list;
+        data.rsvDate = listRsv;
+        
+    	if(list.length > 0){
 	            axboot.ajax({
 	                type: "POST",
 	                url: "/api/v1/BM0205Reservation",
-	                data: JSON.stringify({
-	            		dvcId: selectedRow.dvcId,
-	            		modelNm : selectedRow.modelNm
-	                }),
+	                data: JSON.stringify(data),
 	                callback: function (res) {
-	                    ok(res);
 	                }
 	            });
-	        })
-	        .then(function (ok, fail, data) {
-	        })
-	        .catch(function () {
-	
-	        });
+    	return false;
+    	}else{
+    		 alert(LANG("ax.script.requireselect"));
+    	}
     },
     
-   
+    UPDATE_FILE : function(caller , act , data){
+    	var fileCheck = $("input[name='dvcFileUp']")[0].files[0].name;
+    	var list = caller.gridView0.getData("selected");
+    	var formData = new FormData();
+    	
+    	formData.append("dvcFileUp" , $("input[name='dvcFileUp']")[0].files[0]);   	
+    	
+    	for(var i = 0; i < list.length;i++){
+    		console.log(list[i]);
+    		formData.append("upList[" + i + "].dvcId", list[i].dvcId);
+    	}
+    	
+    	if(fileCheck != null){
+    		
+    		axboot.promise()
+            .then(function (ok, fail, data) {
+                axboot.ajax({
+                    type: "POST",
+                    url: "/api/v1/BM0205FileUp",
+                    enctype: "multipart/form-data",
+                    processData: false,
+                    data: formData,
+                    callback: function (res) {
+                        ok(res);
+                    },
+                    options: {
+                    	contentType:false
+                    }
+                });
+            })
+            .then(function (ok, fail, data) {
+        		axToast.push(LANG("onadd"));
+        		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+                isUpdate = true;
+            })
+            .catch(function () {
+
+            });
+    		
+    	}else{
+    		alert(LANG("ax.script.requireselect"));
+    	}
+    },
+      
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRow != null){   		
     		caller.gridView0.target.exportExcel(selectedRow.dvcId + "data.xls");
     	}else {
-    		alert("장치 목록을 선택해주세요");
+    		alert(LANG("ax.script.requireselect"));
     	}
     },
     
@@ -133,7 +159,7 @@ fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
         	"reservation": function() {
-        		ACTIONS.dispatch(ACTIONS.PAGE_RESERVATION);
+        		ACTIONS.dispatch(ACTIONS.RESERVATION_MODAL);
         	},
             "search": function () {
             	selectedRow = null;
@@ -144,6 +170,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
+            },
+            "fileUpdate": function() {
+            	ACTIONS.dispatch(ACTIONS.UPDATE_FILE);
             },
         });
     }
@@ -194,6 +223,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             		 {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), width: 120},
                      {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), width: 120},
                      {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 150},
+                     {key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), width: 150},
                      {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), width: 150},
                      {key: "dvcType", label: ADMIN("ax.admin.BM0201F0.dvctype"), width: 150},
                      {key: "modelNm", label: ADMIN("ax.admin.BM0202G2.modelnm"), width: 150},

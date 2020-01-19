@@ -4,7 +4,7 @@ var fnObj = {}, CODE = {};
 isUpdate = false;
 selectedRow = null;
 selectedRowG1 = null;
-selectedLoc = null;
+selectedRowG2 = null;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -16,7 +16,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0203G0S0",
+            url: "/api/v1/BM0201G0S0",
             data: filter,
             callback: function (res) {
             	console.log(res);
@@ -26,6 +26,33 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		                	caller.gridView0.selectRow(selectedRow.__index);
 		                } else {
 		                	caller.gridView0.selectFirstRow();
+		                }	                
+	            }
+	        });
+
+        return false;
+    },
+    
+    PAGE_SEARCH_G2: function (caller, act, data) {
+
+    	var dataFlag = typeof data !== "undefined";
+    	var gridData = caller.gridView1.getData();
+    	gridData["dvcId"] = selectedRowG1.dvcId;
+    	var gridDvcId = gridData["dvcId"];
+    	var filterG2 = $.extend({}, caller.searchView1.getData());
+    	filterG2.gridDvcId = gridDvcId;
+    	
+        axboot.ajax({
+            type: "GET",
+            url: "/api/v1/BM0206G2S1",
+            data: filterG2,
+            callback: function (res) {
+                caller.gridView2.setData(res);         
+	               
+	                if(selectedRow != null) {
+		                	caller.gridView2.selectRow(selectedRow.__index);
+		                } else {
+		                	caller.gridView2.selectFirstRow();
 		                }
 	                
 	            }
@@ -33,7 +60,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
         return false;
     },
-   
+    
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRow != null){   		
     		caller.gridView2.target.exportExcel(selectedRow.conId + "data.xls");
@@ -52,46 +79,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
  // gridView1 항목 클릭 이벤트
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
-    	selectedRowG1 = data
-    	
-    	
+    	selectedRowG1 = data;
+    	ACTIONS.dispatch(ACTIONS.RELOAD_G2);
     },
     
     RELOAD_G1: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
-    	console.log(selectedRow.vhcId);
+    	
     	axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0203G1S0",
+            url: "/api/v1/BM0201G1S0",
             data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
                 caller.gridView1.setData(res);
-                                
-             if(res.list[0].txtVal1 != null){
-                for(var i = 0; i < res.list.length; i++){
-                	var dvcCond;
-                	
-                	if(res.list[i].txtVal1 !== "undefined"){
-                		if(res.list[i].dvcCond == "정상"){
-                			console.log("정상");
-                			dvcCond = "#00FF00";
-                		}else{
-                			if(res.list[i].dvcCond !== "undefined"){
-                				console.log("정상2");
-                				console.log(res.list[i].dvcCond);
-                				dvcCond = "#DC143C";            				
-                			}else{
-                				console.log(res.list[i].dvcCond);
-                				dvcCond = "##00ff0000";
-                			}
-                		}
-                	console.log(res.list[i].txtVal1);
-                $("#check").append("<input[type='text' name='busCheck' style='background-color:"+dvcCond+"; width:18px;height:18px; position: absolute; left:"+res.list[i].txtVal1+"px; top:"+res.list[i].txtVal2+"px;]'/>");
-                		}else{
-                			alert(LANG("ax.script.requireselect"));
-                		}
-                	}              	
-               }
+                
                  {
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
@@ -105,8 +106,32 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                
                 }
             }
-        });    	
-    	
+        });
+    },
+    
+    RELOAD_G2: function(caller, act, data) {
+    	var dataFlag = typeof data !== "undefined";
+    	console.log("리로드2");
+    	axboot.ajax({
+            type: "GET",
+            url: "/api/v1/BM0206G2S0",
+            data: {dvcId: selectedRowG1.dvcId},
+            callback: function (res) {
+                caller.gridView2.setData(res);
+                console.log(res);
+                 {
+                	if(dataFlag) {
+	                	caller.gridView2.selectIdRow(data);
+	                	
+	                }if(selectedRowG2 != null) {
+	                	console.log("g2.검색");
+	                	caller.gridView2.selectRow(selectedRowG2.__index);
+	                } else {
+	                	caller.gridView2.selectFirstRow();
+	                }	                
+                }
+            }
+        });
     },
     
     PAGE_CLOSE: function(caller, act, data) {
@@ -122,9 +147,10 @@ fnObj.pageStart = function () {
 	
     this.pageButtonView.initView();
     this.searchView0.initView();
+    this.searchView1.initView();
     this.gridView0.initView();
     this.gridView1.initView();
-    this.formView0.initView();
+    this.gridView2.initView();
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -149,6 +175,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
+            },
+            "searchDate" : function(){
+            	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);
             },
         });
     }
@@ -176,6 +205,38 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
 });
 
 /**
+ * searchView1
+ */
+fnObj.searchView1 = axboot.viewExtend(axboot.searchView, {
+    initView: function () {
+        this.target = $(document["searchView1"]);
+        this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);");
+        this.filter = $("#filterG2");
+        
+        this.target.find('[data-ax5picker="date"]').ax5picker({
+            direction: "auto",
+            content: {
+                type: 'date' , 
+                config : {
+                		mode : "year" , selectMode : "month"
+                },
+                formatter : {
+                	pattern : 'data(month)'
+                }
+            }
+        });
+        
+    },
+    getData: function () {
+    	 return {
+             pageNumber: this.pageNumber,
+             pageSize: this.pageSize,
+             filter: this.filter.val()
+         }
+    }
+});
+
+/**
  * gridView0
  */
 fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
@@ -191,8 +252,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             
-            	 columns: [
-            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), width: 80},
+            	 columns: [        		
             		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), width: 80},
                      {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), width: 80},
                      {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 120},
@@ -291,6 +351,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         pageSize: 10
     },
     initView: function () {
+    	console.log("그리드1");
         var _this = this;
 
         this.target = axboot.gridBuilder({
@@ -298,7 +359,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "dvcCond", label: ADMIN("ax.admin.BM0203G0.dvccond"), width: 80},
             	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), width: 80},
             	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), width: 80},
                 {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), width: 80},
@@ -384,56 +444,98 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     }
 });
 
-fnObj.formView0 = axboot.viewExtend(axboot.formView, {
-    getDefaultData: function () {
-        return $.extend({}, axboot.formView.defaultData, {});
+/**
+ * gridView2
+ */
+
+fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
+    page: {
+        pageNumber: 0,
+        pageSize: 10
     },
     initView: function () {
-        this.target = $("#formView0");
-        this.model = new ax5.ui.binder();
-        this.model.setModel(this.getDefaultData(), this.target);
-        this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
-        this.initEvent();
+    	console.log("그리드2");
+        var _this = this;
+        this.target = axboot.gridBuilder({
+        	frozenColumnIndex: 0,
+            sortable: true,
+            target: $('[data-ax5grid="gridView2"]'),
+            columns: [
+            	{key: "sendDate", label: ADMIN("ax.admin.BM0206G2.senddate"), width: 120},
+            	{key: "verInfo", label: ADMIN("ax.admin.BM0206G2.verinfo"), width: 120},
+            	{key: "remark", label: ADMIN("ax.admin.BM0206G2.remark"), width: 200},
+            ],
+            body: {
+                onClick: function () {
+                	console.log("그리드2.2");
+                    this.self.select(this.dindex);
+                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G2, this.item);
+                }
+            },
+        });
         
     },
-    initEvent: function () {
-    	
-    },
-    getData: function () {
-        var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
-        return $.extend({}, data);
-    },
-    setData: function (data) {
+    getData: function (_type) {
+        var list = [];
+        var _list = this.target.getList(_type);
 
-        if (typeof data === "undefined") data = this.getDefaultData();
-        data = $.extend({}, data);
-
-        this.model.setModel(data);
-        this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
-    },
-    validate: function (flag) {
-        var rs = this.model.validate();
-        if (rs.error) {
-        	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
-        	}
-            rs.error[0].jquery.focus();
-            return false;
+        if (_type == "modified" || _type == "deleted") {
+            list = ax5.util.filter(_list, function () {
+                delete this.deleted;
+                return this.key;
+            });
+        } else {
+            list = _list;
         }
-        return true;
+        return list;
     },
-    enable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", false);
-    	});
+    addRow: function (data) {
+    	if(typeof data === "undefined") {
+    		this.target.addRow({__created__: true}, "last");
+    	} else {
+    		data["__created__"] = true;
+            this.target.addRow(data, "last");
+    	}
     },
-    disable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", true);
-    	});
+    selectFirstRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(0);
+    	} else {
+    		isUpdate = false;
+    	}
     },
-    clear: function () {
-        this.model.setModel(this.getDefaultData());
-        this.target.find('[data-ax-path="key"]').removeAttr("readonly");
+    selectLastRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(this.target.list.length - 1);
+    	} else {
+    		isUpdate = false;
+    	}
+    },
+    selectRow: function(index) {
+    	isUpdate = true;
+    	var data = this.target.list[index];
+    	
+    	if(typeof data === "undefined") {
+    		this.selectLastRow();
+    	} else {
+    		this.target.select(index);
+    	}
+    },
+    selectIdRow: function(id) {
+    	var i;
+    	var length = this.target.list.length;
+    	for(i = 0; i < length; i++) {
+    		if(this.target.list[i].dvcId == id) {
+    			this.selectRow(i);
+    			break;
+    		}
+    	}
+    	
+    	if(i == length) {
+    		isUpdate = false;
+    	}
+    },
+    selectAll: function(flag) {
+    	this.target.selectAll({selected: flag});
     }
 });

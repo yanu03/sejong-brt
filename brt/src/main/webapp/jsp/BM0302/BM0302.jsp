@@ -21,7 +21,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0301S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0302S0.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -59,10 +59,7 @@
                     
 						<ax:tr>
 							<ax:td label="ax.admin.BM0302F0.altdiv" width="300px" labelClazz="required">
-	     					 	<select class="form-control" id="" name="" data-ax-path="altDiv">
-									 <option value="연장"><ax:lang id="ax.admin.BM0302F0.div.extension"/></option>
-									 <option value="종료"><ax:lang id="ax.admin.BM0302F0.div.terminated"/></option>
-								</select>
+								<ax:common-code groupCd="ALT_DIV" dataPath="altDiv" clazz="form-control"/>
                     		</ax:td>
 						</ax:tr>                    
                      	<ax:tr>
@@ -72,21 +69,9 @@
 							<ax:td label="ax.admin.BM0301F0.conid" width="300px">
 							    <input type="text" data-ax-path="conId" data-key="true" class="form-control" readonly="readonly">
 							</ax:td>                    
-                    	</ax:tr>
-                    
-                 		<%-- <ax:tr>
-                            <ax:td label="ax.admin.BM0301F0.conno" width="300px" >
-                                <input type="text" data-ax-path="conNo" data-key="true" class="form-control" readonly="readonly"/>
-                            </ax:td>
-                            <ax:td label="ax.admin.BM0301F0.name" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="conNm" data-key="true" class="form-control" readonly="readonly"/>
-                            </ax:td> 
-                        </ax:tr>  --%>                     
+                    	</ax:tr>                                   		                   
                         
                         <ax:tr>
-                            <%-- <ax:td label="ax.admin.BM0301F0.custnm" width="300px">
-                                <input type="text" data-ax-path="custId" data-key="true" class="form-control" readonly="readonly"/>
-                            </ax:td> --%>
                             <ax:td label="ax.admin.BM0302F0.altcd" width="300px">
                             	<div class="input-group" data-ax5picker="date">
 	                            	<input type="text" class="form-control" data-ax-path="altConDate" data-ax5formatter="date" placeholder="yyyy/mm/dd"/>

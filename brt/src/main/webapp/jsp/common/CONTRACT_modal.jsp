@@ -13,12 +13,12 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
-        <script type="text/javascript" src="<c:url value='/assets/js/common/BM0301_modal.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/common/CONTRACT_modal.js' />"></script>
     </jsp:attribute>
     <jsp:attribute name="header">
         <h3 class="title">
             <i class="cqc-browser"></i>
-            <ax:lang id="ax.admin.BM0101G0.title"/>
+            <ax:lang id="ax.admin.BM0301G0.title"/>
         </h3>
     </jsp:attribute>
     <jsp:body>
@@ -33,7 +33,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.sample.search.condition' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0101S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0302S0.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>

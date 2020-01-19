@@ -41,6 +41,7 @@ public class BM0108Controller extends BaseController {
     
     @PostMapping("/BM0108F0I0")
     public ApiResponse BM0108F0I0(@ModelAttribute EplyInfoVO request) {
+    	System.out.println(request);
         String corpId = service.BM0108F0I0(request);
         return ok(corpId);
     }

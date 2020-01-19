@@ -10,7 +10,7 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
-        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0203/BM0203.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0206/BM0206.js' />"></script>
     </jsp:attribute>
     <jsp:body>
 
@@ -51,23 +51,25 @@
                 </div>
                     <div data-ax5grid="gridView1" style="height: 220px;"></div>
                     
-                <div class="ax-button-group" role="panel-header">
-                    <div class="left">
-                        <h2><i class="cqc-list"></i>
-                             <ax:lang id="ax.admin.BM0203F0.title"/>
-                        </h2>
+                     <div class="ax-button-group">
+                        <div class="left">
+                            <h3>
+                                <i class="cqc-list"></i>
+                                <ax:lang id="ax.admin.BM0206G2.title"/>
+                            </h3>
+                        </div>
+                   <ax:form name="searchView1">
+                   			<div class="right">           		
+                        		<div class="input-group" style="position:absolute; width:100px; right:30px;top:270px;">                                 		
+	                            		<input type="text" class="form-control" data-ax5picker="date" name="filterG2" id="filterG2" data-ax5formatter="date" placeholder="yyyy/mm" width="50px"/>
+	                            			<button type="button" class="btn btn-info" data-page-btn="searchDate" style="position: absolute; top:0px;left:100px"><i class="cqc-magnifier"></i></button>
+                            	</div>
+                           </div> 	                                               		                                 		 	                 	 		
+            		</ax:form>                      
                     </div>
-                </div>                    
-            		<ax:form name="formView0">
-                    	<ax:tbl clazz="ax-form-tbl" minWidth="300px">
-                    	                                    		
-                    		<div id="check" style="width: 500px;height: 230px; position:relative; background-image:url('/assets/images/BM0203/BusImage.png'); margin: 0px auto;"></div>                    	  		                   
-            			</ax:tbl>
-            		</ax:form>
-            		
+                   <div data-ax5grid="gridView2" style="height: 200px;"></div>     
             </ax:split-panel>
-            
-            
+                 
         </ax:split-layout>
 
     </jsp:body>

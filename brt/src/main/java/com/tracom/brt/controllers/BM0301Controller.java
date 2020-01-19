@@ -41,8 +41,7 @@ public class BM0301Controller extends BaseController {
 
     @PostMapping("/BM0301F0I0")
     public ApiResponse save(@RequestBody ContractInfoVO request) {
-        String conId = service.BM0301F0I0(request);
-       
+        String conId = service.BM0301F0I0(request);       
         return ok(conId);
     }
     

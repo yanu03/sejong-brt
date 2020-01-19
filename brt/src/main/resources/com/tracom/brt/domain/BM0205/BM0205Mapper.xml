@@ -6,50 +6,64 @@
 			 V.VHC_NO
 		   , V.VHC_KIND
 		   , V.VHC_TYPE
-		   , D.MAKER
-		   , D.DVC_KIND
-		   , D.DVC_TYPE
-		   , D.INST_LOC
+		   , DL0.DL_CD_NM AS MAKER
+		   , DL1.DL_CD_NM AS DVC_KIND
+		   , DL2.DL_CD_NM AS DVC_TYPE
+		   , DL3.DL_CD_NM AS INST_LOC
+		   , D.DVC_ID
 		   , DH.MODEL_NM
+		   , DP.RSV_DATE
 		FROM
 		     BM_VHC_INFO V
 			 LEFT OUTER JOIN BM_DVC_INFO D
 			 ON V.VHC_ID = D.VHC_ID
 			 LEFT OUTER JOIN BM_DVC_HIST DH
 			 ON D.DVC_ID = DH.DVC_ID
+			 LEFT OUTER JOIN BM_UPD_RSV DP
+			 ON D.DVC_ID = DP.DVC_ID
+			 LEFT OUTER JOIN SM_DL_CD_INFO DL0
+			 ON D.MAKER = DL0.DL_CD
+			 LEFT OUTER JOIN SM_DL_CD_INFO DL1
+			 ON D.DVC_KIND = DL1.DL_CD
+			 LEFT OUTER JOIN SM_DL_CD_INFO DL2
+			 ON D.DVC_TYPE = DL2.DL_CD
+			 LEFT OUTER JOIN SM_DL_CD_INFO DL3
+			 ON D.INST_LOC = DL3.DL_CD
 	   <where>
 	    	<if test="value != null">
 				DH.MODEL_NM LIKE CONCAT('%', #{value}, '%')
 				OR V.VHC_NO LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     	</where>
-		ORDER BY VHC_NO
+    	GROUP BY DVC_ID
+		ORDER BY VHC_NO 
 	</select>
 	
 	<insert id="BM0205Reservation" parameterType="vhcDvcUpdateVO">
-		<selectKey keyProperty="rsvId" resultType="String" order="BEFORE">
-			SELECT CONCAT('UR', LPAD(NEXTVAL(SEQ_BM_UPD_RSV_0), 5, '0'))
-		</selectKey>		
+			
 		INSERT INTO BM_UPD_RSV(
 			  RSV_DATE
-			, DVC_ID
 			, RSV_ID
+			, DVC_ID
 			, CREATED_AT
     		, CREATED_BY
     		, CREATED_IP
     		, UPDATED_AT
     		, UPDATED_BY
     		, UPDATED_IP)
-		VALUES(
-			  #{rsvDate}
-		    , #{dvcId}
-		    , #{rsvId}
-		    , #{createdAt}
-   			, #{createdBy}
-   			, #{createdIp}
-   			, #{updatedAt}
-   			, #{updatedBy}
-   			, #{updatedIp}
+		VALUES
+		<foreach collection="upList" item="upList" separator=",">
+			( #{rsvDate}
+		    , CONCAT('UR', LPAD(NEXTVAL(SEQ_BM_UPD_RSV_0), 5, '0'))
+		    , #{upList.dvcId}
+		    , #{upList.createdAt}
+   			, #{upList.createdBy}
+   			, #{upList.createdIp}
+   			, #{upList.updatedAt}
+   			, #{upList.updatedBy}
+   			, #{upList.updatedIp}
 		)
+		</foreach>
 	</insert>
+	
 </mapper>

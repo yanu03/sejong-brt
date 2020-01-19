@@ -21,7 +21,6 @@ public class ObeConditionVO extends BaseVO{
 	private String chasNo;
 	private String corpId;
 	private String corpNm;
-	private String area;
 	private String maker;
 	private String relsDate;
 	private String modelNm;
@@ -30,5 +29,7 @@ public class ObeConditionVO extends BaseVO{
 	private String dlCdNm;
 	private Float lati;
 	private Float longi;
+	private String spd;
+	private String heading;
 	private String gps;
 }
