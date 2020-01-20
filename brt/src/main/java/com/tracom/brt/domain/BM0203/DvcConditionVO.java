@@ -31,8 +31,8 @@ public class DvcConditionVO extends BaseVO{
 	private String vhcFuel; 
 	private String remark; 
 	private String useYn;
-	private String textVal1;
-	private String textVal2;
+	private String txtVal1;
+	private String txtVal2;
 	private String dvcCond;
 	private String dlCdNm;
 }

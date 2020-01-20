@@ -48,10 +48,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;    	
-    	var formData = caller.formView0.getData();
-        formData["altDiv"] = selectedRow.altDiv;
+    	var formData = caller.gridView1.getData();
+        formData["altDiv"] = selectedRowG1.altDiv;
+        console.log("추가 노 종료");
+        console.log(selectedRowG1.altDiv);
         
         if(formData["altDiv"] == "종료"){
+        	console.log("종료");
         	axDialog.alert({
                 msg: LANG("ax.script.alert.altDelete")
             });
@@ -114,8 +117,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		
              var formData = caller.formView0.getData();
              formData["conId"] = selectedRow.conId;
-
-             console.log(formData["conId"]);
+             formData["conNm"] = selectedRow.conNm;
             
              axboot.promise()
              	.then(function (ok, fail, data) {
@@ -169,7 +171,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				console.log("N");
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
-    				
+    				formData["conNm"] = selectedRow.conNm;
     				console.log(formData);
     				
     				axboot.promise()
@@ -391,17 +393,16 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         this.target = axboot.gridBuilder({
             frozenColumnIndex: 0,
             sortable: true,
-            target: $('[data-ax5grid="gridView0"]'),
-
-            
-            	 columns: [         		
-                 	
-            		{key: "altDiv", label: "계약상태", width: 80},
-                    {key: "conId", label: "계약ID", width: 80},
-                    {key: "conNm", label: "계약명", width: 80},              
-                    {key: "suppAmt", label: "공급가액", width: 120},
-                    {key: "vatAmt", label: "부가세", width: 70},
-                    {key: "remark", label: "비고", width: 200},
+            target: $('[data-ax5grid="gridView0"]'),            
+            	 columns: [         		                 	
+            		{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), width: 100},
+                    {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 100},
+                    {key: "conStDate", label: ADMIN("ax.admin.BM0301F0.consd"), width: 100},
+                    {key: "conEdDate", label: ADMIN("ax.admin.BM0301F0.coned"), width: 100},
+                    {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 150},              
+                    {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 100},
+                    {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 100},
+                    {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
                  ],
             
             body: {
@@ -496,13 +497,14 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
             	{key: "confirmYn", label: ADMIN("ax.admin.BM0301F0.confirmyn"), width: 80},
-            	{key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"), width: 80},
+            	{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), width: 80},
+            	{key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"), width: 120},
                 {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 80},
-                {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), width: 150},
-                {key: "conStDate", label: ADMIN("ax.admin.BM0302F0.altsd"), width: 150},
-                {key: "conEdDate", label: ADMIN("ax.admin.BM0302F0.alted"), width: 80},
-                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 150},
-                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 150},
+                {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), width: 120},
+                {key: "conStDate", label: ADMIN("ax.admin.BM0302F0.altsd"), width: 120},
+                {key: "conEdDate", label: ADMIN("ax.admin.BM0302F0.alted"), width: 120},
+                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 100},
+                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 100},
                 {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
             ],
             body: {

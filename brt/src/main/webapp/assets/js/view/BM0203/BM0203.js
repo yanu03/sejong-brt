@@ -53,6 +53,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
     	selectedRowG1 = data
+    	
+    	
     },
     
     RELOAD_G1: function(caller, act, data) {
@@ -64,8 +66,32 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
                 caller.gridView1.setData(res);
-                console.log(caller.gridView1.getData("instLoc"));
-                
+                                
+             if(res.list[0].txtVal1 != null){
+                for(var i = 0; i < res.list.length; i++){
+                	var dvcCond;
+                	
+                	if(res.list[i].txtVal1 !== "undefined"){
+                		if(res.list[i].dvcCond == "정상"){
+                			console.log("정상");
+                			dvcCond = "#00FF00";
+                		}else{
+                			if(res.list[i].dvcCond !== "undefined"){
+                				console.log("정상2");
+                				console.log(res.list[i].dvcCond);
+                				dvcCond = "#DC143C";            				
+                			}else{
+                				console.log(res.list[i].dvcCond);
+                				dvcCond = "##00ff0000";
+                			}
+                		}
+                	console.log(res.list[i].txtVal1);
+                $("#check").append("<input[type='text' name='busCheck' style='background-color:"+dvcCond+"; width:18px;height:18px; position: absolute; left:"+res.list[i].txtVal1+"px; top:"+res.list[i].txtVal2+"px;]'/>");
+                		}else{
+                			alert(LANG("ax.script.requireselect"));
+                		}
+                	}              	
+               }
                  {
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
@@ -79,7 +105,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                
                 }
             }
-        });
+        });    	
+    	
     },
     
     PAGE_CLOSE: function(caller, act, data) {
@@ -271,7 +298,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), width: 80},
+            	{key: "dvcCond", label: ADMIN("ax.admin.BM0203G0.dvccond"), width: 80},
             	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), width: 80},
             	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), width: 80},
                 {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), width: 80},

@@ -63,6 +63,7 @@ public class BM0201Controller extends BaseController{
     
     @PostMapping("/BM0201F0I0")
     public ApiResponse BM0201F0I0(@RequestBody VhcDeviceVO request) {
+    	System.out.println(request);
         String vhcId = service.BM0201F0I0(request);
         return ok(vhcId);
     }

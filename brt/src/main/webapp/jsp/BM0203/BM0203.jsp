@@ -57,15 +57,11 @@
                              <ax:lang id="ax.admin.BM0203F0.title"/>
                         </h2>
                     </div>
-                </div>
-                     
+                </div>                    
             		<ax:form name="formView0">
-                    	<ax:tbl clazz="ax-form-tbl" minWidth="300px">                                   		
-                    		<div style="width: 800px;height: 400px; background-image:url('/assets/images/BM0203/BusImage.png'); margin: 0px auto;">
-                    			<input type="text" name="eplyNm" data-ax-path="eplyNm" data-key="true" class="form-control" style="background-color:red;width:20px;height:20px; position: absolute; left: 900px; top: 100px;" readonly="readonly"/>                   		                  		
-                    			<input type="text" name="eplyNm" data-ax-path="eplyNm" data-key="true" class="form-control" style="background-color:green;width:20px;height:20px" readonly="readonly"/>                          	                            
-                    		</div>
-                   
+                    	<ax:tbl clazz="ax-form-tbl" minWidth="300px">
+                    	                                    		
+                    		<div id="check" style="width: 500px;height: 230px; position:relative; background-image:url('/assets/images/BM0203/BusImage.png'); margin: 0px auto;"></div>                    	  		                   
             			</ax:tbl>
             		</ax:form>
             		
