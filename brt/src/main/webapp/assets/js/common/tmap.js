@@ -4,26 +4,38 @@ var markers = [];
 var markers_user = [];
 
 /**티맵 시작**/
-function initTmap(width, height, drawMarker){
+function initTmap(options) {
 	map = new Tmapv2.Map("mapView0",  
 	{
 		center: new Tmapv2.LatLng(36.502212, 127.256300), // 지도 초기 좌표
-		width: width, 
-		height: height,
+		width: options.width, 
+		height: options.height,
 		zoom: 15
 	});
-	if(drawMarker == true){
-		map.addListener("click", onClick);
+	
+	if(options.onClick) {
+		map.addListener("click", options.onClick);
+	} else {
+		if(options.drawMarker) {
+			map.addListener("click", onClick);
+		}
 	}
 	return map;
 } 
 
+/**맵 이동**/
+function moveMap(lat, lon) {
+	map.setCenter(new Tmapv2.LatLng(lat, lon));
+}
 
 /**마커삭제**/
 function removeMarkers() {
-	for (var i = 0; i < markers.length; i++) {
-		markers[i].setMap(null);
+	if(markers != null && markers.length != 0) {
+		for (var i = 0; i < markers.length; i++) {
+			markers[i].setMap(null);
+		}
 	}
+	
 	markers = [];
 }
 
@@ -85,8 +97,10 @@ function draw_line2(lat_arr, lng_arr, seq_arr){
 
 /**선삭제**/
 function delete_line(){
-	polyline = new Tmapv2.Polyline();
-	polyline.setMap();
+	if(polyline != null) {
+		polyline.setMap(null);
+		polyline = null;
+	}
 }
 
 /**마커여러개추가**/
@@ -121,7 +135,7 @@ function onClick(e){
 	// 클릭한 위치에 새로 마커를 찍기 위해 이전에 있던 마커들을 제거
 	removeMarkers_user();
 	
-	lonlat = e.latLng;
+	var lonlat = e.latLng;
 	//Marker 객체 생성.
 	marker = new Tmapv2.Marker({
 		position: new Tmapv2.LatLng(lonlat.lat(),lonlat.lng()), //Marker의 중심좌표 설정.
@@ -155,3 +169,115 @@ function insertGeo(lat, lng){
             .catch(function () {
             });
 }
+
+/***************************** BM0405 *************************************/
+/**두 지점간의 거리 계산 **/
+function getDistanceBetween(x1, y1, x2, y2) {
+	let kEarthRadiusKms = 6376.5;
+    
+    var lat1_rad = y1 * (Math.PI / 180.0);
+    var lng1_rad = x1 * (Math.PI / 180.0);
+    var lat2_rad = y2 * (Math.PI / 180.0);
+    var lng2_rad = x2 * (Math.PI / 180.0);
+
+    var lat_gap = lat2_rad - lat1_rad;
+    var lng_gap = lng2_rad - lng1_rad;
+    
+    var mid_val = Math.pow(Math.sin(lat_gap / 2.0), 2.0) +
+                     Math.cos(lat1_rad) * 
+                     Math.cos(lat2_rad) *
+                     Math.pow(Math.sin(lng_gap / 2.0), 2.0);
+
+    var circle_distance = 2.0 * Math.atan2(Math.sqrt(mid_val), Math.sqrt(1.0 - mid_val));
+    var distance = kEarthRadiusKms * circle_distance * 1000; 
+    
+    return distance; 
+}
+
+/**한점이 직선상에 직교좌표를 생성한 좌표를 반환**/
+function getPointToLine(x, y, x1, y1, x2, y2) {
+	var isValid = false;
+	var point;
+	
+	if(y1 == y2 && x1 == y2)
+		y1 -= 0.00001;
+	var U = ((y - y1) * (y2 - y1)) + ((x - x1) * (x2 - x1));
+	var Udenom = Math.pow(y2 - y1, 2) + Math.pow(x2 - x1, 2);
+	
+	U /= Udenom;
+	
+	var y = y1 + (U * (y2 - y1));
+	var x = x1 + (U * (x2 - x1));
+	point =  {
+		x: x,
+		y: y
+	};
+	
+	var minx, maxx, miny, maxy;
+	
+	minx = Math.min(y1, y2);
+	maxx = Math.max(y1, y2);
+	
+	miny = Math.min(x1, x2);
+	maxy = Math.max(x1, x2);
+	
+	isValid = (point.y >= minx && point.y <= maxx) && (point.x >= miny && point.x <= maxy);
+	
+	return isValid ? point : null;
+}
+
+/**한점이 직선에 직교좌표를 생성하고 거리를 계산**/
+function getDistanceToLine(x, y, x1, y1, x2, y2) {
+	var point = getPointToLine(x, y, x1, y1, x2, y2);
+	
+	if(point == null) {
+		return false;
+	} else {
+		var distance = getDistanceBetween(x, y, point.x, point.y);
+		return {
+			point: point,
+			distance: distance
+		}
+	}
+}
+
+function addMarker(data) {
+	var marker = new Tmapv2.Marker({
+        position: new Tmapv2.LatLng(data.lati, data.longi), //Marker의 중심좌표 설정.
+        label: data.label, //Marker의 라벨.
+        map: map,
+    	icon: data.icon,
+    });
+	
+	if(data.click) {
+		marker.addListener("click", function(e) {
+			data.click(marker);
+		});
+	}
+	
+    markers.push(marker);
+}
+
+/**노선 그리기**/
+function drawRoute(list) {
+	var path = [];
+	
+	removeMarkers();
+	delete_line();
+	
+	if(list != null && list.length != 0) {
+		for(var i = 0; i < list.length; i++) {
+			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
+			list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+			addMarker(list[i]);
+		}
+		
+		polyline = new Tmapv2.Polyline({
+			path: path,
+			strokeColor: "#DD00DD",
+			strokeWeight: 3,
+			map: map
+		}); 
+	}
+}
+/**************************************************************************/
