@@ -102,6 +102,14 @@
             		url: "/jsp/common/reservation_modal.jsp"
             	},
             	header: false
+            },
+            "BM0405": {
+            	width: 800,
+            	height: 600,
+            	iframe: {
+            		url: "/jsp/common/BM0405_modal.jsp"
+            	},
+            	header: false
             }
         };
     }

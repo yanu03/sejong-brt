@@ -14,6 +14,7 @@
 		    , V.PLAY_ST_DATE
 		    , V.PLAY_TYPE
 		    , V.KR_TTS
+		    , V.VOC_DIV
 		    , V.REMARK
 		    , V.PLAY_TM
 		    , V.PLAY_ED_DATE
@@ -59,7 +60,7 @@
    			, #{krTts}
    			, #{remark}
    			, #{playTm}
-   			, 'RTVOC'
+   			, 'CD028'
    			, #{playEdDate}
    			, #{createdAt}
    			, #{createdBy}

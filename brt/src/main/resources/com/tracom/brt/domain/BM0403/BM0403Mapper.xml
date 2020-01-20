@@ -11,6 +11,7 @@
     		, PLAY_TYPE
     		, KR_TTS
     		, EN_TTS
+    		, VOC_DIV
     		, REMARK
     		, PLAY_TM
     		, PLAY_ED_DATE
@@ -18,7 +19,7 @@
     	FROM
     		BM_VOC_INFO
     	WHERE
-    		VOC_DIV = 'ECVOC'
+    		VOC_DIV = 'CD027'
 	    	<if test="value != null">
 				AND VOC_ID LIKE CONCAT('%', #{value}, '%')
 				OR VOC_NM LIKE CONCAT('%', #{value}, '%')
@@ -56,7 +57,7 @@
    			, #{enTts}
    			, #{remark}
    			, #{playTm}
-   			, 'ECVOC'
+   			, 'CD027'
    			, #{playEdDate}
    			, #{createdAt}
    			, #{createdBy}

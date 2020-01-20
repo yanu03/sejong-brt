@@ -47,7 +47,13 @@ public class SM0105Service extends BaseService<CommonCodeDetailInfoVO, String> {
     	}
     }
     
-    public CommonCodeDetailInfoVO BM0105G1S1(CommonCodeDetailInfoVO vo){
+    public CommonCodeDetailInfoVO SM0105G1S1(CommonCodeDetailInfoVO vo) {
     	return mapper.SM0105G1S1(vo);
+    }
+    
+    public List<CommonCodeDetailInfoVO> SM0105G1S2(RequestParams<CommonCodeDetailInfoVO> requestParams){
+    	CommonCodeDetailInfoVO vo = new CommonCodeDetailInfoVO();
+    	vo.setCoCd(requestParams.getString("coCd"));
+    	return mapper.SM0105G1S2(vo);
     }
 }

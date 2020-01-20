@@ -240,6 +240,50 @@ public class VoiceService {
 		}
 	}
 	
+	public void mp3Test(RequestParams<VoiceInfoVO> requestParams, HttpServletRequest request, HttpServletResponse response) {
+		String vocId = requestParams.getString("vocId");
+		String playType = requestParams.getString("playType");
+		String vocType = requestParams.getString("vocType");
+		
+		File file = null;
+		String fileName = "";
+		String path = Paths.get(handler.getRootLocalPath(), "/common/audio").toString();
+		
+		try {
+			if(playType.equals("WAV")) {
+				fileName = vocId;
+			} else if(playType.equals("TTS")){
+				if(vocType.equals("KR")) {
+					fileName = vocId + "_KR";
+				} else {
+					fileName = vocId + "_EN";
+				}
+			}
+			
+			file = Paths.get(path, fileName + ".wav").toFile();
+			File tempFile = new File(handler.getRootLocalPath(), "/temp/" + fileName + ".mp3");
+			
+			wavToMp3(file, tempFile);
+			
+			String mimeType = URLConnection.guessContentTypeFromName(tempFile.getName());
+			if (mimeType == null) {
+				mimeType = "application/octet-stream";
+			}
+			
+			if(tempFile.exists()) {
+				response.setContentType(mimeType);
+				response.setHeader("Content-Disposition", String.format("inline; filename=\"" + tempFile.getName() + "\""));
+				response.setContentLength((int) tempFile.length());
+			
+				InputStream is = new BufferedInputStream(new FileInputStream(tempFile));
+				FileCopyUtils.copy(is, response.getOutputStream());
+				is.close();
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void uplaodWavTemp(VoiceInfoVO request) {
 		handler.uploadWavTemp(request.getWavFile());
 	}

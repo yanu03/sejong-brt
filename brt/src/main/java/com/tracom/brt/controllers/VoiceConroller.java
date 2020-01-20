@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,6 +47,11 @@ public class VoiceConroller extends BaseController {
 	@GetMapping("/getWavTest")
 	public void getWavTest(RequestParams<VoiceInfoVO> requestParams, HttpServletRequest request, HttpServletResponse response) {
 		service.wavTest(requestParams, request, response);
+	}
+	
+	@GetMapping("/getMp3Test")
+	public void getMp3Test(RequestParams<VoiceInfoVO> requestParams, HttpServletRequest request, HttpServletResponse response) {
+		service.mp3Test(requestParams, request, response);
 	}
 	
 	@PostMapping("/uplaodWavTemp")

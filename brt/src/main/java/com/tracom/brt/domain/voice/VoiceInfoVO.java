@@ -31,4 +31,6 @@ public class VoiceInfoVO extends BaseVO {
 	private MultipartFile wavFile;
 	private String chimeYn;
 	private String routUpdatedAt;
+	private String isDeadline;
+	private String vocDivNm;
 }
