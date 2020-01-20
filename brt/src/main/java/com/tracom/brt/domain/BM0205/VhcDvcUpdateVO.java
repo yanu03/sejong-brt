@@ -1,5 +1,9 @@
 package com.tracom.brt.domain.BM0205;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.tracom.brt.domain.BaseVO;
 
 import lombok.Data;
@@ -18,5 +22,9 @@ public class VhcDvcUpdateVO extends BaseVO{
 	private String dvcType;
 	private String instLoc;
 	private String modelNm;
-	
+	private MultipartFile dvcFileUp;
+	private String dvcId;
+	private String rsvId;
+	private String rsvDate;	
+	private List<VhcDvcUpdateVO> upList;
 }

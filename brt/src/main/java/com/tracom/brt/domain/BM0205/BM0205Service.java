@@ -18,4 +18,21 @@ public class BM0205Service extends BaseService<VhcDvcUpdateVO, String>{
 	public List<VhcDvcUpdateVO> BM0205G0S0(RequestParams<VhcDvcUpdateVO> requestParams) {
         return mapper.BM0205G0S0(requestParams.getString("filter"));
     }
+	
+	
+	public String BM0205FileUp(VhcDvcUpdateVO vo) {
+		System.out.println("service");
+		System.out.println(vo);
+		mapper.BM0205FileUp(vo);
+		return vo.getDvcId();
+	}
+	
+	public String BM0205Reservation(VhcDvcUpdateVO vo) {
+		
+		System.out.println("service");
+		System.out.println(vo);
+		mapper.BM0205Reservation(vo);
+		return vo.getDvcId();
+	}
+		
 }

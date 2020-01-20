@@ -8,7 +8,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0101G0S0",
+            url: "/api/v1/BM0302G0S0",
             data: caller.searchView.getData(),
             callback: function (res) {
                 caller.gridView01.setData(res);
@@ -96,17 +96,14 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="grid-view-01"]'),
             columns: [
-            	{key: "corpId", label: ADMIN("ax.admin.BM0101F0.corp.id"), width: 80},
-                {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), width: 80},
-                {key: "corpNo", label: ADMIN("ax.admin.BM0101F0.corp.no"), width: 120},
-                {key: "email", label: ADMIN("ax.admin.BM0101F0.email"), width: 120},
-                {key: "phone", label: ADMIN("ax.admin.BM0101F0.phone"), width: 120},
-                {key: "addr1", label: ADMIN("ax.admin.BM0101F0.addr1"), width: 120},
-                {key: "fax", label: ADMIN("ax.admin.BM0101F0.fax"), width: 120},
-                {key: "zipNo", label: ADMIN("ax.admin.BM0101F0.zip.no"), width: 70},
-                {key: "addr2", label: ADMIN("ax.admin.BM0101F0.addr2"), width: 120},
-                {key: "garage", label: ADMIN("ax.admin.BM0101F0.garage"), width: 70},
-                {key: "remark", label: ADMIN("ax.admin.BM0101F0.remark"), width: 70},
+            	{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), width: 100},
+                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 100},
+                {key: "conStDate", label: ADMIN("ax.admin.BM0301F0.consd"), width: 100},
+                {key: "conEdDate", label: ADMIN("ax.admin.BM0301F0.coned"), width: 100},
+                {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 150},              
+                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 100},
+                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 100},
+                {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
             ],
             body: {
                 onClick: function () {

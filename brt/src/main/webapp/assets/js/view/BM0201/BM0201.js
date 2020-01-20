@@ -94,7 +94,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	 if (caller.formView0.validate()) {
     		
              var formData = caller.formView0.getData();
-             
+             console.log(caller.formView0.getData("workKind"));
+             console.log(caller.formView0.getData("instLoc"));
              formData["vhcId"] = selectedRow.vhcId; 
              
              axboot.promise()

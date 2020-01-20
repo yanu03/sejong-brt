@@ -9,6 +9,7 @@
 <ax:layout name="base">
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
+        <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0301/BM0301.js' />"></script>
     </jsp:attribute>
     <jsp:body>
@@ -69,8 +70,8 @@
                             <ax:td label="ax.admin.BM0301F0.conno" width="300px" labelClazz="required">
                                 <input type="text" data-ax-path="conNo" title="<ax:lang id="ax.admin.BM0301F0.conno"/>" class="form-control" data-ax-validate="required"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0301F0.name" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="conNm" title="<ax:lang id="ax.admin.BM0301F0.name"/>" class="form-control" data-ax-validate="required" />
+                            <ax:td label="ax.admin.BM0301F0.connm" width="300px" labelClazz="required">
+                                <input type="text" data-ax-path="conNm" title="<ax:lang id="ax.admin.BM0301F0.connm"/>" class="form-control" data-ax-validate="required" />
                             </ax:td>
                         </ax:tr>                      
                         

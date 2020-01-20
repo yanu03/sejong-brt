@@ -8,7 +8,7 @@
     	  	  C.CON_ID
     	  	, AT.CON_ID
     	  	, AT.SEQ
-    	  	, AT.ALT_DIV
+    	  	, DL.DL_CD_NM AS ALT_DIV
     	  	, AT.ALT_CON_DATE
     	  	, AT.CON_ST_DATE
     	  	, AT.CON_ED_DATE
@@ -24,51 +24,82 @@
     		ON C.CON_ID = AT.CON_ID
     		LEFT OUTER JOIN BM_CUST_INFO CU
     		ON C.CUST_ID = CU.CUST_ID
+    		LEFT OUTER JOIN SM_DL_CD_INFO DL
+    		ON AT.ALT_DIV = DL.DL_CD
     	WHERE
     		C.CON_ID = #{value}
     </select>
     
     <select id="BM0302G0S0" parameterType="String" resultType="altContractInfoVO">
-	SELECT
-		*
+SELECT
+ *
+FROM
+	(SELECT
+		A.CON_ID
+	 , A.CON_NM
+	 , A.CONFIRM_YN
+	 , IFNULL(B.CON_ST_DATE,A.CON_ST_DATE) AS CON_ST_DATE
+	 , IFNULL(B.CON_ED_DATE,A.CON_ED_DATE) AS CON_ED_DATE
+	 , IFNULL(B.ALT_DIV, "신규") AS ALT_DIV
+	 , IFNULL(B.SUPP_AMT, A.SUPP_AMT) AS SUPP_AMT
+	 , IFNULL(B.VAT_AMT, A.VAT_AMT) AS VAT_AMT
+	 , IFNULL(B.REMARK , A.REMARK) AS REMARK
 	FROM
 		(SELECT
-		  C.CON_ID
-		, C.CON_NO AS CN
-		, C.CON_NM 
-		, C.CON_FST_DATE
-		, C.CUST_ID
-		, AT.SEQ
-		, AT.ALT_DIV
-		, AT.ALT_CON_DATE
-		, AT.CON_ST_DATE
-		, AT.CON_ED_DATE
-		, AT.SUPP_AMT
-		, AT.VAT_AMT
-		, AT.REMARK
-		, AT.CONFIRM_YN
-		, AT.CON_NO
-		, AT.CREATED_AT
-		, AT.CREATED_BY
-		, AT.UPDATED_AT
-		, AT.UPDATED_BY
-	
+			CON_ID
+		,  CON_NM
+		,  CON_ST_DATE
+		,  CON_ED_DATE
+		,  SUPP_AMT
+		,  VAT_AMT
+		,  CONFIRM_YN
+		,  REMARK
 		FROM
-		   BM_CON_INFO C
-		   LEFT OUTER JOIN BM_CON_ALT AT
-		   ON C.CON_ID = AT.CON_ID
-		<where>
-		    C.CONFIRM_YN = "Y"
-		    AND C.CON_ED_DATE > NOW()
-		    OR AT.CON_ED_DATE > NOW()
-			<if test="value != null">
+			BM_CON_INFO
+		WHERE
+			CONFIRM_YN = "Y" ) AS A
+			LEFT OUTER JOIN 
+		(SELECT
+			 C.CON_ID
+		  , C.CON_ST_DATE
+		  , C.CON_ED_DATE
+		  , C.ALT_DIV
+		  , C.SUPP_AMT
+		  , C.VAT_AMT
+		  , C.REMARK 
+		FROM
+			(SELECT
+			  AL.SEQ
+			, DL.DL_CD_NM AS ALT_DIV
+			, AL.CON_ID
+			, CI.CON_NM
+			, AL.CON_ST_DATE
+			, AL.CON_ED_DATE
+			, AL.CONFIRM_YN
+			, AL.SUPP_AMT
+			, AL.VAT_AMT
+			, AL.REMARK	
+			FROM
+			   BM_CON_ALT AL
+				LEFT OUTER JOIN BM_CON_INFO CI
+				ON AL.CON_ID = CI.CON_ID
+				LEFT OUTER JOIN SM_DL_CD_INFO DL
+				ON AL.ALT_DIV = DL.DL_CD
+			WHERE
+				AL.CONFIRM_YN = "Y"
+				AND
+				AL.CON_ED_DATE > NOW()		
+			GROUP BY AL.SEQ DESC ) AS C
+		GROUP BY C.CON_ID) AS B
+		
+		ON B.CON_ID = A.CON_ID ) AS D
+		WHERE
+		CON_ED_DATE > NOW()		
+		<if test="value != null">
 			AND		
-				(C.CON_ID LIKE CONCAT('%', #{value}, '%')
-				OR AT.ALT_DIV LIKE CONCAT('%', #{value}, '%'))
-	    	</if>
-		GROUP BY C.CON_ID, AT.SEQ DESC) AS A
-	GROUP BY CON_ID
-		</where>
+				( CON_ID LIKE CONCAT('%', #{value}, '%')
+				OR ALT_DIV LIKE CONCAT('%', #{value}, '%'))
+	    </if>
 	
 	
     </select>

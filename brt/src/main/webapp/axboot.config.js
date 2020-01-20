@@ -110,7 +110,15 @@
             		url: "/jsp/common/BM0405_modal.jsp"
             	},
             	header: false
-            }
+            },           
+            "CONTRACT": {
+            	width: 400,
+            	height: 450,
+            	iframe: {
+            		url: "/jsp/common/CONTRACT_modal.jsp"
+            	},
+            	header: false
+            },
         };
     }
 
