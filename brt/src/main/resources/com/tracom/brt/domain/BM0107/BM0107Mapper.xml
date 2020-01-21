@@ -4,6 +4,7 @@
 <mapper namespace="com.tracom.brt.domain.BM0107.BM0107Mapper">
 
 	<select id="BM0107G0S0" parameterType="String" resultType="bmRoutInfoVO">
+		<!-- 
 		SELECT
 			  ROUT_ID
 		    , ROUT_NM
@@ -12,6 +13,20 @@
 		    , UPDATED_AT
 		FROM
 			BM_ROUT_INFO
+		 -->			
+		SELECT
+			  ROUT.ROUT_ID
+		    , ROUT_NM
+		    , STA_ID
+		    , WAY_DIV
+		    , SHORT_ROUT_NM
+		    , UPDATED_AT
+		FROM
+			BM_ROUT_INFO ROUT
+            LEFT JOIN BM_ROUT_STA_INFO STA
+            ON ROUT.ROUT_ID = STA.ROUT_ID
+		GROUP BY ROUT_ID
+		HAVING STA_ID IS NOT NULL
 		<where>
 			<if test="value != null">
 				ROUT_ID LIKE CONCAT('%', #{value}, '%')
@@ -33,7 +48,7 @@
 		FROM
 			BM_ROUT_NODE_INFO
 		WHERE
-			ROUT_ID = '293000099'
+			ROUT_ID = #{routId}
 
 			<if test="value != null">
 				AND(
@@ -45,6 +60,28 @@
 				)
 	    	</if>
 		ORDER BY SEQ
+    </select>
+    
+    <select id="BM0107M0S0" parameterType="bmRoutInfoVO" resultType="bmRoutNodeInfoVO">
+		SELECT
+			  ROUT_STA.STA_ID AS NODE_ID
+		    , STA_NM AS NODE_NM
+		    , LATI
+		    , LONGI
+		    , NULL AS SEQ
+		    , ROUT_ID
+		    , ROUT_STA.STA_ID AS STA_ID
+		    , CREATED_AT
+		    , CREATED_BY
+		    , UPDATED_AT
+		    , UPDATED_BY
+		FROM
+			BM_ROUT_STA_INFO ROUT_STA
+		    LEFT JOIN 
+			BM_STA_INFO STA
+		    ON ROUT_STA.STA_ID = STA.STA_ID
+		WHERE
+			ROUT_ID = #{routId}
     </select>
     
     <insert id="BM0107G1I0" parameterType="bmRoutNodeInfoVO">
@@ -81,4 +118,10 @@
 			</foreach>
     </insert>
     
+    <delete id="BM0107G1D0" parameterType="bmRoutInfoVO">
+    	DELETE FROM
+    		BM_ROUT_NODE_INFO
+    	WHERE
+    		ROUT_ID = #{routId}
+    </delete>
 </mapper>

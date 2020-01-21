@@ -24,13 +24,10 @@ function initTmap(options) {
 		height: options.height,
 		zoom: 15
 	});
-	
 	if(options.onClick) {
 		map.addListener("click", options.onClick);
 	} else {
-		if(options.drawMarker) {
-			map.addListener("click", onClick);
-		}
+		//map.addListener("click", onClick);
 	}
 	
 	axboot.ajax({
@@ -76,7 +73,7 @@ function removeMarkers_user() {
 
 
 /**마커그리기**/
-function map_marker(lat, lng){
+function mapMarker(lat, lng){
 	removeMarkers();
 	
 	marker = new Tmapv2.Marker({
@@ -88,7 +85,7 @@ function map_marker(lat, lng){
 }
 
 /**선그리기**/
-function draw_line(lat_arr, lng_arr){
+function drawLine(lat_arr, lng_arr){
 	var path = [];
 	for(var i=0; i < lat_arr.length; i++){
 		path.push(new Tmapv2.LatLng(lat_arr[i], lng_arr[i]));
@@ -103,7 +100,7 @@ function draw_line(lat_arr, lng_arr){
 }
 
 /**선그리기**/
-function draw_line2(lat_arr, lng_arr, seq_arr){
+function drawLine2(lat_arr, lng_arr, seq_arr){
 	console.log(lat_arr);
 	console.log(lng_arr);
 	console.log(seq_arr);
@@ -123,7 +120,7 @@ function draw_line2(lat_arr, lng_arr, seq_arr){
 }
 
 /**선삭제**/
-function delete_line(){
+function deleteLine(){
 	if(polyline != null) {
 		polyline.setMap(null);
 		polyline = null;
@@ -146,8 +143,8 @@ function addMarkers(lat_arr, lng_arr, id_arr) {
 /**지도위 팝업 생성**/
 function popUp(lat, lng, msg){
 	var content =
-		"<span style='font-weight:bold;'>" + msg + "</span>" + 
-		"<span style='font-size: 12px; margin-left:2px; margin-bottom:2px; display:block;'>"+ lat + "," + lng +"</span>";
+		"<span class = 'popUp' style='font-weight:bold;'>" + msg + "</span>" + 
+		"<span class = 'popUp' style='font-size: 12px; margin-left:2px; margin-bottom:2px; display:block;'>"+ lat + "," + lng +"</span>";
 
 	infoWindow = new Tmapv2.InfoWindow({
 		position: new Tmapv2.LatLng(lat, lng), //Popup 이 표출될 맵 좌표
@@ -157,26 +154,14 @@ function popUp(lat, lng, msg){
 	});
 }
 
-/**onclick 이벤트시 마커 추가**/
-function onClick(e){
-	// 클릭한 위치에 새로 마커를 찍기 위해 이전에 있던 마커들을 제거
-	removeMarkers_user();
-	
-	var lonlat = e.latLng;
-	//Marker 객체 생성.
-	marker = new Tmapv2.Marker({
-		position: new Tmapv2.LatLng(lonlat.lat(),lonlat.lng()), //Marker의 중심좌표 설정.
-		map: map //Marker가 표시될 Map 설정.
-	});
-	markers_user.push(marker);
-	insertGeo(lonlat.lat(), lonlat.lng());
+/**팝업 전체 삭제**/
+function removeAllPopUp(){
+	$('.popUp').remove();
 }
 
 /**좌표받아 인서트(임시)**/
 function insertGeo(lat, lng){
         var formData = {y : lat, x : lng};
-        
-        console.log(formData);
         
         axboot.promise()
             .then(function (ok, fail, data) {

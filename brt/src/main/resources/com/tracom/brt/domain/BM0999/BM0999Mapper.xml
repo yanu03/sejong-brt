@@ -9,8 +9,8 @@
     	FROM
     		TS_ROUT_NODE
     	<where>
-    	ROUT_ID = 'VBR009002'
-	    	<if test="value != null">
+    	ROUT_ID = 'VBR009000'
+		   	<if test="value != null">
 	    	AND
 				ROUT_ID LIKE CONCAT('%', #{value}, '%')
 	    	</if>
@@ -33,7 +33,7 @@
 			ON
 		    RS.STA_ID = SI.STA_ID
 		WHERE
-			ROUT_ID = 'VBR009003'
+			ROUT_ID = '293000077'
 		
 		UNION
 		
@@ -115,7 +115,7 @@
 		FROM
 			TS_ROUT_NODE_TEMP
 		WHERE
-			ROUT_ID = 'VBR009002'
+			ROUT_ID = 'VBR009003'
 			
     </select>
     

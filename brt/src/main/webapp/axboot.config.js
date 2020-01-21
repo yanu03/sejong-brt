@@ -72,6 +72,14 @@
             	},
             	header: false
             },
+            "BM0107": {
+            	width: 634,
+            	height: 450,
+            	iframe: {
+            		url: "/jsp/common/BM0107_modal.jsp"
+            	},
+            	header: false
+            },
             "BM0201": {
             	width: 400,
             	height: 450,

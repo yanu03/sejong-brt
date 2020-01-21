@@ -32,17 +32,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 	id_arr.push(res.list[i].nodeId);
                 	seq_arr.push(res.list[i].seq);
                 	//이프문있으면 정류장이랑 음성만
-                	if(res.list[i].nodeId.substring(0,3) != "VND"){
+                	/*if(res.list[i].nodeId.substring(0,3) != "VND"){
                 		x_arr2.push(res.list[i].x);
                     	y_arr2.push(res.list[i].y);
                     	id_arr2.push(res.list[i].nodeId);
+                	}*/
                 	popUp(res.list[i].y, res.list[i].x, res.list[i].seq+","+res.list[i].nodeId);
-                	} 
                 	
                 }
-                draw_line2(y_arr, x_arr, seq_arr);
-                //addMarkers(y_arr, x_arr, id_arr);
-                addMarkers(y_arr2, x_arr2, id_arr2);
+                drawLine2(y_arr, x_arr, seq_arr);
+                addMarkers(y_arr, x_arr, id_arr);
+                //addMarkers(y_arr2, x_arr2, id_arr2);
                 
                 if(res.list.length == 0) {
                 	isUpdate = false;
@@ -167,6 +167,21 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
 /********************************************************************************************************************/
 
+/**onclick 이벤트시 마커 추가**/
+function onClickMap(e){
+	console.log('ee');
+	// 클릭한 위치에 새로 마커를 찍기 위해 이전에 있던 마커들을 제거
+	removeMarkers_user();
+	var lonlat = e.latLng;
+	//Marker 객체 생성.
+	marker = new Tmapv2.Marker({
+		position: new Tmapv2.LatLng(lonlat.lat(),lonlat.lng()), //Marker의 중심좌표 설정.
+		map: map //Marker가 표시될 Map 설정.
+	});
+	markers_user.push(marker);
+	insertGeo(lonlat.lat(), lonlat.lng());
+}
+
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
 fnObj.pageStart = function () {
 	var _this = this;
@@ -175,7 +190,12 @@ fnObj.pageStart = function () {
     this.searchView0.initView();
     this.gridView0.initView();
     
-    initTmap("100%", "100%", true);
+    //initTmap("100%", "100%", true);
+    initTmap({
+    	width:"100%",
+    	height:"100%", 
+    	onClick: onClickMap
+    });
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
