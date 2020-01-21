@@ -1,4 +1,5 @@
 var fnObj = {};
+var isUpdate = false;
 var playListPlayer;
 
 var ACTIONS = axboot.actionExtend(fnObj, {
@@ -21,12 +22,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         })
     },
     
-    PAGE_SAVE: function (caller, act, data) {
+    
+    // 편성 업데이트
+    PAGE_UPDATE: function(caller, act, data) {
     	if(caller.formView0.validate()) {
     		var formData = caller.formView0.getData();
     		var playList = caller.gridView4.getData();
-    		formData["nodeNm"] = formData.orgaNm;
-    		formData["allPlayTm"] = caller.formView0.model.get("allPlayTm");
     		formData["playList"] = playList;
     		
     		if(playList.length == 0) {
@@ -34,14 +35,120 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     			return false;
     		}
     		
-    		if (parent && parent.axboot && parent.axboot.modal) {
-                parent.axboot.modal.callback({
-                	formData: formData,
-                });
-            }
+	    	axboot.promise()
+		        .then(function (ok, fail, _data) {
+		            axboot.ajax({
+		                type: "POST",
+		                url: "/api/v1/BM0405F0U0",
+		                data: JSON.stringify(formData),
+		                callback: function (res) {
+		                    ok(res);
+		                }
+		            });
+		        })
+		        .then(function (ok, fail, data) {
+		        	if (parent && parent.axboot && parent.axboot.modal) {
+	                    parent.axboot.modal.callback();
+	                }
+		        	axToast.push(LANG("onupdate"));
+		        	//window.location.reload();
+		        })
+		        .catch(function () {
+		
+		        });
     	}
     },
     
+    
+    // 새로운 편성 삽입
+    PAGE_SAVE: function (caller, act, data) {
+    	if(caller.formView0.validate()) {
+    		var formData = caller.formView0.getData();
+    		var playList = caller.gridView4.getData();
+    		formData["allPlayTm"] = caller.formView0.model.get("allPlayTm");
+    		formData["routId"] = caller.parentData.routId;
+    		formData["lati"] = caller.parentData.lati;
+    		formData["longi"] = caller.parentData.longi;
+    		formData["seq"] = caller.parentData.seq;
+    		formData["nodeType"] = caller.parentData.nodeType;
+    		formData["playList"] = playList;
+    		
+    		
+    		if(playList.length == 0) {
+    			axDialog.alert("재생 목록을 추가해주세요");
+    			return false;
+    		}
+
+    		axboot.promise()
+		        .then(function (ok, fail, _data) {
+		            axboot.ajax({
+		                type: "POST",
+		                url: "/api/v1/BM0405F0I0",
+		                data: JSON.stringify(formData),
+		                callback: function (res) {
+		                    ok(res);
+		                }
+		            });
+		        })
+		        .then(function (ok, fail, data) {
+		        	axToast.push(LANG("onadd"));
+		        	if (parent && parent.axboot && parent.axboot.modal) {
+	                    parent.axboot.modal.callback();
+	                }
+		        	caller.parentData["orgaId"] = data.message;
+		        	//window.location.reload();
+		        })
+		        .catch(function () {
+		
+		        });
+		    //*/
+    	}
+    },
+    
+    // 편성 삭제
+    PAGE_DELETE: function(caller, act, data) {
+    	var _this = this;
+    	
+    	
+		axDialog.confirm({
+            msg: LANG("ax.script.deleteconfirm")
+        }, function() {
+            if (this.key == "ok") {
+            	if(caller.parentData.orgaId) {
+	            	axboot.promise()
+				        .then(function (ok, fail, _data) {
+				            axboot.ajax({
+				                type: "POST",
+				                url: "/api/v1/BM0405G2D0",
+				                data: JSON.stringify({
+				                	routId: caller.parentData.routId,
+				                	orgaId: caller.parentData.orgaId
+				                }),
+				                callback: function (res) {
+				                    ok(res);
+				                }
+				            });
+				        })
+				        .then(function (ok, fail, data) {
+				        	if (parent && parent.axboot && parent.axboot.modal) {
+			                    parent.axboot.modal.callback();
+			                }
+				        	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
+				        })
+				        .catch(function () {
+				
+				        });
+            	} else {
+            		if (parent && parent.axboot && parent.axboot.modal) {
+	                    parent.axboot.modal.callback();
+	                }
+		        	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
+            	}
+            }
+        });
+    },
+    
+    // 재생 목록에 추가
     ADD_PLAY_LIST: function(caller, act, data) {
     	var row = caller.gridView3.getData("selected");
     	
@@ -58,6 +165,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     },
     
+    // 재생 목록에서 삭제
     DELETE_PLAY_LIST: function(caller, act, data) {
     	var row = caller.gridView4.getData("selected");
     	
@@ -73,11 +181,22 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     },
     
+    // 팝업 오픈시 이미 저장된 편성일 경우 데이터 불러옴
     SET_DATA: function(caller, act, data) {
-    	if(data.orgaNm) {
-    		caller.formView0.model.set("orgaNm", data.orgaNm);
-    		caller.formView0.model.set("remark", data.remark);
-    		caller.gridView4.setData(data.playList);
+    	if(caller.parentData.orgaId != null && caller.parentData.orgaId != "") {
+    		isUpdate = true;
+    		
+    		axboot.ajax({
+                type: "GET",
+                url: "/api/v1/BM0405F0S0",
+                data: {
+                	orgaId: caller.parentData.orgaId
+                },
+                callback: function (res) {
+                	caller.formView0.model.setModel(res.map.orgaInfo);
+            		caller.gridView4.setData(res.map.playList);
+                }
+            });
     	}
     },
     
@@ -112,8 +231,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		}
     	}
     	
-    	console.log(playList);
-    	
     	playListPlayer.setPlaylist(playList);
     	playListPlayer.play(0);
     }
@@ -130,21 +247,6 @@ fnObj.pageStart = function () {
     $("#selectVoice").on("change", function(e) {
     	ACTIONS.dispatch(ACTIONS.REFRESH_G3);
     });
-    /*
-    $("#jquery_jplayer_1").jPlayer({
-		ready: function (event) {
-		},
-		swfPath: "/assets/js/jplayer",
-		supplied: "wav, mp3",
-		cssSelectorAncestor: "#jp_container_1",
-		wmode: "window",
-		useStateClassSkin: true,
-		autoBlur: true,
-		smoothPlayBar: true,
-		keyEnabled: true,
-		remainingDuration: true,
-		toggleDuration: true
-	});*/
     
     playListPlayer = new jPlayerPlaylist({
 		jPlayer: "#jquery_jplayer_0",
@@ -164,7 +266,7 @@ fnObj.pageStart = function () {
 	});
 
     ACTIONS.dispatch(ACTIONS.REFRESH_G3);
-    ACTIONS.dispatch(ACTIONS.SET_DATA, this.parentData);
+    ACTIONS.dispatch(ACTIONS.SET_DATA);
 };
 
 fnObj.pageResize = function () {
@@ -174,11 +276,15 @@ fnObj.pageResize = function () {
 fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
-            "search": function () {
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-            },
             "save": function () {
-        		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
+            	if(isUpdate) {
+            		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
+            	} else {
+            		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
+            	}
+            },
+            "delete": function() {
+            	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
             },
             "close": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);

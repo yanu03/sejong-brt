@@ -1,9 +1,11 @@
 package com.tracom.brt.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +20,6 @@ import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 import com.tracom.brt.domain.BM0405.BM0405Service;
-import com.tracom.brt.domain.BM0405.VoiceOrganizationListVO;
 import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 
@@ -59,16 +60,22 @@ public class BM0405Controller extends BaseController {
     	return Responses.ListResponse.of(list);
     }
     
+    @GetMapping("/BM0405F0S0")
+    public Responses.MapResponse BM0405F0S0(RequestParams<VoiceOrganizationVO> requestParams) {
+    	Map<String, Object> result = service.BM0405F0S0(requestParams);
+    	return Responses.MapResponse.of(result);
+    }
+    
     @PostMapping("/BM0405F0I0")
-    public ApiResponse BM0405G2I0(@ModelAttribute VoiceOrganizationVO request) {
+    public ApiResponse BM0405G2I0(@RequestBody VoiceOrganizationVO request) {
     	String orgaId = service.BM0405F0I0(request);
     	return ok(orgaId);
     }
     
     @PostMapping("/BM0405F0U0")
-    public ApiResponse BM0405F0U0(@ModelAttribute VoiceOrganizationVO request) {
+    public ApiResponse BM0405F0U0(@RequestBody VoiceOrganizationVO request) {
     	service.BM0405F0U0(request);
-    	return ok(request.getOrgaId());
+    	return ok();
     }
     
     @PostMapping("/BM0405G2D0")

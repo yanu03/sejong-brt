@@ -104,8 +104,8 @@
             	header: false
             },
             "BM0405": {
-            	width: 800,
-            	height: 600,
+            	width: 570,
+            	height: 550,
             	iframe: {
             		url: "/jsp/common/BM0405_modal.jsp"
             	},

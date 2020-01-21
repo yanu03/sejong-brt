@@ -12,6 +12,7 @@
 <%@ attribute name="defaultValue" required="false" %>
 <%@ attribute name="emptyValue" required="false" %>
 <%@ attribute name="emptyText" required="false" %>
+<%@ attribute name="width" required="false" %>
 
 <%
     if (StringUtils.isEmpty(type)) {
@@ -24,7 +25,7 @@
 
     switch (type) {
         case "select":
-            builder.append("<select class=\"form-control "+ clazz +" \"");
+            builder.append("<select style=\"width: " + width + ";\" class=\"form-control "+ clazz +" \"");
 
             if (StringUtils.isEmpty(emptyValue)) {
                 emptyValue = "";
