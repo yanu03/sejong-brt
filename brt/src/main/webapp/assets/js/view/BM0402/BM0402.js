@@ -379,16 +379,18 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     // 계약팝업 료출
-    OPEN_BM0301_MODAL: function(caller, act, data) {
+    OPEN_CONTRACT_MODEL: function(caller, act, data) {
     	var _this = this;
     	axboot.modal.open({
-            modalType: "BM0301",
+            modalType: "CONTRACT",
             param: "",
             callback: function (result) {
             	this.close();
             	
+            	caller.formView0.model.set("conId", result.conId);
+            	caller.formView0.model.set("conNm", result.conNm);
             	caller.formView0.model.set("playStDate", result.conStDate);
-            	caller.formView0.model.set("playEdDate", result.conEnDate);
+            	caller.formView0.model.set("playEdDate", result.conEdDate);
             }
         });
     }
@@ -471,12 +473,6 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
         this.target = $(document["searchView0"]);
         this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
         this.filter = $("#filter");
-        
-        axboot.buttonClick(this, "data-form-view-0-btn", {
-            "selectBM0301": function() {
-            	ACTIONS.dispatch(ACTIONS.OPEN_BM0301_MODAL);
-            }
-        });
     },
     getData: function () {
         return {
@@ -519,6 +515,12 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
                 }
             },
+        });
+        
+        axboot.buttonClick(this, "data-form-view-0-btn", {
+            "selectContract": function() {
+            	ACTIONS.dispatch(ACTIONS.OPEN_CONTRACT_MODEL);
+            }
         });
     },
     getData: function (_type) {
@@ -595,7 +597,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     getDefaultData: function () {
         return $.extend({}, axboot.formView.defaultData, {
-        	conId: 'CN02003'
         });
     },
     initView: function () {

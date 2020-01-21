@@ -13,33 +13,18 @@ var orgaIcon = "http://tmapapi.sktelecom.com//resources/images/common/pin_car.pn
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_RESERVATION: function(caller, act, data) {
-    	if(selectedRow == null) {
-    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    	if(selectedOrga == null) {
+    		axDialog.alert(ADMIN("ax.admin.BM0405G2.require.orga"));
     		return false;
     	}
-    	
-        axboot.ajax({
-            type: "GET",
-            url: "/api/v1/checkVoiceReservation",
-            data: {
-        		vocId: selectedRow.vocId,
-            },
-            callback: function (res) {
-                if(res.message == "true") {
-	        		// 예약적용일때
-        			axboot.modal.open({
-        	            modalType: "RESERVATION",
-        	            param: "",
-        	            callback: function (result) {
-        	            	this.close();
-        	            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
-        	            		date: result
-        	            	});
-        	            }
-        	        });
-	        	} else {
-	        		axDialog.alert(LANG("ax.script.check.organization"));
-	        	}
+		axboot.modal.open({
+            modalType: "RESERVATION",
+            param: "",
+            callback: function (result) {
+            	this.close();
+            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
+            		date: result
+            	});
             }
         });
     },
@@ -49,9 +34,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        .then(function (ok, fail, _data) {
 	            axboot.ajax({
 	                type: "POST",
-	                url: "/api/v1/voiceReservation",
+	                url: "/api/v1/voiceOrgaReservation",
 	                data: JSON.stringify({
-	            		vocId: selectedRow.vocId,
+	            		orgaId: selectedOrga.orgaId,
 	            		rsvDate: data.date
 	                }),
 	                callback: function (res) {
@@ -123,6 +108,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK_G2: function(caller, act, data) {
+    	selectedOrga = data;
     	moveMap(data.lati, data.longi);
     },
     
@@ -236,59 +222,100 @@ function onClickMap(e) {
 	isAdd = false;
 }
 
+function returnInsertRouteInfo(lat, lon) {
+	var min = 10000000;
+	var minIndex = null;
+	
+	for(var i = 0; i < routeData.length - 1; i++) {
+		var result = getDistanceToLine(
+			lat,
+			lon,
+			routeData[i].lati,
+			routeData[i].longi,
+			routeData[i + 1].lati,
+			routeData[i + 1].longi
+		)
+		
+		if(result.distance) {
+			if(min > result.distance) {
+				min = result.distance;
+				minIndex = i;
+			}
+		}
+	}
+	
+	if(minIndex == null) {
+		axDialog.alert("선택할 수 없는 좌표입니다.");
+		return false;
+	} else {
+		var seq = routeData[minIndex].seq + (routeData[minIndex + 1].seq - routeData[minIndex].seq) / 2;
+		var insertIndex = minIndex + 1;
+		
+		return {
+			seq: seq,
+			index: insertIndex
+		};
+	}
+}
+
 /**노선 그리기**/
 function drawRoute(list) {
 	var path = [];
 	
 	removeMarkers();
-	delete_line();
+	deleteLine();
 	deleteCircle();
+	deleteNode();
 	
 	if(list != null && list.length != 0) {
 		for(var i = 0; i < list.length; i++) {
-			if(list[i].allPlayTm != null && list[i].allPlayTm != 0) {
-				var m = (limitSpeed / 3600 * 1000);
-				var radius = Math.round(m * list[i].allPlayTm);
-				
-				circles.push(new Tmapv2.Circle({
-					center: new Tmapv2.LatLng(list[i].lati, list[i].longi),
-					radius: radius,
-					strokeColor: "#A872EE",
-					strokeWeight: 3,
-					fillColor: "#A872EE",
-					fillOpacity: 0.2,
-					map: map
-				}));
-			}
 			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
 			
+			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
 			if(list[i].nodeType == busstopNodeType || list[i].nodeType == orgaNodeType) {
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				
 				if(list[i].nodeType == orgaNodeType) {
-					var node = list[i];
+					if(list[i].nodeType == orgaNodeType) {
+						var radius = Math.round((limitSpeed / 3600 * 1000) * list[i].allPlayTm);
+						
+						circles.push(getDrawingCircle(list[i].lati, list[i].longi, radius));
+					}
 					
 					list[i].click = function(e) {
-						console.log(e.marker);
 						var point = e.marker.getPosition();
+						var node = $.extend(true, {}, routeData[e.index]);
 						
-						console.log(node, point)
+						routeData.splice(e.index, 1);
 						
-						node.lati = point.lat();
-						node.longi = point.lng();
+						var val = returnInsertRouteInfo(point.lat(), point.lng());
 						
-						ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
-						ACTIONS.dispatch(ACTIONS.OPEN_BM0405, {
-							orgaId: e.nodeId,
-							lati: point.lat(),
-							longi: point.lng(),
-						});
+						if(val) {
+							var temp = {
+								orgaId: e.nodeId,
+								lati: point.lat(),
+								longi: point.lng(),
+								seq: val.seq
+							};
+							
+							temp = $.extend(true, node, temp);
+							
+							routeData.splice(val.index, 0, temp);
+							
+							ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+							ACTIONS.dispatch(ACTIONS.OPEN_BM0405, temp);
+						}
 					};
+					list[i].index = i;
 					list[i].icon = orgaIcon;
 					list[i].draggable = true;
 				}
 				
 				addMarker(list[i]);
+			}
+			// 아닐 경우(일반 노드) 네모 박스 표시
+			else {
+				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
 			}
 		}
 		

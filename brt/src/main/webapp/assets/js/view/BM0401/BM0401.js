@@ -330,8 +330,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     TEST_TTS: function(caller, act, data) {
     	var wavDownloadUrl = "/api/v1/getWavDownload?" + $.param(data);
     	
+    	console.log(wavDownloadUrl)
+    	
     	// wav 다운로드
-    	// window.location.href = wavDownloadUrl;
+    	window.location.href = wavDownloadUrl;
     	
     	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
     },

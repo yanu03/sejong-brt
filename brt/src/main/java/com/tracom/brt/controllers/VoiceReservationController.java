@@ -32,4 +32,10 @@ public class VoiceReservationController extends BaseController {
 		service.voiceReservation(request);
 		return ok();
 	}
+	
+	@PostMapping("/voiceOrgaReservation")
+	public ApiResponse voiceOrgaReservation(@RequestBody VoiceReservationVO request) {
+		service.voiceOrgaReservation(request);
+		return ok();
+	}
 }

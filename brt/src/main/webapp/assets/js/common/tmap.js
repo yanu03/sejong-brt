@@ -6,6 +6,9 @@ var markers_user = [];
 // 반경 표시용 원 배열
 var circles = []; 
 
+// 노드 드로잉 배열
+var nodes = [];
+
 // 제한속도
 var limitSpeed;
 
@@ -267,6 +270,7 @@ function addMarker(data) {
 			data.click({
 				marker: marker,
 				nodeId: data.nodeId,
+				index: data.index
 			});
 		});
 	}
@@ -281,5 +285,42 @@ function deleteCircle() {
 		}
 		circles = [];
 	}
+}
+
+function deleteNode() {
+	if(nodes != null && nodes.length != 0) {
+		for(var i = 0; i < nodes.length; i++) {
+			nodes[i].setMap(null);
+		}
+		nodes = [];
+	}
+}
+
+function getDrawingCircle(lat, lon, radius) {
+	var circle = new Tmapv2.Circle({
+		center: new Tmapv2.LatLng(lat, lon),
+		radius: radius,
+		strokeColor: "#A872EE",
+		strokeWeight: 3,
+		fillColor: "#A872EE",
+		fillOpacity: 0.2,
+		map: map
+	});
+	
+	return circle;
+}
+
+function getDrawingNode(lat, lon) {
+	var node = new Tmapv2.Circle({
+		center: new Tmapv2.LatLng(lat, lon),
+		radius: 3,
+		strokeColor: "red",
+		strokeWeight: 3,
+		fillColor: "red",
+		fillOpacity: 1,
+		map: map
+	});
+	
+	return node;
 }
 /**************************************************************************/

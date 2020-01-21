@@ -29,6 +29,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		var formData = caller.formView0.getData();
     		var playList = caller.gridView4.getData();
     		formData["playList"] = playList;
+    		formData["lati"] = caller.parentData.lati;
+    		formData["longi"] = caller.parentData.longi;
+    		formData["seq"] = caller.parentData.seq;
     		
     		if(playList.length == 0) {
     			axDialog.alert("재생 목록을 추가해주세요");
