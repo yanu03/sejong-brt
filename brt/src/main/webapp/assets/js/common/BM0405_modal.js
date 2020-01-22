@@ -122,7 +122,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 				        .then(function (ok, fail, _data) {
 				            axboot.ajax({
 				                type: "POST",
-				                url: "/api/v1/BM0405G2D0",
+				                url: "/api/v1/BM0405F0D0",
 				                data: JSON.stringify({
 				                	routId: caller.parentData.routId,
 				                	orgaId: caller.parentData.orgaId

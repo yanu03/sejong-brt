@@ -76,9 +76,9 @@ public class BM0405Controller extends BaseController {
     	return ok();
     }
     
-    @PostMapping("/BM0405G2D0")
-    public ApiResponse BM0405G2D0(@RequestBody VoiceOrganizationVO request) {
-    	service.BM0405G2D0(request);
+    @PostMapping("/BM0405F0D0")
+    public ApiResponse BM0405F0D0(@RequestBody VoiceOrganizationVO request) {
+    	service.BM0405F0D0(request);
     	return ok();
     }
 }

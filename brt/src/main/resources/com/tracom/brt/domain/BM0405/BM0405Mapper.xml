@@ -209,7 +209,7 @@
     		ORGA_ID = #{orgaId}
     </update>
     
-    <delete id="BM0405G2D0" parameterType="voiceOrganizationVO">
+    <delete id="BM0405F0D0" parameterType="voiceOrganizationVO">
     	DELETE
     		FROM BM_VOC_ORGA
     	WHERE
