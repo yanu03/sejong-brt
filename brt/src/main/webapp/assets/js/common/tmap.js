@@ -5,6 +5,21 @@ var markers_user = [];
 var infoWindow = null;
 var infoArr = [];
 
+// 반경 표시용 원 배열
+var circles = []; 
+
+// 노드 드로잉 배열
+var nodes = [];
+
+// 제한속도
+var limitSpeed;
+
+// 정류장 노드 타입
+var busstopNodeType;
+
+// 음성 편성 노드 타입
+var orgaNodeType;
+
 /**티맵 시작**/
 function initTmap(options) {
 	map = new Tmapv2.Map("mapView0",  
@@ -19,6 +34,21 @@ function initTmap(options) {
 	} else {
 		//map.addListener("click", onClick);
 	}
+	
+	axboot.ajax({
+        type: "GET",
+        url: "/api/v1/SM0105G1S0",
+        data: {
+        	coCd: "VOC_ORGA"
+        },
+        callback: function (res) {
+            limitSpeed = res.list[0].numVal4;
+            busstopNodeType = res.list[1].numVal4;
+            orgaNodeType = res.list[1].numVal5;
+        }
+    })
+	
+	
 	return map;
 } 
 
@@ -194,7 +224,6 @@ function insertGeo(lat, lng){
             });
 }
 
-/***************************** BM0405 *************************************/
 /**두 지점간의 거리 계산 **/
 function getDistanceBetween(x1, y1, x2, y2) {
 	let kEarthRadiusKms = 6376.5;
@@ -265,43 +294,72 @@ function getDistanceToLine(x, y, x1, y1, x2, y2) {
 	}
 }
 
+/***************************** BM0405 *************************************/
 function addMarker(data) {
 	var marker = new Tmapv2.Marker({
         position: new Tmapv2.LatLng(data.lati, data.longi), //Marker의 중심좌표 설정.
         label: data.label, //Marker의 라벨.
         map: map,
     	icon: data.icon,
+    	draggable: data.draggable,
     });
 	
 	if(data.click) {
 		marker.addListener("click", function(e) {
-			data.click(marker);
+			data.click({
+				marker: marker,
+				nodeId: data.nodeId,
+				index: data.index
+			});
 		});
 	}
 	
     markers.push(marker);
 }
 
-/**노선 그리기**/
-function drawRoute(list) {
-	var path = [];
-	
-	removeMarkers();
-	delete_line();
-	
-	if(list != null && list.length != 0) {
-		for(var i = 0; i < list.length; i++) {
-			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
-			list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-			addMarker(list[i]);
+function deleteCircle() {
+	if(circles != null && circles.length != 0) {
+		for(var i = 0; i < circles.length; i++) {
+			circles[i].setMap(null);
 		}
-		
-		polyline = new Tmapv2.Polyline({
-			path: path,
-			strokeColor: "#DD00DD",
-			strokeWeight: 3,
-			map: map
-		}); 
+		circles = [];
 	}
+}
+
+function deleteNode() {
+	if(nodes != null && nodes.length != 0) {
+		for(var i = 0; i < nodes.length; i++) {
+			nodes[i].setMap(null);
+		}
+		nodes = [];
+	}
+}
+
+function getDrawingCircle(lat, lon, radius) {
+	var circle = new Tmapv2.Circle({
+		center: new Tmapv2.LatLng(lat, lon),
+		radius: radius,
+		strokeColor: "#A872EE",
+		strokeWeight: 3,
+		fillColor: "#A872EE",
+		fillOpacity: 0.2,
+		map: map
+	});
+	
+	return circle;
+}
+
+function getDrawingNode(lat, lon) {
+	var node = new Tmapv2.Circle({
+		center: new Tmapv2.LatLng(lat, lon),
+		radius: 3,
+		strokeColor: "red",
+		strokeWeight: 3,
+		fillColor: "red",
+		fillOpacity: 1,
+		map: map
+	});
+	
+	return node;
 }
 /**************************************************************************/

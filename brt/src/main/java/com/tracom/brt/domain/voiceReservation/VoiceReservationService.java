@@ -25,4 +25,8 @@ public class VoiceReservationService extends BaseService<VoiceReservationVO, Str
 	public void voiceReservation(VoiceReservationVO vo) {
 		mapper.voiceReservation(vo);
 	}
+	
+	public void voiceOrgaReservation(VoiceReservationVO vo) {
+		mapper.voiceOrgaReservation(vo);
+	}
 }

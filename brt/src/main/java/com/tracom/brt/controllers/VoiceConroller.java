@@ -32,9 +32,11 @@ public class VoiceConroller extends BaseController {
 		String pText = requestParams.getString("pText");
 		int nLanguage = requestParams.getInt("nLanguage");
 		int nSpeakerId = requestParams.getInt("nSpeakerId");
-		String checkChime = requestParams.getString("checkChime");
+		String checkChime = requestParams.getString("chimeYn");
 		
 		byte[] buffer = service.getWavBufferChime(pText, nLanguage, nSpeakerId, checkChime);
+		
+		System.out.println(buffer);
 		
 		HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);

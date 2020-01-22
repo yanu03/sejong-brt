@@ -78,7 +78,7 @@
 	                            <div class="input-group">
 	                        		<input type="text" data-ax-path="conId" name="conId" data-key="true" class="form-control W90" readonly="readonly" title="<ax:lang id="ax.admin.BM0402F0.con.id"/>" data-ax-validate="required">
 	                        		<input type="text" data-ax-path="conNm" name="conNm" data-key="true" class="form-control W90" readonly="readonly">
-	                       			<button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0301">
+	                       			<button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectContract">
 	                                	<ax:lang id="ax.admin.select"/>
 	                            	</button>
 	                            </div>

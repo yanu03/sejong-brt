@@ -124,6 +124,8 @@ public class VoiceService {
     	
     	String pAudioFile = Paths.get(handler.getRootLocalPath(), "/common/audio", chimeFileName).toString();
     	
+    	System.out.println(pText + ", " + nLanguage + ", " + nSpeakerId + ", " + checkChime);
+    	
         try {
         	int ret = -100;
         	

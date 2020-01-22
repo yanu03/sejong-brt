@@ -7,38 +7,24 @@ var selectedRow = null;
 var selectedOrga = null;
 var routeData;
 var routeDataOriginal;
+var orgaIcon = "http://tmapapi.sktelecom.com//resources/images/common/pin_car.png";
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_RESERVATION: function(caller, act, data) {
-    	if(selectedRow == null) {
-    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    	if(selectedOrga == null) {
+    		axDialog.alert(ADMIN("ax.admin.BM0405G2.require.orga"));
     		return false;
     	}
-    	
-        axboot.ajax({
-            type: "GET",
-            url: "/api/v1/checkVoiceReservation",
-            data: {
-        		vocId: selectedRow.vocId,
-            },
-            callback: function (res) {
-                if(res.message == "true") {
-	        		// 예약적용일때
-        			axboot.modal.open({
-        	            modalType: "RESERVATION",
-        	            param: "",
-        	            callback: function (result) {
-        	            	this.close();
-        	            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
-        	            		date: result
-        	            	});
-        	            }
-        	        });
-	        	} else {
-	        		axDialog.alert(LANG("ax.script.check.organization"));
-	        	}
+		axboot.modal.open({
+            modalType: "RESERVATION",
+            param: "",
+            callback: function (result) {
+            	this.close();
+            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
+            		date: result
+            	});
             }
         });
     },
@@ -48,9 +34,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        .then(function (ok, fail, _data) {
 	            axboot.ajax({
 	                type: "POST",
-	                url: "/api/v1/voiceReservation",
+	                url: "/api/v1/voiceOrgaReservation",
 	                data: JSON.stringify({
-	            		vocId: selectedRow.vocId,
+	            		orgaId: selectedOrga.orgaId,
 	            		rsvDate: data.date
 	                }),
 	                callback: function (res) {
@@ -66,7 +52,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
 	PAGE_SEARCH: function (caller, act, data) {
-    	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
     	
@@ -104,37 +89,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isAdd = true;
     },
     
-    PAGE_DELETE: function(caller, act, data) {
-    	
-    	if(selectedOrga) {
-	    	axDialog.confirm({
-	            msg: LANG("ax.script.deleteconfirm")
-	        }, function() {
-	            if (this.key == "ok") {
-	        		routeData.splice(selectedOrga.insertIndex, 1);
-	        		selectedOrga = null;
-	        		ACTIONS.dispatch(ACTIONS.DRAW_ROUTE, routeData);
-	
-	            }
-	        });
-    	} else {
-    		axDialog.alert("편성을 선택해주세요");
-    	}
-    },
-    
-    PAGE_SAVE: function (caller, act, data) {
-    	var sendData;
-    	
-    	console.log(routeData);
-    	
-    	for(var i = 0; i < routeData.length; i++) {
-    		if(routeData[i].isVoiceNode && routeData[i].playList == null) {
-    			axDialog.alert("재생목록이 없는 음성노드가 있습니다. 작성 후 저장해주세요");
-    			return false;
-    		}
-    	}
-    },
-    
     // 탭닫기
     PAGE_CLOSE: function(caller, act, data) {
     	window.parent.fnObj.tabView.closeActiveTab();
@@ -144,11 +98,49 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = true;
     	selectedRow = data;
     	
+    	ACTIONS.dispatch(ACTIONS.REFRESH_G1);
+    	ACTIONS.dispatch(ACTIONS.REFRESH_G2);
+    },
+    
+    
+    ITEM_CLICK_G1: function(caller, act, data) {
+    	moveMap(data.lati, data.longi);
+    },
+    
+    ITEM_CLICK_G2: function(caller, act, data) {
+    	selectedOrga = data;
+    	moveMap(data.lati, data.longi);
+    },
+    
+    DRAW_ROUTE: function(caller, act, data) {
+    	drawRoute(routeData);
+    },
+    
+    OPEN_BM0405: function(caller, act, data) {
+    	var _this = this;
+    	
+    	data["routId"] = selectedRow.routId;
+    	
+    	axboot.modal.open({
+            modalType: "BM0405",
+            param: "",
+            sendData: function() {
+            	return data;
+            },
+            callback: function (result) {
+            	ACTIONS.dispatch(ACTIONS.REFRESH_G1);
+            	ACTIONS.dispatch(ACTIONS.REFRESH_G2);
+            	ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+            },
+        });
+    },
+    
+    REFRESH_G1: function(caller, act, data) {
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0405G1S0",
             data: {
-        		routId: data.routId,
+        		routId: selectedRow.routId,
             },
             callback: function (res) {
             	caller.gridView1.setData(res);
@@ -159,33 +151,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             		routeData = [];
             	}
             	
-            	ACTIONS.dispatch(ACTIONS.DRAW_ROUTE, routeData);
-            }
-        });
-    	
-    	ACTIONS.dispatch(ACTIONS.REFRESH_G2);
-    },
-    
-    DRAW_ROUTE: function(caller, act, data) {
-    	drawRoute(data);
-    },
-    
-    ITEM_CLICK_G1: function(caller, act, data) {
-    	moveMap(data.lati, data.longi);
-    },
-    
-    OPEN_BM0405: function(caller, act, data) {
-    	var _this = this;
-    	axboot.modal.open({
-            modalType: "BM0405",
-            param: "",
-            sendData: function() {
-            	return data;
-            },
-            callback: function (result) {
-            	this.close();
-            	$.extend(true, routeData[data.insertIndex], result.formData);
-            	ACTIONS.dispatch(ACTIONS.DRAW_ROUTE, routeData);
+            	ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
             }
         });
     },
@@ -239,24 +205,127 @@ function onClickMap(e) {
 				lati: lonlat.lat(),
 				longi: lonlat.lng(),
 				seq: seq,
-				insertIndex: insertIndex,
 				nodeNm: ADMIN("ax.admin.BM0405M0.voc.node"),
-				isVoiceNode: true,
-				icon: "http://tmapapi.sktelecom.com//resources/images/common/pin_car.png",
-				click: function(e) {
-					e["insertIndex"] = insertIndex;
-					selectedOrga = e;
-					ACTIONS.dispatch(ACTIONS.OPEN_BM0405, routeData[insertIndex]);
-				},
+				nodeType: orgaNodeType,
+				icon: orgaIcon,
 			});
 			
-			ACTIONS.dispatch(ACTIONS.DRAW_ROUTE, routeData);
+			ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
 			ACTIONS.dispatch(ACTIONS.OPEN_BM0405, {
-				insertIndex: insertIndex
+				lati: lonlat.lat(),
+				longi: lonlat.lng(),
+				seq: seq,
+				nodeType: orgaNodeType,
 			});
 		}
 	}
 	isAdd = false;
+}
+
+function returnInsertRouteInfo(lat, lon) {
+	var min = 10000000;
+	var minIndex = null;
+	
+	for(var i = 0; i < routeData.length - 1; i++) {
+		var result = getDistanceToLine(
+			lat,
+			lon,
+			routeData[i].lati,
+			routeData[i].longi,
+			routeData[i + 1].lati,
+			routeData[i + 1].longi
+		)
+		
+		if(result.distance) {
+			if(min > result.distance) {
+				min = result.distance;
+				minIndex = i;
+			}
+		}
+	}
+	
+	if(minIndex == null) {
+		axDialog.alert("선택할 수 없는 좌표입니다.");
+		return false;
+	} else {
+		var seq = routeData[minIndex].seq + (routeData[minIndex + 1].seq - routeData[minIndex].seq) / 2;
+		var insertIndex = minIndex + 1;
+		
+		return {
+			seq: seq,
+			index: insertIndex
+		};
+	}
+}
+
+/**노선 그리기**/
+function drawRoute(list) {
+	var path = [];
+	
+	removeMarkers();
+	deleteLine();
+	deleteCircle();
+	deleteNode();
+	
+	if(list != null && list.length != 0) {
+		for(var i = 0; i < list.length; i++) {
+			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
+			
+			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
+			if(list[i].nodeType == busstopNodeType || list[i].nodeType == orgaNodeType) {
+				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				
+				if(list[i].nodeType == orgaNodeType) {
+					if(list[i].nodeType == orgaNodeType) {
+						var radius = Math.round((limitSpeed / 3600 * 1000) * list[i].allPlayTm);
+						
+						circles.push(getDrawingCircle(list[i].lati, list[i].longi, radius));
+					}
+					
+					list[i].click = function(e) {
+						var point = e.marker.getPosition();
+						var node = $.extend(true, {}, routeData[e.index]);
+						
+						routeData.splice(e.index, 1);
+						
+						var val = returnInsertRouteInfo(point.lat(), point.lng());
+						
+						if(val) {
+							var temp = {
+								orgaId: e.nodeId,
+								lati: point.lat(),
+								longi: point.lng(),
+								seq: val.seq
+							};
+							
+							temp = $.extend(true, node, temp);
+							
+							routeData.splice(val.index, 0, temp);
+							
+							ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+							ACTIONS.dispatch(ACTIONS.OPEN_BM0405, temp);
+						}
+					};
+					list[i].index = i;
+					list[i].icon = orgaIcon;
+					list[i].draggable = true;
+				}
+				
+				addMarker(list[i]);
+			}
+			// 아닐 경우(일반 노드) 네모 박스 표시
+			else {
+				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
+			}
+		}
+		
+		polyline = new Tmapv2.Polyline({
+			path: path,
+			strokeColor: "#DD00DD",
+			strokeWeight: 3,
+			map: map
+		}); 
+	}
 }
 
 /********************************************************************************************************************/
@@ -299,12 +368,6 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "new": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
-            },
-            "delete": function() {
-            	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
-            },
-            "save": function () {
-        		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
@@ -454,9 +517,9 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "staId",		label: ADMIN("ax.admin.BM0105G1.staId"),		width: 80},
-                {key: "staNm",		label: ADMIN("ax.admin.BM0105G1.staNm"),		width: 160},
-                {key: "staNo",		label: ADMIN("ax.admin.BM0105G1.staNo"),		width: 100},
+            	{key: "nodeId",		label: ADMIN("ax.admin.BM0105G1.staId"),		width: 80},
+                {key: "nodeNm",		label: ADMIN("ax.admin.BM0105G1.staNm"),		width: 160},
+                {key: "nodeType",	label: ADMIN("ax.admin.BM0105G1.staNo"),		width: 100},
                 {key: "lati", 		label: ADMIN("ax.admin.BM0105G1.lati"),			width: 100},
                 {key: "longi",		label: ADMIN("ax.admin.BM0105G1.longi"),		width: 100},
                 {key: "updatedAt",	label: ADMIN("ax.admin.BM0105G1.updatedAt"),	width: 140},

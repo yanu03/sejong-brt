@@ -29,8 +29,9 @@
     </jsp:attribute>
     <jsp:body>
         <ax:page-buttons>
-            <button type="button" class="btn btn-fn1" data-page-btn="save"><ax:lang id="ax.admin.sample.modal.button.save"/></button>
-            <button type="button" class="btn btn-default" data-page-btn="close"><ax:lang id="ax.admin.sample.modal.button.close"/></button>
+            <button type="button" class="btn btn-fn1" data-page-btn="save"><ax:lang id="ax.admin.save"/></button>
+            <button type="button" class="btn btn-fn1" data-page-btn="delete"><ax:lang id="ax.admin.delete"/></button>
+            <button type="button" class="btn btn-default" data-page-btn="close"><ax:lang id="ax.admin.close"/></button>
         </ax:page-buttons>
 
       <%--   <div role="page-header">
@@ -61,8 +62,10 @@
  			</ax:form>
  		</div>
  		
-        <ax:split-layout name="ax1" orientation="vertical" height="300px">
-            <ax:split-panel width="200">
+        <ax:split-layout name="ax1" orientation="vertical">
+        	<ax:SM0105 groupCd="VOC_DIV" id="selectVoice" dataPath="vocDiv" width="200px"/>
+        	
+            <ax:split-panel width="200" style="margin-right: 30px;">
             	<div class="ax-button-group">
 	            	<div class="left">
 			            <h3><i class="cqc-list"></i>
@@ -71,22 +74,22 @@
 		            </div>
 	            </div>
 	            
-	            <ax:SM0105 groupCd="VOC_DIV" id="selectVoice" dataPath="vocDiv" clazz="form-control W200"/>
-	            
                 <div data-ax5grid="gridView3" style="height: 300px;"></div>
             </ax:split-panel>
             
-            <ax:split-panel width="50">
-            	<button type="button" class="btn btn-default" style="width: 50px; margin-bottom: 10px;" data-page-btn="addPlayList">
-            		>
-            	</button>
-            	
-            	<button type="button" class="btn btn-default" style="width: 50px;" data-page-btn="deletePlayList">
-            		<
-            	</button>
+            <ax:split-panel width="70" style="top: 30%;">
+            	<div style="width: 50px; margin-left: 10px;">
+	            	<button type="button" class="btn btn-default" style="width: 100%; margin-bottom: 10px;" data-page-btn="addPlayList">
+	            		>
+	            	</button>
+	            	
+	            	<button type="button" class="btn btn-default" style="width: 100%;" data-page-btn="deletePlayList">
+	            		<
+	            	</button>
+            	</div>
             </ax:split-panel>
             
-            <ax:split-panel width="270">
+            <ax:split-panel width="200">
            		<div class="ax-button-group">
                     <div class="left">
 			            <h3><i class="cqc-list"></i>
@@ -99,39 +102,38 @@
                 </div>
             	
                 <div data-ax5grid="gridView4" style="height: 300px;"></div>
-                
-                
-                <div id="jquery_jplayer_0" class="jp-jplayer"></div>
-				<div id="jp_container_0" class="jp-audio" role="application" aria-label="media player">
-					<div class="jp-type-single">
-						<div class="jp-gui jp-interface">
-							<div class="jp-controls">
-								<button class="jp-play" role="button" tabindex="0">play</button>
-								<button class="jp-stop" role="button" tabindex="0">stop</button>
+            </ax:split-panel>
+            
+            <div id="jquery_jplayer_0" class="jp-jplayer"></div>
+			<div id="jp_container_0" class="jp-audio" role="application" aria-label="media player" style="margin-top: 350px; margin-left: 60px;">
+				<div class="jp-type-single">
+					<div class="jp-gui jp-interface">
+						<div class="jp-controls">
+							<button class="jp-play" role="button" tabindex="0">play</button>
+							<button class="jp-stop" role="button" tabindex="0">stop</button>
+						</div>
+						<div class="jp-progress">
+							<div class="jp-seek-bar">
+								<div class="jp-play-bar"></div>
 							</div>
-							<div class="jp-progress">
-								<div class="jp-seek-bar">
-									<div class="jp-play-bar"></div>
-								</div>
+						</div>
+						<div class="jp-volume-controls">
+							<button class="jp-mute" role="button" tabindex="0">mute</button>
+							<button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+							<div class="jp-volume-bar">
+								<div class="jp-volume-bar-value"></div>
 							</div>
-							<div class="jp-volume-controls">
-								<button class="jp-mute" role="button" tabindex="0">mute</button>
-								<button class="jp-volume-max" role="button" tabindex="0">max volume</button>
-								<div class="jp-volume-bar">
-									<div class="jp-volume-bar-value"></div>
-								</div>
-							</div>
-							<div class="jp-time-holder">
-								<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
-								<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
-								<div class="jp-toggles">
-									<button class="jp-repeat" role="button" tabindex="0">repeat</button>
-								</div>
+						</div>
+						<div class="jp-time-holder">
+							<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+							<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+							<div class="jp-toggles">
+								<button class="jp-repeat" role="button" tabindex="0">repeat</button>
 							</div>
 						</div>
 					</div>
 				</div>
-            </ax:split-panel>
+			</div>
         </ax:split-layout>
     </jsp:body>
 </ax:layout>
