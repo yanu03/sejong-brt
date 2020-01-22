@@ -163,14 +163,11 @@ function popUp(lat, lng, msg){
 
 /**팝업 전체 삭제**/
 function removeAllPopUp(){
-	//$('.popUp').remove();
-	//$('.popUp').empty();
 	if(infoArr != null){
 		for(var i=0; i<infoArr.length; i++){
 			infoArr[i].setMap(null);
 		}
 		infoArr = [];
-		
 	}
 }
 
