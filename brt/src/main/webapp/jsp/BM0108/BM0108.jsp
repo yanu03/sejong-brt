@@ -123,7 +123,6 @@
 	                            </div>
                     		</ax:td>
                     	</ax:tr>
-
                     	<ax:tr style="height:300px;">
                     		<ax:td labelStyle="height:300px;" label="ax.admin.BM0108F0.attFile" width="300px">
                     			<div style="width: 180px;height: 260px;">

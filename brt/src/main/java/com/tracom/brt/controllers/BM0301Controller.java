@@ -34,31 +34,37 @@ public class BM0301Controller extends BaseController {
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
     })
-    public Responses.ListResponse list(RequestParams<ContractInfoVO> requestParams) {
+    public Responses.ListResponse BM0301G0S0(RequestParams<ContractInfoVO> requestParams) {
         List<ContractInfoVO> list = service.BM0301G0S0(requestParams);
         return Responses.ListResponse.of(list);
     }
 
     @PostMapping("/BM0301F0I0")
-    public ApiResponse save(@RequestBody ContractInfoVO request) {
+    public ApiResponse BM0301F0I0(@RequestBody ContractInfoVO request) {
         String conId = service.BM0301F0I0(request);       
         return ok(conId);
     }
     
     @PostMapping("/BM0301F0U0")
-    public ApiResponse update(@RequestBody ContractInfoVO request) {
+    public ApiResponse BM0301F0U0(@RequestBody ContractInfoVO request) {
     	service.BM0301F0U0(request);
     	return ok();
     }
     
     @PostMapping("/BM0301F0U1")
-    public ApiResponse ynupdate(@RequestBody ContractInfoVO request) {
+    public ApiResponse BM0301F0U1(@RequestBody ContractInfoVO request) {
     	service.BM0301F0U1(request);
     	return ok();
     }
     
+    @PostMapping("/BM0301F0U2")
+    public ApiResponse BM0301F0U2(@RequestBody ContractInfoVO request) {
+    	service.BM0301F0U2(request);
+    	return ok();
+    }
+    
     @PostMapping("/BM0301G0D0")
-    public ApiResponse delete(@RequestBody ContractInfoVO request) {
+    public ApiResponse BM0301G0D0(@RequestBody ContractInfoVO request) {
     	service.BM0301G0D0(request);
     	return ok();
     }

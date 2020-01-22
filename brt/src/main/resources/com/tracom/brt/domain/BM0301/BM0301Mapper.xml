@@ -105,6 +105,29 @@
     
     </update>
     
+    <update id="BM0301F0U2" parameterType="contractInfoVO">
+    
+    	UPDATE BM_CON_INFO
+    	SET
+    		  CON_NM			=	#{conNm}
+    		, CON_FST_DATE		=	#{conFstDate}
+    		, CON_ST_DATE		=	#{conStDate}
+    		, CON_ED_DATE		=	#{conEdDate}
+    		, CONFIRM_YN		=	"N"
+    		, SUPP_AMT			=	#{suppAmt}
+    		, VAT_AMT			=	#{vatAmt}
+    		, CUST_ID			=	#{custId}
+    		, REMARK			=	#{remark}
+    		, CON_NO			=	#{conNo}
+    		, UPDATED_AT		=	#{updatedAt}
+    		, UPDATED_BY		=	#{updatedBy}
+    	
+    	WHERE
+    		CON_ID = #{conId}
+    
+    
+    </update>
+    
     <delete id="BM0301G0D0" parameterType="contractInfoVO">
     	DELETE
     		FROM BM_CON_INFO

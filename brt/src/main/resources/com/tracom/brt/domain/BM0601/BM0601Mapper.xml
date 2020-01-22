@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tracom.brt.domain.BM0601.BM0601Mapper">
+	<select id="BM0601F0S0" resultType="weatAtmoVO" parameterType="String">
+      SELECT
+		   RENEW_DT
+		 , DUSTC
+		 , SDC
+		 , CMC
+		 , OZONEC
+		 , NDC
+		 
+   	  FROM 
+		 BM_ATMO_INFO
+      GROUP BY RENEW_DT DESC LIMIT 1;
+	</select>
+	
+	<select id="BM0601F0S1" resultType="weatAtmoVO" parameterType="String">
+	SELECT
+  		   DL.DL_CD_NM AS SKY_COND
+		 , WI.TEMPC
+		 , WI.TEMP_MINI
+		 , WI.TEMP_HIGH
+		 , WI.HUMI
+		 , WI.RAIN_PRO
+		 , WI.RAINFALL
+		 , WI.NOTI_DT
+		 , WI.RENEW_DT
+	FROM
+		BM_WEAT_INFO WI
+		LEFT OUTER JOIN SM_DL_CD_INFO DL
+		ON WI.SKY_COND = DL.DL_CD
+	ORDER BY RENEW_DT DESC LIMIT 1;
+	</select>
+	<select id="BM0601G1S0" resultType="weatAtmoVO" parameterType="String">
+		SELECT
+		   WE.NOTI_DT
+		 , DL.DL_CD_NM AS SKY_COND
+		 , WE.TEMPC
+		 , WE.TEMP_MINI
+		 , WE.TEMP_HIGH
+		 , WE.HUMI
+		 , WE.RAIN_PRO
+		 , WE.RAINFALL
+		 , WE.RENEW_DT
+		FROM
+		  BM_WEAT_INFO WE
+		  LEFT OUTER JOIN SM_DL_CD_INFO DL
+		  ON WE.SKY_COND = DL.DL_CD
+		  <where>
+	    	<if test="value != null">
+				SUBSTRING_INDEX(WE.RENEW_DT,"-",2) = #{filter}
+	    	</if>
+    	</where>
+		  
+	</select>
+	<select id="BM0601G1S1" resultType="weatAtmoVO" parameterType="String">
+		SELECT
+		   MEAS_DT
+		 , DUSTC
+		 , SDC
+		 , CMC
+		 , OZONEC
+		 , NDC
+		 , RENEW_DT
+		FROM
+		 BM_ATMO_INFO
+		 <where>
+	    	<if test="value != null">
+				SUBSTRING_INDEX(RENEW_DT,"-",2) = #{filter}
+	    	</if>
+    	</where>
+	</select>
+	<select id="BM0601G2S1" resultType="weatAtmoVO" parameterType="String">
+		SELECT
+		   V.VHC_ID
+		 , V.VHC_NO
+		 , LIV.PROCE_RST
+		 , LIV.SEND_DATE		 
+		FROM
+		 BM_LIVING_LOG LIV
+		 LEFT OUTER JOIN BM_DVC_INFO DV
+		 ON LIV.DVC_ID = DV.DVC_ID
+		 LEFT OUTER JOIN BM_VHC_INFO V
+		 ON DV.VHC_ID = V.VHC_ID
+		<where>
+	    	<if test="value != null">
+				VHC_NO LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+	</select>
+	
+	<select id="BM0601M0S0" resultType="weatAtmoVO" parameterType="String">
+		SELECT
+			NUM_VAL4
+		  , NUM_VAL5
+		  , NUM_VAL6
+		  , REMARK
+		FROM
+		 (SELECT
+		    TXT_VAL1
+		  , NUM_VAL4
+		  , NUM_VAL5
+		  , NUM_VAL6
+		
+		  FROM
+			SM_DL_CD_INFO
+		  WHERE
+			CO_CD = "UPD_CYCLE") AS A
+			LEFT OUTER JOIN
+			 
+		(SELECT
+			REMARK
+		 , TXT_VAL1
+		FROM
+			SM_DL_CD_INFO
+		WHERE
+			DL_CD = "KA001") AS B
+		ON A.TXT_VAL1 = B.TXT_VAL1		
+	</select>	
+</mapper>

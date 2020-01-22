@@ -19,13 +19,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);             
-	               
+	               console.log("ㅋㅋ");
 	                if(selectedRow != null) {
 		                	caller.gridView0.selectRow(selectedRow.__index);
 		                } else {
 		                	caller.gridView0.selectFirstRow();
-		                }
-	                
+		                }	                
 	            }
 	        });
 
@@ -54,13 +53,21 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     RELOAD_G1: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
-    	
+    	var listLength ;
+    	console.log("리로드1");
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0303G1S0",
             data: {conId: selectedRow.conId},
             callback: function (res) {
-                caller.gridView1.setData(res);
+            	listLength = res.list.length-1;
+              
+	            	if(typeof res.list[listLength].altDiv !== "undefined"){
+	            		caller.gridView1.setData(res);
+	            	}else{
+	            		res.list.splice(res.list.indexOf(res.list[listLength] , 1));
+	            		caller.gridView1.setData(res);
+	            	}            	
                 
                  {
                 	if(dataFlag) {
@@ -155,8 +162,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             
             	 columns: [        		
-                     {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 80},
-                     {key: "conNm", label: ADMIN("ax.admin.BM0301F0.name"), width: 80},
+                     {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 100},
+                     {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 100},
                      {key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), width: 80},
                      {key: "conFstDate", label: ADMIN("ax.admin.BM0301F0.confd"), width: 120},
                      {key: "conStDate", label: ADMIN("ax.admin.BM0301F0.consd"), width: 120},
@@ -165,7 +172,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                      {key: "custId", label: ADMIN("ax.admin.BM0301F0.custid"), width: 120},
                      {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 120},
                      {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 70},
-                     {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 70},
+                     {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 150},
                  ],
             
             body: {
@@ -250,7 +257,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         pageSize: 10
     },
     initView: function () {
-    	console.log("그리드1");
         var _this = this;
 
         this.target = axboot.gridBuilder({
@@ -259,7 +265,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
             	{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), width: 80},
-            	//{key: "confirmYn", label: ADMIN("ax.admin.BM0301F0.confirmyn"), width: 80},
             	{key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"), width: 80},
                 {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 80},          
                 {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), width: 150},

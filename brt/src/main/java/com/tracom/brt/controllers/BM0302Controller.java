@@ -38,6 +38,16 @@ public class BM0302Controller extends BaseController {
         return Responses.ListResponse.of(list);
     }
 	
+	/* 계약모달창 그리드뷰 */
+	@GetMapping("/BM0302G0S1")
+    @ApiImplicitParams({
+    	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
+    })
+    public Responses.ListResponse BM0302G0S1(RequestParams<AltContractInfoVO> requestParams) {
+        List<AltContractInfoVO> list = service.BM0302G0S1(requestParams);
+        return Responses.ListResponse.of(list);
+    }
+	
     @GetMapping("/BM0302G1S0")
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
@@ -68,6 +78,12 @@ public class BM0302Controller extends BaseController {
     @PostMapping("/BM0302F0U1")
     public ApiResponse BM0302F0U1(@RequestBody AltContractInfoVO request) {
     	service.BM0302F0U1(request);
+    	return ok();
+    }
+    
+    @PostMapping("/BM0302F0U2")
+    public ApiResponse BM0302F0U2(@RequestBody AltContractInfoVO request) {
+    	service.BM0302F0U2(request);
     	return ok();
     }
     

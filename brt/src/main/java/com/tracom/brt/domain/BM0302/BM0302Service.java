@@ -20,6 +20,9 @@ public class BM0302Service extends BaseService<AltContractInfoVO, String> {
     public List<AltContractInfoVO> BM0302G1S0(RequestParams<AltContractInfoVO> requestParams) {
         return mapper.BM0302G1S0(requestParams.getString("conId"));
     }
+    public List<AltContractInfoVO> BM0302G0S1(RequestParams<AltContractInfoVO> requestParams) {
+    	return mapper.BM0302G0S1(requestParams.getString("filter"));
+    }
     
     public boolean BM0302F0S0(AltContractInfoVO vo) {
 		if(mapper.BM0302F0S0(vo.getSeq()) == null) {
@@ -31,8 +34,7 @@ public class BM0302Service extends BaseService<AltContractInfoVO, String> {
     
     public String BM0302F0I0(AltContractInfoVO vo) {
     	mapper.BM0302F0I0(vo);
-    	return vo.getConId();
-		
+    	return vo.getConId();		
 	}
     
     public boolean BM0302F0U0(AltContractInfoVO vo) {
@@ -52,6 +54,14 @@ public class BM0302Service extends BaseService<AltContractInfoVO, String> {
 		}
 	}
     
+    public boolean BM0302F0U2(AltContractInfoVO vo) {
+		if(mapper.BM0302F0U2(vo) > 0 ) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+    
     public boolean BM0302G1D0(AltContractInfoVO vo) {
     	if(mapper.BM0302G1D0(vo) > 0) {
     		return true;
@@ -60,4 +70,5 @@ public class BM0302Service extends BaseService<AltContractInfoVO, String> {
     	}
 		
 	}
+
 }

@@ -31,75 +31,151 @@
     </select>
     
     <select id="BM0302G0S0" parameterType="String" resultType="altContractInfoVO">
-SELECT
- *
-FROM
-	(SELECT
-		A.CON_ID
-	 , A.CON_NM
-	 , A.CONFIRM_YN
-	 , IFNULL(B.CON_ST_DATE,A.CON_ST_DATE) AS CON_ST_DATE
-	 , IFNULL(B.CON_ED_DATE,A.CON_ED_DATE) AS CON_ED_DATE
-	 , IFNULL(B.ALT_DIV, "신규") AS ALT_DIV
-	 , IFNULL(B.SUPP_AMT, A.SUPP_AMT) AS SUPP_AMT
-	 , IFNULL(B.VAT_AMT, A.VAT_AMT) AS VAT_AMT
-	 , IFNULL(B.REMARK , A.REMARK) AS REMARK
-	FROM
-		(SELECT
-			CON_ID
-		,  CON_NM
-		,  CON_ST_DATE
-		,  CON_ED_DATE
-		,  SUPP_AMT
-		,  VAT_AMT
-		,  CONFIRM_YN
-		,  REMARK
-		FROM
-			BM_CON_INFO
-		WHERE
-			CONFIRM_YN = "Y" ) AS A
-			LEFT OUTER JOIN 
-		(SELECT
-			 C.CON_ID
-		  , C.CON_ST_DATE
-		  , C.CON_ED_DATE
-		  , C.ALT_DIV
-		  , C.SUPP_AMT
-		  , C.VAT_AMT
-		  , C.REMARK 
+		SELECT
+		 *
 		FROM
 			(SELECT
-			  AL.SEQ
-			, DL.DL_CD_NM AS ALT_DIV
-			, AL.CON_ID
-			, CI.CON_NM
-			, AL.CON_ST_DATE
-			, AL.CON_ED_DATE
-			, AL.CONFIRM_YN
-			, AL.SUPP_AMT
-			, AL.VAT_AMT
-			, AL.REMARK	
+				A.CON_ID
+			 , A.CON_NM
+			 , A.CONFIRM_YN
+			 , IFNULL(B.CON_ST_DATE,A.CON_ST_DATE) AS CON_ST_DATE
+			 , IFNULL(B.CON_ED_DATE,A.CON_ED_DATE) AS CON_ED_DATE
+			 , IFNULL(B.ALT_DIV, "신규") AS ALT_DIV
+			 , IFNULL(B.SUPP_AMT, A.SUPP_AMT) AS SUPP_AMT
+			 , IFNULL(B.VAT_AMT, A.VAT_AMT) AS VAT_AMT
+			 , IFNULL(B.REMARK , A.REMARK) AS REMARK
 			FROM
-			   BM_CON_ALT AL
-				LEFT OUTER JOIN BM_CON_INFO CI
-				ON AL.CON_ID = CI.CON_ID
-				LEFT OUTER JOIN SM_DL_CD_INFO DL
-				ON AL.ALT_DIV = DL.DL_CD
-			WHERE
-				AL.CONFIRM_YN = "Y"
-				AND
-				AL.CON_ED_DATE > NOW()		
-			GROUP BY AL.SEQ DESC ) AS C
-		GROUP BY C.CON_ID) AS B
-		
-		ON B.CON_ID = A.CON_ID ) AS D
-		WHERE
-		CON_ED_DATE > NOW()		
-		<if test="value != null">
-			AND		
-				( CON_ID LIKE CONCAT('%', #{value}, '%')
-				OR ALT_DIV LIKE CONCAT('%', #{value}, '%'))
-	    </if>
+				(SELECT
+					CON_ID
+				,  CON_NM
+				,  CON_ST_DATE
+				,  CON_ED_DATE
+				,  SUPP_AMT
+				,  VAT_AMT
+				,  CONFIRM_YN
+				,  REMARK
+				FROM
+					BM_CON_INFO
+				WHERE
+					CONFIRM_YN = "Y" ) AS A
+					LEFT OUTER JOIN 
+				(SELECT
+					 C.CON_ID
+				  , C.CON_ST_DATE
+				  , C.CON_ED_DATE
+				  , C.ALT_DIV
+				  , C.SUPP_AMT
+				  , C.VAT_AMT
+				  , C.REMARK 
+				FROM
+					(SELECT
+					  AL.SEQ
+					, DL.DL_CD_NM AS ALT_DIV
+					, AL.CON_ID
+					, CI.CON_NM
+					, AL.CON_ST_DATE
+					, AL.CON_ED_DATE
+					, AL.CONFIRM_YN
+					, AL.SUPP_AMT
+					, AL.VAT_AMT
+					, AL.REMARK	
+					FROM
+					   BM_CON_ALT AL
+						LEFT OUTER JOIN BM_CON_INFO CI
+						ON AL.CON_ID = CI.CON_ID
+						LEFT OUTER JOIN SM_DL_CD_INFO DL
+						ON AL.ALT_DIV = DL.DL_CD
+					WHERE
+						AL.CONFIRM_YN = "Y"
+						AND
+						AL.CON_ED_DATE > NOW()		
+					GROUP BY AL.SEQ DESC ) AS C
+				GROUP BY C.CON_ID) AS B
+				
+				ON B.CON_ID = A.CON_ID ) AS D
+				WHERE
+				CON_ED_DATE > NOW()		
+				<if test="value != null">
+					AND		
+						( CON_ID LIKE CONCAT('%', #{value}, '%')
+						OR ALT_DIV LIKE CONCAT('%', #{value}, '%'))
+			    </if>
+	
+	
+    </select>
+    
+    <select id="BM0302G0S1" parameterType="String" resultType="altContractInfoVO">
+		SELECT
+		 *
+		FROM
+			(SELECT
+				A.CON_ID
+			 , A.CON_NM
+			 , A.CONFIRM_YN
+			 , IFNULL(B.CON_ST_DATE,A.CON_ST_DATE) AS CON_ST_DATE
+			 , IFNULL(B.CON_ED_DATE,A.CON_ED_DATE) AS CON_ED_DATE
+			 , IFNULL(B.ALT_DIV, "신규") AS ALT_DIV
+			 , IFNULL(B.SUPP_AMT, A.SUPP_AMT) AS SUPP_AMT
+			 , IFNULL(B.VAT_AMT, A.VAT_AMT) AS VAT_AMT
+			 , IFNULL(B.REMARK , A.REMARK) AS REMARK
+			FROM
+				(SELECT
+				   CON_ID
+				,  CON_NM
+				,  CON_ST_DATE
+				,  CON_ED_DATE
+				,  SUPP_AMT
+				,  VAT_AMT
+				,  CONFIRM_YN
+				,  REMARK
+				FROM
+					BM_CON_INFO
+				WHERE
+					CONFIRM_YN = "Y" ) AS A
+					LEFT OUTER JOIN 
+				(SELECT
+					C.CON_ID
+				  , C.CON_ST_DATE
+				  , C.CON_ED_DATE
+				  , C.ALT_DIV
+				  , C.SUPP_AMT
+				  , C.VAT_AMT
+				  , C.REMARK 
+				FROM
+					(SELECT
+					  AL.SEQ
+					, DL.DL_CD_NM AS ALT_DIV
+					, AL.CON_ID
+					, CI.CON_NM
+					, AL.CON_ST_DATE
+					, AL.CON_ED_DATE
+					, AL.CONFIRM_YN
+					, AL.SUPP_AMT
+					, AL.VAT_AMT
+					, AL.REMARK	
+					FROM
+					   BM_CON_ALT AL
+						LEFT OUTER JOIN BM_CON_INFO CI
+						ON AL.CON_ID = CI.CON_ID
+						LEFT OUTER JOIN SM_DL_CD_INFO DL
+						ON AL.ALT_DIV = DL.DL_CD
+					WHERE
+						AL.CONFIRM_YN = "Y"
+						AND
+						AL.CON_ED_DATE > NOW()
+						AND
+						DL.DL_CD_NM != "종료"		
+					GROUP BY AL.SEQ DESC ) AS C
+				GROUP BY C.CON_ID) AS B
+				
+				ON B.CON_ID = A.CON_ID ) AS D
+				WHERE
+				CON_ED_DATE > NOW()		
+				<if test="value != null">
+					AND		
+						( CON_ID LIKE CONCAT('%', #{value}, '%')
+						OR ALT_DIV LIKE CONCAT('%', #{value}, '%'))
+			    </if>
 	
 	
     </select>
@@ -199,6 +275,25 @@ FROM
     		, VAT_AMT			=	#{vatAmt}
     		, REMARK			=	#{remark}
     		, CONFIRM_YN        =   "Y"
+    		, CON_NO			=	#{conNo}
+    		, UPDATED_AT		=	#{updatedAt}
+    		, UPDATED_BY		=	#{updatedBy}
+    		
+    	WHERE
+    		SEQ = #{seq}
+    </update>
+    
+    <update id="BM0302F0U2" parameterType="altContractInfoVO">
+    	UPDATE BM_CON_ALT
+    	SET
+    		  ALT_DIV			=	#{altDiv}
+    		, ALT_CON_DATE		=	#{altConDate}
+    		, CON_ST_DATE		=	#{conStDate}
+    		, CON_ED_DATE		=	#{conEdDate}
+    		, SUPP_AMT			=	#{suppAmt}
+    		, VAT_AMT			=	#{vatAmt}
+    		, REMARK			=	#{remark}
+    		, CONFIRM_YN        =   "N"
     		, CON_NO			=	#{conNo}
     		, UPDATED_AT		=	#{updatedAt}
     		, UPDATED_BY		=	#{updatedBy}
