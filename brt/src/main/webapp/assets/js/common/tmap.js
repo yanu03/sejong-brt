@@ -2,6 +2,8 @@
 var map, marker, polyline;
 var markers = [];
 var markers_user = [];
+var infoWindow = null;
+var infoArr = [];
 
 /**티맵 시작**/
 function initTmap(options) {
@@ -102,6 +104,7 @@ function deleteLine(){
 
 /**마커여러개추가**/
 function addMarkers(lat_arr, lng_arr, id_arr) {
+	console.log("addMarkders");
 	for(var i=0; i < lat_arr.length; i++){
         marker = new Tmapv2.Marker({
             position: new Tmapv2.LatLng(lat_arr[i], lng_arr[i]), //Marker의 중심좌표 설정.
@@ -113,11 +116,40 @@ function addMarkers(lat_arr, lng_arr, id_arr) {
 	}
 }
 
+/**통통튀는 마커 생성**/
+function addMarkerAni(lat, lng, id) {
+	var aniType = Tmapv2.MarkerOptions.ANIMATE_BOUNCE;
+	var coordIdx = 0;
+      
+	//removeMarkers(); // 지도에 새로 등록하기 위해 모든 마커를 지우는 함수입니다.
+      
+	var func = function() {
+		//Marker 객체 생성.
+			var marker = new Tmapv2.Marker({
+				position: new Tmapv2.LatLng(lat, lng), //Marker의 중심좌표 설정.
+				draggable: true, //Marker의 드래그 가능 여부.
+				animation: aniType, //Marker 애니메이션.
+				animationLength: 500, //애니메이션 길이.
+				label: "정류장", //Marker의 라벨.
+				title: id, //Marker 타이틀.
+				map: map //Marker가 표시될 Map 설정.
+			});
+			markers.push(marker);
+
+		
+	}
+	// 일정 시간 간격으로 마커를 생성하는 함수를 실행합니다
+	setTimeout(func, 300);
+}
+
 /**지도위 팝업 생성**/
 function popUp(lat, lng, msg){
 	var content =
+		"<div class = 'popUp'>" +
 		"<span class = 'popUp' style='font-weight:bold;'>" + msg + "</span>" + 
-		"<span class = 'popUp' style='font-size: 12px; margin-left:2px; margin-bottom:2px; display:block;'>"+ lat + "," + lng +"</span>";
+		"<span class = 'popUp' style='font-size: 12px; margin-left:2px; margin-bottom:2px; display:block;'>"+ lat + "," + lng +"</span>"
+		+ "</div>";
+				
 
 	infoWindow = new Tmapv2.InfoWindow({
 		position: new Tmapv2.LatLng(lat, lng), //Popup 이 표출될 맵 좌표
@@ -125,11 +157,21 @@ function popUp(lat, lng, msg){
 		type: 2, //Popup의 type 설정.
 		map: map //Popup이 표시될 맵 객체
 	});
+	
+	infoArr.push(infoWindow);
 }
 
 /**팝업 전체 삭제**/
 function removeAllPopUp(){
-	$('.popUp').remove();
+	//$('.popUp').remove();
+	//$('.popUp').empty();
+	if(infoArr != null){
+		for(var i=0; i<infoArr.length; i++){
+			infoArr[i].setMap(null);
+		}
+		infoArr = [];
+		
+	}
 }
 
 /**좌표받아 인서트(임시)**/

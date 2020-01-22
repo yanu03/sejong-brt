@@ -117,7 +117,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     ITEM_CLICK_G1: function (caller, act, data) {
     	selectedRow = data;
-        map_marker(data.lati, data.longi);
+        mapMarker(data.lati, data.longi);
     },
     OPEN_BM0107_MODAL: function(caller, act, data) {
     	axboot.modal.open({
@@ -333,7 +333,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             ],
             body: {
                 onClick: function () {
-                	console.log('22');
                     this.self.select(this.dindex);
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
                 }
@@ -426,12 +425,12 @@ function searchGrid1(caller, act, data){
             	x_arr.push(res.list[i].longi);
             	y_arr.push(res.list[i].lati);
             	id_arr.push(res.list[i].nodeId);
-            	if(res.list[i].staId != null){
+            	//if(res.list[i].staId != null){
             		staYArr.push(res.list[i].lati);
             		staXArr.push(res.list[i].longi);
             		staIdArr.push(res.list[i].nodeId);
             		popUp(res.list[i].lati, res.list[i].longi, res.list[i].seq + "," + res.list[i].nodeNm);
-            	}
+            	//}
         	}
         	if(y_arr.length != 0){
 	        	drawLine(y_arr, x_arr);

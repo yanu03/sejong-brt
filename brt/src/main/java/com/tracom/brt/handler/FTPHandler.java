@@ -55,7 +55,8 @@ public class FTPHandler {
 	public void uploadBM0108(String id, MultipartFile file) {
 		String dir1 = Paths.get(ROOT_LOCAL_PATH, "/common/employee").toString();
 		String dir2 = Paths.get(ROOT_LOCAL_PATH, "/vehicle").toString();
-		String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
+		//String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
+		String fileName = id + "." + "jpg";//그냥 다 jpg로 저장하게끔...
 		
 		File saveFile = Paths.get(dir1, fileName).toFile();
 		try {

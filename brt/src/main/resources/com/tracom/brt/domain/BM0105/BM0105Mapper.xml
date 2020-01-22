@@ -22,7 +22,7 @@
 			
     	<if test="value != null">
     		AND(
-			STA_ID LIKE CONCAT('%', #{filter}, '%')
+			STA.STA_ID LIKE CONCAT('%', #{filter}, '%')
 			OR STA_NO LIKE CONCAT('%', #{filter}, '%')
 			OR STA_NM LIKE CONCAT('%', #{filter}, '%')
     		)
