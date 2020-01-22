@@ -48,8 +48,11 @@ public class BM0107Controller extends BaseController {
     }
     
     @PostMapping("/BM0107G0U0")
-    public ApiResponse BM0107G0U0() {
-    	int result = service.BM0107G1I0();
+    public ApiResponse BM0107G0U0(@RequestBody List<BmRoutInfoVO> requestParams) {
+    	for(BmRoutInfoVO vo : requestParams) {
+    		System.out.println(vo);
+    	}
+    	int result = service.BM0107G1I0(requestParams);
     	
     	if(result > 0) {
     		return ok();

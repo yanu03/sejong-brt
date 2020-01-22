@@ -10,7 +10,8 @@ import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 public interface BM0107Mapper extends MyBatisMapper {
 	List<BmRoutInfoVO> BM0107G0S0(String filter);
 	List<BmRoutNodeInfoVO> BM0107G1S0(Map map);
-	//int BM0107G1I0(List<BmRoutNodeInfoVO> voList);
 	int BM0107G1I0(BmRoutNodeInfoVO voList);
 	int BM0104G3U0(BmRoutInfoVO vo);
+	List<BmRoutNodeInfoVO> BM0107M0S0(BmRoutInfoVO vo);
+	int BM0107G1D0(BmRoutInfoVO vo);
 }

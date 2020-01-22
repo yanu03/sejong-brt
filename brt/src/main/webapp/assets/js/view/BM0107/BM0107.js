@@ -38,6 +38,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	caller.gridView0.target.exportExcel("data.xls");
     },
     
+    /*
     DATA_INTERFACE: function(caller, act, data){
     	axDialog.confirm({
             msg: LANG("ax.script.interfaceConfirm")
@@ -64,7 +65,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             }
         });
     },
-    
+    */
     PAGE_DELETE: function(caller, act, data) {
     	var grid = caller.gridView0.target;
     	
@@ -110,11 +111,24 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK_G0: function (caller, act, data) {
     	//data.filter1 = $.extend({}, caller.searchView1.getData());
     	searchGrid1(caller, act, data);
+    	removeMarkers();
+    	deleteLine();
     },
     
     ITEM_CLICK_G1: function (caller, act, data) {
     	selectedRow = data;
         map_marker(data.lati, data.longi);
+    },
+    OPEN_BM0107_MODAL: function(caller, act, data) {
+    	axboot.modal.open({
+            modalType: "BM0107",
+            param: "",
+            callback: function (data) {
+            	//caller.formView0.model.set("corpId", data.corpId);
+            	//caller.formView0.model.set("corpNm", data.corpNm);
+                //this.close();
+            }
+        });
     }
 });
 
@@ -129,7 +143,8 @@ fnObj.pageStart = function () {
     this.searchView1.initView();
     this.gridView0.initView();
     this.gridView1.initView();
-    initTmap("100%", "100%");
+    initTmap({width:"100%"
+    		, height:"100%"});
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -152,8 +167,7 @@ fnObj.pageButtonView = axboot.viewExtend({
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
             "interface": function() {
-            	console.log("test");
-            	ACTIONS.dispatch(ACTIONS.DATA_INTERFACE);
+            	ACTIONS.dispatch(ACTIONS.OPEN_BM0107_MODAL);
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
@@ -310,9 +324,9 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-                {key: "staId", label: ADMIN("ax.admin.BM0107G1.staId"), width: 80},
-                {key: "staNm", label: ADMIN("ax.admin.BM0107G1.staNm"), width: 120},
-                {key: "staNo", label: ADMIN("ax.admin.BM0107G1.staNo"), width: 120},
+                {key: "routId", label: ADMIN("ax.admin.BM0107G1.routId"), width: 80},
+                {key: "nodeId", label: ADMIN("ax.admin.BM0107G1.nodeId"), width: 120},
+                {key: "nodeNm", label: ADMIN("ax.admin.BM0107G1.nodeNm"), width: 120},
                 {key: "lati", label: ADMIN("ax.admin.BM0107G1.lati"), width: 120},
                 {key: "longi", label: ADMIN("ax.admin.BM0107G1.longi"), width: 120},
                 {key: "updatedAt", label: ADMIN("ax.admin.BM0107G1.updatedAt"), width: 120},
@@ -397,6 +411,34 @@ function searchGrid1(caller, act, data){
         data: data,
         callback: function (res) {
         	caller.gridView1.setData(res);
+        	console.log(res);
+        	removeAllPopUp();
+        	
+        	var y_arr	= [];
+        	var x_arr	= [];
+            var id_arr	= [];
+            
+            var staYArr	= [];
+            var staXArr = [];
+            var staIdArr	= [];
+            
+        	for(var i=0; i < res.list.length; i++){
+            	x_arr.push(res.list[i].longi);
+            	y_arr.push(res.list[i].lati);
+            	id_arr.push(res.list[i].nodeId);
+            	if(res.list[i].staId != null){
+            		staYArr.push(res.list[i].lati);
+            		staXArr.push(res.list[i].longi);
+            		staIdArr.push(res.list[i].nodeId);
+            		popUp(res.list[i].lati, res.list[i].longi, res.list[i].seq + "," + res.list[i].nodeNm);
+            	}
+        	}
+        	if(y_arr.length != 0){
+	        	drawLine(y_arr, x_arr);
+	        	addMarkers(staYArr, staXArr, staIdArr);
+        	}
+        	
+        	
             if(res.list.length == 0) {
             } else {
             	if(dataFlag) {

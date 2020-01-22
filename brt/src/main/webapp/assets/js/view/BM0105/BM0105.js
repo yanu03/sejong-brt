@@ -126,7 +126,8 @@ fnObj.pageStart = function () {
     this.searchView1.initView();
     this.gridView0.initView();
     this.gridView1.initView();
-    initTmap("100%", "100%");
+    initTmap({width:"100%"
+			, height:"100%"});
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };

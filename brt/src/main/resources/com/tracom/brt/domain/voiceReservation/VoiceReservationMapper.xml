@@ -26,4 +26,17 @@
 		WHERE
 			VOC_ID = #{vocId}
     </insert>
+    
+    <insert id="voiceOrgaReservation" parameterType="voiceReservationVO">
+    	INSERT INTO BM_VOC_RSV(
+    		  RSV_DATE
+    		, ORGA_ID
+    		, RSV_ID
+    	)
+    	VALUES(
+    		  #{rsvDate}
+    		, #{orgaId}
+    		, CONCAT('RV', LPAD(NEXTVAL(SEQ_BM_VOC_ORGA_0), 5, '0'))
+    	)
+    </insert>
 </mapper>

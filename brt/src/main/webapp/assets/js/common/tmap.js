@@ -3,27 +3,65 @@ var map, marker, polyline;
 var markers = [];
 var markers_user = [];
 
+// 반경 표시용 원 배열
+var circles = []; 
+
+// 노드 드로잉 배열
+var nodes = [];
+
+// 제한속도
+var limitSpeed;
+
+// 정류장 노드 타입
+var busstopNodeType;
+
+// 음성 편성 노드 타입
+var orgaNodeType;
+
 /**티맵 시작**/
-function initTmap(width, height, drawMarker){
+function initTmap(options) {
 	map = new Tmapv2.Map("mapView0",  
 	{
 		center: new Tmapv2.LatLng(36.502212, 127.256300), // 지도 초기 좌표
-		width: width, 
-		height: height,
+		width: options.width, 
+		height: options.height,
 		zoom: 15
 	});
-	if(drawMarker == true){
-		map.addListener("click", onClick);
+	if(options.onClick) {
+		map.addListener("click", options.onClick);
+	} else {
+		//map.addListener("click", onClick);
 	}
+	
+	axboot.ajax({
+        type: "GET",
+        url: "/api/v1/SM0105G1S0",
+        data: {
+        	coCd: "VOC_ORGA"
+        },
+        callback: function (res) {
+            limitSpeed = res.list[0].numVal4;
+            busstopNodeType = res.list[1].numVal4;
+            orgaNodeType = res.list[1].numVal5;
+        }
+    });
+	
 	return map;
 } 
 
+/**맵 이동**/
+function moveMap(lat, lon) {
+	map.setCenter(new Tmapv2.LatLng(lat, lon));
+}
 
 /**마커삭제**/
 function removeMarkers() {
-	for (var i = 0; i < markers.length; i++) {
-		markers[i].setMap(null);
+	if(markers != null && markers.length != 0) {
+		for (var i = 0; i < markers.length; i++) {
+			markers[i].setMap(null);
+		}
 	}
+	
 	markers = [];
 }
 
@@ -37,7 +75,7 @@ function removeMarkers_user() {
 
 
 /**마커그리기**/
-function map_marker(lat, lng){
+function mapMarker(lat, lng){
 	removeMarkers();
 	
 	marker = new Tmapv2.Marker({
@@ -49,7 +87,7 @@ function map_marker(lat, lng){
 }
 
 /**선그리기**/
-function draw_line(lat_arr, lng_arr){
+function drawLine(lat_arr, lng_arr){
 	var path = [];
 	for(var i=0; i < lat_arr.length; i++){
 		path.push(new Tmapv2.LatLng(lat_arr[i], lng_arr[i]));
@@ -57,14 +95,14 @@ function draw_line(lat_arr, lng_arr){
 	
 	polyline = new Tmapv2.Polyline({
 		path: path,
-		strokeColor: "#dd00dd", // 라인 색상
+		strokeColor: "#FF005E", // 라인 색상
 		strokeWeight: 3, // 라인 두게
 		map: map // 지도 객체
 	});
 }
 
 /**선그리기**/
-function draw_line2(lat_arr, lng_arr, seq_arr){
+function drawLine2(lat_arr, lng_arr, seq_arr){
 	console.log(lat_arr);
 	console.log(lng_arr);
 	console.log(seq_arr);
@@ -84,9 +122,11 @@ function draw_line2(lat_arr, lng_arr, seq_arr){
 }
 
 /**선삭제**/
-function delete_line(){
-	polyline = new Tmapv2.Polyline();
-	polyline.setMap();
+function deleteLine(){
+	if(polyline != null) {
+		polyline.setMap(null);
+		polyline = null;
+	}
 }
 
 /**마커여러개추가**/
@@ -105,8 +145,8 @@ function addMarkers(lat_arr, lng_arr, id_arr) {
 /**지도위 팝업 생성**/
 function popUp(lat, lng, msg){
 	var content =
-		"<span style='font-weight:bold;'>" + msg + "</span>" + 
-		"<span style='font-size: 12px; margin-left:2px; margin-bottom:2px; display:block;'>"+ lat + "," + lng +"</span>";
+		"<span class = 'popUp' style='font-weight:bold;'>" + msg + "</span>" + 
+		"<span class = 'popUp' style='font-size: 12px; margin-left:2px; margin-bottom:2px; display:block;'>"+ lat + "," + lng +"</span>";
 
 	infoWindow = new Tmapv2.InfoWindow({
 		position: new Tmapv2.LatLng(lat, lng), //Popup 이 표출될 맵 좌표
@@ -116,26 +156,14 @@ function popUp(lat, lng, msg){
 	});
 }
 
-/**onclick 이벤트시 마커 추가**/
-function onClick(e){
-	// 클릭한 위치에 새로 마커를 찍기 위해 이전에 있던 마커들을 제거
-	removeMarkers_user();
-	
-	lonlat = e.latLng;
-	//Marker 객체 생성.
-	marker = new Tmapv2.Marker({
-		position: new Tmapv2.LatLng(lonlat.lat(),lonlat.lng()), //Marker의 중심좌표 설정.
-		map: map //Marker가 표시될 Map 설정.
-	});
-	markers_user.push(marker);
-	insertGeo(lonlat.lat(), lonlat.lng());
+/**팝업 전체 삭제**/
+function removeAllPopUp(){
+	$('.popUp').remove();
 }
 
 /**좌표받아 인서트(임시)**/
 function insertGeo(lat, lng){
         var formData = {y : lat, x : lng};
-        
-        console.log(formData);
         
         axboot.promise()
             .then(function (ok, fail, data) {
@@ -155,3 +183,143 @@ function insertGeo(lat, lng){
             .catch(function () {
             });
 }
+
+/**두 지점간의 거리 계산 **/
+function getDistanceBetween(x1, y1, x2, y2) {
+	let kEarthRadiusKms = 6376.5;
+    
+    var lat1_rad = y1 * (Math.PI / 180.0);
+    var lng1_rad = x1 * (Math.PI / 180.0);
+    var lat2_rad = y2 * (Math.PI / 180.0);
+    var lng2_rad = x2 * (Math.PI / 180.0);
+
+    var lat_gap = lat2_rad - lat1_rad;
+    var lng_gap = lng2_rad - lng1_rad;
+    
+    var mid_val = Math.pow(Math.sin(lat_gap / 2.0), 2.0) +
+                     Math.cos(lat1_rad) * 
+                     Math.cos(lat2_rad) *
+                     Math.pow(Math.sin(lng_gap / 2.0), 2.0);
+
+    var circle_distance = 2.0 * Math.atan2(Math.sqrt(mid_val), Math.sqrt(1.0 - mid_val));
+    var distance = kEarthRadiusKms * circle_distance * 1000; 
+    
+    return distance; 
+}
+
+/**한점이 직선상에 직교좌표를 생성한 좌표를 반환**/
+function getPointToLine(x, y, x1, y1, x2, y2) {
+	var isValid = false;
+	var point;
+	
+	if(y1 == y2 && x1 == y2)
+		y1 -= 0.00001;
+	var U = ((y - y1) * (y2 - y1)) + ((x - x1) * (x2 - x1));
+	var Udenom = Math.pow(y2 - y1, 2) + Math.pow(x2 - x1, 2);
+	
+	U /= Udenom;
+	
+	var y = y1 + (U * (y2 - y1));
+	var x = x1 + (U * (x2 - x1));
+	point =  {
+		x: x,
+		y: y
+	};
+	
+	var minx, maxx, miny, maxy;
+	
+	minx = Math.min(y1, y2);
+	maxx = Math.max(y1, y2);
+	
+	miny = Math.min(x1, x2);
+	maxy = Math.max(x1, x2);
+	
+	isValid = (point.y >= minx && point.y <= maxx) && (point.x >= miny && point.x <= maxy);
+	
+	return isValid ? point : null;
+}
+
+/**한점이 직선에 직교좌표를 생성하고 거리를 계산**/
+function getDistanceToLine(x, y, x1, y1, x2, y2) {
+	var point = getPointToLine(x, y, x1, y1, x2, y2);
+	
+	if(point == null) {
+		return false;
+	} else {
+		var distance = getDistanceBetween(x, y, point.x, point.y);
+		return {
+			point: point,
+			distance: distance
+		}
+	}
+}
+
+/***************************** BM0405 *************************************/
+function addMarker(data) {
+	var marker = new Tmapv2.Marker({
+        position: new Tmapv2.LatLng(data.lati, data.longi), //Marker의 중심좌표 설정.
+        label: data.label, //Marker의 라벨.
+        map: map,
+    	icon: data.icon,
+    	draggable: data.draggable,
+    });
+	
+	if(data.click) {
+		marker.addListener("click", function(e) {
+			data.click({
+				marker: marker,
+				nodeId: data.nodeId,
+				index: data.index
+			});
+		});
+	}
+	
+    markers.push(marker);
+}
+
+function deleteCircle() {
+	if(circles != null && circles.length != 0) {
+		for(var i = 0; i < circles.length; i++) {
+			circles[i].setMap(null);
+		}
+		circles = [];
+	}
+}
+
+function deleteNode() {
+	if(nodes != null && nodes.length != 0) {
+		for(var i = 0; i < nodes.length; i++) {
+			nodes[i].setMap(null);
+		}
+		nodes = [];
+	}
+}
+
+function getDrawingCircle(lat, lon, radius) {
+	var circle = new Tmapv2.Circle({
+		center: new Tmapv2.LatLng(lat, lon),
+		radius: radius,
+		strokeColor: "#A872EE",
+		strokeWeight: 2,
+		fillColor: "#A872EE",
+		fillOpacity: 0.2,
+		map: map
+	});
+	
+	return circle;
+}
+
+function getDrawingNode(lat, lon) {
+	var node = new Tmapv2.Circle({
+		center: new Tmapv2.LatLng(lat, lon),
+		radius: 4,
+		strokeColor: "#FF005E",
+		strokeWeight: 3,
+		fillColor: "#FFFFFF",
+		fillOpacity: 1,
+		map: map
+	});
+	
+	return node;
+}
+/**************************************************************************/

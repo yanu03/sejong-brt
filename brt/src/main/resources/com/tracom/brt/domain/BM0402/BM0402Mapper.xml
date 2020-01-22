@@ -11,6 +11,7 @@
     		, V.PLAY_TYPE
     		, V.KR_TTS
     		, V.EN_TTS
+    		, V.VOC_DIV
     		, V.REMARK
     		, V.PLAY_TM
     		, V.CON_ID
@@ -22,7 +23,7 @@
     		LEFT OUTER JOIN BM_CON_INFO C
     		ON V.CON_ID = C.CON_ID
     	WHERE
-    		V.VOC_DIV = 'ADVOC'
+    		V.VOC_DIV = 'CD026'
 	    	<if test="value != null">
 				AND V.VOC_ID LIKE CONCAT('%', #{value}, '%')
 				OR V.VOC_NM LIKE CONCAT('%', #{value}, '%')
@@ -61,7 +62,7 @@
    			, #{enTts}
    			, #{remark}
    			, #{playTm}
-   			, 'ADVOC'
+   			, 'CD026'
    			, #{conId}
    			, #{playEdDate}
    			, #{createdAt}

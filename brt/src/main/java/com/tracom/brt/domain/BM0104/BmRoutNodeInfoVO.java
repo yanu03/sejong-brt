@@ -14,6 +14,7 @@ public class BmRoutNodeInfoVO extends BaseVO {
 	
 	private String nodeId;
 	private String nodeNm;
+	private int nodeType;
 	private float lati;
 	private float longi;
 	private int seq;
@@ -21,6 +22,7 @@ public class BmRoutNodeInfoVO extends BaseVO {
 	private String staId;
 	private String staNm;
 	private String staNo;
+	private int allPlayTm;
 	private List<BmRoutNodeInfoVO> voList;
 	
 }

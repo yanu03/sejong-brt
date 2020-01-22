@@ -12,6 +12,7 @@
     		, KR_TTS
     		, EN_TTS
     		, SCR_TXT
+    		, VOC_DIV
     		, REMARK
     		, PLAY_TM
     		, PLAY_ED_DATE
@@ -19,7 +20,7 @@
     	FROM
     		BM_VOC_INFO
     	WHERE
-    		VOC_DIV = 'BSVOC'
+    		VOC_DIV = 'CD025'
 	    	<if test="value != null">
 				AND VOC_ID LIKE CONCAT('%', #{value}, '%')
 				OR VOC_NM LIKE CONCAT('%', #{value}, '%')
@@ -59,7 +60,7 @@
    			, #{scrTxt}
    			, #{remark}
    			, #{playTm}
-   			, 'BSVOC'
+   			, 'CD025'
    			, #{playEdDate}
    			, #{createdAt}
    			, #{createdBy}
