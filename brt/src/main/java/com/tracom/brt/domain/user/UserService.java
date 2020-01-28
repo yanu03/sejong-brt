@@ -8,6 +8,7 @@ import com.tracom.brt.domain.user.role.UserRoleService;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.querydsl.core.BooleanBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -30,6 +31,9 @@ public class UserService extends BaseService<User, String> {
 
     @Inject
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    
+    @Inject
+    private StandardPasswordEncoder standardPasswordEncoder;
 
     @Inject
     public UserService(UserRepository userRepository) {
@@ -44,8 +48,11 @@ public class UserService extends BaseService<User, String> {
                 delete(qUserRole).where(qUserRole.userCd.eq(user.getUserCd())).execute();
                 delete(qUserAuth).where(qUserAuth.userCd.eq(user.getUserCd())).execute();
 
-                String password = bCryptPasswordEncoder.encode(user.getUserPs());
-                String scdPassword = bCryptPasswordEncoder.encode(user.getScdPs());
+                //String password = bCryptPasswordEncoder.encode(user.getUserPs());
+                //String scdPassword = bCryptPasswordEncoder.encode(user.getScdPs());
+                
+                String password = standardPasswordEncoder.encode(user.getUserPs());
+                String scdPassword = standardPasswordEncoder.encode(user.getScdPs());
                 User originalUser = userRepository.findOne(user.getUserCd());
 
                 if (originalUser != null) {

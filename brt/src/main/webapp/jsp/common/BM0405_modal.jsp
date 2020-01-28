@@ -12,6 +12,7 @@
 <ax:layout name="modal">
 	<jsp:attribute name="css">
         <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/jplayer.blue.monday.css"/>">
+        <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/BM0405/BM0405.css"/>">
     </jsp:attribute>
     
     <jsp:attribute name="script">

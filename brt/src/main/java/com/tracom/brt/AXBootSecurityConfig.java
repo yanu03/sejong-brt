@@ -1,15 +1,18 @@
 package com.tracom.brt;
 
-import com.tracom.brt.code.GlobalConstants;
-import com.tracom.brt.domain.user.UserService;
-import com.tracom.brt.logging.AXBootLogbackMdcFilter;
-import com.tracom.brt.security.*;
-import com.chequer.axboot.core.utils.CookieUtils;
+import java.io.IOException;
+
+import javax.inject.Inject;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,14 +21,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
-import javax.inject.Inject;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import com.chequer.axboot.core.utils.CookieUtils;
+import com.tracom.brt.code.GlobalConstants;
+import com.tracom.brt.domain.user.UserService;
+import com.tracom.brt.logging.AXBootLogbackMdcFilter;
+import com.tracom.brt.security.AXBootAuthenticationEntryPoint;
+import com.tracom.brt.security.AXBootAuthenticationFilter;
+import com.tracom.brt.security.AXBootLoginFilter;
+import com.tracom.brt.security.AXBootTokenAuthenticationService;
+import com.tracom.brt.security.AXBootUserDetailsService;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, proxyTargetClass = true)
@@ -60,7 +68,10 @@ public class AXBootSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Inject
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    
+    @Inject
+    private StandardPasswordEncoder standardPasswordEncoder;
+    
     @Inject
     private AXBootTokenAuthenticationService tokenAuthenticationService;
 
@@ -110,7 +121,8 @@ public class AXBootSecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+        //daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+        daoAuthenticationProvider.setPasswordEncoder(standardPasswordEncoder);
         daoAuthenticationProvider.setHideUserNotFoundExceptions(false);
         return daoAuthenticationProvider;
     }

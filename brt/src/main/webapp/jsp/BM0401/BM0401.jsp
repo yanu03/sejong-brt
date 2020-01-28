@@ -101,7 +101,7 @@
                        	
                        	<ax:tr>
                             <ax:td id="krTtsLabel" label="ax.admin.BM0401F0.kr.tts" width="100%">
-                            	<span>차임벨: </span><ax:common-code groupCd="CHIME_YN" dataPath="chimeYn" clazz="form-control" />
+                            	<%-- <span>차임벨: </span><ax:common-code groupCd="CHIME_YN" dataPath="chimeYn" clazz="form-control" /> --%>
                             	<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0401F0.kr.tts"/>" class="form-control"></textarea>
                             	
                             	<div style="margin-top: 4px; text-align: right;">
