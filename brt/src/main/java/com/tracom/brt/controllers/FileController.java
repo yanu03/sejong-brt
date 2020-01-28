@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1")
 public class FileController {
 
-	@GetMapping("/getWav")
-	public void getWav(@RequestParam String id) {
+	@GetMapping("/filePreview")
+	public void filePreview(@RequestParam(name = "id") String id,
+						@RequestParam String type) {
+		
 		System.out.println("FileController getWav Id: " + id);
 	}
 }
