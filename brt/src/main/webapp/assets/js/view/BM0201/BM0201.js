@@ -188,7 +188,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
     	selectedRowG1 = data;
-    	console.log("gridView1="+data);
     	caller.formView0.setData(data);
     	caller.formView0.enable();
     },

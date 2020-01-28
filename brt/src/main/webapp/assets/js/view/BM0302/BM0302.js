@@ -207,46 +207,60 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = false; 
     	var confirmYn = $('#confirmYn').val();
     	
-    	axDialog.confirm({
-    		msg: LANG("ax.script.contractconfirm")
-    	}, function() {
-    		if(this.key == "ok"){
-    			
-    			if(confirmYn == "N"){
-    				if (caller.formView0.validate()) {
-    					var formData = caller.formView0.getData();
-    					
-    					axboot.promise()
-    					.then(function (ok, fail, data) {
-    						axboot.ajax({
-    							type: "POST",
-    							url: "/api/v1/BM0302F0U1",
-    							data: JSON.stringify(formData),
-    							callback: function (res) {
-    								ok(res);
-    							}
-    						});
-    					})
-    					.then(function (ok, fail, data) {
-    						axToast.push(LANG("onupdate"));
-    						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-    						isUpdate = true;
-    					})
-    					.catch(function () {
-    						
-    					});
-    				}
-    			}else {
-    				axDialog.alert({
-    	                msg: LANG("ax.script.confirmres")
-    	            });
-    			}
-    			
-    		}
-		}
-    	)
-    	
-    
+    	if(confirmYn == "N"){
+	    	axDialog.confirm({
+	    		msg: LANG("ax.script.contractconfirm")
+	    	}, function() {
+	    		if(this.key == "ok"){	    			
+	    			if (caller.formView0.validate()) {
+	    					var formData = caller.formView0.getData();    					
+	    					axboot.promise()
+	    					.then(function (ok, fail, data) {
+	    						axboot.ajax({
+	    							type: "POST",
+	    							url: "/api/v1/BM0302F0U1",
+	    							data: JSON.stringify(formData),
+	    							callback: function (res) {
+	    								ok(res);
+	    							}
+	    						});
+	    					})
+	    					.then(function (ok, fail, data) {
+	    						axToast.push(LANG("onupdate"));
+	    						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	    						isUpdate = true;
+	    					})
+	    					.catch(function () {   						
+	    					});
+	    				}	    			
+	    		}
+			});
+	    }else{
+	    	axDialog.confirm({
+	    		msg: LANG("ax.script.contractconfirmn")
+	    	}, function(){
+	    		if(this.key == "ok"){
+	    			console.log("해제ok");
+	    			if (caller.formView0.validate()){
+	    				var formData = caller.formView0.getData();
+	    				axboot.promise()
+	    				.then(function (ok, fail, data) {
+	    				axboot.ajax({
+							type: "POST",
+							url: "/api/v1/BM0302F0U2",
+							data: JSON.stringify(formData),
+							callback: function (res) {
+								ok(res);
+								ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+								isUpdate = true;
+							}
+						});
+	    				})	
+	    			}
+	    		}
+	    	}
+	    	);
+	    }				   
     },
     
     // 탭닫기

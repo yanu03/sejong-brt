@@ -71,12 +71,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 for(var i = 0; i < res.list.length; i++){
                 	var dvcCond;
                 	
-                	if(res.list[i].txtVal1 !== "undefined"){
+                	if(typeof res.list[i].txtVal1 !== "undefined"){
                 		if(res.list[i].dvcCond == "정상"){
                 			console.log("정상");
                 			dvcCond = "#00FF00";
                 		}else{
-                			if(res.list[i].dvcCond !== "undefined"){
+                			if(typeof res.list[i].dvcCond !== "undefined"){
                 				console.log("정상2");
                 				console.log(res.list[i].dvcCond);
                 				dvcCond = "#DC143C";            				
@@ -85,7 +85,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 				dvcCond = "##00ff0000";
                 			}
                 		}
-                	console.log(res.list[i].txtVal1);
                 $("#check").append("<input[type='text' name='busCheck' style='background-color:"+dvcCond+"; width:18px;height:18px; position: absolute; left:"+res.list[i].txtVal1+"px; top:"+res.list[i].txtVal2+"px;]'/>");
                 		}else{
                 			alert(LANG("ax.script.requireselect"));
