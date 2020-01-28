@@ -106,9 +106,6 @@ function drawLine(lat_arr, lng_arr){
 
 /**선그리기**/
 function drawLine2(lat_arr, lng_arr, seq_arr){
-	console.log(lat_arr);
-	console.log(lng_arr);
-	console.log(seq_arr);
 	var path = [];
 	for(var i=0; i < lat_arr.length; i++){
 		if(seq_arr[i] != 0){			
@@ -138,7 +135,8 @@ function addMarkers(lat_arr, lng_arr, id_arr) {
 	for(var i=0; i < lat_arr.length; i++){
         marker = new Tmapv2.Marker({
             position: new Tmapv2.LatLng(lat_arr[i], lng_arr[i]), //Marker의 중심좌표 설정.
-            label: id_arr[i]//, //Marker의 라벨.
+            //label: id_arr[i]//, //Marker의 라벨.
+        	label: "<span style='background-color: #46414E; color:white; padding: 3px;'>" + id_arr[i] + "</span>"
         	//icon:"http://tmapapi.sktelecom.com//resources/images/common/pin_car.png"
         });
         marker.setMap(map); //Marker가 표시될 Map 설정.
@@ -153,6 +151,7 @@ function addMarkerAni(lat, lng, id) {
       
 	//removeMarkers(); // 지도에 새로 등록하기 위해 모든 마커를 지우는 함수입니다.
       
+	
 	var func = function() {
 		//Marker 객체 생성.
 			var marker = new Tmapv2.Marker({

@@ -258,6 +258,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 				body: {
 					onClick: function () {
 						this.self.select(this.dindex);
+						console.log(this.self.list[this.dindex]);
 						ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G0, this.item);
 					}
 				},
@@ -288,6 +289,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 	selectFirstRow: function() {
 		if(this.target.list.length != 0) {
 			this.selectRow(0);
+			//ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G0, this.target.list[0]);
 		} else {
 		}
 	},
@@ -352,6 +354,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 				body: {
 					onClick: function () {
 						this.self.select(this.dindex);
+						console.log(this.item);
 						ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
 					}
 				},
@@ -383,6 +386,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 		console.log("FirstRow");
 		if(this.target.list.length != 0) {
 			this.selectRow(0);
+			//ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.target.list[0]);
 		} else {
 		}
 	},
@@ -451,15 +455,15 @@ function searchGrid1(caller, act, data){
 }
 
 function makeStnMarker(data){
-	var nodeId	= [];
+	var staNm	= [];
 	var stnY	= [];
 	var stnX	= [];
 	for(var i = 0; i < data.list.length; i++){
 		stnX.push(data.list[i].longi);
 		stnY.push(data.list[i].lati);
-		nodeId.push(data.list[i].nodeId);
-		popUp(data.list[i].lati, data.list[i].longi, data.list[i].staNm);
+		staNm.push(i+1 + ". " + data.list[i].staNm);
+		//popUp(data.list[i].lati, data.list[i].longi, data.list[i].staNm);
 	}
-	addMarkers(stnY, stnX, nodeId);
+	addMarkers(stnY, stnX, staNm);
 	
 }

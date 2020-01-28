@@ -40,4 +40,12 @@ public class VHCInfoVO extends BaseVO {
  
 	private String useYn;
 	
+	private String vhcKindNm;
+	
+	private String vhcTypeNm;
+	
+	private String lfYnNm;
+	
+	private String vhcFuelNm;
+	
 }

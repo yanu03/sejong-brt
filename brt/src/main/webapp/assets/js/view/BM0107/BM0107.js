@@ -231,6 +231,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
             sortable: true,
+			showRowSelector: true,
+			multipleSelect: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
                 {key: "routId", label: ADMIN("ax.admin.BM0107G0.routId"), width: 80},
@@ -410,7 +412,6 @@ function searchGrid1(caller, act, data){
         data: data,
         callback: function (res) {
         	caller.gridView1.setData(res);
-        	console.log(res);
         	removeAllPopUp();
         	
         	var y_arr	= [];
@@ -420,7 +421,6 @@ function searchGrid1(caller, act, data){
             var staYArr	= [];
             var staXArr = [];
             var staIdArr	= [];
-            
         	for(var i=0; i < res.list.length; i++){
             	x_arr.push(res.list[i].longi);
             	y_arr.push(res.list[i].lati);
@@ -429,11 +429,12 @@ function searchGrid1(caller, act, data){
             		staYArr.push(res.list[i].lati);
             		staXArr.push(res.list[i].longi);
             		staIdArr.push(res.list[i].nodeId);
-            		popUp(res.list[i].lati, res.list[i].longi, res.list[i].seq + "," + res.list[i].nodeNm);
+            		//popUp(res.list[i].lati, res.list[i].longi, res.list[i].seq + "," + res.list[i].nodeNm);
             	//}
         	}
         	if(y_arr.length != 0){
 	        	drawLine(y_arr, x_arr);
+	        	console.log(staIdArr);
 	        	addMarkers(staYArr, staXArr, staIdArr);
         	}
         	

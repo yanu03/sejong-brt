@@ -128,7 +128,7 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
 	}
     
     public List<BmRoutNodeInfoVO> insertSta(List<BmRoutNodeInfoVO> nodeList, List<BmRoutNodeInfoVO> staList) {
-    	List<BmRoutNodeInfoVO> resultList = new ArrayList<>();
+    	//정류장 갯수만큼 for문 돌릴거임
     	for(BmRoutNodeInfoVO sta : staList) {
     		int seq = 0;
     		int forseq = 0;
@@ -136,15 +136,26 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     		LocationVO tmpVO = new LocationVO();
     		resultVO.setDistance(999999999);
     		for(int i = 0; i < nodeList.size()-1; i++) {
-    			tmpVO = insertNode.getDistanceToLine(sta.getLongi(), sta.getLati(), nodeList.get(i).getLongi()
-    					, nodeList.get(i).getLati(), nodeList.get(i+1).getLongi(), nodeList.get(i+1).getLati());
-    			if(tmpVO != null && tmpVO.getDistance() < resultVO.getDistance()) {
-    				resultVO = tmpVO;
-    				seq = (nodeList.get(i).getSeq() + nodeList.get(i+1).getSeq())/2;
-    				forseq = i+1;
-    			}	
+    			//링크마다 거리 계산함. 정류장이 링크에 직교하는점이 있으면 그 점 반환, 없으면 null 반환
+    			tmpVO = insertNode.getDistanceToLine(sta.getLongi(), sta.getLati(),
+    					nodeList.get(i).getLongi(),	nodeList.get(i).getLati(),
+    					nodeList.get(i+1).getLongi(), nodeList.get(i+1).getLati()	);
+    			
+    			//만약 직교한다면
+    			if(tmpVO != null) {
+    				//가장 짧은값이라면
+    				if(tmpVO.getDistance() < resultVO.getDistance()) {
+    					//바꿔치기함
+    					resultVO = tmpVO;
+    					//시퀀스는 전노드랑 다음노드의 평균으로 함
+    					seq = (nodeList.get(i).getSeq() + nodeList.get(i+1).getSeq())/2;
+    					//forseq는 리스트에 삽입할 순서
+    					forseq = i+1;
+    				}
+    			}
     		}
     		sta.setSeq(seq);
+    		
     		nodeList.add(forseq, sta);
     	}
     	
