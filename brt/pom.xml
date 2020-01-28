@@ -169,6 +169,7 @@
                             <goal>process</goal>
                         </goals>
                         <configuration>
+                        	<outputDirectory>generated-sources/java</outputDirectory>
                             <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
                         </configuration>
                     </execution>
