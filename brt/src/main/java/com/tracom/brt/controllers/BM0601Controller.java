@@ -5,12 +5,16 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
+import com.tracom.brt.domain.BM0201.VhcDeviceVO;
 import com.tracom.brt.domain.BM0601.BM0601Service;
 import com.tracom.brt.domain.BM0601.WeatAtmoVO;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
@@ -38,6 +42,7 @@ public class BM0601Controller extends BaseController{
 		list.get(0).setHumi(vo.get(0).getHumi());
 		list.get(0).setRainPro(vo.get(0).getRainPro());
 		list.get(0).setRainFall(vo.get(0).getRainFall());
+		list.get(0).setRenewDt(vo.get(0).getRenewDt());
 		return Responses.ListResponse.of(list);
 	}
 	
@@ -74,6 +79,13 @@ public class BM0601Controller extends BaseController{
 	})
 	public Responses.ListResponse BM0601M0S0(RequestParams<WeatAtmoVO> requestParams){
 		List<WeatAtmoVO> list = service.BM0601M0S0(requestParams);
+		System.out.println("CONTROLLER");
+		System.out.println(list);
 		return Responses.ListResponse.of(list);
 	}
+	
+	@PostMapping("/BM0601M0I0")
+    public ApiResponse BM0601M0I0(@RequestBody WeatAtmoVO request) {		
+        return ok(service.BM0601M0I0(request));
+    }
 }

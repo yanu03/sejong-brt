@@ -343,9 +343,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), width: 100},
-                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 80},
-                {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 80},
+            	{key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), width: 120},
+                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 120},
+                {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 120},
                 {key: "conFstDate", label: ADMIN("ax.admin.BM0301F0.confd"), width: 120},
                 {key: "conStDate", label: ADMIN("ax.admin.BM0301F0.consd"), width: 120},
                 {key: "conEdDate", label: ADMIN("ax.admin.BM0301F0.coned"), width: 120},
@@ -353,7 +353,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "custId", label: ADMIN("ax.admin.BM0301F0.custid"), width: 120},
                 {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 120},
                 {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 70},
-                {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 70},
+                {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
             ],
             body: {
                 onClick: function () {

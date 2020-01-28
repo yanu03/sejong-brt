@@ -50,24 +50,24 @@
                         </ax:tr>                                                         
                         <ax:tr>
                           	<ax:td label="ax.admin.BM0601M0.weaturl" width="500px" labelClazz="required">	     
-	                                <input type="text" class="form-control" data-ax-path="aplyDate" readonly="readonly"/>	                            
+	                                <input type="text" data-ax-path="remarkWeat" class="form-control" readonly="readonly"/>	                            
                         	</ax:td>
                         </ax:tr>
                  
                      <ax:tr>
                             <ax:td label="ax.admin.BM0601M0.weatapi" width="500px" labelClazz="required">
-								<input type="text" data-ax-path="remark" data-key="true" class="form-control">
+								<input type="text" data-ax-path="weatApiKey" data-key="true" class="form-control">
 							</ax:td>                    
                      </ax:tr>                       	                       
                      <ax:tr>
                          <ax:td label="ax.admin.BM0601M0.atmourl" width="500px" labelClazz="required">
-								<input type="text" data-ax-path="modelNm" data-key="true" class="form-control" readonly="readonly">
+								<input type="text" data-ax-path="remarkAtmo" data-key="true" class="form-control" readonly="readonly">
 						 </ax:td>                     	                            
                      </ax:tr>
                        	
                       <ax:tr>
                     		<ax:td label="ax.admin.BM0601M0.atmoapi" width="500px" labelClazz="required">
-                            	<input type="text" data-ax-path=remark data-key="true" class="form-control">
+                            	<input type="text" data-ax-path="atmoApiKey" data-key="true" class="form-control">
                             </ax:td>
 						</ax:tr>                      	                    
                     </ax:tbl>                    

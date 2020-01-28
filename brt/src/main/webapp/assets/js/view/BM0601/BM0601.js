@@ -12,7 +12,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
-    	var filter = $.extend({}, caller.searchView0.getData());    	
+    	var filter = $.extend({}, caller.searchView0.getData());   	
     	
         axboot.ajax({
             type: "GET",
@@ -37,9 +37,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0601G2S1",
             data: filter,
             callback: function (res) {
-                caller.gridView2.setData(res);         
-	               
-	                if(selectedRow != null) {
+                caller.gridView2.setData(res);         	               
+	                if(selectedRowG1 != null) {
 		                	caller.gridView2.selectRow(selectedRowG1.__index);
 		                } else {
 		                	caller.gridView2.selectFirstRow();
@@ -133,7 +132,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             callback: function (data) {
             }
         });
-    	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    	//ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
     }, 
         
 });

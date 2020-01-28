@@ -55,7 +55,7 @@ public class BM0104Service extends BaseService<BmRoutInfoVO, String> {
     		routNo = requestParams.getString("filter");
     	}
     	
-    	String url = baseUrl + "cityCode=12&routeNo=" + routNo + "&serviceKey=" + apiKey; 
+    	String url = baseUrl + "cityCode=12&routeNo=" + routNo + "&serviceKey=" + apiKey;
 
     	NodeList nodeList = di.interface_XML(url);
     	

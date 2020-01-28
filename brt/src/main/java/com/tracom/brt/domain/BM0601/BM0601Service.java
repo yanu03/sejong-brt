@@ -1,10 +1,12 @@
 package com.tracom.brt.domain.BM0601;
 
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import javax.inject.Inject;
+import javax.jdo.annotations.Transactional;
 
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,16 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 
 	public List<WeatAtmoVO> BM0601M0S0(RequestParams<WeatAtmoVO> requestParams) {
 		return mapper.BM0601M0S0(requestParams.getString("filter"));
+	}
+
+	@Transactional
+	public String BM0601M0I0(WeatAtmoVO request) {
+		Map<String, String> hm = new HashMap<>();
+		hm.put("numVal4", request.getNumVal4());
+		hm.put("numVal5", request.getNumVal5());
+		hm.put("numVal6", request.getNumVal6());
+		
+		mapper.BM0601M0I0(hm);
+		return request.getDvcId();
 	}
 }
