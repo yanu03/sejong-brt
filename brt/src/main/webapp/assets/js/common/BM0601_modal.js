@@ -15,7 +15,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	$("#updateCycle").append("<option value='"+res.list[0].numVal6+"'>00:"+res.list[0].numVal6.substr(0,2)+"</option>");
             	$("#updateSetF").append("<option value='"+res.list[0].numVal4.substr(0,2)+"'>"+res.list[0].numVal4.substr(0,1)+":00</option>");
             	$("#updateSetB").append("<option value='"+res.list[0].numVal5.substr(0,2)+"'>"+res.list[0].numVal5.substr(0,2)+":00</option>");              
-            	caller.formView0.setData(res);             
+            	caller.formView0.setData(res);
             }
         });
         return false;
@@ -29,7 +29,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0201M0I0",
+                        url: "/api/v1/BM0601M0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);

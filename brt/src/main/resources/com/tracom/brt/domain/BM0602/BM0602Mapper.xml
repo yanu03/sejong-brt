@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tracom.brt.domain.BM0602.BM0602Mapper">
+	<select id="BM0602G0S0" resultType="newsVO" parameterType="String">
+     SELECT
+		   PROV_ID
+		 , PROV_URL
+		 , PROV_NM
+		 , REMARK
+		 , USE_YN
+     FROM
+	      BM_NEWS_SET
+	</select>
+</mapper>

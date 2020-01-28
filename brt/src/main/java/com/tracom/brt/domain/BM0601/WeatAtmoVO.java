@@ -34,5 +34,9 @@ public class WeatAtmoVO extends BaseVO{
 	private String numVal4;
 	private String numVal5;
 	private String numVal6;
-	private String remark;	
+	private String remarkAtmo;
+	private String remarkWeat;
+	private String weatApiKey;
+	private String atmoApiKey;
+	private String remark;
 }

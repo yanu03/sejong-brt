@@ -32,8 +32,8 @@ import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 
 @Service
-public class DataInterface {
-	
+public class AtmoDataInterface {
+
 	public String INTERFACE_URL = "INTERFACE_URL";
 	public String API_KEY = "KEY_API";
 	
@@ -171,5 +171,4 @@ public class DataInterface {
 		
 		return vo;
 	}
-	
 }

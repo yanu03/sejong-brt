@@ -91,14 +91,17 @@
 	</select>
 	
 	<select id="BM0601M0S0" resultType="weatAtmoVO" parameterType="String">
-		SELECT
-			NUM_VAL4
-		  , NUM_VAL5
-		  , NUM_VAL6
-		  , REMARK
-		FROM
+	SELECT
+		NUM_VAL4
+	  , NUM_VAL5
+	  , NUM_VAL6
+	  , B.REMARK AS WEATAPIKEY
+	  , C.REMARK AS REMARKATMO
+	  , D.REMARK AS REMARKWEAT
+	  , F.REMARK AS ATMOAPIKEY
+	FROM
 		 (SELECT
-		    TXT_VAL1
+		    CO_CD
 		  , NUM_VAL4
 		  , NUM_VAL5
 		  , NUM_VAL6
@@ -106,16 +109,62 @@
 		  FROM
 			SM_DL_CD_INFO
 		  WHERE
-			CO_CD = "UPD_CYCLE") AS A
+			DL_CD = "CD038") AS A
 			LEFT OUTER JOIN
 			 
 		(SELECT
 			REMARK
-		 , TXT_VAL1
+		 , CO_CD
 		FROM
 			SM_DL_CD_INFO
 		WHERE
-			DL_CD = "KA001") AS B
-		ON A.TXT_VAL1 = B.TXT_VAL1		
-	</select>	
+			DL_CD = "CD040") AS B
+		ON A.CO_CD = B.CO_CD
+		LEFT OUTER JOIN 
+		(SELECT
+		    REMARK
+		  , CO_CD
+		 FROM
+		 	SM_DL_CD_INFO
+		 WHERE
+		 	DL_CD = "CD041" ) AS C
+		 ON A.CO_CD = C.CO_CD
+		 LEFT OUTER JOIN
+		 (SELECT
+		 		REMARK
+		 	 , CO_CD
+		  FROM
+		  	   SM_DL_CD_INFO
+		  WHERE
+		  		DL_CD = "CD039" ) AS D
+		 ON A.CO_CD = D.CO_CD
+		 LEFT OUTER JOIN
+		 (SELECT
+		 	  REMARK
+		 	, CO_CD
+		  FROM
+		  	  SM_DL_CD_INFO
+		  WHERE
+		  	  DL_CD = "CD042" ) AS F
+		  ON A.CO_CD = F.CO_CD
+	</select>
+	<update id="BM0601M0I0" parameterType="Map">
+		UPDATE SM_DL_CD_INFO
+		SET
+			CO_CD = #{coCd}
+		  , DL_CD = #{dlCd}
+		  , DL_CD_NM = #{dlCdNm}
+		  , DL_CD_ENM = #{dlCdEnm}
+		  , SORT_ODR = #{sortOdr}
+		  , TXT_VAL1 = #{txtVal1}
+		  , TXT_VAL2 = #{txtVal2}
+		  , TXT_VAL3 = #{txtVal3}
+		  , NUM_VAL4 = #{numVal4}
+		  , NUM_VAL5 = #{numVal5}
+		  , NUM_VAL6 = #{numVal6}
+		  , USE_YN = "Y"
+		  , REMARK = #{remark}
+		WHERE
+		  DL_CD = "CD038"		  		
+	</update>
 </mapper>
