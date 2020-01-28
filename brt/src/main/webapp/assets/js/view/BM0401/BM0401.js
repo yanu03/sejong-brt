@@ -330,10 +330,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     TEST_TTS: function(caller, act, data) {
     	var wavDownloadUrl = "/api/v1/getWavDownload?" + $.param(data);
     	
-    	console.log(wavDownloadUrl)
-    	
     	// wav 다운로드
-    	window.location.href = wavDownloadUrl;
+    	//window.location.href = wavDownloadUrl;
     	
     	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
     },
@@ -485,7 +483,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
                 {key: "vocId", label: ADMIN("ax.admin.BM0401F0.voc.id"), width: 80},
-                {key: "vocNm", label: ADMIN("ax.admin.BM0401F0.voc.nm"), width: 120},
+                {key: "vocNm", label: ADMIN("ax.admin.BM0401F0.voc.nm"), width: 210},
                 {key: "playType", label: ADMIN("ax.admin.BM0401F0.play.type"), width: 120},
                 {key: "playTm", label: ADMIN("ax.admin.BM0401F0.play.time"), width: 80},
                 {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 150},
@@ -605,7 +603,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
                 	pText: _this.target.find("[data-ax-path='krTts']").val(),
                 	nLanguage: 0,
                 	nSpeakerId: 0,
-                	chimeYn: "Y"
+                	chimeYn: fnObj.formView0.model.get("chimeYn")
                 });
             },
             "enTts": function() {

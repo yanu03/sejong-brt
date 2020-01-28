@@ -78,8 +78,8 @@ public class BM0405Service extends BaseService<VoiceInfoVO, String> {
     }
     
     @Transactional
-    public boolean BM0405G2D0(VoiceOrganizationVO vo) {
-    	if(mapper.BM0405G2D0(vo) > 0) {
+    public boolean BM0405F0D0(VoiceOrganizationVO vo) {
+    	if(mapper.BM0405F0D0(vo) > 0) {
     		mapper.BM0405G1D0(vo);
     		return true;
     	} else {

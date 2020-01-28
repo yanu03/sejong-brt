@@ -167,48 +167,60 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = false; 
     	var confirmYn = $('#confirmYn').val();
     	
-    	axDialog.confirm({
-    		msg: LANG("ax.script.contractconfirm")
-    	}, function() {
-    		if(this.key == "ok"){
-    			
-    			if(confirmYn == "N"){
-    				//console.log("N이지롱");
-    				if (caller.formView0.validate()) {
-    					var formData = caller.formView0.getData();
-    					
-    					axboot.promise()
-    					.then(function (ok, fail, data) {
-    						axboot.ajax({
-    							type: "POST",
-    							url: "/api/v1/BM0301F0U1",
-    							data: JSON.stringify(formData),
-    							callback: function (res) {
-    								ok(res);
-    							}
-    						});
-    					})
-    					.then(function (ok, fail, data) {
-    						axToast.push(LANG("onupdate"));
-    						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-    						isUpdate = true;
-    					})
-    					.catch(function () {
-    						
-    					});
-    				}
-    			}else {
-    				//console.log("Y지롱");
-    				axDialog.alert({
-    	                msg: LANG("ax.script.confirmres")
-    	            });
-    			}
-    			
-    		}
-		}
-    	)
-    	
-    
+    	if(confirmYn == "N"){
+	    	axDialog.confirm({
+	    		msg: LANG("ax.script.contractconfirm")
+	    	}, function() {
+	    		if(this.key == "ok"){	    			
+	    			if (caller.formView0.validate()) {
+	    					var formData = caller.formView0.getData();    					
+	    					axboot.promise()
+	    					.then(function (ok, fail, data) {
+	    						axboot.ajax({
+	    							type: "POST",
+	    							url: "/api/v1/BM0301F0U1",
+	    							data: JSON.stringify(formData),
+	    							callback: function (res) {
+	    								ok(res);
+	    							}
+	    						});
+	    					})
+	    					.then(function (ok, fail, data) {
+	    						axToast.push(LANG("onupdate"));
+	    						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	    						isUpdate = true;
+	    					})
+	    					.catch(function () {   						
+	    					});
+	    				}	    			
+	    		}
+			});
+	    }else{
+	    	axDialog.confirm({
+	    		msg: LANG("ax.script.contractconfirmn")
+	    	}, function(){
+	    		if(this.key == "ok"){
+	    			console.log("해제ok");
+	    			if (caller.formView0.validate()){
+	    				var formData = caller.formView0.getData();
+	    				axboot.promise()
+	    				.then(function (ok, fail, data) {
+	    				axboot.ajax({
+							type: "POST",
+							url: "/api/v1/BM0301F0U2",
+							data: JSON.stringify(formData),
+							callback: function (res) {
+								ok(res);
+								ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+								isUpdate = true;
+							}
+						});
+	    				})	
+	    			}
+	    		}
+	    	}
+	    	);
+	    }				   
     },
     
     // 탭닫기
@@ -331,9 +343,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), width: 100},
-                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 80},
-                {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 80},
+            	{key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), width: 120},
+                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 120},
+                {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 120},
                 {key: "conFstDate", label: ADMIN("ax.admin.BM0301F0.confd"), width: 120},
                 {key: "conStDate", label: ADMIN("ax.admin.BM0301F0.consd"), width: 120},
                 {key: "conEdDate", label: ADMIN("ax.admin.BM0301F0.coned"), width: 120},
@@ -341,7 +353,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "custId", label: ADMIN("ax.admin.BM0301F0.custid"), width: 120},
                 {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 120},
                 {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 70},
-                {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 70},
+                {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
             ],
             body: {
                 onClick: function () {

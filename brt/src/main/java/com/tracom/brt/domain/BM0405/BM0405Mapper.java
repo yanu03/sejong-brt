@@ -19,7 +19,7 @@ public interface BM0405Mapper extends MyBatisMapper {
 	int BM0405G2I2(VoiceOrganizationVO vo);
 	int BM0405G2U0(VoiceOrganizationVO vo);
 	int BM0405F0U0(VoiceOrganizationVO vo);
-	int BM0405G2D0(VoiceOrganizationVO vo);
+	int BM0405F0D0(VoiceOrganizationVO vo);
 	int BM0405G2D1(VoiceOrganizationVO vo);
 	int BM0405G1D0(VoiceOrganizationVO vo);
 }

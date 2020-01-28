@@ -17,6 +17,5 @@
         <p class="desc">${page_desc}</p>
     </jsp:attribute>
     <jsp:body>
-		qwqww
     </jsp:body>
 </ax:layout>

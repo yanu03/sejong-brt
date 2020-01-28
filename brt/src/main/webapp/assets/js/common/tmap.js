@@ -46,8 +46,7 @@ function initTmap(options) {
             busstopNodeType = res.list[1].numVal4;
             orgaNodeType = res.list[1].numVal5;
         }
-    })
-	
+    });
 	
 	return map;
 } 
@@ -98,7 +97,7 @@ function drawLine(lat_arr, lng_arr){
 	
 	polyline = new Tmapv2.Polyline({
 		path: path,
-		strokeColor: "#dd00dd", // 라인 색상
+		strokeColor: "#FF005E", // 라인 색상
 		strokeWeight: 3, // 라인 두게
 		map: map // 지도 객체
 	});
@@ -339,7 +338,7 @@ function getDrawingCircle(lat, lon, radius) {
 		center: new Tmapv2.LatLng(lat, lon),
 		radius: radius,
 		strokeColor: "#A872EE",
-		strokeWeight: 3,
+		strokeWeight: 2,
 		fillColor: "#A872EE",
 		fillOpacity: 0.2,
 		map: map
@@ -351,10 +350,10 @@ function getDrawingCircle(lat, lon, radius) {
 function getDrawingNode(lat, lon) {
 	var node = new Tmapv2.Circle({
 		center: new Tmapv2.LatLng(lat, lon),
-		radius: 3,
-		strokeColor: "red",
+		radius: 4,
+		strokeColor: "#FF005E",
 		strokeWeight: 3,
-		fillColor: "red",
+		fillColor: "#FFFFFF",
 		fillOpacity: 1,
 		map: map
 	});

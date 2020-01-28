@@ -33,7 +33,7 @@ import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 
 @Service
 public class DataInterface {
-
+	
 	public String INTERFACE_URL = "INTERFACE_URL";
 	public String API_KEY = "KEY_API";
 	

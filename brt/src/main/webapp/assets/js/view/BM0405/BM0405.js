@@ -6,7 +6,6 @@ var isAdd = false;
 var selectedRow = null;
 var selectedOrga = null;
 var routeData;
-var routeDataOriginal;
 var orgaIcon = "http://tmapapi.sktelecom.com//resources/images/common/pin_car.png";
 /*************************************************************************************************************/
 
@@ -52,7 +51,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
 	PAGE_SEARCH: function (caller, act, data) {
-    	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
     	
         axboot.ajax({
@@ -63,17 +61,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 caller.gridView0.setData(res);
                 
                 if(res.list.length == 0) {
-                	isUpdate = false;
-                	caller.gridView1.setData(null);
+                	caller.gridView1.setData([]);
+                	caller.gridView2.setData([]);
                 } else {
-                	if(dataFlag) {
-	                	caller.gridView0.selectIdRow(data);
+	                if(selectedRow != null) {
+	                	caller.gridView0.selectRow(selectedRow.__index);
 	                } else {
-		                if(selectedRow != null) {
-		                	caller.gridView0.selectRow(selectedRow.__index);
-		                } else {
-		                	caller.gridView0.selectFirstRow();
-		                }
+	                	caller.gridView0.selectFirstRow();
 	                }
                 }
             }
@@ -86,7 +80,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_NEW: function (caller, act, data) {
-    	isAdd = true;
+    	if(isAdd) {
+    		isAdd = false;
+        	$("#mapView0").removeClass("cursor-crosshair");
+        	$("[data-page-btn='new']").html("<i class='cqc-plus'></i> 추가");
+    	} else {
+    		isAdd = true;
+        	$("#mapView0").addClass("cursor-crosshair");
+        	$("[data-page-btn='new']").html("<i class='cqc-minus'></i> 취소");
+    	}
     },
     
     // 탭닫기
@@ -95,7 +97,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK: function (caller, act, data) {
-    	isUpdate = true;
     	selectedRow = data;
     	
     	ACTIONS.dispatch(ACTIONS.REFRESH_G1);
@@ -146,7 +147,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	caller.gridView1.setData(res);
             	
             	if(res.list != null && res.list.length != 0) {
-            		routeData = routeDataOriginal = res.list.slice();
+            		routeData = res.list.slice();
             	} else {
             		routeData = [];
             	}
@@ -206,7 +207,7 @@ function onClickMap(e) {
 				longi: lonlat.lng(),
 				seq: seq,
 				nodeNm: ADMIN("ax.admin.BM0405M0.voc.node"),
-				nodeType: orgaNodeType,
+				nodeType: orgaNodeType, 
 				icon: orgaIcon,
 			});
 			
@@ -219,6 +220,9 @@ function onClickMap(e) {
 			});
 		}
 	}
+	
+	$("[data-page-btn='new']").html("<i class='cqc-plus'></i> 추가");
+	$("#mapView0").removeClass("cursor-crosshair");
 	isAdd = false;
 }
 
@@ -275,7 +279,8 @@ function drawRoute(list) {
 			if(list[i].nodeType == busstopNodeType || list[i].nodeType == orgaNodeType) {
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				
-				if(list[i].nodeType == orgaNodeType) {
+				
+				if(list[i].nodeType == orgaNodeType && list[i].allPlayTm != null && list[i].allPlayTm != 0) {
 					if(list[i].nodeType == orgaNodeType) {
 						var radius = Math.round((limitSpeed / 3600 * 1000) * list[i].allPlayTm);
 						
@@ -304,6 +309,8 @@ function drawRoute(list) {
 							
 							ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
 							ACTIONS.dispatch(ACTIONS.OPEN_BM0405, temp);
+						} else {
+							axDialog.alert("선택할 수 없는 좌표입니다.");
 						}
 					};
 					list[i].index = i;
@@ -321,9 +328,10 @@ function drawRoute(list) {
 		
 		polyline = new Tmapv2.Polyline({
 			path: path,
-			strokeColor: "#DD00DD",
-			strokeWeight: 3,
-			map: map
+			strokeColor: "#FF005E",
+			strokeWeight: 2,
+			map: map,
+			zIndex: -1
 		}); 
 	}
 }
@@ -458,19 +466,14 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     selectFirstRow: function() {
     	if(this.target.list.length != 0) {
     		this.selectRow(0);
-    	} else {
-    		isUpdate = false;
     	}
     },
     selectLastRow: function() {
     	if(this.target.list.length != 0) {
     		this.selectRow(this.target.list.length - 1);
-    	} else {
-    		isUpdate = false;
-    	}
+    	} 
     },
     selectRow: function(index) {
-    	isUpdate = true;
     	var data = this.target.list[index];
     	
     	if(typeof data === "undefined") {
@@ -478,22 +481,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	} else {
     		this.target.select(index);
         	ACTIONS.dispatch(ACTIONS.ITEM_CLICK, data);
-    	}
-    },
-    selectIdRow: function(id) {
-    	var i;
-    	var length = this.target.list.length;
-    	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].routId == id) {
-    			this.selectRow(i);
-    			break;
-    		}
-    	}
-    	
-    	if(i == length) {
-    		isUpdate = false;
-    		fnObj.formView0.clear();
-    		fnObj.formView0.disable();
     	}
     },
     selectAll: function(flag) {
@@ -517,12 +504,12 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "nodeId",		label: ADMIN("ax.admin.BM0105G1.staId"),		width: 80},
-                {key: "nodeNm",		label: ADMIN("ax.admin.BM0105G1.staNm"),		width: 160},
-                {key: "nodeType",	label: ADMIN("ax.admin.BM0105G1.staNo"),		width: 100},
-                {key: "lati", 		label: ADMIN("ax.admin.BM0105G1.lati"),			width: 100},
-                {key: "longi",		label: ADMIN("ax.admin.BM0105G1.longi"),		width: 100},
-                {key: "updatedAt",	label: ADMIN("ax.admin.BM0105G1.updatedAt"),	width: 140},
+            	{key: "nodeId",		label: ADMIN("ax.admin.BM0405G1.node.id"),		width: 80,		align: "center"},
+                {key: "nodeNm",		label: ADMIN("ax.admin.BM0405G1.node.nm"),		width: 100,		align: "center"},
+                {key: "nodeType",	label: ADMIN("ax.admin.BM0405G1.node.type"),	width: 80,		align: "center"},
+                {key: "lati", 		label: ADMIN("ax.admin.BM0405G1.lati"),			width: 80,		align: "center"},
+                {key: "longi",		label: ADMIN("ax.admin.BM0405G1.longi"),		width: 80,		align: "center"},
+                {key: "updatedAt",	label: ADMIN("ax.admin.BM0405G1.updatedAt"),	width: 140,		align: "center"},
             ],
             body: {
                 onClick: function () {
@@ -557,19 +544,14 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     selectFirstRow: function() {
     	if(this.target.list.length != 0) {
     		this.selectRow(0);
-    	} else {
-    		isUpdate = false;
     	}
     },
     selectLastRow: function() {
     	if(this.target.list.length != 0) {
     		this.selectRow(this.target.list.length - 1);
-    	} else {
-    		isUpdate = false;
     	}
     },
     selectRow: function(index) {
-    	isUpdate = true;
     	var data = this.target.list[index];
     	
     	if(typeof data === "undefined") {
@@ -577,22 +559,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     	} else {
     		this.target.select(index);
         	ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, data);
-    	}
-    },
-    selectIdRow: function(id) {
-    	var i;
-    	var length = this.target.list.length;
-    	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].vocId == id) {
-    			this.selectRow(i);
-    			break;
-    		}
-    	}
-    	
-    	if(i == length) {
-    		isUpdate = false;
-    		fnObj.formView0.clear();
-    		fnObj.formView0.disable();
     	}
     },
     selectAll: function(flag) {
@@ -656,42 +622,20 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
     selectFirstRow: function() {
     	if(this.target.list.length != 0) {
     		this.selectRow(0);
-    	} else {
-    		isUpdate = false;
     	}
     },
     selectLastRow: function() {
     	if(this.target.list.length != 0) {
     		this.selectRow(this.target.list.length - 1);
-    	} else {
-    		isUpdate = false;
     	}
     },
     selectRow: function(index) {
-    	isUpdate = true;
     	var data = this.target.list[index];
     	
     	if(typeof data === "undefined") {
     		this.selectLastRow();
     	} else {
     		this.target.select(index);
-        	ACTIONS.dispatch(ACTIONS.ITEM_CLICK, data);
-    	}
-    },
-    selectIdRow: function(id) {
-    	var i;
-    	var length = this.target.list.length;
-    	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].vocId == id) {
-    			this.selectRow(i);
-    			break;
-    		}
-    	}
-    	
-    	if(i == length) {
-    		isUpdate = false;
-    		fnObj.formView0.clear();
-    		fnObj.formView0.disable();
     	}
     },
     selectAll: function(flag) {

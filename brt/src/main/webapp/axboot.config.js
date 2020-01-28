@@ -126,6 +126,14 @@
             		url: "/jsp/common/CONTRACT_modal.jsp"
             	},
             	header: false
+            },           
+            "BM0601": {
+            	width: 550,
+            	height: 400,
+            	iframe: {
+            		url: "/jsp/common/BM0601_modal.jsp"
+            	},
+            	header: false
             },
         };
     }
