@@ -39,6 +39,7 @@
 	<select id="BM0107G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
 		SELECT
 			  ROUT_ID
+			, SEQ
 			, NODE_ID
 		    , NODE_NM
 		    , LATI
@@ -124,6 +125,43 @@
 			)
 			</foreach>
     </insert>
+    
+    <!-- 
+    <insert id="BM0107G1I1" parameterType="bmRoutNodeInfoVO">
+    	INSERT INTO
+    		BM_ROUT_RESULT
+    			(
+    				  NODE_ID
+    				, NODE_NM
+    				, LATI
+    				, LONGI
+    				, SEQ
+    				, ROUT_ID
+    				, STA_ID
+    				, CREATED_AT
+    				, CREATED_BY
+    				, UPDATED_AT
+    				, UPDATED_BY
+    			)
+		VALUES
+		SELECT
+			  NODE_ID
+			, NODE_NM
+			, LATI
+			, LONGI
+			, SEQ
+			, ROUT_ID
+			, STA_ID
+			, CREATED_AT
+			, CREATED_BY
+			, UPDATED_AT
+			, UPDATED_BY
+		FROM
+			BM_ROUT_NODE_INFO
+		WHERE
+			ROUT_ID = #{routId}
+    </insert>
+     -->
     
     <delete id="BM0107G1D0" parameterType="bmRoutInfoVO">
     	DELETE FROM

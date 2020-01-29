@@ -54,7 +54,7 @@ public class InsertNode {
 		maxy = Math.max(x1, x2);
 		
 		isValid = (point.getY() >= minx && point.getY() <= maxx) && (point.getX() >= miny && point.getX() <= maxy);
-		System.out.println(point.getY() + ", " + point.getX());
+		//System.out.println(point.getY() + ", " + point.getX());
 		return isValid ? point : null;
 	}
 	

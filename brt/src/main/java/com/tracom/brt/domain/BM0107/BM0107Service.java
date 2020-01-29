@@ -51,7 +51,6 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     	count = requestParams.size();
     	for(BmRoutInfoVO routVO : requestParams) {
     		//0. 이전 경로 삭제
-    		System.out.println(routVO);
     		delCnt = mapper_107.BM0107G1D0(routVO);
     		String json = dif.interface_URL("POST", baseUrl + routVO.getRoutId()); 
     		
@@ -140,7 +139,11 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     			tmpVO = insertNode.getDistanceToLine(sta.getLongi(), sta.getLati(),
     					nodeList.get(i).getLongi(),	nodeList.get(i).getLati(),
     					nodeList.get(i+1).getLongi(), nodeList.get(i+1).getLati()	);
-    			
+    			/** 550노선 테스트중 286070003**/
+    			if(sta.getNodeId().equals("286070003") && tmpVO != null) {
+    				System.out.println(sta.getNodeId() + " : " + nodeList.get(i).getNodeId() + ", " + nodeList.get(i+1).getNodeId() + " = " + tmpVO);
+    				System.out.println(nodeList.get(i).getLati() + ", " + nodeList.get(i).getLongi() + "::" + nodeList.get(i+1).getLati() + ", " + nodeList.get(i+1).getLongi() );
+    			}
     			//만약 직교한다면
     			if(tmpVO != null) {
     				//가장 짧은값이라면
