@@ -17,6 +17,9 @@
         <ax:page-buttons></ax:page-buttons>
 
         <div role="page-header">
+        	<button type="button" class="btn btn-primary" data-page-btn="commonSetTing" style="position:absolute; width:70px; left:810px; top:17px">
+	          <ax:lang id="ax.admin.commonsetting"/>
+	        </button>      	
             <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
