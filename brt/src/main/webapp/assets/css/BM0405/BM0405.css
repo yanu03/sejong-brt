@@ -10,3 +10,7 @@
 .cursor-crosshair {
 	cursor: crosshair;
 }
+
+.grid-cell-color-gray {
+	color: #cacaca;
+}

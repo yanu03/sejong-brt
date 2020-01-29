@@ -53,7 +53,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		        	if (parent && parent.axboot && parent.axboot.modal) {
 	                    parent.axboot.modal.callback();
 	                }
-		        	axToast.push(LANG("onupdate"));
+		        	axToast.push(LANG("onsave"));
 		        	//window.location.reload();
 		        })
 		        .catch(function () {
@@ -372,8 +372,14 @@ fnObj.gridView4 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView4"]'),
             columns: [
-            	{key: "vocNm", label: ADMIN("ax.admin.BM0405F0.voc.nm"), width: 100},
-				{key: "vocDivNm", label: ADMIN("ax.admin.BM0405F0.voc.div"), width: 100},
+            	{key: "vocNm", label: ADMIN("ax.admin.BM0405F0.voc.nm"), width: 100,
+            		styleClass: function() {
+            			return (this.item.isDeadline === "Y") ? "grid-cell-color-gray" : "";
+            		}},
+				{key: "vocDivNm", label: ADMIN("ax.admin.BM0405F0.voc.div"), width: 100,
+					styleClass: function() {
+            			return (this.item.isDeadline === "Y") ? "grid-cell-color-gray" : "";
+            		}},
             ],
             footSum: [
             	[

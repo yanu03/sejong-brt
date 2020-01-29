@@ -331,7 +331,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var wavDownloadUrl = "/api/v1/getWavDownload?" + $.param(data);
     	
     	// wav 다운로드
-    	window.location.href = wavDownloadUrl;
+    	//window.location.href = wavDownloadUrl;
     	
     	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
     },
