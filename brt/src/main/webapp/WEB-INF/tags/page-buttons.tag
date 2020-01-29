@@ -25,12 +25,12 @@
             <button type="button" class="btn btn-info" data-page-btn="excel"><i class="cqc-file-excel-o"></i> <%=MessageUtils.getMessage(request, "ax.admin.excel")%></button>
         </c:if>
 
-        <c:if test="${authGroupMenu.fn6Ah eq 'Y'}">
-            <button type="button" class="btn btn-info" data-page-btn="interface"><%=MessageUtils.getMessage(request, "ax.admin.interface")%></button>
-        </c:if>
-        
         <c:if test="${authGroupMenu.schAh eq 'Y'}">
             <button type="button" class="btn btn-info" data-page-btn="search"><i class="cqc-magnifier"></i> <%=MessageUtils.getMessage(request, "ax.admin.inquery")%> </button>
+        </c:if>
+
+        <c:if test="${authGroupMenu.fn6Ah eq 'Y'}">
+            <button type="button" class="btn btn-info" data-page-btn="interface"><%=MessageUtils.getMessage(request, "ax.admin.interface")%></button>
         </c:if>
         
         <c:if test="${authGroupMenu.fn1Ah eq 'Y'}">

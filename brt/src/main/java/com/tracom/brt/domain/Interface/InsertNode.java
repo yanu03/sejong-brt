@@ -15,7 +15,7 @@ public class InsertNode {
 		double lng2_rad = x2 * (Math.PI/180);
 		
 		double lat_gap = lat2_rad - lat1_rad;
-		double lng_gap = lng2_rad - lng2_rad;
+		double lng_gap = lng2_rad - lng1_rad;
 		
 	    double mid_val = Math.pow(Math.sin(lat_gap / 2.0), 2.0) +
                 Math.cos(lat1_rad) * 
@@ -54,7 +54,7 @@ public class InsertNode {
 		maxy = Math.max(x1, x2);
 		
 		isValid = (point.getY() >= minx && point.getY() <= maxx) && (point.getX() >= miny && point.getX() <= maxy);
-		
+		System.out.println(point.getY() + ", " + point.getX());
 		return isValid ? point : null;
 	}
 	
@@ -66,7 +66,9 @@ public class InsertNode {
 			return null;
 		} else {
 			double distance = getDistanceBetween(x, y, point.getX(), point.getY());
-			point.setDistance(distance);
+			if(distance < 999999999) {
+				point.setDistance(distance);
+			}
 			return point;
 		}
 	}

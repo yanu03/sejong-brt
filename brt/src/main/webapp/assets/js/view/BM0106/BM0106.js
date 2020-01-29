@@ -145,7 +145,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = true;
     	selectedRow = data;
         caller.formView0.setData(data);
-        map_marker(data.lati, data.longi);
+        mapMarker(data.lati, data.longi);
     }
 });
 

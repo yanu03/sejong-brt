@@ -90,16 +90,28 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
 		JsonArray busRouteDetailMapVoList = (JsonArray) jsonObj.get("busRouteDetailMapVoList");
 		
 		int i=1;
+		int tmp = 0;
 		List<BmRoutNodeInfoVO> resultList = new ArrayList<>();
-		
-		for(Object o : busRouteDetailMapVoList) {
+
+		for(int j = 0; j < busRouteDetailMapVoList.size(); j++) {//
 			BmRoutNodeInfoVO vo = new BmRoutNodeInfoVO();
+			Object o = busRouteDetailMapVoList.get(j);//
 			JsonObject ob = (JsonObject)o;
+			
 			String route_ord = ob.get("route_ord").toString().replace("\"", "");
 			String ord = ob.get("ord").toString().replace("\"", "");
 			String route_id = ob.get("route_id").toString().replace("\"", "");
 			float lati = Float.valueOf(ob.get("lat").toString().replace("\"", ""));
 			float longi = Float.valueOf(ob.get("lng").toString().replace("\"", ""));
+			
+			if(j == 0) {
+				tmp = Integer.valueOf(route_ord);
+			}
+			
+			if(tmp != Integer.valueOf(route_ord)){
+				tmp = Integer.valueOf(route_ord);
+				continue;
+			}
 			
 			vo.setNodeNm(route_id + "_" + route_ord + "_" + ord);
 			vo.setLati(lati);
@@ -110,30 +122,40 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
 
 			resultList.add(vo);
 			i++;
+			
 		}
 		return resultList;
 	}
     
     public List<BmRoutNodeInfoVO> insertSta(List<BmRoutNodeInfoVO> nodeList, List<BmRoutNodeInfoVO> staList) {
-    	List<BmRoutNodeInfoVO> resultList = new ArrayList<>();
+    	//정류장 갯수만큼 for문 돌릴거임
     	for(BmRoutNodeInfoVO sta : staList) {
     		int seq = 0;
     		int forseq = 0;
     		LocationVO resultVO = new LocationVO();
     		LocationVO tmpVO = new LocationVO();
     		resultVO.setDistance(999999999);
-    		System.out.println("-----------------------------===========---------------");
     		for(int i = 0; i < nodeList.size()-1; i++) {
-    			tmpVO = insertNode.getDistanceToLine(sta.getLongi(), sta.getLati(), nodeList.get(i).getLongi()
-    					, nodeList.get(i).getLati(), nodeList.get(i+1).getLongi(), nodeList.get(i+1).getLati());
-    			System.out.println(tmpVO);
-    			if(tmpVO != null && tmpVO.getDistance() < resultVO.getDistance()) {
-    				resultVO = tmpVO;
-    				seq = (nodeList.get(i).getSeq() + nodeList.get(i+1).getSeq())/2;
-    				forseq = i;
-    			}	
+    			//링크마다 거리 계산함. 정류장이 링크에 직교하는점이 있으면 그 점 반환, 없으면 null 반환
+    			tmpVO = insertNode.getDistanceToLine(sta.getLongi(), sta.getLati(),
+    					nodeList.get(i).getLongi(),	nodeList.get(i).getLati(),
+    					nodeList.get(i+1).getLongi(), nodeList.get(i+1).getLati()	);
+    			
+    			//만약 직교한다면
+    			if(tmpVO != null) {
+    				//가장 짧은값이라면
+    				if(tmpVO.getDistance() < resultVO.getDistance()) {
+    					//바꿔치기함
+    					resultVO = tmpVO;
+    					//시퀀스는 전노드랑 다음노드의 평균으로 함
+    					seq = (nodeList.get(i).getSeq() + nodeList.get(i+1).getSeq())/2;
+    					//forseq는 리스트에 삽입할 순서
+    					forseq = i+1;
+    				}
+    			}
     		}
     		sta.setSeq(seq);
+    		
     		nodeList.add(forseq, sta);
     	}
     	

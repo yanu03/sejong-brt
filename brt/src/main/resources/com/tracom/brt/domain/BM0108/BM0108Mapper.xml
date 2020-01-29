@@ -4,11 +4,11 @@
 <mapper namespace="com.tracom.brt.domain.BM0108.BM0108Mapper">
 
     <select id="BM0108G0S0" parameterType="String" resultType="eplyInfoVO">
-    	SELECT
+		SELECT
     		  EPLY_ID
     		, EPLY_NM
     		, PHONE
-    		, BUS_DIV
+            , (SELECT DL_CD_NM FROM SM_DL_CD_INFO WHERE CO_CD = 'BUS_DIV' AND DL_CD = BUS_DIV) AS BUS_DIV
     		, RETIRE_YN
     		, EPLY_DATE1
     		, EPLY_DATE2

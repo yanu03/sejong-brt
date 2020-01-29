@@ -113,16 +113,21 @@
                     	
                     	<ax:tr>
                        		<ax:td label="ax.admin.BM0103F0.vhcKind" width="300px" labelClazz="required">
+                       		<ax:SM0105 groupCd="BUS_KIND" id="vhcKind" name="vhcKind" dataPath="vhcKind"/>
+                       		<!-- 
 	     					 	<select class="form-control" name="vhcKind" data-ax-path="vhcKind" >
 									 <option value="big"><ax:lang id="ax.admin.BM0103F0.bus.big"/></option>
 									 <option value="mid"><ax:lang id="ax.admin.BM0103F0.bus.mid"/></option>
 									 <option value="small"><ax:lang id="ax.admin.BM0103F0.bus.small"/></option>
 								</select>
+                       		 -->
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
                        		<ax:td label="ax.admin.BM0103F0.vhcType" width="300px" labelClazz="required">
+                       		    <ax:SM0105 groupCd="BUS_DIV" id="vhcType" name="vhcType" dataPath="vhcType"/>
+                       		    <!-- 
 	     					 	<select class="form-control" name="vhcType" data-ax-path="vhcType" >
 									 <option value="city"><ax:lang id="ax.admin.BM0108F0.bus.ctin"/></option>
 									 <option value="vilg"><ax:lang id="ax.admin.BM0108F0.bus.vilg"/></option>
@@ -130,22 +135,26 @@
 									 <option value="intct"><ax:lang id="ax.admin.BM0108F0.bus.ctout"/></option>
 									 <option value="fast"><ax:lang id="ax.admin.BM0108F0.bus.fast"/></option>
 								</select>
+                       		     -->
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
                       		<ax:td label="ax.admin.BM0103F0.lfYn" width="300px" labelClazz="required">
-                    			<ax:common-code groupCd="LF_YN" name="lfYn" dataPath="lfYn" clazz="form-control" type=""/>
+                    			<ax:SM0105 groupCd="LF_YN" id="lfYn" name="lfYn" dataPath="lfYn"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
                        		<ax:td label="ax.admin.BM0103F0.vhcFuel" width="300px" labelClazz="required">
+                       			<ax:SM0105 groupCd="FUEL_TYPE" id="vhcFuel" name="vhcFuel" dataPath="vhcFuel"/>
+	     					 	<!-- 
 	     					 	<select class="form-control" name="vhcFuel" data-ax-path="vhcFuel" >
 									 <option value="D"><ax:lang id="ax.admin.BM0103F0.bus.disel"/></option>
 									 <option value="L"><ax:lang id="ax.admin.BM0103F0.bus.LPG"/></option>
 									 <option value="E"><ax:lang id="ax.admin.BM0103F0.bus.elec"/></option>
 								</select>
+	     					 	 -->
                     		</ax:td>
                     	</ax:tr>
                     	

@@ -163,9 +163,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	selectedRow = data;
         caller.formView0.setData(data);
         
-        //승무사원이미지 없을시 기본 이미지
-        preview_Image();
-
+        $("#employeeImg").val("");
+        
+    	var url = "/api/v1/BM0108F0S0?eplyId=" + data.eplyId;
+    	
+    	$("#previewImg").attr("src", url);
+    	
     },
     
     OPEN_BM0101_MODAL: function(caller, act, data) {
