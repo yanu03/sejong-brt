@@ -368,14 +368,18 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
             sortable: true,
+            showRowSelector: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-                {key: "routId", label: ADMIN("ax.admin.BM0107G1.routId"), width: 80},
-                {key: "nodeId", label: ADMIN("ax.admin.BM0107G1.nodeId"), width: 120},
-                {key: "nodeNm", label: ADMIN("ax.admin.BM0107G1.nodeNm"), width: 120},
-                {key: "lati", label: ADMIN("ax.admin.BM0107G1.lati"), width: 120},
-                {key: "longi", label: ADMIN("ax.admin.BM0107G1.longi"), width: 120},
-                {key: "updatedAt", label: ADMIN("ax.admin.BM0107G1.updatedAt"), width: 120},
+                {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80},
+                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 100
+                	, editor: {type: "number"}
+                },
+                {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
+                {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120},
+                {key: "lati",		label: ADMIN("ax.admin.BM0107G1.lati"),			width: 120},
+                {key: "longi",		label: ADMIN("ax.admin.BM0107G1.longi"),		width: 120},
+                {key: "updatedAt",	label: ADMIN("ax.admin.BM0107G1.updatedAt"),	width: 120},
             ],
             body: {
                 onClick: function () {

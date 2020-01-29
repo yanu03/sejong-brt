@@ -50,6 +50,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.clear();
         caller.formView0.enable();
         caller.formView0.validate(true);
+        preview_Image();
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -88,30 +89,33 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SAVE: function (caller, act, data) {
+        
         if (caller.formView0.validate()) {
             var formData = new FormData(caller.formView0.target[0]);
-            formData.append("attFile", $("#employeeImg")[0].files[0].name);
-            console.log(formData);
+            if($("#employeeImg")[0].files[0]){
+            	formData.append("attFile", $("#employeeImg")[0].files[0].name);
+            }
+
+                      
             axboot.promise()
                 .then(function (ok, fail, data) {
-                    axboot.ajax({
-                        type: "POST",
+                	axboot.ajax({
+                    	type: "POST",
+                    	enctype: "multipart/form-data",
+                    	processData: false,
                         url: "/api/v1/BM0108F0I0",
-                        data: JSON.stringify(formData),
+                        data: formData,
                         callback: function (res) {
                             ok(res);
                         },
-                        enctype: "multipart/form-data",
-                        processData: false,
                         options: {
                         	contentType:false
                         }
                     });
                 })
                 .then(function (ok, fail, data) {
-            		axToast.push(LANG("onadd"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-                    isUpdate = true;
+            		axToast.push(LANG("onupdate"));
+            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
 
