@@ -1,21 +1,15 @@
 package com.tracom.brt.controllers;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
@@ -44,21 +38,5 @@ public class VoiceConroller extends BaseController {
         httpHeaders.setContentDispositionFormData("attachment", System.currentTimeMillis() + ".wav");
         
         return new ResponseEntity<>(buffer, httpHeaders, HttpStatus.OK);
-	}
-	
-	@GetMapping("/getWavTest")
-	public void getWavTest(RequestParams<VoiceInfoVO> requestParams, HttpServletRequest request, HttpServletResponse response) {
-		service.wavTest(requestParams, request, response);
-	}
-	
-	@GetMapping("/getMp3Test")
-	public void getMp3Test(RequestParams<VoiceInfoVO> requestParams, HttpServletRequest request, HttpServletResponse response) {
-		service.mp3Test(requestParams, request, response);
-	}
-	
-	@PostMapping("/uplaodWavTemp")
-	 public ApiResponse uploadWavTemp(@ModelAttribute VoiceInfoVO request) {
-		service.uplaodWavTemp(request);
-		return ok();
 	}
 }

@@ -206,10 +206,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     TEST_PLAY_LIST: function(caller, act, data) {
     	var list = caller.gridView4.getData();
     	var playList = [];
-    	var url = "/api/v1/getMp3Test?";
+    	//var url = "/api/v1/getMp3Test?";
+    	var url = "/api/v1/filePreview?type=savedVoice&";
     	
     	for(var i = 0; i < list.length; i++) {
     		var params = list[i];
+    		
+    		if(params.isDeadline == "Y") {
+    			continue;
+    		}
     		
     		if(list[i].playType == "WAV") {
     			playList.push({

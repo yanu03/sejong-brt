@@ -151,42 +151,39 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if (caller.formView0.validate()) {
         	var formData = new FormData(caller.formView0.target[0]);
         	
-        	if(formData.get("playType") == "WAV") {
+        	if(caller.formView0.model.get("playType") == "WAV") {
     	    	var element = $("#wavFile");
     	    	
-    	    	if(element[0].files[0]){
-    	        	formData.append("attFile", $("#wavFile")[0].files[0].name);
-    	        } else {
+    	    	if(!element[0].files[0]){
     	        	alert(element.attr("title") + "을 선택해주세요");
     	        	return false;
     	        }
         	}
         	
-            axboot.promise()
-                .then(function (ok, fail, data) {
-                    axboot.ajax({
-                        type: "POST",
-                        url: "/api/v1/BM0401F0I0",
-                        enctype: "multipart/form-data",
-                        processData: false,
-                        data: formData,
-                        callback: function (res) {
-                            ok(res);
-                        },
-                        options: {
-                        	contentType:false
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onadd"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-                    isUpdate = true;
-                })
-                .catch(function () {
-
-                });
-            //*/
+        	axboot.promise()
+	            .then(function (ok, fail, data) {
+	                axboot.ajax({
+	                	type: "POST",
+	                    url: "/api/v1/BM0401F0I0",
+	                    enctype: "multipart/form-data",
+	                    processData: false,
+	                    data: formData,
+	                    callback: function (res) {
+	                        ok(res);
+	                    },
+	                    options: {
+	                    	contentType:false
+	                    }
+	                });
+	            })
+	            .then(function (ok, fail, data) {
+	            	axToast.push(LANG("onadd"));
+	        		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+	                isUpdate = true;
+	            })
+	            .catch(function () {
+	
+	            });
         }
     },
     
@@ -293,29 +290,34 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    	var fileURL = blob.createObjectURL(file);
 	    	
 	    	if(checkIe()) {
-	            axboot.promise()
-	                .then(function (ok, fail, data) {
-	                    axboot.ajax({
-	                    	type: "POST",
-	                        url: "/api/v1/uplaodWavTemp",
-	                        enctype: "multipart/form-data",
-	                        processData: false,
-	                        data: formData,
-	                        callback: function (res) {
-	                            ok(res);
-	                        },
-	                        options: {
-	                        	contentType:false
-	                        }
-	                    });
-	                })
-	                .then(function (ok, fail, data) {
+	    		var formData = new FormData(caller.formView0.target[0]);
+	    		
+	    		axboot.promise()
+		            .then(function (ok, fail, data) {
+		                axboot.ajax({
+		                	type: "POST",
+		                    url: "/api/v1/uplaodWavTemp",
+		                    enctype: "multipart/form-data",
+		                    processData: false,
+		                    data: formData,
+		                    callback: function (res) {
+		                        ok(res);
+		                    },
+		                    options: {
+		                    	contentType:false
+		                    }
+		                });
+		            })
+		            .then(function (ok, fail, data) {
+		            	console.log("333");
 	                	$("#jquery_jplayer_1").jPlayer("setMedia", {
-	    	        		mp3: "/api/v1/getWavTest?type=temp",
+	    	        		mp3: "/api/v1/filePreview?type=tempVoice",
 	    	        	}).jPlayer("play");
-	                })
-	                .catch(function () {
-	                });
+		            })
+		            .catch(function () {
+		
+		            });
+	    		
 	    	} else {
 	    		$("#jquery_jplayer_1").jPlayer("setMedia", {
 	        		wav: fileURL,
@@ -333,23 +335,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	// wav 다운로드
     	//window.location.href = wavDownloadUrl;
     	
+    	if(data.chimeYn == null) {
+    		data.chimeYn = "Y";
+    	}
+    	
     	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
     },
     
     // 플레이어에 오디오 파일 셋팅
     SET_AUDIO: function(caller, act, data) {
-    	var wavTest = "/api/v1/getWavTest?" + $.param(data);
+    	var url = "/api/v1/filePreview?type=voice&" + $.param(data);
     	
-    	if(checkIe()) {
-    		$("#jquery_jplayer_1").jPlayer("setMedia", {
-        		mp3: wavTest,
-        	});
-    		
-    	} else {
-    		$("#jquery_jplayer_1").jPlayer("setMedia", {
-        		wav: wavTest,
-        	});
-    	}
+		$("#jquery_jplayer_1").jPlayer("setMedia", {
+    		mp3: url,
+    	});
     	
     	// WAV 미리듣기가 아닐경우 자동 재생
     	if(typeof data.vocId === "undefined") {

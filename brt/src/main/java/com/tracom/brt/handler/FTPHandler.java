@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,8 +37,11 @@ public class FTPHandler {
 	@Value("${sftp.remote.directory}")
     public String ROOT_SERVER_PATH;
 	
-	@Value("${sftp.local.directory}")
-    public String ROOT_LOCAL_PATH;
+	@Value("${sftp.linux.local.directory}")
+	public String ROOT_LINUX_LOCAL_PATH;
+	
+	@Value("${sftp.windows.local.directory}")
+    public String ROOT_WINDOWS_LOCAL_PATH;
 	
 	@Inject
 	private ChannelSftp sftpChannel;
@@ -53,8 +56,8 @@ public class FTPHandler {
 	
 	// 승무사원 관리 승무사원 사진 업로드
 	public void uploadBM0108(String id, MultipartFile file) {
-		String dir1 = Paths.get(ROOT_LOCAL_PATH, "/common/employee").toString();
-		String dir2 = Paths.get(ROOT_LOCAL_PATH, "/vehicle").toString();
+		String dir1 = Paths.get(getRootLocalPath(), "/common/employee").toString();
+		String dir2 = Paths.get(getRootLocalPath(), "/vehicle").toString();
 		String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
 		
 		File saveFile = Paths.get(dir1, fileName).toFile();
@@ -92,7 +95,7 @@ public class FTPHandler {
 		String id = vo.getVocId();
 		MultipartFile file = vo.getWavFile();
 		
-		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
+		String dir = Paths.get(getRootLocalPath(), "/common/audio").toString();
 		String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
 		String fileNameKr = id + "_KR.wav";
 		String fileNameEn = id + "_EN.wav";
@@ -122,11 +125,13 @@ public class FTPHandler {
 	
 	// 음성 TEMP파일(WAV) MP3로 업로드
 	public void uploadWavTemp(MultipartFile file) {
-		String dir = Paths.get(ROOT_LOCAL_PATH, "/temp/wav_temp.wav").toString();
+		String dir = Paths.get(getRootLocalPath(), "/temp/wav_temp.wav").toString();
 		File saveFile = Paths.get(dir).toFile();
+		File tempFile = Paths.get(getRootLocalPath(), "/temp/wav_temp.mp3").toFile();
 		
 		try {
 			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+			Utils.wavToMp3(saveFile, tempFile);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -139,7 +144,7 @@ public class FTPHandler {
 		String enText = vo.getEnTts();
 		String chimeYn = vo.getChimeYn();
 		
-		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
+		String dir = Paths.get(getRootLocalPath(), "/common/audio").toString();
 		String fileName = id + ".wav";
 		String fileNameKr = id + "_KR.wav";
 		String fileNameEn = id + "_EN.wav";
@@ -185,7 +190,7 @@ public class FTPHandler {
 		String fileName = id + ".wav";
 		String fileNameKr = id + "_KR.wav";
 		String fileNameEn = id + "_EN.wav";
-		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
+		String dir = Paths.get(getRootLocalPath(), "/common/audio").toString();
 		
 		String routId = vo.getRoutId();
 		
@@ -224,7 +229,7 @@ public class FTPHandler {
 			e.printStackTrace();
 		}
 		
-		ROOT_LOCAL_DIRECTORY = new File(ROOT_LOCAL_PATH);
+		ROOT_LOCAL_DIRECTORY = new File(getRootLocalPath());
 		String serverFolder = ROOT_SERVER_PATH.substring(ROOT_SERVER_PATH.lastIndexOf('/') + 1, ROOT_SERVER_PATH.length());
 		if(!ROOT_LOCAL_DIRECTORY.getName().equals(serverFolder)){
 			try{
@@ -414,6 +419,12 @@ public class FTPHandler {
 	}
 	
 	public String getRootLocalPath() {
-		return ROOT_LOCAL_PATH;
+		if(SystemUtils.IS_OS_WINDOWS) {
+			return ROOT_WINDOWS_LOCAL_PATH;
+		} else if(SystemUtils.IS_OS_LINUX) {
+			return ROOT_LINUX_LOCAL_PATH;
+		}
+		
+		return null;
 	}
 }
