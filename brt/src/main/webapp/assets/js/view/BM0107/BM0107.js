@@ -372,7 +372,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
                 {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80},
-                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 100
+                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60
                 	, editor: {type: "number"}
                 },
                 {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
@@ -500,4 +500,79 @@ function searchGrid1(caller, act, data){
             }
         }
     });
+}
+
+/*****************************************/
+
+function drawRoute(list) {
+	var path = [];
+	
+	removeMarkers();
+	deleteLine();
+	deleteCircle();
+	deleteNode();
+	
+	if(list != null && list.length != 0) {
+		for(var i = 0; i < list.length; i++) {
+			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
+			
+			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
+			if(list[i].nodeType == busstopNodeType || list[i].nodeType == orgaNodeType) {
+				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				
+				
+				if(list[i].nodeType == orgaNodeType && list[i].allPlayTm != null && list[i].allPlayTm != 0) {
+					if(list[i].nodeType == orgaNodeType) {
+						var radius = Math.round((limitSpeed / 3600 * 1000) * list[i].allPlayTm);
+						
+						circles.push(getDrawingCircle(list[i].lati, list[i].longi, radius));
+					}
+					
+					list[i].click = function(e) {
+						var point = e.marker.getPosition();
+						var node = $.extend(true, {}, routeData[e.index]);
+						
+						routeData.splice(e.index, 1);
+						
+						var val = returnInsertRouteInfo(point.lat(), point.lng());
+						
+						if(val) {
+							var temp = {
+								orgaId: e.nodeId,
+								lati: point.lat(),
+								longi: point.lng(),
+								seq: val.seq
+							};
+							
+							temp = $.extend(true, node, temp);
+							
+							routeData.splice(val.index, 0, temp);
+							
+							ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+							ACTIONS.dispatch(ACTIONS.OPEN_BM0405, temp);
+						} else {
+							axDialog.alert("선택할 수 없는 좌표입니다.");
+						}
+					};
+					list[i].index = i;
+					list[i].icon = orgaIcon;
+					list[i].draggable = true;
+				}
+				
+				addMarker(list[i]);
+			}
+			// 아닐 경우(일반 노드) 네모 박스 표시
+			else {
+				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
+			}
+		}
+		
+		polyline = new Tmapv2.Polyline({
+			path: path,
+			strokeColor: "#FF005E",
+			strokeWeight: 2,
+			map: map,
+			zIndex: -1
+		}); 
+	}
 }
