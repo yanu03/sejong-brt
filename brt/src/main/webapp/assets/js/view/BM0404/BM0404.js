@@ -139,12 +139,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         	var formData = new FormData(caller.formView0.target[0]);
         	formData.set("routId", selectedRow.routId);
         	
-        	if(formData.get("playType") == "WAV") {
+        	if(caller.formView0.model.get("playType") == "WAV") {
     	    	var element = $("#wavFile");
     	    	
-    	    	if(element[0].files[0]){
-    	        	formData.append("attFile", $("#wavFile")[0].files[0].name);
-    	        } else {
+    	    	if(!element[0].files[0]){
     	        	alert(element.attr("title") + "을 선택해주세요");
     	        	return false;
     	        }
@@ -248,7 +246,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		
     		// TTS 입력관련
     		_this.target.find("[data-ax-td-label='krTtsLabel']").addClass("required");
-    		_this.target.find("[data-ax-td-label='enTtsLabel']").addClass("required");
     		_this.target.find("[data-ax-path='krTts']").attr("readonly", false).attr("data-ax-validate", "required");
     		
     		// TTS 미리듣기 기본문구 버튼 관련
@@ -263,7 +260,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		
     		// TTS 입력관련
     		_this.target.find("[data-ax-td-label='krTtsLabel']").removeClass("required");
-    		_this.target.find("[data-ax-td-label='enTtsLabel']").removeClass("required");
     		_this.target.find("[data-ax-path='krTts']").attr("readonly", true).attr("data-ax-validate", null);
     		
     		// TTS 미리듣기 기본문구 버튼 관련
@@ -282,6 +278,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    	var fileURL = blob.createObjectURL(file);
 	    	
 	    	if(checkIe()) {
+	    		var formData = new FormData(caller.formView0.target[0]);
+	    		
 	            axboot.promise()
 	                .then(function (ok, fail, data) {
 	                    axboot.ajax({
@@ -300,7 +298,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                })
 	                .then(function (ok, fail, data) {
 	                	$("#jquery_jplayer_1").jPlayer("setMedia", {
-	    	        		mp3: "/api/v1/getWavTest?type=temp",
+	    	        		mp3: "/api/v1/filePreview?type=tempVoice",
 	    	        	}).jPlayer("play");
 	                })
 	                .catch(function () {
@@ -323,18 +321,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     // 플레이어에 오디오 파일 셋팅
     SET_AUDIO: function(caller, act, data) {
-    	var wavTest = "/api/v1/getWavTest?" + $.param(data);
+    	var url = "/api/v1/filePreview?type=voice&" + $.param(data);
     	
-    	if(checkIe()) {
-    		$("#jquery_jplayer_1").jPlayer("setMedia", {
-        		mp3: wavTest,
-        	});
-    		
-    	} else {
-    		$("#jquery_jplayer_1").jPlayer("setMedia", {
-        		wav: wavTest,
-        	});
-    	}
+		$("#jquery_jplayer_1").jPlayer("setMedia", {
+    		mp3: url,
+    	});
     	
     	// WAV 미리듣기가 아닐경우 자동 재생
     	if(typeof data.vocId === "undefined") {

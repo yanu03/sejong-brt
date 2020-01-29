@@ -138,31 +138,26 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     					
     				});
     			}   		
-    },
-    
-    //////////////////////////////// 확정
-    
+    },    
     // 탭닫기
     PAGE_CLOSE: function(caller, act, data) {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
     
-    OPEN_BM0102_MODAL: function(caller, act, data) {
+    OPEN_BM0602_MODAL: function(caller, act, data) {
     	axboot.modal.open({
-            modalType: "BM0102",
+            modalType: "BM0602",
             param: "",
             callback: function (data) {
-            	// 운수사, 거래처 등을 선택한 후 이벤트 ex) input에 값을 넣어 주는 등의 로직을 작성하면됨
-            	caller.formView0.model.set("custId", data.custId);
-            	caller.formView0.model.set("custNm", data.custNm);
-                this.close();
             }
         });
+    	//ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
     },
     
     ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
     	selectedRow = data;
+    	caller.formView0.enable();
         caller.formView0.setData(data);
     }
 });
@@ -195,9 +190,6 @@ fnObj.pageButtonView = axboot.viewExtend({
             	selectedRow = null;
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
-            "excel": function () {
-            	ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
-            },
             "new": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
             },
@@ -215,6 +207,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
+            },
+            "commonSetting": function() {
+            	ACTIONS.dispatch(ACTIONS.OPEN_BM0602_MODAL);
             },
         });
     }

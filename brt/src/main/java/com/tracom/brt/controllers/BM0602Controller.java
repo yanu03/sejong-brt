@@ -41,4 +41,16 @@ public class BM0602Controller extends BaseController{
         return ok(vhcId);
     }
 	
+	@PostMapping("/BM0602G0D0")
+    public ApiResponse BM0602G0D0(@RequestBody NewsVO request) {
+    	System.out.println(request);
+        service.BM0602G0D0(request);
+        return ok();
+    }
+	
+	@PostMapping("/BM0602F0U0")
+    public ApiResponse BM0602F0U0(@RequestBody NewsVO request) {
+        service.BM0602F0U0(request);
+        return ok();
+    }
 }

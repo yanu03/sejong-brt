@@ -1,31 +1,16 @@
 package com.tracom.brt.domain.voice;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLConnection;
 import java.nio.file.Paths;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 
-import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.handler.FTPHandler;
-import com.tracom.brt.utils.Utils;
 
 import selvytts.Pttsnet;
-import ws.schild.jave.AudioAttributes;
-import ws.schild.jave.Encoder;
-import ws.schild.jave.EncodingAttributes;
-import ws.schild.jave.MultimediaObject;
 
 @Service
 public class VoiceService {
@@ -124,8 +109,6 @@ public class VoiceService {
     	
     	String pAudioFile = Paths.get(handler.getRootLocalPath(), "/common/audio", chimeFileName).toString();
     	
-    	System.out.println(pText + ", " + nLanguage + ", " + nSpeakerId + ", " + checkChime);
-    	
         try {
         	int ret = -100;
         	
@@ -164,6 +147,7 @@ public class VoiceService {
         return null;
     }
 	
+	/*
 	public void wavTest(RequestParams<VoiceInfoVO> requestParams, HttpServletRequest request, HttpServletResponse response) {
 		String userAgent = request.getHeader("User-Agent");
 		String vocId = requestParams.getString("vocId");
@@ -215,7 +199,7 @@ public class VoiceService {
 				}
 				
 				try {
-					wavToMp3(file, ieFile);
+					Utils.wavToMp3(file, ieFile);
 				} catch(Exception e) {
 					e.printStackTrace();
 				}
@@ -236,72 +220,10 @@ public class VoiceService {
 				FileCopyUtils.copy(is, response.getOutputStream());
 				is.close();
 			}
-			//*/
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void mp3Test(RequestParams<VoiceInfoVO> requestParams, HttpServletRequest request, HttpServletResponse response) {
-		String vocId = requestParams.getString("vocId");
-		String playType = requestParams.getString("playType");
-		String vocType = requestParams.getString("vocType");
-		
-		File file = null;
-		String fileName = "";
-		String path = Paths.get(handler.getRootLocalPath(), "/common/audio").toString();
-		
-		try {
-			if(playType.equals("WAV")) {
-				fileName = vocId;
-			} else if(playType.equals("TTS")){
-				if(vocType.equals("KR")) {
-					fileName = vocId + "_KR";
-				} else {
-					fileName = vocId + "_EN";
-				}
-			}
-			
-			file = Paths.get(path, fileName + ".wav").toFile();
-			File tempFile = new File(handler.getRootLocalPath(), "/temp/" + fileName + ".mp3");
-			
-			wavToMp3(file, tempFile);
-			
-			String mimeType = URLConnection.guessContentTypeFromName(tempFile.getName());
-			if (mimeType == null) {
-				mimeType = "application/octet-stream";
-			}
-			
-			if(tempFile.exists()) {
-				response.setContentType(mimeType);
-				response.setHeader("Content-Disposition", String.format("inline; filename=\"" + tempFile.getName() + "\""));
-				response.setContentLength((int) tempFile.length());
-			
-				InputStream is = new BufferedInputStream(new FileInputStream(tempFile));
-				FileCopyUtils.copy(is, response.getOutputStream());
-				is.close();
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void uplaodWavTemp(VoiceInfoVO request) {
-		handler.uploadWavTemp(request.getWavFile());
-	}
-	
-	public void wavToMp3(File source, File target) throws Exception {
-		AudioAttributes audio = new AudioAttributes();
-		audio.setCodec("libmp3lame");
-		audio.setBitRate(new Integer(128000));
-		audio.setChannels(new Integer(1));
-		audio.setSamplingRate(new Integer(44100));
-		
-		EncodingAttributes attrs = new EncodingAttributes();
-		attrs.setFormat("mp3");
-		attrs.setAudioAttributes(audio);
-		
-		Encoder encoder = new Encoder();
-		encoder.encode(new MultimediaObject(source), target, attrs);
-	}
+	//*/
 }

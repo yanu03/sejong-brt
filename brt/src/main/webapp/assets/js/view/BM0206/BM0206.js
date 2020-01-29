@@ -62,14 +62,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     
-    PAGE_EXCEL: function(caller, act, data) {
-    	if(selectedRow != null){   		
-    		caller.gridView2.target.exportExcel(selectedRow.conId + "data.xls");
-    	}else {
-    		alert("장치 목록을 선택해주세요");
-    	}
-    },
-    
     // gridView0항목 클릭 이벤트
     ITEM_CLICK: function (caller, act, data) {
     	selectedRow = data;
@@ -137,6 +129,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_CLOSE: function(caller, act, data) {
     	window.parent.fnObj.tabView.closeActiveTab();
+    },
+    
+    PAGE_EXCEL: function(caller, act, data) {
+    	if(selectedRowG1 != null){   		
+    		caller.gridView2.target.exportExcel(selectedRowG1.dvcId + "data.xls");
+    	}else {
+    		alert("항목을 선택해주세요");
+    	}
     },
         
 });
