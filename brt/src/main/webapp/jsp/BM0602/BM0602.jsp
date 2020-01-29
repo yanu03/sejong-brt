@@ -21,7 +21,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0301S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0602G0.provnm"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -36,7 +36,7 @@
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0301G0.title"/>
+                            <ax:lang id="ax.admin.BM0602G0.title"/>
                         </h2>
                     </div>
                     <div class="right">
@@ -51,32 +51,33 @@
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-news"></i>
-                             <ax:lang id="ax.admin.BM0301F0.title"/>
+                             <ax:lang id="ax.admin.BM0602F0.title"/>
                         </h2>
                     </div>
                 </div>
                 <ax:form name="formView0">                 
-                    <ax:tbl clazz="ax-form-tbl" minWidth="500px">
+                    <ax:tbl clazz="ax-form-tbl" minWidth="600px">
                      	<ax:tr>
-							<ax:td label="ax.admin.BM0301F0.confirmyn" width="300px" >
-								<input type="text" id="confirmYn" data-ax-path="confirmYn" data-key="true" class="form-control" readonly="readonly">
+							<ax:td label="ax.admin.BM0602G0.provid" width="300px" labelClazz="required">
+								<input type="text" data-ax-path="provId" data-key="true" class="form-control" readonly="readonly">
 							</ax:td>						                
                     	</ax:tr>
                     
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0301F0.conno" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="conNo" class="form-control" data-ax-validate="required"/>
+                            <ax:td label="ax.admin.BM0602G0.provnm" width="300px" labelClazz="required">
+                                <input type="text" data-ax-path="provNm" class="form-control" data-ax-validate="required"/>
                             </ax:td>
                         </ax:tr>                                          	
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0301F0.suppamt" width="300px">
-                            	<input type="text" data-ax-path="suppAmt" class="form-control" data-ax-validate="required"/>
+                            <ax:td label="ax.admin.BM0602F0.provurl" width="300px" labelClazz="required">
+                            	<input type="text" data-ax-path="provUrl" class="form-control" data-ax-validate="required"/>
                             </ax:td>
+                            <ax:td>*Rss형식만 지원합니다.</ax:td>                          	
                        	</ax:tr>
 
                        	<ax:tr>
-                       		<ax:td label="ax.admin.BM0301F0.remark" width="100%">
+                       		<ax:td label="ax.admin.BM0602F0.remark" width="100%">
                             	<input type="text" data-ax-path="remark" class="form-control"/>
                             </ax:td>
                        	</ax:tr>

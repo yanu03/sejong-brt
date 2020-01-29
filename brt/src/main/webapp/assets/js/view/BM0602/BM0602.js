@@ -56,27 +56,25 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_DELETE: function(caller, act, data) {
     	var grid = caller.gridView0.target;
-    	var confirmYn = $('#confirmYn').val();
     	
     	if(typeof grid.selectedDataIndexs[0] === "undefined") {
     		axDialog.alert(LANG("ax.script.alert.requireselect"));
     		return false;
-    	}
-    	
+    	}		
+      	
     	axDialog.confirm({
-            msg: LANG("ax.script.deleteconfirm")
-        }, function() {
-        	if(confirmYn == "N") {  		
-        	
-            if (this.key == "ok") {
+            msg: LANG("ax.script.dvcdeleteconfirm")
+        }, function() {          	          	
+                if (this.key == "ok") {      	
             	axboot.promise()
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0301G0D0",
-	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+	                    url: "/api/v1/BM0201G1D0",
+	                    data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
 	                    callback: function (res) {
 	                        ok(res);
+	                        console.log(data);
 	                    }
 	                });
                 })
@@ -88,14 +86,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .catch(function () {
 
                 });
-            }
-        }else{
-        	axDialog.alert({
-                msg: LANG("ax.script.contractdelete")
-            });
-        }
-        });
-    	
+            }   	
+        });   	
     },
     
     PAGE_SAVE: function (caller, act, data) {
@@ -297,10 +289,6 @@ fnObj.pageButtonView = axboot.viewExtend({
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             },
-            
-            "confirmyn" : function(){     	 
-            	 ACTIONS.dispatch(ACTIONS.PAGE_CONFIRMYN);
-            }
         });
     }
 });
@@ -345,13 +333,13 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "provId", label: ADMIN("ax.admin.BM0301F0.conno"), width: 120},
-                {key: "provNm", label: ADMIN("ax.admin.BM0301F0.conid"), width: 120},
-                //{key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 120},
-                //{key: "conFstDate", label: ADMIN("ax.admin.BM0301F0.confd"), width: 120},
-                {key: "provUrl", label: ADMIN("ax.admin.BM0301F0.consd"), width: 120},
-                {key: "remark", label: ADMIN("ax.admin.BM0301F0.coned"), width: 120},
-                {key: "useYn", label: ADMIN("ax.admin.BM0301F0.confirmyn"), width: 70},
+            	{key: "provId", label: ADMIN("ax.admin.BM0602G0.provid"), width: 120},
+                {key: "provNm", label: ADMIN("ax.admin.BM0602G0.provnm"), width: 150},
+                {key: "provNm", label: ADMIN("ax.admin.BM0602G0.renewalct"), width: 150},
+                {key: "renewDate", label: ADMIN("ax.admin.BM0602G0.renewdate"), width: 150},
+                {key: "provUrl", label: ADMIN("ax.admin.BM0602F0.provurl"), width: 200},
+                {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 200},
+                {key: "useYn", label: ADMIN("ax.admin.BM0602G0.useyn"), width: 70},
             ],
             body: {
                 onClick: function () {

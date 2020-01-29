@@ -47,12 +47,26 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 
 	@Transactional
 	public String BM0601M0I0(WeatAtmoVO request) {
-		Map<String, String> hm = new HashMap<>();
-		hm.put("numVal4", request.getNumVal4());
-		hm.put("numVal5", request.getNumVal5());
-		hm.put("numVal6", request.getNumVal6());
+		Map<String, String> timeSet = new HashMap<>();
+		Map<String, String> weatUrl = new HashMap<>();
+		Map<String, String> atmoUrl = new HashMap<>();
+		Map<String, String> weatApiKey = new HashMap<>();
+		Map<String, String> atmoApiKey = new HashMap<>();
 		
-		mapper.BM0601M0I0(hm);
+		timeSet.put("numVal4", request.getNumVal4());
+		timeSet.put("numVal5", request.getNumVal5());
+		timeSet.put("numVal6", request.getNumVal6());
+		weatUrl.put("remarkWeat" , request.getRemarkWeat());
+		atmoUrl.put("remarkAtmo" , request.getRemarkAtmo());
+		weatApiKey.put("weatApiKey" , request.getWeatApiKey());
+		atmoApiKey.put("atmoApiKey" , request.getAtmoApiKey());
+		
+		mapper.BM0601M0I0(timeSet);
+		mapper.BM0601M0U1(weatUrl);
+		mapper.BM0601M0U2(atmoUrl);
+		mapper.BM0601M0U3(weatApiKey);
+		mapper.BM0601M0U4(atmoApiKey);
+		
 		return request.getDvcId();
 	}
 }
