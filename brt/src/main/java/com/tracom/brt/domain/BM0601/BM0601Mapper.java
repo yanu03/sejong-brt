@@ -14,4 +14,8 @@ public interface BM0601Mapper extends MyBatisMapper{
 	List<WeatAtmoVO> BM0601F0S1(String filter);
 	List<WeatAtmoVO> BM0601M0S0(String filter);
 	int BM0601M0I0(Map<String, String> hm);
+	int BM0601M0U1(Map<String, String> weatUrl);
+	int BM0601M0U2(Map<String, String> atmoUrl);
+	int BM0601M0U3(Map<String, String> weatApiKey);
+	int BM0601M0U4(Map<String, String> atmoApiKey);
 }
