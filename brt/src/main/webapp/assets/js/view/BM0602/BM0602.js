@@ -3,7 +3,6 @@ var fnObj = {}, CODE = {};
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
-var a;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -63,15 +62,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}		
       	
     	axDialog.confirm({
-            msg: LANG("ax.script.dvcdeleteconfirm")
+            msg: LANG("ax.script.deleteconfirm")
         }, function() {          	          	
                 if (this.key == "ok") {      	
             	axboot.promise()
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0201G1D0",
-	                    data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
+	                    url: "/api/v1/BM0602G0D0",
+	                    data: JSON.stringify({provId : selectedRow.provId}),
 	                    callback: function (res) {
 	                        ok(res);
 	                        console.log(data);
@@ -84,7 +83,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
-
                 });
             }   	
         });   	
@@ -97,7 +95,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                  .then(function (ok, fail, data) {
                      axboot.ajax({
                          type: "POST",
-                         url: "/api/v1/BM0301F0I0",
+                         url: "/api/v1/BM0602F0I0",
                          data: JSON.stringify(formData),
                          callback: function (res) {
                              ok(res);
@@ -117,20 +115,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_UPDATE: function(caller, act, data) {
     	isUpdate = false;   	
-    	var confirmYn = $('#confirmYn').val();
- 	
-    		if(confirmYn == "N"){
-    				console.log("N");
+
     			if (caller.formView0.validate()) {
-    				var formData = caller.formView0.getData();
-    				
-    				console.log(formData);
-    				
+    				var formData = caller.formView0.getData();    				
     				axboot.promise()
     				.then(function (ok, fail, data) {
     					axboot.ajax({
     						type: "POST",
-    						url: "/api/v1/BM0301F0U0",
+    						url: "/api/v1/BM0602F0U0",
     						data: JSON.stringify(formData),
     						callback: function (res) {
     							ok(res);
@@ -145,75 +137,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				.catch(function () {
     					
     				});
-    			}
-    		}else{
-    			axDialog.alert({
-	                msg: LANG("ax.script.contractupdate")
-	            });
-    		}  	
+    			}   		
     },
     
     //////////////////////////////// 확정
-    
-    PAGE_CONFIRMYN : function (caller, act, data) {
-    	isUpdate = false; 
-    	var confirmYn = $('#confirmYn').val();
-    	
-    	if(confirmYn == "N"){
-	    	axDialog.confirm({
-	    		msg: LANG("ax.script.contractconfirm")
-	    	}, function() {
-	    		if(this.key == "ok"){	    			
-	    			if (caller.formView0.validate()) {
-	    					var formData = caller.formView0.getData();    					
-	    					axboot.promise()
-	    					.then(function (ok, fail, data) {
-	    						axboot.ajax({
-	    							type: "POST",
-	    							url: "/api/v1/BM0301F0U1",
-	    							data: JSON.stringify(formData),
-	    							callback: function (res) {
-	    								ok(res);
-	    							}
-	    						});
-	    					})
-	    					.then(function (ok, fail, data) {
-	    						axToast.push(LANG("onupdate"));
-	    						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-	    						isUpdate = true;
-	    					})
-	    					.catch(function () {   						
-	    					});
-	    				}	    			
-	    		}
-			});
-	    }else{
-	    	axDialog.confirm({
-	    		msg: LANG("ax.script.contractconfirmn")
-	    	}, function(){
-	    		if(this.key == "ok"){
-	    			console.log("해제ok");
-	    			if (caller.formView0.validate()){
-	    				var formData = caller.formView0.getData();
-	    				axboot.promise()
-	    				.then(function (ok, fail, data) {
-	    				axboot.ajax({
-							type: "POST",
-							url: "/api/v1/BM0301F0U2",
-							data: JSON.stringify(formData),
-							callback: function (res) {
-								ok(res);
-								ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-								isUpdate = true;
-							}
-						});
-	    				})	
-	    			}
-	    		}
-	    	}
-	    	);
-	    }				   
-    },
     
     // 탭닫기
     PAGE_CLOSE: function(caller, act, data) {
@@ -335,11 +262,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             columns: [
             	{key: "provId", label: ADMIN("ax.admin.BM0602G0.provid"), width: 120},
                 {key: "provNm", label: ADMIN("ax.admin.BM0602G0.provnm"), width: 150},
-                {key: "provNm", label: ADMIN("ax.admin.BM0602G0.renewalct"), width: 150},
                 {key: "renewDate", label: ADMIN("ax.admin.BM0602G0.renewdate"), width: 150},
                 {key: "provUrl", label: ADMIN("ax.admin.BM0602F0.provurl"), width: 200},
                 {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 200},
-                {key: "useYn", label: ADMIN("ax.admin.BM0602G0.useyn"), width: 70},
             ],
             body: {
                 onClick: function () {

@@ -59,7 +59,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     RELOAD_G1: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
-    	console.log(selectedRow.vhcId);
+    	$("#busCheck").remove();
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0203G1S0",
@@ -68,16 +68,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 caller.gridView1.setData(res);
                                 
              if(res.list[0].txtVal1 != null){
-                for(var i = 0; i < res.list.length; i++){
+                for(var i = 0; i < res.list.length; i++){                	
                 	var dvcCond;
-                	
                 	if(typeof res.list[i].txtVal1 !== "undefined"){
                 		if(res.list[i].dvcCond == "정상"){
                 			console.log("정상");
                 			dvcCond = "#00FF00";
                 		}else{
                 			if(typeof res.list[i].dvcCond !== "undefined"){
-                				console.log("정상2");
+                				console.log("비정상");
                 				console.log(res.list[i].dvcCond);
                 				dvcCond = "#DC143C";            				
                 			}else{
@@ -85,7 +84,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 				dvcCond = "##00ff0000";
                 			}
                 		}
-                $("#check").append("<input[type='text' name='busCheck' style='background-color:"+dvcCond+"; width:18px;height:18px; position: absolute; left:"+res.list[i].txtVal1+"px; top:"+res.list[i].txtVal2+"px;]'/>");
+                $("#check").append("<input[type='text' id='busCheck' style='background-color:"+dvcCond+"; width:18px;height:18px; position: absolute; left:"+res.list[i].txtVal1+"px; top:"+res.list[i].txtVal2+"px;]'/>");
                 		}else{
                 			alert(LANG("ax.script.requireselect"));
                 		}

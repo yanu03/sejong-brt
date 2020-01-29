@@ -16,7 +16,7 @@ public class BM0201Service extends BaseService<VhcDeviceVO, String>{
 	private BM0201Mapper mapper;
 
 	public List<VhcDeviceVO> BM0201G0S0(RequestParams<VhcDeviceVO> requestParams) {
-        return mapper.BM0201G0S0(requestParams.getString("coCd"));
+        return mapper.BM0201G0S0(requestParams.getString("filter"));
     }
 	
 	public List<VhcDeviceVO> BM0201G1S0(RequestParams<VhcDeviceVO> requestParams) {

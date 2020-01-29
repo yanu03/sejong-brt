@@ -60,7 +60,7 @@
                 </div>                    
             		<ax:form name="formView0">
                     	<ax:tbl clazz="ax-form-tbl" minWidth="300px">                   	                                    		
-                    		<div id="check" style="width: 500px;height: 230px; position:relative; background-image:url('/assets/images/BM0203/BusImage.png'); margin: 0px auto;"></div>                    	  		                   
+                    		<div id="check" style="width: 500px;height: 230px; position:relative; background-image:url('/assets/images/BM0203/BusImage.png'); margin: 0px auto;"></div>                   	  		                   
             			</ax:tbl>
             		</ax:form>
             		
