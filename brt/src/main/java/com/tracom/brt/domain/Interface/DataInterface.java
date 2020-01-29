@@ -46,6 +46,7 @@ public class DataInterface {
 	
 	//교통정보시스템 노선검색 URL
 	
+	/** 노선, 정류장, 노드 **/
 	public String routeNodeInterface(String routId) {
 		String baseUrl = "http://bis.sejong.go.kr/web/traffic/searchBusRouteDetail.do?busRouteId=";
 		String url = baseUrl + routId;
@@ -171,5 +172,8 @@ public class DataInterface {
 		
 		return vo;
 	}
+	
+	
+	
 	
 }

@@ -67,13 +67,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     */
     PAGE_DELETE: function(caller, act, data) {
-    	var grid = caller.gridView0.target;
+    	var grid = caller.gridView1.target;
     	
     	if(typeof grid.selectedDataIndexs[0] === "undefined") {
     		axDialog.alert(LANG("ax.script.alert.requireselect"));
     		return false;
     	}
     	
+    	if(confirm("삭제 후에는 되돌릴수 없습니다. 정말 삭제하시겠습니까?") == true){    //확인
+    		console.log(grid.selectedDataIndexs[0]);
+    		
+    	}else{
+    		console.log(grid);
+    	}
+    	/*
     	axDialog.confirm({
             msg: LANG("ax.script.deleteconfirm")
         }, function() {
@@ -99,6 +106,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 });
             }
         });
+    	 * */
     },
     
     
@@ -119,17 +127,49 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	selectedRow = data;
         mapMarker(data.lati, data.longi);
     },
-    OPEN_BM0107_MODAL: function(caller, act, data) {
-    	axboot.modal.open({
-            modalType: "BM0107",
-            param: "",
-            callback: function (data) {
-            	//caller.formView0.model.set("corpId", data.corpId);
-            	//caller.formView0.model.set("corpNm", data.corpNm);
-                //this.close();
-            }
-        });
+   
+    INTERFACE_ROUTE: function(caller, act, data){
+    	var list = caller.gridView0.getData("selected");
+    	
+		if(confirm("갱신 후에는 되돌릴수 없습니다. 정말 갱신하시겠습니까?") == true){    //확인
+			//
+			if(list.length > 0) {
+				var msg = "선택 노선 목록\n------------------\n";
+				for(var i=0; i<list.length; i++){
+					msg += list[i].routNm + "(" + list[i].routId + ")\n"
+				}
+				
+				msg += "------------------\n다음 노선의 정류장을 갱신합니다. 진행하시겠습니까?";
+				
+				if(confirm(msg) == true){
+					
+				axboot.ajax({
+					type: "POST",
+					url: "/api/v1/BM0107G0U0",
+					data: JSON.stringify(list),
+					callback: function (res) {
+						if(res.status == 0){
+							alert('갱신 성공');
+						}else{
+							alert('갱신 실패');
+						}
+					}
+				});
+				return false;
+				}else{
+					alert("취소합니다");
+					return;
+				}
+			} else {
+				alert(LANG("ax.script.requireselect"));
+			}
+		}else{   //취소
+			alert("취소합니다.");
+			return;
+		}
     }
+    
+    
 });
 
 /********************************************************************************************************************/
@@ -167,11 +207,15 @@ fnObj.pageButtonView = axboot.viewExtend({
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
             "interface": function() {
-            	ACTIONS.dispatch(ACTIONS.OPEN_BM0107_MODAL);
+            	ACTIONS.dispatch(ACTIONS.INTERFACE_ROUTE);
+            },
+            "delete": function() {
+            	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             }
+            
         });
     }
 });
@@ -434,7 +478,6 @@ function searchGrid1(caller, act, data){
         	}
         	if(y_arr.length != 0){
 	        	drawLine(y_arr, x_arr);
-	        	console.log(staIdArr);
 	        	addMarkers(staYArr, staXArr, staIdArr);
         	}
         	
