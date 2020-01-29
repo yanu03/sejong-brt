@@ -4,7 +4,6 @@
 <mapper namespace="com.tracom.brt.domain.BM0107.BM0107Mapper">
 
 	<select id="BM0107G0S0" parameterType="String" resultType="bmRoutInfoVO">
-		<!-- 
 		SELECT
 			  ROUT_ID
 		    , ROUT_NM
@@ -13,7 +12,7 @@
 		    , UPDATED_AT
 		FROM
 			BM_ROUT_INFO
-		 -->			
+		<!-- 
 		SELECT
 			  ROUT.ROUT_ID
 		    , ROUT_NM
@@ -27,6 +26,7 @@
             ON ROUT.ROUT_ID = STA.ROUT_ID
 		GROUP BY ROUT_ID
 		HAVING STA_ID IS NOT NULL
+		 -->			
 		<where>
 			<if test="value != null">
 				ROUT_ID LIKE CONCAT('%', #{value}, '%')
@@ -39,6 +39,7 @@
 	<select id="BM0107G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
 		SELECT
 			  ROUT_ID
+			, SEQ
 			, NODE_ID
 		    , NODE_NM
 		    , LATI
@@ -103,7 +104,14 @@
 		VALUES
 			<foreach collection="voList" item="voList" separator=",">
 			(
-  			      CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_ROUT_NODE_INFO_0), 6, '0'))
+				<choose>
+					<when test="voList.staId != null">
+						#{voList.staId}
+					</when>
+					<otherwise>
+	  			    	CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_ROUT_NODE_INFO_0), 6, '0'))
+					</otherwise>
+				</choose>
 				, #{voList.nodeNm}
 				, #{voList.lati}
 				, #{voList.longi} 
@@ -118,10 +126,59 @@
 			</foreach>
     </insert>
     
+    <!-- 
+    <insert id="BM0107G1I1" parameterType="bmRoutNodeInfoVO">
+    	INSERT INTO
+    		BM_ROUT_RESULT
+    			(
+    				  NODE_ID
+    				, NODE_NM
+    				, LATI
+    				, LONGI
+    				, SEQ
+    				, ROUT_ID
+    				, STA_ID
+    				, CREATED_AT
+    				, CREATED_BY
+    				, UPDATED_AT
+    				, UPDATED_BY
+    			)
+		VALUES
+		SELECT
+			  NODE_ID
+			, NODE_NM
+			, LATI
+			, LONGI
+			, SEQ
+			, ROUT_ID
+			, STA_ID
+			, CREATED_AT
+			, CREATED_BY
+			, UPDATED_AT
+			, UPDATED_BY
+		FROM
+			BM_ROUT_NODE_INFO
+		WHERE
+			ROUT_ID = #{routId}
+    </insert>
+     -->
+    
     <delete id="BM0107G1D0" parameterType="bmRoutInfoVO">
     	DELETE FROM
     		BM_ROUT_NODE_INFO
     	WHERE
     		ROUT_ID = #{routId}
     </delete>
+    
+ 	<insert id="BM0107G1I1" parameterType="bmRoutInfoVO">
+ 		INSERT INTO
+ 			BM_ROUT_NODE_TRASH
+		
+			SELECT
+				*
+			FROM
+				BM_ROUT_NODE_INFO
+			WHERE
+				ROUT_ID = #{routId}
+ 	</insert>
 </mapper>

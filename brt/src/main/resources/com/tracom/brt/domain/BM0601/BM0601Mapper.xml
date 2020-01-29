@@ -151,20 +151,38 @@
 	<update id="BM0601M0I0" parameterType="Map">
 		UPDATE SM_DL_CD_INFO
 		SET
-			CO_CD = #{coCd}
-		  , DL_CD = #{dlCd}
-		  , DL_CD_NM = #{dlCdNm}
-		  , DL_CD_ENM = #{dlCdEnm}
-		  , SORT_ODR = #{sortOdr}
-		  , TXT_VAL1 = #{txtVal1}
-		  , TXT_VAL2 = #{txtVal2}
-		  , TXT_VAL3 = #{txtVal3}
-		  , NUM_VAL4 = #{numVal4}
+		    NUM_VAL4 = #{numVal4}
 		  , NUM_VAL5 = #{numVal5}
 		  , NUM_VAL6 = #{numVal6}
-		  , USE_YN = "Y"
-		  , REMARK = #{remark}
 		WHERE
 		  DL_CD = "CD038"		  		
+	</update>
+	<update id="BM0601M0U1" parameterType="Map">
+		UPDATE SM_DL_CD_INFO
+		SET
+		  REMARK = #{remarkWeat}
+		WHERE
+		  DL_CD = "CD039"		  		
+	</update>
+	<update id="BM0601M0U2" parameterType="Map">
+		UPDATE SM_DL_CD_INFO
+		SET
+		  REMARK = #{remarkAtmo}
+		WHERE
+		  DL_CD = "CD041"		  		
+	</update>
+	<update id="BM0601M0U3" parameterType="Map">
+		UPDATE SM_DL_CD_INFO
+		SET
+		  REMARK = #{weatApiKey}
+		WHERE
+		  DL_CD = "CD040"		  		
+	</update>
+	<update id="BM0601M0U4" parameterType="Map">
+		UPDATE SM_DL_CD_INFO
+		SET
+		  REMARK = #{atmoApiKey}
+		WHERE
+		  DL_CD = "CD042"		  		
 	</update>
 </mapper>

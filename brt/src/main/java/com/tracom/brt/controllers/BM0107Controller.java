@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
+import com.chequer.axboot.core.code.ApiStatus;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
@@ -49,15 +50,12 @@ public class BM0107Controller extends BaseController {
     
     @PostMapping("/BM0107G0U0")
     public ApiResponse BM0107G0U0(@RequestBody List<BmRoutInfoVO> requestParams) {
-    	for(BmRoutInfoVO vo : requestParams) {
-    		System.out.println(vo);
-    	}
     	int result = service.BM0107G1I0(requestParams);
     	
     	if(result > 0) {
     		return ok();
     	} else {
-    		return ok();    		
+    		return ApiResponse.of(ApiStatus.SYSTEM_ERROR, "FAIL");    		
     	}
     }
     

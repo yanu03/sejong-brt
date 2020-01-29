@@ -12,5 +12,6 @@ public class NewsVO extends BaseVO{
 	private String provUrl;
 	private String provNm;
 	private String remark;
-	private String useYn;	
+	private String useYn;
+	private String renewDate;
 }

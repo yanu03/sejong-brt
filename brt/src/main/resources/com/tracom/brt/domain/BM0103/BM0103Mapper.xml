@@ -8,19 +8,39 @@
     		  VHC_ID
     		, VHC_NO
     		, CHAS_NO
-    		, CORP_ID
+    		, VHC_INFO.CORP_ID
+            , CORP_INFO.CORP_NM AS CORP_NM
     		, AREA
     		, MAKER
     		, RELS_DATE
     		, MODEL_NM
     		, VHC_KIND
+            , DL_CD.DL_CD_NM AS VHC_KIND_NM
     		, VHC_TYPE
+            , DL_CD2.DL_CD_NM AS VHC_TYPE_NM
     		, LF_YN
+            , DL_CD3.DL_CD_NM AS LF_YN_NM
     		, VHC_FUEL
-    		, REMARK
-    		, USE_YN
+            , DL_CD4.DL_CD_NM AS VHC_FUEL_NM
+    		, VHC_INFO.REMARK
+    		, VHC_INFO.USE_YN
     	FROM
-    		BM_VHC_INFO
+    		BM_VHC_INFO VHC_INFO
+            LEFT JOIN
+            BM_CORP_INFO CORP_INFO
+            ON VHC_INFO.CORP_ID = CORP_INFO.CORP_ID
+            LEFT JOIN
+            SM_DL_CD_INFO DL_CD
+            ON VHC_INFO.VHC_KIND = DL_CD.DL_CD
+            LEFT JOIN
+            SM_DL_CD_INFO DL_CD2
+            ON VHC_INFO.VHC_TYPE = DL_CD2.DL_CD
+            LEFT JOIN 
+            SM_DL_CD_INFO DL_CD3
+            ON VHC_INFO.LF_YN = DL_CD3.DL_CD
+            LEFT JOIN
+            SM_DL_CD_INFO DL_CD4
+            ON VHC_INFO.VHC_FUEL = DL_CD4.DL_CD
     	<where>
 	    	<if test="value != null">
 				VHC_NO LIKE CONCAT('%', #{value}, '%')

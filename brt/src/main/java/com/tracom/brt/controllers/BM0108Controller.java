@@ -3,16 +3,15 @@ package com.tracom.brt.controllers;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
@@ -41,7 +40,6 @@ public class BM0108Controller extends BaseController {
     
     @PostMapping("/BM0108F0I0")
     public ApiResponse BM0108F0I0(@ModelAttribute EplyInfoVO request) {
-    	System.out.println(request);
         String corpId = service.BM0108F0I0(request);
         return ok(corpId);
     }
@@ -56,7 +54,10 @@ public class BM0108Controller extends BaseController {
     public ApiResponse BM0108G0D0(@RequestBody EplyInfoVO request) {
     	service.BM0108G0D0(request);
     	return ok();
-    }  
+    } 
 
-
+    @GetMapping("/BM0108F0S0")
+	public void BM0108F0S0(RequestParams<EplyInfoVO> requestParams, HttpServletRequest request, HttpServletResponse response) {
+		service.BM0108F0S0(requestParams, request, response);
+	}
 }

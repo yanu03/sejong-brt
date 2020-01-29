@@ -67,13 +67,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     */
     PAGE_DELETE: function(caller, act, data) {
-    	var grid = caller.gridView0.target;
+    	var grid = caller.gridView1.target;
     	
     	if(typeof grid.selectedDataIndexs[0] === "undefined") {
     		axDialog.alert(LANG("ax.script.alert.requireselect"));
     		return false;
     	}
     	
+    	if(confirm("삭제 후에는 되돌릴수 없습니다. 정말 삭제하시겠습니까?") == true){    //확인
+    		console.log(grid.selectedDataIndexs[0]);
+    		
+    	}else{
+    		console.log(grid);
+    	}
+    	/*
     	axDialog.confirm({
             msg: LANG("ax.script.deleteconfirm")
         }, function() {
@@ -99,6 +106,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 });
             }
         });
+    	 * */
     },
     
     
@@ -117,19 +125,51 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     ITEM_CLICK_G1: function (caller, act, data) {
     	selectedRow = data;
-        map_marker(data.lati, data.longi);
+        mapMarker(data.lati, data.longi);
     },
-    OPEN_BM0107_MODAL: function(caller, act, data) {
-    	axboot.modal.open({
-            modalType: "BM0107",
-            param: "",
-            callback: function (data) {
-            	//caller.formView0.model.set("corpId", data.corpId);
-            	//caller.formView0.model.set("corpNm", data.corpNm);
-                //this.close();
-            }
-        });
+   
+    INTERFACE_ROUTE: function(caller, act, data){
+    	var list = caller.gridView0.getData("selected");
+    	
+		if(confirm("갱신 후에는 되돌릴수 없습니다. 정말 갱신하시겠습니까?") == true){    //확인
+			//
+			if(list.length > 0) {
+				var msg = "선택 노선 목록\n------------------\n";
+				for(var i=0; i<list.length; i++){
+					msg += list[i].routNm + "(" + list[i].routId + ")\n"
+				}
+				
+				msg += "------------------\n다음 노선의 정류장을 갱신합니다. 진행하시겠습니까?";
+				
+				if(confirm(msg) == true){
+					
+				axboot.ajax({
+					type: "POST",
+					url: "/api/v1/BM0107G0U0",
+					data: JSON.stringify(list),
+					callback: function (res) {
+						if(res.status == 0){
+							alert('갱신 성공');
+						}else{
+							alert('갱신 실패');
+						}
+					}
+				});
+				return false;
+				}else{
+					alert("취소합니다");
+					return;
+				}
+			} else {
+				alert(LANG("ax.script.requireselect"));
+			}
+		}else{   //취소
+			alert("취소합니다.");
+			return;
+		}
     }
+    
+    
 });
 
 /********************************************************************************************************************/
@@ -167,11 +207,15 @@ fnObj.pageButtonView = axboot.viewExtend({
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
             "interface": function() {
-            	ACTIONS.dispatch(ACTIONS.OPEN_BM0107_MODAL);
+            	ACTIONS.dispatch(ACTIONS.INTERFACE_ROUTE);
+            },
+            "delete": function() {
+            	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             }
+            
         });
     }
 });
@@ -231,6 +275,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
             sortable: true,
+			showRowSelector: true,
+			multipleSelect: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
                 {key: "routId", label: ADMIN("ax.admin.BM0107G0.routId"), width: 80},
@@ -322,18 +368,21 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
             sortable: true,
+            showRowSelector: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-                {key: "routId", label: ADMIN("ax.admin.BM0107G1.routId"), width: 80},
-                {key: "nodeId", label: ADMIN("ax.admin.BM0107G1.nodeId"), width: 120},
-                {key: "nodeNm", label: ADMIN("ax.admin.BM0107G1.nodeNm"), width: 120},
-                {key: "lati", label: ADMIN("ax.admin.BM0107G1.lati"), width: 120},
-                {key: "longi", label: ADMIN("ax.admin.BM0107G1.longi"), width: 120},
-                {key: "updatedAt", label: ADMIN("ax.admin.BM0107G1.updatedAt"), width: 120},
+                {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80},
+                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 100
+                	, editor: {type: "number"}
+                },
+                {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
+                {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120},
+                {key: "lati",		label: ADMIN("ax.admin.BM0107G1.lati"),			width: 120},
+                {key: "longi",		label: ADMIN("ax.admin.BM0107G1.longi"),		width: 120},
+                {key: "updatedAt",	label: ADMIN("ax.admin.BM0107G1.updatedAt"),	width: 120},
             ],
             body: {
                 onClick: function () {
-                	console.log('22');
                     this.self.select(this.dindex);
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
                 }
@@ -411,7 +460,6 @@ function searchGrid1(caller, act, data){
         data: data,
         callback: function (res) {
         	caller.gridView1.setData(res);
-        	console.log(res);
         	removeAllPopUp();
         	
         	var y_arr	= [];
@@ -421,17 +469,16 @@ function searchGrid1(caller, act, data){
             var staYArr	= [];
             var staXArr = [];
             var staIdArr	= [];
-            
         	for(var i=0; i < res.list.length; i++){
             	x_arr.push(res.list[i].longi);
             	y_arr.push(res.list[i].lati);
             	id_arr.push(res.list[i].nodeId);
-            	if(res.list[i].staId != null){
+            	//if(res.list[i].staId != null){
             		staYArr.push(res.list[i].lati);
             		staXArr.push(res.list[i].longi);
             		staIdArr.push(res.list[i].nodeId);
-            		popUp(res.list[i].lati, res.list[i].longi, res.list[i].seq + "," + res.list[i].nodeNm);
-            	}
+            		//popUp(res.list[i].lati, res.list[i].longi, res.list[i].seq + "," + res.list[i].nodeNm);
+            	//}
         	}
         	if(y_arr.length != 0){
 	        	drawLine(y_arr, x_arr);

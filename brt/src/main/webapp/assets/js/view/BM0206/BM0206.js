@@ -13,6 +13,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
+    	console.log(filter);
     	
         axboot.ajax({
             type: "GET",
@@ -59,14 +60,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        });
 
         return false;
-    },
-    
-    PAGE_EXCEL: function(caller, act, data) {
-    	if(selectedRow != null){   		
-    		caller.gridView2.target.exportExcel(selectedRow.conId + "data.xls");
-    	}else {
-    		alert("장치 목록을 선택해주세요");
-    	}
     },
     
     // gridView0항목 클릭 이벤트
@@ -136,6 +129,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_CLOSE: function(caller, act, data) {
     	window.parent.fnObj.tabView.closeActiveTab();
+    },
+    
+    PAGE_EXCEL: function(caller, act, data) {
+    	if(selectedRowG1 != null){   		
+    		caller.gridView2.target.exportExcel(selectedRowG1.dvcId + "data.xls");
+    	}else {
+    		alert("항목을 선택해주세요");
+    	}
     },
         
 });

@@ -10,5 +10,47 @@
 		 , USE_YN
      FROM
 	      BM_NEWS_SET
+	 <where>
+	    	<if test="value != null">
+				PROV_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
 	</select>
+	
+	<insert id="BM0602F0I0" parameterType="newsVO">
+		<selectKey keyProperty="provId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('NS', LPAD(NEXTVAL(SEQ_BM_NEWS_SET_0), 5, '0'))
+    	</selectKey>
+		INSERT INTO BM_NEWS_SET(
+				PROV_ID
+			  , PROV_URL
+			  , PROV_NM
+			  , REMARK
+			  , USE_YN
+			  )
+			  VALUES(
+			  	#{provId}
+			  , #{provUrl}
+			  , #{provNm}
+			  , #{remark}
+			  , "N"
+			  )		  			
+	</insert>
+	<update id="BM0602F0U0" parameterType="newsVO">
+		UPDATE BM_NEWS_SET
+		SET
+			PROV_ID  = #{provId}
+		  , PROV_URL = #{provUrl}
+		  , PROV_NM  = #{provNm}
+		  , REMARK   = #{remark}
+		  , USE_YN   = #{useYn}
+		WHERE
+			PROV_ID = #{provId}
+	</update>
+	
+	<delete id="BM0602G0D0" parameterType="newsVO">
+		DELETE
+		FROM BM_NEWS_SET
+		WHERE PROV_ID = #{provId}
+	</delete>
 </mapper>
