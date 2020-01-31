@@ -47,7 +47,7 @@
             var fnObj = {
                 pageStart: function () {
 
-                    $("#good_words").html(goodWords.get());
+                    //$("#good_words").html(goodWords.get());
                 },
                 login: function () {
                     axboot.ajax({

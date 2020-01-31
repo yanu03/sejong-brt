@@ -47,6 +47,7 @@
 				OR MODEL_NM LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     	</where>
+    	ORDER BY VHC_ID
     </select>
     
     <insert id="BM0103F0I0" parameterType="vhcInfoVo">

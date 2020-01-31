@@ -37,35 +37,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_EXCEL: function(caller, act, data) {
     	caller.gridView0.target.exportExcel("data.xls");
     },
-    
-    /*
-    DATA_INTERFACE: function(caller, act, data){
-    	axDialog.confirm({
-            msg: LANG("ax.script.interfaceConfirm")
-        }, function() {
-            if (this.key == "ok") {
-            	axboot.promise()
-                .then(function (ok, fail, data) {
-	            	axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/BM0107G0U0",
-	                    data: null,
-	                    callback: function (res) {
-	                        ok(res);
-	                    }
-	                });
-                })
-                .then(function (ok) {
-                	axToast.push(LANG("onInterface"));
-                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-            }
-        });
-    },
-    */
+  
     PAGE_DELETE: function(caller, act, data) {
     	var grid = caller.gridView1.target;
     	
@@ -167,7 +139,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			alert("취소합니다.");
 			return;
 		}
-    }
+    },
+    DRAW_ROUTE: function(caller, act, data) {
+    	drawRoute(routeData);
+    },
     
     
 });
@@ -372,9 +347,10 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
                 {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80},
-                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 100
+                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60
                 	, editor: {type: "number"}
                 },
+                {key: "nodeType",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 30},
                 {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
                 {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120},
                 {key: "lati",		label: ADMIN("ax.admin.BM0107G1.lati"),			width: 120},
@@ -462,6 +438,7 @@ function searchGrid1(caller, act, data){
         	caller.gridView1.setData(res);
         	removeAllPopUp();
         	
+        	/*
         	var y_arr	= [];
         	var x_arr	= [];
             var id_arr	= [];
@@ -484,8 +461,6 @@ function searchGrid1(caller, act, data){
 	        	drawLine(y_arr, x_arr);
 	        	addMarkers(staYArr, staXArr, staIdArr);
         	}
-        	
-        	
             if(res.list.length == 0) {
             } else {
             	if(dataFlag) {
@@ -498,6 +473,91 @@ function searchGrid1(caller, act, data){
 	                }
                 }
             }
+        	 * */
+        	/**추가한거**/
+            
+            if(res.list != null && res.list.length != 0) {
+            	routeData = res.list.slice();
+            } else {
+            	routeData = [];
+            }
+            ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+            /**추가한거끝**/	
         }
     });
+}
+
+/*****************************************/
+
+function drawRoute(list) {
+	var path = [];
+	
+	removeMarkers();
+	deleteLine();
+	deleteCircle();
+	deleteNode();
+	
+	if(list != null && list.length != 0) {
+		for(var i = 0; i < list.length; i++) {
+			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
+			
+			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
+			if(list[i].nodeType == busstopNodeType || list[i].nodeType == orgaNodeType) {
+				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				
+				
+				if(list[i].nodeType == orgaNodeType && list[i].allPlayTm != null && list[i].allPlayTm != 0) {
+					if(list[i].nodeType == orgaNodeType) {
+						var radius = Math.round((limitSpeed / 3600 * 1000) * list[i].allPlayTm);
+						
+						circles.push(getDrawingCircle(list[i].lati, list[i].longi, radius));
+					}
+					
+					list[i].click = function(e) {
+						var point = e.marker.getPosition();
+						var node = $.extend(true, {}, routeData[e.index]);
+						
+						routeData.splice(e.index, 1);
+						
+						var val = returnInsertRouteInfo(point.lat(), point.lng());
+						
+						if(val) {
+							var temp = {
+								orgaId: e.nodeId,
+								lati: point.lat(),
+								longi: point.lng(),
+								seq: val.seq
+							};
+							
+							temp = $.extend(true, node, temp);
+							
+							routeData.splice(val.index, 0, temp);
+							
+							ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+							ACTIONS.dispatch(ACTIONS.OPEN_BM0405, temp);
+						} else {
+							axDialog.alert("선택할 수 없는 좌표입니다.");
+						}
+					};
+					list[i].index = i;
+					list[i].icon = orgaIcon;
+					list[i].draggable = true;
+				}
+				
+				addMarker(list[i]);
+			}
+			// 아닐 경우(일반 노드) 네모 박스 표시
+			else {
+				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
+			}
+		}
+		
+		polyline = new Tmapv2.Polyline({
+			path: path,
+			strokeColor: "#FF005E",
+			strokeWeight: 2,
+			map: map,
+			zIndex: -1
+		}); 
+	}
 }

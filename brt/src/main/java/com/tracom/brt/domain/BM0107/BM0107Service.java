@@ -102,7 +102,7 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
 			String route_id = ob.get("route_id").toString().replace("\"", "");
 			float lati = Float.valueOf(ob.get("lat").toString().replace("\"", ""));
 			float longi = Float.valueOf(ob.get("lng").toString().replace("\"", ""));
-			
+			int nodeType = 1;
 			if(j == 0) {
 				tmp = Integer.valueOf(route_ord);
 			}
@@ -118,7 +118,7 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
 			vo.setSeq(i*100);
 			vo.setRoutId(route_id);
 			vo.setStaId(null);
-
+			vo.setNodeType(nodeType);
 			resultList.add(vo);
 			i++;
 			
@@ -129,6 +129,7 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     public List<BmRoutNodeInfoVO> insertSta(List<BmRoutNodeInfoVO> nodeList, List<BmRoutNodeInfoVO> staList) {
     	//정류장 갯수만큼 for문 돌릴거임
     	for(BmRoutNodeInfoVO sta : staList) {
+    		sta.setNodeType(30);
     		int seq = 0;
     		int forseq = 0;
     		LocationVO resultVO = new LocationVO();
@@ -139,11 +140,8 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     			tmpVO = insertNode.getDistanceToLine(sta.getLongi(), sta.getLati(),
     					nodeList.get(i).getLongi(),	nodeList.get(i).getLati(),
     					nodeList.get(i+1).getLongi(), nodeList.get(i+1).getLati()	);
-    			/** 550노선 테스트중 286070003**/
-    			if(sta.getNodeId().equals("286070003") && tmpVO != null) {
-    				System.out.println(sta.getNodeId() + " : " + nodeList.get(i).getNodeId() + ", " + nodeList.get(i+1).getNodeId() + " = " + tmpVO);
-    				System.out.println(nodeList.get(i).getLati() + ", " + nodeList.get(i).getLongi() + "::" + nodeList.get(i+1).getLati() + ", " + nodeList.get(i+1).getLongi() );
-    			}
+    		
+    			
     			//만약 직교한다면
     			if(tmpVO != null) {
     				//가장 짧은값이라면

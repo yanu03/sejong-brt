@@ -58,22 +58,28 @@
                 <ax:form name="formView0" id="formView0">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                     	<ax:tr> 
-                    		<ax:td label="ax.admin.BM0103F0.vhcNo" width="300px" labelClazz="required">
-                    			<input type="text" name="vhcNo" data-ax-path="vhcNo" data-key="true" class="form-control"/>
+                    		<ax:td label="ax.admin.BM0103F0.vhcId" width="210px" labelClazz="required">
+                    			<input type="text" name="vhcId" data-ax-path="vhcId" data-key="true" class="form-control" readonly="readonly" maxlength="9"/>
+                    		</ax:td>
+                    	</ax:tr>
+                    	
+                    	<ax:tr> 
+                    		<ax:td label="ax.admin.BM0103F0.vhcNo" width="210px" labelClazz="required">
+                    			<input type="text" title="<ax:lang id="ax.admin.BM0103F0.vhcNo"/>" name="vhcNo" data-ax-path="vhcNo" data-key="true" class="form-control" data-ax-validate="required" maxlength="9"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0103F0.chasNo" width="300px" labelClazz="required">
-                    			<input type="text" name="chasNo" data-ax-path="chasNo" data-key="true" class="form-control"/>
+                    		<ax:td label="ax.admin.BM0103F0.chasNo" width="250px" labelClazz="required">
+                    			<input type="text" title="<ax:lang id="ax.admin.BM0103F0.chasNo"/>" name="chasNo" data-ax-path="chasNo" data-key="true" class="form-control" data-ax-validate="required" maxlength="17"/>
                     		</ax:td>
                     	</ax:tr>
                     	 
                     	 <ax:tr>
-                    		<ax:td label="ax.admin.BM0103F0.corpId" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0103F0.corpId" width="500px" labelClazz="required">
                     		<div class="input-group">
-	                        		<input type="text" data-ax-path="corpId" data-key="true" class="form-control W70" readonly="readonly">
-	                        		<input type="text" data-ax-path="corpNm" data-key="true" class="form-control W70" readonly="readonly">
+	                        		<input type="text" title="<ax:lang id="ax.admin.BM0103F0.corpId"/>" data-ax-path="corpId" data-key="true" class="form-control W70" readonly="readonly" data-ax-validate="required">
+	                        		<input type="text" title="<ax:lang id="ax.admin.BM0103F0.corpNm"/>" data-ax-path="corpNm" data-key="true" class="form-control W70" readonly="readonly">
                         			<button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0101">
 	                                	<ax:lang id="ax.admin.select"/>
 	                            	</button>
@@ -87,18 +93,18 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0103F0.area" width="300px">
-                    			<input type="text" name="area" data-ax-path="area" data-key="true" class="form-control"/>
+                    		<ax:td label="ax.admin.BM0103F0.area" width="200px">
+                    			<input type="text" title="<ax:lang id="ax.admin.BM0103F0.area"/>" name="area" data-ax-path="area" data-key="true" class="form-control" maxlength="5"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0103F0.maker" width="300px">
-                    			<input type="text" name="maker" data-ax-path="maker" data-key="true" class="form-control"/>
+                    		<ax:td label="ax.admin.BM0103F0.maker" width="200px">
+                    			<input type="text" title="<ax:lang id="ax.admin.BM0103F0.maker"/>" name="maker" data-ax-path="maker" data-key="true" class="form-control" maxlength="5"/>
                     		</ax:td>
-                    		<ax:td label="ax.admin.BM0103F0.relsDate" width="300px">
+                    		<ax:td label="ax.admin.BM0103F0.relsDate" width="220px">
                   			   	<div class="input-group" data-ax5picker="date">
-	                            	<input type="text" class="form-control" data-ax-path="relsDate" data-ax5formatter="date" placeholder="yyyy/mm/dd" />
+	                            	<input type="text" title="<ax:lang id="ax.admin.BM0103F0.relsDate"/>" class="form-control" data-ax-path="relsDate" data-ax5formatter="date" placeholder="yyyy/mm/dd" />
 	                            	<span class="input-group-addon"><i class="cqc-calendar"></i></span>
                             	</div>
                     		</ax:td>
@@ -106,64 +112,46 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0103F0.modelNm" width="300px">
-                    			<input type="text" name="modelNm" data-ax-path="modelNm" data-key="true" class="form-control"/>
+                    		<ax:td label="ax.admin.BM0103F0.modelNm" width="350px">
+                    			<input type="text" title="<ax:lang id="ax.admin.BM0103F0.modelNm"/>" name="modelNm" data-ax-path="modelNm" data-key="true" class="form-control" maxlength="20"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                       		<ax:td label="ax.admin.BM0103F0.vhcKind" width="300px" labelClazz="required">
-                       		<ax:SM0105 groupCd="BUS_KIND" id="vhcKind" name="vhcKind" dataPath="vhcKind"/>
-                       		<!-- 
-	     					 	<select class="form-control" name="vhcKind" data-ax-path="vhcKind" >
-									 <option value="big"><ax:lang id="ax.admin.BM0103F0.bus.big"/></option>
-									 <option value="mid"><ax:lang id="ax.admin.BM0103F0.bus.mid"/></option>
-									 <option value="small"><ax:lang id="ax.admin.BM0103F0.bus.small"/></option>
-								</select>
-                       		 -->
+                       		<ax:td label="ax.admin.BM0103F0.vhcKind" width="240px" labelClazz="required">
+                       			<ax:SM0105 groupCd="BUS_KIND" id="vhcKind" name="vhcKind" dataPath="vhcKind"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                       		<ax:td label="ax.admin.BM0103F0.vhcType" width="300px" labelClazz="required">
+                       		<ax:td label="ax.admin.BM0103F0.vhcType" width="200px" labelClazz="required">
                        		    <ax:SM0105 groupCd="BUS_DIV" id="vhcType" name="vhcType" dataPath="vhcType"/>
-                       		    <!-- 
-	     					 	<select class="form-control" name="vhcType" data-ax-path="vhcType" >
-									 <option value="city"><ax:lang id="ax.admin.BM0108F0.bus.ctin"/></option>
-									 <option value="vilg"><ax:lang id="ax.admin.BM0108F0.bus.vilg"/></option>
-									 <option value="cntry"><ax:lang id="ax.admin.BM0108F0.bus.cnty"/></option>
-									 <option value="intct"><ax:lang id="ax.admin.BM0108F0.bus.ctout"/></option>
-									 <option value="fast"><ax:lang id="ax.admin.BM0108F0.bus.fast"/></option>
-								</select>
-                       		     -->
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                      		<ax:td label="ax.admin.BM0103F0.lfYn" width="300px" labelClazz="required">
+                      		<ax:td label="ax.admin.BM0103F0.lfYn" width="200px" labelClazz="required">
                     			<ax:SM0105 groupCd="LF_YN" id="lfYn" name="lfYn" dataPath="lfYn"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                       		<ax:td label="ax.admin.BM0103F0.vhcFuel" width="300px" labelClazz="required">
+                       		<ax:td label="ax.admin.BM0103F0.vhcFuel" width="200px" labelClazz="required">
                        			<ax:SM0105 groupCd="FUEL_TYPE" id="vhcFuel" name="vhcFuel" dataPath="vhcFuel"/>
-	     					 	<!-- 
-	     					 	<select class="form-control" name="vhcFuel" data-ax-path="vhcFuel" >
-									 <option value="D"><ax:lang id="ax.admin.BM0103F0.bus.disel"/></option>
-									 <option value="L"><ax:lang id="ax.admin.BM0103F0.bus.LPG"/></option>
-									 <option value="E"><ax:lang id="ax.admin.BM0103F0.bus.elec"/></option>
-								</select>
-	     					 	 -->
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                     		<ax:td label="ax.admin.BM0103F0.useYn" width="300px" labelClazz="required">
+                     		<ax:td label="ax.admin.BM0103F0.useYn" width="200px" labelClazz="required">
                     			<ax:common-code groupCd="USE_YN" name="useYn" dataPath="useYn" clazz="form-control" type=""/>
                     		</ax:td>
                     	</ax:tr>
 
+                    	<ax:tr>
+                     		<ax:td label="ax.admin.BM0103F0.remark" width="450px" labelClazz="required">
+                    			<input type="text" title="<ax:lang id="ax.admin.BM0103F0.remark"/>" name="remark" data-ax-path="remark" data-key="true" class="form-control" maxlength="200"/>
+                    		</ax:td>
+                    	</ax:tr>
                     </ax:tbl>
                 </ax:form>
             </ax:split-panel>

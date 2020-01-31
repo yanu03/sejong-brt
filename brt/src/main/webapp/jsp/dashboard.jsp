@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ax" tagdir="/WEB-INF/tags" %>
 
-<ax:set key="title" value="DASH BOARD"/>
+<ax:set key="title" value="Home"/>
 <ax:set key="page_desc" value="${pageRemark}"/>
 <ax:set key="axbody_class" value="dashboard"/>
 

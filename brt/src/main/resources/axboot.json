@@ -3,11 +3,11 @@
   "copyrights": "Copyright © 세종도시교통공사",
   "logo": {
     "header": "/assets/images/header-logo.jpg",
-    "login": "/assets/images/login-logo.png",
+    "login": "",
     "logo": "logo.png"
   },
   "background": {
-    "login": "/assets/images/login-bg.jpg"
+    "login": "/assets/images/brtimage.jpg"
   },
   "layout": {
     "leftSideMenu": ""
