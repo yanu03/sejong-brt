@@ -31,7 +31,7 @@
 
 
         <ax:split-layout name="ax1" orientation="vertical">
-            <ax:split-panel width="500" style="padding-right: 10px;">
+            <ax:split-panel width="*" style="padding-right: 10px;">
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
@@ -45,7 +45,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="*" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="500" style="padding-left: 10px;" scroll="scroll">
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
@@ -57,11 +57,11 @@
                 <ax:form name="formView0">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0101F0.corp.id" width="300px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0101F0.corp.id" width="210px" labelClazz="required">
                                 <input type="text" data-ax-path="corpId" data-key="true" class="form-control" readonly="readonly"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0101F0.corp.name" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="corpNm" title="<ax:lang id="ax.admin.BM0101F0.corp.name"/>" class="form-control" data-ax-validate="required" />
+                                <input type="text" data-ax-path="corpNm" title="<ax:lang id="ax.admin.BM0101F0.corp.name"/>" class="form-control" data-ax-validate="required" maxlength="20"/>
                             </ax:td>
                         </ax:tr>
                         
@@ -70,20 +70,20 @@
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0101F0.corp.no" width="300px">
-                                <input type="text" data-ax-path="corpNo" class="form-control"  />
+                            <ax:td label="ax.admin.BM0101F0.corp.no" width="200px">
+                                <input type="text" numberOnly data-ax-path="corpNo" class="form-control" maxlength="10" />
                             </ax:td>
                             <ax:td label="ax.admin.BM0101F0.email" width="300px">
-                            	<input type="text" data-ax-path="email" class="form-control"/>
+                            	<input type="text" data-ax-path="email" class="form-control" maxlength="50"/>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0101F0.phone" width="300px">
-                            	<input type="text" data-ax-path="phone" class="form-control"/>
+                            <ax:td label="ax.admin.BM0101F0.phone" width="200px">
+                            	<input type="text" data-ax-path="phone" class="form-control" maxlength="11"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0101F0.fax" width="300px">
-                            	<input type="text" data-ax-path="fax" class="form-control"/>
+                            <ax:td label="ax.admin.BM0101F0.fax" width="200px">
+                            	<input type="text" numberOnly data-ax-path="fax" class="form-control" maxlength="11"/>
                             </ax:td>
                        	</ax:tr>
                        	
@@ -92,32 +92,32 @@
                         </ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.BM0101F0.addr1" width="300px">
-                            	<input type="text" data-ax-path="addr1" class="form-control"/>
+                            <ax:td label="ax.admin.BM0101F0.addr1" width="450px">
+                            	<input type="text" data-ax-path="addr1" class="form-control" maxlength="50"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                       		<ax:td label="ax.admin.BM0101F0.zip.no" width="300px">
-                            	<input type="text" data-ax-path="zipNo" class="form-control"/>
+                       		<ax:td label="ax.admin.BM0101F0.zip.no" width="200px">
+                            	<input type="text" numberOnly data-ax-path="zipNo" class="form-control" maxlength="6"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.BM0101F0.addr2" width="300px">
-                            	<input type="text" data-ax-path="addr2" class="form-control"/>
+                            <ax:td label="ax.admin.BM0101F0.addr2" width="450px">
+                            	<input type="text" data-ax-path="addr2" class="form-control" maxlength="50"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.BM0101F0.garage" width="300px">
-                            	<input type="text" data-ax-path="garage" class="form-control"/>
+                            <ax:td label="ax.admin.BM0101F0.garage" width="450px">
+                            	<input type="text" data-ax-path="garage" class="form-control" maxlength="50"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.BM0101F0.remark" width="300px">
-                            	<input type="text" data-ax-path="remark" class="form-control"/>
+                            <ax:td label="ax.admin.BM0101F0.remark" width="450px">
+                            	<textarea data-ax-path="remark" class="form-control" maxlength="200"></textarea>
                             </ax:td>
                        	</ax:tr>
                         <%-- 

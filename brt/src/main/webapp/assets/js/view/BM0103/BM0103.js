@@ -40,7 +40,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("차량목록.xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
@@ -190,8 +190,7 @@ fnObj.pageButtonView = axboot.viewExtend({
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
             "excel": function () {
-            	selectedRow = null;
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "new": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
@@ -254,14 +253,14 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             //sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "vhcId",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.vhcId") + "</font>",	width: 65,		sortable: true},
-                {key: "vhcNo",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.vhcNo") + "</font>",	width: 90,		sortable: true},
-                {key: "chasNo", 	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.chasNo"),	width: 130},
-                {key: "corpNm",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.corpId"),	width: 120},
-                {key: "area",		label: ADMIN("ax.admin.BM0103F0.area"),		width: 80},
-                {key: "maker",		label: ADMIN("ax.admin.BM0103F0.maker"),	width: 80},
-                {key: "relsDate",	label: ADMIN("ax.admin.BM0103F0.relsDate"),	width: 80},
-                {key: "modelNm",	label: ADMIN("ax.admin.BM0103F0.modelNm"),	width: 100},
+                {key: "vhcId",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.vhcId") + "</font>",	width: 65,	align: "center",		sortable: true},
+                {key: "vhcNo",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.vhcNo") + "</font>",	width: 90,							sortable: true},
+                {key: "chasNo", 	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.chasNo"),				width: 130},
+                {key: "corpNm",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.corpId"),				width: 120},
+                {key: "area",		label: ADMIN("ax.admin.BM0103F0.area"),											width: 80},
+                {key: "maker",		label: ADMIN("ax.admin.BM0103F0.maker"),										width: 80},
+                {key: "relsDate",	label: ADMIN("ax.admin.BM0103F0.relsDate"),										width: 80,	align: "center"},
+                {key: "modelNm",	label: ADMIN("ax.admin.BM0103F0.modelNm"),										width: 100},
                 {key: "vhcKindNm",	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.vhcKind") + "</font>",	width: 80},
                 {key: "vhcTypeNm",	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.vhcType") + "</font>",	width: 70},
                 {key: "lfYnNm",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.lfYn") + "</font>",		width: 70},

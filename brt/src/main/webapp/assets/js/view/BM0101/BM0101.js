@@ -42,7 +42,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
 	PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("운수사목록.xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
@@ -159,7 +159,7 @@ fnObj.pageStart = function () {
     this.searchView0.initView();
     this.gridView0.initView();
     this.formView0.initView();
-    
+    numberOnly();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -234,20 +234,20 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
+            //sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "corpId", label: ADMIN("ax.admin.BM0101F0.corp.id"), width: 80},
-                {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), width: 80},
-                {key: "corpNo", label: ADMIN("ax.admin.BM0101F0.corp.no"), width: 120},
-                {key: "email", label: ADMIN("ax.admin.BM0101F0.email"), width: 120},
-                {key: "phone", label: ADMIN("ax.admin.BM0101F0.phone"), width: 120},
-                {key: "addr1", label: ADMIN("ax.admin.BM0101F0.addr1"), width: 120},
-                {key: "fax", label: ADMIN("ax.admin.BM0101F0.fax"), width: 120},
-                {key: "zipNo", label: ADMIN("ax.admin.BM0101F0.zip.no"), width: 70},
-                {key: "addr2", label: ADMIN("ax.admin.BM0101F0.addr2"), width: 120},
-                {key: "garage", label: ADMIN("ax.admin.BM0101F0.garage"), width: 70},
-                {key: "remark", label: ADMIN("ax.admin.BM0101F0.remark"), width: 70},
+                {key: "corpId",	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0101F0.corp.id") + "</font>",		width: 80,	align: "center",	sortable: true},
+                {key: "corpNm",	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0101F0.corp.name") + "</font>",	width: 120,						sortable: true},
+                {key: "corpNo", label: ADMIN("ax.admin.BM0101F0.corp.no"),											width: 120,	align: "right"},
+                {key: "email",	label: ADMIN("ax.admin.BM0101F0.email"),											width: 120},
+                {key: "phone",	label: ADMIN("ax.admin.BM0101F0.phone"),											width: 80,	align: "right"},
+                {key: "addr1",	label: ADMIN("ax.admin.BM0101F0.addr1"),											width: 120,	sortable: true},
+                {key: "fax",	label: ADMIN("ax.admin.BM0101F0.fax"),												width: 80,	align: "right"},
+                {key: "zipNo",	label: ADMIN("ax.admin.BM0101F0.zip.no"),											width: 70,	align: "right"},
+                {key: "addr2",	label: ADMIN("ax.admin.BM0101F0.addr2"),											width: 120, sortable: true},
+                {key: "garage",	label: ADMIN("ax.admin.BM0101F0.garage"),											width: 70,	sortable: true},
+                {key: "remark",	label: ADMIN("ax.admin.BM0101F0.remark"),											width: 160},
             ],
             body: {
                 onClick: function () {
@@ -379,3 +379,9 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.target.find('[data-ax-path="key"]').removeAttr("readonly");
     }
 });
+
+var numberOnly = function(){
+    $("input:text[numberOnly]").on("keyup", function() {
+        $(this).val($(this).val().replace(/[^0-9]/g,""));
+    });
+}

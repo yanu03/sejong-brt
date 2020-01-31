@@ -35,7 +35,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("노선목록.xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
@@ -151,8 +151,7 @@ fnObj.pageButtonView = axboot.viewExtend({
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
             "excel": function () {
-            	selectedRow = null;
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "interface": function() {
             	ACTIONS.dispatch(ACTIONS.OPEN_BM0104_MODAL);
@@ -195,7 +194,7 @@ var userWayEdit = {
 			columnKeys: {
 				optionValue: "CD", optionText: "NM"
 			},
-			options: [ {CD: "1", NM: "상행"}, {CD: "2", NM: "하행"} ]
+			options: [ {CD: "2", NM: "상행"}, {CD: "1", NM: "하행"} ]
 
 		},
 		disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
@@ -232,16 +231,16 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),		width: 80},
-            	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),		width: 70},
-                {key: "shortRoutNm",	label: ADMIN("ax.admin.BM0104G0.shortRoutNm"),	width: 130,	editor: shortRoutNmEdit},
-                {key: "wayInfo",		label: ADMIN("ax.admin.BM0104G0.wayInfo"),		width: 130,	editor: shortRoutNmEdit},
-                {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),		width: 160},
-                {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),		width: 160},
-                {key: "wayDiv",			label: ADMIN("ax.admin.BM0104G0.wayDiv"),		width: 100},
-                {key: "userWayDiv",		label: ADMIN("ax.admin.BM0104G0.userWayDiv"),	width: 120, editor: userWayEdit},
-                {key: "turnDiv",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),		width: 100},
-                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),	width: 140},
+            	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),											width: 80},
+            	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),											width: 70},
+                {key: "shortRoutNm",	label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.shortRoutNm") + "</font>",	width: 130,	editor: shortRoutNmEdit},
+                {key: "wayInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.wayInfo") + "</font>",		width: 130,	editor: shortRoutNmEdit},
+                {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),											width: 160},
+                {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),											width: 160},
+                {key: "wayDivNm",		label: ADMIN("ax.admin.BM0104G0.wayDiv"),											width: 60,								align: "center"},
+                {key: "userWayDiv",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.userWayDiv") + "</font>",	width: 120, editor: userWayEdit,		align: "center"},
+                {key: "turnDivNm",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),											width: 100},
+                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),										width: 140,								align: "center"},
             ],
             body: {
                 onClick: function () {
