@@ -1,5 +1,5 @@
 var fnObj = {}, CODE = {};
-
+var updateList = [];
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
@@ -43,45 +43,68 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	caller.gridView0.selectAll(false);
     },
     
-    PAGE_DELETE: function(caller, act, data) {
-    	var grid = caller.gridView0.target;
-    	
-    	if(typeof grid.selectedDataIndexs[0] === "undefined") {
-    		axDialog.alert(LANG("ax.script.alert.requireselect"));
-    		return false;
-    	}
-    	
-    	axDialog.confirm({
-            msg: LANG("ax.script.deleteconfirm")
-        }, function() {
-            if (this.key == "ok") {
-            	axboot.promise()
+    PAGE_SAVE: function (caller, act, data) {
+        if (caller.formView0.validate()) {
+            var formData = caller.formView0.getData();
+
+            axboot.promise()
                 .then(function (ok, fail, data) {
-	            	axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/BM0104G0D0",
-	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
-	                    callback: function (res) {
-	                        ok(res);
-	                    }
-	                });
+                    axboot.ajax({
+                        type: "POST",
+                        url: "/api/v1/BM0103F0I0",
+                        data: JSON.stringify(formData),
+                        callback: function (res) {
+                            ok(res);
+                        }
+                    });
                 })
-                .then(function (ok) {
-                	//caller.formView0.clear();
-                	axToast.push(LANG("ondelete"));
-                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                .then(function (ok, fail, data) {
+            		axToast.push(LANG("onadd"));
+            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+                    isUpdate = true;
                 })
                 .catch(function () {
 
                 });
-            }
-        });
-    },
-    
-    PAGE_SAVE: function (caller, act, data) {
+        }
     },
     
     PAGE_UPDATE: function(caller, act, data) {
+    	var length = fnObj.gridView0.getData().length;
+    	var allData = fnObj.gridView0.getData();
+    	var lastList = [];
+    	
+    	for(i=0; i < updateList.length; i++){
+    		for(j = 0; j < length; j++) {
+    			if(allData[j].routId == updateList[i]) {
+    				lastList.push(allData[j]);
+    				break;
+    			}
+    		}
+    	}
+    	if(lastList.length > 0){
+    		
+	    	axboot.promise()
+	        .then(function (ok, fail, data) {
+	            axboot.ajax({
+	                type: "POST",
+	                url: "/api/v1/BM0104G0U1",
+	                data: JSON.stringify(lastList),
+	                callback: function (res) {
+	                    console.log(res);
+	                }
+	            });
+	        })
+	        .then(function (ok, fail, data) {
+	    		axToast.push(LANG("onadd"));
+	    		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	        })
+	        .catch(function () {
+	        });
+    	}
+    	//초기화
+    	updateList = [];
+    	lastList = [];
     },
     
     // 탭닫기
@@ -94,9 +117,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             modalType: "BM0104",
             param: "",
             callback: function (data) {
-            	//caller.formView0.model.set("corpId", data.corpId);
-            	//caller.formView0.model.set("corpNm", data.corpNm);
-                //this.close();
+                this.close();
+                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             }
         });
     }
@@ -135,6 +157,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             "interface": function() {
             	ACTIONS.dispatch(ACTIONS.OPEN_BM0104_MODAL);
             },
+            "save": function () {
+           		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
+            },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             }
@@ -164,6 +189,32 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
 });
 
 
+var userWayEdit = {
+		type: "select",
+		config: {
+			columnKeys: {
+				optionValue: "CD", optionText: "NM"
+			},
+			options: [ {CD: "1", NM: "상행"}, {CD: "2", NM: "하행"} ]
+
+		},
+		disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
+			if(!updateList.includes(this.item.routId)){
+				updateList.push(this.item.routId);									
+			}
+		}
+
+};
+
+var shortRoutNmEdit = {
+	type: "text",
+	disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
+		if(!updateList.includes(this.item.routId)){
+			updateList.push(this.item.routId);									
+		}
+	}
+};
+
 /**
  * gridView0
  */
@@ -181,15 +232,16 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "routId", label: ADMIN("ax.admin.BM0104G0.routId"), width: 80},
-            	{key: "routNm", label: ADMIN("ax.admin.BM0104G0.routNm"), width: 100},
-                {key: "shortRoutNm", label: ADMIN("ax.admin.BM0104G0.shortRoutNm"), width: 160},
-                {key: "stStaNm", label: ADMIN("ax.admin.BM0104G0.stStaNm"), width: 160},
-                {key: "edStaNm", label: ADMIN("ax.admin.BM0104G0.edStaNm"), width: 160},
-                {key: "wayDiv", label: ADMIN("ax.admin.BM0104G0.wayDiv"), width: 140},
-                {key: "userWayDiv", label: ADMIN("ax.admin.BM0104G0.userWayDiv"), width: 140},
-                {key: "turnDiv", label: ADMIN("ax.admin.BM0104G0.turnDiv"), width: 100},
-                {key: "updatedAt", label: ADMIN("ax.admin.BM0104G0.updatedAt"), width: 180},
+            	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),		width: 80},
+            	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),		width: 70},
+                {key: "shortRoutNm",	label: ADMIN("ax.admin.BM0104G0.shortRoutNm"),	width: 130,	editor: shortRoutNmEdit},
+                {key: "wayInfo",		label: ADMIN("ax.admin.BM0104G0.wayInfo"),		width: 130,	editor: shortRoutNmEdit},
+                {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),		width: 160},
+                {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),		width: 160},
+                {key: "wayDiv",			label: ADMIN("ax.admin.BM0104G0.wayDiv"),		width: 100},
+                {key: "userWayDiv",		label: ADMIN("ax.admin.BM0104G0.userWayDiv"),	width: 120, editor: userWayEdit},
+                {key: "turnDiv",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),		width: 100},
+                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),	width: 140},
             ],
             body: {
                 onClick: function () {
@@ -258,3 +310,25 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	this.target.selectAll({selected: flag});
     }
 });
+
+/****************************************************/
+
+var returnCD = function(){
+	axboot.promise()
+    .then(function (ok, fail, data) {
+    	axboot.ajax({
+        	type: "POST",
+            url: "/api/v1/BM0103F0U0",
+            data: JSON.stringify(formData),
+            callback: function (res) {
+                ok(res);
+            }
+        });
+    })
+    .then(function (ok, fail, data) {
+    	return null;
+    })
+    .catch(function () {
+
+    });
+}

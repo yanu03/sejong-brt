@@ -7,12 +7,13 @@
 		SELECT
 			  ROUT_ID
 		    , ROUT_NM
-            , ST_STA_NM
-            , ED_STA_NM
+		    , SHORT_ROUT_NM
+            , WAY_INFO
 		    , WAY_DIV
             , USER_WAY_DIV
             , TURN_DIV
-		    , SHORT_ROUT_NM
+            , ST_STA_NM
+            , ED_STA_NM
 		    , DATE_FORMAT(UPDATED_AT, '%Y-%m-%d %H:%i:%s') AS UPDATED_AT
 		FROM
 			BM_ROUT_INFO
@@ -100,5 +101,20 @@
 		    , UPDATED_BY	= #{updatedBy}
 		WHERE
 			ROUT_ID = #{routId}
+	</update>
+	
+	<update id="BM0104G0U1" parameterType="bmRoutInfoVO">
+		<foreach collection="voList" item="voList" separator=";">
+		UPDATE
+			BM_ROUT_INFO
+		SET
+			  SHORT_ROUT_NM	= #{voList.shortRoutNm}
+			, WAY_INFO		= #{voList.wayInfo}
+		    , USER_WAY_DIV	= #{voList.userWayDiv}
+		    , UPDATED_AT	= #{voList.updatedAt}
+		    , UPDATED_BY	= #{voList.updatedBy}
+		WHERE
+			ROUT_ID = #{voList.routId}
+		</foreach>
 	</update>
 </mapper>
