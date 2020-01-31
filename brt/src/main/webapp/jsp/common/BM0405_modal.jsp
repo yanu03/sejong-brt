@@ -106,11 +106,10 @@
             </ax:split-panel>
             
             <div id="jquery_jplayer_0" class="jp-jplayer"></div>
-			<div id="jp_container_0" class="jp-audio" role="application" aria-label="media player" style="margin-top: 350px; margin-left: 60px;">
+			<div id="jp_container_0" class="jp-audio" role="application" aria-label="media player" style="margin-top: 350px; margin-left: 105px;">
 				<div class="jp-type-single">
 					<div class="jp-gui jp-interface">
 						<div class="jp-controls">
-							<button class="jp-play" role="button" tabindex="0">play</button>
 							<button class="jp-stop" role="button" tabindex="0">stop</button>
 						</div>
 						<div class="jp-progress">
@@ -128,9 +127,6 @@
 						<div class="jp-time-holder">
 							<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
 							<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
-							<div class="jp-toggles">
-								<button class="jp-repeat" role="button" tabindex="0">repeat</button>
-							</div>
 						</div>
 					</div>
 				</div>
