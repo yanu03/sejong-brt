@@ -37,35 +37,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_EXCEL: function(caller, act, data) {
     	caller.gridView0.target.exportExcel("data.xls");
     },
-    
-    /*
-    DATA_INTERFACE: function(caller, act, data){
-    	axDialog.confirm({
-            msg: LANG("ax.script.interfaceConfirm")
-        }, function() {
-            if (this.key == "ok") {
-            	axboot.promise()
-                .then(function (ok, fail, data) {
-	            	axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/BM0107G0U0",
-	                    data: null,
-	                    callback: function (res) {
-	                        ok(res);
-	                    }
-	                });
-                })
-                .then(function (ok) {
-                	axToast.push(LANG("onInterface"));
-                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-            }
-        });
-    },
-    */
+  
     PAGE_DELETE: function(caller, act, data) {
     	var grid = caller.gridView1.target;
     	
@@ -167,7 +139,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			alert("취소합니다.");
 			return;
 		}
-    }
+    },
+    DRAW_ROUTE: function(caller, act, data) {
+    	drawRoute(routeData);
+    },
     
     
 });
@@ -375,6 +350,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
                 {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60
                 	, editor: {type: "number"}
                 },
+                {key: "nodeType",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 30},
                 {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
                 {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120},
                 {key: "lati",		label: ADMIN("ax.admin.BM0107G1.lati"),			width: 120},
@@ -462,6 +438,7 @@ function searchGrid1(caller, act, data){
         	caller.gridView1.setData(res);
         	removeAllPopUp();
         	
+        	/*
         	var y_arr	= [];
         	var x_arr	= [];
             var id_arr	= [];
@@ -484,8 +461,6 @@ function searchGrid1(caller, act, data){
 	        	drawLine(y_arr, x_arr);
 	        	addMarkers(staYArr, staXArr, staIdArr);
         	}
-        	
-        	
             if(res.list.length == 0) {
             } else {
             	if(dataFlag) {
@@ -498,6 +473,16 @@ function searchGrid1(caller, act, data){
 	                }
                 }
             }
+        	 * */
+        	/**추가한거**/
+            
+            if(res.list != null && res.list.length != 0) {
+            	routeData = res.list.slice();
+            } else {
+            	routeData = [];
+            }
+            ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+            /**추가한거끝**/	
         }
     });
 }
