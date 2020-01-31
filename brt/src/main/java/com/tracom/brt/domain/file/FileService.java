@@ -47,7 +47,6 @@ public class FileService {
 			    	path = savedVoicePreview(requestParams, response);
 			    	break;
 			    case GlobalConstants.Types.TEMP_VOICE:
-			    	System.out.println("진입");
 			    	path = tempVoicePreview(requestParams, response);
 			    	break;
 			    case GlobalConstants.Types.VIDEO:

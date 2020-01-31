@@ -29,7 +29,6 @@ public class FileController extends BaseController {
 	
 	@PostMapping("/uplaodWavTemp")
 	 public ApiResponse uploadWavTemp(@ModelAttribute VoiceInfoVO request) {
-		System.out.println("들어옴");
 		fileService.uplaodWavTemp(request);
 		return ok();
 	}
