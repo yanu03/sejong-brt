@@ -237,16 +237,16 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
+            //sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "staId", label: ADMIN("ax.admin.BM0106F0.staId"), width: 100},
-                {key: "staNm", label: ADMIN("ax.admin.BM0106F0.staNm"), width: 120},
-                {key: "krNm", label: ADMIN("ax.admin.BM0106F0.krNm"), width: 120},
-                {key: "enNm", label: ADMIN("ax.admin.BM0106F0.enNm"), width: 120},
-                {key: "cnNm", label: ADMIN("ax.admin.BM0106F0.cnNm"), width: 120},
-                {key: "jpNm", label: ADMIN("ax.admin.BM0106F0.jpNm"), width: 120},
-                {key: "remark", label: ADMIN("ax.admin.BM0106F0.remark"), width: 100}
+                {key: "staId",	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0106F0.staId") + "</font>",	width: 80,	sortable: true,	align: "center"},
+                {key: "staNm",	label: ADMIN("ax.admin.BM0106F0.staNm"),	width: 120},
+                {key: "krNm",	label: ADMIN("ax.admin.BM0106F0.krNm"),		width: 120},
+                {key: "enNm",	label: ADMIN("ax.admin.BM0106F0.enNm"),		width: 120},
+                {key: "cnNm",	label: ADMIN("ax.admin.BM0106F0.cnNm"),		width: 120},
+                {key: "jpNm",	label: ADMIN("ax.admin.BM0106F0.jpNm"),		width: 120},
+                {key: "remark",	label: ADMIN("ax.admin.BM0106F0.remark"),	width: 100}
             ],
             body: {
                 onClick: function () {
