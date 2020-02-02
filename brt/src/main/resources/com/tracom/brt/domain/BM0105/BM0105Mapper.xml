@@ -12,7 +12,7 @@
     		, STA_NO
     		, LATI
     		, LONGI
-    		, DATE_FORMAT(STA.UPDATED_AT, '%Y-%m-%d')
+    		, DATE_FORMAT(STA.UPDATED_AT, '%Y-%m-%d %T') AS UPDATED_AT
     	FROM
 			BM_ROUT_STA_INFO ROUT
             LEFT JOIN BM_STA_INFO STA
