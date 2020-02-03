@@ -86,7 +86,23 @@
 			ROUT_ID = #{routId}
     </select>
     
-    <insert id="BM0107G1I0" parameterType="bmRoutNodeInfoVO">
+    <delete id="BM0107G2D0" parameterType="bmRoutNodeInfoVO">
+    	DELETE FROM BM_ROUT_NODE_TRASH
+    	WHERE ROUT_ID = #{routId};
+    </delete>
+    
+    <insert id="BM0107G2I0" parameterType="bmRoutNodeInfoVO">
+    	INSERT INTO
+    		BM_ROUT_NODE_TRASH
+    	SELECT
+    		*
+    	FROM
+    		BM_ROUT_NODE_INFO
+    	WHERE
+    		ROUT_ID = #{routId}
+    </insert>
+    
+    <insert id="BM0107G1I0" parameterType="bmRoutNodeInfoVO">	    
     	INSERT INTO
     		BM_ROUT_NODE_INFO
     			(
@@ -127,44 +143,42 @@
 				, #{voList.updatedBy}
 			)
 			</foreach>
+			
     </insert>
     
-    <!-- 
-    <insert id="BM0107G1I1" parameterType="bmRoutNodeInfoVO">
+    <insert id="BM0107G3I1" parameterType="bmRoutNodeInfoVO">
     	INSERT INTO
     		BM_ROUT_RESULT
     			(
     				  NODE_ID
     				, NODE_NM
+    				, NODE_TYPE
     				, LATI
     				, LONGI
     				, SEQ
     				, ROUT_ID
-    				, STA_ID
-    				, CREATED_AT
-    				, CREATED_BY
-    				, UPDATED_AT
-    				, UPDATED_BY
     			)
 		VALUES
-		SELECT
-			  NODE_ID
-			, NODE_NM
-			, LATI
-			, LONGI
-			, SEQ
-			, ROUT_ID
-			, STA_ID
-			, CREATED_AT
-			, CREATED_BY
-			, UPDATED_AT
-			, UPDATED_BY
-		FROM
-			BM_ROUT_NODE_INFO
-		WHERE
-			ROUT_ID = #{routId}
+			<foreach collection="voList" item="voList" separator=",">
+			(
+			  	  #{voList.nodeId}
+			  	, #{voList.nodeNm}
+				, #{voList.nodeType}
+				, #{voList.lati}
+				, #{voList.longi} 
+				, #{voList.seq}
+				, #{voList.routId}
+			)
+			</foreach>   
+    
     </insert>
-     -->
+   
+    <delete id="BM0107G3D0" parameterType="bmRoutInfoVO">
+    	DELETE FROM
+    		BM_ROUT_RESULT
+    	WHERE
+    		ROUT_ID = #{routId}
+    </delete>
     
     <delete id="BM0107G1D0" parameterType="bmRoutInfoVO">
     	DELETE FROM
@@ -184,4 +198,22 @@
 			WHERE
 				ROUT_ID = #{routId}
  	</insert>
+ 	
+ 	<select id="BM0107G4S0" parameterType="bmRoutInfoVO" resultType="bmRoutNodeInfoVO">
+ 		SELECT
+			  ORGA_ID AS NODE_ID
+		    , ORGA_NM AS NODE_NM
+		    , LATI
+		    , LONGI
+		    , 898 AS NODE_TYPE
+		    , ROUT_ID
+		    , CREATED_AT
+		    , CREATED_BY
+		    , UPDATED_AT
+		    , UPDATED_BY
+		FROM
+			BM_VOC_ORGA
+		WHERE
+			ROUT_ID = #{routId}
+ 	</select>
 </mapper>
