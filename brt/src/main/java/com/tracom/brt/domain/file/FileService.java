@@ -154,8 +154,6 @@ public class FileService {
 		return Paths.get(handler.getRootLocalPath(), "/temp/wav_temp.mp3").toString();
 	}
 	
-	
-	
 	private String videoPreview(RequestParams<?> requestParams, HttpServletResponse response) {
 		return null;
 	}

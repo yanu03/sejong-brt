@@ -33,6 +33,7 @@ public class BM0401Service extends BaseService<VoiceInfoVO, String> {
     	return vo.getVocId();
     }
     
+    @Transactional
     public boolean BM0401F0U0(VoiceInfoVO vo) {
     	vo.setChimeYn("Y");
     	handler.uploadVoice(vo);

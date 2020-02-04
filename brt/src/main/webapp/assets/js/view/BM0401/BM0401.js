@@ -2,8 +2,9 @@
 var fnObj = {}, CODE = {};
 
 /***************************************** 전역 변수 초기화 ******************************************************/
-isUpdate = false;
-selectedRow = null;
+var isUpdate = false;
+var selectedRow = null;
+var validateReg = new RegExp(/\,/g);
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -160,6 +161,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	        }
         	}
         	
+        	var scrTxt = caller.formView0.model.get("scrTxt");
+        	var scrTxtEn = caller.formView0.model.get("scrTxtEn");
+        	
+        	if(validateReg.test(scrTxt) || validateReg.test(scrTxtEn)) {
+        		axDialog.alert(ADMIN("ax.admin.BM0401F0.scr.test"));
+        		return false;
+        	}
+        	
         	axboot.promise()
 	            .then(function (ok, fail, data) {
 	                axboot.ajax({
@@ -190,6 +199,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
         	var formData = new FormData(caller.formView0.target[0]);
+        	
+        	var scrTxt = caller.formView0.model.get("scrTxt");
+        	var scrTxtEn = caller.formView0.model.get("scrTxtEn");
+        	
+        	if(validateReg.test(scrTxt) || validateReg.test(scrTxtEn)) {
+        		axDialog.alert(ADMIN("ax.admin.BM0401F0.scr.test"));
+        		return false;
+        	}
         	
             axboot.promise()
                 .then(function (ok, fail, data) {

@@ -6,6 +6,9 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.FileUtils;
+
 import ws.schild.jave.AudioAttributes;
 import ws.schild.jave.Encoder;
 import ws.schild.jave.EncodingAttributes;
@@ -48,5 +51,9 @@ public class Utils {
 		
 		Encoder encoder = new Encoder();
 		encoder.encode(new MultimediaObject(source), target, attrs);
+	}
+	
+	public static void createCSV(File file, String content) throws Exception {
+		FileUtils.writeStringToFile(file, content, Charsets.ISO_8859_1);
 	}
 }

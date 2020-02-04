@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -55,6 +56,7 @@ public class FTPHandler {
 	
 	private ArrayList<String> serverContentList;
 	private ArrayList<String> pathList;
+	private ArrayList<String> ignoreList;
 	
 	// 승무사원 관리 승무사원 사진 업로드
 	public void uploadBM0108(String id, MultipartFile file) {
@@ -81,31 +83,53 @@ public class FTPHandler {
 		}
 	}
 	
+	// 노선선택별 음성 저장 시 재생 리스트 저장
+	public boolean uploadBM0404(VoiceInfoVO vo) {
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+			String id = vo.getVocId();
+			String playStDate = format.format(format.parse(vo.getPlayStDate()));
+			String playEdDate = format.format(format.parse(vo.getPlayEdDate()));
+			String routeId = vo.getRoutId();
+			
+			File playList = new File(Paths.get(getRootLocalPath(), "/route", routeId, "/playlist/AG0000000.csv").toString());
+			
+			String content =
+				GlobalConstants.CSVForms.VOICE_PLAYLIST_TITLE + "1," + GlobalConstants.PlayListVoiceTypes.ROUTE + "," + id + GlobalConstants.VoiceTypes.RT + ".wav," + playStDate + "," + playEdDate + ",";
+		
+			Utils.createCSV(playList, content);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	
 	// 음성파일(WAV, TTS) 업로드
-	public void uploadVoice(VoiceInfoVO vo) {
+	public boolean uploadVoice(VoiceInfoVO vo) {
     	if(vo.getPlayType().equals("TTS")) {
-    		uploadVoiceTTS(vo);
+    		return uploadVoiceTTS(vo);
     	} else if(vo.getPlayType().equals("WAV")) {
     		if(vo.getWavFile() != null && vo.getWavFile().getSize() != 0) {
-    			uploadVoiceWAV(vo);
+    			return uploadVoiceWAV(vo);
     		}
     	}
+		return true;
     }
 	
 	// 음성파일(WAV) 업로드
-	public void uploadVoiceWAV(VoiceInfoVO vo) {
+	public boolean uploadVoiceWAV(VoiceInfoVO vo) {
 		String id = vo.getVocId();
 		MultipartFile file = vo.getWavFile();
 		
 		String dir = Paths.get(getRootLocalPath(), getCommonAudioPath()).toString();
-		String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
+		String fileName = id +  GlobalConstants.VoiceTypes.US + "." + FilenameUtils.getExtension(file.getOriginalFilename());
 		String fileNameKr = id + GlobalConstants.VoiceTypes.KR + ".wav";
 		String fileNameEn = id + GlobalConstants.VoiceTypes.EN + ".wav";
 		
 		String routId = vo.getRoutId();
 		if(routId != null && !routId.equals("")) {
-			fileName = routId + GlobalConstants.VoiceTypes.US + ".wav";
+			fileName = id + GlobalConstants.VoiceTypes.RT + ".wav";
 		}
 		
 		File saveFile = Paths.get(dir, fileName).toFile();
@@ -128,7 +152,10 @@ public class FTPHandler {
 			processSynchronize();
 		} catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}
+		
+		return true;
 	}
 	
 	// 음성 TEMP파일(WAV) MP3로 업로드
@@ -146,28 +173,28 @@ public class FTPHandler {
 	}
 	
 	// 음성파일(TTS) 업로드
-	public void uploadVoiceTTS(VoiceInfoVO vo) {
+	public boolean uploadVoiceTTS(VoiceInfoVO vo) {
 		String id = vo.getVocId();
 		String krText = vo.getKrTts();
 		String enText = vo.getEnTts();
 		String chimeYn = vo.getChimeYn();
 		
 		String dir = Paths.get(getRootLocalPath(), getCommonAudioPath()).toString();
-		String fileName = id + ".wav";
+		String fileName = id + GlobalConstants.VoiceTypes.US + ".wav";
 		String fileNameKr = id + GlobalConstants.VoiceTypes.KR + ".wav";
 		String fileNameEn = id + GlobalConstants.VoiceTypes.EN + ".wav";
 		
 		String routId = vo.getRoutId();
 		if(routId != null && !routId.equals("")) {
-			fileNameKr = routId + GlobalConstants.VoiceTypes.US + ".wav";
+			fileNameKr = id + GlobalConstants.VoiceTypes.RT + ".wav";
 		}
 		
 		int ttsKrPlayTm = 0;
 		int ttsEnPlayTm = 0;
 		
-		File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
-		File ttsEnFile = Paths.get(dir, fileNameEn).toFile();
-		File file = Paths.get(dir, fileName).toFile();
+		File ttsKrFile = new File(Paths.get(dir, fileNameKr).toString());
+		File ttsEnFile = new File(Paths.get(dir, fileNameEn).toString());
+		File file = new File(Paths.get(dir, fileName).toString());
 		try {
 			if(krText != null && !krText.equals("")) {
 				FileUtils.writeByteArrayToFile(ttsKrFile, voiceService.getWavBuffer(krText, 0, 0, chimeYn));
@@ -190,14 +217,17 @@ public class FTPHandler {
 			processSynchronize();
 		} catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}
+		
+		return true;
 	}
 	
 	// 음성 삭제시 저장된 음성파일 삭제
 	public void deleteVoice(VoiceInfoVO vo) {
 		String playType = vo.getPlayType();
 		String id = vo.getVocId();
-		String fileName = id + ".wav";
+		String fileName = id + GlobalConstants.VoiceTypes.US + ".wav";
 		String fileNameKr = id + GlobalConstants.VoiceTypes.KR + ".wav";
 		String fileNameEn = id + GlobalConstants.VoiceTypes.EN + ".wav";
 		String dir = Paths.get(getRootLocalPath(), getCommonAudioPath()).toString();
@@ -206,7 +236,7 @@ public class FTPHandler {
 		
 		try {
 			if(routId != null && !routId.equals("")) {
-				File file = Paths.get(dir, routId + GlobalConstants.VoiceTypes.US + ".wav").toFile();
+				File file = Paths.get(dir, id + GlobalConstants.VoiceTypes.RT + ".wav").toFile();
 				
 				if(file.exists()) {
 					file.delete();
@@ -264,6 +294,10 @@ public class FTPHandler {
 		
 		serverContentList = new ArrayList<String>();
 		pathList = new ArrayList<String>();
+		ignoreList = new ArrayList<String>();
+		
+		ignoreList.add("temp");
+		ignoreList.add("chime");
 	}
 	
 	// 서버 폴더 내 목록 가져오기
@@ -306,10 +340,21 @@ public class FTPHandler {
 		
 		int size = localList.length;
 		for(int i = 0; i < size; i++) {
-			// temp 임시 폴더는 싱크 해제
-			if(localList[i].equals("temp")) {
+			// 동기화 체크용 플래그
+			boolean check = false;
+			
+			for(String ignoreFile : ignoreList) {
+				if(localList[i].getName().contains(ignoreFile)) {
+					check = true;
+					break;
+				}
+			}
+			
+			// 동기화하지 않을 파일일 경우 continue
+			if(check) {
 				continue;
 			}
+			
 			if(localList[i].isDirectory()){
 				if(!checkFolder(localList[i], serverDir)) {
 					newFileMaster(localList[i], serverDir);
@@ -317,7 +362,6 @@ public class FTPHandler {
 				
 				// 재귀 돌면서 디렉토리 구조 동기화
 				synchronize(localList[i], serverDir + "/" + localList[i].getName());
-				deleteFromLists("SubFolder");
 			} else {
 				checkFile(localList[i], serverDir);
 			}

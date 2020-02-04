@@ -39,10 +39,14 @@ function arrayMove(arr, old_index, new_index) {
         new_index += arr.length;
     }
     if (new_index >= arr.length) {
+    	new_index = 0;
+    	/*
         var k = new_index - arr.length;
+        console.log(k);
         while ((k--) + 1) {
             arr.push(undefined);
         }
+        //*/
     }
      arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);  
    return arr;

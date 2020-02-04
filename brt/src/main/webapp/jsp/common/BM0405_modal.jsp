@@ -81,11 +81,11 @@
             <ax:split-panel width="70" style="top: 30%;">
             	<div style="width: 50px; margin-left: 10px;">
 	            	<button type="button" class="btn btn-default" style="width: 100%; margin-bottom: 10px;" data-page-btn="addPlayList">
-	            		>
+	            		→
 	            	</button>
 	            	
 	            	<button type="button" class="btn btn-default" style="width: 100%;" data-page-btn="deletePlayList">
-	            		<
+	            		←
 	            	</button>
             	</div>
             </ax:split-panel>
@@ -98,6 +98,13 @@
 			            </h3>
 		            </div>
 		            <div class="right">
+			            <button type="button" class="btn btn-default" data-page-btn="upItem">
+		            		↑
+		            	</button>
+		            	
+		            	<button type="button" class="btn btn-default" data-page-btn="downItem">
+		            		↓
+		            	</button>
 		            	<button type="button" class="btn btn-default" data-page-btn="test"><ax:lang id="ax.admin.test"/></button>
 		            </div>
                 </div>
@@ -106,7 +113,7 @@
             </ax:split-panel>
             
             <div id="jquery_jplayer_0" class="jp-jplayer"></div>
-			<div id="jp_container_0" class="jp-audio" role="application" aria-label="media player" style="margin-top: 350px; margin-left: 105px;">
+			<div id="jp_container_0" class="jp-audio" role="application" aria-label="media player" style="margin-top: 350px; margin-left: 105px; z-index: 1000;">
 				<div class="jp-type-single">
 					<div class="jp-gui jp-interface">
 						<div class="jp-controls">
