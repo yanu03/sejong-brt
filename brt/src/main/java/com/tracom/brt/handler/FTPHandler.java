@@ -80,6 +80,41 @@ public class FTPHandler {
 		}
 	}
 	
+	//BM0606 영상, 이미지파일 업로드
+	public void uploadBM0606(String id, MultipartFile file, String type) {
+		String dir = Paths.get(getRootLocalPath(), "/common/video").toString();
+		
+		String ext = null;
+		String fileName = null;
+		File saveFile = null;
+		
+		switch(type) {
+		case "video" : 
+			ext = FilenameUtils.getExtension(file.getOriginalFilename());
+			fileName = id + "." + ext;
+			saveFile = Paths.get(dir, fileName).toFile();			
+			break;
+		case "image" : 
+			ext = "jpg";
+			fileName = id + "." + ext;
+			saveFile = Paths.get(dir, fileName).toFile();			
+			break;
+		}
+		
+		try {
+			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		try {
+			Utils.getRunningTime(file, fileName, dir+"\\");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+	}
 	
 	// 음성파일(WAV, TTS) 업로드
 	public void uploadVoice(VoiceInfoVO vo) {

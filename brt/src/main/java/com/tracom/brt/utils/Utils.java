@@ -1,10 +1,20 @@
 package com.tracom.brt.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.ContentHandler;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.mp4.MP4Parser;
+import org.apache.tika.sax.BodyContentHandler;
+import org.apache.tika.sax.WriteOutContentHandler;
+import org.springframework.web.multipart.MultipartFile;
 
 import ws.schild.jave.AudioAttributes;
 import ws.schild.jave.Encoder;
@@ -49,4 +59,30 @@ public class Utils {
 		Encoder encoder = new Encoder();
 		encoder.encode(new MultimediaObject(source), target, attrs);
 	}
+
+	
+	public static void getRunningTime(MultipartFile file, String fileName, String filePath) throws Exception {
+	
+		BodyContentHandler handler = new BodyContentHandler();
+		
+		Metadata metadata = new Metadata();
+		FileInputStream inputStream = new FileInputStream(new File(filePath+fileName));
+		
+		System.out.println("-----------------------");
+		System.out.println(filePath+fileName);
+		System.out.println(inputStream);
+		
+		ParseContext pcontext = new ParseContext();
+		
+		MP4Parser MP4Parser = new MP4Parser();
+		MP4Parser.parse(inputStream, handler, metadata, pcontext);
+		
+		String[] metadataNames = metadata.names();
+		
+		for(String name : metadataNames) {
+			System.out.println(name + ": " + metadata.get(name));
+		}
+		
+	}
+
 }

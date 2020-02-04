@@ -35,6 +35,8 @@ public class FileService {
         String path = "";
         File file = null;
         
+        System.out.println(requestParams.getString("type"));
+        System.out.println(requestParams.getString("fileType"));
         try {
 			switch (type) {
 				case GlobalConstants.Types.IMAGE:
@@ -154,9 +156,26 @@ public class FileService {
 		return Paths.get(handler.getRootLocalPath(), "/temp/wav_temp.mp3").toString();
 	}
 	
-	
-	
+
 	private String videoPreview(RequestParams<?> requestParams, HttpServletResponse response) {
-		return null;
+		String fileType = requestParams.getString("fileType");
+		String vdoId	= requestParams.getString("vdoId");
+		String path 	= null;
+		File file		= null;
+		System.out.println(fileType);
+		switch(fileType) {
+		case "AV001" :
+			path	= handler.getRootLocalPath() + "/common/video/" + vdoId + ".mp4";
+			System.out.println(path);
+			break;
+		case "AV002" :
+			path	= handler.getRootLocalPath() + "/common/video/" + vdoId + ".jpg";
+			System.out.println(path);
+			break;
+		}
+		
+		file = new File(Paths.get(path).toString());
+		
+		return file.getAbsolutePath();
 	}
 }
