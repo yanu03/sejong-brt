@@ -169,7 +169,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         
         $("#employeeImg").val("");
         
-    	var url = "/api/v1/BM0108F0S0?eplyId=" + data.eplyId;
+    	var url = "/api/v1/filePreview?type=image&eplyId=" + data.eplyId;
     	
     	$("#previewImg").attr("src", url);
     	
