@@ -12,6 +12,7 @@
     		, KR_TTS
     		, EN_TTS
     		, SCR_TXT
+    		, SCR_TXT_EN
     		, VOC_DIV
     		, REMARK
     		, PLAY_TM
@@ -40,6 +41,7 @@
     		, KR_TTS
     		, EN_TTS
     		, SCR_TXT
+    		, SCR_TXT_EN
     		, REMARK
     		, PLAY_TM
     		, VOC_DIV
@@ -58,6 +60,7 @@
    			, #{krTts}
    			, #{enTts}
    			, #{scrTxt}
+   			, #{scrTxtEn}
    			, #{remark}
    			, #{playTm}
    			, 'CD025'
@@ -80,6 +83,7 @@
     		, KR_TTS		=	#{krTts}
     		, EN_TTS		=	#{enTts}
     		, SCR_TXT		=	#{scrTxt}
+    		, SCR_TXT_EN	=	#{scrTxtEn}
     		, REMARK		=	#{remark}
     		<if test="playTm != null">
     			, PLAY_TM		=	#{playTm}

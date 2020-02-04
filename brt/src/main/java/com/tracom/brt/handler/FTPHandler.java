@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpException;
+import com.tracom.brt.code.GlobalConstants;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
 import com.tracom.brt.utils.Utils;
@@ -99,12 +100,12 @@ public class FTPHandler {
 		
 		String dir = Paths.get(getRootLocalPath(), getCommonAudioPath()).toString();
 		String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
-		String fileNameKr = id + "_KR.wav";
-		String fileNameEn = id + "_EN.wav";
+		String fileNameKr = id + GlobalConstants.VoiceTypes.KR + ".wav";
+		String fileNameEn = id + GlobalConstants.VoiceTypes.EN + ".wav";
 		
 		String routId = vo.getRoutId();
 		if(routId != null && !routId.equals("")) {
-			fileName = routId + "_select.wav";
+			fileName = routId + GlobalConstants.VoiceTypes.US + ".wav";
 		}
 		
 		File saveFile = Paths.get(dir, fileName).toFile();
@@ -153,12 +154,12 @@ public class FTPHandler {
 		
 		String dir = Paths.get(getRootLocalPath(), getCommonAudioPath()).toString();
 		String fileName = id + ".wav";
-		String fileNameKr = id + "_KR.wav";
-		String fileNameEn = id + "_EN.wav";
+		String fileNameKr = id + GlobalConstants.VoiceTypes.KR + ".wav";
+		String fileNameEn = id + GlobalConstants.VoiceTypes.EN + ".wav";
 		
 		String routId = vo.getRoutId();
 		if(routId != null && !routId.equals("")) {
-			fileNameKr = routId + "_select.wav";
+			fileNameKr = routId + GlobalConstants.VoiceTypes.US + ".wav";
 		}
 		
 		int ttsKrPlayTm = 0;
@@ -197,15 +198,15 @@ public class FTPHandler {
 		String playType = vo.getPlayType();
 		String id = vo.getVocId();
 		String fileName = id + ".wav";
-		String fileNameKr = id + "_KR.wav";
-		String fileNameEn = id + "_EN.wav";
+		String fileNameKr = id + GlobalConstants.VoiceTypes.KR + ".wav";
+		String fileNameEn = id + GlobalConstants.VoiceTypes.EN + ".wav";
 		String dir = Paths.get(getRootLocalPath(), getCommonAudioPath()).toString();
 		
 		String routId = vo.getRoutId();
 		
 		try {
 			if(routId != null && !routId.equals("")) {
-				File file = Paths.get(dir, routId + "_select.wav").toFile();
+				File file = Paths.get(dir, routId + GlobalConstants.VoiceTypes.US + ".wav").toFile();
 				
 				if(file.exists()) {
 					file.delete();

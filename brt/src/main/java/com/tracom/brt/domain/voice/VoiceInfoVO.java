@@ -19,6 +19,7 @@ public class VoiceInfoVO extends BaseVO {
 	private String krTts;
 	private String enTts;
 	private String scrTxt;
+	private String scrTxtEn;
 	private String remark;
 	private Integer playTm;
 	private String vocDiv;

@@ -14,10 +14,17 @@ public class GlobalConstants {
     
     
     public static class Types {
-    	public static final String VOICE		= "voice";
-    	public static final String SAVED_VOICE	= "savedVoice";
-    	public static final String TEMP_VOICE	= "tempVoice";
-    	public static final String VIDEO		= "video";
-    	public static final String IMAGE		= "image";
+    	public static final String VOICE		= "voice";		// 음성
+    	public static final String SAVED_VOICE	= "savedVoice";	// 저장된 음성
+    	public static final String TEMP_VOICE	= "tempVoice";	// 임시 음성
+    	public static final String VIDEO		= "video";		// 영상
+    	public static final String IMAGE		= "image";		// 이미지
+    }
+    
+    public static class VoiceTypes {
+    	public static final String KR		= "K";	// 한국어
+    	public static final String EN		= "E";	// 영어
+    	public static final String US		= "U";	// 사용자 음성
+    	public static final String RT		= "R";	// 노선별 음성
     }
 }

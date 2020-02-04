@@ -222,16 +222,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     			});
     		} else if(list[i].playType == "TTS") {
     			if(list[i].vocDiv == "CD025") {
-        			params["vocType"] = "KR";
+        			params["vocType"] = "K";
         			playList.push({
         				mp3: url + $.param(params)
         			});
-        			params["vocType"] = "EN";
+        			params["vocType"] = "E";
         			playList.push({
         				mp3: url + $.param(params)
         			});
         		} else {
-        			params["vocType"] = "KR";
+        			params["vocType"] = "K";
         			playList.push({
         				mp3: url + $.param(params)
         			});

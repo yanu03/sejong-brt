@@ -177,7 +177,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                });
 	            })
 	            .then(function (ok, fail, data) {
-	            	axToast.push(LANG("onadd"));
+	            	axToast.push(LANG("onsave"));
 	        		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
 	                isUpdate = true;
 	            })
@@ -208,7 +208,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
-            		axToast.push(LANG("onupdate"));
+            		axToast.push(LANG("onsave"));
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
@@ -478,19 +478,18 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "vocId", label: ADMIN("ax.admin.BM0401F0.voc.id"), width: 80},
-                {key: "vocNm", label: ADMIN("ax.admin.BM0401F0.voc.nm"), width: 210},
-                {key: "playType", label: ADMIN("ax.admin.BM0401F0.play.type"), width: 120},
-                {key: "playTm", label: ADMIN("ax.admin.BM0401F0.play.time"), width: 80},
-                {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 150},
-                {key: "krTts", label: ADMIN("ax.admin.BM0401F0.kr.tts"), width: 120},
-                {key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 120},
+                {key: "vocId", label: ADMIN("ax.admin.BM0401F0.voc.id"), width: 80, sortable: true, align: "center"},
+                {key: "vocNm", label: ADMIN("ax.admin.BM0401F0.voc.nm"), width: 210, sortable: true},
+                {key: "playType", label: ADMIN("ax.admin.BM0401F0.play.type"), width: 80, align: "center"},
+                {key: "playTm", label: ADMIN("ax.admin.BM0401F0.play.time"), width: 80, align: "center"},
+                {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 150, align: "center"},
+                {key: "krTts", label: ADMIN("ax.admin.BM0401F0.kr.tts"), width: 200},
+                {key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 200},
                 {key: "scrTxt", label: ADMIN("ax.admin.BM0401F0.scr.txt"), width: 200},
                 {key: "scrTxtEn", label: ADMIN("ax.admin.BM0401F0.scr.txt.en"), width: 200},
-                {key: "remark", label: ADMIN("ax.admin.BM0401F0.remark"), width: 120},
+                {key: "remark", label: ADMIN("ax.admin.BM0401F0.remark"), width: 200},
             ],
             body: {
                 onClick: function () {
