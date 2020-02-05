@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class NewsVO extends BaseVO{	
+	private String vhcNo;
 	private String provId;
 	private String provUrl;
 	private String provNm;
@@ -21,6 +22,10 @@ public class NewsVO extends BaseVO{
 	private String userNewsId;
 	private String newsContents;
 	private String pubDt;
+	private String dvcId;
+	private String proceRst;
+	private String sendDate;
+	private String attrId;
 	private int seq;
 	private String txtVal1;
 	private String numVal4;

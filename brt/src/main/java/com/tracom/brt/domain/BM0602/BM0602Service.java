@@ -43,10 +43,12 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 		return mapper.BM0602G0S0(requestParams.getString("filter"));
 	}
 	
-	@Scheduled(cron="0 10 * * * *")
+	/* @Scheduled(cron="0 10 * * * *") 스케쥴러 스케줄 확인하기*/
 	public void NewsScheduler() {
 		NewsVO vo = new NewsVO();
 		List<NewsVO> voList = mapper.BM0602F0S0(vo);
+		System.out.println("voList");
+		System.out.println(voList);
 		
 		CommonCodeDetailInfoVO codeVO = new CommonCodeDetailInfoVO();
 		codeVO.setCoCd(ai.LINK_SET);
@@ -63,7 +65,8 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 	            if(child.getNodeType() == Node.ELEMENT_NODE) {
 	            	Element eElement = (Element)child;           		            	
 	            		vo.setCategory(ai.getTagValue("category", eElement));
-	            		if(vo.getCategory() == null) {
+	            		if(vo.getCategory().equals("") || vo.getCategory() == null) {
+	            			System.out.println("중앙일보는 여기임");
 	            			vo.setCategory("전체");
 	            		}
 	            		vo.setProvNm(ai.getTagValue("author", eElement));

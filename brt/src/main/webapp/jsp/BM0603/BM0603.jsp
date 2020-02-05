@@ -31,7 +31,7 @@
 
 
         <ax:split-layout name="ax1" orientation="vertical">
-            <ax:split-panel width="500" style="padding-right: 10px;">
+            <ax:split-panel width="*" style="padding-right: 10px;">
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
@@ -46,7 +46,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="*" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="700" style="padding-left: 10px;" scroll="scroll">
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
@@ -56,15 +56,15 @@
                     </div>
                 </div>
                 <ax:form name="formView0">                 
-                    <ax:tbl clazz="ax-form-tbl" minWidth="800px">
+                    <ax:tbl clazz="ax-form-tbl" minWidth="700px">
                      	<ax:tr>
-							<ax:td label="ax.admin.BM0603G0.usernewsid" width="300px" labelClazz="required">
+							<ax:td label="ax.admin.BM0603G0.usernewsid" width="200px" labelClazz="required">
 								<input type="text" data-ax-path="userNewsId" data-key="true" class="form-control" readonly="readonly">
 							</ax:td>						                
                     	</ax:tr>
                     
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0603G0.newstitle" width="300px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0603G0.newstitle" width="230px" labelClazz="required">
                                 <input type="text" data-ax-path="newsTitle" class="form-control" data-ax-validate="required"/>
                             </ax:td>
                         </ax:tr>                                          	

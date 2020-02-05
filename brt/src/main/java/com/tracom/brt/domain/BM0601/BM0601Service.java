@@ -99,9 +99,8 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
     	
     	WeatAtmoVO vo = new WeatAtmoVO();
     	
-    	//파싱 tag값 가져오는 for문
-    	for (int i = 0; i < nodeList.getLength(); i++) {
-    		Node child = nodeList.item(i);
+    	//파싱 tag값 가져오는 for문    	
+    		Node child = nodeList.item(0);
             if(child.getNodeType() == Node.ELEMENT_NODE) {
             	Element eElement = (Element)child;           	
             	if(ai.getTagValue("stationName", eElement).equals("아름동")) {
@@ -113,8 +112,7 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
             		vo.setDustc(ai.getTagValue("pm10Value", eElement));
             		vo.setSDustc(ai.getTagValue("pm25Value", eElement));
             	}
-            }
-        }
+            }        
     	System.out.println(vo);
 		mapper.BM0601F0I0(vo);
 		/* 대기 */  	   	
