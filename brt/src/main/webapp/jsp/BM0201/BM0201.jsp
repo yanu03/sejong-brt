@@ -61,24 +61,23 @@
 							<ax:td label="ax.admin.BM0201F0.dvcid" width="300px" labelClazz="required">
 								<input type="text" id="dvcId" data-ax-path="dvcId" data-key="true" class="form-control" readonly="readonly">
 							</ax:td>                         
-                             <ax:td label="ax.admin.BM0201F0.maker" width="300px">
-                            	<ax:common-code groupCd="DVC_MAKER" dataPath="maker" clazz="form-control"/>
+                             <ax:td label="ax.admin.BM0201F0.maker" width="300px">                         
+                            	<ax:SM0105 groupCd="MAKER" id="maker" name="maker" dataPath="maker" clazz="form-control"/>
                             </ax:td>                  
                     	</ax:tr>
-                    
 						 <ax:tr>
 							<ax:td label="ax.admin.BM0201F0.dvckind" width="300px" labelClazz="required">
-                            	<ax:common-code groupCd="DVC_KIND" dataPath="dvcKind" clazz="form-control"/>
+                            	<ax:SM0105 groupCd="DVC_KIND" id="dvcKind" name="dvcKind" dataPath="dvcKind" clazz="form-control"/>
                             </ax:td>
                                           
                             <ax:td label="ax.admin.BM0201F0.dvctype" width="300px" labelClazz="required">
-                            	<ax:common-code groupCd="DVC_TYPE" dataPath="dvcType" clazz="form-control"/>
+                            	<ax:SM0105 groupCd="DVC_TYPE" id="dvcType" name="dvcType" dataPath="dvcType" clazz="form-control"/>
                             </ax:td>                  		
 						</ax:tr>                   
                         <ax:tr>
                             <ax:td label="ax.admin.BM0201F0.instloc" width="600px" labelClazz="required">
-                            	<ax:common-code groupCd="INST_LOC" dataPath="instLoc" clazz="form-control"/>
-                            </ax:td>                           
+                            	<ax:SM0105 groupCd="INST_LOC" id="instLoc" name="instLoc" dataPath="instLoc" clazz="form-control"/>
+                           </ax:td>                           
                         </ax:tr>                    	
                         
                         <ax:tr>

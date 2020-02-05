@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class WeatAtmoVO extends BaseVO{
 	
 	private String dustc;
+	private String sDustc;
 	private String sdc;
 	private String cmc;
 	private String ozonec;

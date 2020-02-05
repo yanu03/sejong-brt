@@ -84,7 +84,7 @@
                          <ax:td label='ax.admin.BM0302F0.altsd' width="300px" labelClazz="required">
 
                             <div class="input-group" data-ax5picker="date">
-                                <input type="text" class="form-control" data-ax-path="conStDate" data-ax5formatter="date" title="<ax:lang id="ax.admin.BM0302F0.altsd"/>" placeholder="yyyy/mm/dd" data-ax-validate="required" />
+                                <input type="text" class="form-control" data-ax-path="conStDate" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-validate="required" />
                                 <span class="input-group-addon"><i class="cqc-calendar"></i></span>
                             </div>
 
@@ -93,7 +93,7 @@
                         <ax:td label='ax.admin.BM0302F0.alted' width="300px" labelClazz="required">
 
                             <div class="input-group" data-ax5picker="date">
-                                <input type="text" class="form-control" data-ax-path="conEdDate" data-ax5formatter="date" title="<ax:lang id="ax.admin.BM0302F0.alted"/>" placeholder="yyyy/mm/dd" data-ax-validate="required" />
+                                <input type="text" class="form-control" data-ax-path="conEdDate" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-validate="required" />
                                 <span class="input-group-addon"><i class="cqc-calendar"></i></span>
                             </div>
 
@@ -106,7 +106,7 @@
                             	<input type="text" data-ax-path="suppAmt" class="form-control" data-ax5formatter="money"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0301F0.vatamt" width="300px">
-                            	<input type="text" data-ax-path="vatAmt" class="form-control" data-ax5formatter="money"/>
+                            	<input type="text" id="vatAmt" data-ax-path="vatAmt" class="form-control" data-ax5formatter="money"/>
                             </ax:td>
                        	</ax:tr>                                             	
         

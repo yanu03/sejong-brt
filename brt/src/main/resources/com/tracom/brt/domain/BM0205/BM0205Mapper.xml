@@ -39,8 +39,7 @@
 		ORDER BY VHC_NO 
 	</select>
 	
-	<insert id="BM0205Reservation" parameterType="vhcDvcUpdateVO">
-			
+	<insert id="BM0205Reservation" parameterType="vhcDvcUpdateVO">			
 		INSERT INTO BM_UPD_RSV(
 			  RSV_DATE
 			, RSV_ID
@@ -64,6 +63,5 @@
    			, #{upList.updatedIp}
 		)
 		</foreach>
-	</insert>
-	
+	</insert>	
 </mapper>

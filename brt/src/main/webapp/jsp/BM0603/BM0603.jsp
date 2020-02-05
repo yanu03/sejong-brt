@@ -10,21 +10,18 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
-        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0602/BM0602.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0603/BM0603.js' />"></script>
     </jsp:attribute>
     <jsp:body>
 
         <ax:page-buttons></ax:page-buttons>
 
-        <div role="page-header">
-        	<button type="button" class="btn btn-primary" data-page-btn="commonSetting" style="position:absolute; width:70px; left:810px; top:17px">
-	          <ax:lang id="ax.admin.BM0602S0.button"/>
-	        </button>      	
+        <div role="page-header">      	
             <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0602G0.provnm"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0603S0.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -39,7 +36,7 @@
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0602G0.title"/>
+                            <ax:lang id="ax.admin.BM0603G0.title"/>
                         </h2>
                     </div>
                     <div class="right">
@@ -54,36 +51,33 @@
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-news"></i>
-                             <ax:lang id="ax.admin.BM0602F0.title"/>
+                             <ax:lang id="ax.admin.BM0603F0.title"/>
                         </h2>
                     </div>
                 </div>
                 <ax:form name="formView0">                 
-                    <ax:tbl clazz="ax-form-tbl" minWidth="600px">
+                    <ax:tbl clazz="ax-form-tbl" minWidth="800px">
                      	<ax:tr>
-							<ax:td label="ax.admin.BM0602G0.provid" width="300px" labelClazz="required">
-								<input type="text" data-ax-path="provId" data-key="true" class="form-control" readonly="readonly">
+							<ax:td label="ax.admin.BM0603G0.usernewsid" width="300px" labelClazz="required">
+								<input type="text" data-ax-path="userNewsId" data-key="true" class="form-control" readonly="readonly">
 							</ax:td>						                
                     	</ax:tr>
                     
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0602G0.provnm" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="provNm" class="form-control" data-ax-validate="required"/>
+                            <ax:td label="ax.admin.BM0603G0.newstitle" width="300px" labelClazz="required">
+                                <input type="text" data-ax-path="newsTitle" class="form-control" data-ax-validate="required"/>
                             </ax:td>
                         </ax:tr>                                          	
-                        
-                        <ax:tr>
-                            <ax:td label="ax.admin.BM0602F0.provurl" width="300px" labelClazz="required">
-                            	<input type="text" data-ax-path="provUrl" class="form-control" data-ax-validate="required"/>
+						
+						<ax:tr>
+                       		<ax:td label="ax.admin.BM0603G0.newscontents" width="600px" labelClazz="required">
+                            	<textarea data-ax-path="newsContents" class="form-control" style="height: 100px;"></textarea>
                             </ax:td>
-                            <div>
-                            	<ax:td>*Rss형식만 지원합니다.</ax:td>                         	                            
-                            </div>
                        	</ax:tr>
-
+						
                        	<ax:tr>
-                       		<ax:td label="ax.admin.BM0602F0.remark" width="100%">
-                            	<input type="text" data-ax-path="remark" class="form-control"/>
+                       		<ax:td label="ax.admin.BM0602F0.remark" width="600px">
+                            	<textarea data-ax-path="remark" class="form-control" style="height: 50px;"></textarea>
                             </ax:td>
                        	</ax:tr>
  

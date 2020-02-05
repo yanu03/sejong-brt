@@ -20,6 +20,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: filter,
             callback: function (res) {
                 caller.formView0.setData(res.list[0]);
+                console.log(res.list[0].skyCond);
                 $("#weatImg").append("<input type='image' src='/assets/images/BM0601/"+res.list[0].skyCond+".gif' style='width:400px; height:180px;' />");
                 ACTIONS.dispatch(ACTIONS.RELOAD_G1);                
 	            }
@@ -312,11 +313,11 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         if(selectType == "weat"){
 	        this.target = axboot.gridBuilder({
 	        	frozenColumnIndex: 0,
-	            sortable: true,
 	            target: $('[data-ax5grid="gridView1"]'),
 	            columns: [
-	            	{key: "renewDt", label: ADMIN("ax.admin.BM0601F0.renewdt"), width: 150},
-	            	{key: "notiDt", label: ADMIN("ax.admin.BM0601F0.notiDt"), width: 150},
+	            	{key: "renewDt", label: ADMIN("ax.admin.BM0601F0.renewdt"), sortable: true, width: 150},
+	            	{key: "notiDt", label: ADMIN("ax.admin.BM0601F0.notiDt"), sortable: true, width: 150},
+	            	{key: "skyCond", label: ADMIN("ax.admin.BM0601F0.skycond"), width: 100},
 	                {key: "tempc", label: ADMIN("ax.admin.BM0601F0.tempc"), width: 80},
 	                {key: "tempMini", label: ADMIN("ax.admin.BM0601F0.tempmini"), width: 80},
 	                {key: "tempHigh", label: ADMIN("ax.admin.BM0601F0.temphigh"), width: 80},
@@ -334,12 +335,10 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         }else{
         	this.target = axboot.gridBuilder({
 	        	frozenColumnIndex: 0,
-	            sortable: true,
 	            target: $('[data-ax5grid="gridView1"]'),
 	            columns: [	            	
-	            	{key: "renewDt", label: ADMIN("ax.admin.BM0601F0.renewdt"), width: 150},
-	            	{key: "measDt", label: ADMIN("ax.admin.BM0601F0.measdt"), width: 150},
-	            	{key: "skyCond", label: ADMIN("ax.admin.BM0601F0.skycond"), width: 80},
+	            	{key: "renewDt", label: ADMIN("ax.admin.BM0601F0.renewdt"), sortable: true, width: 150},
+	            	{key: "measDt", label: ADMIN("ax.admin.BM0601F0.measdt"), sortable: true, width: 150},
 	            	{key: "dustc", label: ADMIN("ax.admin.BM0601F0.dustc"), width: 80},
 	                {key: "sdc", label: ADMIN("ax.admin.BM0601F0.sdc"), width: 80},
 	                {key: "cmc", label: ADMIN("ax.admin.BM0601F0.cmc"), width: 80},

@@ -54,6 +54,17 @@ public class BM0302Controller extends BaseController {
     })
     public Responses.ListResponse BM0302G1S0(RequestParams<AltContractInfoVO> requestParams) {
         List<AltContractInfoVO> list = service.BM0302G1S0(requestParams);
+        for(int i = 0; i<list.size(); i++) {
+        	if(list.get(i).getConfirmYn() != null) {
+        		System.out.println(list.get(i).getConfirmYn());
+        		System.out.println("확정");
+        		list.get(i).setConfirmYn("확정");
+        	}else {
+        		System.out.println(list.get(i).getConfirmYn());
+        		System.out.println("미확정");
+        		list.get(i).setConfirmYn("미확정");
+        	}        	
+        }
         return Responses.ListResponse.of(list);
     }
     

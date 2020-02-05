@@ -14,7 +14,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0602G0S0",
+            url: "/api/v1/BM0603G0S0",
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);
@@ -95,7 +95,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                  .then(function (ok, fail, data) {
                      axboot.ajax({
                          type: "POST",
-                         url: "/api/v1/BM0602F0I0",
+                         url: "/api/v1/BM0603F0I0",
                          data: JSON.stringify(formData),
                          callback: function (res) {
                              ok(res);
@@ -120,9 +120,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				var list = caller.gridView0.getData();
     				var checkData = {};
     				checkData.upList = list;
-    				checkData.provId = formData["provId"];
-    				checkData.provUrl = formData["provUrl"];
-    				checkData.provNm = formData["provNm"];
+    				checkData.provId = formData["userNewsId"];
+    				checkData.provUrl = formData["newsTitle"];
+    				checkData.provNm = formData["newsContents"];
     				checkData.remark = formData["remark"];
     				checkData.useYn = selectedRow.useYn;
     				console.log(checkData);   				
@@ -130,7 +130,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				.then(function (ok, fail, data) {
     					axboot.ajax({
     						type: "POST",
-    						url: "/api/v1/BM0602F0U0",
+    						url: "/api/v1/BM0603F0U0",
     						data: JSON.stringify(checkData),
     						callback: function (res) {
     							ok(res);
@@ -150,16 +150,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     // 탭닫기
     PAGE_CLOSE: function(caller, act, data) {
     	window.parent.fnObj.tabView.closeActiveTab();
-    },
-    
-    OPEN_BM0602_MODAL: function(caller, act, data) {
-    	axboot.modal.open({
-            modalType: "BM0602",
-            param: "",
-            callback: function (data) {
-            	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-            }
-        });
     },
     
     ITEM_CLICK: function (caller, act, data) {
@@ -216,9 +206,6 @@ fnObj.pageButtonView = axboot.viewExtend({
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             },
-            "commonSetting": function() {
-            	ACTIONS.dispatch(ACTIONS.OPEN_BM0602_MODAL);
-            },
         });
     }
 });
@@ -260,12 +247,12 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,            
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "useYn",  label: ADMIN("ax.admin.BM0602G0.useyn"), editor:{type:"checkbox"}, width: 60},
-            	{key: "provId", label: ADMIN("ax.admin.BM0602G0.provid"), width: 120},
-                {key: "provNm", label: ADMIN("ax.admin.BM0602G0.provnm"), width: 150},
-                {key: "renewDate", label: ADMIN("ax.admin.BM0602G0.renewdate"), sortable: true, width: 150},
-                {key: "provUrl", label: ADMIN("ax.admin.BM0602F0.provurl"), width: 200},
-                {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 200},
+            	{key: "useYn",  label: ADMIN("ax.admin.BM0602G0.useyn"), sortable: true, editor:{type:"checkbox"}, width: 70},
+            	{key: "userNewsId", label: ADMIN("ax.admin.BM0603G0.usernewsid"), sortable: true, width: 120},
+                {key: "category", label: ADMIN("ax.admin.BM0603G0.category"), width: 80},
+                {key: "newsTitle", label: ADMIN("ax.admin.BM0603G0.newstitle"), sortable: true, width: 200},
+                {key: "newsContents", label: ADMIN("ax.admin.BM0603G0.newscontents"), width: 300},
+                {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 300},
             ],
             body: {
                 onClick: function () {

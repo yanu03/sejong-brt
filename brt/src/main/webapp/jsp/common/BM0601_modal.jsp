@@ -36,15 +36,15 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="600px">                   
 						<ax:tr>
 							<ax:td label="ax.admin.BM0601M0.updatecycle" width="400px" labelClazz="required">
-	     					 	<select id="updateCycle" name="updateCycle" style="width:250px; height: 30px;" data-key="true"></select>
+	     					 	<input type="text" id="updateCycle" data-ax-path="numVal6" data-key="true" class="form-control" readonly="readonly"/>
                     		</ax:td>
 						</ax:tr>                    
                      	<ax:tr>
 							<ax:td label="ax.admin.BM0601M0.updatetimeset" width="400px" labelClazz="required">																						    
 							  <div class="input-group">
-							  	<select id="updateSetF" name="updateSetF" style="width:100px; height: 30px;" data-key="true"></select>                        
+							  	<input type="text" id="updateSetF" data-ax-path="numVal4" data-key="true" class="form-control" readonly="readonly"/>                        
                                 <span class="input-group-addon">~</span>
-                                <select id="updateSetB" name="updateSetB" style="width:100px; height: 30px;" data-key="true"></select>                               
+                                <input type="text" id="updateSetE" data-ax-path="numVal5" data-key="true" class="form-control" readonly="readonly"/>                               
                             </div>																			                 
 							</ax:td>
                         </ax:tr>                                                         
