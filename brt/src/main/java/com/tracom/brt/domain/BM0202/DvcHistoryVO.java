@@ -35,4 +35,5 @@ public class DvcHistoryVO extends BaseVO{
 	private String workType;
 	private String workAmt;
 	private String seq;
+	private String txtVal1;
 }

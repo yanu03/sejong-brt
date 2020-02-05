@@ -36,13 +36,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     },
     
-    PAGE_EXCEL: function(caller, act, data) {
-    	if(selectedRow != null){   		
+    /*excel기능*/
+    /*PAGE_EXCEL: function(caller, act, data) {
+    	if(selectedRow != null){		
     		caller.gridView1.target.exportExcel(selectedRow.conId + "data.xls");
     	}else {
     		alert("항목을 선택해주세요");
     	}
-    },
+    },*/
     
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;    	 	
@@ -55,38 +56,73 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_DELETE: function(caller, act, data) {
     	var grid = caller.gridView0.target;
+    	var count;
     	
     	if(typeof grid.selectedDataIndexs[0] === "undefined") {
     		axDialog.alert(LANG("ax.script.alert.requireselect"));
     		return false;
-    	}
-    	
-    	axDialog.confirm({
-            msg: LANG("ax.script.dvcdeleteconfirm")
-        }, function() {          	          	
-                if (this.key == "ok") {      	
-            	axboot.promise()
-                .then(function (ok, fail, data) {
-	            	axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/BM0201G1D0",
-	                    data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
-	                    callback: function (res) {
-	                        ok(res);
-	                        console.log(data);
-	                    }
-	                });
-                })
-                .then(function (ok) {
-                	caller.formView0.clear();
-                	axToast.push(LANG("ondelete"));
-                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-            }   	
-        });   	
+    	}   
+        	axboot.ajax({
+                type: "GET",
+                url: "/api/v1/BM0201G1S1",
+                data:{dvcId : selectedRowG1.dvcId},
+                callback: function (res) {
+                if(res.list.length > 0){               	               	
+                    axDialog.confirm({
+                    	msg: ("관련장치이력:"+res.list.length+"건이 있습니다. 삭제하시겠습니까?(관련이력이 모두 사라집니다.)")
+                    }, function() {          	          	
+                    	if (this.key == "ok") {      	
+                    		axboot.promise()
+                    		.then(function (ok, fail, data) {
+                    			axboot.ajax({
+                    				type: "POST",
+                    				url: "/api/v1/BM0201G1D0",
+                    				data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
+                    				callback: function (res) {
+                    					ok(res);
+                    				}
+                    			});
+                    		})
+                    		.then(function (ok) {
+                    			caller.formView0.clear();
+                    			axToast.push(LANG("ondelete"));
+                    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                    		})
+                    		.catch(function () {
+                    			
+                    		});
+                    	}   	
+                    });
+                }else{
+                	axDialog.confirm({
+                    	msg: LANG("ax.script.deleteconfirm")
+                    }, function() {          	          	
+                    	if (this.key == "ok") {      	
+                    		axboot.promise()
+                    		.then(function (ok, fail, data) {
+                    			axboot.ajax({
+                    				type: "POST",
+                    				url: "/api/v1/BM0201G1D0",
+                    				data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
+                    				callback: function (res) {
+                    					ok(res);
+                    				}
+                    			});
+                    		})
+                    		.then(function (ok) {
+                    			caller.formView0.clear();
+                    			axToast.push(LANG("ondelete"));
+                    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                    		})
+                    		.catch(function () {
+                    			
+                    		});
+                    	}   	
+                    });
+                }
+                }
+            });
+    	   	
     },
     
     PAGE_SAVE: function (caller, act, data) {
@@ -94,11 +130,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	 if (caller.formView0.validate()) {
     		
              var formData = caller.formView0.getData();
-             console.log(caller.formView0.getData("workKind"));
-             console.log(caller.formView0.getData("instLoc"));
              formData["vhcId"] = selectedRow.vhcId; 
              
-             axboot.promise()
+             	axboot.promise()
              	.then(function (ok, fail, data) {
 	                axboot.ajax({
 	                    type: "POST",
@@ -133,13 +167,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                  .catch(function () {
 
                  	});
-                 }else{
-                	
-                 	}
+                 }
                  })
-                 .catch(function() {
-					
-				});
          }
     },
     
@@ -188,8 +217,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
     	selectedRowG1 = data;
-    	caller.formView0.setData(data);
-    	caller.formView0.enable();
+
+    	axboot.ajax({
+			type: "GET",
+			url: "/api/v1/BM0201F0S2",
+			data: {dvcId : data.dvcId},
+			callback: function (res) {
+				console.log(res);
+				caller.formView0.setData(res.list[0]);
+			}
+		});  	
+    	console.log(data.dvcKind);
     },
     
     RELOAD_G1: function(caller, act, data) {
@@ -231,7 +269,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             }
         });
     	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-    },
+    }
 });
 /********************************************************************************************************************/
 
@@ -263,9 +301,10 @@ fnObj.pageButtonView = axboot.viewExtend({
             	selectedRow = null;
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
-            "excel": function () {
+            /*excel기능*/
+            /*"excel": function () {
             	ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
-            },
+            },*/
             "new": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
             },
@@ -322,13 +361,12 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
             frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
-            columns: [         		
-            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), width: 80},
-                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), width: 80},
-                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 120},
-                     {key: "corpId", label: ADMIN("ax.admin.BM0103F0.corpId"), width: 120},
+            columns: [      		
+            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 80},
+                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), sortable: true, width: 120},
+                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), sortable: true, width: 120},
+                     {key: "corpNm", label: ADMIN("ax.admin.BM0103F0.corpId"), width: 120},
                      {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), width: 120},
                      {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 120},
                      {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), width: 120},
@@ -429,22 +467,21 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), width: 80},
-            	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), width: 80},
-                {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), width: 80},
-                {key: "dvcType", label: ADMIN("ax.admin.BM0201F0.dvctype"), width: 150},
-                {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), width: 150},
-                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), width: 80},
+            	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), sortable: true, width: 80},
+            	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), width: 120},
+                {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), sortable: true, width: 120},
+                {key: "dvcType", label: ADMIN("ax.admin.BM0201F0.dvctype"), width: 120},
+                {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), width: 120},
+                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), width: 100},
                 {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), width: 150},
                 {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
             ],
             body: {
                 onClick: function () {
                     this.self.select(this.dindex);
-                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
+                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1 , this.item);
                 }
             },
         });

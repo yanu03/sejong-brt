@@ -76,7 +76,7 @@
                 <div class="ax-button-group">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0405G2.title"/> </h2>
+                            <ax:lang id="ax.admin.BM0405G2.title"/></h2>
                     </div>
                 </div>
                 

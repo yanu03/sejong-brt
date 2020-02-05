@@ -28,11 +28,12 @@
     		ON AT.ALT_DIV = DL.DL_CD
     	WHERE
     		C.CON_ID = #{value}
+    	ORDER BY CON_ED_DATE DESC
     </select>
     
     <select id="BM0302G0S0" parameterType="String" resultType="altContractInfoVO">
 		SELECT
-		 *
+		 	*
 		FROM
 			(SELECT
 				A.CON_ID
@@ -46,7 +47,7 @@
 			 , IFNULL(B.REMARK , A.REMARK) AS REMARK
 			FROM
 				(SELECT
-					CON_ID
+				   CON_ID
 				,  CON_NM
 				,  CON_ST_DATE
 				,  CON_ED_DATE
@@ -86,22 +87,19 @@
 						LEFT OUTER JOIN SM_DL_CD_INFO DL
 						ON AL.ALT_DIV = DL.DL_CD
 					WHERE
-						AL.CONFIRM_YN = "Y"
-						AND
-						AL.CON_ED_DATE > NOW()		
+						AL.CONFIRM_YN = "Y"		
 					GROUP BY AL.SEQ DESC ) AS C
-				GROUP BY C.CON_ID) AS B
-				
+				GROUP BY C.CON_ID) AS B				
 				ON B.CON_ID = A.CON_ID ) AS D
 				WHERE
-				CON_ED_DATE > NOW()		
+				CON_ED_DATE > NOW()
+				AND
+				ALT_DIV != "종료"				
 				<if test="value != null">
 					AND		
 						( CON_ID LIKE CONCAT('%', #{value}, '%')
 						OR ALT_DIV LIKE CONCAT('%', #{value}, '%'))
-			    </if>
-	
-	
+			    </if>		
     </select>
     
     <select id="BM0302G0S1" parameterType="String" resultType="altContractInfoVO">
@@ -166,8 +164,7 @@
 						AND
 						DL.DL_CD_NM != "종료"		
 					GROUP BY AL.SEQ DESC ) AS C
-				GROUP BY C.CON_ID) AS B
-				
+				GROUP BY C.CON_ID) AS B				
 				ON B.CON_ID = A.CON_ID ) AS D
 				WHERE
 				CON_ED_DATE > NOW()		
@@ -235,7 +232,7 @@
    			, #{suppAmt}
    			, #{vatAmt}
    			, #{remark}
-   			, "N"
+   			, NULL
    			, #{conNo}
    			, #{createdAt}
    			, #{createdBy}
@@ -293,7 +290,7 @@
     		, SUPP_AMT			=	#{suppAmt}
     		, VAT_AMT			=	#{vatAmt}
     		, REMARK			=	#{remark}
-    		, CONFIRM_YN        =   "N"
+    		, CONFIRM_YN        =   NULL
     		, CON_NO			=	#{conNo}
     		, UPDATED_AT		=	#{updatedAt}
     		, UPDATED_BY		=	#{updatedBy}

@@ -48,7 +48,7 @@
    			, #{conFstDate}
    			, #{conStDate}
    			, #{conEdDate}
-   			, "N"
+   			, NULL
    			, #{suppAmt}
    			, #{vatAmt}
    			, #{custId}
@@ -113,7 +113,7 @@
     		, CON_FST_DATE		=	#{conFstDate}
     		, CON_ST_DATE		=	#{conStDate}
     		, CON_ED_DATE		=	#{conEdDate}
-    		, CONFIRM_YN		=	"N"
+    		, CONFIRM_YN		=	NULL
     		, SUPP_AMT			=	#{suppAmt}
     		, VAT_AMT			=	#{vatAmt}
     		, CUST_ID			=	#{custId}

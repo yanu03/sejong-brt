@@ -22,6 +22,9 @@ public class BM0201Service extends BaseService<VhcDeviceVO, String>{
 	public List<VhcDeviceVO> BM0201G1S0(RequestParams<VhcDeviceVO> requestParams) {
         return mapper.BM0201G1S0(requestParams.getString("vhcId"));
     }
+	public List<VhcDeviceVO> BM0201F0S2(RequestParams<VhcDeviceVO> requestParams) {
+		return mapper.BM0201F0S2(requestParams.getString("dvcId"));
+	}
 	
 	public List<VhcDeviceVO> BM0201M0S0(RequestParams<VhcDeviceVO> requestParams) {
 		return mapper.BM0201M0S0(requestParams.getString("filter"));
@@ -64,5 +67,10 @@ public class BM0201Service extends BaseService<VhcDeviceVO, String>{
     	}
 		
 	}
+
+	public List<VhcDeviceVO> BM0201G1S1(RequestParams<VhcDeviceVO> requestParams) {
+		return mapper.BM0201G1S1(requestParams.getString("dvcId"));
+	}
+
 
 }

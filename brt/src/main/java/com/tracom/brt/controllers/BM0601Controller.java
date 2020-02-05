@@ -35,14 +35,25 @@ public class BM0601Controller extends BaseController{
 		List<WeatAtmoVO> list = service.BM0601F0S0(requestParams);
 		List<WeatAtmoVO> vo = service.BM0601F0S1(requestParams);
 		
+		list.get(0).setSdc(list.get(0).getSdc()+"ppm");
+		list.get(0).setCmc(list.get(0).getCmc()+"ppm");
+		list.get(0).setNdc(list.get(0).getNdc()+"ppm");
+		list.get(0).setOzonec(list.get(0).getOzonec()+"ppm");
+		list.get(0).setDustc(list.get(0).getDustc()+"㎍/㎥");
+		list.get(0).setSDustc(list.get(0).getSDustc()+"㎍/㎥");		
 		list.get(0).setSkyCond(vo.get(0).getSkyCond());
-		list.get(0).setTempc(vo.get(0).getTempc());
-		list.get(0).setTempMini(vo.get(0).getTempMini());
-		list.get(0).setTempHigh(vo.get(0).getTempHigh());
-		list.get(0).setHumi(vo.get(0).getHumi());
-		list.get(0).setRainPro(vo.get(0).getRainPro());
-		list.get(0).setRainFall(vo.get(0).getRainFall());
-		list.get(0).setRenewDt(vo.get(0).getRenewDt());
+		list.get(0).setTempc(vo.get(0).getTempc()+"℃");
+		if(vo.get(0).getTempHigh().equals("-999.0")) {
+			list.get(0).setTempHigh("0.0℃");
+			list.get(0).setTempMini("0.0℃");
+		}else {
+			list.get(0).setTempHigh(vo.get(0).getTempHigh()+"℃");
+			list.get(0).setTempMini(vo.get(0).getTempMini()+"℃");			
+		}
+		list.get(0).setHumi(vo.get(0).getHumi()+"%");
+		list.get(0).setRainPro(vo.get(0).getRainPro()+"%");
+		list.get(0).setRainFall(vo.get(0).getRainFall()+"mm");
+		list.get(0).setRenewDt(vo.get(0).getRenewDt().substring(0, 19));
 		return Responses.ListResponse.of(list);
 	}
 	
@@ -79,8 +90,9 @@ public class BM0601Controller extends BaseController{
 	})
 	public Responses.ListResponse BM0601M0S0(RequestParams<WeatAtmoVO> requestParams){
 		List<WeatAtmoVO> list = service.BM0601M0S0(requestParams);
-		System.out.println("CONTROLLER");
-		System.out.println(list);
+		list.get(0).setNumVal4(list.get(0).getNumVal4().substring(0, 1)+"시");
+		list.get(0).setNumVal5(list.get(0).getNumVal5().substring(0, 2)+"시");
+		list.get(0).setNumVal6(list.get(0).getNumVal6().substring(0, 2)+"분");
 		return Responses.ListResponse.of(list);
 	}
 	

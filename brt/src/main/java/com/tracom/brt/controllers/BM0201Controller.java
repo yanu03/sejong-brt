@@ -16,7 +16,6 @@ import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BM0201.BM0201Service;
 import com.tracom.brt.domain.BM0201.VhcDeviceVO;
-import com.tracom.brt.domain.BM0302.AltContractInfoVO;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
 
@@ -57,11 +56,32 @@ public class BM0201Controller extends BaseController{
         return Responses.ListResponse.of(list);
     }
     
+    @GetMapping("/BM0201F0S2")
+    @ApiImplicitParams({
+    	@ApiImplicitParam(name = "dvcId", value = "검색어", dataType = "String", paramType = "query")
+    })
+    public Responses.ListResponse BM0201F0S2(RequestParams<VhcDeviceVO> requestParams) {
+    	List<VhcDeviceVO> list = service.BM0201F0S2(requestParams);
+    	System.out.println(list);
+    	return Responses.ListResponse.of(list);
+    }
+    
+    @GetMapping("/BM0201G1S1")
+    @ApiImplicitParams({
+    	@ApiImplicitParam(name = "dvcId", value = "검색어", dataType = "String", paramType = "query")
+    })
+    public Responses.ListResponse BM0201G1S1(RequestParams<VhcDeviceVO> requestParams) {
+    	List<VhcDeviceVO> list = service.BM0201G1S1(requestParams);
+    	System.out.println(list);
+    	return Responses.ListResponse.of(list);
+    }
+    
     @PostMapping("/BM0201F0S1")
     public ApiResponse BM0201F0S1(@RequestBody VhcDeviceVO request) {
     	boolean duplicateSeq = service.BM0201F0S1(request);
     	return ok(Boolean.toString(duplicateSeq));
     }
+    
     
     @PostMapping("/BM0201F0I0")
     public ApiResponse BM0201F0I0(@RequestBody VhcDeviceVO request) {

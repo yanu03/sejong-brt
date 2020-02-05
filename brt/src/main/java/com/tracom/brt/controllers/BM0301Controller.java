@@ -36,6 +36,20 @@ public class BM0301Controller extends BaseController {
     })
     public Responses.ListResponse BM0301G0S0(RequestParams<ContractInfoVO> requestParams) {
         List<ContractInfoVO> list = service.BM0301G0S0(requestParams);
+        
+        System.out.println(list.size());
+        for(int i = 0; i<list.size(); i++) {
+        	if(list.get(i).getConfirmYn() != null) {
+        		System.out.println(list.get(i).getConfirmYn());
+        		System.out.println("확정");
+        		list.get(i).setConfirmYn("확정");
+        	}else {
+        		System.out.println(list.get(i).getConfirmYn());
+        		System.out.println("미확정");
+        		list.get(i).setConfirmYn("미확정");
+        	}
+        	
+        }
         return Responses.ListResponse.of(list);
     }
 

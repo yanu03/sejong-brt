@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tracom.brt.domain.BM0604.BM0604Mapper">
+	<select id="BM0604G0S0" resultType="newsVO" parameterType="String">
+	     SELECT
+			  USER_NEWS_ID
+			, NEWS_TITLE
+			, REMARK
+			, NEWS_CONTENTS
+			, USE_YN
+			, CATEGORY
+			, PROV_NM
+			, PUB_DT
+	     FROM
+		      BM_NEWS_USER_SET
+		 <where>
+		    	<if test="value != null">
+					CATEGORY LIKE CONCAT('%', #{value}, '%')
+					OR NEWS_TITLE LIKE CONCAT('%', #{value}, '%')
+					OR PROV_NM LIKE CONCAT('%', #{value}, '%')
+		    	</if>
+	    	</where>
+	</select>
+	<select id="BM0604G0S1" resultType="newsVO" parameterType="String">
+	     SELECT
+			  CATEGORY		
+			, PROV_NM
+			, NEWS_TITLE
+			, PUB_DT
+			, USE_YN
+			, RENEW_DATE
+	     FROM
+		      BM_NEWS
+		 <where>
+		    	<if test="value != null">
+					CATEGORY LIKE CONCAT('%', #{value}, '%')
+					OR NEWS_TITLE LIKE CONCAT('%', #{value}, '%')
+					OR PROV_NM LIKE CONCAT('%', #{value}, '%')
+		    	</if>
+	    	</where>
+	</select>
+	<select id="BM0604G1S0" resultType="newsVO" parameterType="String">
+		SELECT
+			VH.VHC_NO
+		 ,	LG.PROCE_RST
+		 ,  LG.SEND_DATE	
+		FROM
+			BM_VHC_INFO VH
+			LEFT OUTER JOIN BM_DVC_INFO DV
+			ON VH.VHC_ID = DV.VHC_ID
+			LEFT OUTER JOIN BM_LIVING_LOG LG
+			ON DV.DVC_ID = LG.DVC_ID
+		WHERE
+			LG.ATTR_ID = 1;			
+	</select>
+</mapper>

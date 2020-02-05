@@ -114,16 +114,24 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-    	isUpdate = false;   	
-
+    		isUpdate = false;  	
     			if (caller.formView0.validate()) {
-    				var formData = caller.formView0.getData();    				
+    				var formData = caller.formView0.getData();
+    				var list = caller.gridView0.getData();
+    				var checkData = {};
+    				checkData.upList = list;
+    				checkData.provId = formData["provId"];
+    				checkData.provUrl = formData["provUrl"];
+    				checkData.provNm = formData["provNm"];
+    				checkData.remark = formData["remark"];
+    				checkData.useYn = selectedRow.useYn;
+    				console.log(checkData);   				
     				axboot.promise()
     				.then(function (ok, fail, data) {
     					axboot.ajax({
     						type: "POST",
     						url: "/api/v1/BM0602F0U0",
-    						data: JSON.stringify(formData),
+    						data: JSON.stringify(checkData),
     						callback: function (res) {
     							ok(res);
     						}
@@ -149,9 +157,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             modalType: "BM0602",
             param: "",
             callback: function (data) {
+            	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             }
         });
-    	//ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
     },
     
     ITEM_CLICK: function (caller, act, data) {
@@ -249,15 +257,13 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-        	showRowSelector: true,
-        	multipleSelect : true,
-            frozenColumnIndex: 0,
-            sortable: true,
+            frozenColumnIndex: 0,            
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
+            	{key: "useYn",  label: ADMIN("ax.admin.BM0602G0.useyn"), editor:{type:"checkbox"}, width: 60},
             	{key: "provId", label: ADMIN("ax.admin.BM0602G0.provid"), width: 120},
                 {key: "provNm", label: ADMIN("ax.admin.BM0602G0.provnm"), width: 150},
-                {key: "renewDate", label: ADMIN("ax.admin.BM0602G0.renewdate"), width: 150},
+                {key: "renewDate", label: ADMIN("ax.admin.BM0602G0.renewdate"), sortable: true, width: 150},
                 {key: "provUrl", label: ADMIN("ax.admin.BM0602F0.provurl"), width: 200},
                 {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 200},
             ],

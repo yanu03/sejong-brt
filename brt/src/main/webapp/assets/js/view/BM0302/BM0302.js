@@ -406,16 +406,15 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
             frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView0"]'),            
             	 columns: [         		                 	
-            		{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), width: 100},
-                    {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 100},
-                    {key: "conStDate", label: ADMIN("ax.admin.BM0301F0.consd"), width: 100},
-                    {key: "conEdDate", label: ADMIN("ax.admin.BM0301F0.coned"), width: 100},
+            		{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), width: 70},
+                    {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), sortable: true, width: 100},
+                    {key: "conStDate", label: ADMIN("ax.admin.BM0301F0.consd"), sortable: true, align: "center", width: 100},
+                    {key: "conEdDate", label: ADMIN("ax.admin.BM0301F0.coned"), sortable: true, align: "center", width: 100},
                     {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 150},              
-                    {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 100},
-                    {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 100},
+                    {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), align: "right", width: 100},
+                    {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), align: "right", width: 100},
                     {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
                  ],
             
@@ -506,19 +505,18 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-        	frozenColumnIndex: 0,
-            sortable: true,
+        	frozenColumnIndex: 0,            
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "confirmYn", label: ADMIN("ax.admin.BM0301F0.confirmyn"), width: 120},
-            	{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), width: 120},
+            	{key: "confirmYn", label: ADMIN("ax.admin.BM0301F0.confirmyn"), sortable: true, width: 50},
+            	{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), sortable: true, width: 70},
             	{key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"), width: 120},
+                {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), align: "center", width: 120},
+                {key: "conStDate", label: ADMIN("ax.admin.BM0302F0.altsd"), align: "center", width: 120},
+                {key: "conEdDate", label: ADMIN("ax.admin.BM0302F0.alted"), align: "center", width: 120},
+                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), align: "right", width: 100},
+                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), align: "right", width: 100},
                 {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 120},
-                {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), width: 120},
-                {key: "conStDate", label: ADMIN("ax.admin.BM0302F0.altsd"), width: 120},
-                {key: "conEdDate", label: ADMIN("ax.admin.BM0302F0.alted"), width: 120},
-                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 100},
-                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 100},
                 {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
             ],
             body: {
@@ -617,7 +615,8 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
                 type: 'date'
             }
         });
-
+        
+        //${"#vatAmt"}.append("");
         axboot.buttonClick(this, "data-form-view-0-btn", {
             "selectBM0102": function() {
             	ACTIONS.dispatch(ACTIONS.OPEN_BM0102_MODAL);

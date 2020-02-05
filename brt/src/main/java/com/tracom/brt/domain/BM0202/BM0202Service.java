@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
-import com.tracom.brt.domain.BM0201.VhcDeviceVO;
 
 
 @Service
@@ -48,5 +47,20 @@ public class BM0202Service extends BaseService<DvcHistoryVO, String>{
     	}  	
     	
     }
+
+	public boolean BM0202M0S0(DvcHistoryVO vo) {
+		String dvcVo = vo.getWorkType();
+		System.out.println(dvcVo);
+		System.out.println(vo);
+		mapper.BM0202M0S0(vo);
+		System.out.println(vo.getWorkType());
+		if(dvcVo != vo.getWorkType()) {
+			System.out.println("최초설치없습니다.");
+    		return true;
+    	}else {
+    		System.out.println("최초설치있습니다.");
+    		return false;
+    	}  	
+	}
 
 }

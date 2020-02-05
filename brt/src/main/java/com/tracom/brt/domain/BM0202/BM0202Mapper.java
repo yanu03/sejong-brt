@@ -11,5 +11,6 @@ public interface BM0202Mapper extends MyBatisMapper{
 	List<DvcHistoryVO> BM0202G2S1(Map<String, String> map);
 	int BM0202G2D0(DvcHistoryVO vo);
 	int BM0202G2U0(DvcHistoryVO vo);
+	String BM0202M0S0(DvcHistoryVO vo);
 	
 }

@@ -24,7 +24,14 @@ public class BaseVO {
 	public BaseVO() {
 		this.createdBy = this.updatedBy = SessionUtils.getCurrentLoginUserCd();
 		this.createdAt = this.updatedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder .getRequestAttributes()).getRequest();
-		this.createdIp = this.updatedIp = request.getRemoteAddr();
+		ServletRequestAttributes attr = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+		
+		if(attr != null) {
+			HttpServletRequest request = attr.getRequest();
+			if(request != null) {
+				this.createdIp = this.updatedIp = request.getRemoteAddr();
+			}
+		}
+		
 	}
 }

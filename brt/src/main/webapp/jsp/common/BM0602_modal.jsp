@@ -16,12 +16,11 @@
     <jsp:attribute name="header">
         <h3 class="title">
             <i class="cqc-browser"></i>
-            <ax:lang id="ax.admin.BM0601M0.linkset"/>
+            <ax:lang id="ax.admin.BM0602M0.title"/>
         </h3>
     </jsp:attribute>
     <jsp:body>
         <ax:page-buttons>
-            <button type="button" class="btn btn-fn1" data-page-btn="save"><ax:lang id="ax.admin.sample.modal.button.save"/></button>
             <button type="button" class="btn btn-default" data-page-btn="close"><ax:lang id="ax.admin.sample.modal.button.close"/></button>
         </ax:page-buttons>
 
@@ -32,44 +31,22 @@
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="*" style="padding-right: 0px;">
 
-                <ax:form name="formView0">                  
+                <ax:form name="formView0">                 
                     <ax:tbl clazz="ax-form-tbl" minWidth="600px">                   
 						<ax:tr>
-							<ax:td label="ax.admin.BM0601M0.updatecycle" width="400px" labelClazz="required">
-	     					 	<select id="updateCycle" name="updateCycle" style="width:250px; height: 30px;" data-key="true"></select>
+							<ax:td label="ax.admin.BM0602M0.updatecycle" width="300px" labelClazz="required">
+	     					 	<input type="text" id="updateCycle" data-ax-path="numVal6" data-key="true" class="form-control" readonly="readonly"/>
                     		</ax:td>
 						</ax:tr>                    
                      	<ax:tr>
-							<ax:td label="ax.admin.BM0601M0.updatetimeset" width="400px" labelClazz="required">																						    
+							<ax:td label="ax.admin.BM0602M0.updatetimeset" width="300px" labelClazz="required">																					    
 							  <div class="input-group">
-							  	<select id="updateSetF" name="updateSetF" style="width:100px; height: 30px;" data-key="true"></select>                        
+							  	<input type="text" id="updateSetF" data-ax-path="numVal4" data-key="true" class="form-control" readonly="readonly"/>							  	                      
                                 <span class="input-group-addon">~</span>
-                                <select id="updateSetB" name="updateSetB" style="width:100px; height: 30px;" data-key="true"></select>                               
-                            </div>																			                 
+                                <input type="text" id="updateSetE" data-ax-path="numVal5" data-key="true" class="form-control" readonly="readonly"/>                                                              
+                              </div>																			                 
 							</ax:td>
                         </ax:tr>                                                         
-                        <ax:tr>
-                          	<ax:td label="ax.admin.BM0601M0.weaturl" width="500px" labelClazz="required">	     
-	                                <input type="text" data-ax-path="remarkWeat" class="form-control" readonly="readonly"/>	                            
-                        	</ax:td>
-                        </ax:tr>
-                 
-                     <ax:tr>
-                            <ax:td label="ax.admin.BM0601M0.weatapi" width="500px" labelClazz="required">
-								<input type="text" data-ax-path="weatApiKey" data-key="true" class="form-control">
-							</ax:td>                    
-                     </ax:tr>                       	                       
-                     <ax:tr>
-                         <ax:td label="ax.admin.BM0601M0.atmourl" width="500px" labelClazz="required">
-								<input type="text" data-ax-path="remarkAtmo" data-key="true" class="form-control" readonly="readonly">
-						 </ax:td>                     	                            
-                     </ax:tr>
-                       	
-                      <ax:tr>
-                    		<ax:td label="ax.admin.BM0601M0.atmoapi" width="500px" labelClazz="required">
-                            	<input type="text" data-ax-path="atmoApiKey" data-key="true" class="form-control">
-                            </ax:td>
-						</ax:tr>                      	                    
                     </ax:tbl>                    
                 </ax:form>
             </ax:split-panel>

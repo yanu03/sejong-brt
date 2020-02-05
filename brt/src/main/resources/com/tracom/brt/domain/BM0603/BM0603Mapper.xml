@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tracom.brt.domain.BM0603.BM0603Mapper">
+	<select id="BM0603G0S0" resultType="newsVO" parameterType="String">
+	     SELECT
+			  USER_NEWS_ID
+			, NEWS_TITLE
+			, REMARK
+			, NEWS_CONTENTS
+			, USE_YN
+			, CATEGORY
+			, PROV_NM
+			, PUB_DT
+	     FROM
+		      BM_NEWS_USER_SET
+		 <where>
+		    	<if test="value != null">
+					USER_NEWS_ID LIKE CONCAT('%', #{value}, '%')
+					OR NEWS_TITLE LIKE CONCAT('%', #{value}, '%')
+		    	</if>
+	    	</where>
+	</select>
+	
+	<insert id="BM0603F0I0" parameterType="newsVO">
+		<selectKey keyProperty="userNewsId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('UN', LPAD(NEXTVAL(SEQ_BM_NEWS_USER_SET_0), 5, '0'))
+    	</selectKey>
+		INSERT INTO BM_NEWS_USER_SET(
+					USER_NEWS_ID
+				  , NEWS_TITLE
+				  , REMARK
+				  , NEWS_CONTENTS
+				  , USE_YN
+				  , CATEGORY
+				  , PROV_NM
+				  , PUB_DT
+				  , CREATED_AT
+    		  	  , CREATED_BY
+    		  	  , CREATED_IP
+    		  	  , UPDATED_AT
+    		  	  , UPDATED_BY
+    		  	  , UPDATED_IP)
+		VALUES(
+				    #{userNewsId}
+				  , #{newsTitle}
+				  , #{remark}
+				  , #{newsContents}
+				  , "N"
+				  , "사용자"
+				  , "사용자뉴스"
+				  , CURRENT_TIMESTAMP
+				  , #{createdAt}
+   			  	  , #{createdBy}
+   			  	  , #{createdIp}
+   			  	  , #{updatedAt}
+   			  	  , #{updatedBy}
+   			  	  , #{updatedIp})		
+	</insert>
+	
+	<update id="BM0603F0U0" parameterType="newsVO">
+		UPDATE BM_NEWS_USER_SET
+		SET		
+			USER_NEWS_ID     =   #{userNewsId}
+		  , NEWS_TITLE    	 =   #{newsTitle}
+		  , REMARK     	  	 =   #{remark}
+		  , NEWS_CONTENTS    =   #{newsContents}
+		  , USE_YN      	 =   #{useYn}
+		  , CATEGORY    	 =   #{category}
+		  , PROV_NM     	 =   #{provNm}
+		  , PUB_DT      	 =   #{pubDt}
+		  , UPDATED_AT		 =	 #{updatedAt}
+    	  , UPDATED_BY		 =	 #{updatedBy}
+    	  , UPDATED_IP		 =	 #{updatedIp}
+		WHERE
+			USER_NEWS_ID     =   #{userNewsId}
+	</update>
+</mapper>

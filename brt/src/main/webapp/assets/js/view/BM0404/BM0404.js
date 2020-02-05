@@ -455,17 +455,15 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "routId", label: ADMIN("ax.admin.BM0104G0.routId"), width: 80},
-                {key: "routNm", label: ADMIN("ax.admin.BM0104G0.routNm"), width: 180},
-                {key: "playType", label: ADMIN("ax.admin.BM0404F0.play.type"), width: 120},
-                {key: "playTm", label: ADMIN("ax.admin.BM0404F0.play.time"), width: 80},
-                {key: "playDate", label: ADMIN("ax.admin.BM0404F0.play.date"), width: 150},
-                {key: "krTts", label: ADMIN("ax.admin.BM0404F0.kr.tts"), width: 120},
-                {key: "remark", label: ADMIN("ax.admin.BM0404F0.remark"), width: 120},
-                {key: "routUpdatedAt", label: ADMIN("ax.admin.BM0104G0.updatedAt"), width: 160},
+            	{key: "routId", label: ADMIN("ax.admin.BM0104G0.routId"), width: 80, sortable: true, align: "center"},
+                {key: "routNm", label: ADMIN("ax.admin.BM0104G0.routNm"), width: 150, sortable: true},
+                {key: "playType", label: ADMIN("ax.admin.BM0404F0.play.type"), width: 80, align: "center"},
+                {key: "playTm", label: ADMIN("ax.admin.BM0404F0.play.time"), width: 80, align: "center"},
+                {key: "playDate", label: ADMIN("ax.admin.BM0404F0.play.date"), width: 150, align: "center"},
+                {key: "krTts", label: ADMIN("ax.admin.BM0404F0.kr.tts"), width: 200},
+                {key: "remark", label: ADMIN("ax.admin.BM0404F0.remark"), width: 200},
             ],
             body: {
                 onClick: function () {

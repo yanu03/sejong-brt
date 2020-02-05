@@ -47,6 +47,16 @@
    			AND SUBSTRING_INDEX(DH.APLY_DATE,"-",2) &lt;= #{filter}
 	</select>
 	
+	<select id="BM0202M0S0" parameterType="dvcHistoryVO" resultType="String">
+			SELECT
+				WORK_TYPE
+			FROM
+				BM_DVC_HIST
+			WHERE
+				DVC_ID = "DV01001"
+			GROUP BY WORK_TYPE LIMIT 1
+	</select>
+	
 	<update id="BM0202G2U0" parameterType="dvcHistoryVO">
 		UPDATE BM_DVC_HIST
 		SET

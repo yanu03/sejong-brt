@@ -94,10 +94,10 @@ public class FileService {
 		if(playType.equals("WAV")) {
 			fileName = vocId;
 		} else if(playType.equals("TTS")){
-			if(vocType.equals("KR")) {
-				fileName = vocId + "_KR";
+			if(vocType.equals(GlobalConstants.VoiceTypes.KR)) {
+				fileName = vocId + GlobalConstants.VoiceTypes.KR;
 			} else {
-				fileName = vocId + "_EN";
+				fileName = vocId + GlobalConstants.VoiceTypes.EN;
 			}
 		}
 		
@@ -124,7 +124,7 @@ public class FileService {
 		File tempFile = null;
 		
 		if(routId != null && !routId.equals("")) {
-			file = new File(Paths.get(handler.getRootLocalPath(), "/common/audio", routId + "_select.wav").toString());
+			file = new File(Paths.get(handler.getRootLocalPath(), "/common/audio", routId + GlobalConstants.VoiceTypes.US + ".wav").toString());
 		}
 		// playType이 TTS일떄
 		else if(vocId == null) {
@@ -154,7 +154,6 @@ public class FileService {
 		return Paths.get(handler.getRootLocalPath(), "/temp/wav_temp.mp3").toString();
 	}
 	
-
 	private String videoPreview(RequestParams<?> requestParams, HttpServletResponse response) {
 		String fileType = requestParams.getString("fileType");
 		String vdoId	= requestParams.getString("vdoId");

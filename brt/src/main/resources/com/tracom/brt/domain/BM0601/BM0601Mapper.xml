@@ -9,6 +9,7 @@
 		 , CMC
 		 , OZONEC
 		 , NDC
+		 , SDUSTC
 		 
    	  FROM 
 		 BM_ATMO_INFO
@@ -17,7 +18,7 @@
 	
 	<select id="BM0601F0S1" resultType="weatAtmoVO" parameterType="String">
 	SELECT
-  		   DL.DL_CD_NM AS SKY_COND
+  		   A.DL_CD_NM AS SKY_COND
 		 , WI.TEMPC
 		 , WI.TEMP_MINI
 		 , WI.TEMP_HIGH
@@ -28,14 +29,14 @@
 		 , WI.RENEW_DT
 	FROM
 		BM_WEAT_INFO WI
-		LEFT OUTER JOIN SM_DL_CD_INFO DL
-		ON WI.SKY_COND = DL.DL_CD
-	ORDER BY RENEW_DT DESC LIMIT 1;
+		LEFT OUTER JOIN SM_DL_CD_INFO A		 
+		ON WI.SKY_COND = A.DL_CD_NM
+ 	GROUP BY WI.NOTI_DT DESC LIMIT 1
 	</select>
 	<select id="BM0601G1S0" resultType="weatAtmoVO" parameterType="String">
 		SELECT
 		   WE.NOTI_DT
-		 , DL.DL_CD_NM AS SKY_COND
+		 , A.DL_CD_NM AS SKY_COND
 		 , WE.TEMPC
 		 , WE.TEMP_MINI
 		 , WE.TEMP_HIGH
@@ -45,14 +46,14 @@
 		 , WE.RENEW_DT
 		FROM
 		  BM_WEAT_INFO WE
-		  LEFT OUTER JOIN SM_DL_CD_INFO DL
-		  ON WE.SKY_COND = DL.DL_CD
+		  LEFT OUTER JOIN SM_DL_CD_INFO A		
+		  ON WE.SKY_COND = A.DL_CD_NM
 		  <where>
 	    	<if test="value != null">
 				SUBSTRING_INDEX(WE.RENEW_DT,"-",2) = #{filter}
 	    	</if>
-    	</where>
-		  
+    	</where>		  
+		 GROUP BY NOTI_DT DESC  		   	     
 	</select>
 	<select id="BM0601G1S1" resultType="weatAtmoVO" parameterType="String">
 		SELECT
@@ -70,6 +71,7 @@
 				SUBSTRING_INDEX(RENEW_DT,"-",2) = #{filter}
 	    	</if>
     	</where>
+    	ORDER BY MEAS_DT DESC
 	</select>
 	<select id="BM0601G2S1" resultType="weatAtmoVO" parameterType="String">
 		SELECT
@@ -148,29 +150,62 @@
 		  	  DL_CD = "CD042" ) AS F
 		  ON A.CO_CD = F.CO_CD
 	</select>
-	<update id="BM0601M0I0" parameterType="Map">
-		UPDATE SM_DL_CD_INFO
-		SET
-		    NUM_VAL4 = #{numVal4}
-		  , NUM_VAL5 = #{numVal5}
-		  , NUM_VAL6 = #{numVal6}
-		WHERE
-		  DL_CD = "CD038"		  		
-	</update>
-	<update id="BM0601M0U1" parameterType="Map">
-		UPDATE SM_DL_CD_INFO
-		SET
-		  REMARK = #{remarkWeat}
-		WHERE
-		  DL_CD = "CD039"		  		
-	</update>
-	<update id="BM0601M0U2" parameterType="Map">
-		UPDATE SM_DL_CD_INFO
-		SET
-		  REMARK = #{remarkAtmo}
-		WHERE
-		  DL_CD = "CD041"		  		
-	</update>
+	<insert id="BM0601F0I0" parameterType="weatAtmoVO">
+		INSERT INTO BM_ATMO_INFO(
+					MEAS_DT
+				  , SDC
+				  , CMC
+				  , OZONEC
+				  , NDC
+				  , DUSTC
+				  , SDUSTC
+				  , RENEW_DT
+				)
+				VALUES(
+					#{measDt}
+				  , #{sdc}
+				  , #{cmc}
+				  , #{ozonec}
+				  , #{ndc}
+				  , #{dustc}
+				  , #{sDustc}
+				  , CURRENT_TIMESTAMP
+				)		
+	</insert>
+	<insert id="BM0601F0I1" parameterType="weatAtmoVO">
+		INSERT INTO BM_WEAT_INFO(
+					NOTI_DT
+				  , SKY_COND
+				  , TEMPC
+				  , TEMP_MINI
+				  , TEMP_HIGH
+				  , HUMI
+				  , RAIN_PRO
+				  , RAINFALL
+				  , RENEW_DT
+				  , CREATED_AT
+    		  	  , CREATED_BY
+    		  	  , CREATED_IP
+    		  	  , UPDATED_AT
+    		  	  , UPDATED_BY
+    		  	  , UPDATED_IP)
+    		  	VALUES(
+    		  	    #{notiDt}
+    		  	  , #{skyCond}
+    		  	  , #{tempc}
+    		  	  , #{tempMini}
+    		  	  , #{tempHigh}
+    		  	  , #{humi}
+    		  	  , #{rainPro}
+    		  	  , #{rainFall}
+    		  	  , CURRENT_TIMESTAMP
+    		  	  , #{createdAt}
+   			  	  , #{createdBy}
+   			  	  , #{createdIp}
+	   			  , #{updatedAt}
+	   			  , #{updatedBy}
+	   			  , #{updatedIp})
+	</insert>
 	<update id="BM0601M0U3" parameterType="Map">
 		UPDATE SM_DL_CD_INFO
 		SET

@@ -8,7 +8,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0302G0S1",
+            url: "/api/v1/BM0302G0S0",
             data: caller.searchView.getData(),
             callback: function (res) {           	
                 caller.gridView01.setData(res);

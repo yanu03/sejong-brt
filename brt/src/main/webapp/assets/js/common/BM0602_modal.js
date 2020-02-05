@@ -9,12 +9,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {    
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0601M0S0",
+            url: "/api/v1/BM0602M0S0",
             data: caller.searchView0.getData(),
-            callback: function (res) {            	
-            	$("#updateCycle").append("<option value='"+res.list[0].numVal6+"'>00:"+res.list[0].numVal6.substr(0,2)+"</option>");
-            	$("#updateSetF").append("<option value='"+res.list[0].numVal4.substr(0,2)+"'>"+res.list[0].numVal4.substr(0,1)+":00</option>");
-            	$("#updateSetB").append("<option value='"+res.list[0].numVal5.substr(0,2)+"'>"+res.list[0].numVal5.substr(0,2)+":00</option>");              
+            callback: function (res) {
+            	console.log(res);
             	caller.formView0.setData(res);
             }
         });
@@ -29,7 +27,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0601M0I0",
+                        url: "/api/v1/BM0602M0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -70,10 +68,7 @@ fnObj.pageResize = function () {
 
 fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
-        axboot.buttonClick(this, "data-page-btn", {
-            "save": function () {
-                ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
-            },
+        axboot.buttonClick(this, "data-page-btn", {         
             "close": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             }

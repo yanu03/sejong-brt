@@ -24,7 +24,22 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SAVE: function (caller, act, data) {
         if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
+            var formDataCheck = formData["dvcId"];
             axboot.promise()
+         	.then(function (ok, fail, data) {
+                axboot.ajax({
+                    type: "POST",
+                    url: "/api/v1/BM0202M0S0", //이부분하는중이었다.
+                    data: JSON.stringify({dvcId : formDataCheck , workType : formData["workType"]}),
+                    callback: function (res) {
+                        ok(res);
+                        console.log(res);
+                    }
+                });
+            })
+              .then(function (ok, fail, data) {
+               if(data.message == "true"){
+            	axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
@@ -44,6 +59,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .catch(function () {
 
                 });
+               }else{
+            	   axDialog.alert(LANG("ax.script.alert.firstconfirm"));
+               }
+              })
         }
     },
     

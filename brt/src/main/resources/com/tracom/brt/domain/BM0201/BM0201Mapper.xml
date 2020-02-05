@@ -5,31 +5,63 @@
 
     <select id="BM0201G0S0" parameterType="String" resultType="vhcDeviceVO">
     	SELECT
-    		  VHC_ID
-    		, VHC_NO
-    		, CHAS_NO
-    		, CORP_ID
-    		, AREA
-    		, MAKER
-    		, RELS_DATE
-    		, MODEL_NM
-    		, VHC_KIND
-    		, VHC_TYPE
-    		, LF_YN
-    		, VHC_FUEL
-    		, REMARK
-    		, USE_YN
+    		  VH.VHC_ID
+    		, VH.VHC_NO
+    		, VH.CHAS_NO
+    		, CO.CORP_NM AS CORP_NM
+    		, VH.CORP_ID
+    		, DL0.DL_CD_NM AS AREA
+    		, DL1.DL_CD_NM AS MAKER
+    		, VH.RELS_DATE
+    		, VH.MODEL_NM
+    		, DL2.DL_CD_NM AS VHC_KIND
+    		, DL3.DL_CD_NM AS VHC_TYPE
+    		, DL5.DL_CD_NM AS LF_YN
+    		, DL4.DL_CD_NM AS VHC_FUEL
+    		, VH.REMARK
+    		, VH.USE_YN
     	FROM
-    		BM_VHC_INFO
+    		BM_VHC_INFO VH
+    		LEFT OUTER JOIN SM_DL_CD_INFO DL0
+    		ON VH.AREA = DL0.DL_CD
+    		LEFT OUTER JOIN SM_DL_CD_INFO DL1
+    		ON VH.MAKER = DL1.DL_CD
+    		LEFT OUTER JOIN SM_DL_CD_INFO DL2
+    		ON VH.VHC_KIND = DL2.DL_CD
+    		LEFT OUTER JOIN SM_DL_CD_INFO DL3
+    		ON VH.VHC_TYPE = DL3.DL_CD
+    		LEFT OUTER JOIN SM_DL_CD_INFO DL4
+    		ON VH.VHC_FUEL = DL4.DL_CD
+    		LEFT OUTER JOIN SM_DL_CD_INFO DL5
+    		ON VH.LF_YN = DL5.DL_CD
+    		LEFT OUTER JOIN BM_CORP_INFO CO
+    		ON VH.CORP_ID = CO.CORP_ID
     	<where>
 	    	<if test="value != null">
-				VHC_ID LIKE CONCAT('%', #{value}, '%')
-				OR VHC_NO LIKE CONCAT('%', #{value}, '%')
+				VH.VHC_ID LIKE CONCAT('%', #{value}, '%')
+				OR VH.VHC_NO LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     	</where>
     </select>
     
     <select id="BM0201F0S1" parameterType="String" resultType="vhcDeviceVO">
+    	SELECT
+    		  DVC_ID
+    		, MAKER
+    		, DVC_KIND
+    		, DVC_TYPE
+    		, INST_LOC
+    		, MNG_ID
+    		, DVC_IP
+    		, VHC_ID
+    		, REMARK
+    	FROM
+    		BM_DVC_INFO
+    	WHERE
+    		DVC_ID = #{value}
+    </select>
+    
+    <select id="BM0201F0S2" parameterType="String" resultType="vhcDeviceVO">
     	SELECT
     		  DVC_ID
     		, MAKER
@@ -81,6 +113,15 @@
     		ON D.INST_LOC = DL3.DL_CD
     	WHERE
     		V.VHC_ID = #{value}
+    </select>
+    
+    <select id="BM0201G1S1" parameterType="String" resultType="vhcDeviceVO">
+    	SELECT
+			DEV_SERIAL_NO
+		FROM
+			BM_DVC_HIST
+		WHERE
+			DVC_ID = #{value}
     </select>
     
     <insert id="BM0201F0I0" parameterType="vhcInfoVo">
