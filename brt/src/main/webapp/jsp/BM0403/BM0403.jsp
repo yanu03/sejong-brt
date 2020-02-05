@@ -86,7 +86,7 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.BM0403F0.play.type" width="300px" labelClazz="required">
-                            	<ax:common-code groupCd="TTS" name="playType" dataPath="playType" clazz="form-control" />
+                            	<ax:SM0105 groupCd="PLAY_TYPE" name="playType" dataPath="playType" clazz="form-control" />
                             </ax:td>
                        	</ax:tr>
                        	

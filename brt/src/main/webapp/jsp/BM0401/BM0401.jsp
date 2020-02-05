@@ -76,9 +76,9 @@
                         <ax:tr>
                             <ax:td label="ax.admin.BM0401F0.play.date" width="400px" labelClazz="required">
 	                            <div class="input-group" data-ax5picker="date">
-	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
+	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" data-ax5formatter="date" data-ax-validate="required">
 	                                <span class="input-group-addon">~</span>
-	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
+	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" data-ax5formatter="date" data-ax-validate="required">
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                             </ax:td>
@@ -86,7 +86,7 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.BM0401F0.play.type" width="300px" labelClazz="required">
-                            	<ax:common-code groupCd="TTS" name="playType" dataPath="playType" clazz="form-control" />
+                            	<ax:SM0105 groupCd="PLAY_TYPE" name="playType" dataPath="playType" clazz="form-control" />
                             </ax:td>
                        	</ax:tr>
                        	
@@ -172,8 +172,6 @@
 										</div>
 									</div>
 								</div>
-								
-								
                             </ax:td>
                        	</ax:tr>
                        	

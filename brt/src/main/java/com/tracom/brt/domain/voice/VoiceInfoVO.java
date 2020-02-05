@@ -34,4 +34,16 @@ public class VoiceInfoVO extends BaseVO {
 	private String routUpdatedAt;
 	private String isDeadline;
 	private String vocDivNm;
+	
+	public void setScrTxt(String scrTxt) {
+		if(scrTxt != null) {
+			this.scrTxt = scrTxt.replace("\r\n", "");
+		}
+	}
+	
+	public void setScrTxtEn(String scrTxtEn) {
+		if(scrTxtEn != null) {
+			this.scrTxtEn = scrTxtEn.replace("\r\n", "");
+		}
+	}
 }
