@@ -121,7 +121,9 @@
                     	<ax:tr style="height:200px;">
                     		<ax:td labelStyle="height:200px;" label="ax.admin.BM0605F0.preview" width="300px">
                   
-                    			 <div id="imagePreview" style="width:320;height:180;border:1px solid #eee;"></div>
+                    			 <img id="imagePreview" src="#" style="width:320px;height:180px;border:1px solid #eee;"
+                    			 onError="/assets/videos/BM0605/Default.png">
+                    			 
                     			 
                     			 <video
 								    id="videoPreview"
