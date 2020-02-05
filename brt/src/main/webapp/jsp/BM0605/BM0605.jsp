@@ -16,7 +16,7 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN"/>
-        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0606/BM0606.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0605/BM0605.js' />"></script>
     </jsp:attribute>
 
 
@@ -28,7 +28,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0606S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0605S0.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -43,7 +43,7 @@
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0606G0.title"/> </h2>
+                            <ax:lang id="ax.admin.BM0605G0.title"/> </h2>
                     </div>
                     <div class="right">
 
@@ -57,7 +57,7 @@
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-news"></i>
-                            <ax:lang id="ax.admin.BM0606F0.title"/>
+                            <ax:lang id="ax.admin.BM0605F0.title"/>
                         </h2>
                     </div>
                 </div>
@@ -65,16 +65,16 @@
                 <ax:form name="formView0" id="formView0">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0606G0.vdoId" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0605G0.vdoId" width="300px" labelClazz="required">
                     			<input type="text" name="vdoId" data-ax-path="vdoId" data-key="true" class="form-control" readonly="readonly"/>
                     		</ax:td>
-                    		<ax:td label="ax.admin.BM0606G0.vdoNm" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0605G0.vdoNm" width="300px" labelClazz="required">
                     			<input type="text" name="vdoNm" data-ax-path="vdoNm" data-key="true" class="form-control"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0606G0.conNm" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0605G0.conNm" width="300px" labelClazz="required">
                     			<div class="input-group">
 	                        		<input type="text" data-ax-path="conId" name="conId" data-key="true" class="form-control W70" readonly="readonly">
 	                        		<input type="text" data-ax-path="conNm" name="conNm" data-key="true" class="form-control W70" readonly="readonly">
@@ -86,11 +86,11 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0606F0.playTerm" width="400px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0605F0.playTerm" width="400px" labelClazz="required">
 	                            <div class="input-group" data-ax5picker="date">
-	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0606G0.playStDate"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
+	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0605G0.playStDate"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
 	                                <span class="input-group-addon">~</span>
-	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0606G0.playEdDate"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
+	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0605G0.playEdDate"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                     		</ax:td>
@@ -98,17 +98,17 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0606G0.fileType" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0605G0.fileType" width="300px" labelClazz="required">
                     			<ax:SM0105 groupCd="FILE_TYPE" name="fileType" dataPath="fileType" clazz="form-control" id="fileType"/>
                     		</ax:td>
 
-                    		<ax:td label="ax.admin.BM0606G0.imgPlayTm" width="300px">
+                    		<ax:td label="ax.admin.BM0605G0.imgPlayTm" width="300px">
 								<input type="text" name="imgPlayTm" id="imgPlayTm" data-ax-path="imgPlayTm" data-key="true" class="form-control"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0606F0.attFile" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0605F0.attFile" width="300px" labelClazz="required">
                     			<input type="file" name="vdoFile" data-ax-path="vdoFile" data-key="true" class="form-control" id="vdoFile"
                     				                                onchange="preview_Change(this);" style="width: 300px;" />
                     		 <!-- 
@@ -119,7 +119,7 @@
                     	
 
                     	<ax:tr style="height:200px;">
-                    		<ax:td labelStyle="height:200px;" label="ax.admin.BM0606F0.preview" width="300px">
+                    		<ax:td labelStyle="height:200px;" label="ax.admin.BM0605F0.preview" width="300px">
                   
                     			 <div id="imagePreview" style="width:320;height:180;border:1px solid #eee;"></div>
                     			 
@@ -137,7 +137,7 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0606G0.remark" width="300px">
+                    		<ax:td label="ax.admin.BM0605G0.remark" width="300px">
                     			<input type="text" maxlength="200" name="remark" data-ax-path="remark" data-key="true" class="form-control"/>
                     		</ax:td>
                     	</ax:tr>

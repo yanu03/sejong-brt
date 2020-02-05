@@ -1,4 +1,4 @@
-package com.tracom.brt.domain.BM0606;
+package com.tracom.brt.domain.BM0605;
  
 import org.springframework.web.multipart.MultipartFile;
 

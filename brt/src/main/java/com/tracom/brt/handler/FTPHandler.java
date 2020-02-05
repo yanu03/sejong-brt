@@ -81,7 +81,7 @@ public class FTPHandler {
 	}
 	
 	//BM0606 영상, 이미지파일 업로드
-	public void uploadBM0606(String id, MultipartFile file, String type) {
+	public void uploadBM0605(String id, MultipartFile file, String type) {
 		String dir = Paths.get(getRootLocalPath(), "/common/video").toString();
 		
 		String ext = null;

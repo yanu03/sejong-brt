@@ -14,7 +14,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0606G0S0",
+            url: "/api/v1/BM0605G0S0",
             data: filter,
             callback: function (res) {
             	caller.gridView0.setData(res);
@@ -68,7 +68,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0606G0D0",
+	                    url: "/api/v1/BM0605G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
@@ -102,7 +102,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     	type: "POST",
                     	enctype: "multipart/form-data",
                     	processData: false,
-                        url: "/api/v1/BM0606F0I0",
+                        url: "/api/v1/BM0605F0I0",
                         data: formData,
                         callback: function (res) {
                             ok(res);
@@ -136,7 +136,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     	type: "POST",
                     	enctype: "multipart/form-data",
                     	processData: false,
-                        url: "/api/v1/BM0606F0U0",
+                        url: "/api/v1/BM0605F0U0",
                         data: formData,
                         callback: function (res) {
                             ok(res);
@@ -169,22 +169,24 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         $("#videoPreview").val("");
         $("#imagePreview").val("");
         
-        console.log(data.fileType);
-        
     	var url = "/api/v1/filePreview?type=video&vdoId=" + data.vdoId + "&fileType=" + data.fileType;
     	changeFiletype(data.fileType);
-    	
-    	console.log(url);
+
+    	if(data.fileType == "AV001"){
+    		$('#videoPreview').attr("src", url);
+    	}else{
+    		$('#imagePreview').attr("src", url);
+    	}
+    	/*
     	switch(data.fileType){
     	case "AV001":
     		$('#videoPreview').attr("src", url);
     		break;
     	case "AV002":
-    		console.log("hi");
     		$('#imagePreview').attr("src", url);
-    		break;
-    		
+    		break;    		
     	}
+    	 * */
     	
     },
     
@@ -294,17 +296,17 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "vdoId",		label: ADMIN("ax.admin.BM0606G0.vdoId"),		width: 100},
-                {key: "conNm",		label: ADMIN("ax.admin.BM0606G0.conNm"),		width: 120},
-                {key: "vdoNm",		label: ADMIN("ax.admin.BM0606G0.vdoNm"),		width: 80},
-                {key: "imgPlayTm",	label: ADMIN("ax.admin.BM0606G0.imgPlayTm"),	width: 120},
-                {key: "fileType",	label: ADMIN("ax.admin.BM0606G0.fileType"),		width: 80},
-                {key: "attFile",	label: ADMIN("ax.admin.BM0108F0.retireYn"),		width: 80},
-                {key: "playStDate",	label: ADMIN("ax.admin.BM0606G0.playStDate"),	width: 100},
-                {key: "playEdDate",	label: ADMIN("ax.admin.BM0606G0.playEdDate"),	width: 100},
-                {key: "playTm",		label: ADMIN("ax.admin.BM0606G0.playTm"),		width: 120},
-                {key: "remark",		label: ADMIN("ax.admin.BM0606G0.remark"),		width: 150},
-                {key: "updatedAt",	label: ADMIN("ax.admin.BM0606G0.updatedAt"),	width: 120},
+                {key: "vdoId",		label: ADMIN("ax.admin.BM0605G0.vdoId"),		width: 100},
+                {key: "conNm",		label: ADMIN("ax.admin.BM0605G0.conNm"),		width: 120},
+                {key: "vdoNm",		label: ADMIN("ax.admin.BM0605G0.vdoNm"),		width: 80},
+                {key: "imgPlayTm",	label: ADMIN("ax.admin.BM0605G0.imgPlayTm"),	width: 120},
+                {key: "fileType",	label: ADMIN("ax.admin.BM0605G0.fileType"),		width: 80},
+                {key: "attFile",	label: ADMIN("ax.admin.BM0605F0.attFile"),		width: 80},
+                {key: "playStDate",	label: ADMIN("ax.admin.BM0605G0.playStDate"),	width: 100},
+                {key: "playEdDate",	label: ADMIN("ax.admin.BM0605G0.playEdDate"),	width: 100},
+                {key: "playTm",		label: ADMIN("ax.admin.BM0605G0.playTm"),		width: 120},
+                {key: "remark",		label: ADMIN("ax.admin.BM0605G0.remark"),		width: 150},
+                {key: "updatedAt",	label: ADMIN("ax.admin.BM0605G0.updatedAt"),	width: 120},
             ],
             body: {
                 onClick: function () {
@@ -458,7 +460,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 //승무사원이미지가 있다면 파일 불러와서 미리보기(추가예정), 없다면 기본 이미지 미리보기
 function preview_Image(){
 	var path;
-	path = "/assets/videos/BM0606/Default.png";//default path
+	path = "/assets/videos/BM0605/Default.png";//default path
 	document.getElementById('preview').src=path;
 }
 

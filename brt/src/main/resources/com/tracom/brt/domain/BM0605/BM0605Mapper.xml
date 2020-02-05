@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.tracom.brt.domain.BM0606.BM0606Mapper">
-	<select id="BM0606G0S0" parameterType="String" resultType="VideoInfoVO">
+<mapper namespace="com.tracom.brt.domain.BM0605.BM0605Mapper">
+	<select id="BM0605G0S0" parameterType="String" resultType="VideoInfoVO">
 		SELECT
 			  VDO_ID
 		    , VDO_NM
@@ -33,7 +33,7 @@
     	</where>
 	</select>
 	
-	<insert id="BM0606F0I0" parameterType="VideoInfoVO">
+	<insert id="BM0605F0I0" parameterType="VideoInfoVO">
 	    <selectKey keyProperty="vdoId" resultType="String" order="BEFORE">
     		SELECT CONCAT('VI', LPAD(NEXTVAL(SEQ_BM_VDO_INFO_0), 5, '0'))
     	</selectKey>
@@ -70,7 +70,7 @@
 						, #{updatedBy})
 	</insert>
 	
-	<update id="BM0606F0U0" parameterType="VideoInfoVO">
+	<update id="BM0605F0U0" parameterType="VideoInfoVO">
 		UPDATE BM_VDO_INFO
     	SET
     		  VDO_NM		=	#{vdoNm}

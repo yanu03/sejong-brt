@@ -35,8 +35,6 @@ public class FileService {
         String path = "";
         File file = null;
         
-        System.out.println(requestParams.getString("type"));
-        System.out.println(requestParams.getString("fileType"));
         try {
 			switch (type) {
 				case GlobalConstants.Types.IMAGE:
