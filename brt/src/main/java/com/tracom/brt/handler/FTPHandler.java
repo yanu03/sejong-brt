@@ -113,7 +113,6 @@ public class FTPHandler {
 		
 		
 		try {
-			Utils.getRunningTime(file, fileName, dir+"\\");
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
