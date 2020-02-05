@@ -47,7 +47,7 @@
             var fnObj = {
                 pageStart: function () {
 
-                    $("#good_words").html(goodWords.get());
+                    //$("#good_words").html(goodWords.get());
                 },
                 login: function () {
                     axboot.ajax({
@@ -115,16 +115,9 @@
                 </div>
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <a href="#"><ax:lang id="ax.admin.find.id"/></a>
-                        &nbsp;
-                        &nbsp;
-                        <a href="#"><ax:lang id="ax.admin.find.password"/></a>
+                        ${config.copyrights}
                     </li>
                 </ul>
-            </div>
-
-            <div class="txt-copyrights">
-                ${config.copyrights}
             </div>
 
             <div class="txt-good-words" id="good_words">

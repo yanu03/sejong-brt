@@ -18,15 +18,24 @@ public class BmRoutInfoVO extends BaseVO {
  
 	private String shortRoutNm;
 
+	private String wayInfo;
+	
 	private String wayDiv;
+	private String wayDivNm;
 	
 	private String userWayDiv;
+	private String userWayDivNm;
 	
 	private String turnDiv;
+	private String turnDivNm;
 	
 	private String stStaNm;
 	
 	private String edStaNm;
+	
+	private String name;
+	
+	private String code;
 	
 	private List<BmRoutInfoVO> voList;
 	

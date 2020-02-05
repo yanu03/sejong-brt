@@ -151,12 +151,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if (caller.formView0.validate()) {
         	var formData = new FormData(caller.formView0.target[0]);
         	
-        	if(formData.get("playType") == "WAV") {
+        	if(caller.formView0.model.get("playType") == "WAV") {
     	    	var element = $("#wavFile");
     	    	
-    	    	if(element[0].files[0]){
-    	        	formData.append("attFile", $("#wavFile")[0].files[0].name);
-    	        } else {
+    	    	if(!element[0].files[0]){
     	        	alert(element.attr("title") + "을 선택해주세요");
     	        	return false;
     	        }
@@ -255,13 +253,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		_this.target.find("[data-ax-td-label='krTtsLabel']").addClass("required");
     		_this.target.find("[data-ax-td-label='enTtsLabel']").addClass("required");
     		_this.target.find("[data-ax-path='krTts']").attr("readonly", false).attr("data-ax-validate", "required");
-    		_this.target.find("[data-ax-path='enTts']").attr("readonly", false).attr("data-ax-validate", "required");
     		
     		// TTS 미리듣기 기본문구 버튼 관련
     		_this.target.find("[data-btn-test='krTts']").attr("disabled", false);
-    		_this.target.find("[data-btn-test='enTts']").attr("disabled", false);
     		_this.target.find("[data-btn-common-txt='krTts']").attr("disabled", false);
-    		_this.target.find("[data-btn-common-txt='enTts']").attr("disabled", false);
     		
     	} else if(data.playType == "WAV") {
     		// wav 파일 관련
@@ -271,15 +266,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		
     		// TTS 입력관련
     		_this.target.find("[data-ax-td-label='krTtsLabel']").removeClass("required");
-    		_this.target.find("[data-ax-td-label='enTtsLabel']").removeClass("required");
     		_this.target.find("[data-ax-path='krTts']").attr("readonly", true).attr("data-ax-validate", null);
-    		_this.target.find("[data-ax-path='enTts']").attr("readonly", true).attr("data-ax-validate", null);
     		
     		// TTS 미리듣기 기본문구 버튼 관련
     		_this.target.find("[data-btn-test='krTts']").attr("disabled", true);
-    		_this.target.find("[data-btn-test='enTts']").attr("disabled", true);
     		_this.target.find("[data-btn-common-txt='krTts']").attr("disabled", true);
-    		_this.target.find("[data-btn-common-txt='enTts']").attr("disabled", true);
     	}
     },
     
@@ -293,6 +284,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    	var fileURL = blob.createObjectURL(file);
 	    	
 	    	if(checkIe()) {
+	    		var formData = new FormData(caller.formView0.target[0]);
+	    		
 	            axboot.promise()
 	                .then(function (ok, fail, data) {
 	                    axboot.ajax({
@@ -311,7 +304,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                })
 	                .then(function (ok, fail, data) {
 	                	$("#jquery_jplayer_1").jPlayer("setMedia", {
-	    	        		mp3: "/api/v1/getWavTest?type=temp",
+	    	        		mp3: "/api/v1/filePreview?type=tempVoice",
 	    	        	}).jPlayer("play");
 	                })
 	                .catch(function () {
@@ -333,18 +326,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     // 플레이어에 오디오 파일 셋팅
     SET_AUDIO: function(caller, act, data) {
-    	var wavTest = "/api/v1/getWavTest?" + $.param(data);
+    	var url = "/api/v1/filePreview?type=voice&" + $.param(data);
     	
-    	if(checkIe()) {
-    		$("#jquery_jplayer_1").jPlayer("setMedia", {
-        		mp3: wavTest,
-        	});
-    		
-    	} else {
-    		$("#jquery_jplayer_1").jPlayer("setMedia", {
-        		wav: wavTest,
-        	});
-    	}
+		$("#jquery_jplayer_1").jPlayer("setMedia", {
+    		mp3: url,
+    	});
     	
     	// WAV 미리듣기가 아닐경우 자동 재생
     	if(typeof data.vocId === "undefined") {
@@ -474,17 +460,15 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "vocId", label: ADMIN("ax.admin.BM0401F0.voc.id"), width: 80},
-                {key: "vocNm", label: ADMIN("ax.admin.BM0401F0.voc.nm"), width: 120},
-                {key: "playType", label: ADMIN("ax.admin.BM0401F0.play.type"), width: 120},
-                {key: "playTm", label: ADMIN("ax.admin.BM0401F0.play.time"), width: 80},
-                {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 150},
-                {key: "krTts", label: ADMIN("ax.admin.BM0401F0.kr.tts"), width: 120},
-                /*{key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 120},*/
-                {key: "remark", label: ADMIN("ax.admin.BM0401F0.remark"), width: 120},
+                {key: "vocId", label: ADMIN("ax.admin.BM0403F0.voc.id"), width: 80, sortable: true, align: "center"},
+                {key: "vocNm", label: ADMIN("ax.admin.BM0403F0.voc.nm"), width: 210, sortable: true},
+                {key: "playType", label: ADMIN("ax.admin.BM0403F0.play.type"), width: 80, align: "center"},
+                {key: "playTm", label: ADMIN("ax.admin.BM0403F0.play.time"), width: 80, align: "center"},
+                {key: "playDate", label: ADMIN("ax.admin.BM0403F0.play.date"), width: 150, align: "center"},
+                {key: "krTts", label: ADMIN("ax.admin.BM0403F0.kr.tts"), width: 200},
+                {key: "remark", label: ADMIN("ax.admin.BM0403F0.remark"), width: 200},
             ],
             body: {
                 onClick: function () {

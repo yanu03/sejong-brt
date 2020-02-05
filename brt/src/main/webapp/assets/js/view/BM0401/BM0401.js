@@ -2,8 +2,9 @@
 var fnObj = {}, CODE = {};
 
 /***************************************** 전역 변수 초기화 ******************************************************/
-isUpdate = false;
-selectedRow = null;
+var isUpdate = false;
+var selectedRow = null;
+var validateReg = new RegExp(/\,/g);
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -151,48 +152,61 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if (caller.formView0.validate()) {
         	var formData = new FormData(caller.formView0.target[0]);
         	
-        	if(formData.get("playType") == "WAV") {
+        	if(caller.formView0.model.get("playType") == "WAV") {
     	    	var element = $("#wavFile");
     	    	
-    	    	if(element[0].files[0]){
-    	        	formData.append("attFile", $("#wavFile")[0].files[0].name);
-    	        } else {
+    	    	if(!element[0].files[0]){
     	        	alert(element.attr("title") + "을 선택해주세요");
     	        	return false;
     	        }
         	}
         	
-            axboot.promise()
-                .then(function (ok, fail, data) {
-                    axboot.ajax({
-                        type: "POST",
-                        url: "/api/v1/BM0401F0I0",
-                        enctype: "multipart/form-data",
-                        processData: false,
-                        data: formData,
-                        callback: function (res) {
-                            ok(res);
-                        },
-                        options: {
-                        	contentType:false
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onadd"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-                    isUpdate = true;
-                })
-                .catch(function () {
-
-                });
-            //*/
+        	var scrTxt = caller.formView0.model.get("scrTxt");
+        	var scrTxtEn = caller.formView0.model.get("scrTxtEn");
+        	
+        	if(validateReg.test(scrTxt) || validateReg.test(scrTxtEn)) {
+        		axDialog.alert(ADMIN("ax.admin.BM0401F0.scr.test"));
+        		return false;
+        	}
+        	
+        	axboot.promise()
+	            .then(function (ok, fail, data) {
+	                axboot.ajax({
+	                	type: "POST",
+	                    url: "/api/v1/BM0401F0I0",
+	                    enctype: "multipart/form-data",
+	                    processData: false,
+	                    data: formData,
+	                    callback: function (res) {
+	                        ok(res);
+	                    },
+	                    options: {
+	                    	contentType:false
+	                    }
+	                });
+	            })
+	            .then(function (ok, fail, data) {
+	            	axToast.push(LANG("onsave"));
+	        		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+	                isUpdate = true;
+	            })
+	            .catch(function () {
+	
+	            });
         }
     },
     
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
         	var formData = new FormData(caller.formView0.target[0]);
+        	
+        	var scrTxt = caller.formView0.model.get("scrTxt");
+        	var scrTxtEn = caller.formView0.model.get("scrTxtEn");
+        	
+        	if(validateReg.test(scrTxt) || validateReg.test(scrTxtEn)) {
+        		axDialog.alert(ADMIN("ax.admin.BM0401F0.scr.test"));
+        		return false;
+        	}
         	
             axboot.promise()
                 .then(function (ok, fail, data) {
@@ -211,7 +225,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
-            		axToast.push(LANG("onupdate"));
+            		axToast.push(LANG("onsave"));
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
@@ -293,29 +307,34 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    	var fileURL = blob.createObjectURL(file);
 	    	
 	    	if(checkIe()) {
-	            axboot.promise()
-	                .then(function (ok, fail, data) {
-	                    axboot.ajax({
-	                    	type: "POST",
-	                        url: "/api/v1/uplaodWavTemp",
-	                        enctype: "multipart/form-data",
-	                        processData: false,
-	                        data: formData,
-	                        callback: function (res) {
-	                            ok(res);
-	                        },
-	                        options: {
-	                        	contentType:false
-	                        }
-	                    });
-	                })
-	                .then(function (ok, fail, data) {
+	    		var formData = new FormData(caller.formView0.target[0]);
+	    		
+	    		axboot.promise()
+		            .then(function (ok, fail, data) {
+		                axboot.ajax({
+		                	type: "POST",
+		                    url: "/api/v1/uplaodWavTemp",
+		                    enctype: "multipart/form-data",
+		                    processData: false,
+		                    data: formData,
+		                    callback: function (res) {
+		                        ok(res);
+		                    },
+		                    options: {
+		                    	contentType:false
+		                    }
+		                });
+		            })
+		            .then(function (ok, fail, data) {
+		            	console.log("333");
 	                	$("#jquery_jplayer_1").jPlayer("setMedia", {
-	    	        		mp3: "/api/v1/getWavTest?type=temp",
+	    	        		mp3: "/api/v1/filePreview?type=tempVoice",
 	    	        	}).jPlayer("play");
-	                })
-	                .catch(function () {
-	                });
+		            })
+		            .catch(function () {
+		
+		            });
+	    		
 	    	} else {
 	    		$("#jquery_jplayer_1").jPlayer("setMedia", {
 	        		wav: fileURL,
@@ -333,23 +352,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	// wav 다운로드
     	//window.location.href = wavDownloadUrl;
     	
+    	if(data.chimeYn == null) {
+    		data.chimeYn = "Y";
+    	}
+    	
     	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
     },
     
     // 플레이어에 오디오 파일 셋팅
     SET_AUDIO: function(caller, act, data) {
-    	var wavTest = "/api/v1/getWavTest?" + $.param(data);
+    	var url = "/api/v1/filePreview?type=voice&" + $.param(data);
     	
-    	if(checkIe()) {
-    		$("#jquery_jplayer_1").jPlayer("setMedia", {
-        		mp3: wavTest,
-        	});
-    		
-    	} else {
-    		$("#jquery_jplayer_1").jPlayer("setMedia", {
-        		wav: wavTest,
-        	});
-    	}
+		$("#jquery_jplayer_1").jPlayer("setMedia", {
+    		mp3: url,
+    	});
     	
     	// WAV 미리듣기가 아닐경우 자동 재생
     	if(typeof data.vocId === "undefined") {
@@ -479,19 +495,18 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "vocId", label: ADMIN("ax.admin.BM0401F0.voc.id"), width: 80},
-                {key: "vocNm", label: ADMIN("ax.admin.BM0401F0.voc.nm"), width: 210},
-                {key: "playType", label: ADMIN("ax.admin.BM0401F0.play.type"), width: 120},
-                {key: "playTm", label: ADMIN("ax.admin.BM0401F0.play.time"), width: 80},
-                {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 150},
-                {key: "krTts", label: ADMIN("ax.admin.BM0401F0.kr.tts"), width: 120},
-                {key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 120},
+                {key: "vocId", label: ADMIN("ax.admin.BM0401F0.voc.id"), width: 80, sortable: true, align: "center"},
+                {key: "vocNm", label: ADMIN("ax.admin.BM0401F0.voc.nm"), width: 210, sortable: true},
+                {key: "playType", label: ADMIN("ax.admin.BM0401F0.play.type"), width: 80, align: "center"},
+                {key: "playTm", label: ADMIN("ax.admin.BM0401F0.play.time"), width: 80, align: "center"},
+                {key: "playDate", label: ADMIN("ax.admin.BM0401F0.play.date"), width: 150, align: "center"},
+                {key: "krTts", label: ADMIN("ax.admin.BM0401F0.kr.tts"), width: 200},
+                {key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 200},
                 {key: "scrTxt", label: ADMIN("ax.admin.BM0401F0.scr.txt"), width: 200},
                 {key: "scrTxtEn", label: ADMIN("ax.admin.BM0401F0.scr.txt.en"), width: 200},
-                {key: "remark", label: ADMIN("ax.admin.BM0401F0.remark"), width: 120},
+                {key: "remark", label: ADMIN("ax.admin.BM0401F0.remark"), width: 200},
             ],
             body: {
                 onClick: function () {

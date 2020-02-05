@@ -60,10 +60,12 @@
             <div class="ax-split-panel text-align-right">
 
                 <div class="ax-split-col ax-frame-user-info">
+                <!-- 
                     <div class="ax-split-panel">
                         <a href="/?language=en">English</a> / <a href="/?language=ko">한국어</a>
                     </div>
                     <div class="panel-split"></div>
+                 -->
                     <c:if test="${isDevelopmentMode}">
                         <!-- 개발자 툴 연결 아이콘 -->
                         <div class="ax-split-panel">

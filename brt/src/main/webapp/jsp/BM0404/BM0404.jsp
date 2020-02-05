@@ -39,7 +39,7 @@
 
 
         <ax:split-layout name="ax1" orientation="vertical">
-            <ax:split-panel width="500" style="padding-right: 10px;">
+            <ax:split-panel width="*" style="padding-right: 10px;">
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
@@ -53,7 +53,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="*" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="700" style="padding-left: 10px;" scroll="scroll">
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
@@ -73,9 +73,9 @@
                         <ax:tr>
                             <ax:td label="ax.admin.BM0404F0.play.date" width="400px" labelClazz="required">
 	                            <div class="input-group" data-ax5picker="date">
-	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0404F0.play.date"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
+	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0404F0.play.date"/>" class="form-control" data-ax5formatter="date" data-ax-validate="required">
 	                                <span class="input-group-addon">~</span>
-	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0404F0.play.date"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
+	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0404F0.play.date"/>" class="form-control" data-ax5formatter="date" data-ax-validate="required">
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                             </ax:td>
@@ -83,7 +83,7 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.BM0404F0.play.type" width="300px" labelClazz="required">
-                            	<ax:common-code groupCd="TTS" name="playType" dataPath="playType" clazz="form-control" />
+                            	<ax:SM0105 groupCd="PLAY_TYPE" name="playType" dataPath="playType" clazz="form-control" />
                             </ax:td>
                        	</ax:tr>
                        	
@@ -119,7 +119,6 @@
 									<div class="jp-type-single">
 										<div class="jp-gui jp-interface">
 											<div class="jp-controls">
-												<button class="jp-play" role="button" tabindex="0">play</button>
 												<button class="jp-stop" role="button" tabindex="0">stop</button>
 											</div>
 											<div class="jp-progress">
@@ -137,9 +136,6 @@
 											<div class="jp-time-holder">
 												<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
 												<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
-												<div class="jp-toggles">
-													<button class="jp-repeat" role="button" tabindex="0">repeat</button>
-												</div>
 											</div>
 										</div>
 									</div>

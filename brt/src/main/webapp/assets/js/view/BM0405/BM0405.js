@@ -280,13 +280,15 @@ function drawRoute(list) {
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				
 				
-				if(list[i].nodeType == orgaNodeType && list[i].allPlayTm != null && list[i].allPlayTm != 0) {
+				if( list[i].allPlayTm != null && list[i].allPlayTm != 0) {
 					if(list[i].nodeType == orgaNodeType) {
 						var radius = Math.round((limitSpeed / 3600 * 1000) * list[i].allPlayTm);
 						
 						circles.push(getDrawingCircle(list[i].lati, list[i].longi, radius));
 					}
-					
+				}
+				
+				if(list[i].nodeType == orgaNodeType) {
 					list[i].click = function(e) {
 						var point = e.marker.getPosition();
 						var node = $.extend(true, {}, routeData[e.index]);

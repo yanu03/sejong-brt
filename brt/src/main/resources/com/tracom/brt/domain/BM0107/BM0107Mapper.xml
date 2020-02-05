@@ -40,6 +40,7 @@
 		SELECT
 			  ROUT_ID
 			, SEQ
+			, NODE_TYPE
 			, NODE_ID
 		    , NODE_NM
 		    , LATI
@@ -96,6 +97,7 @@
     				, SEQ
     				, ROUT_ID
     				, STA_ID
+    				, NODE_TYPE
     				, CREATED_AT
     				, CREATED_BY
     				, UPDATED_AT
@@ -118,6 +120,7 @@
 				, #{voList.seq}
 				, #{voList.routId}
 				, #{voList.staId}
+				, #{voList.nodeType}
 				, #{voList.createdAt}
 				, #{voList.createdBy}
 				, #{voList.updatedAt}

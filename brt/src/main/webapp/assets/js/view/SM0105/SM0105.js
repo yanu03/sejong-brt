@@ -1,4 +1,5 @@
- var fnObj = {}, CODE = {};
+
+var fnObj = {}, CODE = {};
 
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
@@ -91,45 +92,25 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             var formData = caller.formView0.getData();
             formData["coCd"] = selectedRow.coCd;
             
-            axboot.promise()
-	            .then(function (ok, fail, data) {
-	                axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/SM0105F0S0",
-	                    data: JSON.stringify(formData),
-	                    callback: function (res) {
-	                        ok(res);
-	                    }
-	                });
-	            })
-	            .then(function (ok, fail, data) {
-	            	if(data.message == "true") {
-	            		axboot.promise()
-	                    .then(function (ok, fail, data) {
-	                        axboot.ajax({
-	                            type: "POST",
-	                            url: "/api/v1/SM0105F0I0",
-	                            data: JSON.stringify(formData),
-	                            callback: function (res) {
-	                                ok(res);
-	                            }
-	                        });
-	                    })
-	                    .then(function (ok, fail, data) {
-	                		axToast.push(LANG("onadd"));
-	                		ACTIONS.dispatch(ACTIONS.RELOAD_G1, data.message);
-	                        isUpdate = true;
-	                    })
-	                    .catch(function () {
+    		axboot.promise()
+                .then(function (ok, fail, data) {
+                    axboot.ajax({
+                        type: "POST",
+                        url: "/api/v1/SM0105F0I0",
+                        data: JSON.stringify(formData),
+                        callback: function (res) {
+                            ok(res);
+                        }
+                    });
+                })
+                .then(function (ok, fail, data) {
+            		axToast.push(LANG("onadd"));
+            		ACTIONS.dispatch(ACTIONS.RELOAD_G1, data.message);
+                    isUpdate = true;
+                })
+                .catch(function () {
 
-	                    });
-	            	} else {
-	            		alert(ADMIN("ax.admin.SM0105F0.duplicate.cd"));
-	            	}
-	            })
-	            .catch(function () {
-	
-	            });
+                });
         }
     },
     

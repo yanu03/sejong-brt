@@ -60,19 +60,25 @@
     
     <select id="BM0405G3S0" parameterType="String" resultType="voiceInfoVO">
     	SELECT
-    		  V.VOC_ID
-    		, V.VOC_NM
-    		, V.PLAY_TYPE
-    		, V.PLAY_TM
-    		, V.VOC_DIV
-    		, D.DL_CD_NM AS VOC_DIV_NM
-    		, IF(DATE_FORMAT(NOW(), '%Y-%m-%d') > V.PLAY_ED_DATE, 'Y', 'N') IS_DEADLINE
+    		*
     	FROM
-    		BM_VOC_INFO V
-    		LEFT OUTER JOIN SM_DL_CD_INFO D
-    		ON V.VOC_DIV = D.DL_CD
-    	WHERE
-    		V.VOC_DIV = #{value}
+	    	(SELECT
+	    		  V.VOC_ID
+	    		, V.VOC_NM
+	    		, V.PLAY_TYPE
+	    		, V.PLAY_TM
+	    		, V.VOC_DIV
+	    		, D.DL_CD_NM AS VOC_DIV_NM
+	    		, IF(DATE_FORMAT(NOW(), '%Y-%m-%d') > V.PLAY_ED_DATE, 'Y', 'N') IS_DEADLINE
+	    	FROM
+	    		BM_VOC_INFO V
+	    		LEFT OUTER JOIN SM_DL_CD_INFO D
+	    		ON V.VOC_DIV = D.DL_CD
+	    		AND D.CO_CD = 'VOC_DIV'
+	    	WHERE
+	    		V.VOC_DIV = #{value}) T
+	    WHERE
+	    	IS_DEADLINE = 'N'
     </select>
     
     <select id="BM0405G4S0" parameterType="String" resultType="voiceInfoVO">
@@ -90,8 +96,10 @@
     		ON O.VOC_ID = V.VOC_ID
     		LEFT OUTER JOIN SM_DL_CD_INFO D
     		ON V.VOC_DIV = D.DL_CD
+    		AND D.CO_CD = 'VOC_DIV'
     	WHERE
-    		O.ORGA_ID = #{value}  
+    		O.ORGA_ID = #{value}
+    	ORDER BY O.SEQ
     </select>
     
     
@@ -151,12 +159,14 @@
     	INSERT INTO BM_VOC_ORGA_LIST(
     		  ORGA_ID
     		, VOC_ID
+    		, SEQ
     	)
     	VALUES
-    	<foreach collection="playList" item="item" separator=",">
+    	<foreach collection="playList" item="item" separator="," index="index">
     	(
     		  #{orgaId}
     		, #{item.vocId}
+    		, #{index} + 1
     	)
     	</foreach>
     </insert>

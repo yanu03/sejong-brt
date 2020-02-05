@@ -28,12 +28,15 @@ public class BM0404Service extends BaseService<VoiceInfoVO, String> {
     public String BM0404F0I0(VoiceInfoVO vo) {
     	mapper.BM0404F0I0(vo);
     	handler.uploadVoice(vo);
+    	handler.uploadBM0404(vo);
     	mapper.BM0404F0U0(vo);
     	return vo.getRoutId();
     }
     
+    @Transactional
     public boolean BM0404F0U0(VoiceInfoVO vo) {
     	handler.uploadVoice(vo);
+    	handler.uploadBM0404(vo);
     	if(mapper.BM0404F0U0(vo) > 0) {
     		return true;
     	} else {
@@ -41,6 +44,7 @@ public class BM0404Service extends BaseService<VoiceInfoVO, String> {
     	}
     }
     
+    @Transactional
     public boolean BM0404G0D0(VoiceInfoVO vo) {
     	if(mapper.BM0404G0D0(vo) > 0) {
     		handler.deleteVoice(vo);

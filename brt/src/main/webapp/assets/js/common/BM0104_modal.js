@@ -21,9 +21,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         
         if (list.length > 0) {
         	alert(LANG("ax.script.interfaceConfirm"));
-            /*if (parent && parent.axboot && parent.axboot.modal) {
-                parent.axboot.modal.callback(list[0]);
-            }*/
         	axboot.ajax({
                 type: "POST",
                 url: "/api/v1/BM0104G0U0",
@@ -31,6 +28,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 callback: function (res) {
                 	if(res.message.length > 0){
                 		alert(res.message);
+                		if (parent && parent.axboot && parent.axboot.modal) {
+                            parent.axboot.modal.callback(list[0]);
+                		}
                 	}else{
                 		alert("갱신된 노선이 없습니다.");                		
                 	}

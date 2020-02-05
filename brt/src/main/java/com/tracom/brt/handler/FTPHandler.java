@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,9 +16,10 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.apache.commons.io.FileDeleteStrategy;
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpException;
+import com.tracom.brt.code.GlobalConstants;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
 import com.tracom.brt.utils.Utils;
@@ -35,10 +35,16 @@ import com.tracom.brt.utils.Utils;
 @Component
 public class FTPHandler {
 	@Value("${sftp.remote.directory}")
-    public String ROOT_SERVER_PATH;
+	private String ROOT_SERVER_PATH;
 	
-	@Value("${sftp.local.directory}")
-    public String ROOT_LOCAL_PATH;
+	@Value("${sftp.linux.local.directory}")
+	private String ROOT_LINUX_LOCAL_PATH;
+	
+	@Value("${sftp.windows.local.directory}")
+	private String ROOT_WINDOWS_LOCAL_PATH;
+	
+	@Value("${sftp.audio.directory}")
+	private String COMMON_AUDIO_PATH;
 	
 	@Inject
 	private ChannelSftp sftpChannel;
@@ -50,11 +56,12 @@ public class FTPHandler {
 	
 	private ArrayList<String> serverContentList;
 	private ArrayList<String> pathList;
+	private ArrayList<String> ignoreList;
 	
 	// 승무사원 관리 승무사원 사진 업로드
 	public void uploadBM0108(String id, MultipartFile file) {
-		String dir1 = Paths.get(ROOT_LOCAL_PATH, "/common/employee").toString();
-		String dir2 = Paths.get(ROOT_LOCAL_PATH, "/vehicle").toString();
+		String dir1 = Paths.get(getRootLocalPath(), "/common/employee").toString();
+		String dir2 = Paths.get(getRootLocalPath(), "/vehicle").toString();
 		//String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
 		String fileName = id + "." + "jpg";//그냥 다 jpg로 저장하게끔...
 		
@@ -76,86 +83,118 @@ public class FTPHandler {
 		}
 	}
 	
+	// 노선선택별 음성 저장 시 재생 리스트 저장
+	public boolean uploadBM0404(VoiceInfoVO vo) {
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+			String id = vo.getVocId();
+			String playStDate = format.format(format.parse(vo.getPlayStDate()));
+			String playEdDate = format.format(format.parse(vo.getPlayEdDate()));
+			String routeId = vo.getRoutId();
+			
+			File playList = new File(Paths.get(getRootLocalPath(), "/route", routeId, "/playlist/AG0000000.csv").toString());
+			
+			String content =
+				GlobalConstants.CSVForms.VOICE_PLAYLIST_TITLE + "1," + GlobalConstants.PlayListVoiceTypes.ROUTE + "," + id + GlobalConstants.VoiceTypes.RT + ".wav," + playStDate + "," + playEdDate + ",";
+		
+			Utils.createCSV(playList, content);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	
 	// 음성파일(WAV, TTS) 업로드
-	public void uploadVoice(VoiceInfoVO vo) {
+	public boolean uploadVoice(VoiceInfoVO vo) {
     	if(vo.getPlayType().equals("TTS")) {
-    		uploadVoiceTTS(vo);
+    		return uploadVoiceTTS(vo);
     	} else if(vo.getPlayType().equals("WAV")) {
     		if(vo.getWavFile() != null && vo.getWavFile().getSize() != 0) {
-    			uploadVoiceWAV(vo);
+    			return uploadVoiceWAV(vo);
     		}
     	}
+		return true;
     }
 	
 	// 음성파일(WAV) 업로드
-	public void uploadVoiceWAV(VoiceInfoVO vo) {
+	public boolean uploadVoiceWAV(VoiceInfoVO vo) {
 		String id = vo.getVocId();
 		MultipartFile file = vo.getWavFile();
 		
-		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
-		String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
-		String fileNameKr = id + "_KR.wav";
-		String fileNameEn = id + "_EN.wav";
+		String dir = Paths.get(getRootLocalPath(), getCommonAudioPath()).toString();
+		String fileName = id +  GlobalConstants.VoiceTypes.US + "." + FilenameUtils.getExtension(file.getOriginalFilename());
+		String fileNameKr = id + GlobalConstants.VoiceTypes.KR + ".wav";
+		String fileNameEn = id + GlobalConstants.VoiceTypes.EN + ".wav";
 		
 		String routId = vo.getRoutId();
 		if(routId != null && !routId.equals("")) {
-			fileName = routId + "_select.wav";
+			fileName = id + GlobalConstants.VoiceTypes.RT + ".wav";
 		}
 		
 		File saveFile = Paths.get(dir, fileName).toFile();
-		Path ttsKrFile = Paths.get(dir, fileNameKr);
-		Path ttsEnFile = Paths.get(dir, fileNameEn);
+		File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
+		File ttsEnFile = Paths.get(dir, fileNameEn).toFile();
 		try {
 			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
 			
 			vo.setPlayTm(Utils.getAudioTotalTime(saveFile));
 			
 			// 기존 TTS WAV파일 삭제
-			Files.delete(ttsKrFile);
-			Files.delete(ttsEnFile);
+			if(ttsKrFile.exists()) {
+				ttsKrFile.delete();
+			}
+			
+			if(ttsEnFile.exists()) {
+				ttsEnFile.delete();
+			}
 			
 			processSynchronize();
 		} catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}
+		
+		return true;
 	}
 	
 	// 음성 TEMP파일(WAV) MP3로 업로드
 	public void uploadWavTemp(MultipartFile file) {
-		String dir = Paths.get(ROOT_LOCAL_PATH, "/temp/wav_temp.wav").toString();
+		String dir = Paths.get(getRootLocalPath(), "/temp/wav_temp.wav").toString();
 		File saveFile = Paths.get(dir).toFile();
+		File tempFile = Paths.get(getRootLocalPath(), "/temp/wav_temp.mp3").toFile();
 		
 		try {
 			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+			Utils.wavToMp3(saveFile, tempFile);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	// 음성파일(TTS) 업로드
-	public void uploadVoiceTTS(VoiceInfoVO vo) {
+	public boolean uploadVoiceTTS(VoiceInfoVO vo) {
 		String id = vo.getVocId();
 		String krText = vo.getKrTts();
 		String enText = vo.getEnTts();
 		String chimeYn = vo.getChimeYn();
 		
-		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
-		String fileName = id + ".wav";
-		String fileNameKr = id + "_KR.wav";
-		String fileNameEn = id + "_EN.wav";
+		String dir = Paths.get(getRootLocalPath(), getCommonAudioPath()).toString();
+		String fileName = id + GlobalConstants.VoiceTypes.US + ".wav";
+		String fileNameKr = id + GlobalConstants.VoiceTypes.KR + ".wav";
+		String fileNameEn = id + GlobalConstants.VoiceTypes.EN + ".wav";
 		
 		String routId = vo.getRoutId();
 		if(routId != null && !routId.equals("")) {
-			fileNameKr = routId + "_select.wav";
+			fileNameKr = id + GlobalConstants.VoiceTypes.RT + ".wav";
 		}
 		
 		int ttsKrPlayTm = 0;
 		int ttsEnPlayTm = 0;
 		
-		File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
-		File ttsEnFile = Paths.get(dir, fileNameEn).toFile();
-		Path file = Paths.get(dir, fileName);
+		File ttsKrFile = new File(Paths.get(dir, fileNameKr).toString());
+		File ttsEnFile = new File(Paths.get(dir, fileNameEn).toString());
+		File file = new File(Paths.get(dir, fileName).toString());
 		try {
 			if(krText != null && !krText.equals("")) {
 				FileUtils.writeByteArrayToFile(ttsKrFile, voiceService.getWavBuffer(krText, 0, 0, chimeYn));
@@ -171,38 +210,54 @@ public class FTPHandler {
 			vo.setPlayTm(ttsKrPlayTm + ttsEnPlayTm);
 			
 			// 기존 WAV 업로드 삭제
-			Files.delete(file);
+			if(file.exists()) {
+				file.delete();
+			}
 			
 			processSynchronize();
 		} catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}
+		
+		return true;
 	}
 	
 	// 음성 삭제시 저장된 음성파일 삭제
 	public void deleteVoice(VoiceInfoVO vo) {
 		String playType = vo.getPlayType();
 		String id = vo.getVocId();
-		String fileName = id + ".wav";
-		String fileNameKr = id + "_KR.wav";
-		String fileNameEn = id + "_EN.wav";
-		String dir = Paths.get(ROOT_LOCAL_PATH, "/common/audio").toString();
+		String fileName = id + GlobalConstants.VoiceTypes.US + ".wav";
+		String fileNameKr = id + GlobalConstants.VoiceTypes.KR + ".wav";
+		String fileNameEn = id + GlobalConstants.VoiceTypes.EN + ".wav";
+		String dir = Paths.get(getRootLocalPath(), getCommonAudioPath()).toString();
 		
 		String routId = vo.getRoutId();
 		
 		try {
 			if(routId != null && !routId.equals("")) {
-				Path path = Paths.get(dir, routId + "_select.wav");
-				Files.delete(path);
-			} else if(playType.equals("TTS")) {
-				Path ttsKrFile = Paths.get(dir, fileNameKr);
-				Path ttsEnFile = Paths.get(dir, fileNameEn);
+				File file = Paths.get(dir, id + GlobalConstants.VoiceTypes.RT + ".wav").toFile();
 				
-				Files.delete(ttsKrFile);
-				Files.delete(ttsEnFile);
+				if(file.exists()) {
+					file.delete();
+				}
+			} else if(playType.equals("TTS")) {
+				File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
+				File ttsEnFile = Paths.get(dir, fileNameEn).toFile();
+				
+				if(ttsKrFile.exists()) {
+					ttsKrFile.delete();
+				}
+				
+				if(ttsEnFile.exists()) {
+					ttsEnFile.delete();
+				}
 			} else if(playType.equals("WAV")) {
-				Path path = Paths.get(dir, fileName);
-				Files.delete(path);
+				File file = Paths.get(dir, fileName).toFile();
+				
+				if(file.exists()) {
+					file.delete();
+				}
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -225,7 +280,7 @@ public class FTPHandler {
 			e.printStackTrace();
 		}
 		
-		ROOT_LOCAL_DIRECTORY = new File(ROOT_LOCAL_PATH);
+		ROOT_LOCAL_DIRECTORY = new File(getRootLocalPath());
 		String serverFolder = ROOT_SERVER_PATH.substring(ROOT_SERVER_PATH.lastIndexOf('/') + 1, ROOT_SERVER_PATH.length());
 		if(!ROOT_LOCAL_DIRECTORY.getName().equals(serverFolder)){
 			try{
@@ -239,6 +294,10 @@ public class FTPHandler {
 		
 		serverContentList = new ArrayList<String>();
 		pathList = new ArrayList<String>();
+		ignoreList = new ArrayList<String>();
+		
+		ignoreList.add("temp");
+		ignoreList.add("chime");
 	}
 	
 	// 서버 폴더 내 목록 가져오기
@@ -281,14 +340,28 @@ public class FTPHandler {
 		
 		int size = localList.length;
 		for(int i = 0; i < size; i++) {
+			// 동기화 체크용 플래그
+			boolean check = false;
+			
+			for(String ignoreFile : ignoreList) {
+				if(localList[i].getName().contains(ignoreFile)) {
+					check = true;
+					break;
+				}
+			}
+			
+			// 동기화하지 않을 파일일 경우 continue
+			if(check) {
+				continue;
+			}
+			
 			if(localList[i].isDirectory()){
-				if(!checkFolder(localList[i], serverDir)){
+				if(!checkFolder(localList[i], serverDir)) {
 					newFileMaster(localList[i], serverDir);
 				}
 				
 				// 재귀 돌면서 디렉토리 구조 동기화
 				synchronize(localList[i], serverDir + "/" + localList[i].getName());
-				deleteFromLists("SubFolder");
 			} else {
 				checkFile(localList[i], serverDir);
 			}
@@ -415,6 +488,16 @@ public class FTPHandler {
 	}
 	
 	public String getRootLocalPath() {
-		return ROOT_LOCAL_PATH;
+		if(SystemUtils.IS_OS_WINDOWS) {
+			return ROOT_WINDOWS_LOCAL_PATH;
+		} else if(SystemUtils.IS_OS_LINUX) {
+			return ROOT_LINUX_LOCAL_PATH;
+		} else {
+			return ROOT_LINUX_LOCAL_PATH;
+		}
+	}
+	
+	public String getCommonAudioPath() {
+		return COMMON_AUDIO_PATH;
 	}
 }

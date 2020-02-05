@@ -52,7 +52,11 @@ public class UserService extends BaseService<User, String> {
                 //String scdPassword = bCryptPasswordEncoder.encode(user.getScdPs());
                 
                 String password = standardPasswordEncoder.encode(user.getUserPs());
-                String scdPassword = standardPasswordEncoder.encode(user.getScdPs());
+                String scdPassword = null;
+                
+                if(isNotEmpty(user.getScdPs())) {
+                	scdPassword = standardPasswordEncoder.encode(user.getScdPs());
+                }
                 User originalUser = userRepository.findOne(user.getUserCd());
 
                 if (originalUser != null) {

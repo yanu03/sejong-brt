@@ -40,7 +40,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("차량목록.xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
@@ -190,8 +190,7 @@ fnObj.pageButtonView = axboot.viewExtend({
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
             "excel": function () {
-            	selectedRow = null;
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "new": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
@@ -210,6 +209,8 @@ fnObj.pageButtonView = axboot.viewExtend({
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             }
         });
+                
+        
     }
 });
 
@@ -249,23 +250,23 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
+            //sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                //{key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), width: 80},
-                {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcId"), width: 80},
-                {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 120},
-                {key: "corpNm", label: ADMIN("ax.admin.BM0103F0.corpId"), width: 120},
-                {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), width: 120},
-                {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 120},
-                {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), width: 120},
-                {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), width: 70},
-                {key: "vhcKindNm", label: ADMIN("ax.admin.BM0103F0.vhcKind"), width: 120},
-                {key: "vhcTypeNm", label: ADMIN("ax.admin.BM0103F0.vhcType"), width: 70},
-                {key: "lfYnNm", label: ADMIN("ax.admin.BM0103F0.lfYn"), width: 70},
-                {key: "vhcFuelNm", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), width: 70},
-                {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 70},
-                {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), width: 70},
+                {key: "vhcId",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.vhcId") + "</font>",	width: 65,	align: "center",		sortable: true},
+                {key: "vhcNo",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.vhcNo") + "</font>",	width: 90,							sortable: true},
+                {key: "chasNo", 	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.chasNo"),				width: 130},
+                {key: "corpNm",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.corpId"),				width: 120},
+                {key: "area",		label: ADMIN("ax.admin.BM0103F0.area"),											width: 80},
+                {key: "maker",		label: ADMIN("ax.admin.BM0103F0.maker"),										width: 80},
+                {key: "relsDate",	label: ADMIN("ax.admin.BM0103F0.relsDate"),										width: 80,	align: "center"},
+                {key: "modelNm",	label: ADMIN("ax.admin.BM0103F0.modelNm"),										width: 100},
+                {key: "vhcKindNm",	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.vhcKind") + "</font>",	width: 80},
+                {key: "vhcTypeNm",	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.vhcType") + "</font>",	width: 70},
+                {key: "lfYnNm",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.lfYn") + "</font>",		width: 70},
+                {key: "vhcFuelNm",	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.vhcFuel") + "</font>",	width: 50},
+                {key: "useYn",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.useYn") + "</font>",	width: 70},
+                {key: "remark",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0103F0.remark") + "</font>",	width: 100},
             ],
             body: {
                 onClick: function () {
@@ -326,7 +327,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].eplyId == id) {
+    		if(this.target.list[i].vhcId == id) {
     			this.selectRow(i);
     			break;
     		}

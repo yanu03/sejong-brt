@@ -30,7 +30,7 @@
         </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
-            <ax:split-panel width="600" style="padding-right: 10px;">
+            <ax:split-panel width="*" style="padding-right: 10px;">
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
@@ -44,7 +44,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="*" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="700" style="padding-left: 10px;" scroll="scroll">
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">

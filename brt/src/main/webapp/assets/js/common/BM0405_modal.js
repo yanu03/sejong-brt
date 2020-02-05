@@ -206,10 +206,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     TEST_PLAY_LIST: function(caller, act, data) {
     	var list = caller.gridView4.getData();
     	var playList = [];
-    	var url = "/api/v1/getMp3Test?";
+    	//var url = "/api/v1/getMp3Test?";
+    	var url = "/api/v1/filePreview?type=savedVoice&";
     	
     	for(var i = 0; i < list.length; i++) {
     		var params = list[i];
+    		
+    		if(params.isDeadline == "Y") {
+    			continue;
+    		}
     		
     		if(list[i].playType == "WAV") {
     			playList.push({
@@ -217,16 +222,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     			});
     		} else if(list[i].playType == "TTS") {
     			if(list[i].vocDiv == "CD025") {
-        			params["vocType"] = "KR";
+        			params["vocType"] = "K";
         			playList.push({
         				mp3: url + $.param(params)
         			});
-        			params["vocType"] = "EN";
+        			params["vocType"] = "E";
         			playList.push({
         				mp3: url + $.param(params)
         			});
         		} else {
-        			params["vocType"] = "KR";
+        			params["vocType"] = "K";
         			playList.push({
         				mp3: url + $.param(params)
         			});
@@ -236,6 +241,32 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
     	playListPlayer.setPlaylist(playList);
     	playListPlayer.play(0);
+    },
+    
+    G4_UP_ITEM: function(caller, act, data) {
+    	var row = caller.gridView4.getData("selected");
+    	var list = caller.gridView4.getData();
+    	
+    	if(row != null) {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"))
+    		return false;
+    	}
+    	
+    	list = arrayMove(list, row[0].__index, row[0].__index - 1);
+    	caller.gridView4.setData(list);
+    },
+    
+    G4_DOWN_ITEM: function(caller, act, data) {
+    	var row = caller.gridView4.getData("selected");
+    	var list = caller.gridView4.getData();
+    	
+    	if(row != null) {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"))
+    		return false;
+    	}
+    	
+    	list = arrayMove(list, row[0].__index, row[0].__index + 1);
+    	caller.gridView4.setData(list);
     }
 });
 
@@ -297,6 +328,12 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "deletePlayList": function() {
             	ACTIONS.dispatch(ACTIONS.DELETE_PLAY_LIST);
+            },
+            "upItem": function() {
+            	ACTIONS.dispatch(ACTIONS.G4_UP_ITEM);
+            },
+            "downItem": function() {
+            	ACTIONS.dispatch(ACTIONS.G4_DOWN_ITEM);
             },
             "test": function() {
             	ACTIONS.dispatch(ACTIONS.TEST_PLAY_LIST);
