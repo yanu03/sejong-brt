@@ -44,7 +44,8 @@
 	                </div>
 	                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
 	            </ax:split-panel>
-	             <ax:form name="searchView1" style="padding-right:20px">
+	            
+	            <ax:form name="searchView1" style="padding-right:20px">
 	                <ax:tbl clazz="ax-search-tbl" minWidth="500px">
 	                    <ax:tr>
 	                        <ax:td label='ax.admin.search' width="400px">

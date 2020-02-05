@@ -9,6 +9,8 @@
 		    , VIDEO.CON_ID
 		    , CONTRACT.CON_NM
 		    , FILE_TYPE
+            , DL_CD.DL_CD_NM AS FILE_TYPE_NM
+            , CONCAT(VDO_ID, ".", DL_CD.TXT_VAL1) AS FILE_NAME
 		    , IMG_PLAY_TM
 		    , PLAY_TM
 		    , PLAY_ST_DATE
@@ -21,8 +23,10 @@
 		FROM
 			BM_VDO_INFO VIDEO
 		    LEFT JOIN BM_CON_INFO CONTRACT
-		    ON
-		    VIDEO.CON_ID = CONTRACT.CON_ID
+		    ON VIDEO.CON_ID = CONTRACT.CON_ID
+            
+            LEFT JOIN SM_DL_CD_INFO DL_CD
+            ON VIDEO.FILE_TYPE = DL_CD.DL_CD
 		<where>
 	    	<if test="value != null">
 				VDO_ID LIKE CONCAT('%', #{value}, '%')
@@ -31,6 +35,8 @@
 				OR FILE_TYPE LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     	</where>
+    	
+    	ORDER BY VDO_ID
 	</select>
 	
 	<insert id="BM0605F0I0" parameterType="VideoInfoVO">

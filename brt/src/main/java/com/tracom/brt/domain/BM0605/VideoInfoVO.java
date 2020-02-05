@@ -20,6 +20,8 @@ public class VideoInfoVO extends BaseVO {
 		private String conNm;
 		
 		private String fileType;
+		
+		private String fileTypeNm;
 	 
 		private int imgPlayTm;
 	 
@@ -34,4 +36,6 @@ public class VideoInfoVO extends BaseVO {
 		private String remark;
 	 	
 		private MultipartFile vdoFile;
+		
+		private String fileName;
 }

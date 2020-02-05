@@ -160,15 +160,12 @@ public class FileService {
 		String vdoId	= requestParams.getString("vdoId");
 		String path 	= null;
 		File file		= null;
-		System.out.println(fileType);
 		switch(fileType) {
 		case "AV001" :
-			path	= handler.getRootLocalPath() + "/common/video/" + vdoId + ".mp4";
-			System.out.println(path);
+			path = handler.getRootLocalPath() + "/common/video/" + vdoId + ".mp4";
 			break;
 		case "AV002" :
-			path	= handler.getRootLocalPath() + "/common/video/" + vdoId + ".jpg";
-			System.out.println(path);
+			path = handler.getRootLocalPath() + "/common/video/" + vdoId + ".jpg";
 			break;
 		}
 		
