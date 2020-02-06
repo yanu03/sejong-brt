@@ -57,11 +57,6 @@ public class BM0104Controller extends BaseController {
     /** 상하행구분 수정 **/
     @PostMapping("/BM0104G0U1")
     public ApiResponse BM0104G0U1(@RequestBody List<BmRoutInfoVO> requestParams) {
-    	System.out.println("----test-----");
-    	for(BmRoutInfoVO vo : requestParams) {
-    		System.out.println(vo);
-    	}
-    	//return ok(service.BM0104G0U1(requestParams));
     	return ok(service.BM0104G0U1(requestParams));
     }
 }

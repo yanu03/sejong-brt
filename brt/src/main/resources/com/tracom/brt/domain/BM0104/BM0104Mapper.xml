@@ -10,6 +10,7 @@
 		    , ROUT_NM
 		    , SHORT_ROUT_NM
 		    , WAY_INFO
+		    , DIR_INFO
 		    , WAY_DIV
 		    , CD.DL_CD_NM AS WAY_DIV_NM
 		    <!-- 

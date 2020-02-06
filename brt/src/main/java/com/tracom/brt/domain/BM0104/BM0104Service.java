@@ -110,9 +110,7 @@ public class BM0104Service extends BaseService<BmRoutInfoVO, String> {
     public String BM0104G0U1(List<BmRoutInfoVO> voList) {
     	BmRoutInfoVO updateVO = new BmRoutInfoVO();
     	updateVO.setVoList(voList);
-    	System.out.println(updateVO);
     	int result = mapper.BM0104G0U1(updateVO);
-    	System.out.println(result);
     	return String.valueOf(result);
     }
 }
