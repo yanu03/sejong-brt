@@ -47,7 +47,7 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
         return mapper_107.BM0107G1S0(map);
     }
     
-    public int BM0106G1D1(BmRoutInfoVO request) {
+    public int BM0107G1D1(BmRoutNodeInfoVO request) {
     	return mapper_107.BM0107G1D1(request);
     }
     

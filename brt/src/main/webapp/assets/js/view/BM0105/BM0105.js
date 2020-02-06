@@ -110,7 +110,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 					msg += list[i].routNm + "(" + list[i].routId + ")\n"
 				}
 				
-				msg += "------------------\n다음 노선의 정류장을 갱신합니다. 진행하시겠습니까?";
+				msg += "------------------\n정류장을 갱신합니다. 진행하시겠습니까?";
 				
 				if(confirm(msg) == true){
 					
@@ -250,9 +250,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 				{key: "shortRoutNm",	label: ADMIN("ax.admin.BM0104G0.shortRoutNm"),	width: 160},
 				{key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),		width: 160},
 				{key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),		width: 160},
-				{key: "wayDiv",			label: ADMIN("ax.admin.BM0104G0.wayDiv"),		width: 140},
+				{key: "wayDivNm",			label: ADMIN("ax.admin.BM0104G0.wayDiv"),		width: 140},
 				{key: "userWayDiv",		label: ADMIN("ax.admin.BM0104G0.userWayDiv"),	width: 140},
-				{key: "turnDiv",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),		width: 100},
+				//{key: "turnDiv",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),		width: 100},
 				{key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),	width: 180},
 				],
 				body: {

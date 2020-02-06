@@ -22,5 +22,5 @@ public interface BM0107Mapper extends MyBatisMapper {
 	
 	List<BmRoutNodeInfoVO> BM0107G4S0(BmRoutInfoVO vo);
 	
-	int BM0107G1D1(BmRoutInfoVO vo);
+	int BM0107G1D1(BmRoutNodeInfoVO vo);
 }

@@ -7,24 +7,38 @@
 		SELECT
     		  EPLY_ID
     		, EPLY_NM
-    		, PHONE
-            , (SELECT DL_CD_NM FROM SM_DL_CD_INFO WHERE CO_CD = 'BUS_DIV' AND DL_CD = BUS_DIV) AS BUS_DIV
+    		, INFO.PHONE
+            , INFO.BUS_DIV
+            , DLCD.DL_CD_NM AS BUS_DIV_NM
     		, RETIRE_YN
+            , DLCD2.DL_CD_NM AS RETIRE_YN_NM
     		, EPLY_DATE1
     		, EPLY_DATE2
     		, LICEN_NO
     		, CERTI_DATE
     		, ATT_FILE
-    		, REMARK
-    		, CORP_ID
+    		, INFO.REMARK
+    		, INFO.CORP_ID
+            , CORP.CORP_NM AS CORP_NM
+            
     	FROM
-    		BM_EPLY_INFO
+    		BM_EPLY_INFO INFO
+            LEFT JOIN SM_DL_CD_INFO DLCD
+			ON INFO.BUS_DIV = DLCD.DL_CD
+            
+            LEFT JOIN BM_CORP_INFO CORP
+            ON INFO.CORP_ID = CORP.CORP_ID
+            
+            LEFT JOIN (SELECT * FROM SM_DL_CD_INFO WHERE CO_CD = 'RETIRE_YN') DLCD2
+            ON INFO.RETIRE_YN = DLCD2.TXT_VAL1
     	<where>
 	    	<if test="value != null">
 				EPLY_ID LIKE CONCAT('%', #{value}, '%')
 				OR EPLY_NM LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     	</where>
+    	
+    	ORDER BY EPLY_ID
     </select>
     
     <insert id="BM0108F0I0" parameterType="eplyInfoVo">

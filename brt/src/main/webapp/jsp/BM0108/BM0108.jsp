@@ -83,10 +83,7 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.busDiv" width="300px" labelClazz="required">
-                    			<ax:common-code groupCd="BUS_DIV" name="busDiv" dataPath="busDiv" clazz="form-control" />
-                    		</ax:td>
-                    		<ax:td label="ax.admin.BM0108F0.retireYn" width="300px" labelClazz="required">
-                    			<ax:common-code groupCd="RETIRE_YN" name="retireYn" dataPath="retireYn" clazz="form-control" type="radio"/>
+                    			<ax:SM0105 groupCd="BUS_DIV" name="busDiv" dataPath="busDiv" clazz="form-control" />
                     		</ax:td>
                     	</ax:tr>
                     	
@@ -133,8 +130,14 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0108F0.remark" width="300px">
-                    			<input type="text" maxlength="100" name="remark" data-ax-path="remark" data-key="true" class="form-control"/>
+                      		<ax:td label="ax.admin.BM0108F0.retireYn" width="300px" labelClazz="required">
+                    			<ax:common-code groupCd="RETIRE_YN" name="retireYn" dataPath="retireYn" clazz="form-control" type="radio"/>
+                    		</ax:td>
+                    	</ax:tr>
+                    	
+                    	<ax:tr>
+                    		<ax:td label="ax.admin.BM0108F0.remark" width="100%">
+                    			<textarea maxlength="200" name="remark" data-ax-path="remark" data-key="true" class="form-control"></textarea>
                     		</ax:td>
                     	</ax:tr>
                     	 

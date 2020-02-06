@@ -46,8 +46,8 @@
 
 
       <ax:split-layout name="ax1" orientation="vertical">
-	        <ax:split-panel width="400" style="height:800px;">
-	            <ax:split-panel width="400"
+	        <ax:split-panel width="*" style="height:800px;">
+	            <ax:split-panel width="100%"
 					style="height:400px; padding-right: 10px;">
 	                <!-- 목록 -->
 	                <div class="ax-button-group"
@@ -121,10 +121,10 @@
 	        
             <ax:splitter></ax:splitter>
             
-            <ax:split-panel width="*" height="100%" style="padding-left: 10px; padding-bottom:40px" scroll="">
+            <ax:split-panel width="700" height="100%" style="padding-left: 10px; padding-bottom:40px" scroll="">
             
-			
 	            <ax:split-panel width="200" style="margin-right: 30px;">
+				<!-- 
 	            	<div class="ax-button-group">
 		            	<div class="left">
 				            <h3>
@@ -138,13 +138,33 @@
 				            </h3>
 			            </div>
 		            </div>
+				 -->
+					<div class="ax-button-group">
+						 <div class="right">
+						 <!-- 
+						 	<button type="button" class="btn btn-default" data-page-btn="previewItem">
+			            		미리보기
+			            	</button>
+						  -->
+				            <button type="button" class="btn btn-default" data-page-btn="upItem">
+			            		↑
+			            	</button>
+			            	
+			            	<button type="button" class="btn btn-default" data-page-btn="downItem">
+			            		↓
+			            	</button>
+			            </div>
+					</div>
 				</ax:split-panel>
 	            
 	            
-	            
-				<div style="float:left;" id="jsGrid1"></div>   
+	            <div data-ax5grid="gridView1"
+						data-fit-height-content="gridView1" style="width: 300px; float:left;"></div>
+						<!-- 
+				<div style="float:left; background:white; border:0px solid black" id="jsGrid1"></div>   
+						 -->
 				     
-            	<div style="float:left; width: 50px; margin-left: 10px;">
+            	<div style="float:left; width: 50px; margin-left: 10px; margin-right: 10px;">
 	            	<button type="button" class="btn btn-default" style="width: 100%; margin-bottom: 10px;" data-page-btn="addPlayList">
 	            		>
 	            	</button>
@@ -155,7 +175,8 @@
             	</div>
             
             	
-            	<div style="float:left;" id="jsGrid2"></div>
+            	<div data-ax5grid="gridView2"
+						data-fit-height-content="gridView2" style="width: 300px; float:left;"></div>
 
             </ax:split-panel>
 			

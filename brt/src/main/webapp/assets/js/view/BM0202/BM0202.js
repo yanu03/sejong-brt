@@ -188,6 +188,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		axboot.modal.open({
     			modalType: "BM0202",
     			param: "",
+    			header: false,
     			sendData : function (){
     				return {
     					"dvcId" : formDataDvcId,
