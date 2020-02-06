@@ -15,6 +15,7 @@ import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.code.ApiStatus;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
+import com.tracom.brt.domain.BM0103.VHCInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 import com.tracom.brt.domain.BM0107.BM0107Service;
@@ -59,5 +60,11 @@ public class BM0107Controller extends BaseController {
     	}
     }
     
+    @PostMapping("/BM0107G1D1")
+    public ApiResponse BM0107G1D1(@RequestBody BmRoutNodeInfoVO request) {
+    	System.out.println(request);
+    	//service.BM0107G1D1(request);
+    	return ok();
+    }
 
 }

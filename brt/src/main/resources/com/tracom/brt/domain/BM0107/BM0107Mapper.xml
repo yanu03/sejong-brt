@@ -216,4 +216,16 @@
 		WHERE
 			ROUT_ID = #{routId}
  	</select>
+ 	
+ 	
+ 	<delete id="BM0107G1D1" parameterType="bmRoutInfoVO">
+ 		DELETE
+			
+		FROM
+			BM_ROUT_NODE_INFO
+		WHERE
+			ROUT_ID = #{routId}
+		    AND
+		    NODE_ID = #{nodeId}
+ 	</delete>
 </mapper>

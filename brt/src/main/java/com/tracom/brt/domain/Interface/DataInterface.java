@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -43,6 +44,9 @@ public class DataInterface {
 	
 	//공공데이터포털 노선검색 KEY
 	public String KEY_CODE_OPENAPI_ROUT = "KA001";
+	
+	@Inject
+	InsertNode calc;
 	
 	//교통정보시스템 노선검색 URL
 	
@@ -149,6 +153,51 @@ public class DataInterface {
 			i++;
 		}
 		return result;
+		
+		/** 60미터 제외 **/
+		//return generalNode(result);
+		
+	}
+	
+	public List<BmRoutNodeInfoVO> generalNode(List<BmRoutNodeInfoVO> nodeList){
+		double tmp = 0;
+		List<BmRoutNodeInfoVO> voList = new ArrayList<>();
+		List<BmRoutNodeInfoVO> resultList = new ArrayList<>();
+		
+		for(int i=0; i<nodeList.size()-1; i++) {
+			if(i == 0) {
+				voList.add(nodeList.get(i));
+			}
+			
+			if(i == nodeList.size() - 2) {
+				voList.add(nodeList.get(nodeList.size()-1));
+				break;
+			}
+			
+			float lati1		= nodeList.get(i).getLati();
+			float longi1	= nodeList.get(i).getLongi();
+			float lati2		= nodeList.get(i+1).getLati();
+			float longi2	= nodeList.get(i+1).getLongi();
+			
+			double dist = calc.getDistanceBetween(longi1, lati1, longi2, lati2);
+			
+			//거리가 60이하인경우
+			if(tmp + dist <= 60) {
+				tmp += dist;
+			}
+			else if(tmp + dist > 60) {
+				tmp = 0;
+				voList.add(nodeList.get(i+1));
+			}
+		}
+		
+		
+		for(int i=0; i<voList.size(); i++) {
+			voList.get(i).setSeq((i+1) * 100);
+		}
+		
+
+		return voList;
 	}
 	
 	public BmRoutInfoVO parseJson_RouteInfo(String jsonString) {

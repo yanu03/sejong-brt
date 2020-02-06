@@ -46,39 +46,37 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		return false;
     	}
     	
+    	if(grid.list[grid.selectedDataIndexs].nodeType == 1){
+    		alert("정류장은 삭제할 수 없습니다");
+    		return false;
+    	}
     	if(confirm("삭제 후에는 되돌릴수 없습니다. 정말 삭제하시겠습니까?") == true){    //확인
+    		//노드 삭제
     		console.log(grid.selectedDataIndexs[0]);
     		
+    		axboot.promise()
+			.then(function (ok, fail, data) {
+				axboot.ajax({
+					type: "POST",
+					url: "/api/v1/BM0107G1D1",
+					data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+					callback: function (res) {
+						ok(res);
+					}
+				});
+			})
+			.then(function (ok) {
+				axToast.push(LANG("ondelete"));
+				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+			})
+			.catch(function () {
+			});
+    		
+    		
     	}else{
-    		console.log(grid);
+    		
     	}
-    	/*
-    	axDialog.confirm({
-            msg: LANG("ax.script.deleteconfirm")
-        }, function() {
-            if (this.key == "ok") {
-            	axboot.promise()
-                .then(function (ok, fail, data) {
-	            	axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/test",
-	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
-	                    callback: function (res) {
-	                        ok(res);
-	                    }
-	                });
-                })
-                .then(function (ok) {
-                	//caller.formView0.clear();
-                	axToast.push(LANG("ondelete"));
-                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-            }
-        });
-    	 * */
+    	
     },
     
     
@@ -97,7 +95,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     ITEM_CLICK_G1: function (caller, act, data) {
     	selectedRow = data;
-        mapMarker(data.lati, data.longi);
+        //mapMarker(data.lati, data.longi);
+    	moveMap(data.lati, data.longi);
     },
    
     INTERFACE_ROUTE: function(caller, act, data){
@@ -122,6 +121,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 					callback: function (res) {
 						if(res.status == 0){
 							alert('갱신 성공');
+							ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 						}else{
 							alert('갱신 실패');
 						}
@@ -436,47 +436,11 @@ function searchGrid1(caller, act, data){
         callback: function (res) {
         	caller.gridView1.setData(res);
         	removeAllPopUp();
-        	
-        	/*
-        	var y_arr	= [];
-        	var x_arr	= [];
-            var id_arr	= [];
-            
-            var staYArr	= [];
-            var staXArr = [];
-            var staIdArr	= [];
-        	for(var i=0; i < res.list.length; i++){
-            	x_arr.push(res.list[i].longi);
-            	y_arr.push(res.list[i].lati);
-            	id_arr.push(res.list[i].nodeId);
-            	//if(res.list[i].staId != null){
-            		staYArr.push(res.list[i].lati);
-            		staXArr.push(res.list[i].longi);
-            		staIdArr.push(res.list[i].nodeId);
-            		//popUp(res.list[i].lati, res.list[i].longi, res.list[i].seq + "," + res.list[i].nodeNm);
-            	//}
-        	}
-        	if(y_arr.length != 0){
-	        	drawLine(y_arr, x_arr);
-	        	addMarkers(staYArr, staXArr, staIdArr);
-        	}
-            if(res.list.length == 0) {
-            } else {
-            	if(dataFlag) {
-                	caller.gridView1.selectIdRow(data);
-                } else {
-	                if(selectedRow != null) {
-	                	caller.gridView1.selectRow(selectedRow.__index);
-	                } else {
-	                	caller.gridView1.selectFirstRow();
-	                }
-                }
-            }
-        	 * */
+
         	/**추가한거**/
-            
             if(res.list != null && res.list.length != 0) {
             	routeData = res.list.slice();
+            	caller.gridView1.selectRow(0);
             } else {
             	routeData = [];
             }
@@ -498,54 +462,23 @@ function drawRoute(list) {
 	
 	if(list != null && list.length != 0) {
 		for(var i = 0; i < list.length; i++) {
+			if(list[i].seq == 0){
+				continue;
+			}
 			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
 			
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
-			if(list[i].nodeType == busstopNodeType || list[i].nodeType == orgaNodeType) {
+			if(list[i].nodeType == '1' || list[i].nodeType == '898') {
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				
-				
-				if(list[i].nodeType == orgaNodeType && list[i].allPlayTm != null && list[i].allPlayTm != 0) {
-					if(list[i].nodeType == orgaNodeType) {
-						var radius = Math.round((limitSpeed / 3600 * 1000) * list[i].allPlayTm);
-						
-						circles.push(getDrawingCircle(list[i].lati, list[i].longi, radius));
-					}
-					
-					list[i].click = function(e) {
-						var point = e.marker.getPosition();
-						var node = $.extend(true, {}, routeData[e.index]);
-						
-						routeData.splice(e.index, 1);
-						
-						var val = returnInsertRouteInfo(point.lat(), point.lng());
-						
-						if(val) {
-							var temp = {
-								orgaId: e.nodeId,
-								lati: point.lat(),
-								longi: point.lng(),
-								seq: val.seq
-							};
-							
-							temp = $.extend(true, node, temp);
-							
-							routeData.splice(val.index, 0, temp);
-							
-							ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
-							ACTIONS.dispatch(ACTIONS.OPEN_BM0405, temp);
-						} else {
-							axDialog.alert("선택할 수 없는 좌표입니다.");
-						}
-					};
-					list[i].index = i;
-					list[i].icon = orgaIcon;
-					list[i].draggable = true;
-				}
-				
 				addMarker(list[i]);
 			}
-			// 아닐 경우(일반 노드) 네모 박스 표시
+			// 일반 노드인 경우
+			else if(list[i].nodeType == '30'){
+				list[i].icon = "/assets/images/tmap/road_trans.png";
+				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeId + "</span>";
+				addMarkerInter(list[i], fnObj.gridView1, i);
+			}
+			// 아닐 경우(무슨노드?) 네모 박스 표시
 			else {
 				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
 			}
