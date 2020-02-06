@@ -90,7 +90,7 @@
             },
            "BM0202": {
             	width: 400,
-            	height: 450,
+            	height: 500,
             	iframe: {
             		url: "/jsp/common/BM0202_modal.jsp"
             	}

@@ -57,6 +57,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         var data = {};
         data.upList = list;
         data.rsvDate = listRsv;
+        console.log("data입니다");
+        console.log(data);
         
     	if(list.length > 0){
 	            axboot.ajax({

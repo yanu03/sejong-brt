@@ -47,13 +47,13 @@
    			AND SUBSTRING_INDEX(DH.APLY_DATE,"-",2) &lt;= #{filter}
 	</select>
 	
-	<select id="BM0202M0S0" parameterType="dvcHistoryVO" resultType="String">
+	<select id="BM0202M0S0" parameterType="String" resultType="dvcHistoryVO">
 			SELECT
 				WORK_TYPE
 			FROM
 				BM_DVC_HIST
 			WHERE
-				DVC_ID = "DV01001"
+				DVC_ID = #{dvcId}
 			GROUP BY WORK_TYPE LIMIT 1
 	</select>
 	

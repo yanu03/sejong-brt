@@ -123,19 +123,17 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
             frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
-            
             	 columns: [
-            		 {key: "dvcId", label: ADMIN("ax.admin.BM0204G0.obeid"), width: 100},
-            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), width: 100},
-                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), width: 150},
-                     {key: "corpId", label: ADMIN("ax.admin.BM0103F0.corpId"), width: 150},
-                     {key: "gps", label: ADMIN("ax.admin.BM0204G0.gps"), width: 150},
-                     {key: "lati", label: ADMIN("ax.admin.BM0204G0.lati"), width: 150},
-                     {key: "longi", label: ADMIN("ax.admin.BM0204G0.longi"), width: 150},
-                     {key: "spd", label: ADMIN("ax.admin.BM0204G0.spd"), width: 150},
-                     {key: "heading", label: ADMIN("ax.admin.BM0204G0.heading"), width: 150},
+            		 {key: "dvcId", label: ADMIN("ax.admin.BM0204G0.obeid"), align:"center" , sortable: true, width: 100},
+            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), align:"center" , width: 100},
+                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center" , sortable: true, width: 150},
+                     {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), align:"center" , width: 150},
+                     {key: "gps", label: ADMIN("ax.admin.BM0204G0.gps"), align:"center" , width: 100},
+                     {key: "lati", label: ADMIN("ax.admin.BM0204G0.lati"), align:"right", width: 100},
+                     {key: "longi", label: ADMIN("ax.admin.BM0204G0.longi"), align:"right", width: 100},
+                     {key: "spd", label: ADMIN("ax.admin.BM0204G0.spd"), align:"right", width: 100},
+                     {key: "heading", label: ADMIN("ax.admin.BM0204G0.heading"), align:"right", width: 100},
                      {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 300},
                  ],
             

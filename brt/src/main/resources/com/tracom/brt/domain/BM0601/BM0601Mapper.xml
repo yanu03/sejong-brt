@@ -55,6 +55,15 @@
     	</where>		  
 		 GROUP BY NOTI_DT DESC  		   	     
 	</select>
+	
+	<select id="BM0601F0S2" resultType="weatAtmoVO" parameterType="String">
+	SELECT
+		   NOTI_DT
+	FROM
+		BM_WEAT_INFO
+ 	GROUP BY NOTI_DT DESC LIMIT 1
+	</select>
+	
 	<select id="BM0601G1S1" resultType="weatAtmoVO" parameterType="String">
 		SELECT
 		   MEAS_DT

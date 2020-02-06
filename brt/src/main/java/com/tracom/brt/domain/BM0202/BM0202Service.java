@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
+import com.tracom.brt.domain.SM0105.CommonCodeDetailInfoVO;
+import com.tracom.brt.domain.SM0105.SM0105Mapper;
 
 
 @Service
@@ -17,6 +19,9 @@ public class BM0202Service extends BaseService<DvcHistoryVO, String>{
 
 	@Inject
 	private BM0202Mapper mapper;
+	
+	@Inject
+	private SM0105Mapper mapper_0105;
 	
 	public List<DvcHistoryVO> BM0202G2S0(RequestParams<DvcHistoryVO> requestParams){
 		return mapper.BM0202G2S0(requestParams.getString("dvcId"));
@@ -49,18 +54,19 @@ public class BM0202Service extends BaseService<DvcHistoryVO, String>{
     }
 
 	public boolean BM0202M0S0(DvcHistoryVO vo) {
-		String dvcVo = vo.getWorkType();
-		System.out.println(dvcVo);
-		System.out.println(vo);
-		mapper.BM0202M0S0(vo);
-		System.out.println(vo.getWorkType());
-		if(dvcVo != vo.getWorkType()) {
+		if(mapper.BM0202M0S0(vo.getDvcId()) == null && vo.getWorkType().equals("CD022")) {
 			System.out.println("최초설치없습니다.");
     		return true;
-    	}else {
-    		System.out.println("최초설치있습니다.");
+    	}else if(mapper.BM0202M0S0(vo.getDvcId()) == null && vo.getWorkType() != "CD022"){
+    		System.out.println("최초설치 없지만 워크타입 최초설치 아닌녀석들");
     		return false;
+    	}else if(vo.getWorkType().equals("CD022")) {
+    			System.out.println("최초설치있습니다.");
+    			return false;   			
+    		}else{
+    			System.out.println("나머지 친구들 인설트");
+    			return true;
+    		}
     	}  	
 	}
 
-}

@@ -25,7 +25,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     	url : "/api/v1/BM0604G0S1",
                     	data : filter,
                     	callback : function(resOne){
-                    		if(res.list[0] != null){
+                    		if(res.list[0] != null || typeof res.list[0] == "undefined"){
                     			for(var i = 0; i<res.list.length; i++){
                     				res.list[i].newsTitle = res.list[i].newsContents;
                     			}
@@ -34,6 +34,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     			res.list[i] = resOne.list[i-plusRes];
                     			}
                     		caller.gridView0.setData(res);
+                    		}else{
+                    			caller.gridView0.setData(resOne);
                     		}
                             	if(dataFlag) {
                             		console.log(dataFlag);
@@ -53,16 +55,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 	data : filter,
                 	callback : function(res){
                 		caller.gridView1.setData(res);
-
-                        	if(dataFlag) {
-        	                	caller.gridView0.selectIdRow(data);
-        	                } else {
-        		                if(selectedRowG1 != null) {
-        		                	caller.gridView1.selectRow(selectedRow.__index);
-        		                } else {
-        		                	caller.gridView1.selectFirstRow();
-        		                }
-        	                }
                 	}
                 })
             }
@@ -76,31 +68,40 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-    		isUpdate = false;  	
-    			if (caller.formView0.validate()) {
+    			isUpdate = false;  	
     				var list = caller.gridView0.getData();
     				var checkData = {};
-    				checkData.upList = list;   				
-    				axboot.promise()
-    				.then(function (ok, fail, data) {
-    					axboot.ajax({
-    						type: "POST",
-    						url: "/api/v1/BM0603F0U0",
-    						data: JSON.stringify(checkData),
-    						callback: function (res) {
-    							ok(res);
-    						}
-    					});
-    				})
-    				.then(function (ok, fail, data) {
-    					axToast.push(LANG("onupdate"));
-    					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-    					isUpdate = true;
-    				})
-    				.catch(function () {
-    					
-    				});
-    			}   		
+    				var useYnCount = 0;
+    				
+    				for(var i = 0; i<list.length; i++){
+    					if(list[i].useYn == "true"){
+    						useYnCount++;
+    					}
+    				}
+    				checkData.upList = list; 
+    				if(useYnCount < 20){
+    					axboot.promise()
+    					.then(function (ok, fail, data) {
+    						axboot.ajax({
+    							type: "POST",
+    							url: "/api/v1/BM0604F0U0",
+    							data: JSON.stringify(checkData),
+    							callback: function (res) {
+    								ok(res);
+    							}
+    						});
+    					})
+    					.then(function (ok, fail, data) {
+    						axToast.push(LANG("onupdate"));
+    						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    						isUpdate = true;
+    					})
+    					.catch(function () {
+    						
+    					});   					
+    				}else{
+    					axDialog.alert(LANG("ax.script.alert.usecheck"));
+    				}
     },    
     // 탭닫기
     PAGE_CLOSE: function(caller, act, data) {
@@ -142,7 +143,7 @@ fnObj.pageButtonView = axboot.viewExtend({
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },                     
             "save": function () {
-            	console.log("저장");
+            	console.log("저장입니다.");
             	ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
             },
             "close": function() {
@@ -192,8 +193,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             	{key: "useYn",  label: ADMIN("ax.admin.BM0602G0.useyn"), sortable: true, editor:{type:"checkbox"}, width: 70},
                 {key: "category", label: ADMIN("ax.admin.BM0603G0.category"), sortable: true,  width: 80},
                 {key: "provNm", label: ADMIN("ax.admin.BM0604G0.provnm"), sortable: true,  width: 100},
-                {key: "newsTitle", label: ADMIN("ax.admin.BM0603G0.newstitle"), sortable: true, width: 500},
-                {key: "pubDt", label: ADMIN("ax.admin.BM0604G0.pubdate"), width: 150},
+                {key: "newsTitle", label: ADMIN("ax.admin.BM0603G0.newstitle"), width: 500},
+                {key: "pubDt", label: ADMIN("ax.admin.BM0604G0.pubdate"), sortable: true, width: 150},
                 {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 300},
             ],
             body: {

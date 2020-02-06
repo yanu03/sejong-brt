@@ -29,6 +29,7 @@
 			, PUB_DT
 			, USE_YN
 			, RENEW_DATE
+			, SEQ
 	     FROM
 		      BM_NEWS
 		 <where>
@@ -53,4 +54,35 @@
 		WHERE
 			LG.ATTR_ID = 1;			
 	</select>
+	<update id="BM0604F0U0" parameterType="newsVO">
+		UPDATE BM_NEWS
+		SET		
+			CATEGORY    =   #{category}
+		  , PROV_NM     =   #{provNm}
+		  , NEWS_TITLE  =   #{newsTitle}
+		  , PUB_DT      =   #{pubDt}
+		  , USE_YN      =   #{useYn}
+		  , RENEW_DATE  =   #{renewDate}
+		  , UPDATED_AT	=	#{updatedAt}
+    	  , UPDATED_BY	=	#{updatedBy}
+    	  , UPDATED_IP	=	#{updatedIp}
+		WHERE
+			SEQ = #{seq}
+	</update>
+	
+	<update id="BM0604F0U1" parameterType="newsVO">
+		UPDATE BM_NEWS_USER_SET
+		SET		
+			USER_NEWS_ID     =   #{userNewsId}
+		  , REMARK     	  	 =   #{remark}
+		  , USE_YN      	 =   #{useYn}
+		  , CATEGORY    	 =   #{category}
+		  , PROV_NM     	 =   #{provNm}
+		  , PUB_DT      	 =   #{pubDt}
+		  , UPDATED_AT		 =	 #{updatedAt}
+    	  , UPDATED_BY		 =	 #{updatedBy}
+    	  , UPDATED_IP		 =	 #{updatedIp}
+		WHERE
+			USER_NEWS_ID     =   #{userNewsId}
+	</update>
 </mapper>

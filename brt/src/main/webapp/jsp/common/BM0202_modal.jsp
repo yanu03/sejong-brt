@@ -36,18 +36,18 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                     
 						<ax:tr>
-							<ax:td label="ax.admin.BM0201F0.dvcid" width="300px" labelClazz="required">
+							<ax:td label="ax.admin.BM0201F0.dvcid" width="200px" labelClazz="required">
 	     					 	<input type="text" id="dvcId" data-ax-path="dvcId" data-key="true" class="form-control" readonly="readonly">
                     		</ax:td>
 						</ax:tr>                    
                      	<ax:tr>
-							<ax:td label="ax.admin.BM0201F0.dvckind" width="300px" >
+							<ax:td label="ax.admin.BM0201F0.dvckind" width="200px" >
 								<input type="text" id="dvcKind" data-ax-path="dvcKind" data-key="true" class="form-control" readonly="readonly">
 							</ax:td>							                 
                     	</ax:tr>                                 
                         
                         <ax:tr>
-                           	<ax:td label='ax.admin.BM0201M0.aplydate' width="300px" labelClazz="required">
+                           	<ax:td label='ax.admin.BM0201M0.aplydate' width="250px" labelClazz="required">
                             <div class="input-group" data-ax5picker="date">
                                 <input type="text" class="form-control" data-ax-path="aplyDate" data-ax5formatter="date" title="<ax:lang id="ax.admin.BM0201M0.aplydate"/>" placeholder="yyyy/mm/dd" data-ax-validate="required" />
                                 <span class="input-group-addon"><i class="cqc-calendar"></i></span>
@@ -56,32 +56,32 @@
                         </ax:tr>
                  
                      <ax:tr>
-                          <ax:td label="ax.admin.BM0201M0.devserialno" width="300px" >
+                          <ax:td label="ax.admin.BM0201M0.devserialno" width="250px" >
 								<input type="text" id="devSerialNo" data-ax-path="devSerialNo" data-key="true" class="form-control">
 						  </ax:td>                     
                      </ax:tr>                       	
                         
                         <ax:tr>
-                        	<ax:td label="ax.admin.BM0201M0.modelnm" width="300px" >
+                        	<ax:td label="ax.admin.BM0201M0.modelnm" width="250px" >
 								<input type="text" id="modelNm" data-ax-path="modelNm" data-key="true" class="form-control">
 						 	</ax:td>                        
                        	</ax:tr>
                        	
                        	<ax:tr>
-                    		<ax:td label="ax.admin.BM0201M0.worktype" width="300px" labelClazz="required">
-                            	<ax:common-code groupCd="WORK_TYPE" dataPath="workType" clazz="form-control"/>
+                    		<ax:td label="ax.admin.BM0201M0.worktype" width="250px" labelClazz="required">
+                    			<ax:SM0105 groupCd="WORK_TYPE" id="workType" name="workType" dataPath="workType" clazz="form-control"/>
                             </ax:td>
 						</ax:tr>
 						
 						<ax:tr>
-							<ax:td label="ax.admin.BM0201M0.workamt" width="300px">
-                            	<input type="text" data-ax-path="workAmt" class="form-control" data-ax5formatter="money"/>
+							<ax:td label="ax.admin.BM0201M0.workamt" width="250px">
+                            	<input type="text" id="workAmt" data-ax-path="workAmt" class="form-control" data-ax5formatter="money" style="align-self: center"/>
                             </ax:td>
 						</ax:tr>                                             	
         
                        	<ax:tr>
                        		<ax:td label="ax.admin.BM0301F0.remark" width="100%">
-                            	<input type="text" data-ax-path="remark" class="form-control"/>
+                       			<textarea data-ax-path="remark" class="form-control" style="height: 100px;"></textarea>
                             </ax:td>
                        	</ax:tr>
                        	                    

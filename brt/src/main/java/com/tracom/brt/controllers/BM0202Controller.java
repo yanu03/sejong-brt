@@ -60,10 +60,8 @@ public class BM0202Controller extends BaseController{
 	
 	@PostMapping("/BM0202M0S0")
 	public ApiResponse BM0202M0S0(@RequestBody DvcHistoryVO request) {
-		System.out.println("컨트롤러입니다");
-		System.out.println(request);
-		service.BM0202M0S0(request);
-		return ok();
+		boolean workTypeCheck = service.BM0202M0S0(request);
+    	return ok(Boolean.toString(workTypeCheck));
 	}
 	
 }
