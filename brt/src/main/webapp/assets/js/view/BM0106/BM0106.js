@@ -240,7 +240,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             //sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "staId",	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0106F0.staId") + "</font>",	width: 80,	sortable: true,	align: "center"},
+                {key: "staId",	label: "<font color=BF360C>" + ADMIN("ax.admin.BM0106F0.staId") + "</font>",	width: 80,	sortable: true,	align: "center"},
                 {key: "staNm",	label: ADMIN("ax.admin.BM0106F0.staNm"),	width: 120},
                 {key: "krNm",	label: ADMIN("ax.admin.BM0106F0.krNm"),		width: 120},
                 {key: "enNm",	label: ADMIN("ax.admin.BM0106F0.enNm"),		width: 120},

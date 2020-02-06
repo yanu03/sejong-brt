@@ -31,7 +31,7 @@
 
 
         <ax:split-layout name="ax1" orientation="vertical">
-            <ax:split-panel width="500" style="padding-right: 10px;">
+            <ax:split-panel width="*" style="padding-right: 10px;">
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
@@ -45,7 +45,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="*" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="600" style="padding-left: 10px;" scroll="scroll">
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
@@ -58,17 +58,17 @@
                 <ax:form name="formView0" id="formView0">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0108F0.eplyId" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0108F0.eplyId" width="210px" labelClazz="required">
                     			<input type="text" name="eplyId" data-ax-path="eplyId" data-key="true" class="form-control" readonly="readonly"/>
                     		</ax:td>
-                    		<ax:td label="ax.admin.BM0108F0.eplyNm" width="300px" labelClazz="required">
-                    			<input type="text" name="eplyNm" data-ax-path="eplyNm" data-key="true" class="form-control"/>
+                    		<ax:td label="ax.admin.BM0108F0.eplyNm" width="210px" labelClazz="required">
+                    			<input type="text" name="eplyNm" data-ax-path="eplyNm" data-key="true" class="form-control" maxlength="4"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0108F0.phone" width="300px" labelClazz="required">
-                    			<input type="text" name="phone" data-ax-path="phone" data-key="true" class="form-control"/>
+                    		<ax:td label="ax.admin.BM0108F0.phone" width="250px" labelClazz="required">
+                    			<input type="text" name="phone" data-ax-path="phone" data-key="true" class="form-control" maxlength="11"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.corpId" width="300px" labelClazz="required">
                     			<div class="input-group">
@@ -82,20 +82,20 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0108F0.busDiv" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0108F0.busDiv" width="200px" labelClazz="required">
                     			<ax:SM0105 groupCd="BUS_DIV" name="busDiv" dataPath="busDiv" clazz="form-control" />
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0108F0.eplyDate1" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0108F0.eplyDate1" width="250px" labelClazz="required">
 	                            <div class="input-group" data-ax5picker="date">
  	                          		<input  readonly="readonly" type="text" class="form-control" id="eplyDate1" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-path="eplyDate1" name="eplyDate1" />
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                     		</ax:td>
 
-                    		<ax:td label="ax.admin.BM0108F0.eplyDate2" width="300px">
+                    		<ax:td label="ax.admin.BM0108F0.eplyDate2" width="250px">
                     			<div class="input-group" data-ax5picker="date">
 	                                <input readonly="readonly" type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax-path="eplyDate2" name="data-ax-path"/>
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
@@ -104,10 +104,10 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0108F0.licenNo" width="300px" labelClazz="required">
-                    			<input type="text" name="licenNo" data-ax-path="licenNo" data-key="true" class="form-control"/>
+                    		<ax:td label="ax.admin.BM0108F0.licenNo" width="250px" labelClazz="required">
+                    			<input type="text" name="licenNo" data-ax-path="licenNo" data-key="true" class="form-control" maxlength="10"/>
                     		</ax:td>
-                    		<ax:td label="ax.admin.BM0108F0.certiDate" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0108F0.certiDate" width="250px" labelClazz="required">
                     			<div class="input-group" data-ax5picker="date">
 	                                <input readonly="readonly" type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax-path="certiDate" name="certiDate"/>
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
