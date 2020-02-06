@@ -75,13 +75,11 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 		return request.getDvcId();
 	}
 	
-	@Scheduled(cron="0 10 * * * *")
+	@Scheduled(cron="0 5 * * * *")
 	public void NewAtmoScheduler() {
 		/* 대기 */	
 		CommonCodeDetailInfoVO codeVO = new CommonCodeDetailInfoVO();
     	codeVO.setCoCd(ai.LINK_SET);
-    	System.out.println("LINK_SET");
-    	System.out.println(ai.LINK_SET);
     	codeVO.setDlCd(ai.URL_CODE_OPENAPI_ROUT_ATMO);
     	CommonCodeDetailInfoVO codeVO2 = mapper_0105.SM0105G1S1(codeVO);
     	   	
@@ -96,14 +94,18 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
     	String url = baseUrl + "&serviceKey=" + apiKey;
 
     	NodeList nodeList = ai.interface_XML(url);
+    	System.out.println("노드리스트");
+    	System.out.println(nodeList.getLength());
     	
     	WeatAtmoVO vo = new WeatAtmoVO();
     	
-    	//파싱 tag값 가져오는 for문    	
-    		Node child = nodeList.item(0);
+    	//파싱 tag값 가져오는 for문
+    	for(int i = 0; i<nodeList.getLength(); i++) {
+    		Node child = nodeList.item(i);
             if(child.getNodeType() == Node.ELEMENT_NODE) {
             	Element eElement = (Element)child;           	
             	if(ai.getTagValue("stationName", eElement).equals("아름동")) {
+            		System.out.println("몇번타려나");
             		vo.setMeasDt(ai.getTagValue("dataTime", eElement));
             		vo.setSdc(ai.getTagValue("so2Value", eElement));
             		vo.setCmc(ai.getTagValue("coValue", eElement));
@@ -112,18 +114,21 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
             		vo.setDustc(ai.getTagValue("pm10Value", eElement));
             		vo.setSDustc(ai.getTagValue("pm25Value", eElement));
             	}
-            }        
+            }
+    	}
     	System.out.println(vo);
 		mapper.BM0601F0I0(vo);
 		/* 대기 */  	   	
 	}
 	
-	/* @Scheduled() 스케쥴 cron 알아보고 처리하자!*/
+	@Scheduled(cron="0 5 * * * *")
 	public void NewWeatScheduler() {
 		
 		/* 기상 */
 		 CommonCodeDetailInfoVO codeVO = new CommonCodeDetailInfoVO();
-		 WeatAtmoVO weatVO = new WeatAtmoVO(); codeVO.setCoCd(ai.LINK_SET);
+		 WeatAtmoVO weatVO = new WeatAtmoVO();
+		 WeatAtmoVO weatCheckVO = new WeatAtmoVO();
+		 codeVO.setCoCd(ai.LINK_SET);
 		 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		 Date time = new Date();
 		 
@@ -134,10 +139,8 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 		 String waetBaseUrl = weatCodeVO.getRemark();
 		  
 		 NodeList weatList = ai.weatInterface_XML(waetBaseUrl);
-		  
-		 //파싱 tag값 가져오는 for문 
-		 for (int i = 0; i < 1; i++){
-			 Node child = weatList.item(i); 
+		 
+			 Node child = weatList.item(0); 
 			 if(child.getNodeType() == Node.ELEMENT_NODE) {
 				 Element eElement = (Element)child; 				 
 					 weatVO.setNotiDt(ai.getTagValue("hour", eElement));
@@ -155,8 +158,15 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 			 System.out.println("기상vo");
 			 System.out.println(weatVO);
 			 
-			 mapper.BM0601F0I1(weatVO);
-		     }
+			 weatCheckVO = mapper.BM0601F0S2("filter");
+			 System.out.println("기존 노티1");
+			 System.out.println(weatCheckVO.getNotiDt().substring(0, weatCheckVO.getNotiDt().length()-2));
+			 System.out.println("받아온 노티2");
+			 System.out.println(weatVO.getNotiDt());
+			 if(!weatCheckVO.getNotiDt().substring(0, weatCheckVO.getNotiDt().length()-2).equals(weatVO.getNotiDt())) {
+				 mapper.BM0601F0I1(weatVO);				 
+			 }
+		     
 		/* 기상 */		
 	}
     

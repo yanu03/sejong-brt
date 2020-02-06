@@ -43,7 +43,7 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 		return mapper.BM0602G0S0(requestParams.getString("filter"));
 	}
 	
-	/* @Scheduled(cron="0 10 * * * *") 스케쥴러 스케줄 확인하기*/
+	@Scheduled(cron="0 10 * * * *")
 	public void NewsScheduler() {
 		NewsVO vo = new NewsVO();
 		List<NewsVO> voList = mapper.BM0602F0S0(vo);
@@ -85,7 +85,7 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 		}
 	}
 	
-	/* @Scheduled(cron="0 * 10 * * *") 뉴스 delete 스케쥴러 cron 시간 확인하고 설정*/
+	@Scheduled(cron="0 * 5 * * *")
 	public void NewsDeleteScheduler() throws ParseException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();

@@ -10,11 +10,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         }
     },
     
-    PAGE_SEARCH: function (caller, act, data) {
-    	
-    	caller.formView0.setData(parent.axboot.modal.getData());  	
+    PAGE_SEARCH: function (caller, act, data) {   	
+    	caller.formView0.setData(parent.axboot.modal.getData());
     	var formData = caller.formView0.getData();
-    	
     	if(formData["devSerialNo"] != null){
     		isUpdate = true;
     	}
@@ -38,6 +36,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 });
             })
               .then(function (ok, fail, data) {
+               console.log(data.message);
                if(data.message == "true"){
             	axboot.promise()
                 .then(function (ok, fail, data) {

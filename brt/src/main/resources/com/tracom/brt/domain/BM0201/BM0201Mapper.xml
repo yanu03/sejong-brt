@@ -4,14 +4,14 @@
 <mapper namespace="com.tracom.brt.domain.BM0201.BM0201Mapper">
 
     <select id="BM0201G0S0" parameterType="String" resultType="vhcDeviceVO">
-    	SELECT
+    		SELECT
     		  VH.VHC_ID
     		, VH.VHC_NO
     		, VH.CHAS_NO
     		, CO.CORP_NM AS CORP_NM
     		, VH.CORP_ID
-    		, DL0.DL_CD_NM AS AREA
-    		, DL1.DL_CD_NM AS MAKER
+    		, AREA
+    		, MAKER
     		, VH.RELS_DATE
     		, VH.MODEL_NM
     		, DL2.DL_CD_NM AS VHC_KIND
@@ -22,10 +22,6 @@
     		, VH.USE_YN
     	FROM
     		BM_VHC_INFO VH
-    		LEFT OUTER JOIN SM_DL_CD_INFO DL0
-    		ON VH.AREA = DL0.DL_CD
-    		LEFT OUTER JOIN SM_DL_CD_INFO DL1
-    		ON VH.MAKER = DL1.DL_CD
     		LEFT OUTER JOIN SM_DL_CD_INFO DL2
     		ON VH.VHC_KIND = DL2.DL_CD
     		LEFT OUTER JOIN SM_DL_CD_INFO DL3

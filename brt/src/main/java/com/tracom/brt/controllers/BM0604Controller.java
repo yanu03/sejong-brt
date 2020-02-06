@@ -5,9 +5,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
@@ -35,10 +38,8 @@ public class BM0604Controller extends BaseController{
 		
 		for(int i = 0; list.size() > i; i++) {
 			if(list.get(i).getUseYn().equals("Y")) {
-				System.out.println("true");
 				list.get(i).setUseYn("true");
 			}else {
-				System.out.println("false");
 				list.get(i).setUseYn("false");
 			}
 		}		
@@ -55,10 +56,8 @@ public class BM0604Controller extends BaseController{
 		System.out.println(list);
 		for(int i = 0; list.size() > i; i++) {
 			if(list.get(i).getUseYn().equals("Y")) {
-				System.out.println("true");
 				list.get(i).setUseYn("true");
 			}else {
-				System.out.println("false");
 				list.get(i).setUseYn("false");
 			}
 		}		
@@ -73,4 +72,22 @@ public class BM0604Controller extends BaseController{
 		List<NewsVO> list = service.BM0604G1S0(requestParams);
 		return Responses.ListResponse.of(list);
 	}
+	
+	@PostMapping("/BM0604F0U0")
+	public ApiResponse BM0604F0U0(@RequestBody NewsVO request) {
+        System.out.println("업데이트");
+        System.out.println(request);
+        
+        for(int i = 0; request.getUpList().size() > i; i++) {
+        	if(request.getUpList().get(i).getUseYn().equals("true")) {
+        		request.getUpList().get(i).setUseYn("Y");
+        	}else {
+        		request.getUpList().get(i).setUseYn("N");
+        	}
+        }     
+        service.BM0604F0U0(request);
+        return ok();
+    }
+	
+	
 }

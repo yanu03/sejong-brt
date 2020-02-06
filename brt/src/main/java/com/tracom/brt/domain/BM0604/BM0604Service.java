@@ -27,5 +27,24 @@ public class BM0604Service extends BaseService<NewsVO, String>{
 	public List<NewsVO> BM0604G1S0(RequestParams<NewsVO> requestParams) {
 		return mapper.BM0604G1S0(requestParams.getString("filter"));
 	}
-	
+
+	public boolean BM0604F0U0(NewsVO request) {
+		for(int i = 0; request.getUpList().size() > i; i++) {
+			  NewsVO vo = request.getUpList().get(i);
+			  System.out.println(vo.getCategory());
+			  if(vo.getCategory().equals("사용자")) {
+				  System.out.println("사용자");
+				  mapper.BM0604F0U1(vo);
+			  }else {
+				  System.out.println("다른놈들");
+				  mapper.BM0604F0U0(vo);
+			  }
+		  }		  
+		   if(request.getUpList().size() > 0 ) {
+			   return true; 
+		  }else {
+			  return false;
+		  }
+	}
+
 }
