@@ -116,7 +116,7 @@
                     	</ax:tr>
                     	<ax:tr style="height:300px;">
                     		<ax:td labelStyle="height:300px;" label="ax.admin.BM0108F0.attFile" width="300px">
-                    			<div style="width: 180px;height: 260px;">
+                    			<div style="width: 300px; height: 400px;">
 	                                <img id="previewImg" src="#" alt="승무사원 이미지" style="width:180px;height:250px"
 	                                onError="/assets/videos/BM0605/Default.png">
                     			</div>
