@@ -155,6 +155,21 @@ public class FileService {
 	}
 	
 	private String videoPreview(RequestParams<?> requestParams, HttpServletResponse response) {
-		return null;
+		String fileType = requestParams.getString("fileType");
+		String vdoId	= requestParams.getString("vdoId");
+		String path 	= null;
+		File file		= null;
+		switch(fileType) {
+		case "AV001" :
+			path = handler.getRootLocalPath() + "/common/video/" + vdoId + ".mp4";
+			break;
+		case "AV002" :
+			path = handler.getRootLocalPath() + "/common/video/" + vdoId + ".jpg";
+			break;
+		}
+		
+		file = new File(Paths.get(path).toString());
+		
+		return file.getAbsolutePath();
 	}
 }

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0605.BM0605Mapper">
+	<select id="BM0605G0S0" parameterType="String" resultType="VideoInfoVO">
+		SELECT
+			  VDO_ID
+		    , VDO_NM
+		    , VIDEO.CON_ID
+		    , CONTRACT.CON_NM
+		    , FILE_TYPE
+            , DL_CD.DL_CD_NM AS FILE_TYPE_NM
+            , CONCAT(VDO_ID, ".", DL_CD.TXT_VAL1) AS FILE_NAME
+		    , IMG_PLAY_TM
+		    , PLAY_TM
+		    , PLAY_ST_DATE
+		    , PLAY_ED_DATE
+		    , VIDEO.REMARK
+		    , DATE_FORMAT(VIDEO.CREATED_AT, '%Y-%m-%d %T') AS CREATED_AT
+		    , VIDEO.CREATED_BY
+		    , DATE_FORMAT(VIDEO.UPDATED_AT, '%Y-%m-%d %T') AS UPDATED_AT
+		    , VIDEO.UPDATED_BY
+		FROM
+			BM_VDO_INFO VIDEO
+		    LEFT JOIN BM_CON_INFO CONTRACT
+		    ON VIDEO.CON_ID = CONTRACT.CON_ID
+            
+            LEFT JOIN SM_DL_CD_INFO DL_CD
+            ON VIDEO.FILE_TYPE = DL_CD.DL_CD
+		<where>
+	    	<if test="value != null">
+				VDO_ID LIKE CONCAT('%', #{value}, '%')
+				OR VDO_NM LIKE CONCAT('%', #{value}, '%')
+				OR CONTRACT.CON_NM LIKE CONCAT('%', #{value}, '%')
+				OR FILE_TYPE LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+    	
+    	ORDER BY VDO_ID
+	</select>
+	
+	<insert id="BM0605F0I0" parameterType="VideoInfoVO">
+	    <selectKey keyProperty="vdoId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('VI', LPAD(NEXTVAL(SEQ_BM_VDO_INFO_0), 5, '0'))
+    	</selectKey>
+    	
+		INSERT INTO
+			BM_VDO_INFO(  VDO_ID
+						, CON_ID
+						, VDO_NM
+		                , PLAY_ST_DATE
+		                , PLAY_ED_DATE
+		                , FILE_TYPE
+		                , ATT_FILE
+		                , PLAY_TM
+		                , IMG_PLAY_TM
+		                , REMARK
+		                , CREATED_AT
+		                , CREATED_BY
+		                , UPDATED_AT
+		                , UPDATED_BY)
+		                
+			VALUES	(	  #{vdoId}
+						, #{conId}
+						, #{vdoNm}
+						, #{playStDate}
+						, #{playEdDate}
+						, #{fileType}
+						, #{attFile}
+						, #{playTm}
+						, #{imgPlayTm}
+						, #{remark}
+						, #{createdAt}
+						, #{createdBy}
+						, #{updatedAt}
+						, #{updatedBy})
+	</insert>
+	
+	<update id="BM0605F0U0" parameterType="VideoInfoVO">
+		UPDATE BM_VDO_INFO
+    	SET
+    		  VDO_NM		=	#{vdoNm}
+    		, CON_ID		=	#{conId}
+    		, PLAY_ST_DATE	=	#{playStDate}
+    		, FILE_TYPE		=	#{fileType}
+    		, IMG_PLAY_TM	=	#{imgPlayTm}
+    		, ATT_FILE		=	#{attFile}
+    		, REMARK		=	#{remark}
+    		, PLAY_TM		=	#{playTm}
+    		, PLAY_ED_DATE	=	#{playEdDate}
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		VDO_ID = #{vdoId}
+	</update>
+</mapper>

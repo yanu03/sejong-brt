@@ -83,13 +83,7 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.busDiv" width="300px" labelClazz="required">
-	     					 	<select class="form-control" name="busDiv" data-ax-path="busDiv" >
-									 <option value="city"><ax:lang id="ax.admin.BM0108F0.bus.ctin"/></option>
-									 <option value="vilg"><ax:lang id="ax.admin.BM0108F0.bus.vilg"/></option>
-									 <option value="cntry"><ax:lang id="ax.admin.BM0108F0.bus.cnty"/></option>
-									 <option value="intct"><ax:lang id="ax.admin.BM0108F0.bus.ctout"/></option>
-									 <option value="fast"><ax:lang id="ax.admin.BM0108F0.bus.fast"/></option>
-								</select>
+                    			<ax:common-code groupCd="BUS_DIV" name="busDiv" dataPath="busDiv" clazz="form-control" />
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.retireYn" width="300px" labelClazz="required">
                     			<ax:common-code groupCd="RETIRE_YN" name="retireYn" dataPath="retireYn" clazz="form-control" type="radio"/>
@@ -126,11 +120,14 @@
                     	<ax:tr style="height:300px;">
                     		<ax:td labelStyle="height:300px;" label="ax.admin.BM0108F0.attFile" width="300px">
                     			<div style="width: 180px;height: 260px;">
-	                                <img id="previewImg" src="#" alt="승무사원 이미지" style="width:180px;height:250px">
+	                                <img id="previewImg" src="#" alt="승무사원 이미지" style="width:180px;height:250px"
+	                                onError="/assets/videos/BM0605/Default.png">
                     			</div>
                     			<div class="input-group">
 	                                <input type="file" name="imgFile" class="form-control" id="employeeImg"
-	                                onchange="preview_ChangeImage(this);" style="width: 300px;" />
+	                                onchange="preview_ChangeImage(this);"
+	                                onError="preview_Image();"
+	                                style="width: 300px;" />
 	                        	</div>
                     		</ax:td>
                     	</ax:tr>

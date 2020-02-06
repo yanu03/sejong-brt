@@ -20,10 +20,10 @@
 		    , CD3.DL_CD_NM AS TURN_DIV_NM
 			, ST_STA_NM
 		    , ED_STA_NM
-		    , DATE_FORMAT(ROUT.CREATED_AT, '%Y-%m-%d %T')
-		    , DATE_FORMAT(ROUT.CREATED_BY, '%Y-%m-%d %T')
-		    , DATE_FORMAT(ROUT.UPDATED_AT, '%Y-%m-%d %T')
-		    , DATE_FORMAT(ROUT.UPDATED_BY, '%Y-%m-%d %T')
+		    , DATE_FORMAT(ROUT.CREATED_AT, '%Y-%m-%d %T') AS CREATED_AT
+		    , ROUT.CREATED_BY
+		    , DATE_FORMAT(ROUT.UPDATED_AT, '%Y-%m-%d %T') AS UPDATED_AT
+		    , ROUT.UPDATED_BY
 		    <!-- 
 		    , ROUT.CREATED_AT
 		    , ROUT.CREATED_BY

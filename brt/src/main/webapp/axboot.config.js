@@ -95,6 +95,13 @@
             		url: "/jsp/common/BM0202_modal.jsp"
             	}
            },
+           "BM0301": {
+	           	width: 400,
+	           	height: 450,
+	           	iframe: {
+	           		url: "/jsp/common/BM0301_modal.jsp"
+	           	}
+	          },
             "COMMON_SENTENCE": {
             	width: 600,
             	height: 450,

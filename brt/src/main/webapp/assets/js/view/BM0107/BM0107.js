@@ -250,8 +250,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
             sortable: true,
-			showRowSelector: true,
-			multipleSelect: true,
+			//showRowSelector: true,
+			//multipleSelect: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
                 {key: "routId", label: ADMIN("ax.admin.BM0107G0.routId"), width: 80},
@@ -342,13 +342,12 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
-            showRowSelector: true,
+            //sortable: true,
+            //showRowSelector: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
                 {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80},
-                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60
-                	, editor: {type: "number"}
+                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: {type: "number"}
                 },
                 {key: "nodeType",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 30},
                 {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},

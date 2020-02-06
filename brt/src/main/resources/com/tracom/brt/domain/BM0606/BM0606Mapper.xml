@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0606.BM0606Mapper">
+
+	<select id="BM0606G0S0" resultType="VdoOrgaVO">
+		SELECT
+			  ORGA.ORGA_ID
+			, ORGA.ORGA_NM
+			, ORGA.REMARK
+		    , COUNT(INFO.VDO_ID) AS VDO_CNT
+		    , SUM(INFO.PLAY_TM) AS TT_TIME
+		FROM
+			BM_VDO_ORGA ORGA
+		    LEFT JOIN BM_VDO_ORGA_LIST OLIST
+		    ON ORGA.ORGA_ID = OLIST.ORGA_ID
+		    
+			LEFT JOIN BM_VDO_INFO INFO
+		    ON OLIST.VDO_ID = INFO.VDO_ID
+		    
+		    GROUP BY ORGA_ID
+	</select>
+	
+	<insert id="BM0606G0I0" parameterType="VdoOrgaVO">
+		
+	</insert>
+</mapper>
