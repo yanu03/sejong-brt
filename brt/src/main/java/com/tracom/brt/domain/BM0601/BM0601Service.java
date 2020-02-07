@@ -121,7 +121,8 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 		/* 대기 */  	   	
 	}
 	
-	@Scheduled(cron="0 5 * * * *")
+	// @Scheduled(cron="0 5 * * * *")
+	@Scheduled(cron="10 * * * * *")
 	public void NewWeatScheduler() {
 		
 		/* 기상 */
@@ -137,7 +138,8 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 		 weatCodeVO = mapper_0105.SM0105G1S1(codeVO);
 		 
 		 String waetBaseUrl = weatCodeVO.getRemark();
-		  
+		 
+		 
 		 NodeList weatList = ai.weatInterface_XML(waetBaseUrl);
 		 
 			 Node child = weatList.item(0); 
@@ -145,7 +147,8 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 				 Element eElement = (Element)child; 				 
 					 weatVO.setNotiDt(ai.getTagValue("hour", eElement));
 					 int notiDatetime = Integer.parseInt(weatVO.getNotiDt());
-					 String notiDt = notiDate.substring(0, 11)+(notiDatetime-3)+":00:00";
+					 String notiDt = notiDate.substring(0, 11) + String.format("%02d", (notiDatetime - 3)) + ":00:00";
+					 
 					 weatVO.setNotiDt(notiDt);
 					 weatVO.setTempc(ai.getTagValue("temp", eElement));
 					 weatVO.setTempHigh(ai.getTagValue("tmx", eElement));
