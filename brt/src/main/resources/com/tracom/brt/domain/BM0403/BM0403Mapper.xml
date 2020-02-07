@@ -10,7 +10,7 @@
     		, PLAY_ST_DATE
     		, PLAY_TYPE
     		, KR_TTS
-    		, EN_TTS
+    		, SCR_TXT
     		, VOC_DIV
     		, REMARK
     		, PLAY_TM
@@ -37,7 +37,7 @@
     		, PLAY_ST_DATE
     		, PLAY_TYPE
     		, KR_TTS
-    		, EN_TTS
+    		, SCR_TXT
     		, REMARK
     		, PLAY_TM
     		, VOC_DIV
@@ -54,7 +54,7 @@
    			, #{playStDate}
    			, #{playType}
    			, #{krTts}
-   			, #{enTts}
+   			, #{scrTxt}
    			, #{remark}
    			, #{playTm}
    			, 'CD027'
@@ -75,7 +75,7 @@
     		, PLAY_ST_DATE	=	#{playStDate}
     		, PLAY_TYPE		=	#{playType}
     		, KR_TTS		=	#{krTts}
-    		, EN_TTS		=	#{enTts}
+    		, SCR_TXT		=	#{scrTxt}
     		, REMARK		=	#{remark}
     		<if test="playTm != null">
     			, PLAY_TM		=	#{playTm}
