@@ -121,8 +121,7 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 		/* 대기 */  	   	
 	}
 	
-	// @Scheduled(cron="0 5 * * * *")
-	@Scheduled(cron="10 * * * * *")
+	@Scheduled(cron="0 5 * * * *")
 	public void NewWeatScheduler() {
 		
 		/* 기상 */
