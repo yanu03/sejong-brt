@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -45,6 +44,9 @@ public class FTPHandler {
 	
 	@Value("${sftp.audio.directory}")
 	private String COMMON_AUDIO_PATH;
+	
+	@Value("${sftp.route.audio.directory}")
+	private String ROUTE_AUDIO_PATH;
 	
 	@Inject
 	private ChannelSftp sftpChannel;
@@ -118,6 +120,7 @@ public class FTPHandler {
 		}
 	}
 
+	/*
 	// 노선선택별 음성 저장 시 재생 리스트 저장
 	public boolean uploadBM0404(VoiceInfoVO vo) {
 		try {
@@ -139,6 +142,7 @@ public class FTPHandler {
 		}
 		return true;
 	}
+	//*/
 	
 	// 음성파일(WAV, TTS) 업로드
 	public boolean uploadVoice(VoiceInfoVO vo) {
@@ -162,9 +166,11 @@ public class FTPHandler {
 		String fileNameKr = id + GlobalConstants.VoiceTypes.KR + ".wav";
 		String fileNameEn = id + GlobalConstants.VoiceTypes.EN + ".wav";
 		
+		// 노선 선택별 음성일 경우
 		String routId = vo.getRoutId();
 		if(routId != null && !routId.equals("")) {
-			fileName = id + GlobalConstants.VoiceTypes.RT + ".wav";
+			dir = Paths.get(getRootLocalPath(), getRouteAudioPath()).toString(); 
+			fileName = routId + ".wav";
 		}
 		
 		File saveFile = Paths.get(dir, fileName).toFile();
@@ -175,7 +181,6 @@ public class FTPHandler {
 			
 			vo.setPlayTm(Utils.getAudioTotalTime(saveFile));
 			
-			// 기존 TTS WAV파일 삭제
 			if(ttsKrFile.exists()) {
 				ttsKrFile.delete();
 			}
@@ -221,7 +226,9 @@ public class FTPHandler {
 		
 		String routId = vo.getRoutId();
 		if(routId != null && !routId.equals("")) {
-			fileNameKr = id + GlobalConstants.VoiceTypes.RT + ".wav";
+			dir = Paths.get(getRootLocalPath(), getRouteAudioPath()).toString(); 
+			fileName = routId + ".wav";
+			fileNameKr = routId + ".wav";
 		}
 		
 		int ttsKrPlayTm = 0;
@@ -271,7 +278,7 @@ public class FTPHandler {
 		
 		try {
 			if(routId != null && !routId.equals("")) {
-				File file = Paths.get(dir, id + GlobalConstants.VoiceTypes.RT + ".wav").toFile();
+				File file = Paths.get(getRouteAudioPath(), routId + ".wav").toFile();
 				
 				if(file.exists()) {
 					file.delete();
@@ -534,5 +541,9 @@ public class FTPHandler {
 	
 	public String getCommonAudioPath() {
 		return COMMON_AUDIO_PATH;
+	}
+	
+	public String getRouteAudioPath() {
+		return ROUTE_AUDIO_PATH;
 	}
 }
