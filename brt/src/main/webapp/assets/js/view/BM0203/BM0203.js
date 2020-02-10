@@ -122,7 +122,6 @@ fnObj.pageStart = function () {
     this.searchView0.initView();
     this.gridView0.initView();
     this.gridView1.initView();
-    this.formView0.initView();
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -188,7 +187,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [
-            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), sortable: true, align:"center" , width: 80},
+            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), sortable: true, align:"center" , width: 80 , },
             		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 80},
                      {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), sortable: true, width: 120},
                      {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), sortable: true, width: 120},
@@ -293,7 +292,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "dvcCond", label: ADMIN("ax.admin.BM0203G0.dvccond"), align:"center", sortable: true, width: 80},
+            	{key: "dvcCond", label: ADMIN("ax.admin.BM0203G0.dvccond"), align:"center", sortable: true, width: 80 , styleClass:function(){return (this.item.dvcCond === "정상") ? "grid-cell-red" : "grid-cell-blue"; }},
             	{key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), align:"center", sortable: true, width: 100},
             	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), align:"center", sortable: true, width: 80},
             	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), align:"center", width: 100},
@@ -376,59 +375,5 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     },
     selectAll: function(flag) {
     	this.target.selectAll({selected: flag});
-    }
-});
-
-fnObj.formView0 = axboot.viewExtend(axboot.formView, {
-    getDefaultData: function () {
-        return $.extend({}, axboot.formView.defaultData, {});
-    },
-    initView: function () {
-        this.target = $("#formView0");
-        this.model = new ax5.ui.binder();
-        this.model.setModel(this.getDefaultData(), this.target);
-        this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
-        this.initEvent();
-        
-    },
-    initEvent: function () {
-    	
-    },
-    getData: function () {
-        var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
-        return $.extend({}, data);
-    },
-    setData: function (data) {
-
-        if (typeof data === "undefined") data = this.getDefaultData();
-        data = $.extend({}, data);
-
-        this.model.setModel(data);
-        this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
-    },
-    validate: function (flag) {
-        var rs = this.model.validate();
-        if (rs.error) {
-        	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
-        	}
-            rs.error[0].jquery.focus();
-            return false;
-        }
-        return true;
-    },
-    enable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", false);
-    	});
-    },
-    disable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", true);
-    	});
-    },
-    clear: function () {
-        this.model.setModel(this.getDefaultData());
-        this.target.find('[data-ax-path="key"]').removeAttr("readonly");
     }
 });

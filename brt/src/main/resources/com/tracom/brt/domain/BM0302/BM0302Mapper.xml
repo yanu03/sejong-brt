@@ -232,7 +232,7 @@
    			, #{suppAmt}
    			, #{vatAmt}
    			, #{remark}
-   			, NULL
+   			, "N"
    			, #{conNo}
    			, #{createdAt}
    			, #{createdBy}
@@ -290,7 +290,7 @@
     		, SUPP_AMT			=	#{suppAmt}
     		, VAT_AMT			=	#{vatAmt}
     		, REMARK			=	#{remark}
-    		, CONFIRM_YN        =   NULL
+    		, CONFIRM_YN        =   "N"
     		, CON_NO			=	#{conNo}
     		, UPDATED_AT		=	#{updatedAt}
     		, UPDATED_BY		=	#{updatedBy}

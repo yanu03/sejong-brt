@@ -20,7 +20,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: filter,
             callback: function (res) {
                 caller.formView0.setData(res.list[0]);
-                console.log(res.list[0].skyCond);
                 $("#weatImg").append("<input type='image' src='/assets/images/BM0601/"+res.list[0].skyCond+".gif' style='width:400px; height:180px;' />");
                 ACTIONS.dispatch(ACTIONS.RELOAD_G1);                
 	            }

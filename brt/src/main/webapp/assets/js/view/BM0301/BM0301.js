@@ -127,7 +127,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = false;   	
     	var confirmYn = $('#confirmYn').val();
  	
-    		if(confirmYn == "N"){
+    		if(confirmYn == "미확정"){
     				console.log("N");
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
@@ -167,7 +167,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = false; 
     	var confirmYn = $('#confirmYn').val();
     	
-    	if(confirmYn == "N"){
+    	if(confirmYn == "미확정"){
 	    	axDialog.confirm({
 	    		msg: LANG("ax.script.contractconfirm")
 	    	}, function() {

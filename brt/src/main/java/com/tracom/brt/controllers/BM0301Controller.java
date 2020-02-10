@@ -39,7 +39,7 @@ public class BM0301Controller extends BaseController {
         
         System.out.println(list.size());
         for(int i = 0; i<list.size(); i++) {
-        	if(list.get(i).getConfirmYn() != null) {
+        	if(list.get(i).getConfirmYn().equals("Y")) {
         		System.out.println(list.get(i).getConfirmYn());
         		System.out.println("확정");
         		list.get(i).setConfirmYn("확정");
