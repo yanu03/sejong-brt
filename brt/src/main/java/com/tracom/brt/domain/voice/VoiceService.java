@@ -60,7 +60,7 @@ public class VoiceService {
 	public byte[] getWavBuffer(String pText, int nLanguage, int nSpeakerId, String chimeYn) {
     	Pttsnet TTS = new Pttsnet();
     	
-    	String pAudioFile = Paths.get(handler.getRootLocalPath(), "/common/audio", chimeFileName).toString();
+    	String pAudioFile = Paths.get(handler.getRootLocalPath(), handler.getCommonAudioPath(), chimeFileName).toString();
     	
         try {
         	int ret = -100;
@@ -107,7 +107,7 @@ public class VoiceService {
 	public byte[] getWavBufferChime(String pText, int nLanguage, int nSpeakerId, String checkChime) {
     	Pttsnet TTS = new Pttsnet();
     	
-    	String pAudioFile = Paths.get(handler.getRootLocalPath(), "/common/audio", chimeFileName).toString();
+    	String pAudioFile = Paths.get(handler.getRootLocalPath(), handler.getCommonAudioPath(), chimeFileName).toString();
     	
         try {
         	int ret = -100;
