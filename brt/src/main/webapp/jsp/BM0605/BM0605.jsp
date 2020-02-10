@@ -122,7 +122,7 @@
                     		<ax:td labelStyle="height:200px;" label="ax.admin.BM0605F0.preview" width="300px">
                   
                     			 <img id="imagePreview" src="#" style="width:320px;height:180px;border:1px solid #eee;"
-                    			 onError="/assets/videos/BM0605/Default.png">
+                    			 onError="/assets/videos/BM0605/Default.png"/>
                     			 
                     			 
                     			 <video

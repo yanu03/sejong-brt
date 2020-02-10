@@ -131,6 +131,13 @@
                             </ax:td>
                        	</ax:tr>
                        	 --%>
+                       	 
+                       	<ax:tr>
+                            <ax:td label="ax.admin.BM0403F0.scr.txt" width="100%">
+                            	<textarea name="scrTxt" data-ax-path="scrTxt" class="form-control" maxlength="100" title="<ax:lang id="ax.admin.BM0401F0.scr.txt"/>"></textarea>
+                            </ax:td>
+                       	</ax:tr>
+                       	
                        	<ax:tr>
                             <ax:td label="ax.admin.test" width="300px">
                             	<div id="jquery_jplayer_1" class="jp-jplayer"></div>

@@ -38,4 +38,11 @@ public class VideoInfoVO extends BaseVO {
 		private MultipartFile vdoFile;
 		
 		private String fileName;
+		
+		private String orgaId;
+		
+		private int	seq;
+		
+		private int __seq;
+		
 }

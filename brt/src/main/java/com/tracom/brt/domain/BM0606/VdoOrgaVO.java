@@ -1,6 +1,9 @@
 package com.tracom.brt.domain.BM0606;
  
+import java.util.List;
+
 import com.tracom.brt.domain.BaseVO;
+import com.tracom.brt.domain.BM0605.VideoInfoVO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +22,5 @@ public class VdoOrgaVO extends BaseVO {
 	
 	private int		ttTime;
 	
-	
+	private List<VideoInfoVO> playList;
 }

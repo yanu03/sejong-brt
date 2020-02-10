@@ -130,7 +130,6 @@ function deleteLine(){
 
 /**마커여러개추가**/
 function addMarkers(lat_arr, lng_arr, id_arr) {
-	console.log("addMarkders");
 	for(var i=0; i < lat_arr.length; i++){
         marker = new Tmapv2.Marker({
             position: new Tmapv2.LatLng(lat_arr[i], lng_arr[i]), //Marker의 중심좌표 설정.
@@ -143,6 +142,27 @@ function addMarkers(lat_arr, lng_arr, id_arr) {
 	}
 }
 
+/**노드마커 추가**/
+function addMarkerInter(data, grid, idx) {
+	var marker = new Tmapv2.Marker({
+        position: new Tmapv2.LatLng(data.lati, data.longi), //Marker의 중심좌표 설정.
+        label: data.label, //Marker의 라벨.
+        map: map,
+    	icon: data.icon,
+    	draggable: data.draggable,
+    });
+	
+	marker.addListener("click", function(e) {
+		grid.selectRow(idx);
+		ax5.util.search(grid.list, function(){
+			return this["seq"] == data.seq;
+		});
+
+		
+	});
+	
+    markers.push(marker);
+}
 /**통통튀는 마커 생성**/
 function addMarkerAni(lat, lng, id) {
 	var aniType = Tmapv2.MarkerOptions.ANIMATE_BOUNCE;

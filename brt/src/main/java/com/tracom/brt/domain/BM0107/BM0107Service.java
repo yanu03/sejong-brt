@@ -33,6 +33,9 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     @Inject
     private InsertNode insertNode;
     
+    @Inject
+    private DataInterface di;
+    
     public List<BmRoutInfoVO> BM0107G0S0(RequestParams<BmRoutInfoVO> requestParams) {
         return mapper_107.BM0107G0S0(requestParams.getString("filter"));
     }
@@ -42,6 +45,10 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     	map.put("routId", requestParams.getString("routId"));
     	map.put("filter1", requestParams.getString("filter1"));
         return mapper_107.BM0107G1S0(map);
+    }
+    
+    public int BM0107G1D1(BmRoutNodeInfoVO request) {
+    	return mapper_107.BM0107G1D1(request);
     }
     
     @Transactional
@@ -67,7 +74,6 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     		
     		String json = dif.interface_URL("POST", baseUrl + routVO.getRoutId()); 
     		
-    		parseJsonRouteNode(json);
     		BmRoutNodeInfoVO insertVO = new BmRoutNodeInfoVO();
     		
     		List<BmRoutNodeInfoVO> voList = new ArrayList<>();
@@ -137,7 +143,7 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
 			String route_id = ob.get("route_id").toString().replace("\"", "");
 			float lati = Float.valueOf(ob.get("lat").toString().replace("\"", ""));
 			float longi = Float.valueOf(ob.get("lng").toString().replace("\"", ""));
-			int nodeType = 1;
+			int nodeType = 30;
 			if(j == 0) {
 				tmp = Integer.valueOf(route_ord);
 			}
@@ -164,20 +170,23 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
 			tmpLati = lati;
 			tmpLongi = longi;
 		}
-		return resultList;
+		//return resultList;
+		return di.generalNode(resultList);
 	}
     
     public List<BmRoutNodeInfoVO> insertSta(List<BmRoutNodeInfoVO> nodeList, List<BmRoutNodeInfoVO> staList) {
     	//정류장 갯수만큼 for문 돌릴거임
     	for(BmRoutNodeInfoVO sta : staList) {
-    		sta.setNodeType(30);
+    		sta.setNodeType(1);
     		int seq = 0;
     		int flag = 0;
     		int forseq = 0;
     		LocationVO resultVO = new LocationVO();
     		LocationVO tmpVO = new LocationVO();
     		resultVO.setDistance(999999999);
-    		/*    		
+    		
+    		
+    		/*
     		for(int i = 0; i < nodeList.size()-1; i++) {
     			//링크마다 거리 계산함. 정류장이 링크에 직교하는점이 있으면 그 점 반환, 없으면 null 반환
     			tmpVO = insertNode.getDistanceToLine(sta.getLongi(), sta.getLati(),
@@ -201,10 +210,13 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     		sta.setSeq(seq);
     		
     		nodeList.add(forseq, sta);
-    		 */
+    		
+    		 * */
+    		
+    		
     		int shortestNodeSeq = 0;
     		double shortestNodeDst = 999999999;
-    		for(int i = 0; i < nodeList.size() - 1; i++) {
+    		for(int i = 0; i < nodeList.size(); i++) {
     			//노드마다 거리 계산할것임
     			double tmp = insertNode.getDistanceBetween(sta.getLongi(), sta.getLati(), nodeList.get(i).getLongi(), nodeList.get(i).getLati());
     			//가장 가까운 노드 순서
@@ -212,30 +224,34 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     				shortestNodeDst = tmp;
     				shortestNodeSeq = i;
     			}
+    			
     		}
     		    		
     		for(int j = -2; j < 2; j++) {
-    			if(shortestNodeSeq + j >= nodeList.size() -1) {
-    				break;
+    			if(shortestNodeSeq + j < 0) {
+    				continue;
     			}
+    			else if(0 <= shortestNodeSeq + j && shortestNodeSeq + j + 1 < nodeList.size()) {
     			tmpVO = insertNode.getDistanceToLine(sta.getLongi(), sta.getLati(),
     					nodeList.get(shortestNodeSeq+j).getLongi(),	nodeList.get(shortestNodeSeq+j).getLati(),
     					nodeList.get(shortestNodeSeq+j+1).getLongi(), nodeList.get(shortestNodeSeq+j+1).getLati());
     			
-    			//만약 직교한다면
-    			if(tmpVO != null) {
-    				//가장 짧은값이라면
-    				if(tmpVO.getDistance() < resultVO.getDistance()) {
-    					//바꿔치기함
-    					resultVO = tmpVO;
-    					//시퀀스는 전노드랑 다음노드의 평균으로 함
-    					seq = (nodeList.get(shortestNodeSeq+j).getSeq() + nodeList.get(shortestNodeSeq+j+1).getSeq())/2;
-    					//forseq는 리스트에 삽입할 순서
-    					forseq = shortestNodeSeq+j+1;
-    					flag = 1;
-    				}
+	    			//만약 직교한다면
+	    			if(tmpVO != null) {
+	    				//가장 짧은값이라면
+	    				if(tmpVO.getDistance() < resultVO.getDistance()) {
+	    					//바꿔치기함
+	    					resultVO = tmpVO;
+	    					//시퀀스는 전노드랑 다음노드의 평균으로 함
+	    					seq = (nodeList.get(shortestNodeSeq+j).getSeq() + nodeList.get(shortestNodeSeq+j+1).getSeq())/2;
+	    					//forseq는 리스트에 삽입할 순서
+	    					forseq = shortestNodeSeq+j+1;
+	    					flag = 1;
+	    				}
+	    			}
     			}
     		}
+    		
 	    	if(flag == 0) {
     			seq = 0;
     		}

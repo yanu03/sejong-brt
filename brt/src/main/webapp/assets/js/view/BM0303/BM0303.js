@@ -170,8 +170,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                      {key: "conEdDate", label: ADMIN("ax.admin.BM0301F0.coned"), width: 120},
                      {key: "confirmYn", label: ADMIN("ax.admin.BM0301F0.confirmyn"), width: 70},
                      {key: "custId", label: ADMIN("ax.admin.BM0301F0.custid"), width: 120},
-                     {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 120},
-                     {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 70},
+                     {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 120, align: "right", formatter: "money"},
+                     {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 70, align: "right", formatter: "money"},
                      {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 150},
                  ],
             
@@ -270,8 +270,8 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
                 {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), width: 150},
                 {key: "conStDate", label: ADMIN("ax.admin.BM0302F0.altsd"), width: 150},
                 {key: "conEdDate", label: ADMIN("ax.admin.BM0302F0.alted"), width: 80},
-                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 150},
-                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 150},
+                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 150, align: "right", formatter: "money"},
+                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 150, align: "right", formatter: "money"},
                 {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
             ],
             body: {

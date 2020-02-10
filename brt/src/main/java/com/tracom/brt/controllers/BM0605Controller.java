@@ -33,6 +33,7 @@ public class BM0605Controller extends BaseController {
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
     })
     public Responses.ListResponse BM0605G0S0(RequestParams<VideoInfoVO> requestParams) {
+    	System.out.println("605G0S0 controller");
         List<VideoInfoVO> list = service.BM0605G0S0(requestParams);
         return Responses.ListResponse.of(list);
     }

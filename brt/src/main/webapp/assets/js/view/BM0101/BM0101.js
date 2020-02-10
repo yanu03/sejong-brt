@@ -237,8 +237,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             //sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "corpId",	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0101F0.corp.id") + "</font>",		width: 80,	align: "center",	sortable: true},
-                {key: "corpNm",	label: "<font color=CD1039>" + ADMIN("ax.admin.BM0101F0.corp.name") + "</font>",	width: 120,						sortable: true},
+                {key: "corpId",	label: "<font color=BF360C>" + ADMIN("ax.admin.BM0101F0.corp.id") + "</font>",		width: 80,	align: "center",	sortable: true},
+                {key: "corpNm",	label: "<font color=BF360C>" + ADMIN("ax.admin.BM0101F0.corp.name") + "</font>",	width: 120,						sortable: true},
                 {key: "corpNo", label: ADMIN("ax.admin.BM0101F0.corp.no"),											width: 120,	align: "right"},
                 {key: "email",	label: ADMIN("ax.admin.BM0101F0.email"),											width: 120},
                 {key: "phone",	label: ADMIN("ax.admin.BM0101F0.phone"),											width: 80,	align: "right"},

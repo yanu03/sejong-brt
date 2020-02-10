@@ -127,7 +127,7 @@
 						#{voList.staId}
 					</when>
 					<otherwise>
-	  			    	CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_ROUT_NODE_INFO_0), 6, '0'))
+	  			    	CONCAT('ND', LPAD(NEXTVAL(SEQ_BM_ROUT_NODE_INFO_0), 8, '0'))
 					</otherwise>
 				</choose>
 				, #{voList.nodeNm}
@@ -216,4 +216,28 @@
 		WHERE
 			ROUT_ID = #{routId}
  	</select>
+ 	
+ 	
+ 	<delete id="BM0107G1D1" parameterType="bmRoutInfoVO">
+ 		DELETE
+			
+		FROM
+			BM_ROUT_NODE_INFO
+		WHERE
+			ROUT_ID = #{routId}
+		    AND
+		    NODE_ID = #{nodeId}
+		;
+		
+		DELETE
+		FROM
+			BM_ROUT_RESULT
+		WHERE
+			ROUT_ID = #{routId}
+			AND
+			NODE_ID = #{nodeId}
+		;
+ 	</delete>
+ 	
+
 </mapper>

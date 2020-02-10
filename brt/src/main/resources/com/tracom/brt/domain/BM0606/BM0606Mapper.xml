@@ -24,4 +24,37 @@
 	<insert id="BM0606G0I0" parameterType="VdoOrgaVO">
 		
 	</insert>
+	
+	<select id="BM0606G2S0" parameterType="VdoOrgaVO" resultType="VideoInfoVO">
+		SELECT
+			  OLIST.ORGA_ID		AS ORGA_ID
+			, OLIST.VDO_ID		AS VDO_ID
+		    , OLIST.SEQ			AS SEQ
+		    , INFO.VDO_NM		AS VDO_NM
+		    , INFO.CON_ID		AS CON_ID
+		    , CON.CON_NM		AS CON_NM
+		    , INFO.PLAY_ST_DATE	AS PLAY_ST_DATE
+		    , INFO.FILE_TYPE	AS FILE_TYPE
+		    , DL_CD.DL_CD_NM	AS FILE_TYPE_NM
+		    , INFO.IMG_PLAY_TM	AS IMG_PLAY_TM
+		    , INFO.ATT_FILE		AS ATT_FILE
+		    , INFO.REMARK		AS REMARK
+		    , INFO.PLAY_TM		AS PLAY_TM
+		    , INFO.PLAY_ED_DATE	AS PLAY_ED_DATE
+		    , INFO.UPDATED_AT	AS UPDATED_AT
+		FROM
+			BM_VDO_ORGA_LIST OLIST
+		    LEFT JOIN BM_VDO_INFO INFO
+		    ON OLIST.VDO_ID = INFO.VDO_ID
+		    
+		    LEFT JOIN BM_CON_INFO CON
+		    ON INFO.CON_ID = CON.CON_ID
+		    LEFT JOIN SM_DL_CD_INFO DL_CD
+		    ON INFO.FILE_TYPE = DL_CD.DL_CD
+		    
+		WHERE
+			ORGA_ID = #{orgaId}
+
+		ORDER BY SEQ
+	</select>
 </mapper>

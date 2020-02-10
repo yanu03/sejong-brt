@@ -194,7 +194,7 @@ var userWayEdit = {
 			columnKeys: {
 				optionValue: "CD", optionText: "NM"
 			},
-			options: [ {CD: "2", NM: "상행"}, {CD: "1", NM: "하행"} ]
+			options: [ {CD: "2", NM: "상행"}, {CD: "1", NM: "하행"}, {CD: "3", NM: "왕복"} ]
 
 		},
 		disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
@@ -235,11 +235,12 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),											width: 70},
                 {key: "shortRoutNm",	label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.shortRoutNm") + "</font>",	width: 130,	editor: shortRoutNmEdit},
                 {key: "wayInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.wayInfo") + "</font>",		width: 130,	editor: shortRoutNmEdit},
+                {key: "dirInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.dirInfo") + "</font>",		width: 130,	editor: shortRoutNmEdit},
                 {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),											width: 160},
                 {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),											width: 160},
                 {key: "wayDivNm",		label: ADMIN("ax.admin.BM0104G0.wayDiv"),											width: 60,								align: "center"},
                 {key: "userWayDiv",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.userWayDiv") + "</font>",	width: 120, editor: userWayEdit,		align: "center"},
-                {key: "turnDivNm",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),											width: 100},
+                //{key: "turnDivNm",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),											width: 100},
                 {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),										width: 140,								align: "center"},
             ],
             body: {

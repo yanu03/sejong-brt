@@ -18,9 +18,11 @@ public class EplyInfoVO extends BaseVO {
 	private String phone;
  
 	private String busDiv;
- 
+	private String busDivNm;
+	
 	private String retireYn;
- 
+	private String retireYnNm;
+	
 	private String eplyDate1;
  
 	private String eplyDate2;
@@ -34,6 +36,7 @@ public class EplyInfoVO extends BaseVO {
 	private String remark;
  
 	private String corpId;
+	private String corpNm;
 	
 	private MultipartFile imgFile;
 }
