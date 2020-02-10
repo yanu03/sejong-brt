@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.routeReservation.RouteReservationMapper">
+
+ 	<!-- routemap 폴더 내 파일 생성 쿼리 -->
+ 	<!-- 노선별 파일명 생성 쿼리 -->
+ 	<select id="rsv_routelist" resultType="bmRoutNodeInfoVO">
+ 		SELECT
+			  ROUT.ROUT_ID
+		    , CONCAT(ROUT.ROUT_ID, '_', CONCAT(SUBSTRING(DATE_FORMAT(PUB_DATE, '%Y%m%d'), 3), PUB_SEQ), '_', 'ID', '_', SUBSTRING(DL_CD.DL_CD_NM, 1, 1), '_', WAY_INFO, '_', DIR_INFO, '.csv') AS FILENAME
+		FROM
+			BM_ROUT_INFO ROUT
+		    LEFT JOIN BM_ROUT_NODE_INFO NODE
+		    ON ROUT.ROUT_ID = NODE.ROUT_ID
+		    LEFT JOIN (SELECT * FROM SM_DL_CD_INFO WHERE CO_CD = 'UPDOWN_FLAG') DL_CD
+		    ON ROUT.USER_WAY_DIV = DL_CD.NUM_VAL4
+		GROUP BY ROUT.ROUT_ID
+		HAVING COUNT(*) > 1
+ 	</select>
+
+	<!-- routemap_node.csv -->
+	<select id="rsv_nodelist" resultType="bmRoutNodeInfoVO">
+		SELECT
+			  NODE_ID				AS NODE_ID
+		    , NODE_NM				AS NODE_NAME
+		    , '30'					AS 'RANGE'
+		    , TRUNCATE(LONGI, 6)	AS X
+		    , TRUNCATE(LATI, 6)		AS Y
+		FROM
+			BM_ROUT_NODE_INFO
+		WHERE
+			NODE_TYPE = '30'
+	</select>
+	
+	<!-- busstop.csv -->
+	<select id="rsv_busstoplist" resultType="bmRoutNodeInfoVO">
+		SELECT
+			  STA.STA_ID					AS NODE_ID
+		    , IF(NM.KR_NM IS NULL || NM.KR_NM = '', STA.STA_NM, NM.KR_NM) AS NODE_NAME
+		    , '1'							AS 'TYPE'
+		    , '30'							AS 'RANGE'
+		    , TRUNCATE(LONGI, 6)			AS X
+		    , TRUNCATE(LATI, 6)				AS Y
+		FROM
+			BM_STA_INFO STA
+		    LEFT JOIN BM_STA_NM_INFO NM
+		    ON STA.STA_ID = NM.STA_ID
+		
+		UNION ALL
+		
+		SELECT
+			  ORGA_ID				AS NODE_ID
+		    , ORGA_NM				AS NODE_NAME
+		    , '898'					AS 'TYPE'
+		    , '30'					AS 'RANGE'
+		    , TRUNCATE(LONGI, 6)	AS X
+		    , TRUNCATE(LATI, 6)		AS Y
+		FROM
+			BM_VOC_ORGA
+	</select>
+	
+	<select id="BM0107G2S3" resultType="bmRoutInfoVO">
+		SELECT
+			INFO.ROUT_ID	AS ROUT_ID
+		FROM
+			BM_ROUT_INFO INFO
+		    LEFT JOIN (SELECT
+						  ROUT_ID
+						, COUNT(*) AS 'CNT'
+					FROM
+						BM_ROUT_NODE_INFO
+					GROUP BY ROUT_ID) NODE
+			ON INFO.ROUT_ID = NODE.ROUT_ID
+		WHERE
+			NODE.CNT IS NOT NULL
+	</select>
+	
+	<select id="rsv_routenode" parameterType="bmRoutInfoVO" resultType="bmRoutNodeInfoVO">
+		SELECT
+			NODE_ID	AS NODE_ID
+		FROM
+			BM_ROUT_NODE_INFO
+		WHERE
+			ROUT_ID = #{routId}
+		ORDER BY SEQ
+	</select>
+</mapper>
