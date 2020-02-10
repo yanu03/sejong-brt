@@ -133,8 +133,12 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 		 Date time = new Date();
 		 
 		 String notiDate = dateFormat.format(time);
-		 codeVO.setDlCd(ai.URL_CODE_OPENAPI_ROUT_WEAT); CommonCodeDetailInfoVO
-		 weatCodeVO = mapper_0105.SM0105G1S1(codeVO);
+		 codeVO.setDlCd(ai.URL_CODE_OPENAPI_ROUT_WEAT); 
+		 CommonCodeDetailInfoVO weatCodeVO = mapper_0105.SM0105G1S1(codeVO);
+		 codeVO.setCoCd("SKY_COND");
+		 List<CommonCodeDetailInfoVO> skyCheckVO = mapper_0105.SM0105G1S2(codeVO);
+		 System.out.println("sky_cond");
+		 System.out.println(skyCheckVO);
 		 
 		 String waetBaseUrl = weatCodeVO.getRemark();
 		  
@@ -145,16 +149,40 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 				 Element eElement = (Element)child; 				 
 					 weatVO.setNotiDt(ai.getTagValue("hour", eElement));
 					 int notiDatetime = Integer.parseInt(weatVO.getNotiDt());
-					 String notiDt = notiDate.substring(0, 11)+(notiDatetime-3)+":00:00";
-					 weatVO.setNotiDt(notiDt);
+					 int checkNotiDt = notiDatetime-3;
+					 int checkSky = 0;
+					 int checkPty = 0;
+					 String notiDt;
+					 String skyCheck;
+					 if(checkNotiDt < 10) {
+						 String finalNotiDt = "0"+String.valueOf(checkNotiDt);						
+						 notiDt = notiDate.substring(0, 11)+finalNotiDt+":00:00";
+						 weatVO.setNotiDt(notiDt);
+					 }else {
+						 notiDt = notiDate.substring(0, 11)+checkNotiDt+":00:00";
+						 weatVO.setNotiDt(notiDt);
+					 }
 					 weatVO.setTempc(ai.getTagValue("temp", eElement));
 					 weatVO.setTempHigh(ai.getTagValue("tmx", eElement));
 					 weatVO.setTempMini(ai.getTagValue("tmn", eElement));
-					 weatVO.setSkyCond(ai.getTagValue("wfKor", eElement));
+					 if((checkSky = Integer.parseInt(ai.getTagValue("sky", eElement))) + (checkPty =Integer.parseInt(ai.getTagValue("pty", eElement))) < 5) {
+						 for(int i =0; i<skyCheckVO.size(); i++) {
+							 skyCheck = String.valueOf(skyCheckVO.get(i).getNumVal4()).substring(0, 1);
+							 if(skyCheck.equals(ai.getTagValue("sky", eElement))) {
+								 weatVO.setSkyCond(skyCheckVO.get(i).getDlCd());
+							 	}	
+						 	}
+					 } else {
+						 for(int i = 0; i<skyCheckVO.size(); i++) {
+							 skyCheck = String.valueOf(skyCheckVO.get(i).getNumVal4()).substring(0, 1);
+							 if(skyCheck.equals(ai.getTagValue("pty", eElement))) {
+								 weatVO.setSkyCond(skyCheckVO.get(i).getDlCd());
+							 }
+						 }
+					 }
 					 weatVO.setRainPro(ai.getTagValue("pop", eElement));
-					 weatVO.setRainFall(ai.getTagValue("pty", eElement));
+					 weatVO.setRainFall(ai.getTagValue("r12", eElement));
 					 weatVO.setHumi(ai.getTagValue("reh", eElement));				 	
-			 	  } 
 			 System.out.println("기상vo");
 			 System.out.println(weatVO);
 			 
@@ -168,6 +196,6 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 			 }
 		     
 		/* 기상 */		
+	    }
 	}
-    
 }
