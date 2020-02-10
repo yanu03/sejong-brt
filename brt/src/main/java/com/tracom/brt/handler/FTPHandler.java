@@ -380,36 +380,6 @@ public class FTPHandler {
 		// 로컬 폴더 파일 리스트
 		File[] localList = localFolder.listFiles();
 		
-		int size = localList.length;
-		for(int i = 0; i < size; i++) {
-			// 동기화 체크용 플래그
-			boolean check = false;
-			
-			for(String ignoreFile : ignoreList) {
-				if(localList[i].getName().contains(ignoreFile)) {
-					check = true;
-					break;
-				}
-			}
-			
-			// 동기화하지 않을 파일일 경우 continue
-			if(check) {
-				continue;
-			}
-			
-			if(localList[i].isDirectory()){
-				if(!checkFolder(localList[i], serverDir)) {
-					newFileMaster(localList[i], serverDir);
-				}
-				
-				// 재귀 돌면서 디렉토리 구조 동기화
-				synchronize(localList[i], serverDir + "/" + localList[i].getName());
-			} else {
-				checkFile(localList[i], serverDir);
-			}
-			deleteFromLists(localList[i].getName());
-		}
-		
 		/********************************** 로컬에 없는 폴더 및 파일 FTP서버에서 삭제 **************************************/
 		Vector<LsEntry> serverList = sftpChannel.ls(serverDir);
 		
@@ -440,6 +410,35 @@ public class FTPHandler {
 		});
 		//*/
 		/*******************************************************************************************************/
+		
+		for(int i = 0; i < localList.length; i++) {
+			// 동기화 체크용 플래그
+			boolean check = false;
+			
+			for(String ignoreFile : ignoreList) {
+				if(localList[i].getName().contains(ignoreFile)) {
+					check = true;
+					break;
+				}
+			}
+			
+			// 동기화하지 않을 파일일 경우 continue
+			if(check) {
+				continue;
+			}
+			
+			if(localList[i].isDirectory()){
+				if(!checkFolder(localList[i], serverDir)) {
+					newFileMaster(localList[i], serverDir);
+				}
+				
+				// 재귀 돌면서 디렉토리 구조 동기화
+				synchronize(localList[i], serverDir + "/" + localList[i].getName());
+			} else {
+				checkFile(localList[i], serverDir);
+			}
+			deleteFromLists(localList[i].getName());
+		}
 	}
 	
 	/*
