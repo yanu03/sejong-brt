@@ -159,12 +159,12 @@
 	            
 	            
 	            <div data-ax5grid="gridView1"
-						data-fit-height-content="gridView1" style="width: 300px; float:left;"></div>
+						data-fit-height-content="gridView1" style="height:300px;"></div>
 						<!-- 
 				<div style="float:left; background:white; border:0px solid black" id="jsGrid1"></div>   
 						 -->
 				     
-            	<div style="float:left; width: 50px; margin-left: 10px; margin-right: 10px;">
+            	<div style="width: 50px; margin-left: 10px; margin-right: 10px;">
 	            	<button type="button" class="btn btn-default" style="width: 100%; margin-bottom: 10px;" data-page-btn="addPlayList">
 	            		>
 	            	</button>
@@ -176,7 +176,7 @@
             
             	
             	<div data-ax5grid="gridView2"
-						data-fit-height-content="gridView2" style="width: 300px; float:left;"></div>
+						data-fit-height-content="gridView2" style="height:300px;"></div>
 
             </ax:split-panel>
 			
