@@ -290,7 +290,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0302G1S0",
             data: {conId: selectedRow.conId},
             callback: function (res) {
-                caller.gridView1.setData(res);
+            	if(res.list[0].altDiv != null){
+            		caller.gridView1.setData(res);
+            	}
                 
                 console.log("리로드쪽"+data);
                 

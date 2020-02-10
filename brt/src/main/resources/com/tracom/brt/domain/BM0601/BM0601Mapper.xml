@@ -30,7 +30,7 @@
 	FROM
 		BM_WEAT_INFO WI
 		LEFT OUTER JOIN SM_DL_CD_INFO A		 
-		ON WI.SKY_COND = A.DL_CD_NM
+		ON WI.SKY_COND = A.DL_CD
  	GROUP BY WI.NOTI_DT DESC LIMIT 1
 	</select>
 	<select id="BM0601G1S0" resultType="weatAtmoVO" parameterType="String">
