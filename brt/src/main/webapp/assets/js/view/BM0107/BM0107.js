@@ -83,7 +83,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     // 탭닫기
     PAGE_CLOSE: function(caller, act, data) {
-    	window.parent.fnObj.tabView.closeActiveTab();
+    	//원본
+    	//window.parent.fnObj.tabView.closeActiveTab();
+    	axboot.ajax({
+			type: "POST",
+			url: "/api/v1/makeRoute",
+			callback: function (res) {
+				if(res.status == 0){
+					alert('갱신 성공');
+					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+				}else{
+					alert('갱신 실패');
+				}
+			}
+		});
     },
     
     ITEM_CLICK_G0: function (caller, act, data) {

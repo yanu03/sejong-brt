@@ -1,6 +1,7 @@
 package com.tracom.brt.utils;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -54,6 +55,7 @@ public class Utils {
 	}
 	
 	public static void createCSV(File file, String content) throws Exception {
-		FileUtils.writeStringToFile(file, content, Charsets.ISO_8859_1);
+		//FileUtils.writeStringToFile(file, content, Charsets.ISO_8859_1);
+		FileUtils.writeStringToFile(file, content, Charset.forName("CP949"));
 	}
 }

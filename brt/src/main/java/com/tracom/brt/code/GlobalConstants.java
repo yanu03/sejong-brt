@@ -37,6 +37,11 @@ public class GlobalConstants {
     }
     
     public static class CSVForms {
+    	public static final String ROW_SEPARATOR			= "\r\n";
+    	public static final String COMMA					= ",";
     	public static final String VOICE_PLAYLIST_TITLE		= "Seq_No,Voice_Code,Audio_FileName,Start_Date,Expire_Date,Text (256Byte)\r\n";
+    	public static final String ROUTE_BUSSTOP_TITLE		= "NODE_ID,NODE_NAME,TYPE,RANGE,X,Y,NODE_ENAME";
+    	public static final String ROUTE_NODELIST_TITLE		= "NODE_ID,NODE_NAME,RANGE,X,Y";
+    	public static final String ROUTE_TITLE				= "NODE_ID";
     }
 }

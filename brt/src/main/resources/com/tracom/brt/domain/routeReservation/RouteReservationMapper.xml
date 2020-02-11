@@ -5,10 +5,15 @@
 
  	<!-- routemap 폴더 내 파일 생성 쿼리 -->
  	<!-- 노선별 파일명 생성 쿼리 -->
- 	<select id="rsv_routelist" resultType="bmRoutNodeInfoVO">
+ 	<select id="rsv_routelist" resultType="bmRoutInfoVO">
  		SELECT
-			  ROUT.ROUT_ID
-		    , CONCAT(ROUT.ROUT_ID, '_', CONCAT(SUBSTRING(DATE_FORMAT(PUB_DATE, '%Y%m%d'), 3), PUB_SEQ), '_', 'ID', '_', SUBSTRING(DL_CD.DL_CD_NM, 1, 1), '_', WAY_INFO, '_', DIR_INFO, '.csv') AS FILENAME
+			  ROUT.ROUT_ID AS ROUT_ID
+            , CONCAT(SUBSTRING(DATE_FORMAT(PUB_DATE, '%Y%m%d'), 3), PUB_SEQ) AS VERSION
+            , LPAD(REPLACE(SHORT_ROUT_NM, '-', 0), 6, 0) AS MNG_NAME
+            , SUBSTRING(DL_CD.DL_CD_NM, 1, 1) AS UP_DOWN
+            , WAY_INFO
+            , DIR_INFO
+		    , CONCAT(ROUT.ROUT_ID, '_', CONCAT(SUBSTRING(DATE_FORMAT(PUB_DATE, '%Y%m%d'), 3), PUB_SEQ), '_', LPAD(REPLACE(SHORT_ROUT_NM, '-', 0), 6, 0), '_', SUBSTRING(DL_CD.DL_CD_NM, 1, 1), '_', WAY_INFO, '_', DIR_INFO, '.csv') AS FILENAME
 		FROM
 			BM_ROUT_INFO ROUT
 		    LEFT JOIN BM_ROUT_NODE_INFO NODE
@@ -37,11 +42,12 @@
 	<select id="rsv_busstoplist" resultType="bmRoutNodeInfoVO">
 		SELECT
 			  STA.STA_ID					AS NODE_ID
-		    , IF(NM.KR_NM IS NULL || NM.KR_NM = '', STA.STA_NM, NM.KR_NM) AS NODE_NAME
-		    , '1'							AS 'TYPE'
+		    , IF(NM.KR_NM IS NULL || NM.KR_NM = '', STA.STA_NM, NM.KR_NM) AS NODE_NM
+		    , '1'							AS 'NODE_TYPE'
 		    , '30'							AS 'RANGE'
 		    , TRUNCATE(LONGI, 6)			AS X
 		    , TRUNCATE(LATI, 6)				AS Y
+		    , NM.EN_NM						AS NODE_ENAME
 		FROM
 			BM_STA_INFO STA
 		    LEFT JOIN BM_STA_NM_INFO NM
@@ -51,11 +57,12 @@
 		
 		SELECT
 			  ORGA_ID				AS NODE_ID
-		    , ORGA_NM				AS NODE_NAME
-		    , '898'					AS 'TYPE'
+		    , ORGA_NM				AS NODE_NM
+		    , '898'					AS 'NODE_TYPE'
 		    , '30'					AS 'RANGE'
 		    , TRUNCATE(LONGI, 6)	AS X
 		    , TRUNCATE(LATI, 6)		AS Y
+		    , NULL					AS NODE_ENAME
 		FROM
 			BM_VOC_ORGA
 	</select>
@@ -84,5 +91,27 @@
 		WHERE
 			ROUT_ID = #{routId}
 		ORDER BY SEQ
+	</select>
+	
+	<select id="rsv_maxVersion" resultType="String">
+		SELECT
+			MAX(VERSION) AS VERSION
+		FROM
+			(SELECT
+				  ROUT.ROUT_ID
+	            , CONCAT(SUBSTRING(DATE_FORMAT(PUB_DATE, '%Y%m%d'), 3), PUB_SEQ) AS VERSION
+	            , LPAD(REPLACE(SHORT_ROUT_NM, '-', 0), 6, 0) AS MNG_NAME
+	            , SUBSTRING(DL_CD.DL_CD_NM, 1, 1) AS UP_DOWN
+	            , WAY_INFO
+	            , DIR_INFO
+			    , CONCAT(ROUT.ROUT_ID, '_', CONCAT(SUBSTRING(DATE_FORMAT(PUB_DATE, '%Y%m%d'), 3), PUB_SEQ), '_', 'ID', '_', SUBSTRING(DL_CD.DL_CD_NM, 1, 1), '_', WAY_INFO, '_', DIR_INFO, '.csv') AS FILENAME
+			FROM
+				BM_ROUT_INFO ROUT
+			    LEFT JOIN BM_ROUT_NODE_INFO NODE
+			    ON ROUT.ROUT_ID = NODE.ROUT_ID
+			    LEFT JOIN (SELECT * FROM SM_DL_CD_INFO WHERE CO_CD = 'UPDOWN_FLAG') DL_CD
+			    ON ROUT.USER_WAY_DIV = DL_CD.NUM_VAL4
+			GROUP BY ROUT.ROUT_ID
+			HAVING COUNT(*) > 1) A
 	</select>
 </mapper>

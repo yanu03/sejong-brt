@@ -2,9 +2,11 @@ package com.tracom.brt.controllers;
 
 import javax.inject.Inject;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.tracom.brt.domain.routeReservation.RouteReservationService;
 
@@ -14,6 +16,16 @@ public class RouteReservationController extends BaseController {
 	
 	@Inject
 	private RouteReservationService service;
+	
+	//TODO
+	/*
+	 * 
+	 * */
+	@PostMapping("/makeRoute")
+	public ApiResponse makeRoute() {
+		service.makeRouteFile();
+		return ok();
+	}
 	
 	/*
 	@PostMapping("/routeReservation")
