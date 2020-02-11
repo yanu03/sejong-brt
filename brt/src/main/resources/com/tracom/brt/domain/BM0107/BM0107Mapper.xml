@@ -127,7 +127,7 @@
 						#{voList.staId}
 					</when>
 					<otherwise>
-	  			    	CONCAT('ND', LPAD(NEXTVAL(SEQ_BM_ROUT_NODE_INFO_0), 7, '0'))
+	  			    	CONCAT('ND', LPAD(NEXTVAL(SEQ_BM_ROUT_NODE_INFO_0), 8, '0'))
 					</otherwise>
 				</choose>
 				, #{voList.nodeNm}

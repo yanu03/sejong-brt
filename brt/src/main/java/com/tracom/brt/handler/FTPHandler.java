@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,10 +17,13 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.mp4.MP4Parser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +34,7 @@ import com.jcraft.jsch.SftpException;
 import com.tracom.brt.code.GlobalConstants;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.domain.BM0605.VideoInfoVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
 import com.tracom.brt.utils.Utils;
@@ -128,10 +131,33 @@ public class FTPHandler {
 		}
 	}
 
-	//
-	public void encode2Ansi() {
+	//mp4파일 정보 리턴
+	public VideoInfoVO parseMp4(String fileName) throws Exception{
+		BodyContentHandler handler = new BodyContentHandler(-1);
+		VideoInfoVO result = new VideoInfoVO();
 		
+		Metadata metadata = new Metadata();
+		String path = Paths.get(getRootLocalPath(), "/common/video").toString();
+		File file = new File(path + "/" + fileName);
+		
+		FileInputStream inputstream = new FileInputStream(file);
+		ParseContext pcontext = new ParseContext();
+		
+		MP4Parser MP4Parser = new MP4Parser();
+		MP4Parser.parse(inputstream, handler, metadata, pcontext);
+		
+		//String[] metadataNames = metadata.names();
+		
+		result.setFileSize(file.length());
+		
+		if(metadata.get("xmpDM:duration") != null) {
+			result.setPlayTm(Math.round(Float.parseFloat((metadata.get("xmpDM:duration")))));
+			return result;
+		}else {
+			return result;
+		}
 	}
+	
 	//null이면 공백으로 처리
 	public String checkNull(Object txt) {
 		if(txt == null) {

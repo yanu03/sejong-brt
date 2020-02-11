@@ -45,6 +45,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	},
 
 	PAGE_NEW: function (caller, act, data) {
+		togglePreview();
 		isUpdate = false;
 		caller.gridView0.selectAll(false);
 		caller.formView0.clear();
@@ -90,6 +91,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_SAVE: function (caller, act, data) {
 
 		if (caller.formView0.validate()) {
+			console.log(data);
 			var formData = new FormData(caller.formView0.target[0]);
 			if($("#vdoFile")[0].files[0]){
 				formData.append("vdoFile", $("#vdoFile")[0].files[0].name);
@@ -301,6 +303,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 				],
 				body: {
 					onClick: function () {
+						
+						togglePreview();
 						this.self.select(this.dindex);
 						ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
 					}
@@ -475,6 +479,9 @@ function togglePreview(input){
 		$('#videoPreview').show();
 		$('#imgPlayTm').val('');
 		$('#imgPlayTm').attr('disabled', true);
+	}else{
+		$('#imgPlayTm').val('');
+		$('#videoPreview').attr('src', '');
 	}
 	//file clear 필요함
 }

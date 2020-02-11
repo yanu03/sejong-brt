@@ -33,19 +33,18 @@ public class BM0605Controller extends BaseController {
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
     })
     public Responses.ListResponse BM0605G0S0(RequestParams<VideoInfoVO> requestParams) {
-    	System.out.println("605G0S0 controller");
         List<VideoInfoVO> list = service.BM0605G0S0(requestParams);
         return Responses.ListResponse.of(list);
     }
     
     @PostMapping("/BM0605F0I0")
-    public ApiResponse BM0605F0I0(@ModelAttribute VideoInfoVO request) {
+    public ApiResponse BM0605F0I0(@ModelAttribute VideoInfoVO request) throws Exception {
     	String vdoId = service.BM0605F0I0(request);
     	return ok(vdoId);
     }
     
     @PostMapping("/BM0605F0U0")
-    public ApiResponse BM0605F0U0(@ModelAttribute VideoInfoVO request) {
+    public ApiResponse BM0605F0U0(@ModelAttribute VideoInfoVO request) throws Exception {
     	String vdoId = service.BM0605F0U0(request);
     	return ok(vdoId);
     }
