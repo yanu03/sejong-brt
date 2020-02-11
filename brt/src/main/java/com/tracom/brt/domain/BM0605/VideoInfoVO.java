@@ -47,4 +47,6 @@ public class VideoInfoVO extends BaseVO {
 		
 		private int __seq;
 		
+		private int __index;
+		
 }

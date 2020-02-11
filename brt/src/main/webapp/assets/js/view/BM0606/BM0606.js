@@ -48,10 +48,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;
+    	console.log("page_new : " + isUpdate);
     	caller.gridView0.selectAll(false);
         caller.formView0.clear();
         caller.formView0.enable();
         caller.formView0.validate(true);
+        caller.gridView1.selectAll(false);
+        caller.gridView2.clear();
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -90,8 +93,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SAVE: function (caller, act, data) {
-        console.log("save");
-    	console.log(caller.gridView2.getData());
     	
     	if(caller.formView0.validate()) {
     		var formData = caller.formView0.getData();
@@ -99,12 +100,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		
     		formData["playList"] = playList;
     		
-    		console.log(formData);
     		axboot.promise()
 		        .then(function (ok, fail, _data) {
 		            axboot.ajax({
 		                type: "POST",
-		                url: "/api/v1/BM0606G2U0",
+		                url: "/api/v1/BM0606G2I0",
 		                data: JSON.stringify(formData),
 		                callback: function (res) {
 		                    ok(res);
@@ -113,23 +113,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		        })
 		        .then(function (ok, fail, data) {
 		        	axToast.push(LANG("onadd"));
-		        	if (parent && parent.axboot && parent.axboot.modal) {
-	                    parent.axboot.modal.callback();
-	                }
-		        	caller.parentData["orgaId"] = data.message;
-		        	//window.location.reload();
+		        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 		        })
 		        .catch(function () {
 		
 		        });
-		    //*/
     	}
     	
     	
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-    	console.log(caller.gridView2.getData());
     	
     	if(caller.formView0.validate()) {
     		var formData = caller.formView0.getData();
@@ -137,7 +131,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		
     		formData["playList"] = playList;
     		
-    		console.log(formData);
     		axboot.promise()
 		        .then(function (ok, fail, _data) {
 		            axboot.ajax({
@@ -150,12 +143,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		            });
 		        })
 		        .then(function (ok, fail, data) {
-		        	axToast.push(LANG("onadd"));
-		        	if (parent && parent.axboot && parent.axboot.modal) {
-	                    parent.axboot.modal.callback();
-	                }
-		        	caller.parentData["orgaId"] = data.message;
-		        	//window.location.reload();
+		        	axToast.push(LANG("onupdate"));
+		        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 		        })
 		        .catch(function () {
 		        });
@@ -169,9 +158,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
+    	console.log("item_click : " + isUpdate);
     	selectedRow = data;
         caller.formView0.setData(data);
-        console.log(data.orgaId);
         initGrid2(data);
     },
     
@@ -189,7 +178,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ADDBTN_CLICK: function(caller, act, data){
-    	console.log("add");
     	var row = caller.gridView1.getData("selected");
 
     	if(row.length != 0) {
@@ -255,15 +243,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		url: "/api/v1/BM0605G0S0",
     		data: filter,
     		callback: function (res) {
-    			for(var i=0; i<res.list.length; i++){
-    				res.list[i].txt
-    							= 	"영상명 : "		+ res.list[i].vdoNm +
-    								"&lt;br/&gt;계약명 : "		+ res.list[i].conNm +
-    								"&lt;br&gt;\n파일종류 : "	+ res.list[i].fileTypeNm +
-    								"&lt;br&gt;\n재생시간(초) : "+ res.list[i].playTm +
-    								"&lt;br&gt;\n재생기간 : "	+ res.list[i].playStDate + "~" + res.list[i].playEdDate;
-    			}
-    			console.log(res);
     			caller.gridView1.setData(res);
     			if(dataFlag) {
     				caller.gridView1.selectIdRow(data);
@@ -288,14 +267,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		url: "/api/v1/BM0606G2S0",
     		data: filter,
     		callback: function (res) {
-    			for(var i=0; i<res.list.length; i++){
-    				res.list[i].txt
-    							= 	"영상명 : "		+ res.list[i].vdoNm +
-    								"\n계약명 : "		+ res.list[i].conNm +
-    								"\n파일종류 : "	+ res.list[i].fileTypeNm +
-    								"\n재생시간(초) : "+ res.list[i].playTm +
-    								"\n재생기간 : "	+ res.list[i].playStDate + "~" + res.list[i].playEdDate;
-    			}
+
     			caller.gridView1.setData(res);
     			if(dataFlag) {
     				caller.gridView1.selectIdRow(data);
@@ -312,15 +284,24 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     GRID_DBLCLICK: function(caller, act, data){
-    	console.log(data);
-    	console.log("DBLCLICK");
-    	//data.vdoId, data.fileType 챙겨서 모달오픈
+    	openModal606(data);
     },
-    
-    
     
 });
 
+function openModal606(input){
+	axboot.modal.open({
+        modalType: "BM0606",
+        param: "",
+        sendData: function(){
+        	return input;
+        },
+        callback: function (data) {
+        	// 운수사, 거래처 등을 선택한 후 이벤트 ex) input에 값을 넣어 주는 등의 로직을 작성하면됨
+            this.close();
+        }
+    });
+}
 /********************************************************************************************************************/
 
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
@@ -362,6 +343,7 @@ fnObj.pageButtonView = axboot.viewExtend({
             	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
             },
             "save": function () {
+            	console.log(isUpdate);
             	if(isUpdate) {
             		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
             	} else {
@@ -429,10 +411,10 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "orgaId",		label: ADMIN("ax.admin.BM0606G0.orgaId"),		width: 100},
-                {key: "orgaNm",		label: ADMIN("ax.admin.BM0606G0.orgaNm"),		width: 120},
-                {key: "vdoCnt",		label: ADMIN("ax.admin.BM0606G0.vdoCnt"),		width: 80},
-                {key: "ttTime",		label: ADMIN("ax.admin.BM0606G0.ttTime"),		width: 120},
+                {key: "orgaId",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0606G0.orgaId") + "</font>",		width: 100},
+                {key: "orgaNm",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0606G0.orgaNm") + "</font>",		width: 120},
+                {key: "vdoCnt",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0606G0.vdoCnt") + "</font>",		width: 80,	align: "right"},
+                {key: "ttTime",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0606G0.ttTime") + "</font>",		width: 120,	align: "right"},
                 {key: "remark",		label: ADMIN("ax.admin.BM0606G0.remark"),		width: 80},
             ],
             body: {
@@ -470,6 +452,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     		this.selectRow(0);
     	} else {
     		isUpdate = false;
+    		console.log("selectFirstRow : " + isUpdate);
     	}
     },
     selectLastRow: function() {
@@ -494,7 +477,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].vdoId == id) {
+    		if(this.target.list[i].orgaId == id) {
     			this.selectRow(i);
     			break;
     		}
@@ -526,13 +509,127 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             //sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-                {key: "txt",		label: ADMIN("ax.admin.BM0606G0.orgaId"),		width: 245,	multiLine: true},
+                {key: "vdoId",		label: ADMIN("ax.admin.BM0606G1.vdoId"),		width: 100},
+                {key: "conNm",		label: ADMIN("ax.admin.BM0606G1.conNm"),		width: 100},
+                {key: "fileTypeNm",	label: ADMIN("ax.admin.BM0606G1.fileTypeNm"),	width: 100},
+                {key: "playTm",		label: ADMIN("ax.admin.BM0606G1.playTm"),		width: 100,	align:"right"},
+                {key: "playStDate",	label: ADMIN("ax.admin.BM0606G1.playStDate"),	width: 100},
+                {key: "playEdDate",	label: ADMIN("ax.admin.BM0606G1.playEdDate"),	width: 100},
+                
             ],
             body: {
-            	columnHeight: 100,
                 onClick: function () {
                     this.self.select(this.dindex);
                     
+                },
+                onDBLClick: function(){
+                	ACTIONS.dispatch(ACTIONS.GRID_DBLCLICK, this.item);
+                }
+            },
+        });
+    },
+    getData: function (_type) {
+        var list = [];
+        var _list = this.target.getList(_type);
+
+        if (_type == "modified" || _type == "deleted") {
+            list = ax5.util.filter(_list, function () {
+                delete this.deleted;
+                return this.key;
+            });
+        } else {
+            list = _list;
+        }
+        return list;
+    },
+    addRow: function (data) {
+    	if(typeof data === "undefined") {
+    		this.target.addRow({__created__: true}, "last");
+    	} else {
+    		data["__created__"] = true;
+            this.target.addRow(data, "last");
+    	}
+    },
+    selectFirstRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(0);
+    	} else {
+    	}
+    },
+    selectLastRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(this.target.list.length - 1);
+    	} else {
+    		isUpdate = false;
+    	}
+    },
+    selectRow: function(index) {
+    	isUpdate = true;
+    	var data = this.target.list[index];
+    	
+    	if(typeof data === "undefined") {
+    		this.selectLastRow();
+    	} else {
+    		this.target.select(index);
+    	}
+    },
+    selectIdRow: function(id) {
+    	var i;
+    	var length = this.target.list.length;
+    	for(i = 0; i < length; i++) {
+    		if(this.target.list[i].vdoId == id) {
+    			this.selectRow(i);
+    			break;
+    		}
+    	}
+    	
+    	if(i == length) {
+    	}
+    },
+    selectAll: function(flag) {
+    	this.target.selectAll({selected: flag});
+    }
+});
+
+/** 편성 영상 목록 그리드 **/
+fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
+    page: {
+        pageNumber: 0,
+        pageSize: 10
+    },
+    
+    initView: function () {
+        var _this = this;
+        
+        this.target = axboot.gridBuilder({
+        	frozenColumnIndex: 0,
+            target: $('[data-ax5grid="gridView2"]'),
+            columns: [
+                {key: "vdoId",		label: ADMIN("ax.admin.BM0606G1.vdoId"),		width: 100},
+                {key: "conNm",		label: ADMIN("ax.admin.BM0606G1.conNm"),		width: 100},
+                {key: "fileTypeNm",	label: ADMIN("ax.admin.BM0606G1.fileTypeNm"),	width: 100},
+                {key: "playTm",		label: ADMIN("ax.admin.BM0606G1.playTm"),		width: 100,	align:"right"},
+                {key: "playStDate",	label: ADMIN("ax.admin.BM0606G1.playStDate"),	width: 100},
+                {key: "playEdDate",	label: ADMIN("ax.admin.BM0606G1.playEdDate"),	width: 100},
+            ],
+            footSum: [
+            	[
+            		{label: "총 재생시간", colspan: 1, align: "center"},
+            		{key: "playTm", collector: function() {
+            			var value = 0;
+            			
+            			this.list.forEach(function(n) {
+            				value += n.playTm;
+            			});
+            			
+            			return secondToTime(value);
+            		}}
+            	]
+            ],
+            body: {
+                onClick: function () {
+                    this.self.select(this.dindex);
+                    //ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
                 },
                 onDBLClick: function(){
                 	ACTIONS.dispatch(ACTIONS.GRID_DBLCLICK, this.item);
@@ -573,111 +670,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     	if(this.target.list.length != 0) {
     		this.selectRow(this.target.list.length - 1);
     	} else {
-    		isUpdate = false;
-    	}
-    },
-    selectRow: function(index) {
-    	isUpdate = true;
-    	var data = this.target.list[index];
-    	
-    	if(typeof data === "undefined") {
-    		this.selectLastRow();
-    	} else {
-    		this.target.select(index);
-    	}
-    },
-    selectIdRow: function(id) {
-    	var i;
-    	var length = this.target.list.length;
-    	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].orgaId == id) {
-    			this.selectRow(i);
-    			break;
-    		}
-    	}
-    	
-    	if(i == length) {
-    		isUpdate = false;
-    	}
-    },
-    selectAll: function(flag) {
-    	this.target.selectAll({selected: flag});
-    }
-});
-
-/** 편성 영상 목록 그리드 **/
-fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
-    page: {
-        pageNumber: 0,
-        pageSize: 10
-    },
-    
-    initView: function () {
-        var _this = this;
-        
-        this.target = axboot.gridBuilder({
-        	frozenColumnIndex: 0,
-            target: $('[data-ax5grid="gridView2"]'),
-            columns: [
-                {key: "txt",		label: ADMIN("ax.admin.BM0606G0.orgaId"),		width: 245,	multiLine: true},
-            ],
-            footSum: [
-            	[
-            		{label: "총 재생시간", colspan: 1, align: "center"},
-            		{key: "playTm", collector: function() {
-            			var value = 0;
-            			
-            			this.list.forEach(function(n) {
-            				value += n.playTm;
-            			});
-            			
-            			return secondToTime(value);
-            		}}
-            	]
-            ],
-            body: {
-            	columnHeight: 100,
-                onClick: function () {
-                    this.self.select(this.dindex);
-                    //ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
-                }
-            },
-        });
-    },
-    getData: function (_type) {
-        var list = [];
-        var _list = this.target.getList(_type);
-
-        if (_type == "modified" || _type == "deleted") {
-            list = ax5.util.filter(_list, function () {
-                delete this.deleted;
-                return this.key;
-            });
-        } else {
-            list = _list;
-        }
-        return list;
-    },
-    addRow: function (data) {
-    	if(typeof data === "undefined") {
-    		this.target.addRow({__created__: true}, "last");
-    	} else {
-    		data["__created__"] = true;
-            this.target.addRow(data, "last");
-    	}
-    },
-    selectFirstRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(0);
-    	} else {
-    		isUpdate = false;
-    	}
-    },
-    selectLastRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(this.target.list.length - 1);
-    	} else {
-    		isUpdate = false;
     	}
     },
     selectRow: function(index) {
@@ -702,7 +694,6 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
     	}
     	
     	if(i == length) {
-    		isUpdate = false;
     	}
     },
     selectAll: function(flag) {

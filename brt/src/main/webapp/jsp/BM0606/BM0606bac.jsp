@@ -46,7 +46,7 @@
 
 
       <ax:split-layout name="ax1" orientation="vertical">
-	        <ax:split-panel width="570" style="height:800px;">
+	        <ax:split-panel width="*" style="height:800px;">
 	            <ax:split-panel width="100%"
 					style="height:400px; padding-right: 10px;">
 	                <!-- 목록 -->
@@ -121,9 +121,9 @@
 	        
             <ax:splitter></ax:splitter>
             
-            <ax:split-panel width="*" height="100%" style="padding-left: 10px; padding-bottom:40px" scroll="">
+            <ax:split-panel width="700" height="100%" style="padding-left: 10px; padding-bottom:40px" scroll="">
             
-	            <ax:split-panel width="500" style="height:300px">
+	            <ax:split-panel width="200" style="margin-right: 30px;">
 	            	<div class="ax-button-group">
 		            	<div class="left">
 				            <h3>
@@ -131,48 +131,54 @@
 				                <ax:lang id="ax.admin.BM0606G1.title" />
 				            </h3>
 			            </div>
-		            </div>
-		            
-	           		 <div data-ax5grid="gridView1"
-						data-fit-height-content="gridView1" style="height:300px;"></div>
-
-				</ax:split-panel>
-	            
-	            <ax:split-panel width="500" style="height:50px; margin-top:50px;">
-	            	<div style="margin-left: 10px; margin-right: 10px; float:left;">
-		            	<button type="button" class="btn btn-default" style="width: 100%;" data-page-btn="addPlayList">
-		            		추가<!-- ↓ -->
-		            	</button>
-		            	
-		            	<button type="button" class="btn btn-default" style="width: 100%;" data-page-btn="deletePlayList">
-		            		제거 <!-- ↑ -->
-		            	</button>
-	            	</div>
-	            	<div style="float:left;">
-          	            <button type="button" class="btn btn-default" data-page-btn="upItem">
-		            		↑
-		            	</button>
-		            	
-		            	<button type="button" class="btn btn-default" data-page-btn="downItem">
-		            		↓
-		            	</button>
-	            	</div>
-	            </ax:split-panel>
-            
-            	<ax:split-panel width="500" style="padding-bottom:55px;height:300px">
-	            	<div class="ax-button-group">
-		            	<div class="left">
-				            <h3>
-								<i class="cqc-list"></i>
-				                <ax:lang id="ax.admin.BM0606G2.title" />
+			            <!-- 
+	                    <div class="right">
+				            <h3><i class="cqc-list"></i>
+				                <ax:lang id="ax.admin.BM0606G2.title"/>
 				            </h3>
 			            </div>
+			             -->
 		            </div>
 		            
-	            	<div data-ax5grid="gridView2"
-						data-fit-height-content="gridView2" style="height:300px;"></div>
-
+		            <!-- 
+					<div class="ax-button-group">
+						 <div class="right">
+						 <!-- 
+						 	<button type="button" class="btn btn-default" data-page-btn="previewItem">
+			            		미리보기
+			            	</button>
+				            <button type="button" class="btn btn-default" data-page-btn="upItem">
+			            		↑
+			            	</button>
+			            	
+			            	<button type="button" class="btn btn-default" data-page-btn="downItem">
+			            		↓
+			            	</button>
+			            </div>
+					</div>
+		             -->
 				</ax:split-panel>
+	            
+	            
+	            <div data-ax5grid="gridView1"
+						data-fit-height-content="gridView1" style="height:300px;"></div>
+						<!-- 
+				<div style="float:left; background:white; border:0px solid black" id="jsGrid1"></div>   
+						 -->
+				     
+            	<div style="width: 50px; margin-left: 10px; margin-right: 10px;">
+	            	<button type="button" class="btn btn-default" style="width: 100%; margin-bottom: 10px;" data-page-btn="addPlayList">
+	            		>
+	            	</button>
+	            	
+	            	<button type="button" class="btn btn-default" style="width: 100%;" data-page-btn="deletePlayList">
+	            		<
+	            	</button>
+            	</div>
+            
+            	
+            	<div data-ax5grid="gridView2"
+						data-fit-height-content="gridView2" style="height:300px;"></div>
 
             </ax:split-panel>
 			
