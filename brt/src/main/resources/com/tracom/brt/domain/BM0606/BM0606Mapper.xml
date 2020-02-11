@@ -83,6 +83,13 @@
 		        )
 			</foreach>
 	</insert>
+	
+	<delete id="BM0606G0D0" parameterType="vdoOrgaVO">
+		DELETE FROM
+			BM_VDO_ORGA
+		WHERE
+			ORGA_ID = #{orgaId}
+	</delete>
 	<select id="BM0606G2S0" parameterType="VdoOrgaVO" resultType="VideoInfoVO">
 		SELECT
 			  OLIST.ORGA_ID		AS ORGA_ID

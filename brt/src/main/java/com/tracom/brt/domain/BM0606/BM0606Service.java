@@ -50,4 +50,12 @@ public class BM0606Service extends BaseService<VdoOrgaVO, String> {
     	}
     	return (result >= 0 ? true : false);
     }
+    
+    @Transactional
+    public int BM0606Delete(VdoOrgaVO vo) {
+    	int result = 0;
+    	result += mapper.BM0606G2D0(vo);
+    	result += mapper.BM0606G0D0(vo);
+    	return result;
+    }
 }

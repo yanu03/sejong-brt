@@ -24,4 +24,7 @@ public interface BM0606Mapper extends MyBatisMapper {
 	
 	//폼 업데이트
 	int BM0606F0U0(VdoOrgaVO vo);
+	
+	//그리드0삭제
+	int BM0606G0D0(VdoOrgaVO vo);
 }

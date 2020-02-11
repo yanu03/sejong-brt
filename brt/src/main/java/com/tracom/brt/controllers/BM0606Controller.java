@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
+import com.tracom.brt.domain.BM0101.CorpInfoVO;
 import com.tracom.brt.domain.BM0605.VideoInfoVO;
 import com.tracom.brt.domain.BM0606.BM0606Service;
 import com.tracom.brt.domain.BM0606.VdoOrgaVO;
@@ -56,5 +58,10 @@ public class BM0606Controller extends BaseController {
     	//return Responses.ListResponse.of(voList);
     	return null;
     }
-
+    
+    @PostMapping("/BM0606G0D0")
+    public ApiResponse BM0606G0D0(@RequestBody VdoOrgaVO request) {
+    	service.BM0606Delete(request);
+    	return ok();
+    }
 }
