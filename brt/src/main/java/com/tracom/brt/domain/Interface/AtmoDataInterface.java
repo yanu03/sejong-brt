@@ -72,7 +72,7 @@ public class AtmoDataInterface {
 			return "false";
 		}
 	}
-	
+	//대기 파싱 
 	public NodeList interface_XML(String inputUrl) {
 		BufferedReader br = null;
 		//DocumentBuilderFactory 생성
@@ -112,6 +112,7 @@ public class AtmoDataInterface {
         }
 	}
 	
+	//기상 파싱
 	public NodeList weatInterface_XML(String inputUrl) {
 		BufferedReader br = null;
 		//DocumentBuilderFactory 생성
@@ -151,8 +152,10 @@ public class AtmoDataInterface {
         }
 	}
 	
+	//뉴스 파싱
 	public NodeList newsInterface_XML(String inputUrl) {
 		BufferedReader br = null;
+		BufferedReader brr = null;
 		//DocumentBuilderFactory 생성
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
@@ -166,6 +169,7 @@ public class AtmoDataInterface {
             
             //응답 읽기
             br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(), "EUC-KR"));
+            
             String result = "";
             String line;
             while ((line = br.readLine()) != null) {
@@ -173,16 +177,51 @@ public class AtmoDataInterface {
             }
             
             // xml 파싱하기
-            InputSource is = new InputSource(new StringReader(result));
-            builder = factory.newDocumentBuilder();
-            doc = builder.parse(is);
-            XPathFactory xpathFactory = XPathFactory.newInstance();
-            XPath xpath = xpathFactory.newXPath();
+            System.out.println(result);
+            String result_utf = "";
+            String line_utf;
+            int idx = result.indexOf(">");
+            System.out.println("idx");
+            System.out.println(idx);
+            String resultSet = result.substring(0, idx);
+            if(resultSet.contains("utf-8")) {
+            	System.out.println("utf-8 이다");
+            	URL urlUtf = new URL(inputUrl);
+                HttpURLConnection urlconnectionUtf = (HttpURLConnection) urlUtf.openConnection();
+            	brr = new BufferedReader(new InputStreamReader(urlconnectionUtf.getInputStream(), "UTF-8"));
+            	System.out.println("1");
+            	while ((line_utf = brr.readLine()) != null) {
+            		result_utf = result_utf + line_utf.trim();// result = URL로 XML을 읽은 값
+                }
+            	
+            	System.out.println("2");
+            	
+            	InputSource is = new InputSource(new StringReader(result_utf));
+            	System.out.println("3");
+            	builder = factory.newDocumentBuilder();
+            	System.out.println("4");
+            	doc = builder.parse(is);
+            	XPathFactory xpathFactory = XPathFactory.newInstance();
+            	XPath xpath = xpathFactory.newXPath();
+            	
+            	XPathExpression expr = xpath.compile("//channel/item");
+            	NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+            	
+            	return nodeList;
+            }else {           	
+            	
+            	System.out.println("euc-kr");
+            	InputSource is = new InputSource(new StringReader(result));
+            	builder = factory.newDocumentBuilder();
+            	doc = builder.parse(is);
+            	XPathFactory xpathFactory = XPathFactory.newInstance();
+            	XPath xpath = xpathFactory.newXPath();
+            	
+            	XPathExpression expr = xpath.compile("//channel/item");
+            	NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+            	return nodeList;
+            }
 
-            XPathExpression expr = xpath.compile("//channel/item");
-            NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-            
-            return nodeList;
          
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -191,10 +230,15 @@ public class AtmoDataInterface {
 	}
 	
 	public static String getTagValue(String tag, Element eElement) {
+		if(tag == null) {
+			System.out.println("null");
+			return null;
+		} 
 		NodeList nList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
-		
 		Node node = (Node)nList.item(0);
+		
 		if(node == null) {
+			System.out.println("node = null");
 			return null;
 		}
 		return node.getNodeValue();

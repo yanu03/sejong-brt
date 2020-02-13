@@ -108,6 +108,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     // gridView0항목 클릭 이벤트
     ITEM_CLICK: function (caller, act, data) {
+    	console.log("아이템클릭");
     	selectedRow = data;
     	selectedRowG1 = null;
     	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
@@ -115,6 +116,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
  // gridView1 항목 클릭 이벤트
     ITEM_CLICK_G1: function(caller, act, data) {
+    	console.log("아이템클릭1");
     	isUpdate = true;
     	selectedRowG1 = data;
     	ACTIONS.dispatch(ACTIONS.RELOAD_G2);
@@ -198,9 +200,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     			callback: function (data) {
     				console.log(data);
     				selectedRowG1.dvcId = formDataDvcId;
+    				ACTIONS.dispatch(ACTIONS.RELOAD_G2 , selectedRowG1.dvcId);
     			}
     		});   	
-    		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);
     },
     
     OPEN_BM0202_MODAL_UPDATE: function(caller, act, data) {
@@ -376,14 +378,14 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                      {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), sortable: true, width: 120},
                      {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), align: "center", width: 120},
                      {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align: "center", width: 120},
-                     {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), sortable: true, width: 150},
+                     {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), sortable: true, width: 120},
                      {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), align: "center", width: 120},
                      {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align: "center", width: 100},
                      {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align: "center", width: 100},
                      {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), align: "center", width: 70},
                      {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), align: "center", width: 70},
                      {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 200},
-                     {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), align: "center", sortable: true, width: 50},
+                     {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), align: "center", sortable: true, width: 80},
                  ],
             
             body: {
@@ -579,8 +581,8 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
             	{key: "aplyDate", label: ADMIN("ax.admin.BM0202G2.aplydate"), sortable: true, width: 80},
             	{key: "devSerialNo", label: ADMIN("ax.admin.BM0202G2.devserialno"), align: "center", sortable: true, width: 100},
             	{key: "modelNm", label: ADMIN("ax.admin.BM0202G2.modelnm"), align: "center", width: 80},
-                {key: "workType", label: ADMIN("ax.admin.BM0202G2.worktype"), sortable: true, width: 80},
-                {key: "workAmt", label: ADMIN("ax.admin.BM0202G2.workamt"), align: "right", type: "money" ,width: 80},
+                {key: "workType", label: ADMIN("ax.admin.BM0202G2.worktype"), align: "center" ,sortable: true, width: 80},
+                {key: "workAmt", label: ADMIN("ax.admin.BM0202G2.workamt"), align: "right", formatter:"money" ,width: 80},
                 {key: "remark", label: ADMIN("ax.admin.BM0202G2.remark"), width: 200},
             ],
             body: {

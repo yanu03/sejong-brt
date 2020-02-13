@@ -105,15 +105,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var data = caller.gridView1.getData();
     	var input = [];
 
-    	console.log(data);
     	for(var i=0; i<data.length; i++){
     		if(data[i].isChecked == "ckd"){
     			input.push(data[i]);
     		}
     	}
-    	
+    	var formData = new FormData()
     	console.log(input);
 
+    	
     	/*
         axboot.promise()
             .then(function (ok, fail, data) {

@@ -177,9 +177,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
-    				
     				console.log(formData);
-    				
     				axboot.promise()
     				.then(function (ok, fail, data) {
     					axboot.ajax({
@@ -225,9 +223,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			callback: function (res) {
 				console.log(res);
 				caller.formView0.setData(res.list[0]);
+				console.log(res.list[0].dvcType);
 			}
 		});  	
     	console.log(data.dvcKind);
+    	console.log(data.maker);
     },
     
     RELOAD_G1: function(caller, act, data) {
@@ -570,9 +570,15 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         
     },
     initEvent: function () {
-    	var _this = this; 	
+    	var _this = this;
+    	
+    	 $("#dvcKind").on('change',function(){
+    			if(this.value == "CD001"){
+    				$("#dvcType").append("dataPath='dvcKind'");
+    				console.log("cd001");
+    			}
+    		});
     },
-    
     getData: function () {
         var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
         return $.extend({}, data);

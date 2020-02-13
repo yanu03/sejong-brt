@@ -10,7 +10,7 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
-        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0203/BM0203.js' />"></script>       
+        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0802/BM0802.js' />"></script>       
          	<style>
 			.grid-cell-red{
 		        background: #A9F5A9;
@@ -28,7 +28,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0201S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0802S0.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -41,7 +41,7 @@
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0103G0.title"/>
+                            <ax:lang id="ax.admin.BM0802G0.title"/>
                         </h2>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                 <div class="ax-button-group" data-fit-height-aside="gridView1">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
-                             <ax:lang id="ax.admin.BM0202G1.title"/>
+                             <ax:lang id="ax.admin.BM0802G1.title"/>
                         </h2>
                     </div>
                 </div>

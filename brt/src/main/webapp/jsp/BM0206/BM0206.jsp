@@ -50,7 +50,6 @@
                     </div>
                 </div>
                     <div data-ax5grid="gridView1" style="height: 220px;"></div>
-                    
                      <div class="ax-button-group">
                         <div class="left">
                             <h3>
@@ -67,7 +66,7 @@
                            </div> 	                                               		                                 		 	                 	 		
             		</ax:form>                      
                     </div>
-                   <div data-ax5grid="gridView2" style="height: 200px;"></div>     
+                   <div data-ax5grid="gridView2" style="height: 235px;"></div>     
             </ax:split-panel>
                  
         </ax:split-layout>
