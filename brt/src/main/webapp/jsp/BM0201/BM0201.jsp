@@ -45,8 +45,9 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="600" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="600" style="padding-left: 10px;">
                 <!-- 폼 -->
+                <ax:split-panel width="500" style="height:270px; padding-right: 10px;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-news"></i>
@@ -69,7 +70,7 @@
                             	<ax:SM0105 groupCd="DVC_KIND" id="dvcKind" name="dvcKind" dataPath="dvcKind" clazz="form-control"/>
                             </ax:td>
                                           
-                            <ax:td label="ax.admin.BM0201F0.dvctype" width="250px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0201F0.dvctype" width="250px" labelClazz="required" id="dvcTypeTd">
                             	<ax:SM0105 groupCd="DVC_TYPE" id="dvcType" name="dvcType" dataPath="dvcType" clazz="form-control"/>
                             </ax:td>                  		
 						</ax:tr>                   
@@ -94,6 +95,9 @@
                             </ax:td>
                        	</ax:tr>                      	
                     </ax:tbl>
+                </ax:form>
+                </ax:split-panel>
+                <ax:split-panel width="500" style="height:100%; padding-right: 10px; padding-bottom:155px">
 	                    <div class="ax-button-group">
 	                        <div class="left">
 	                            <h3>
@@ -102,8 +106,8 @@
 	                            </h3>
 	                        </div>
 	                    </div>
-	                    <div data-ax5grid="gridView1" style="height:400px"></div>
-                </ax:form>
+	                    <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height:100%;"></div>
+	           </ax:split-panel>
             </ax:split-panel>
         </ax:split-layout>
 

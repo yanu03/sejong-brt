@@ -7,7 +7,7 @@ import com.chequer.axboot.core.mybatis.MyBatisMapper;
 public interface BM0302Mapper extends MyBatisMapper {
 	List<AltContractInfoVO> BM0302G1S0(String filter);
 	List<AltContractInfoVO> BM0302G0S0(String filter);
-	List<AltContractInfoVO> BM0302G0S1(String string);
+	List<AltContractInfoVO> BM0302G0S1(String filter);
 	AltContractInfoVO BM0302F0S0(String seq);
 	int BM0302F0I0(AltContractInfoVO vo);
 	int BM0302F0U0(AltContractInfoVO vo);

@@ -19,7 +19,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: filter,
             callback: function (res) {
             	console.log(res);
-                caller.gridView0.setData(res);             
+                caller.gridView0.setData(res);
 	               
 	                if(selectedRow != null) {
 		                	caller.gridView0.selectRow(selectedRow.__index);
@@ -100,6 +100,13 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
         this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
         this.filter = $("#filter");
         
+        this.target.find('[data-ax5picker="date"]').ax5picker({
+            direction: "auto",
+            content: {
+                type: 'date'
+            }
+        });
+        
     },
     getData: function () {
     	 return {
@@ -125,16 +132,16 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [
-            		 {key: "dvcId", label: ADMIN("ax.admin.BM0204G0.obeid"), align:"center" , sortable: true, width: 100},
-            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), align:"center" , width: 100 , styleClass:function(){return (this.item.dlCdNm === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
-                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center" , sortable: true, width: 150},
-                     {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), align:"center" , width: 150},
-                     {key: "gps", label: ADMIN("ax.admin.BM0204G0.gps"), align:"center" , width: 100 , styleClass:function(){return (this.item.gps === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
-                     {key: "lati", label: ADMIN("ax.admin.BM0204G0.lati"), align:"right", width: 100},
-                     {key: "longi", label: ADMIN("ax.admin.BM0204G0.longi"), align:"right", width: 100},
-                     {key: "spd", label: ADMIN("ax.admin.BM0204G0.spd"), align:"right", width: 100},
-                     {key: "heading", label: ADMIN("ax.admin.BM0204G0.heading"), align:"right", width: 100},
-                     {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 300},
+            		 {key: "dvcId", label: ADMIN("ax.admin.BM0801G0.promotionnm"), align:"center" , sortable: true, width: 120},
+            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0801G0.promotiontype"), align:"center" , width: 120},
+                     {key: "vhcNo", label: ADMIN("ax.admin.BM0801G0.custnm"), align:"center" , sortable: true, width: 150},
+                     {key: "corpNm", label: ADMIN("ax.admin.BM0801G0.play.date"), align:"center" , width: 150},
+                     {key: "gps", label: ADMIN("ax.admin.BM0801G0.play.time"), align:"center" , width: 100 },
+                     {key: "lati", label: ADMIN("ax.admin.BM0801G0.exposure.time"), align:"right", width: 100},
+                     {key: "longi", label: ADMIN("ax.admin.BM0801G0.sd"), align:"right", sortable: true, width: 120},
+                     {key: "spd", label: ADMIN("ax.admin.BM0801G0.ed"), align:"right", sortable: true, width: 120},
+                     {key: "heading", label: ADMIN("ax.admin.BM0801G0.suppamt"), formatter:"money" ,align:"right", width: 100},
+                     {key: "remark", label: ADMIN("ax.admin.BM0801G0.remark"), width: 500},
                  ],
             
             body: {

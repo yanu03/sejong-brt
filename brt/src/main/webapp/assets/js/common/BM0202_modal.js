@@ -187,6 +187,8 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         if (typeof data === "undefined") data = this.getDefaultData();
         console.log("data1");
         console.log(data);
+        var workData = data.workType;
+        console.log(workData);
         data = $.extend({}, data);
         console.log(data);
 

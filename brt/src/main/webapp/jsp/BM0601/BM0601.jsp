@@ -13,13 +13,12 @@
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0601/BM0601.js' />"></script>
     </jsp:attribute>
     <jsp:body>
-
-        <ax:page-buttons></ax:page-buttons>
-
-        <div role="page-header">
+				<!-- 공통버튼을 만들어서 넣어야함 설정버튼  -->
         		<button type="button" class="btn btn-primary" data-page-btn="setTing" style="position:absolute; width:70px; left:950px; top:17px">
 	            <ax:lang id="ax.admin.setting"/>
 	            </button>
+       			 <ax:page-buttons></ax:page-buttons>
+        <div role="page-header">
               <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                      <ax:tr>

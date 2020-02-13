@@ -42,7 +42,6 @@
             </ax:split-panel>
          <ax:splitter></ax:splitter>
            <ax:split-panel width="600"> 
-            <ax:split-panel width="600" style="height:270px;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
@@ -51,8 +50,7 @@
                     </div>
                 </div>
                     <div data-ax5grid="gridView1" style="height: 225px;"></div>
-            </ax:split-panel>                      
-                     <div class="ax-button-group">
+                     <div class="ax-button-group" >
                         <div class="left">
                             <h3>
                                 <i class="cqc-list"></i>
@@ -70,9 +68,7 @@
                             </h3>
                         </div>
                     </div>
-            	<ax:split-panel width="600" style="height:100%;">
-                   <div data-ax5grid="gridView2" style="height: 380px;"></div>
-                 </ax:split-panel>     
+                   <div data-ax5grid="gridView2" style="height: 225px;"></div>
            </ax:split-panel>     
         </ax:split-layout>
 

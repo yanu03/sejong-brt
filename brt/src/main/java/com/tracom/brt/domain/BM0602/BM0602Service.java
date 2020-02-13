@@ -43,7 +43,7 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 		return mapper.BM0602G0S0(requestParams.getString("filter"));
 	}
 	
-	@Scheduled(cron="0 59 * * * *")
+	@Scheduled(cron="0 13 * * * *")
 	public void NewsScheduler() {
 		NewsVO vo = new NewsVO();
 		//사용체크 된 뉴스만 가져오기.
@@ -56,33 +56,48 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 		codeVO.setCoCd(ai.LINK_SET);
 		codeVO.setDlCd(ai.NEWS_UPDATE_COUNT);
 		CommonCodeDetailInfoVO codeVO2 = mapper_0105.SM0105G1S1(codeVO);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
 		
 		String StringVO = codeVO2.getTxtVal1();
 		int newsCount = Integer.parseInt(StringVO);
 		
 		for(int i = 0; i < voList.size(); i++) {
 			NodeList nodeList = ai.newsInterface_XML(voList.get(i).getProvUrl().toString());
-			System.out.println("nodeList");
-			System.out.println(nodeList);
+			System.out.println(voList.get(i).getProvUrl().toString());
 			for (int j = 0; j < newsCount; j++) {
 	    		Node child = nodeList.item(j);
-	    		System.out.println("child");
-	    		System.out.println(child);
 	            if(child.getNodeType() == Node.ELEMENT_NODE) {
 	            	Element eElement = (Element)child;
-	            	System.out.println("eElement");
-	            	System.out.println(eElement);
-	            		if(ai.getTagValue("category", eElement) == null) {
-	            			System.out.println("중앙일보는 여기임");
-	            			vo.setCategory("전체");
-	            		}
-	            		vo.setCategory(ai.getTagValue("category", eElement));
+	            		System.out.println("여기까진");
+	            	if(eElement.getElementsByTagName("category").item(0) !=null){
+	            		System.out.println("카테고리있음");
+	            		vo.setCategory(ai.getTagValue("category", eElement));	            			
 	            		vo.setProvNm(ai.getTagValue("author", eElement));
 	            		vo.setNewsTitle(ai.getTagValue("title", eElement));
 	            		if(vo.getNewsTitle().length()>50) {
 	            			vo.setNewsTitle(vo.getNewsTitle().substring(0, 50));
 	            		}
+	            }else {
+	            	   System.out.println("카테고리없음");
+	            	   vo.setCategory("카테고리없음");
+	            	   vo.setProvNm(ai.getTagValue("author", eElement));
+	            	   vo.setNewsTitle(ai.getTagValue("title", eElement));
+	            		if(vo.getNewsTitle().length()>50) {
+	            			vo.setNewsTitle(vo.getNewsTitle().substring(0, 50));
+	            		}
+	            		//String date = dateFormat.format(ai.getTagValue("pubDate", eElement));
+	            		//System.out.println(date);
+	            		//vo.setPubDt(date);
+	            }
+	            	if(eElement.getElementsByTagName("pubDate").item(0) !=null) {
+	            		System.out.println("pubDate있음");
 	            		vo.setPubDt(ai.getTagValue("pubDate", eElement));
+	            	}else {
+	            		//pubDate tag가 없는 '경향신문'
+	            		System.out.println("pubDate없음");
+	            		vo.setPubDt(ai.getTagValue("dc:date", eElement));
+	            	}
 	            }
 	            System.out.println("뉴스");
 	            System.out.println(vo);
@@ -93,7 +108,7 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 		}
 	}
 	
-	@Scheduled(cron="0 * 23 * * *")
+	@Scheduled(cron="0 * 4/12 * * *")
 	public void NewsDeleteScheduler() throws ParseException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();

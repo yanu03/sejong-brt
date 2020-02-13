@@ -69,8 +69,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
                 caller.gridView1.setData(res);
-                                
-             if(res.list[0].txtVal1 != null){
+              
+             //버스이미지 및 정상 비정상 이미지 넣는곳
+             /*if(res.list[0].txtVal1 != null){
                 for(var i = 0; i < res.list.length; i++){                	
                 	var dvcCond;
                 	if(typeof res.list[i].txtVal1 !== "undefined"){
@@ -92,7 +93,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 			alert(LANG("ax.script.requireselect"));
                 		}
                 	}              	
-               }
+               }*/
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
 	                	console.log(data);
@@ -110,7 +111,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_CLOSE: function(caller, act, data) {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
-        
+    
+    GRID_COLOR : function(caller, act , data){
+    	$("#dvcCond").css({
+    		"background-color" : "red"
+    	});
+    }
 });
 /********************************************************************************************************************/
 
@@ -187,7 +193,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [
-            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), sortable: true, align:"center" , width: 80 , },
+            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), sortable: true, align:"center" , width: 80 ,styleClass:function(){return (this.item.dlCdNm === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
             		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 80},
                      {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), sortable: true, width: 120},
                      {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), sortable: true, width: 120},
@@ -292,7 +298,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "dvcCond", label: ADMIN("ax.admin.BM0203G0.dvccond"), align:"center", sortable: true, width: 80 , styleClass:function(){return (this.item.dvcCond === "정상") ? "grid-cell-red" : "grid-cell-blue"; }},
+            	{key: "dvcCond", label: ADMIN("ax.admin.BM0203G0.dvccond"), id:"dvcCond",align:"center", sortable: true, width: 80 , styleClass:function(){return (this.item.dvcCond === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
             	{key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), align:"center", sortable: true, width: 100},
             	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), align:"center", sortable: true, width: 80},
             	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), align:"center", width: 100},

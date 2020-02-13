@@ -10,7 +10,7 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
-        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0204/BM0204.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0801/BM0801.js' />"></script>
         <style>
 			.grid-cell-red{
 		        background: #A9F5A9;
@@ -29,8 +29,17 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0204S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0801S0.search"/>
                         </ax:td>
+                        
+                        <ax:td label="ax.admin.BM0401F0.play.date" width="400px">
+	                            <div class="input-group" data-ax5picker="date">
+	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" data-ax5formatter="date" placeholder="yyyy/mm/dd">
+	                                <span class="input-group-addon">~</span>
+	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" data-ax5formatter="date" placeholder="yyyy/mm/dd">
+	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
+	                            </div>
+                       </ax:td>
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
@@ -41,11 +50,11 @@
             <ax:split-panel width="*" style="">
 
                 <!-- 목록 -->
-                <div class="ax-button-group" data-fit-height-aside="grid-view-01">
+                <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h2>
                             <i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0204G0.title"/>
+                            <ax:lang id="ax.admin.BM0801G0.title"/>
                         </h2>
                     </div>
                 </div>
