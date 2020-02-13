@@ -258,10 +258,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     			for(var i=0; i<res.list.length; i++){
     				res.list[i].txt
     							= 	"영상명 : "		+ res.list[i].vdoNm +
-    								"\n계약명 : "		+ res.list[i].conNm +
-    								"\n파일종류 : "	+ res.list[i].fileTypeNm +
-    								"\n재생시간(초) : "+ res.list[i].playTm +
-    								"\n재생기간 : "	+ res.list[i].playStDate + "~" + res.list[i].playEdDate;
+    								"&lt;br/&gt;계약명 : "		+ res.list[i].conNm +
+    								"&lt;br&gt;\n파일종류 : "	+ res.list[i].fileTypeNm +
+    								"&lt;br&gt;\n재생시간(초) : "+ res.list[i].playTm +
+    								"&lt;br&gt;\n재생기간 : "	+ res.list[i].playStDate + "~" + res.list[i].playEdDate;
     			}
     			console.log(res);
     			caller.gridView1.setData(res);

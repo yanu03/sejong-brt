@@ -40,4 +40,17 @@ public class BmRoutInfoVO extends BaseVO {
 	
 	private List<BmRoutInfoVO> voList;
 	
+	private String dvcName;
+	
+	private String intervalTime;
+	private String intervalSatTime;
+	private String intervalSunTime;
+	
+	/** 노선파일 업로드시 사용 **/
+	private String version;
+	private String mngName;
+	private String upDown;
+	private String fileName;
+	
+	private List<BmRoutNodeInfoVO> nodeList;
 }

@@ -5,17 +5,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -27,6 +30,8 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpException;
 import com.tracom.brt.code.GlobalConstants;
+import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
+import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
 import com.tracom.brt.utils.Utils;
@@ -47,6 +52,9 @@ public class FTPHandler {
 	
 	@Value("${sftp.route.audio.directory}")
 	private String ROUTE_AUDIO_PATH;
+	
+	@Value("${sftp.route.directory}")
+	private String ROUTE_PATH;
 	
 	@Inject
 	private ChannelSftp sftpChannel;
@@ -120,6 +128,116 @@ public class FTPHandler {
 		}
 	}
 
+	//
+	public void encode2Ansi() {
+		
+	}
+	//null이면 공백으로 처리
+	public String checkNull(Object txt) {
+		if(txt == null) {
+			return "";
+		}
+		else {
+			if( txt.equals("null") || txt.equals("NULL") ) {
+				return "";
+			}else {
+				return String.valueOf(txt);
+			}
+		}
+	}
+	//busstop_version.csv 생성
+	public void uploadBusstop(List<BmRoutNodeInfoVO> stopList, String fileName) throws FileNotFoundException, IOException {
+		String txt = GlobalConstants.CSVForms.ROUTE_BUSSTOP_TITLE;
+		for(BmRoutNodeInfoVO vo : stopList) {
+				txt += GlobalConstants.CSVForms.ROW_SEPARATOR +
+					checkNull(vo.getNodeId()) 	+ GlobalConstants.CSVForms.COMMA +
+					checkNull(vo.getNodeNm()) 	+ GlobalConstants.CSVForms.COMMA +
+					checkNull(vo.getNodeType()) + GlobalConstants.CSVForms.COMMA +
+					checkNull(vo.getRange())	+ GlobalConstants.CSVForms.COMMA +
+					checkNull(vo.getX()) 		+ GlobalConstants.CSVForms.COMMA +
+					checkNull(vo.getY()) 		+ GlobalConstants.CSVForms.COMMA +
+					checkNull(vo.getNodeEname());
+		}
+		
+		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();
+		File file = new File(path + "/" + fileName);
+		
+		try {
+			Utils.createCSV(file, txt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//node_version.csv 생성
+	public void uploadNodeList(List<BmRoutNodeInfoVO> nodeList, String fileName) throws FileNotFoundException, IOException {
+		String txt = GlobalConstants.CSVForms.ROUTE_NODELIST_TITLE;
+		for(BmRoutNodeInfoVO vo : nodeList) {
+				txt += GlobalConstants.CSVForms.ROW_SEPARATOR +
+					checkNull(vo.getNodeId()) 	+ GlobalConstants.CSVForms.COMMA +
+					checkNull(vo.getNodeNm()) 	+ GlobalConstants.CSVForms.COMMA +
+					checkNull(vo.getRange())	+ GlobalConstants.CSVForms.COMMA +
+					checkNull(vo.getX()) 		+ GlobalConstants.CSVForms.COMMA +
+					checkNull(vo.getY())		;
+		}
+		
+		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();
+		File file = new File(path + "/" + fileName);
+		
+		try {
+			Utils.createCSV(file, txt);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//routelist.csv 생성
+	public void uploadRouteList(List<BmRoutInfoVO> routeList, String fileName) {
+		
+		String txt = "";
+		for(BmRoutInfoVO vo : routeList) {
+			if(vo.getFileName() != null) {
+				txt += vo.getFileName() + GlobalConstants.CSVForms.ROW_SEPARATOR;
+			}
+		}
+		
+		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();
+		File file = new File(path + "/" + fileName);
+		
+		try {
+			Utils.createCSV(file, txt);
+			//FileUtils.writeStringToFile(file, txt, Charset.forName("CP949"));
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//노선별 노드리스트.csv생성
+	public void uploadRouteNodeList(List<BmRoutInfoVO> routeList) {
+		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();
+		for(BmRoutInfoVO vo : routeList) {
+			if(vo.getFileName() == null) {
+				continue;
+			}
+			String txt = GlobalConstants.CSVForms.ROUTE_TITLE;
+			String fileName = vo.getFileName();
+			
+			for(BmRoutNodeInfoVO node : vo.getNodeList()) {
+				txt += GlobalConstants.CSVForms.ROW_SEPARATOR + node.getNodeId();
+			}
+			
+			File file = new File(path + "/" + fileName);
+			
+			try {
+				Utils.createCSV(file, txt);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
 	/*
 	// 노선선택별 음성 저장 시 재생 리스트 저장
 	public boolean uploadBM0404(VoiceInfoVO vo) {
@@ -544,5 +662,9 @@ public class FTPHandler {
 	
 	public String getRouteAudioPath() {
 		return ROUTE_AUDIO_PATH;
+	}
+	
+	public String getRoutePath() {
+		return ROUTE_PATH;
 	}
 }
