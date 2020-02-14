@@ -74,7 +74,7 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0605G0.conNm" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0605G0.conNm" width="300px">
                     			<div class="input-group">
 	                        		<input type="text" data-ax-path="conId" name="conId" data-key="true" class="form-control W70" readonly="readonly">
 	                        		<input type="text" data-ax-path="conNm" name="conNm" data-key="true" class="form-control W70" readonly="readonly">

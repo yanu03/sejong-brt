@@ -12,4 +12,19 @@ public interface BM0606Mapper extends MyBatisMapper {
 	
 	//편성된 목록 가져오기
 	List<VideoInfoVO> BM0606G2S0(VdoOrgaVO vo);
+	
+	//폼 삽입
+	int BM0606F0I0(VdoOrgaVO vo);
+	
+	//리스트 삽입
+	int BM0606G2I0(VdoOrgaVO playList);
+	
+	//리스트 삭제
+	int BM0606G2D0(VdoOrgaVO vo);
+	
+	//폼 업데이트
+	int BM0606F0U0(VdoOrgaVO vo);
+	
+	//그리드0삭제
+	int BM0606G0D0(VdoOrgaVO vo);
 }

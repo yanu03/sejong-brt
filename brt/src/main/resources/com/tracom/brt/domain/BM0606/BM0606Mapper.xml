@@ -19,12 +19,77 @@
 		    ON OLIST.VDO_ID = INFO.VDO_ID
 		    
 		    GROUP BY ORGA_ID
+		    
+		    <if test="value != null">
+	    		HAVING
+	    			ORGA_ID LIKE CONCAT('%', #{filter}, '%')
+	    		OR	ORGA_NM LIKE CONCAT('%', #{filter}, '%')
+    		</if>
+    		
+    		ORDER BY ORGA_ID
 	</select>
 	
-	<insert id="BM0606G0I0" parameterType="VdoOrgaVO">
-		
+	<insert id="BM0606F0I0" parameterType="VdoOrgaVO">
+		<selectKey keyProperty="orgaId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('VG', LPAD(NEXTVAL(SEQ_BM_VDO_ORGA_0), 5, '0'))
+    	</selectKey>
+    
+    	INSERT INTO BM_VDO_ORGA(
+    		  ORGA_ID
+    		, ORGA_NM
+    		, REMARK
+    		, ROUT_ID
+    		)
+   		VALUES(
+   			  #{orgaId}
+   			, #{orgaNm}
+   			, #{remark}
+   			, NULL
+   			)
 	</insert>
 	
+	<delete id="BM0606G2D0" parameterType="VdoOrgaVO">
+		DELETE FROM
+			BM_VDO_ORGA_LIST
+		WHERE
+			 ORGA_ID = #{orgaId}
+	</delete>
+	
+	<update id="BM0606F0U0" parameterType="VdoOrgaVO">
+		UPDATE BM_VDO_ORGA
+    	SET
+    		  ORGA_NM		=	#{orgaNm}
+    		, REMARK		=	#{remark}
+    		, ROUT_ID		=	#{routId}
+    		, CREATED_AT	=	#{createdAt}
+    		, CREATED_BY	=	#{createdBy}
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		ORGA_ID = #{orgaId}
+	</update>
+	
+	<insert id="BM0606G2I0" parameterType="VdoOrgaVO">
+		INSERT INTO BM_VDO_ORGA_LIST(
+			  ORGA_ID
+			, VDO_ID
+			, SEQ
+			)
+		VALUES
+			<foreach collection="playList" item="voList" separator=",">
+				( #{orgaId}
+				, #{voList.vdoId}
+		        , #{voList.__index}
+		        )
+			</foreach>
+	</insert>
+	
+	<delete id="BM0606G0D0" parameterType="vdoOrgaVO">
+		DELETE FROM
+			BM_VDO_ORGA
+		WHERE
+			ORGA_ID = #{orgaId}
+	</delete>
 	<select id="BM0606G2S0" parameterType="VdoOrgaVO" resultType="VideoInfoVO">
 		SELECT
 			  OLIST.ORGA_ID		AS ORGA_ID

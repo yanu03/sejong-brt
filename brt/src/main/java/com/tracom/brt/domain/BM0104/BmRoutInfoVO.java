@@ -42,9 +42,14 @@ public class BmRoutInfoVO extends BaseVO {
 	
 	private String dvcName;
 	
-	private String intervalTime;
-	private String intervalSatTime;
-	private String intervalSunTime;
+	private String line1Str;
+	private String line2Str;
+	
+	private String line1Satstr;
+	private String line2Satstr;
+	
+	private String line1Sunstr;
+	private String line2Sunstr;
 	
 	/** 노선파일 업로드시 사용 **/
 	private String version;

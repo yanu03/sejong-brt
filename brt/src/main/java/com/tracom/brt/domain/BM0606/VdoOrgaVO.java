@@ -22,5 +22,7 @@ public class VdoOrgaVO extends BaseVO {
 	
 	private int		ttTime;
 	
+	private String routId;
+	
 	private List<VideoInfoVO> playList;
 }

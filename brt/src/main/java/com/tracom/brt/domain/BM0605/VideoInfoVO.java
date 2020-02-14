@@ -31,6 +31,8 @@ public class VideoInfoVO extends BaseVO {
 	 
 		private int playTm;
 	 
+		private long fileSize;
+		
 		private String attFile;
 	 
 		private String remark;
@@ -44,5 +46,7 @@ public class VideoInfoVO extends BaseVO {
 		private int	seq;
 		
 		private int __seq;
+		
+		private int __index;
 		
 }

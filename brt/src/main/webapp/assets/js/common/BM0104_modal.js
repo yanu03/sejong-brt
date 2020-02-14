@@ -114,10 +114,10 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="grid-view-01"]'),
             columns: [
-            	{key: "routId", label: ADMIN("ax.admin.BM0104GO.modal.routId"), width: 80},
-                {key: "routNm", label: ADMIN("ax.admin.BM0104GO.modal.routNm"), width: 60},
-                {key: "stStaNm", label: ADMIN("ax.admin.BM0104GO.modal.stStaNm"), width: 180},
-                {key: "edStaNm", label: ADMIN("ax.admin.BM0104GO.modal.edStaNm"), width: 180}
+            	{key: "routId", label: ADMIN("ax.admin.BM0104G0.modal.routId"), width: 80},
+                {key: "routNm", label: ADMIN("ax.admin.BM0104G0.modal.routNm"), width: 60},
+                {key: "stStaNm", label: ADMIN("ax.admin.BM0104G0.modal.stStaNm"), width: 180},
+                {key: "edStaNm", label: ADMIN("ax.admin.BM0104G0.modal.edStaNm"), width: 180}
             ],
             body: {
                 onClick: function () {

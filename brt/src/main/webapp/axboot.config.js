@@ -151,6 +151,15 @@
             	},
             	header: false
             },
+            
+            "BM0606": {
+            	width: 550,
+            	height: 350,
+            	iframe: {
+            		url: "/jsp/common/BM0606_modal.jsp"
+            	},
+            	header: false
+            },
         };
     }
 

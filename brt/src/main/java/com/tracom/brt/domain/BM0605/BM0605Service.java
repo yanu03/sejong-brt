@@ -33,29 +33,44 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
 		
     //폼 INSERT
     @Transactional
-    public String BM0605F0I0(VideoInfoVO vo) {
+    public String BM0605F0I0(VideoInfoVO vo) throws Exception{
     	String type;
+    	String ext;
     	if(vo.getFileType().equals("AV001")) {
     		type = "video";
+    		ext = "mp4";
     	}else {
     		type = "image";
+    		ext = "jpg";
     	}
+    	
     	mapper.BM0605F0I0(vo);
     	handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
+    	VideoInfoVO o = handler.parseMp4(vo.getVdoId() + "." + ext);
+    	vo.setFileSize(o.getFileSize());
+    	vo.setPlayTm(o.getPlayTm());
+    	mapper.BM0605F0U0(vo);
     	return vo.getVdoId();
     }
     
     //폼 update
     @Transactional
-    public String BM0605F0U0(VideoInfoVO vo) {
+    public String BM0605F0U0(VideoInfoVO vo) throws Exception {
     	String type;
+    	String ext;
     	if(vo.getFileType().equals("AV001")) {
     		type = "video";
+    		ext = "mp4";
     	}else {
     		type = "image";
+    		ext = "jpg";
     	}
-    	mapper.BM0605F0U0(vo);
+    	
     	handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
+    	VideoInfoVO o = handler.parseMp4(vo.getVdoId() + "." + ext);
+    	vo.setFileSize(o.getFileSize());
+    	vo.setPlayTm(o.getPlayTm());
+    	mapper.BM0605F0U0(vo);
     	return vo.getVdoId();
     }
     
