@@ -21,6 +21,13 @@
 		    , CD3.DL_CD_NM AS TURN_DIV_NM
 			, ST_STA_NM
 		    , ED_STA_NM
+		    , DVC_NAME
+		    , LINE1_STR
+		    , LINE2_STR
+		    , LINE1_SATSTR
+		    , LINE2_SATSTR
+		    , LINE1_SUNSTR
+		    , LINE2_SUNSTR
 		    , DATE_FORMAT(ROUT.CREATED_AT, '%Y-%m-%d %T') AS CREATED_AT
 		    , ROUT.CREATED_BY
 		    , DATE_FORMAT(ROUT.UPDATED_AT, '%Y-%m-%d %T') AS UPDATED_AT
@@ -153,6 +160,13 @@
 			  SHORT_ROUT_NM	= #{voList.shortRoutNm}
 			, WAY_INFO		= #{voList.wayInfo}
 		    , USER_WAY_DIV	= #{voList.userWayDiv}
+		    , DVC_NAME		= #{voList.dvcName}
+		    , LINE1_STR		= #{voList.line1Str}
+		    , LINE2_STR		= #{voList.line2Str}
+		    , LINE1_SATSTR	= #{voList.line1Satstr}
+		    , LINE2_SATSTR	= #{voList.line2Satstr}
+		    , LINE1_SUNSTR	= #{voList.line1Sunstr}
+		    , LINE2_SUNSTR	= #{voList.line2Sunstr}
 		    , UPDATED_AT	= #{voList.updatedAt}
 		    , UPDATED_BY	= #{voList.updatedBy}
 		WHERE

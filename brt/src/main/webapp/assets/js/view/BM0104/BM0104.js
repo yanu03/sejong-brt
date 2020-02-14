@@ -240,8 +240,15 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),											width: 160},
                 {key: "wayDivNm",		label: ADMIN("ax.admin.BM0104G0.wayDiv"),											width: 60,								align: "center"},
                 {key: "userWayDiv",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.userWayDiv") + "</font>",	width: 120, editor: userWayEdit,		align: "center"},
-                //{key: "turnDivNm",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),											width: 100},
-                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),										width: 140,								align: "center"},
+                //{key: "turnDivNm",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),width: 100},
+                {key: "dvcName",		label: ADMIN("ax.admin.BM0104G0.dvcName"),											width: 90},
+                {key: "line1Str",		label: ADMIN("ax.admin.BM0104G0.line1Str"),											width: 200,	editor: shortRoutNmEdit},
+                {key: "line2Str",		label: ADMIN("ax.admin.BM0104G0.line2Str"),											width: 200,	editor: shortRoutNmEdit},
+                {key: "line1Satstr",	label: ADMIN("ax.admin.BM0104G0.line1Satstr"),										width: 200,	editor: shortRoutNmEdit},
+                {key: "line2Satstr",	label: ADMIN("ax.admin.BM0104G0.line2Satstr"),										width: 200,	editor: shortRoutNmEdit},
+                {key: "line1Sunstr",	label: ADMIN("ax.admin.BM0104G0.line1Sunstr"),										width: 200,	editor: shortRoutNmEdit},
+                {key: "line2Sunstr",	label: ADMIN("ax.admin.BM0104G0.line2Sunstr"),										width: 200,	editor: shortRoutNmEdit},
+                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),										width: 140},
             ],
             body: {
                 onClick: function () {
