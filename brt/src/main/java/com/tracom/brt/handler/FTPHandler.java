@@ -1,9 +1,11 @@
 package com.tracom.brt.handler;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -58,6 +60,15 @@ public class FTPHandler {
 	
 	@Value("${sftp.route.directory}")
 	private String ROUTE_PATH;
+	
+	@Value("${sftp.destination.directory}")
+	private String DESTINATION_PATH;
+	
+	@Value("${sftp.destination.images}")
+	private String DESTINATION_IMAGES_PATH;
+	
+	@Value("${sftp.destination.list}")
+	private String DESTINATION_LIST_PATH;
 	
 	@Inject
 	private ChannelSftp sftpChannel;
@@ -131,7 +142,7 @@ public class FTPHandler {
 		}
 	}
 
-	//mp4파일 정보 리턴
+	//BM0605 mp4파일 정보 리턴
 	public VideoInfoVO parseMp4(String fileName) throws Exception{
 		BodyContentHandler handler = new BodyContentHandler(-1);
 		VideoInfoVO result = new VideoInfoVO();
@@ -263,6 +274,60 @@ public class FTPHandler {
 			
 		}
 	}
+	
+	//SCH파일 read
+	public void readSCH(String fileName) throws Exception {
+		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
+		
+		File file = new File(path + "/" + fileName);
+		FileReader fr = new FileReader(file);
+        //입력 버퍼 생성
+        BufferedReader br = new BufferedReader(fr);
+        String line = "";
+        String result = "";
+        List<String[]> list = new ArrayList();
+        String[] tmp = null;
+        while((line = br.readLine()) != null){
+        	result += line;
+        	tmp = line.split("\t");
+        	list.add(tmp);
+        }
+        br.close();
+        
+        for(int i=0; i<list.size(); i++) {
+        	for(int j=0; j< list.get(i).length; j++) {
+        		System.out.println(list.get(i)[j]);
+        	}
+        }
+		
+	}
+	
+	//SCH파일 write
+	public void writeSCH(List<List> list, String fileName) {
+		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
+		String txt = "";
+		for(int j = 0; j < list.size(); j++) {
+			if(j == 0) {
+			}else {
+				txt += GlobalConstants.CSVForms.ROW_SEPARATOR;				
+			}
+			for(int i = 0; i < list.get(j).size(); i++) {
+				if(i < list.get(j).size()-1) {
+					txt += list.get(j).get(i) + GlobalConstants.SCH.TAB;
+				}else {
+					txt += list.get(j).get(i);
+				}
+			}
+		}
+		File file = new File(path + "/" + fileName);
+		
+		try {
+			Utils.createCSV(file, txt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	/*
 	// 노선선택별 음성 저장 시 재생 리스트 저장
@@ -692,5 +757,17 @@ public class FTPHandler {
 	
 	public String getRoutePath() {
 		return ROUTE_PATH;
+	}
+	
+	public String getDestinationPath() {
+		return DESTINATION_PATH;
+	}
+	
+	public String getDestinationImagesPath() {
+		return DESTINATION_IMAGES_PATH;
+	}
+	
+	public String getDestinationListPath() {
+		return DESTINATION_LIST_PATH;
 	}
 }
