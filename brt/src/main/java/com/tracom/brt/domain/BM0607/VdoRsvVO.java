@@ -33,4 +33,5 @@ public class VdoRsvVO extends BaseVO {
 	
 	private String completeYn;
 	
+	private List<VdoRsvVO> voList;
 }

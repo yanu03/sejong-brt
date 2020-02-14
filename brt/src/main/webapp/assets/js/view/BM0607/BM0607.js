@@ -102,37 +102,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SAVE: function (caller, act, data) {
-    	var data = caller.gridView1.getData();
-    	var input = [];
-
-    	for(var i=0; i<data.length; i++){
-    		if(data[i].isChecked == "ckd"){
-    			input.push(data[i]);
-    		}
-    	}
-    	var formData = new FormData()
-    	console.log(input);
-
-    	
-    	/*
-        axboot.promise()
-            .then(function (ok, fail, data) {
-                axboot.ajax({
-                    type: "POST",
-                    url: "/api/v1/BM0607G1U0",
-                    data: JSON.stringify(input),
-                    callback: function (res) {
-                        ok(res);
-                    }
-                });
-            })
-            .then(function (ok, fail, data) {
-            	axToast.push(LANG("onadd"));
-            	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-            })
-            .catch(function () {
-            });
-            */
+    	ACTIONS.dispatch(ACTIONS.OPEN_RESERVATION_MODAL);
     },
     
     // 탭닫기
@@ -140,12 +110,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
     
-    OPEN_BM0602_MODAL: function(caller, act, data) {
+    OPEN_RESERVATION_MODAL: function(caller, act, data) {
     	axboot.modal.open({
-            modalType: "BM0602",
+            modalType: "RESERVATION",
             param: "",
             callback: function (data) {
-            	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+            	reservation(data);
             }
         });
     },
@@ -164,7 +134,6 @@ fnObj.pageStart = function () {
     this.searchView0.initView();
     this.gridView0.initView();
     this.gridView1.initView();
-    clickRowSelector();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -445,4 +414,38 @@ function clickRowSelector(){
     		}
     	}
 	});
+}
+
+function reservation(date){
+	var data = fnObj.gridView1.getData();
+	var input = [];
+
+	for(var i=0; i<data.length; i++){
+		if(data[i].isChecked == "ckd"){
+			input.push(data[i]);
+		}
+	}
+	var formData = new FormData()
+	console.log(input);
+	console.log(date);
+	
+	/*
+    axboot.promise()
+        .then(function (ok, fail, data) {
+            axboot.ajax({
+                type: "POST",
+                url: "/api/v1/BM0607G1U0",
+                data: JSON.stringify(input),
+                callback: function (res) {
+                    ok(res);
+                }
+            });
+        })
+        .then(function (ok, fail, data) {
+        	axToast.push(LANG("onadd"));
+        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+        })
+        .catch(function () {
+        });
+        */
 }

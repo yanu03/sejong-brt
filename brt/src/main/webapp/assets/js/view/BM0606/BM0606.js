@@ -48,7 +48,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;
-    	console.log("page_new : " + isUpdate);
     	caller.gridView0.selectAll(false);
         caller.formView0.clear();
         caller.formView0.enable();
@@ -158,7 +157,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
-    	console.log("item_click : " + isUpdate);
     	selectedRow = data;
         caller.formView0.setData(data);
         initGrid2(data);
@@ -209,7 +207,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     UPBTN_CLICK: function(caller, act, data){
     	var row = caller.gridView2.getData("selected");
     	var list = caller.gridView2.getData();
-    	console.log(caller.gridView2.getData("selected")[0].__index);
     	if(row == null) {
     		axDialog.alert(LANG("ax.script.alert.requireselect"))
     		return false;
@@ -231,7 +228,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	caller.gridView2.setData(list);
     },
     PREVIEW_CLICK: function(caller, act, data){
-    	console.log("preview");
     },
     GRID1_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
@@ -285,6 +281,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     GRID_DBLCLICK: function(caller, act, data){
     	openModal606(data);
+    	
+    	axboot.ajax({
+    		type: "POST",
+    		url: "/api/v1/test",
+    		callback: function (res) {
+    		}
+    	});
     },
     
 });
@@ -343,7 +346,6 @@ fnObj.pageButtonView = axboot.viewExtend({
             	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
             },
             "save": function () {
-            	console.log(isUpdate);
             	if(isUpdate) {
             		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
             	} else {
@@ -452,7 +454,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     		this.selectRow(0);
     	} else {
     		isUpdate = false;
-    		console.log("selectFirstRow : " + isUpdate);
     	}
     },
     selectLastRow: function() {
@@ -790,7 +791,6 @@ function initGrid2(data, caller){
 								"\n재생기간 : "	+ res.list[i].playStDate + "~" + res.list[i].playEdDate;
 			}
 			fnObj.gridView2.setData(res);
-			console.log(res);
 			if(dataFlag) {
 				fnObj.gridView2.selectIdRow(data);
 			} else {

@@ -31,8 +31,9 @@ public class BM0607Controller extends BaseController{
     }
     
     @PostMapping("/BM0607G1I0")
-    public ApiResponse BM0607G1I0(@RequestBody List<VdoRsvVO> requestParams) {
-    	return ok(service.BM0607G1S0(requestParams));
+    public ApiResponse BM0607G1I0(@RequestBody VdoRsvVO requestParam) {
+    	//return ok(service.BM0607G1S0(requestParam));
+    	return null;
     }
 	
 }
