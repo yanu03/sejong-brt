@@ -126,7 +126,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [
             		 {key: "dvcId", label: ADMIN("ax.admin.BM0204G0.obeid"), align:"center" , sortable: true, width: 100},
-            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), align:"center" , width: 100 , styleClass:function(){return (this.item.dlCdNm === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
+            		 {key: "dvcCond", label: ADMIN("ax.admin.BM0203G0.dvccond"), align:"center" , width: 100 , styleClass:function(){return (this.item.dvcCond === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
                      {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center" , sortable: true, width: 150},
                      {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), align:"center" , width: 150},
                      {key: "gps", label: ADMIN("ax.admin.BM0204G0.gps"), align:"center" , width: 100 , styleClass:function(){return (this.item.gps === "정상") ?   "grid-cell-red":"grid-cell-blue" }},

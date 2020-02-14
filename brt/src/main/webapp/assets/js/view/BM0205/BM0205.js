@@ -57,9 +57,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         var data = {};
         data.upList = list;
         data.rsvDate = listRsv;
+        var fileValue = $("#dvcFileUp").val().split("\\");
+        var attFile = fileValue[fileValue.length-1];
+        for(var i = 0; i< data.upList.length; i++){
+        	data.upList[i].attFile = attFile;
+        }
         console.log("data입니다");
         console.log(data);
-        
     	if(list.length > 0){
 	            axboot.ajax({
 	                type: "POST",
@@ -72,6 +76,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}else{
     		 alert(LANG("ax.script.requireselect"));
     	}
+    	
+    	ACTIONS.dispatch(ACTIONS.UPDATE_FILE);
     },
     
     UPDATE_FILE : function(caller , act , data){
@@ -173,9 +179,6 @@ fnObj.pageButtonView = axboot.viewExtend({
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             },
-            "fileUpdate": function() {
-            	ACTIONS.dispatch(ACTIONS.UPDATE_FILE);
-            },
         });
     }
 });
@@ -217,19 +220,18 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         	showRowSelector: true,
         	multipleSelect : true,
             frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             
             	 columns: [          		 
-            		 {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), width: 100},
-            		 {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), width: 120},
-                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), width: 120},
-                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 150},
-                     {key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), width: 150},
-                     {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), width: 150},
-                     {key: "dvcType", label: ADMIN("ax.admin.BM0201F0.dvctype"), width: 150},
-                     {key: "modelNm", label: ADMIN("ax.admin.BM0202G2.modelnm"), width: 150},
-                     {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), width: 150},
+            		 {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), sortable: true, width: 100},
+            		 {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center" ,width: 150},
+                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center" ,width: 150},
+                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align:"center" , width: 170},
+                     {key: "mngId", label: ADMIN("ax.admin.BM0205G0.mngid"), align:"center" , sortable: true, width: 170},
+                     {key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), align:"center" , width: 170},
+                     {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), align:"center" , sortable: true, width: 170},
+                     {key: "modelNm", label: ADMIN("ax.admin.BM0202G2.modelnm"), align:"center" , sortable: true, width: 170},
+                     {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), align:"center" , width: 170},
                  ],
             
             body: {

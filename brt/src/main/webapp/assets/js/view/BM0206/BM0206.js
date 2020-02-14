@@ -362,9 +362,8 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), sortable: true, width: 80},
             	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), align: "center", width: 120},
                 {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), align: "center", sortable: true, width: 120},
-                {key: "dvcType", label: ADMIN("ax.admin.BM0201F0.dvctype"), align: "center", sortable: true, width: 120},
                 {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), align: "center", width: 100},
-                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), sortable: true, width: 80},
+                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), sortable: true, width: 130},
                 {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), align: "right", width: 120},
                 {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
             ],
@@ -460,6 +459,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView2"]'),
             columns: [
+            	{key: "rsvId", label: ADMIN("ax.admin.BM0206G2.rsvid"), align: "center", sortable: true, width: 120},
             	{key: "sendDate", label: ADMIN("ax.admin.BM0206G2.senddate"), sortable: true, width: 150},
             	{key: "verInfo", label: ADMIN("ax.admin.BM0206G2.verinfo"), align: "center", sortable: true, width: 120},
             	{key: "remark", label: ADMIN("ax.admin.BM0206G2.remark"), width: 500},

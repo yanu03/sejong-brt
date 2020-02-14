@@ -11,6 +11,17 @@
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0303/BM0303.js' />"></script>
+        <style>
+			.grid-cell-red{
+		        background: #A9F5A9;
+		    }
+		    .grid-cell-blue{
+		        background: #F78181;
+		    }
+		    .grid-cell-yellow{
+		        background: #F3F781;
+		    }
+		</style>
     </jsp:attribute>
     <jsp:body>
 
@@ -39,10 +50,11 @@
                         </h2>
                     </div>
                 </div>
-                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
-            </ax:split-panel>
+               <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
+              </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="*" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="*" style="padding-left: 10px;">
+            	<ax:split-panel width="500" style="height:270px; padding-right: 10px;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
@@ -50,8 +62,9 @@
                         </h2>
                     </div>
                 </div>
-                    <div data-ax5grid="gridView1" style="height: 220px;"></div>
-                    
+                   <div data-ax5grid="gridView1" style="height: 220px;"></div>
+            </ax:split-panel>
+                   <ax:split-panel width="500" style="height:100%; padding-right: 10px; padding-bottom:155px">
                      <div class="ax-button-group">
                         <div class="left">
                             <h3>
@@ -60,9 +73,9 @@
                             </h3>
                         </div>
                     </div>
-                   <div data-ax5grid="gridView2" style="height: 200px;"></div>       
+                   <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height: 100%;"></div>       
             </ax:split-panel>
-                 
+           </ax:split-panel> 
         </ax:split-layout>
 
     </jsp:body>

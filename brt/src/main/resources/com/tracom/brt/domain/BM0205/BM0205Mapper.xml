@@ -2,25 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tracom.brt.domain.BM0205.BM0205Mapper">
 	<select id="BM0205G0S0" parameterType="String" resultType="vhcDvcUpdateVO">
-		SELECT
+			SELECT
 			 V.VHC_NO
-		   , V.VHC_KIND
-		   , V.VHC_TYPE
+		   , DL4.DL_CD_NM AS VHC_KIND
+		   , DL5.DL_CD_NM AS VHC_TYPE
 		   , DL0.DL_CD_NM AS MAKER
 		   , DL1.DL_CD_NM AS DVC_KIND
-		   , DL2.DL_CD_NM AS DVC_TYPE
 		   , DL3.DL_CD_NM AS INST_LOC
 		   , D.DVC_ID
+		   , D.MNG_ID
 		   , DH.MODEL_NM
 		   , DP.RSV_DATE
 		FROM
-		     BM_VHC_INFO V
+		    BM_VHC_INFO V
 			 LEFT OUTER JOIN BM_DVC_INFO D
 			 ON V.VHC_ID = D.VHC_ID
 			 LEFT OUTER JOIN BM_DVC_HIST DH
 			 ON D.DVC_ID = DH.DVC_ID
 			 LEFT OUTER JOIN BM_UPD_RSV DP
-			 ON D.DVC_ID = DP.DVC_ID
+			 ON D.MNG_ID = DP.MNG_ID
 			 LEFT OUTER JOIN SM_DL_CD_INFO DL0
 			 ON D.MAKER = DL0.DL_CD
 			 LEFT OUTER JOIN SM_DL_CD_INFO DL1
@@ -29,6 +29,10 @@
 			 ON D.DVC_TYPE = DL2.DL_CD
 			 LEFT OUTER JOIN SM_DL_CD_INFO DL3
 			 ON D.INST_LOC = DL3.DL_CD
+			 LEFT OUTER JOIN SM_DL_CD_INFO DL4
+			 ON V.VHC_KIND = DL4.DL_CD
+			 LEFT OUTER JOIN SM_DL_CD_INFO DL5
+			 ON V.VHC_TYPE = DL5.DL_CD
 	   <where>
 	    	<if test="value != null">
 				DH.MODEL_NM LIKE CONCAT('%', #{value}, '%')
@@ -43,6 +47,7 @@
 		INSERT INTO BM_UPD_RSV(
 			  RSV_DATE
 			, RSV_ID
+			, ATT_FILE
 			, DVC_ID
 			, CREATED_AT
     		, CREATED_BY
@@ -54,6 +59,7 @@
 		<foreach collection="upList" item="upList" separator=",">
 			( #{rsvDate}
 		    , CONCAT('UR', LPAD(NEXTVAL(SEQ_BM_UPD_RSV_0), 5, '0'))
+		    , #{upList.attFile}
 		    , #{upList.dvcId}
 		    , #{upList.createdAt}
    			, #{upList.createdBy}

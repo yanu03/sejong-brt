@@ -5,27 +5,28 @@
 
 	<select id="BM0303G1S0" parameterType="String" resultType="contractViewVO">
     	SELECT
-    	  	  C.CON_ID
-    	  	, AT.CON_ID
-    	  	, AT.SEQ
-    	  	, AT.ALT_DIV
-    	  	, AT.ALT_CON_DATE
-    	  	, AT.CON_ST_DATE
-    	  	, AT.CON_ED_DATE
-    	  	, AT.SUPP_AMT
-    	  	, AT.VAT_AMT
-    	  	, AT.REMARK
-    	  	, AT.CONFIRM_YN
-    	  	, AT.CON_NO
+    	  	  IFNULL(AL.CON_ID,C.CON_ID) AS CON_ID
+    	  	, IFNULL(DL0.DL_CD_NM , "신규") AS ALT_DIV
+    	  	, IFNULL(AL.ALT_CON_DATE , C.CON_FST_DATE) AS ALT_CON_DATE
+    	  	, IFNULL(AL.CON_ST_DATE , C.CON_ST_DATE) AS CON_ST_DATE
+    	  	, IFNULL(AL.CON_ED_DATE , C.CON_ED_DATE) AS CON_ED_DATE
+    	  	, IFNULL(AL.SUPP_AMT , C.SUPP_AMT) AS SUPP_AMT
+    	  	, IFNULL(AL.VAT_AMT , C.VAT_AMT) AS VAT_AMT
+    	  	, IFNULL(AL.REMARK , C.REMARK) AS REMARK
+    	  	, IFNULL(AL.CONFIRM_YN , C.CONFIRM_YN) AS CONFIRM_YN
+    	  	, IFNULL(AL.CON_NO , C.CON_NO) AS CON_NO
     	  	, CU.CUST_NM
     	FROM
     		BM_CON_INFO C
-    		LEFT OUTER JOIN BM_CON_ALT AT
-    		ON C.CON_ID = AT.CON_ID
+    		LEFT OUTER JOIN BM_CON_ALT AL
+    		ON C.CON_ID = AL.CON_ID
     		LEFT OUTER JOIN BM_CUST_INFO CU
     		ON C.CUST_ID = CU.CUST_ID
+    		LEFT OUTER JOIN SM_DL_CD_INFO DL0
+    		ON AL.ALT_DIV = DL0.DL_CD
     	WHERE
     		C.CON_ID = #{value}
+    		ORDER BY CON_ED_DATE DESC
     </select>
     
 </mapper>

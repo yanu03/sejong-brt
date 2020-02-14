@@ -11,13 +11,17 @@
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0601/BM0601.js' />"></script>
+        <style>
+			.grid-cell-red{
+		        background: #A9F5A9;
+		    }
+		    .grid-cell-blue{
+		        background: #F78181;
+		    }
+		</style>
     </jsp:attribute>
     <jsp:body>
-				<!-- 공통버튼을 만들어서 넣어야함 설정버튼  -->
-        		<button type="button" class="btn btn-primary" data-page-btn="setTing" style="position:absolute; width:70px; left:950px; top:17px">
-	            <ax:lang id="ax.admin.setting"/>
-	            </button>
-       			 <ax:page-buttons></ax:page-buttons>
+       	<ax:page-buttons></ax:page-buttons>
         <div role="page-header">
               <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
@@ -42,14 +46,14 @@
                 </div>                       
                 <ax:form name="formView0">                 
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px" style="position:relative;">
-                      <div style="position:absolute; width:300px; left:100px; top:30px;">
+                      <div style="position:absolute; width:300px; left:100px; top:10px;">
                       	<ax:tr>
                       	 <ax:td label="ax.admin.BM0601F0.renewdt" width="300px">
                     		<input type="text" id="renewDt" data-ax-path="renewDt" class="form-control" readonly="readonly" style="width:200px;"/>
                     	 </ax:td>
                     	</ax:tr> 
                       </div>
-                      <div id="123" style="position:absolute; width:400px; left:60px; top:80px;">
+                      <div id="123" style="position:absolute; width:400px; left:60px; top:60px;">
                       	<div id="weatImg"></div>
                       	<ax:tr>   
                       		<ax:td label="ax.admin.BM0601F0.tempc" width="200px">                   	           
@@ -111,7 +115,8 @@
                 
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="*" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="*" style="padding-left: 10px;">
+            	<ax:split-panel width="500" style="height:290px; padding-right: 10px;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
@@ -123,8 +128,9 @@
                         </h2>
                     </div>
                 </div>
-                    <div data-ax5grid="gridView1" style="height: 220px;"></div>
-                    
+                    <div data-ax5grid="gridView1" style="height: 225px;"></div>
+                 </ax:split-panel>
+                 <ax:split-panel width="500" style="height:100%; padding-right: 10px; padding-bottom:155px">  
                      <div class="ax-button-group">
                         <div class="left">
                             <h3>
@@ -132,16 +138,13 @@
                                 <ax:lang id="ax.admin.BM0601G1.title"/>
                             </h3>
                         </div>
-                   <ax:form name="searchView1">
-                   			<div class="right">           		
-                        		<div class="input-group" style="position:absolute; width:100px; right:30px;top:290px;">                                 		
-	                            		<input type="text" class="form-control" name="filterG2" id="filterG2" width="50px" placeholder="<ax:lang id="ax.admin.BM0103F0.vhcNo"/>">
-	                            		<button type="button" class="btn btn-info" data-page-btn="searchDate" style="position: absolute; top:0px;left:100px"><i class="cqc-magnifier"></i></button>
-                            	</div>
-                           </div> 	                                               		                                 		 	                 	 		
-            		</ax:form>                      
+                   		<div>
+	                         <input type="text" class="form-control" name="filterG2" id="filterG2" style="position: absolute; top: 5px; width: 100px; right: 40px;" placeholder="<ax:lang id="ax.admin.BM0103F0.vhcNo"/>">
+	                         <button type="button" class="btn btn-info" data-page-btn="searchDate" style="position: absolute; top:5px;right:10px;"><i class="cqc-magnifier"></i></button>
+						</div>                     
                     </div>
-                   <div data-ax5grid="gridView2" style="height: 200px;"></div>     
+                   <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height: 100%;"></div>
+                   </ax:split-panel>     
             </ax:split-panel>
                  
         </ax:split-layout>

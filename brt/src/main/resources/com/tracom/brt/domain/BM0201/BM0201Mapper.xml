@@ -45,7 +45,6 @@
     		  DVC_ID
     		, MAKER
     		, DVC_KIND
-    		, DVC_TYPE
     		, INST_LOC
     		, MNG_ID
     		, DVC_IP
@@ -62,7 +61,6 @@
     		  DVC_ID
     		, MAKER
     		, DVC_KIND
-    		, DVC_TYPE
     		, INST_LOC
     		, MNG_ID
     		, DVC_IP
@@ -89,7 +87,6 @@
     	  	, D.DVC_ID
     	  	, DL0.DL_CD_NM AS MAKER
     	  	, DL1.DL_CD_NM AS DVC_KIND
-    	  	, DL2.DL_CD_NM AS DVC_TYPE
     	  	, DL3.DL_CD_NM AS INST_LOC
     	  	, D.MNG_ID
     	  	, D.DVC_IP
@@ -103,8 +100,6 @@
     		ON D.MAKER = DL0.DL_CD
     		LEFT OUTER JOIN SM_DL_CD_INFO DL1
     		ON D.DVC_KIND = DL1.DL_CD
-    		LEFT OUTER JOIN SM_DL_CD_INFO DL2
-    		ON D.DVC_TYPE = DL2.DL_CD
     		LEFT OUTER JOIN SM_DL_CD_INFO DL3
     		ON D.INST_LOC = DL3.DL_CD
     	WHERE
@@ -129,7 +124,6 @@
     		  DVC_ID
     		, MAKER
     		, DVC_KIND
-    		, DVC_TYPE
     		, INST_LOC
     		, MNG_ID
     		, DVC_IP
@@ -144,7 +138,6 @@
    			  #{dvcId}
    			, #{maker}
    			, #{dvcKind}
-   			, #{dvcType}
    			, #{instLoc}
    			, #{mngId}
    			, #{dvcIp}
@@ -198,7 +191,6 @@
     		  DVC_ID		=	#{dvcId}
     		, MAKER			=	#{maker}
     		, DVC_KIND		=	#{dvcKind}
-    		, DVC_TYPE	 	=	#{dvcType}
     		, INST_LOC		=	#{instLoc}
     		, MNG_ID		=	#{mngId}
     		, DVC_IP		=	#{dvcIp}

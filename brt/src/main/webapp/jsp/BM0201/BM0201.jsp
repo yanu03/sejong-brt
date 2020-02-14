@@ -11,6 +11,14 @@
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0201/BM0201.js' />"></script>
+        <style>
+			.grid-cell-red{
+		        background: #A9F5A9;
+		    }
+		    .grid-cell-blue{
+		        background: #F78181;
+		    }
+		</style>
     </jsp:attribute>
     <jsp:body>
 
@@ -68,11 +76,7 @@
 						 <ax:tr>
 							<ax:td label="ax.admin.BM0201F0.dvckind" width="250px" labelClazz="required">
                             	<ax:SM0105 groupCd="DVC_KIND" id="dvcKind" name="dvcKind" dataPath="dvcKind" clazz="form-control"/>
-                            </ax:td>
-                                          
-                            <ax:td label="ax.admin.BM0201F0.dvctype" width="250px" labelClazz="required" id="dvcTypeTd">
-                            	<ax:SM0105 groupCd="DVC_TYPE" id="dvcType" name="dvcType" dataPath="dvcType" clazz="form-control"/>
-                            </ax:td>                  		
+                            </ax:td>                 		
 						</ax:tr>                   
                         <ax:tr>
                             <ax:td label="ax.admin.BM0201F0.instloc" width="250px" labelClazz="required">

@@ -19,7 +19,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);
-                console.log(res.list[1].altDiv);
                 
                 if(res.list.length == 0) {
                 	isUpdate = false;
@@ -80,29 +79,28 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	axDialog.confirm({
             msg: LANG("ax.script.deleteconfirm")
         }, function() {
-        	if(confirmYn == "N") {  		
-        	
-            if (this.key == "ok") {
-            	axboot.promise()
-                .then(function (ok, fail, data) {
-	            	axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/BM0302G1D0",
-	                    data: JSON.stringify({conId : selectedRow.conId , seq : selectedRowG1.seq}),
-	                    callback: function (res) {
-	                        ok(res);
-	                    }
+        	if(confirmYn == "미확정") {  		
+	            if (this.key == "ok") {
+	            	axboot.promise()
+	                .then(function (ok, fail, data) {
+		            	axboot.ajax({
+		                    type: "POST",
+		                    url: "/api/v1/BM0302G1D0",
+		                    data: JSON.stringify({conId : selectedRow.conId , seq : selectedRowG1.seq}),
+		                    callback: function (res) {
+		                        ok(res);
+		                    }
+		                });
+	                })
+	                .then(function (ok) {
+	                	caller.formView0.clear();
+	                	axToast.push(LANG("ondelete"));
+	                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	                })
+	                .catch(function () {
+	
 	                });
-                })
-                .then(function (ok) {
-                	caller.formView0.clear();
-                	axToast.push(LANG("ondelete"));
-                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-            }
+	            }
         }else{
         	axDialog.alert({
                 msg: LANG("ax.script.contractdelete")
@@ -207,8 +205,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_CONFIRMYN : function (caller, act, data) {
     	isUpdate = false; 
     	var confirmYn = $('#confirmYn').val();
+    	console.log(confirmYn);
+    	console.log("confirmYn");
+    	var gridData = caller.gridView1.getData();
+    	console.log(gridData[0].seq);
+    	console.log(selectedRowG1.seq);
     	
-    	if(confirmYn == "N"){
+    	if(gridData[0].seq == selectedRowG1.seq){
+    	if(confirmYn == "미확정"){
 	    	axDialog.confirm({
 	    		msg: LANG("ax.script.contractconfirm")
 	    	}, function() {
@@ -234,8 +238,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    					.catch(function () {   						
 	    					});
 	    				}	    			
-	    		}
-			});
+	    			}
+				});
 	    }else{
 	    	axDialog.confirm({
 	    		msg: LANG("ax.script.contractconfirmn")
@@ -261,7 +265,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    		}
 	    	}
 	    	);
-	    }				   
+	    }
+    	}else{
+    		alert("지난 변경계약은 확정,확정해제가 되지않습니다.");
+    	}
     },
     
     // 탭닫기
@@ -280,7 +287,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = true;
     	selectedRowG1 = data;
     	caller.formView0.setData(data);
-    	caller.formView0.enable();
+    	if(selectedRowG1.confirmYn == "확정" || selectedRowG1.altDiv == "종료"){
+    		caller.formView0.disable();
+    	}else{
+    		caller.formView0.enable();
+    	}
     },
     
     RELOAD_G1: function(caller, act, data) {
@@ -291,16 +302,19 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0302G1S0",
             data: {conId: selectedRow.conId},
             callback: function (res) {
+            	console.log(res);
             	if(res.list[0].altDiv != null){
-            		caller.gridView1.setData(res);
-            	}
+            		console.log(res);
+            		caller.gridView1.setData(res);            			
+            		
+            	} 
+            		console.log("리로드쪽"+data);
                 
-                console.log("리로드쪽"+data);
-                
-                if(res.list.length == 0) {
+                if(res.list[0].altDiv == null) {
                 	isUpdate = false;
 	                caller.formView0.clear();
                 	caller.formView0.disable();
+                	caller.gridView1.clear();
                 } else {
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
@@ -312,6 +326,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		                }
 	                }
                 }
+            	
             }
         });
     }
@@ -411,7 +426,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),            
             	 columns: [         		                 	
-            		{key: "altDiv", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0302F0.altdiv") + "</font>", align: "center", styleClass:function(){return (this.item.altDiv === "연장") ? "grid-cell-yellow" : "grid-cell-red" } , width: 70},
+            		{key: "altDiv", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0302F0.altdiv") + "</font>", align: "center", sortable: true, styleClass:function(){return (this.item.altDiv === "연장") ? "grid-cell-yellow" : "grid-cell-red" } , width: 70},
                     {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), align: "center", sortable: true, width: 100},
                     {key: "conStDate", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0301F0.consd") + "</font>", sortable: true, align: "center", width: 100},
                     {key: "conEdDate", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0301F0.coned") + "</font>", sortable: true, align: "center", width: 100},

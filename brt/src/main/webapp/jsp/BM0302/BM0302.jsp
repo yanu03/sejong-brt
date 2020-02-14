@@ -116,10 +116,10 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.BM0301F0.suppamt" width="300px">
-                            	<input type="text" data-ax-path="suppAmt" class="form-control" data-ax5formatter="money"/>
+                            	<input type="text" data-ax-path="suppAmt" class="form-control" style="text-align: right" data-ax5formatter="money"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0301F0.vatamt" width="300px">
-                            	<input type="text" id="vatAmt" data-ax-path="vatAmt" class="form-control" data-ax5formatter="money"/>
+                            	<input type="text" id="vatAmt" data-ax-path="vatAmt" class="form-control" style="text-align: right" data-ax5formatter="money"/>
                             </ax:td>
                        	</ax:tr>                                             	
         

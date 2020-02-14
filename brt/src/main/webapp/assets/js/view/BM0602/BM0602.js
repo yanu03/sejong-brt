@@ -216,7 +216,7 @@ fnObj.pageButtonView = axboot.viewExtend({
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             },
-            "commonSetting": function() {
+            "setting": function() {
             	ACTIONS.dispatch(ACTIONS.OPEN_BM0602_MODAL);
             },
         });
@@ -261,9 +261,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
             	{key: "useYn",  label: ADMIN("ax.admin.BM0602G0.useyn"), editor:{type:"checkbox"}, width: 60},
-            	{key: "provId", label: ADMIN("ax.admin.BM0602G0.provid"), width: 120},
-                {key: "provNm", label: ADMIN("ax.admin.BM0602G0.provnm"), width: 150},
-                {key: "renewDate", label: ADMIN("ax.admin.BM0602G0.renewdate"), sortable: true, width: 150},
+            	{key: "provId", label: ADMIN("ax.admin.BM0602G0.provid"), align:"center", width: 120},
+                {key: "provNm", label: ADMIN("ax.admin.BM0602G0.provnm"), align:"center", width: 150},
                 {key: "provUrl", label: ADMIN("ax.admin.BM0602F0.provurl"), width: 200},
                 {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 200},
             ],

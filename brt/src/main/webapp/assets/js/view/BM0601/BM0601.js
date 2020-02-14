@@ -19,9 +19,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0601F0S0",
             data: filter,
             callback: function (res) {
+            	console.log(res.list[0].skyCondCode);
                 caller.formView0.setData(res.list[0]);
-                $("#weatImg").append("<input type='image' src='/assets/images/BM0601/"+res.list[0].skyCond+".gif' style='width:400px; height:180px;' />");
-                ACTIONS.dispatch(ACTIONS.RELOAD_G1);                
+                $("#weatImg").append("<input type='image' src='/assets/images/BM0601/"+res.list[0].skyCondCode+".gif' style='width:400px; height:180px;' />");
+                ACTIONS.dispatch(ACTIONS.RELOAD_G1);             
 	            }
 	        });
         
@@ -53,8 +54,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRow != null){   		
     		caller.gridView1.target.exportExcel(selectType + "data.xls");
-    	}else {
-    		alert("장치 목록을 선택해주세요");
+    	}else if(selectedRowG1 !=null){
+    		caller.gridView2.target.exportExcel(selectedRowG1.vhcNo + "data.xls");
+    	}else{
+    		axDialog.alert(LANG("ax.script.alert.requireselect"));
     	}
     },
     
@@ -67,6 +70,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
  // gridView1 항목 클릭 이벤트
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
+    	selectedRow = null;
     	selectedRowG1 = data;
     },
        
@@ -177,7 +181,7 @@ fnObj.pageButtonView = axboot.viewExtend({
             "searchDate" : function(){
             	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);
             },
-            "setTing" : function(){
+            "setting" : function(){
             	ACTIONS.dispatch(ACTIONS.OPEN_BM0601_MODAL);
             },
         });
@@ -316,13 +320,13 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 	            columns: [
 	            	{key: "renewDt", label: ADMIN("ax.admin.BM0601F0.renewdt"), sortable: true, width: 150},
 	            	{key: "notiDt", label: ADMIN("ax.admin.BM0601F0.notiDt"), sortable: true, width: 150},
-	            	{key: "skyCond", label: ADMIN("ax.admin.BM0601F0.skycond"), width: 100},
-	                {key: "tempc", label: ADMIN("ax.admin.BM0601F0.tempc"), width: 80},
-	                {key: "tempMini", label: ADMIN("ax.admin.BM0601F0.tempmini"), width: 80},
-	                {key: "tempHigh", label: ADMIN("ax.admin.BM0601F0.temphigh"), width: 80},
-	                {key: "humi", label: ADMIN("ax.admin.BM0601F0.humi"), width: 80},
-	                {key: "rainPro", label: ADMIN("ax.admin.BM0601F0.rainpro"), width: 80},
-	                {key: "rainFall", label: ADMIN("ax.admin.BM0601F0.rainfall"), width: 80},
+	            	{key: "skyCond", label: ADMIN("ax.admin.BM0601F0.skycond"), align:"center",width: 100},
+	                {key: "tempc", label: ADMIN("ax.admin.BM0601F0.tempc"), align:"right", width: 70},
+	                {key: "tempMini", label: ADMIN("ax.admin.BM0601F0.tempmini"),align:"right", width: 70},
+	                {key: "tempHigh", label: ADMIN("ax.admin.BM0601F0.temphigh"), align:"right", width: 70},
+	                {key: "humi", label: ADMIN("ax.admin.BM0601F0.humi"), align:"right", width: 50},
+	                {key: "rainPro", label: ADMIN("ax.admin.BM0601F0.rainpro"), align:"right", width: 70},
+	                {key: "rainFall", label: ADMIN("ax.admin.BM0601F0.rainfall"), align:"right", width: 60},
 	            ],
 	            body: {
 	                onClick: function () {
@@ -338,11 +342,11 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 	            columns: [	            	
 	            	{key: "renewDt", label: ADMIN("ax.admin.BM0601F0.renewdt"), sortable: true, width: 150},
 	            	{key: "measDt", label: ADMIN("ax.admin.BM0601F0.measdt"), sortable: true, width: 150},
-	            	{key: "dustc", label: ADMIN("ax.admin.BM0601F0.dustc"), width: 80},
-	                {key: "sdc", label: ADMIN("ax.admin.BM0601F0.sdc"), width: 80},
-	                {key: "cmc", label: ADMIN("ax.admin.BM0601F0.cmc"), width: 80},
-	                {key: "ozonec", label: ADMIN("ax.admin.BM0601F0.ozonec"), width: 80},
-	                {key: "ndc", label: ADMIN("ax.admin.BM0601F0.ndc"), width: 80},	                	                
+	            	{key: "dustc", label: ADMIN("ax.admin.BM0601F0.dustc"), align:"right", width: 120},
+	                {key: "sdc", label: ADMIN("ax.admin.BM0601F0.sdc"), align:"right", width: 120},
+	                {key: "cmc", label: ADMIN("ax.admin.BM0601F0.cmc"), align:"right", width: 120},
+	                {key: "ozonec", label: ADMIN("ax.admin.BM0601F0.ozonec"), align:"right", width: 120},
+	                {key: "ndc", label: ADMIN("ax.admin.BM0601F0.ndc"), align:"right", width: 120},	                	                
 	            ],
 	            body: {
 	                onClick: function () {
@@ -435,12 +439,11 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView2"]'),
             columns: [
-            	{key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), width: 180},
-            	{key: "proceRst", label: ADMIN("ax.admin.BM0601G1.procerst"), width: 180},
-            	{key: "sendDate", label: ADMIN("ax.admin.BM0601G1.senddate"), width: 180},
+            	{key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center", sortable: true, width: 200},
+            	{key: "proceRst", label: ADMIN("ax.admin.BM0601G1.procerst"), align:"center", styleClass:function(){return (this.item.proceRst === "성공") ? "grid-cell-red":"grid-cell-blue" } , width: 200},
+            	{key: "sendDate", label: ADMIN("ax.admin.BM0601G1.senddate"), align:"center",width: 200},
             ],
             body: {
                 onClick: function () {

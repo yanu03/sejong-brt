@@ -30,6 +30,17 @@ public class BM0303Controller extends BaseController{
 	    })
 	    public Responses.ListResponse BM0303G1S0(RequestParams<ContractViewVO> requestParams) {
 	        List<ContractViewVO> list = service.BM0303G1S0(requestParams);
+	        for(int i = 0; i<list.size(); i++) {
+	        	if(list.get(i).getConfirmYn().equals("Y")) {
+	        		System.out.println(list.get(i).getConfirmYn());
+	        		System.out.println("확정");
+	        		list.get(i).setConfirmYn("확정");
+	        	}else {
+	        		System.out.println(list.get(i).getConfirmYn());
+	        		System.out.println("미확정");
+	        		list.get(i).setConfirmYn("미확정");
+	        	}
+	        }
 	        return Responses.ListResponse.of(list);
 	    }
 	

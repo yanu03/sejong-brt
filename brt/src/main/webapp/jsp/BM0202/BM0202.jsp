@@ -41,7 +41,8 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
          <ax:splitter></ax:splitter>
-           <ax:split-panel width="600"> 
+           <ax:split-panel width="600" style="padding-left: 10px;">
+           	<ax:split-panel width="500" style="height:270px; padding-right: 10px;"> 
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
@@ -50,25 +51,24 @@
                     </div>
                 </div>
                     <div data-ax5grid="gridView1" style="height: 225px;"></div>
+                    </ax:split-panel>
+                    <ax:split-panel width="500" style="height:100%; padding-right: 10px; padding-bottom:155px">
                      <div class="ax-button-group" >
                         <div class="left">
                             <h3>
                                 <i class="cqc-list"></i>
                                 <ax:lang id="ax.admin.BM0202G2.title"/>
                                 <ax:form name="searchView1">
-                   					<div class="right">           		
-                        				<div class="input-group" style="position:absolute; width:100px; right:170px;top:270px;">                                  		
 	                            		<!-- <input type="text" class="form-control" data-ax5picker="date" name="filterG2" id="filterG2" data-ax5formatter="date" placeholder="yyyy/mm/dd" width="50px"/>
 	                            			<button type="button" class="btn btn-info" data-page-btn="searchDate" style="position: absolute; top:0px;left:100px"><i class="cqc-magnifier"></i></button> -->
-	                            		<button type="button" class="btn btn-info" data-page-btn="dvcHistSave" style="position: absolute; top:5px;left:150px"><i class="cqc-plus"></i>추가</button>         	                            	                            		
-	                            		<button type="button" class="btn btn-info" data-page-btn="dvcHistUpdate" style="position: absolute; top:5px;left:210px"><i class="cqc-plus"></i>수정</button>
-                            			</div>
-                           			</div> 	                                               		                                 		 	                 	 		
+	                            		<button type="button" class="btn btn-info" data-page-btn="dvcHistSave" style="position: absolute; top:5px;right:80px"><i class="cqc-plus"></i>추가</button>         	                            	                            		
+	                            		<button type="button" class="btn btn-info" data-page-btn="dvcHistUpdate" style="position: absolute; top:5px;right:20px"><i class="cqc-plus"></i>수정</button>
             					</ax:form>
                             </h3>
                         </div>
                     </div>
-                   <div data-ax5grid="gridView2" style="height: 225px;"></div>
+                   <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height: 100%;"></div>
+                   </ax:split-panel>
            </ax:split-panel>     
         </ax:split-layout>
 
