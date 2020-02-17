@@ -35,23 +35,23 @@
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0103G0.title"/> </h2>
+                        <h3><i class="cqc-list"></i>
+                            <ax:lang id="ax.admin.BM0103G0.title"/> 
+                        </h3>
                     </div>
                     <div class="right">
-
                     </div>
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="500" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="500" style="padding-left: 10px;" scroll="auto">
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <h2><i class="cqc-news"></i>
+                        <h3><i class="cqc-news"></i>
                             <ax:lang id="ax.admin.BM0103F0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                 
@@ -62,7 +62,7 @@
                     			<input type="text" name="vhcId" data-ax-path="vhcId" data-key="true" class="form-control" readonly="readonly" maxlength="9"/>
                     		</ax:td>
                     	</ax:tr>
-                    	
+
                     	<ax:tr> 
                     		<ax:td label="ax.admin.BM0103F0.vhcNo" width="210px" labelClazz="required">
                     			<input type="text" title="<ax:lang id="ax.admin.BM0103F0.vhcNo"/>" name="vhcNo" data-ax-path="vhcNo" data-key="true" class="form-control" data-ax-validate="required" maxlength="9"/>
@@ -77,31 +77,33 @@
                     	 
                     	 <ax:tr>
                     		<ax:td label="ax.admin.BM0103F0.corpId" width="500px" labelClazz="required">
-                    		<div class="input-group">
-	                        		<input type="text" title="<ax:lang id="ax.admin.BM0103F0.corpId"/>" data-ax-path="corpId" data-key="true" class="form-control W70" readonly="readonly" data-ax-validate="required">
-	                        		<input type="text" title="<ax:lang id="ax.admin.BM0103F0.corpNm"/>" data-ax-path="corpNm" data-key="true" class="form-control W70" readonly="readonly">
-                        			<button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0101">
-	                                	<ax:lang id="ax.admin.select"/>
-	                            	</button>
+                    			<div class="input-group">
+	                    			<div style="float:left;padding-right:5px;"><input type="text" title="<ax:lang id="ax.admin.BM0103F0.corpId"/>" data-ax-path="corpId" data-key="true" class="form-control W70" readonly="readonly" data-ax-validate="required"></div>
+		                        	<div style="float:left;padding-right:5px;"><input type="text" title="<ax:lang id="ax.admin.BM0103F0.corpNm"/>" data-ax-path="corpNm" data-key="true" class="form-control W130" readonly="readonly"></div>
+		                        	<div style="float:left;padding-right:5px;"><button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0101">
+		                                	<ax:lang id="ax.admin.select"/>
+		                            	</button>
+		                            </div>	
 	                        	</div>
                     		</ax:td>
                     	</ax:tr>
-                    	
-                    	<ax:tr>
-                    		<ax:td>
-                    		</ax:td>
-                    	</ax:tr>
-                    	
-                    	<ax:tr>
+					</ax:tbl>
+					<p>
+					<ax:tbl clazz="ax-form-tbl" minWidth="500px">
+						<ax:tr>
                     		<ax:td label="ax.admin.BM0103F0.area" width="200px">
-                    			<input type="text" title="<ax:lang id="ax.admin.BM0103F0.area"/>" name="area" data-ax-path="area" data-key="true" class="form-control" maxlength="5"/>
+                    			<!-- <input type="text" title="<ax:lang id="ax.admin.BM0103F0.area"/>" name="area" data-ax-path="area" data-key="true" class="form-control" maxlength="5"/> -->
+                    			셀렉트박스로처리 area
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0103F0.maker" width="200px">
-                    			<input type="text" title="<ax:lang id="ax.admin.BM0103F0.maker"/>" name="maker" data-ax-path="maker" data-key="true" class="form-control" maxlength="5"/>
+                    			<!-- <input type="text" title="<ax:lang id="ax.admin.BM0103F0.maker"/>" name="maker" data-ax-path="maker" data-key="true" class="form-control" maxlength="5"/> -->
+                    			샐랙트박스로처리 maker
                     		</ax:td>
+						</ax:tr>
+						<ax:tr>
                     		<ax:td label="ax.admin.BM0103F0.relsDate" width="220px">
                   			   	<div class="input-group" data-ax5picker="date">
 	                            	<input type="text" title="<ax:lang id="ax.admin.BM0103F0.relsDate"/>" class="form-control" data-ax-path="relsDate" data-ax5formatter="date" placeholder="yyyy/mm/dd" />
