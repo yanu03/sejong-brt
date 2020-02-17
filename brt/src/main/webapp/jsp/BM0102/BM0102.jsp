@@ -45,7 +45,10 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="500" style="padding-left: 10px;" scroll="scroll">
+            
+            <ax:split-panel width="500" style="padding-left: 10px; height:100%; padding-bottom:490px;">
+            
+            <ax:split-panel width="500" style="padding-left: 10px; height:450px;" scroll="scroll">
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
@@ -115,6 +118,26 @@
                        	</ax:tr>
                     </ax:tbl>
                 </ax:form>
+            </ax:split-panel>
+            
+            <ax:split-panel width="500" style="padding-left: 10px; height:100%;">
+                <div class="ax-button-group" role="panel-header">
+                    <div class="left">
+                        <h3><i class="cqc-news"></i>
+                            <ax:lang id="ax.admin.BM0102G1.title"/>
+                        </h3>
+                    </div>
+                    
+                    <div class="right">
+                    	
+                    	<button class="btn btn-default" data-grid-control="row-add">추가</button>
+                    	<button class="btn btn-default" data-grid-control="row-del">삭제</button>
+                    </div>
+                </div>
+
+                <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height: 200px;"></div>
+            
+            </ax:split-panel>
             </ax:split-panel>
         </ax:split-layout>
 

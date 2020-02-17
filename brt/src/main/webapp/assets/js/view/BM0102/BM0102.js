@@ -1,5 +1,5 @@
 var fnObj = {}, CODE = {};
-
+var updateList = [];
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
@@ -90,7 +90,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SAVE: function (caller, act, data) {
         if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
-
+            
+            formData.append("mngrList", fnObj.gridView1.getData());
+            console.log(formData);
+            
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
@@ -103,6 +106,23 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
+                	
+                	var input = fnObj.gridView1.getData();
+                	for(var i=0; i<input.length; i++){
+                		input[i].custId = fnObj.formView0.getData().custId;
+                	}
+                	axboot.promise()
+                		.then(function (ok, fail, data){
+                			axboot.ajax({
+                				type: "POST",
+                				url: "/api/v1/BM0102G1I0",
+                				data: JSON.stringify(input),
+                				callback: function (res){
+                				}
+                			});
+                		});
+                	
+                	
             		axToast.push(LANG("onadd"));
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
                     isUpdate = true;
@@ -129,6 +149,22 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
+                	
+                	var input = fnObj.gridView1.getData();
+                	for(var i=0; i<input.length; i++){
+                		input[i].custId = fnObj.formView0.getData().custId;
+                	}
+                	axboot.promise()
+                		.then(function (ok, fail, data){
+                			axboot.ajax({
+                				type: "POST",
+                				url: "/api/v1/BM0102G1I0",
+                				data: JSON.stringify(input),
+                				callback: function (res){
+                				}
+                			});
+                		});
+                	
             		axToast.push(LANG("onupdate"));
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
@@ -147,6 +183,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = true;
     	selectedRow = data;
         caller.formView0.setData(data);
+        
+            axboot.ajax({
+            	type: "POST",
+                url: "/api/v1/BM0102G1S0",
+                data: JSON.stringify(selectedRow),
+                callback: function (res) {
+                	console.log(res);
+                	fnObj.gridView1.setData(res);
+                }
+            });
     }
 });
 
@@ -159,8 +205,10 @@ fnObj.pageStart = function () {
     this.pageButtonView.initView();
     this.searchView0.initView();
     this.gridView0.initView();
+    this.gridView1.initView();
     this.formView0.initView();
     numberOnly();
+    btnAddMngr();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -326,6 +374,101 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 });
 
 /**
+ * gridView1
+ */
+fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
+    page: {
+        pageNumber: 0,
+        pageSize: 10
+    },
+    initView: function () {
+        var _this = this;
+
+        this.target = axboot.gridBuilder({
+        	frozenColumnIndex: 0,
+            //sortable: true,
+            target: $('[data-ax5grid="gridView1"]'),
+            columns: [
+                {key: "mngrNm",	label: ADMIN("ax.admin.BM0102G1.mngrNm"),	width: 80,	align: "center",	editor: mgrList('mngrNm'),	sortable: true},
+                {key: "phone",	label: ADMIN("ax.admin.BM0102G1.phone"),	width: 80,	align: "center",	editor: mgrList('phone')},
+                {key: "email",	label: ADMIN("ax.admin.BM0102G1.email"),	width: 100,	align: "right",		editor: mgrList('email')},
+                {key: "fax",	label: ADMIN("ax.admin.BM0102G1.fax"),		width: 80,	align: "center",	editor: mgrList('fax')},
+                {key: "remark",	label: ADMIN("ax.admin.BM0102G1.remark"),	width: 120,	align: "right",		editor: mgrList('remark')},
+            ],
+            body: {
+                onClick: function () {
+                    this.self.select(this.dindex);
+                }
+            },
+        });
+
+    },
+    getData: function (_type) {
+        var list = [];
+        var _list = this.target.getList(_type);
+
+        if (_type == "modified" || _type == "deleted") {
+            list = ax5.util.filter(_list, function () {
+                delete this.deleted;
+                return this.key;
+            });
+        } else {
+            list = _list;
+        }
+        return list;
+    },
+    addRow: function (data) {
+    	if(typeof data === "undefined") {
+    		this.target.addRow({__created__: true}, "last");
+    	} else {
+    		data["__created__"] = true;
+            this.target.addRow(data, "last");
+    	}
+    },
+    selectFirstRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(0);
+    	} else {
+    		isUpdate = false;
+    	}
+    },
+    selectLastRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(this.target.list.length - 1);
+    	} else {
+    		isUpdate = false;
+    	}
+    },
+    selectRow: function(index) {
+    	isUpdate = true;
+    	var data = this.target.list[index];
+    	
+    	if(typeof data === "undefined") {
+    		this.selectLastRow();
+    	} else {
+    		this.target.select(index);
+    	}
+    },
+    selectIdRow: function(id) {
+    	var i;
+    	var length = this.target.list.length;
+    	for(i = 0; i < length; i++) {
+    		if(this.target.list[i].seq == seq) {
+    			this.selectRow(i);
+    			break;
+    		}
+    	}
+    	
+    	if(i == length) {
+    		isUpdate = false;
+    	}
+    },
+    selectAll: function(flag) {
+    	this.target.selectAll({selected: flag});
+    }
+});
+
+/**
  * formView0
  */
 fnObj.formView0 = axboot.viewExtend(axboot.formView, {
@@ -386,3 +529,57 @@ var numberOnly = function(){
         $(this).val($(this).val().replace(/[^0-9]/g,""));
     });
 }
+
+function btnAddMngr(){
+	$('[data-grid-control]').click(function(){
+		switch(this.getAttribute("data-grid-control")){
+		case "row-add":
+			fnObj.gridView1.addRow({});
+			break;
+		case "row-del":
+			fnObj.gridView1.delRow("selected");
+			break;
+		}
+	});
+}
+
+function mgrList(input){
+	switch(input){
+		case('mngrNm'):
+			return {
+				type: "text",
+				attributes: {
+					'maxlength': 4
+				}
+			};
+		case('phone'):
+			return {
+				type: "text",
+				attributes: {
+					'maxlength': 11
+				}
+			};
+		case('email') :
+			return {
+				type: "text",
+				attributes: {
+					'maxlength': 50
+				}
+			};
+		case('fax') :
+			return {
+				type: "text",
+				attributes: {
+					'maxlength': 11
+				}
+			};
+		case('remark') :
+			return {
+				type: "text",
+				attributes: {
+					'maxlength': 200
+				}
+			};
+	}
+}	
+

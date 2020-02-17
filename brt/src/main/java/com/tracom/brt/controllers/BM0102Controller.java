@@ -14,8 +14,10 @@ import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tracom.brt.domain.BM0102.BM0102Service;
 import com.tracom.brt.domain.BM0102.CustInfoVO;
+import com.tracom.brt.domain.BM0102.MngrInfoVO;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
 
@@ -41,9 +43,16 @@ public class BM0102Controller extends BaseController {
         return ok(corpId);
     }
     
+    
     @PostMapping("/BM0102F0U0")
     public ApiResponse BM0102F0U0(@RequestBody CustInfoVO request) {
     	service.BM0102F0U0(request);
+    	return ok();
+    }
+    
+    @PostMapping("/BM0102G1I0")
+    public ApiResponse BM0102G1I0(@RequestBody List<MngrInfoVO> request) {
+    	service.BM0102G1I0(request);
     	return ok();
     }
     
@@ -51,5 +60,11 @@ public class BM0102Controller extends BaseController {
     public ApiResponse BM0102G0D0(@RequestBody CustInfoVO request) {
     	service.BM0102G0D0(request);
     	return ok();
+    }
+    
+    @PostMapping("/BM0102G1S0")
+    public Responses.ListResponse BM0102G1S0(@RequestBody CustInfoVO request) {
+    	List<MngrInfoVO> list = service.BM0102G1S0(request);
+    	return Responses.ListResponse.of(list);
     }
 }

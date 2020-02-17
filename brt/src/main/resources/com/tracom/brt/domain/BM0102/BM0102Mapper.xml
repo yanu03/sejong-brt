@@ -78,4 +78,44 @@
     	WHERE
     		CUST_ID = #{custId}
     </delete>
+    
+    <select id="BM0102G1S0" parameterType="custInfoVO" resultType="mngrInfoVO">
+    	SELECT
+    		*
+    	FROM
+    		BM_MNGR_INFO
+    	WHERE
+    		CUST_ID = #{custId}
+    </select>
+    
+    <delete id="BM0102G1D0" parameterType="String">
+    	DELETE FROM BM_MNGR_INFO WHERE CUST_ID = #{value}
+    </delete>
+    
+    <insert id="BM0102G1I0" parameterType="mngrInfoVO">
+    	INSERT INTO
+    		BM_MNGR_INFO( MNGR_NM
+    					, PHONE
+    					, EMAIL
+    					, FAX
+    					, REMARK
+    					, CUST_ID
+    					, SEQ)
+    			VALUES 
+    			<foreach collection="voList" item="voList" separator=",">
+					<choose>
+						<when test="voList.mngrNm != null || voList.phone != null || voList.email != null || voList.fax != null || voList.remark != null">
+		    			( #{voList.mngrNm}
+    					, #{voList.phone}
+	   					, #{voList.email}
+	   					, #{voList.fax}
+	   					, #{voList.remark}
+	   					, #{voList.custId}
+	   					, #{voList.__index})
+						</when>
+						<otherwise>
+						</otherwise>
+					</choose>    			
+    			</foreach>
+    </insert>
 </mapper>
