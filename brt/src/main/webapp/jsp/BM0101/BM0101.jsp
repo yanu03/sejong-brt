@@ -49,9 +49,9 @@
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <h2><i class="cqc-news"></i>
+                        <h3><i class="cqc-news"></i>
                             <ax:lang id="ax.admin.BM0101F0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                 <ax:form name="formView0">
