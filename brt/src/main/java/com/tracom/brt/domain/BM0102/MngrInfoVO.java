@@ -10,17 +10,23 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CustInfoVO extends BaseVO {
-	private String custId;
-	private String custNm;
-	private String corpNo;
-	private String email;
+public class MngrInfoVO extends BaseVO {
+
+	private String mngrNm;
+	
 	private String phone;
+	
+	private String email;
+	
 	private String fax;
-	private String addr1;
-	private String zipNo;
-	private String addr2;
+	
 	private String remark;
 	
-	List<MngrInfoVO> mngrList;
+	private String seq;
+	
+	private String custId;
+	
+	private String __index;
+	
+	private List<MngrInfoVO> voList;
 }
