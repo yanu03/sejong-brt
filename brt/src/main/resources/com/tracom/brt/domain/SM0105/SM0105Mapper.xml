@@ -155,4 +155,28 @@
     		CO_CD = #{coCd}
     		AND DL_CD = #{dlCd}
     </delete>
+    
+    <select id="SM0105G2S0" resultType="commonCodeDetailInfoVO">
+    	SELECT
+    		*
+    	FROM
+    		SM_DL_CD_INFO
+    	WHERE
+    		CO_CD = 'DVC_KIND'
+    		AND
+    		TXT_VAL1 = 'RD'
+    </select>
+    
+    <select id="SM0105G2S1" parameterType="String" resultType="commonCodedetailInfoVO">
+    	SELECT 
+			*
+		FROM
+			SM_DL_CD_INFO
+		WHERE
+			CO_CD = 'DVC_KIND'
+		    AND
+		    TXT_VAL1 = 'RD'
+		    AND
+		    DL_CD = #{value}
+    </select>
 </mapper>

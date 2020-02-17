@@ -43,7 +43,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="*" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="*" style="padding-left: 10px; padding-bottom: 41px;">
                 <!-- 그리드1 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">

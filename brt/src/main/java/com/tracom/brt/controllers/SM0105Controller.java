@@ -53,4 +53,5 @@ public class SM0105Controller extends BaseController {
     	service.SM0105G1D0(request);
     	return ok();
     }
+    
 }

@@ -9,11 +9,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 
 import com.tracom.brt.domain.BaseService;
-import com.tracom.brt.domain.BM0602.NewsVO;
 
 @EnableScheduling
 @Service
-public class BM0607Service extends BaseService<NewsVO, String>{
+public class BM0607Service extends BaseService<VdoRsvVO, String>{
 
 	@Inject
 	private BM0607Mapper mapper;
