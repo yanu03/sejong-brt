@@ -142,40 +142,49 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 });
 
 
-var effSpeedEdit = {
-		type: "number",
-		disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
-		},
-		attributes: {
-			'maxlength': 2,
-		}
-	};
-
-var showTimeEdit = {
-		type: "number",
-		disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
-		},
-		attributes: {
-			'maxlength': 4
-		}
-	};
-
-var selectEdit = {
-		type: "select",
-		config: {
-			columnKeys: {
-				optionValue: "CD", optionText: "NM"
+function editCase(input){
+	switch(input){
+	
+		case 'effSpeed' :
+			return {
+				type: "number",
+				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
+					return this.item.__index >= uv_height;
+				},
+				attributes: {
+					'maxlength': 2,
+				}
+		};
+		case 'showTime' :
+			return {
+				type: "number",
+				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
+					return this.item.__index >= uv_height;
+				},
+				attributes: {
+					'maxlength': 4
+				}
+		};
+		case 'effType' :
+			return {
+			type: "select",
+			config: {
+				columnKeys: {
+					optionValue: "CD", optionText: "NM"
+				},
+				options: [	{CD : "01번", NM: "01번"},
+							{CD : "02번", NM: "02번"},
+							{CD : "03번", NM: "03번"},
+							{CD : "04번", NM: "04번"},
+							{CD : "05번", NM: "05번"}]
 			},
-			options: [	{CD : "01번", NM: "01번"},
-						{CD : "02번", NM: "02번"},
-						{CD : "03번", NM: "03번"},
-						{CD : "04번", NM: "04번"},
-						{CD : "05번", NM: "05번"}]
-		},
-		disabled: function(){
-			
-		}
+			disabled: function(){
+				return this.item.__index >= uv_height;
+			}
+		};
+	}
 }
+
 
 /**
  * gridView0
@@ -202,27 +211,10 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	columnHeight: 28
             	},
             columns: [
-            	{key: "useCheck",			label: "사용",		width:50, align:"center",
-            		editor: {type: "checkbox",
-            			config: {
-            				height: 17,
-            				trueValue: "Y",
-            				falseValue: "N"
-            				},
-            				disabled:true
-            				/*
-            				disabled:function(){
-            					console.log(this.item);
-            					console.log(uv_height);
-            					return (this.item.__index >= uv_height);
-            				}
-            				*/
-            			}
-            	},
             	{key: "frameNo",			label: "프레임번호",	width: 100},
-            	{key: "effType",			label: "효과",		width: 100, editor: selectEdit,	formatter: "money", align:"right"},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 100, editor: effSpeedEdit, align:"right"},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 100, editor: showTimeEdit, align:"right"}
+            	{key: "effType",			label: "효과",		width: 100, editor: editCase('effType'),	formatter: "money", align:"right"},
+            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 100, editor: editCase('effSpeed'), align:"right"},
+                {key: "showTime",			label: "표출시간(1=10ms)",		width: 100, editor: editCase('showTime'), align:"right"}
             ],
             body: {
                 onClick: function () {
