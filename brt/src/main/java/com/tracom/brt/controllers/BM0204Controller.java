@@ -39,7 +39,7 @@ public class BM0204Controller extends BaseController{
 			latiConfirm = list.get(i).getLati();
 			longiConfirm = list.get(i).getLongi();
 			
-			if(latiConfirm == null || longiConfirm == 0) {
+			if(latiConfirm == null || latiConfirm == 0 || longiConfirm == null || longiConfirm == 0) {
 				list.get(i).setGps("비정상");
 			}else {
 				list.get(i).setGps("정상");

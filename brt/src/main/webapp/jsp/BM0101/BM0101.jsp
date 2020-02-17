@@ -35,8 +35,8 @@
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0101G0.title"/> </h2>
+                        <h3><i class="cqc-list"></i>
+                            <ax:lang id="ax.admin.BM0101G0.title"/> </h3>
                     </div>
                     <div class="right">
 
@@ -49,9 +49,9 @@
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <h2><i class="cqc-news"></i>
+                        <h3><i class="cqc-news"></i>
                             <ax:lang id="ax.admin.BM0101F0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                 <ax:form name="formView0">
@@ -60,37 +60,36 @@
                             <ax:td label="ax.admin.BM0101F0.corp.id" width="210px" labelClazz="required">
                                 <input type="text" data-ax-path="corpId" data-key="true" class="form-control" readonly="readonly"/>
                             </ax:td>
+						</ax:tr>
+						<ax:tr>
                             <ax:td label="ax.admin.BM0101F0.corp.name" width="300px" labelClazz="required">
                                 <input type="text" data-ax-path="corpNm" title="<ax:lang id="ax.admin.BM0101F0.corp.name"/>" class="form-control" data-ax-validate="required" maxlength="20"/>
                             </ax:td>
                         </ax:tr>
-                        
-                        <ax:tr>
-                        	<ax:td label=""></ax:td>
-                        </ax:tr>
-                        
+					</ax:tbl>
+					<p>
+					<ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
                             <ax:td label="ax.admin.BM0101F0.corp.no" width="200px">
                                 <input type="text" numberOnly data-ax-path="corpNo" class="form-control" maxlength="10" />
                             </ax:td>
+						</ax:tr>
+						<ax:tr>
                             <ax:td label="ax.admin.BM0101F0.email" width="300px">
                             	<input type="text" data-ax-path="email" class="form-control" maxlength="50"/>
                             </ax:td>
                         </ax:tr>
-                        
                         <ax:tr>
                             <ax:td label="ax.admin.BM0101F0.phone" width="200px">
                             	<input type="text" data-ax-path="phone" class="form-control" maxlength="11"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0101F0.fax" width="200px">
+                            <ax:td label="ax.admin.BM0101F0.fax" width="200px" style="border-left: 1px solid #D8D8D8;">
                             	<input type="text" numberOnly data-ax-path="fax" class="form-control" maxlength="11"/>
                             </ax:td>
                        	</ax:tr>
-                       	
-                       	<ax:tr>
-                        	<ax:td label=""></ax:td>
-                        </ax:tr>
-                       	
+					</ax:tbl>
+					<p>
+					<ax:tbl clazz="ax-form-tbl" minWidth="500px">                       	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0101F0.addr1" width="450px">
                             	<input type="text" data-ax-path="addr1" class="form-control" maxlength="50"/>

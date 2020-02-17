@@ -22,8 +22,10 @@ public class VhcDvcUpdateVO extends BaseVO{
 	private String dvcType;
 	private String instLoc;
 	private String modelNm;
+	private String mngId;
 	private MultipartFile dvcFileUp;
 	private String dvcId;
+	private String attFile;
 	private String rsvId;
 	private String rsvDate;	
 	private List<VhcDvcUpdateVO> upList;

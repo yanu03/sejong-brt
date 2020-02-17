@@ -18,7 +18,7 @@
         </c:if>
 
         <c:if test="${authGroupMenu.fn5Ah eq 'Y'}">
-            <button type="button" class="btn btn-info" data-page-btn="now"><%=MessageUtils.getMessage(request, "ax.admin.now")%></button>
+            <button type="button" class="btn btn-info" data-page-btn="setting"><i class="cqc-magnifier"></i><%=MessageUtils.getMessage(request, "ax.admin.setting")%></button>
         </c:if>
         
         <c:if test="${authGroupMenu.exlAh eq 'Y'}">

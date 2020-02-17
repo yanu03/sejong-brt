@@ -17,9 +17,6 @@
         <ax:page-buttons></ax:page-buttons>
 
         <div role="page-header">
-        	<button type="button" class="btn btn-primary" data-page-btn="commonSetting" style="position:absolute; width:70px; left:810px; top:17px">
-	          <ax:lang id="ax.admin.BM0602S0.button"/>
-	        </button>      	
             <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
@@ -70,14 +67,17 @@
                             <ax:td label="ax.admin.BM0602G0.provnm" width="230px" labelClazz="required">
                                 <input type="text" data-ax-path="provNm" class="form-control" data-ax-validate="required"/>
                             </ax:td>
+                            <div style="position:absolute; top: 60px; right:140px;">
+                            	<ax:td>*제공처명(신문사명)을 정확하게 작성해주세요.</ax:td>                        	                            
+                            </div>
                         </ax:tr>                                          	
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0602F0.provurl" width="370px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0602F0.provurl" style="position:relation;" width="370px" labelClazz="required">
                             	<input type="text" data-ax-path="provUrl" class="form-control" data-ax-validate="required"/>
                             </ax:td>
-                            <div>
-                            	<ax:td>*Rss형식만 지원합니다.</ax:td>                         	                            
+                            <div style="position:absolute; top: 100px; right:10px;">
+                            	<ax:td>*Rss형식만 지원합니다.</ax:td>                        	                            
                             </div>
                        	</ax:tr>
 

@@ -60,25 +60,24 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0303G1S0",
             data: {conId: selectedRow.conId},
             callback: function (res) {
-            	listLength = res.list.length-1;
-              
-	            	if(typeof res.list[listLength].altDiv !== "undefined"){
-	            		caller.gridView1.setData(res);
-	            	}else{
-	            		res.list.splice(res.list.indexOf(res.list[listLength] , 1));
-	            		caller.gridView1.setData(res);
-	            	}            	
-                
-                 {
+            	console.log(res);
+            	if(res.list[0].altDiv != "신규"){
+            		console.log(res);
+            		caller.gridView1.setData(res);            			
+            		
+            	}else if(res.list[0].altDiv == "신규") {
+                	isUpdate = false;
+                	caller.gridView1.clear();
+                } else {
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
-	                } 
+	                } else {
 		                if(selectedRowG1 != null) {
 		                	caller.gridView1.selectRow(selectedRowG1.__index);
 		                } else {
 		                	caller.gridView1.selectFirstRow();
 		                }
-	                
+	                }
                 }
             }
         });
@@ -162,17 +161,16 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             
             	 columns: [        		
-                     {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 100},
-                     {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 100},
-                     {key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), width: 80},
-                     {key: "conFstDate", label: ADMIN("ax.admin.BM0301F0.confd"), width: 120},
-                     {key: "conStDate", label: ADMIN("ax.admin.BM0301F0.consd"), width: 120},
-                     {key: "conEdDate", label: ADMIN("ax.admin.BM0301F0.coned"), width: 120},
-                     {key: "confirmYn", label: ADMIN("ax.admin.BM0301F0.confirmyn"), width: 70},
-                     {key: "custId", label: ADMIN("ax.admin.BM0301F0.custid"), width: 120},
-                     {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 120, align: "right", formatter: "money"},
-                     {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 70, align: "right", formatter: "money"},
-                     {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 150},
+            		 {key: "confirmYn",	label: ADMIN("ax.admin.BM0301F0.confirmyn"),sortable: true, align: "center", width: 70 , styleClass:function(){return (this.item.confirmYn === "확정") ? "grid-cell-red":"grid-cell-blue" }},
+                 	{key: "conNo",		label: ADMIN("ax.admin.BM0301F0.conno"),	sortable: true, align: "center", width: 120},                
+                     {key: "conNm",		label: ADMIN("ax.admin.BM0301F0.connm"),	align: "center", width: 120},
+                     {key: "conFstDate", label: ADMIN("ax.admin.BM0301F0.confd"),	sortable: true, align: "center", type: "date" , width: 120},
+                     {key: "conStDate",	label: ADMIN("ax.admin.BM0301F0.consd"),	sortable: true, align: "center", type: "date" , width: 120},
+                     {key: "conEdDate",	label: ADMIN("ax.admin.BM0301F0.coned"),	sortable: true, align: "center", type: "date" , width: 120},
+                     {key: "custNm",		label: ADMIN("ax.admin.BM0102F0.cust.name"),sortable: true,	align: "center", width: 120},
+                     {key: "suppAmt",	label: ADMIN("ax.admin.BM0301F0.suppamt"),	align: "right", width: 120, formatter:"money"},
+                     {key: "vatAmt",		label: ADMIN("ax.admin.BM0301F0.vatamt"),	align: "right", width: 120, formatter:"money"},
+                     {key: "remark",		label: ADMIN("ax.admin.BM0301F0.remark"),	width: 200},
                  ],
             
             body: {
@@ -264,14 +262,15 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), width: 80},
-            	{key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"), width: 80},
-                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 80},          
-                {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), width: 150},
-                {key: "conStDate", label: ADMIN("ax.admin.BM0302F0.altsd"), width: 150},
-                {key: "conEdDate", label: ADMIN("ax.admin.BM0302F0.alted"), width: 80},
-                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 150, align: "right", formatter: "money"},
-                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 150, align: "right", formatter: "money"},
+            	{key: "confirmYn", label:ADMIN("ax.admin.BM0301F0.confirmyn"), align: "center" , sortable: true, width: 70 , styleClass:function(){return (this.item.confirmYn === "확정") ? "grid-cell-red": "grid-cell-blue" }},
+            	{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), align: "center" , sortable: true, width: 70 , styleClass:function(){return (this.item.altDiv === "연장") ? "grid-cell-yellow" : "grid-cell-blue"}},
+            	{key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"), align: "center" ,width: 120},
+                {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), sortable: true, align: "center", width: 120},
+                {key: "conStDate", label: ADMIN("ax.admin.BM0302F0.altsd") , sortable: true, align: "center", width: 120},
+                {key: "conEdDate", label:ADMIN("ax.admin.BM0302F0.alted"), sortable: true, align: "center", width: 120},
+                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), formatter:"money",align: "right", width: 100},
+                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), formatter:"money" , align: "right", width: 100},
+                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), align: "center", width: 120},
                 {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
             ],
             body: {

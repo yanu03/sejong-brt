@@ -15,6 +15,7 @@ public class ObeConditionVO extends BaseVO{
 	private String dvcKind;
 	private String dvcType;
 	private String instLoc;
+	private String dvcCond;
 	private String mngId;
 	private String dvcIp;
 	private String vhcNo;

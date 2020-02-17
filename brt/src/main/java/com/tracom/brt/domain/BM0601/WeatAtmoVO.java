@@ -16,6 +16,7 @@ public class WeatAtmoVO extends BaseVO{
 	private String ozonec;
 	private String ndc;
 	private String skyCond;
+	private String skyCondCode;
 	private String tempc;
 	private String tempMini;
 	private String tempHigh;

@@ -25,17 +25,15 @@
 
         <ax:page-buttons></ax:page-buttons>
 
-        <div role="page-header">
-        	<input type="file" id="dvcFileUp" name="dvcFileUp" class="form-control inline-block W150" accept=".bin" style="position:absolute; width:200px; left:660px; top:20px"/>
-        	<button type="button" class="btn btn-primary" data-page-btn="fileUpdate" style="position:absolute; width:70px; left:860px; top:20px">
-            <ax:lang id="ax.admin.update"/>
-            </button>
-            
-            <ax:form name="searchView0">
+        <div role="page-header" style="position: relative;">
+        	  <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
                             <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0205S0.search"/>
+                        </ax:td>
+                        <ax:td width="300px">
+                        <input type="file" id="dvcFileUp" name="dvcFileUp" class="form-control inline-block W150" style="position:absolute; width:250px;"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -44,10 +42,10 @@
         </div>
 
         <ax:split-layout name="ax1" orientation="horizontal">
-            <ax:split-panel width="*" style="">
+            <ax:split-panel width="*" style="height:100%; padding-right: 10px; padding-bottom:25px">
 
                 <!-- 목록 -->
-                <div class="ax-button-group" data-fit-height-aside="grid-view-01">
+                <div class="ax-button-group" data-fit-height-aside="gridview0">
                     <div class="left">
                         <h2>
                             <i class="cqc-list"></i>
@@ -55,8 +53,7 @@
                         </h2>
                     </div>
                 </div>
-                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
-
+                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 100%;"></div>
             </ax:split-panel>
         </ax:split-layout>
 

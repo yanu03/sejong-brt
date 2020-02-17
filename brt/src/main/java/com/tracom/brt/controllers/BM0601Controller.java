@@ -42,8 +42,9 @@ public class BM0601Controller extends BaseController{
 		list.get(0).setNdc(list.get(0).getNdc()+"ppm");
 		list.get(0).setOzonec(list.get(0).getOzonec()+"ppm");
 		list.get(0).setDustc(list.get(0).getDustc()+"㎍/㎥");
-		list.get(0).setSDustc(list.get(0).getSDustc()+"㎍/㎥");		
+		list.get(0).setSDustc(list.get(0).getSDustc()+"㎍/㎥");
 		list.get(0).setSkyCond(vo.get(0).getSkyCond());
+		list.get(0).setSkyCondCode(vo.get(0).getSkyCondCode());
 		list.get(0).setTempc(vo.get(0).getTempc()+"℃");
 		if(vo.get(0).getTempHigh().equals("-999.0")) {
 			list.get(0).setTempHigh("0.0℃");

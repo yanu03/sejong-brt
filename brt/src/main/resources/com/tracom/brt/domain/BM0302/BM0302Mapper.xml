@@ -99,15 +99,16 @@
 					GROUP BY AL.SEQ DESC ) AS C
 				GROUP BY C.CON_ID) AS B				
 				ON B.CON_ID = A.CON_ID ) AS D
-				WHERE
+				<where>
+				<if test="value != null">	
+						( D.CON_NM LIKE CONCAT('%', #{value}, '%')
+						OR D.ALT_DIV LIKE CONCAT('%', #{value}, '%'))
+			    </if>
+				AND
 				D.CON_ED_DATE > NOW()
 				AND
 				D.ALT_DIV !="종료";		
-				<if test="value != null">
-					AND		
-						( D.CON_ID LIKE CONCAT('%', #{value}, '%')
-						OR D.ALT_DIV LIKE CONCAT('%', #{value}, '%'))
-			    </if>		
+			    </where>		
     </select>
     
     <select id="BM0302G0S1" parameterType="String" resultType="altContractInfoVO">
@@ -178,15 +179,16 @@
 					GROUP BY AL.SEQ DESC ) AS C
 				GROUP BY C.CON_ID) AS B				
 				ON B.CON_ID = A.CON_ID ) AS D
-				WHERE
+				<where>
+				<if test="value != null">	
+						( D.CON_NM LIKE CONCAT('%', #{value}, '%')
+						OR D.ALT_DIV LIKE CONCAT('%', #{value}, '%'))
+			    </if>
+				AND
 				D.CON_ED_DATE > NOW()
 				AND
-				D.ALT_DIV !="종료";		
-				<if test="value != null">
-				AND		
-					( D.CON_ID LIKE CONCAT('%', #{value}, '%')
-					  OR D.ALT_DIV LIKE CONCAT('%', #{value}, '%'))
-			    </if>
+				D.ALT_DIV !="종료";
+				</where>
     </select>
      <select id="BM0302F0S0" parameterType="String" resultType="altContractInfoVO">
     	SELECT

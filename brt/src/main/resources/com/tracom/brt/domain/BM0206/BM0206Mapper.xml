@@ -6,13 +6,13 @@
 			UP.VER_INFO
 		  , UP.SEND_DATE
 		  , UP.REMARK
-		  , UP.DVC_ID
+		  , UP.RSV_ID
 		FROM
 			BM_UPD_LOG UP
 			LEFT OUTER JOIN BM_DVC_INFO D
-			ON UP.DVC_ID = D.DVC_ID
+			ON UP.MNG_ID = D.MNG_ID
 		WHERE
-			UP.DVC_ID = #{value}			
+			D.DVC_ID = #{value}			
 	</select>
 	
 	<select id="BM0206G2S1" parameterType="Map" resultType="updateHistoryVO">

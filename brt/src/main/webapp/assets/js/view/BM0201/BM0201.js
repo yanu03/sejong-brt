@@ -46,7 +46,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },*/
     
     PAGE_NEW: function (caller, act, data) {
-    	isUpdate = false;    	 	
+    	isUpdate = false;
     	caller.gridView1.selectAll(false);
         caller.formView0.clear();
         caller.formView0.enable();
@@ -126,7 +126,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SAVE: function (caller, act, data) {
-
     	 if (caller.formView0.validate()) {
     		
              var formData = caller.formView0.getData();
@@ -177,9 +176,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
-    				
     				console.log(formData);
-    				
     				axboot.promise()
     				.then(function (ok, fail, data) {
     					axboot.ajax({
@@ -225,9 +222,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			callback: function (res) {
 				console.log(res);
 				caller.formView0.setData(res.list[0]);
+				console.log(res.list[0].dvcType);
 			}
 		});  	
     	console.log(data.dvcKind);
+    	console.log(data.maker);
     },
     
     RELOAD_G1: function(caller, act, data) {
@@ -364,19 +363,19 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [      		
             		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 80},
-                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), sortable: true, width: 120},
+                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center",sortable: true, width: 120},
                      {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), sortable: true, width: 120},
+                     {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), align:"center", styleClass:function(){return (this.item.useYn === "Y") ? "grid-cell-red": "grid-cell-blue" } , width: 70},
                      {key: "corpNm", label: ADMIN("ax.admin.BM0103F0.corpId"), width: 120},
-                     {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), width: 120},
-                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 120},
+                     {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), align:"center", width: 120},
+                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align:"center", width: 120},
                      {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), width: 120},
-                     {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), width: 70},
-                     {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), width: 120},
-                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), width: 70},
-                     {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), width: 70},
-                     {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), width: 70},
-                     {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 70},
-                     {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), width: 70},
+                     {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), align:"center", width: 100},
+                     {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center", width: 120},
+                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center", width: 70},
+                     {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), align:"center", width: 70},
+                     {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), align:"center", width: 70},
+                     {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 200},
                  ],
             
             body: {
@@ -469,13 +468,12 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), sortable: true, width: 80},
-            	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), width: 120},
-                {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), sortable: true, width: 120},
-                {key: "dvcType", label: ADMIN("ax.admin.BM0201F0.dvctype"), width: 120},
-                {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), width: 120},
-                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), width: 100},
-                {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), width: 150},
+            	{key: "dvcId", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0201F0.dvcid") + "</font>", sortable: true, width: 80},
+            	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), align: "center", width: 120},
+                {key: "dvcKind", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0201F0.dvckind") + "</font>", align: "center", sortable: true, width: 120},
+                {key: "instLoc", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0201F0.instloc") + "</font>", align: "center", width: 120},
+                {key: "mngId", label: "<font color=BF360C>" +ADMIN("ax.admin.BM0201F0.mngid") + "</font>", align: "center", width: 100},
+                {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), width: 130},
                 {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
             ],
             body: {
@@ -570,9 +568,9 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         
     },
     initEvent: function () {
-    	var _this = this; 	
+    	var _this = this;
+    	 
     },
-    
     getData: function () {
         var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
         return $.extend({}, data);

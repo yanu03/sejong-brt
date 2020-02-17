@@ -20,6 +20,7 @@
 	SELECT
   		   A.DL_CD_NM AS SKY_COND
 		 , WI.TEMPC
+		 , WI.SKY_COND AS SKY_COND_CODE
 		 , WI.TEMP_MINI
 		 , WI.TEMP_HIGH
 		 , WI.HUMI
@@ -47,7 +48,7 @@
 		FROM
 		  BM_WEAT_INFO WE
 		  LEFT OUTER JOIN SM_DL_CD_INFO A		
-		  ON WE.SKY_COND = A.DL_CD_NM
+		  ON WE.SKY_COND = A.DL_CD
 		  <where>
 	    	<if test="value != null">
 				SUBSTRING_INDEX(WE.RENEW_DT,"-",2) = #{filter}

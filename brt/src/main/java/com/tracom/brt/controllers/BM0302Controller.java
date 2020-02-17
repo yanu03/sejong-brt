@@ -54,8 +54,9 @@ public class BM0302Controller extends BaseController {
     })
     public Responses.ListResponse BM0302G1S0(RequestParams<AltContractInfoVO> requestParams) {
         List<AltContractInfoVO> list = service.BM0302G1S0(requestParams);
+        if(list.get(0).getAltDiv() != null) {
         for(int i = 0; i<list.size(); i++) {
-        	if(list.get(i).getConfirmYn() != null) {
+        	if(list.get(i).getConfirmYn().equals("Y")) {
         		System.out.println(list.get(i).getConfirmYn());
         		System.out.println("확정");
         		list.get(i).setConfirmYn("확정");
@@ -64,6 +65,7 @@ public class BM0302Controller extends BaseController {
         		System.out.println("미확정");
         		list.get(i).setConfirmYn("미확정");
         	}        	
+        }
         }
         return Responses.ListResponse.of(list);
     }
@@ -94,6 +96,8 @@ public class BM0302Controller extends BaseController {
     
     @PostMapping("/BM0302F0U2")
     public ApiResponse BM0302F0U2(@RequestBody AltContractInfoVO request) {
+    	System.out.println("확정해제");
+    	System.out.println(request.getConfirmYn());
     	service.BM0302F0U2(request);
     	return ok();
     }

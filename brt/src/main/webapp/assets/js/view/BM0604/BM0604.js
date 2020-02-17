@@ -191,8 +191,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
             	{key: "useYn",  label: ADMIN("ax.admin.BM0602G0.useyn"), sortable: true, editor:{type:"checkbox"}, width: 70},
-                {key: "category", label: ADMIN("ax.admin.BM0603G0.category"), sortable: true,  width: 80},
-                {key: "provNm", label: ADMIN("ax.admin.BM0604G0.provnm"), sortable: true,  width: 100},
+                {key: "category", label: ADMIN("ax.admin.BM0603G0.category"), align: "center", sortable: true,  width: 120},
+                {key: "provNm", label: ADMIN("ax.admin.BM0604G0.provnm"), align: "center", sortable: true,  width: 120},
                 {key: "newsTitle", label: ADMIN("ax.admin.BM0603G0.newstitle"), width: 500},
                 {key: "pubDt", label: ADMIN("ax.admin.BM0604G0.pubdate"), sortable: true, width: 150},
                 {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 300},
@@ -291,8 +291,8 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,            
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "vhcNo", label: ADMIN("ax.admin.BM0604G1.vhcno"), sortable: true, width: 150},
-                {key: "proceRst", label: ADMIN("ax.admin.BM0604G1.procerst"), sortable: true, width: 100},
+            	{key: "vhcNo", label: ADMIN("ax.admin.BM0604G1.vhcno"), align: "center", sortable: true, width: 150},
+                {key: "proceRst", label: ADMIN("ax.admin.BM0604G1.procerst"), align: "center", styleClass:function(){return (this.item.proceRst === "성공") ? "grid-cell-red" : "grid-cell-blue" } ,sortable: true, width: 100},
                 {key: "sendDate", label: ADMIN("ax.admin.BM0604G1.senddate"), sortable: true, width: 190},
             ],
             body: {

@@ -242,16 +242,15 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     },
     initView: function () {
         var _this = this;
-
         this.target = axboot.gridBuilder({
             frozenColumnIndex: 0,            
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
             	{key: "useYn",  label: ADMIN("ax.admin.BM0602G0.useyn"), sortable: true, editor:{type:"checkbox"}, width: 70},
-            	{key: "userNewsId", label: ADMIN("ax.admin.BM0603G0.usernewsid"), sortable: true, width: 120},
-                {key: "category", label: ADMIN("ax.admin.BM0603G0.category"), width: 80},
-                {key: "newsTitle", label: ADMIN("ax.admin.BM0603G0.newstitle"), sortable: true, width: 200},
-                {key: "newsContents", label: ADMIN("ax.admin.BM0603G0.newscontents"), width: 300},
+            	{key: "userNewsId", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0603G0.usernewsid") + "</font>", align: "center", sortable: true, width: 120},
+                {key: "category", label: ADMIN("ax.admin.BM0603G0.category"), align: "center", width: 120},
+                {key: "newsTitle", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0603G0.newstitle") + "</font>", align: "center", sortable: true, width: 200},
+                {key: "newsContents", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0603G0.newscontents") + "</font>", width: 300},
                 {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 300},
             ],
             body: {

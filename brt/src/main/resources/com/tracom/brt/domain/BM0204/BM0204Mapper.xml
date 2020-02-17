@@ -6,10 +6,9 @@
 		SELECT
     		  DI.DVC_ID
     		, DI.REMARK
-    		, DC.DVC_COND
+    		, DL.DL_CD_NM AS DVC_COND
     		, V.VHC_NO
-    		, V.CORP_ID
-    		, DL.DL_CD_NM
+    		, CO.CORP_NM
     		, LOC.LATI
     		, LOC.LONGI
     		, LOC.SPD
@@ -24,6 +23,8 @@
     		ON DC.DVC_COND = DL.DL_CD
     		LEFT OUTER JOIN BM_DVC_LOC LOC
     		ON DI.DVC_ID = LOC.DVC_ID
+    		LEFT OUTER JOIN BM_CORP_INFO CO
+    		ON V.CORP_ID = CO.CORP_ID
     	<where>
 	    	<if test="value != null">
 				DI.DVC_ID LIKE CONCAT('%', #{value}, '%')
