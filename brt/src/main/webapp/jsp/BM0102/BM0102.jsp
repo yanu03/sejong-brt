@@ -45,7 +45,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="640" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="500" style="padding-left: 10px;" scroll="scroll">
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
@@ -60,37 +60,36 @@
                             <ax:td label="ax.admin.BM0102F0.cust.id" width="300px" labelClazz="required">
                                 <input type="text" data-ax-path="custId" data-key="true" class="form-control" readonly="readonly"/>
                             </ax:td>
+                        <ax:tr>
+                        </ax:tr>
                             <ax:td label="ax.admin.BM0102F0.cust.name" width="300px" labelClazz="required">
                                 <input type="text" data-ax-path="custNm" title="<ax:lang id="ax.admin.BM0102F0.cust.name"/>" class="form-control" data-ax-validate="required" maxlength="20"/>
                             </ax:td>
                         </ax:tr>
-                        
-                        <ax:tr>
-                        	<ax:td label=""></ax:td>
-                        </ax:tr>
-                        
-                        <ax:tr>
+                    </ax:tbl>
+                    <p>
+					<ax:tbl clazz="ax-form-tbl" minWidth="500px">
+						<ax:tr>
                             <ax:td label="ax.admin.BM0102F0.corp.no" width="200px">
                                 <input type="text" numberOnly data-ax-path="corpNo" class="form-control" maxlength="10" />
                             </ax:td>
+						<ax:tr>
+						</ax:tr>
                             <ax:td label="ax.admin.BM0102F0.email" width="300px">
                             	<input type="text" data-ax-path="email" class="form-control" maxlength="50"/>
                             </ax:td>
                         </ax:tr>
-                        
                         <ax:tr>
                             <ax:td label="ax.admin.BM0102F0.phone" width="200px">
                             	<input type="text" numberOnly data-ax-path="phone" class="form-control" maxlength="11"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0102F0.fax" width="200px">
+                            <ax:td label="ax.admin.BM0102F0.fax" width="200px" style="border-left: 1px solid #D8D8D8;">
                             	<input type="text" numberOnly data-ax-path="fax" class="form-control" maxlength="11"/>
                             </ax:td>
                        	</ax:tr>
-                       	
-                       	<ax:tr>
-                        	<ax:td label=""></ax:td>
-                        </ax:tr>
-                       	
+                    </ax:tbl>
+                    <p>
+					<ax:tbl clazz="ax-form-tbl" minWidth="500px">
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0102F0.addr1" width="450px">
                             	<input type="text" data-ax-path="addr1" class="form-control" maxlength="50"/>
@@ -110,7 +109,7 @@
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.BM0102F0.remark" width="600px">
+                            <ax:td label="ax.admin.BM0102F0.remark" width="450px">
                             	<textarea data-ax-path="remark" class="form-control" maxlength="200"></textarea>
                             </ax:td>
                        	</ax:tr>
