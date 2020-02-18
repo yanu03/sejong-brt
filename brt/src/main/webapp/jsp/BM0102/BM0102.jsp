@@ -123,7 +123,7 @@
             <ax:split-panel width="500" style="padding-left: 10px; height:100%;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <h3><i class="cqc-news"></i>
+                        <h3><i class="cqc-list"></i>
                             <ax:lang id="ax.admin.BM0102G1.title"/>
                         </h3>
                     </div>

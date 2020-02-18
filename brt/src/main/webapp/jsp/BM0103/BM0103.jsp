@@ -91,16 +91,14 @@
 					<p>
 					<ax:tbl clazz="ax-form-tbl" minWidth="500px">
 						<ax:tr>
-                    		<ax:td label="ax.admin.BM0103F0.area" width="200px">
-                    			<!-- <input type="text" title="<ax:lang id="ax.admin.BM0103F0.area"/>" name="area" data-ax-path="area" data-key="true" class="form-control" maxlength="5"/> -->
-                    			셀렉트박스로처리 area
+                    		<ax:td label="ax.admin.BM0103F0.area" width="250px">
+                    			<ax:SM0105 groupCd="AREA" id="area" name="area" dataPath="area"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0103F0.maker" width="200px">
-                    			<!-- <input type="text" title="<ax:lang id="ax.admin.BM0103F0.maker"/>" name="maker" data-ax-path="maker" data-key="true" class="form-control" maxlength="5"/> -->
-                    			샐랙트박스로처리 maker
+                    		<ax:td label="ax.admin.BM0103F0.maker" width="250px">
+                    			<ax:SM0105 groupCd="MAKER" id="maker" name="maker" dataPath="maker"/>
                     		</ax:td>
 						</ax:tr>
 						<ax:tr>
