@@ -78,10 +78,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_UPDATE: function(caller, act, data) {
     	uv_dvc_type = $('#selectBox option:selected').val();
 
-    	//var formData = new FormData(fnObj.gridView1.getData());
     	var formData = new FormData();
-    	formData.append("voList", fnObj.gridView1.getData());
     	formData.append("dvcKindCd", uv_dvc_type);
+    	formData.append("dvcName", selectedRow.dvcName);
     	if($("#bmpFile")[0].files[0]){
         	formData.append("attFile", $("#bmpFile")[0].files[0].name);
         }
@@ -105,12 +104,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         })
         .then(function (ok) {
         	//파일업로드하고 진행
-        	
         	axboot.promise().then(function(ok, fail, data){
+        		var input = {};
+        		input.voList = fnObj.gridView1.getData();
+        		input.dvcKindCd = uv_dvc_type;
+        		input.dvcName = selectedRow.dvcName;
         		axboot.ajax({
         			type: "POST",
                     url: "/api/v1/BM0501G1U1",
-                    data: JSON.stringify(),
+                    data: JSON.stringify(input),
                     callback: function (res) {
                         ok(res);
                     }
@@ -185,6 +187,15 @@ function editCase(input){
 	}
 }
 
+function styleEdit(){
+	console.log(this.item);
+	if(this.item.__index >= uv_height){
+		return "grid-cell-gray";
+	}
+	else{
+		return "";
+	}
+}
 
 /**
  * gridView0
@@ -211,10 +222,10 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	columnHeight: 28
             	},
             columns: [
-            	{key: "frameNo",			label: "프레임번호",	width: 100},
-            	{key: "effType",			label: "효과",		width: 100, editor: editCase('effType'),	formatter: "money", align:"right"},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 100, editor: editCase('effSpeed'), align:"right"},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 100, editor: editCase('showTime'), align:"right"}
+            	{key: "frameNo",			label: "프레임번호",			width: 100,																		styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+            	{key: "effType",			label: "효과",				width: 100, editor: editCase('effType'),	formatter: "money", align:"right",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 110, editor: editCase('effSpeed'), align:"right",						styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+                {key: "showTime",			label: "표출시간(1=10ms)",		width: 110, editor: editCase('showTime'), align:"right",						styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }}
             ],
             body: {
                 onClick: function () {
@@ -342,7 +353,7 @@ $("input[id=bmpFile]").change(function(){
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
 fnObj.pageStart = function () {
 	selectBox();
-	this.gridView1.initView();
+	//this.gridView1.initView();
     this.pageButtonView.initView();
     this.gridView0.initView();
     this.formView0.initView();
@@ -662,6 +673,7 @@ function loadSCH(){
 	//foo.dvcKindCd = dvcKindCd;
 	foo.dvcKindCd = uv_dvc_type;
 	var input = Object.assign(foo, selectedRow);
+	loadBmp();
 
 	axboot.ajax({
 		type: "POST",
@@ -672,7 +684,6 @@ function loadSCH(){
 			fnObj.gridView1.setData(res);
 		}
 	});	
-	loadBmp();
 }
 
 
@@ -680,5 +691,15 @@ function loadBmp(){
 	uv_dvc_type = $('#selectBox option:selected').val();
 	var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&dvcName="+selectedRow.dvcName;
 	console.log(url);
+	$('#previewHidden').attr("src", url);
 	$("#previewImg").attr("src", url);
+	
+	$('#previewImg').each(function(){
+		$(this).load(function(){
+			uv_height = this.naturalHeight / uv_frontheight;
+			console.log(this.naturalWidth);
+			console.log(this.naturalHeight);
+		});
+	});
+	fnObj.gridView1.initView();
 }

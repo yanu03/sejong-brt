@@ -88,7 +88,7 @@ public class FTPHandler {
 		String dir1 = Paths.get(getRootLocalPath(), "/common/employee").toString();
 		String dir2 = Paths.get(getRootLocalPath(), "/vehicle").toString();
 		//String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
-		String fileName = id + "." + "jpg";//그냥 다 jpg로 저장하게끔...
+		String fileName = id + "." + "JPG";//그냥 다 jpg로 저장하게끔...
 		
 		File saveFile = Paths.get(dir1, fileName).toFile();
 		try {
@@ -124,7 +124,7 @@ public class FTPHandler {
 			saveFile = Paths.get(dir, fileName).toFile();			
 			break;
 		case "image" : 
-			ext = "jpg";
+			ext = "JPG";
 			fileName = id + "." + ext;
 			saveFile = Paths.get(dir, fileName).toFile();			
 			break;
@@ -276,6 +276,22 @@ public class FTPHandler {
 		}
 	}
 	
+	//BMP파일 write
+	public boolean writeBmp(String fileName, MultipartFile file) {
+		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
+		
+		File saveFile = Paths.get(path, "/" ,fileName).toFile();
+		try {
+			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+			processSynchronize();
+			return true;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
 	//SCH파일 read
 	public List<DestinationVO> readSCH(String fileName) throws Exception {
 		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
@@ -309,28 +325,30 @@ public class FTPHandler {
 	}
 	
 	//SCH파일 write
-	public void writeSCH(List<List> list, String fileName) {
+	public boolean writeSCH(List<DestinationVO> list, String fileName) {
 		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
 		String txt = "";
-		for(int j = 0; j < list.size(); j++) {
-			if(j == 0) {
+		
+		for(int i = 0; i < list.size(); i++) {
+			if(i == 0) {
+				txt += list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + list.get(i).getEffType() + GlobalConstants.SCH.TAB + list.get(i).getEffSpeed() + GlobalConstants.SCH.TAB + list.get(i).getShowTime();
 			}else {
-				txt += GlobalConstants.CSVForms.ROW_SEPARATOR;				
+				
+				txt += GlobalConstants.CSVForms.ROW_SEPARATOR
+						+ list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + list.get(i).getEffType() + GlobalConstants.SCH.TAB + list.get(i).getEffSpeed() + GlobalConstants.SCH.TAB + list.get(i).getShowTime();
 			}
-			for(int i = 0; i < list.get(j).size(); i++) {
-				if(i < list.get(j).size()-1) {
-					txt += list.get(j).get(i) + GlobalConstants.SCH.TAB;
-				}else {
-					txt += list.get(j).get(i);
-				}
-			}
+			
+			
 		}
+		
 		File file = new File(path + "/" + fileName);
 		
 		try {
 			Utils.createCSV(file, txt);
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 	
