@@ -29,4 +29,35 @@
     		ORDER BY CON_ED_DATE DESC
     </select>
     
+    <select id="BM0303G2S0" parameterType="String" resultType="contractViewVO">
+		SELECT
+			CON.CON_ID
+		  , VDO.VDO_ID
+		  , VDO.ATT_FILE
+		  , VDO.PLAY_ST_DATE
+		  , VDO.PLAY_ED_DATE
+		  , VDO.PLAY_TM
+		FROM
+			BM_VDO_INFO VDO
+			LEFT OUTER JOIN BM_CON_INFO CON
+			ON VDO.CON_ID = CON.CON_ID
+		WHERE
+			CON.CON_ID = #{value}
+    </select>
+    
+    <select id="BM0303G2S1" parameterType="String" resultType="contractViewVO">
+		SELECT
+		   CON.CON_ID
+		 , VOC.VOC_ID
+		 , VOC.VOC_NM
+		 , VOC.PLAY_ST_DATE
+		 , VOC.PLAY_ED_DATE
+		 , VOC.PLAY_TM
+		FROM
+			BM_CON_INFO CON
+			LEFT OUTER JOIN BM_VOC_INFO VOC
+			ON CON.CON_ID = VOC.CON_ID
+		WHERE
+			CON.CON_ID = #{value}
+    </select>
 </mapper>

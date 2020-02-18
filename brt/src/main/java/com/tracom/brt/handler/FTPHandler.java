@@ -107,6 +107,24 @@ public class FTPHandler {
 		}
 	}
 	
+	//BM0205 펌웨어파일 업로드
+	public void uploadBM0205(String id, MultipartFile file) {
+		String dir = Paths.get(getRootLocalPath() , "/device/firmware").toString();
+		
+		String ext = FilenameUtils.getExtension(file.getOriginalFilename());
+		System.out.println(ext);
+		System.out.println(id);
+		String fileName = "firmware." + ext;
+		File saveFile = Paths.get(dir, fileName).toFile();
+		
+		try {
+			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
 
 	//BM0606 영상, 이미지파일 업로드
 	public void uploadBM0605(String id, MultipartFile file, String type) {

@@ -479,9 +479,9 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             columns: [
             	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), sortable: true, width: 70},
             	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), sortable: true, width: 80},
-                {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), align: "center", sortable: true, width: 100},
+                {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), align: "center", sortable: true, width: 130},
                 {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), align: "center", width: 100},
-                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), width: 80},
+                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), width: 130},
                 {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), align: "right", width: 130},
                 {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
             ],

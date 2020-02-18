@@ -41,7 +41,7 @@
                     		</ax:td>
 						</ax:tr>                    
                      	<ax:tr>
-							<ax:td label="ax.admin.BM0201F0.dvckind" width="200px" >
+							<ax:td label="ax.admin.BM0201F0.dvckind" width="250px" >
 								<input type="text" id="dvcKind" data-ax-path="dvcKind" data-key="true" class="form-control" readonly="readonly">
 							</ax:td>							                 
                     	</ax:tr>                                 

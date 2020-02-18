@@ -37,11 +37,12 @@ public class BM0203Controller extends BaseController{
 			String dlCdNm = list.get(i).getDlCdNm();
 			int dlCdNmInt = Integer.parseInt(dlCdNm);
 			
-			if(dlCdNmInt == 3) {
-				list.get(i).setDlCdNm("비정상");
-			}else {
-				list.get(i).setDlCdNm("정상");
-			}
+				if(dlCdNmInt == 3) {
+					list.get(i).setDlCdNm("비정상");
+				}else {
+					list.get(i).setDlCdNm("정상");
+				}
+			
 		}
 		return Responses.ListResponse.of(list);
 	}

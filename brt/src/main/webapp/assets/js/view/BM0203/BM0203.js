@@ -303,7 +303,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), align:"center", sortable: true, width: 80},
             	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), align:"center", width: 100},
                 {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), align:"center", sortable: true, width: 130},
-                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), align:"center", width: 80},
+                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), align:"center", width: 150},
                 {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), width: 150},
                 {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
             ],

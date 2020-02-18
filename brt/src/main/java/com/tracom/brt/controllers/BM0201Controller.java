@@ -78,7 +78,11 @@ public class BM0201Controller extends BaseController{
     
     @PostMapping("/BM0201F0S1")
     public ApiResponse BM0201F0S1(@RequestBody VhcDeviceVO request) {
+    	System.out.println("파라미터값");
+    	System.out.println(request);
     	boolean duplicateSeq = service.BM0201F0S1(request);
+    	System.out.println("컨트롤러 관리id확인");
+    	System.out.println(Boolean.toString(duplicateSeq));
     	return ok(Boolean.toString(duplicateSeq));
     }
     

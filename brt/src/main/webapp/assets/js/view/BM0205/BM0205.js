@@ -35,20 +35,56 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     RESERVATION_MODAL : function(caller, act , data){
-    	if(selectedRow != null){
-    		axboot.modal.open({
-	            modalType: "RESERVATION",
-	            param: "",
-	            callback: function (result) {
-	            	this.close();
-	            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
-	            		date: result
-	            	});
-	            }
-	        });
-    	}else{
-    		alert(LANG("ax.script.requireselect"));
-    	}
+      var list = caller.gridView0.getData("selected");
+      var check = true;
+      var data = {};
+      data.upList = list;
+      console.log($("#dvcFileUp").val());
+      	
+	      if($("#dvcFileUp").val() != ""){
+		      for(var i = 1; i< list.length; i++){
+		    	  if(list[i-1].mngId.substring(0,12) != list[i].mngId.substring(0,12)){
+		    		  console.log(list[i].mngId.substring(0,12));
+		    		  check = false;
+		    		  break
+		    	  }else{
+		    		  console.log(list[i].mngId.substring(0,12));
+		    		  check = true;
+		    	  }
+		      }
+		      
+		      axboot.ajax({
+                  type: "POST",
+                  url: "/api/v1/BM0205G0S1",
+                  data: JSON.stringify(data),
+                  callback: function (res) {
+                      console.log("관리ID응답");
+                      console.log(res);
+                      console.log("BM0201F0S1");
+                  }
+              });
+		      
+		      if(check == true){
+		    	if(selectedRow != null){
+		    		axboot.modal.open({
+			            modalType: "RESERVATION",
+			            param: "",
+			            callback: function (result) {
+			            	this.close();
+			            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
+			            		date: result
+			            	});
+			            }
+			        });
+		    	}else{
+		    		alert(LANG("ax.script.requireselect"));
+		    	}
+		      }else{
+		    	  alert("같은 종류의 장치만 선택가능합니다.");
+		      }
+	      }else{
+	    	  alert("업로드 파일을 선택해주세요");
+	      }
     },
         
     INSERT_RESERVATION: function(caller, act, data) {
@@ -70,6 +106,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                url: "/api/v1/BM0205Reservation",
 	                data: JSON.stringify(data),
 	                callback: function (res) {
+	                	ACTIONS.dispatch(ACTIONS.UPDATE_FILE);
 	                }
 	            });
     	return false;
@@ -77,10 +114,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		 alert(LANG("ax.script.requireselect"));
     	}
     	
-    	ACTIONS.dispatch(ACTIONS.UPDATE_FILE);
     },
     
     UPDATE_FILE : function(caller , act , data){
+    	console.log("update_file");
     	var fileCheck = $("input[name='dvcFileUp']")[0].files[0].name;
     	var list = caller.gridView0.getData("selected");
     	var formData = new FormData();
@@ -89,7 +126,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
     	for(var i = 0; i < list.length;i++){
     		console.log(list[i]);
-    		formData.append("upList[" + i + "].dvcId", list[i].dvcId);
+    		formData.append("upList[" + i + "].mngId", list[i].mngId);
     	}
     	
     	if(fileCheck != null){
@@ -167,6 +204,7 @@ fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
         	"reservation": function() {
+        		
         		ACTIONS.dispatch(ACTIONS.RESERVATION_MODAL);
         	},
             "search": function () {
