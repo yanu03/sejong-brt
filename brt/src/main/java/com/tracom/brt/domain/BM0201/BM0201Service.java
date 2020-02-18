@@ -1,6 +1,8 @@
 package com.tracom.brt.domain.BM0201;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -31,7 +33,10 @@ public class BM0201Service extends BaseService<VhcDeviceVO, String>{
 	}
 	
 	public boolean BM0201F0S1(VhcDeviceVO vo) {
-		if(mapper.BM0201F0S1(vo.getDvcId()) == null) {
+		Map<String,String> hm = new HashMap<>();
+		hm.put("vhcId", vo.getVhcId());
+		hm.put("mngId", vo.getMngId());		
+		if(mapper.BM0201F0S1(hm) == null) {
 			return true;
 		} else {
 			return false;

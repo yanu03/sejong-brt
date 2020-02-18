@@ -33,9 +33,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRow != null){   		
-    		caller.gridView1.target.exportExcel(selectedRow.conId + "data.xls");
-    	}else {
-    		alert("계약 항목을 선택해주세요");
+    		caller.gridView0.target.exportExcel(selectedRow.conId + "data.xls");
+    	}else if(selectedRowG1 != null){
+    		caller.gridView1.target.exportExcel(selectedRowG1.conId + "data.xls");
+    	}else{
+    		caller.gridView2.target.exportExcel(selectedRowG2.attFile + "data.xls");
     	}
     },
     
@@ -48,7 +50,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
  // gridView1 항목 클릭 이벤트
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
-    	selectedRowG1 = data
+    	selectedRow = null;
+    	selectedRowG1 = data;
+    },
+    
+    ITEM_CLICK_G2: function(caller, act, data) {
+    	selectedRow = null;
+    	selectedRowG1 = null;
+    	selectedRowG2 = data;
     },
     
     RELOAD_G1: function(caller, act, data) {
@@ -81,6 +90,27 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 }
             }
         });
+    	
+    	  axboot.ajax({
+    		  type: "GET",
+    		  url: "/api/v1/BM0303G2S0",
+    		  data:{conId: selectedRow.conId},
+    		  callback:function(res){
+    			  console.log(res);
+    			  if(res.list[0] != null){
+    				  for(var i = 0; i<res.list.length; i++){
+    					  if(res.list[i].vocId != null){
+    						  res.list[i].type = "음성";
+    					  }else{
+    						  res.list[i].type = "영상";
+    					  }
+    				  }
+    				  caller.gridView2.setData(res);
+    			  }else{
+    				  caller.gridView2.clear();
+    			  }
+    		  }
+    	  })
     }
 });
 /********************************************************************************************************************/
@@ -162,15 +192,15 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             
             	 columns: [        		
             		 {key: "confirmYn",	label: ADMIN("ax.admin.BM0301F0.confirmyn"),sortable: true, align: "center", width: 70 , styleClass:function(){return (this.item.confirmYn === "확정") ? "grid-cell-red":"grid-cell-blue" }},
-                 	{key: "conNo",		label: ADMIN("ax.admin.BM0301F0.conno"),	sortable: true, align: "center", width: 120},                
+                 	 {key: "conNo",		label: ADMIN("ax.admin.BM0301F0.conno"),	sortable: true, align: "center", width: 120},                
                      {key: "conNm",		label: ADMIN("ax.admin.BM0301F0.connm"),	align: "center", width: 120},
-                     {key: "conFstDate", label: ADMIN("ax.admin.BM0301F0.confd"),	sortable: true, align: "center", type: "date" , width: 120},
+                     {key: "conFstDate",label: ADMIN("ax.admin.BM0301F0.confd"),	sortable: true, align: "center", type: "date" , width: 120},
                      {key: "conStDate",	label: ADMIN("ax.admin.BM0301F0.consd"),	sortable: true, align: "center", type: "date" , width: 120},
                      {key: "conEdDate",	label: ADMIN("ax.admin.BM0301F0.coned"),	sortable: true, align: "center", type: "date" , width: 120},
-                     {key: "custNm",		label: ADMIN("ax.admin.BM0102F0.cust.name"),sortable: true,	align: "center", width: 120},
+                     {key: "custNm",	label: ADMIN("ax.admin.BM0102F0.cust.name"),sortable: true,	align: "center", width: 120},
                      {key: "suppAmt",	label: ADMIN("ax.admin.BM0301F0.suppamt"),	align: "right", width: 120, formatter:"money"},
-                     {key: "vatAmt",		label: ADMIN("ax.admin.BM0301F0.vatamt"),	align: "right", width: 120, formatter:"money"},
-                     {key: "remark",		label: ADMIN("ax.admin.BM0301F0.remark"),	width: 200},
+                     {key: "vatAmt",	label: ADMIN("ax.admin.BM0301F0.vatamt"),	align: "right", width: 120, formatter:"money"},
+                     {key: "remark",	label: ADMIN("ax.admin.BM0301F0.remark"),	width: 200},
                  ],
             
             body: {
@@ -363,19 +393,18 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView2"]'),
             columns: [
-            	
-            	{key: "", label: "구분", width: 80},
-            	{key: "", label: "파일명", width: 80},
-                {key: "", label: "재생횟수", width: 80},
-                {key: "", label: "재생기간", width: 80},
+            	{key: "type", label: ADMIN("ax.admin.BM0303G2.type"), sortable: true, align:"center" ,width: 80},
+            	{key: "attFile", label: ADMIN("ax.admin.BM0303G2.filename"), align:"center" , width: 100},
+                {key: "playStDate", label: ADMIN("ax.admin.BM0303G2.playstdate"), sortable: true, align:"center" , width: 120},
+                {key: "playEdDate", label: ADMIN("ax.admin.BM0303G2.playeddate"), sortable: true, align:"center" , width: 120},
+                {key: "playTm", label: ADMIN("ax.admin.BM0303G2.playtm"), sortable: true, align:"right" , width: 80},
             ],
             body: {
                 onClick: function () {
                     this.self.select(this.dindex);
-                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
+                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G2, this.item);
                 }
             },
         });

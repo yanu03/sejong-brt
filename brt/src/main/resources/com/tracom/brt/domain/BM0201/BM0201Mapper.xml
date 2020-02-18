@@ -40,20 +40,15 @@
     	</where>
     </select>
     
-    <select id="BM0201F0S1" parameterType="String" resultType="vhcDeviceVO">
+    <select id="BM0201F0S1" parameterType="Map" resultType="vhcDeviceVO">
     	SELECT
     		  DVC_ID
-    		, MAKER
-    		, DVC_KIND
-    		, INST_LOC
     		, MNG_ID
-    		, DVC_IP
-    		, VHC_ID
-    		, REMARK
     	FROM
     		BM_DVC_INFO
     	WHERE
-    		DVC_ID = #{value}
+    		VHC_ID = #{vhcId}
+    		AND MNG_ID = #{mngId}
     </select>
     
     <select id="BM0201F0S2" parameterType="String" resultType="vhcDeviceVO">
@@ -75,9 +70,11 @@
     <select id="BM0201M0S0" parameterType="String" resultType="vhcDeviceVO">
     	SELECT
     		  DVC_ID
-    		, DVC_KIND
+    		, DL0.DL_CD_NM AS DVC_KIND
     	FROM
-    		BM_DVC_INFO
+    		BM_DVC_INFO DVC
+    		LEFT OUTER JOIN SM_DL_CD_INFO DL0
+    		ON DVC.DVC_KIND = DL0.DL_CD
     	ORDER BY DVC_ID DESC LIMIT 1
     </select>
     

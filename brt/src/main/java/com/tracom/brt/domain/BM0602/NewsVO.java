@@ -26,6 +26,7 @@ public class NewsVO extends BaseVO{
 	private String proceRst;
 	private String sendDate;
 	private String attrId;
+	private String mngId;
 	private int seq;
 	private String txtVal1;
 	private String numVal4;

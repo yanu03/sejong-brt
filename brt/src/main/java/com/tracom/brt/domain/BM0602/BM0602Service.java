@@ -92,7 +92,7 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 		}
 	}
 	
-	@Scheduled(cron="0 * 3 * * *")
+	@Scheduled(cron="0 0 3 * * *")
 	public void NewsDeleteScheduler() throws ParseException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();

@@ -129,7 +129,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	 if (caller.formView0.validate()) {
     		
              var formData = caller.formView0.getData();
-             formData["vhcId"] = selectedRow.vhcId; 
+             formData["vhcId"] = selectedRow.vhcId;
              
              	axboot.promise()
              	.then(function (ok, fail, data) {
@@ -166,6 +166,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                  .catch(function () {
 
                  	});
+                 }else{
+                	 alert("관리ID는 중복으로 저장되지 않습니다.");
                  }
                  })
          }
@@ -472,7 +474,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), align: "center", width: 120},
                 {key: "dvcKind", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0201F0.dvckind") + "</font>", align: "center", sortable: true, width: 120},
                 {key: "instLoc", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0201F0.instloc") + "</font>", align: "center", width: 120},
-                {key: "mngId", label: "<font color=BF360C>" +ADMIN("ax.admin.BM0201F0.mngid") + "</font>", align: "center", width: 100},
+                {key: "mngId", label: "<font color=BF360C>" +ADMIN("ax.admin.BM0201F0.mngid") + "</font>", align: "center", width: 130},
                 {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), width: 130},
                 {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
             ],

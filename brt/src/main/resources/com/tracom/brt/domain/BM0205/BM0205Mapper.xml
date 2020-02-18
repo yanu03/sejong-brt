@@ -43,12 +43,22 @@
 		ORDER BY VHC_NO 
 	</select>
 	
+	<select id="BM0205G0S1" parameterType="vhcDvcUpdateVO" resultType="vhcDvcUpdateVO">
+		SELECT
+		   RSV_ID
+		 , MNG_ID
+		 , ATT_FILE
+		 , RSV_DATE
+		FROM
+			BM_UPD_RSV
+	</select>
+	
 	<insert id="BM0205Reservation" parameterType="vhcDvcUpdateVO">			
 		INSERT INTO BM_UPD_RSV(
 			  RSV_DATE
 			, RSV_ID
 			, ATT_FILE
-			, DVC_ID
+			, MNG_ID
 			, CREATED_AT
     		, CREATED_BY
     		, CREATED_IP
@@ -60,7 +70,7 @@
 			( #{rsvDate}
 		    , CONCAT('UR', LPAD(NEXTVAL(SEQ_BM_UPD_RSV_0), 5, '0'))
 		    , #{upList.attFile}
-		    , #{upList.dvcId}
+		    , #{upList.mngId}
 		    , #{upList.createdAt}
    			, #{upList.createdBy}
    			, #{upList.createdIp}

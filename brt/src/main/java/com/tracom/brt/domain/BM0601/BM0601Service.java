@@ -116,12 +116,17 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
             	}
             }
     	}
-    	System.out.println(vo);
-		mapper.BM0601F0I0(vo);
+    	List<WeatAtmoVO> measDtCk = mapper.BM0601F0S0(vo.getMeasDt());
+    	if(measDtCk.get(0).getMeasDt() != vo.getMeasDt()) {
+    		System.out.println(vo);
+    		mapper.BM0601F0I0(vo);
+    	}else {
+    		System.out.println("발표시간이 중복되었습니다.");
+    	}
 		/* 대기 */  	   	
 	}
 	
-	@Scheduled(cron="0 14 * * * *")
+	@Scheduled(cron="0 5 * * * *")
 	public void NewWeatScheduler() {
 		
 		/* 기상 */
