@@ -119,13 +119,13 @@
                     	
                     	<ax:tr>
                        		<ax:td label="ax.admin.BM0103F0.vhcKind" width="240px" labelClazz="required">
-                       			<ax:SM0105 groupCd="BUS_KIND" id="vhcKind" name="vhcKind" dataPath="vhcKind"/>
+                       			<ax:SM0105 groupCd="VHC_KIND" id="vhcKind" name="vhcKind" dataPath="vhcKind"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
                        		<ax:td label="ax.admin.BM0103F0.vhcType" width="200px" labelClazz="required">
-                       		    <ax:SM0105 groupCd="BUS_DIV" id="vhcType" name="vhcType" dataPath="vhcType"/>
+                       		    <ax:SM0105 groupCd="VHC_TYPE" id="vhcType" name="vhcType" dataPath="vhcType"/>
                     		</ax:td>
                     	</ax:tr>
                     	

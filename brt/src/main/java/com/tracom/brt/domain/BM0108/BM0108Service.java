@@ -33,14 +33,25 @@ public class BM0108Service extends BaseService<EplyInfoVO, String> {
     //Insert
     public String BM0108F0I0(EplyInfoVO vo) {
     	mapper.BM0108F0I0(vo);
-    	handler.uploadBM0108(vo.getEplyId(), vo.getImgFile());
+    	if(vo.getEmployeeImg() != null) {
+    		handler.uploadBM0108(vo.getEplyId() + ".JPG", vo.getEmployeeImg());    		
+    	}
+    	if(vo.getCertiImg() != null) {
+    		handler.uploadBM0108(vo.getEplyId() + "_CERTI.JPG", vo.getCertiImg());    		
+    	}
     	return vo.getEplyId();
     }
     
     //Update
     public boolean BM0108F0U0(EplyInfoVO vo) {
     	if(mapper.BM0108F0U0(vo) > 0) {
-    		handler.uploadBM0108(vo.getEplyId(), vo.getImgFile());
+    		
+    		if(vo.getAttFile() != null) {
+    			handler.uploadBM0108(vo.getEplyId() + ".JPG", vo.getEmployeeImg());
+    		}
+    		if(vo.getAttFile2() != null) {
+    			handler.uploadBM0108(vo.getEplyId() + "_CERTI.JPG", vo.getCertiImg());
+    		}
     		return true;
     	} else {
     		return false;

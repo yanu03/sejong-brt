@@ -680,7 +680,6 @@ function loadSCH(){
 		data: JSON.stringify(input),
 		url: "/api/v1/BM0501F0S0",
 		callback: function (res) {
-			console.log(res);
 			fnObj.gridView1.setData(res);
 		}
 	});	
