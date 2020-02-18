@@ -81,7 +81,13 @@
     
     <select id="BM0102G1S0" parameterType="custInfoVO" resultType="mngrInfoVO">
     	SELECT
-    		*
+    		  CONVERT(AES_DECRYPT(MNGR_NM, HEX(SHA2('TRACOM', 512))) USING UTF8)	AS MNGR_NM
+    		, CONVERT(AES_DECRYPT(PHONE, HEX(SHA2('TRACOM', 512))) USING UTF8)		AS PHONE
+    		, CONVERT(AES_DECRYPT(EMAIL, HEX(SHA2('TRACOM', 512))) USING UTF8)		AS EMAIL
+    		, CONVERT(AES_DECRYPT(FAX, HEX(SHA2('TRACOM', 512))) USING UTF8)		AS FAX
+    		, REMARK
+    		, CUST_ID
+    		, SEQ
     	FROM
     		BM_MNGR_INFO
     	WHERE
@@ -105,10 +111,10 @@
     			<foreach collection="voList" item="voList" separator=",">
 					<choose>
 						<when test="voList.mngrNm != null || voList.phone != null || voList.email != null || voList.fax != null || voList.remark != null">
-		    			( #{voList.mngrNm}
-    					, #{voList.phone}
-	   					, #{voList.email}
-	   					, #{voList.fax}
+		    			( AES_ENCRYPT(#{voList.mngrNm}, HEX(SHA2('TRACOM', 512)))
+    					, AES_ENCRYPT(#{voList.phone}, HEX(SHA2('TRACOM', 512)))
+	   					, AES_ENCRYPT(#{voList.email}, HEX(SHA2('TRACOM', 512)))
+	   					, AES_ENCRYPT(#{voList.fax}, HEX(SHA2('TRACOM', 512)))
 	   					, #{voList.remark}
 	   					, #{voList.custId}
 	   					, #{voList.__index})

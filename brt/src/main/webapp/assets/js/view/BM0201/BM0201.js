@@ -26,14 +26,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                caller.formView0.disable();
                 } else {
                 	caller.formView0.enable();
-	                if(selectedRow != null) {
-	                	caller.gridView0.selectRow(selectedRow.__index);
-	                } else {
-	                	caller.gridView0.selectFirstRow();
-	                }
+                }
+                if(selectedRow != null) {
+                	caller.gridView0.selectRow(selectedRow.__index);
+                } else {
+                	caller.gridView0.selectFirstRow();
                 }
             }
         });
+        return false;
     },
     
     /*excel기능*/
@@ -212,7 +213,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
     },
     
- // gridView1 항목 클릭 이벤트
+    // gridView1 항목 클릭 이벤트
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
     	selectedRowG1 = data;
@@ -222,13 +223,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			url: "/api/v1/BM0201F0S2",
 			data: {dvcId : data.dvcId},
 			callback: function (res) {
-				console.log(res);
 				caller.formView0.setData(res.list[0]);
-				console.log(res.list[0].dvcType);
 			}
-		});  	
-    	console.log(data.dvcKind);
-    	console.log(data.maker);
+		});
     },
     
     RELOAD_G1: function(caller, act, data) {
@@ -241,35 +238,34 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             callback: function (res) {
                 caller.gridView1.setData(res);
                 
-                console.log("리로드쪽"+res);
-                
+                console.log("리로드쪽");
+                console.log(res);
                 if(res.list.length == 0) {
                 	isUpdate = false;
 	                caller.formView0.clear();
                 	caller.formView0.disable();
+                }
+                
+                if(dataFlag) {
+                	caller.gridView1.selectIdRow(data);
                 } else {
-                	if(dataFlag) {
-	                	caller.gridView1.selectIdRow(data);
-	                } else {
-		                if(selectedRowG1 != null) {
-		                	caller.gridView1.selectRow(selectedRowG1.__index);
-		                } else {
-		                	caller.gridView1.selectFirstRow();
-		                }
-	                }
+                	if(selectedRowG1 != null) {
+                		caller.gridView1.selectRow(selectedRowG1.__index);
+                	} else {
+                		caller.gridView1.selectFirstRow();
+                	}
                 }
             }
         });
-    },
-    
+    },   
     OPEN_BM0201_MODAL: function(caller, act, data) {
     	axboot.modal.open({
             modalType: "BM0201",
             param: "",
             callback: function (data) {
+            	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             }
         });
-    	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
     }
 });
 /********************************************************************************************************************/
@@ -481,7 +477,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             body: {
                 onClick: function () {
                     this.self.select(this.dindex);
-                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1 , this.item);
+                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
                 }
             },
         });

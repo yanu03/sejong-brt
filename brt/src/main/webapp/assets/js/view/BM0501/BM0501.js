@@ -140,6 +140,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         $("#selectBox option:eq(0)").attr("selected", "selected");
         loadSCH();
     },
+    
+    ITEM_CLICK2: function (caller, act, data) {
+    	var element = document.getElementById("previewImg");
+    	var seq = data.__index + 1;
+    	if(uv_dvc_type == frontCode){
+    		//var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&dvcName="+selectedRow.dvcName;
+    		//$("#previewImg").attr("src", url);
+    		//element.style.clip = "rect(" + (data.__index * uv_frontheight) + "," + uv_frontwidth + "," + uv_frontwidth + "," + (seq * uv_frontheight) + ")";
+    	}
+    	console.log(uv_dvc_type + "," + seq);
+    },
 
 });
 
@@ -230,6 +241,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             body: {
                 onClick: function () {
                     this.self.select(this.dindex);
+            		ACTIONS.dispatch(ACTIONS.ITEM_CLICK2, this.item);
                 }
             },
         });
@@ -275,6 +287,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     		this.selectLastRow();
     	} else {
     		this.target.select(index);
+    		ACTIONS.dispatch(ACTIONS.ITEM_CLICK2, data);
     	}
     },
     selectIdRow: function(id) {
@@ -689,15 +702,12 @@ function loadSCH(){
 function loadBmp(){
 	uv_dvc_type = $('#selectBox option:selected').val();
 	var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&dvcName="+selectedRow.dvcName;
-	console.log(url);
-	$('#previewHidden').attr("src", url);
+
 	$("#previewImg").attr("src", url);
 	
 	$('#previewImg').each(function(){
 		$(this).load(function(){
 			uv_height = this.naturalHeight / uv_frontheight;
-			console.log(this.naturalWidth);
-			console.log(this.naturalHeight);
 		});
 	});
 	fnObj.gridView1.initView();
