@@ -84,7 +84,7 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.busDiv" width="380px" labelClazz="required">
-                    			<ax:SM0105 groupCd="BUS_DIV" name="busDiv" dataPath="busDiv" clazz="form-control W100" />
+                    			<ax:SM0105 groupCd="VHC_TYPE" name="busDiv" dataPath="busDiv" clazz="form-control W100" />
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.eplyDate1" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
 	                            <div class="input-group" data-ax5picker="date" style="width:100px;">
