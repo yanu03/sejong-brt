@@ -40,6 +40,12 @@ public class DestinationVO extends BaseVO{
 	
 	private String dvcKindCd;
 	
+	private String shortRoutNm;
+	
+	private String height;
+	
+	private String width;
+	
 	//노선정보
 	private BmRoutInfoVO routVO;
 	

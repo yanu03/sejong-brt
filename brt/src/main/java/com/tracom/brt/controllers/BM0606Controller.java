@@ -45,7 +45,6 @@ public class BM0606Controller extends BaseController {
     
     @PostMapping("/BM0606G2U0")
     public Responses.ListResponse BM0606G2U0(@RequestBody VdoOrgaVO orgaVO) {
-    	System.out.println(orgaVO);
     	service.BM0606Update(orgaVO);
     	//return Responses.ListResponse.of(voList);
     	return null;
@@ -53,7 +52,6 @@ public class BM0606Controller extends BaseController {
     
     @PostMapping("/BM0606G2I0")
     public Responses.ListResponse BM0606G2I0(@RequestBody VdoOrgaVO orgaVO) {
-    	System.out.println(orgaVO);
     	service.BM0606Insert(orgaVO);
     	//return Responses.ListResponse.of(voList);
     	return null;

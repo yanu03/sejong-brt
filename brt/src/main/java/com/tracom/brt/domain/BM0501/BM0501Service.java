@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.domain.SM0105.CommonCodeDetailInfoVO;
@@ -28,8 +29,6 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 	
 	public List<DestinationVO> selectSCHFile(DestinationVO vo) throws Exception{
 		
-		System.out.println(vo);
-		
 		String fileNameHeader = DLCDMapper.SM0105G2S1(vo.getDvcKindCd()).getTxtVal2();
 		String fileNameTail = ".SCH";
 		String fileName =  fileNameHeader + vo.getDvcName() + fileNameTail;
@@ -38,6 +37,39 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 		
 	}
 
+	@Transactional
+	public boolean saveBM0501(DestinationVO vo) {
+		if(writeBmpFile(vo)) {
+			if(writeSCHFile(vo)) {
+				return true;
+			}else {
+				return false;
+			}
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean writeBmpFile(DestinationVO vo) {
+		if(vo.getAttFile() != null) {
+			String fileNameHeader = DLCDMapper.SM0105G2S1(vo.getDvcKindCd()).getTxtVal2();
+			String fileNameTail = ".BMP";
+			String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
+
+			return ftpHandler.writeBmp(fileName, vo.getAttFile());
+		}else {
+			return true;
+		}
+	}
+	
+	public boolean writeSCHFile(DestinationVO vo) {
+		String fileNameHeader = DLCDMapper.SM0105G2S1(vo.getDvcKindCd()).getTxtVal2();
+		String fileNameTail = ".SCH";
+		String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
+		
+		return ftpHandler.writeSCH(vo.getVoList(), fileName);
+	}
+	
 	public CommonCodeDetailInfoVO getHeader(String value) {
 		return DLCDMapper.SM0105G2S1(value);
 	}

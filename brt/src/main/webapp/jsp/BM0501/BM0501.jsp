@@ -11,6 +11,11 @@
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0501/BM0501.js' />"></script>
+        <style>
+			.grid-cell-gray{
+		        color: FFFFFF<!-- #F1F3F5 -->;
+		    }
+		</style>
     </jsp:attribute>
     <jsp:body>
 

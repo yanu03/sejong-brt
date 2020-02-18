@@ -14,7 +14,7 @@ public class imageService {
 //미완성
 	public File resizeImg(File file, String path) {
 		String imgTargetPath = path; // 새 이미지 파일명
-		String imgFormat = "jpg"; // 새 이미지 포맷. jpg, gif 등
+		String imgFormat = "JPG"; // 새 이미지 포맷. jpg, gif 등
 		int newWidth = 140; // 변경 할 넓이
 		int newHeight = 140; // 변경 할 높이
 		String mainPosition = "X"; // W:넓이중심, H:높이중심, X:설정한 수치로(비율무시)

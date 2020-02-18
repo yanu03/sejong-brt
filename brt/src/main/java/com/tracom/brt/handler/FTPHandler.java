@@ -84,11 +84,11 @@ public class FTPHandler {
 	private ArrayList<String> ignoreList;
 	
 	// 승무사원 관리 승무사원 사진 업로드
-	public void uploadBM0108(String id, MultipartFile file) {
+	public void uploadBM0108(String fileName, MultipartFile file) {
 		String dir1 = Paths.get(getRootLocalPath(), "/common/employee").toString();
 		String dir2 = Paths.get(getRootLocalPath(), "/vehicle").toString();
 		//String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
-		String fileName = id + "." + "jpg";//그냥 다 jpg로 저장하게끔...
+		//String fileName = id + "." + "JPG";//그냥 다 jpg로 저장하게끔...
 		
 		File saveFile = Paths.get(dir1, fileName).toFile();
 		try {
@@ -147,7 +147,7 @@ public class FTPHandler {
 			saveFile = Paths.get(dir, fileName).toFile();			
 			break;
 		case "image" : 
-			ext = "jpg";
+			ext = "JPG";
 			fileName = id + "." + ext;
 			saveFile = Paths.get(dir, fileName).toFile();			
 			break;
@@ -299,22 +299,42 @@ public class FTPHandler {
 		}
 	}
 	
+	//BMP파일 write
+	public boolean writeBmp(String fileName, MultipartFile file) {
+		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
+		
+		File saveFile = Paths.get(path, "/" ,fileName).toFile();
+		try {
+			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+			processSynchronize();
+			return true;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
 	//SCH파일 read
-	public List<DestinationVO> readSCH(String fileName) throws Exception {
+	public List<DestinationVO> readSCH(String fileName) throws IOException {
 		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
 		
 		File file = new File(path + "/" + fileName);
-		FileReader fr = new FileReader(file);
+		FileReader fr = null;
+		List<DestinationVO> list = new ArrayList<>();
+		try {
+			fr = new FileReader(file);
+		} catch (FileNotFoundException e) {
+			createSCH(fileName);
+			fr = new FileReader(file);
+		}
         //입력 버퍼 생성
         BufferedReader br = new BufferedReader(fr);
         String line = "";
-        String result = "";
-        List<DestinationVO> list = new ArrayList<>();
         String[] tmp = null;
         
         while((line = br.readLine()) != null){
         	DestinationVO vo = new DestinationVO();
-        	result += line;
         	tmp = line.split("\t");
         	
         	vo.setFrameNo(tmp[0]);
@@ -322,7 +342,6 @@ public class FTPHandler {
         	vo.setEffSpeed(tmp[2]);
         	vo.setShowTime(tmp[3]);
         	
-        	System.out.println(vo);
         	list.add(vo);
         }
         br.close();
@@ -331,29 +350,47 @@ public class FTPHandler {
 		
 	}
 	
+	public boolean createSCH(String fileName) {
+		List<DestinationVO> realList = new ArrayList<>();
+		
+		for(int i = 0; i < 10; i ++) {
+			DestinationVO vo = new DestinationVO();
+			int seq = i + 1;
+			vo.setFrameNo("FRAME" + seq);
+			vo.setEffType("01");
+			vo.setEffSpeed("05");
+			vo.setShowTime("0000");
+			realList.add(vo);
+		}
+		
+		return writeSCH(realList, fileName);
+	}
+	
 	//SCH파일 write
-	public void writeSCH(List<List> list, String fileName) {
+	public boolean writeSCH(List<DestinationVO> list, String fileName) {
 		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
 		String txt = "";
-		for(int j = 0; j < list.size(); j++) {
-			if(j == 0) {
+		
+		for(int i = 0; i < list.size(); i++) {
+			if(i == 0) {
+				txt += list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + list.get(i).getEffType() + GlobalConstants.SCH.TAB + list.get(i).getEffSpeed() + GlobalConstants.SCH.TAB + list.get(i).getShowTime();
 			}else {
-				txt += GlobalConstants.CSVForms.ROW_SEPARATOR;				
+				
+				txt += GlobalConstants.CSVForms.ROW_SEPARATOR
+						+ list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + list.get(i).getEffType() + GlobalConstants.SCH.TAB + list.get(i).getEffSpeed() + GlobalConstants.SCH.TAB + list.get(i).getShowTime();
 			}
-			for(int i = 0; i < list.get(j).size(); i++) {
-				if(i < list.get(j).size()-1) {
-					txt += list.get(j).get(i) + GlobalConstants.SCH.TAB;
-				}else {
-					txt += list.get(j).get(i);
-				}
-			}
+			
+			
 		}
+		
 		File file = new File(path + "/" + fileName);
 		
 		try {
 			Utils.createCSV(file, txt);
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 	
