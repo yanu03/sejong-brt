@@ -13,10 +13,7 @@
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0501/BM0501.js' />"></script>
         <style>
 			.grid-cell-gray{
-		        
 		        color: FFFFFF<!-- #F1F3F5 -->;
-		        
-		        
 		    }
 		</style>
     </jsp:attribute>
@@ -106,7 +103,6 @@
 	                             -->
 	                             	<div>
 	                             		<img id="previewImg" src="#" alt="행선지안내기 미리보기" onError="/assets/videos/BM0605/Default.png"></div>
-	                             		<input type="hidden" id="previewHidden" src="#">
                             </ax:td>
                         </ax:tr>
                         

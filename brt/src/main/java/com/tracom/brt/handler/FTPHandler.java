@@ -311,21 +311,25 @@ public class FTPHandler {
 	}
 	
 	//SCH파일 read
-	public List<DestinationVO> readSCH(String fileName) throws Exception {
+	public List<DestinationVO> readSCH(String fileName) throws IOException {
 		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
 		
 		File file = new File(path + "/" + fileName);
-		FileReader fr = new FileReader(file);
+		FileReader fr = null;
+		List<DestinationVO> list = new ArrayList<>();
+		try {
+			fr = new FileReader(file);
+		} catch (FileNotFoundException e) {
+			createSCH(fileName);
+			fr = new FileReader(file);
+		}
         //입력 버퍼 생성
         BufferedReader br = new BufferedReader(fr);
         String line = "";
-        String result = "";
-        List<DestinationVO> list = new ArrayList<>();
         String[] tmp = null;
         
         while((line = br.readLine()) != null){
         	DestinationVO vo = new DestinationVO();
-        	result += line;
         	tmp = line.split("\t");
         	
         	vo.setFrameNo(tmp[0]);
@@ -333,13 +337,28 @@ public class FTPHandler {
         	vo.setEffSpeed(tmp[2]);
         	vo.setShowTime(tmp[3]);
         	
-        	System.out.println(vo);
         	list.add(vo);
         }
         br.close();
         
         return list;
 		
+	}
+	
+	public boolean createSCH(String fileName) {
+		List<DestinationVO> realList = new ArrayList<>();
+		
+		for(int i = 0; i < 10; i ++) {
+			DestinationVO vo = new DestinationVO();
+			int seq = i + 1;
+			vo.setFrameNo("FRAME" + seq);
+			vo.setEffType("01");
+			vo.setEffSpeed("05");
+			vo.setShowTime("0000");
+			realList.add(vo);
+		}
+		
+		return writeSCH(realList, fileName);
 	}
 	
 	//SCH파일 write
