@@ -36,6 +36,7 @@ import com.jcraft.jsch.SftpException;
 import com.tracom.brt.code.GlobalConstants;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.domain.BM0501.DestinationVO;
 import com.tracom.brt.domain.BM0605.VideoInfoVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
@@ -294,7 +295,7 @@ public class FTPHandler {
 	}
 	
 	//SCH파일 read
-	public void readSCH(String fileName) throws Exception {
+	public List<DestinationVO> readSCH(String fileName) throws Exception {
 		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
 		
 		File file = new File(path + "/" + fileName);
@@ -303,20 +304,25 @@ public class FTPHandler {
         BufferedReader br = new BufferedReader(fr);
         String line = "";
         String result = "";
-        List<String[]> list = new ArrayList();
+        List<DestinationVO> list = new ArrayList<>();
         String[] tmp = null;
+        
         while((line = br.readLine()) != null){
+        	DestinationVO vo = new DestinationVO();
         	result += line;
         	tmp = line.split("\t");
-        	list.add(tmp);
+        	
+        	vo.setFrameNo(tmp[0]);
+        	vo.setEffType(tmp[1]);
+        	vo.setEffSpeed(tmp[2]);
+        	vo.setShowTime(tmp[3]);
+        	
+        	System.out.println(vo);
+        	list.add(vo);
         }
         br.close();
         
-        for(int i=0; i<list.size(); i++) {
-        	for(int j=0; j< list.get(i).length; j++) {
-        		System.out.println(list.get(i)[j]);
-        	}
-        }
+        return list;
 		
 	}
 	

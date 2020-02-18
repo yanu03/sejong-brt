@@ -16,6 +16,7 @@ import org.springframework.util.FileCopyUtils;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.code.GlobalConstants;
+import com.tracom.brt.domain.BM0501.BM0501Service;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
 import com.tracom.brt.handler.FTPHandler;
@@ -29,6 +30,9 @@ public class FileService {
 	
 	@Inject
 	private VoiceService voiceService;
+	
+	@Inject
+	private BM0501Service destiService; 
 	
 	public void preview(RequestParams<?> requestParams, HttpServletResponse response) {
 		String type = requestParams.getString("type");
@@ -52,6 +56,9 @@ public class FileService {
 			    case GlobalConstants.Types.VIDEO:
 			    	path = videoPreview(requestParams, response);
 			        break;
+			    case GlobalConstants.Types.BMP:
+			    	path = bmpPreview(requestParams, response);
+			    	break;
 			}
 			
 			file = new File(path);
@@ -171,5 +178,16 @@ public class FileService {
 		file = new File(Paths.get(path).toString());
 		
 		return file.getAbsolutePath();
+	}
+	
+	// 행선지안내기 이미지 미리보기
+	private String bmpPreview(RequestParams<?> requestParams, HttpServletResponse response) {
+		String fileNameHeader = destiService.getHeader(requestParams.getString("dvcKindCd")).getTxtVal2();
+		String fileNameBody = requestParams.getString("dvcName");
+		String fileNameTail = ".BMP";
+		
+		String fileName = fileNameHeader + fileNameBody + fileNameTail;
+		System.out.println(fileName);
+		return Paths.get(handler.getRootLocalPath(), "/destination/images/", fileName).toString();
 	}
 }

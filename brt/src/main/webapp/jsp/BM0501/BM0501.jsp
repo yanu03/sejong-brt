@@ -56,7 +56,13 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
                             <ax:td label="장치유형" width="100%" labelClazz="required">
+                            <!-- 
+                            <select id="selectBox"></select>
+                             -->
+                            	<div data-ax5select="selectType" id="selectBox"></div>
+                            	<!-- 
                                 <ax:SM0105 groupCd="DVC_TYPE" id="dvcType" name="dvcType" dataPath="dvcType" clazz="form-control"/>
+                            	 -->
                             </ax:td>
                         </ax:tr>
                         <ax:tr>
@@ -90,7 +96,8 @@
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
 	                             -->
-	                             	<div></div>
+	                             	<div>
+	                             		<img id="previewImg" src="#" alt="행선지안내기 미리보기" onError="/assets/videos/BM0605/Default.png"></div>
                             </ax:td>
                         </ax:tr>
                         

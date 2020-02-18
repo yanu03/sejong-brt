@@ -1,6 +1,5 @@
-
 var fnObj = {}, CODE = {};
-
+var updateList = [];
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
@@ -14,62 +13,18 @@ uv_sideheight = 32;
 uv_dvc_type = null;
 uv_width = 0;
 uv_height = 0;
+frontCode = 'CD001';
+sideCode = 'CD002';
 /**************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_RESERVATION: function(caller, act, data) {
-    	if(selectedRow == null) {
-    		axDialog.alert(LANG("ax.script.alert.requireselect"));
-    		return false;
-    	}
-    	
-        axboot.ajax({
-            type: "GET",
-            url: "/api/v1/checkVoiceReservation",
-            data: {
-        		vocId: selectedRow.vocId,
-            },
-            callback: function (res) {
-                if(res.message == "true") {
-	        		// 예약적용일때
-        			axboot.modal.open({
-        	            modalType: "RESERVATION",
-        	            param: "",
-        	            callback: function (result) {
-        	            	this.close();
-        	            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
-        	            		date: result
-        	            	});
-        	            }
-        	        });
-	        	} else {
-	        		axDialog.alert(LANG("ax.script.check.organization"));
-	        	}
-            }
-        });
+
     },
     
     INSERT_RESERVATION: function(caller, act, data) {
-    	axboot.promise()
-	        .then(function (ok, fail, _data) {
-	            axboot.ajax({
-	                type: "POST",
-	                url: "/api/v1/voiceReservation",
-	                data: JSON.stringify({
-	            		vocId: selectedRow.vocId,
-	            		rsvDate: data.date
-	                }),
-	                callback: function (res) {
-	                    ok(res);
-	                }
-	            });
-	        })
-	        .then(function (ok, fail, data) {
-	        })
-	        .catch(function () {
-	
-	        });
+
     },
     
 	PAGE_SEARCH: function (caller, act, data) {
@@ -79,7 +34,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0402G0S0",
+            url: "/api/v1/BM0104G0S0",
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);
@@ -101,7 +56,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 }
             }
         });
-
+        //loadSCH();
         return false;
     },
 	PAGE_EXCEL: function(caller, act, data) {
@@ -109,123 +64,65 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_NEW: function (caller, act, data) {
-    	isUpdate = false;
-    	selectedRow = null;
-    	caller.gridView0.selectAll(false);
-        caller.formView0.clear();
-        caller.formView0.enable();
-        caller.formView0.validate(true);
-        
-        // 미리듣기 초기화
-        $("#jquery_jplayer_1").jPlayer("setMedia", {
-    		mp3: null
-    	});
+
     },
     
     PAGE_DELETE: function(caller, act, data) {
-    	var grid = caller.gridView0.target;
-    	
-    	if(typeof grid.selectedDataIndexs[0] === "undefined") {
-    		axDialog.alert(LANG("ax.script.alert.requireselect"));
-    		return false;
-    	}
-    	
-    	axDialog.confirm({
-            msg: LANG("ax.script.deleteconfirm")
-        }, function() {
-            if (this.key == "ok") {
-            	axboot.promise()
-                .then(function (ok, fail, data) {
-	            	axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/BM0402G0D0",
-	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
-	                    callback: function (res) {
-	                        ok(res);
-	                    }
-	                });
-                })
-                .then(function (ok) {
-                	caller.formView0.clear();
-                	axToast.push(LANG("ondelete"));
-                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
 
-                });
-            }
-        });
     },
     
     PAGE_SAVE: function (caller, act, data) {  
-        if (caller.formView0.validate()) {
-        	var formData = new FormData(caller.formView0.target[0]);
-        	
-        	if(caller.formView0.model.get("playType") == "WAV") {
-    	    	var element = $("#wavFile");
-    	    	
-    	    	if(!element[0].files[0]){
-    	        	alert(element.attr("title") + "을 선택해주세요");
-    	        	return false;
-    	        }
-        	}
-        	
-            axboot.promise()
-                .then(function (ok, fail, data) {
-                    axboot.ajax({
-                        type: "POST",
-                        url: "/api/v1/BM0402F0I0",
-                        enctype: "multipart/form-data",
-                        processData: false,
-                        data: formData,
-                        callback: function (res) {
-                            ok(res);
-                        },
-                        options: {
-                        	contentType:false
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onadd"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-                    isUpdate = true;
-                })
-                .catch(function () {
 
-                });
-            //*/
-        }
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-        if (caller.formView0.validate()) {
-        	var formData = new FormData(caller.formView0.target[0]);
-        	
-            axboot.promise()
-                .then(function (ok, fail, data) {
-                    axboot.ajax({
-                    	type: "POST",
-                        url: "/api/v1/BM0402F0U0",
-                        enctype: "multipart/form-data",
-                        processData: false,
-                        data: formData,
-                        callback: function (res) {
-                            ok(res);
-                        },
-                        options: {
-                        	contentType:false
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onupdate"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
+    	uv_dvc_type = $('#selectBox option:selected').val();
 
-                });
+    	//var formData = new FormData(fnObj.gridView1.getData());
+    	var formData = new FormData();
+    	formData.append("voList", fnObj.gridView1.getData());
+    	formData.append("dvcKindCd", uv_dvc_type);
+    	if($("#bmpFile")[0].files[0]){
+        	formData.append("attFile", $("#bmpFile")[0].files[0].name);
         }
+    	
+    	
+    	axboot.promise()
+        .then(function (ok, fail, data) {
+        	axboot.ajax({
+            	type: "POST",
+            	enctype: "multipart/form-data",
+            	processData: false,
+                url: "/api/v1/BM0501G1U0",
+                data: formData,
+                callback: function (res) {
+                    ok(res);
+                },
+                options: {
+                	contentType:false
+                }
+            });
+        })
+        .then(function (ok) {
+        	//파일업로드하고 진행
+        	
+        	axboot.promise().then(function(ok, fail, data){
+        		axboot.ajax({
+        			type: "POST",
+                    url: "/api/v1/BM0501G1U1",
+                    data: JSON.stringify(),
+                    callback: function (res) {
+                        ok(res);
+                    }
+        		});
+        	});
+        	
+    		axToast.push(LANG("onupdate"));
+    		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+        })
+        .catch(function () {
+
+        });
     },
     
     // 탭닫기
@@ -234,156 +131,59 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK: function (caller, act, data) {
-    	isUpdate = true;
     	selectedRow = data;
+    	//loadSCH(data);
         caller.formView0.setData(data);
         caller.formView0.enable();
-        
-        // wav input file 클리어
-        $("#wavFile").val(null);
-        
-        // 미리듣기 초기화
-        $("#jquery_jplayer_1").jPlayer("setMedia", {
-    		mp3: null
-    	});
-        
-        if(data.playType == "WAV") {
-        	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
-        }
+        $("#selectBox option:eq(0)").attr("selected", "selected");
+        loadSCH();
     },
-    
-    CHANGE_PLAY_TYPE: function(caller, cat, data) {
-    	if(data.playType == "TTS") {
-    		// wav 파일 관련
-    		_this.target.find("[data-ax-td-label='wavLabel']").removeClass("required");
-    		_this.target.find("#wavFile").attr("readonly", true).attr("disabled", true).attr("data-ax-validate", null);
-    		_this.target.find("[data-btn-test='wav']").attr("disabled", true);
-    		
-    		// TTS 입력관련
-    		_this.target.find("[data-ax-td-label='krTtsLabel']").addClass("required");
-    		_this.target.find("[data-ax-path='krTts']").attr("readonly", false).attr("data-ax-validate", "required");
-    		
-    		// TTS 미리듣기 기본문구 버튼 관련
-    		_this.target.find("[data-btn-test='krTts']").attr("disabled", false);
-    		_this.target.find("[data-btn-common-txt='krTts']").attr("disabled", false);
-    		
-    	} else if(data.playType == "WAV") {
-    		// wav 파일 관련
-    		_this.target.find("[data-ax-td-label='wavLabel']").addClass("required");
-    		_this.target.find("#wavFile").attr("readonly", false).attr("disabled", false).attr("data-ax-validate", "required");
-    		_this.target.find("[data-btn-test='wav']").attr("disabled", false);
-    		
-    		// TTS 입력관련
-    		_this.target.find("[data-ax-td-label='krTtsLabel']").removeClass("required");
-    		_this.target.find("[data-ax-path='krTts']").attr("readonly", true).attr("data-ax-validate", null);
-    		
-    		// TTS 미리듣기 기본문구 버튼 관련
-    		_this.target.find("[data-btn-test='krTts']").attr("disabled", true);
-    		_this.target.find("[data-btn-common-txt='krTts']").attr("disabled", true);
-    	}
-    },
-    
-    // WAV 미리듣기
-    TEST_WAV: function(caller, act, data) {
-    	var element = $("#wavFile");
-    	
-    	if(element[0].files[0]) {
-	    	var blob = window.URL || window.webkitURL;
-	    	var file = element[0].files[0];
-	    	var fileURL = blob.createObjectURL(file);
-	    	
-	    	if(checkIe()) {
-	    		var formData = new FormData(caller.formView0.target[0]);
-	    		
-	            axboot.promise()
-	                .then(function (ok, fail, data) {
-	                    axboot.ajax({
-	                    	type: "POST",
-	                        url: "/api/v1/uplaodWavTemp",
-	                        enctype: "multipart/form-data",
-	                        processData: false,
-	                        data: formData,
-	                        callback: function (res) {
-	                            ok(res);
-	                        },
-	                        options: {
-	                        	contentType:false
-	                        }
-	                    });
-	                })
-	                .then(function (ok, fail, data) {
-	                	$("#jquery_jplayer_1").jPlayer("setMedia", {
-	    	        		mp3: "/api/v1/filePreview?type=tempVoice",
-	    	        	}).jPlayer("play");
-	                })
-	                .catch(function () {
-	                });
-	    	} else {
-	    		$("#jquery_jplayer_1").jPlayer("setMedia", {
-	        		wav: fileURL,
-	        	}).jPlayer("play");
-	    	}
-    	} else {
-    		alert(element.attr("title") + "을 선택해주세요");
-    	}
-    },
-    
-    // TTS 미리듣기
-    TEST_TTS: function(caller, act, data) {
-    	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
-    },
-    
-    // 플레이어에 오디오 파일 셋팅
-    SET_AUDIO: function(caller, act, data) {
-    	var url = "/api/v1/filePreview?type=voice&" + $.param(data);
-    	
-		$("#jquery_jplayer_1").jPlayer("setMedia", {
-    		mp3: url,
-    	});
-    		
-    	// WAV 미리듣기가 아닐경우 자동 재생
-    	if(typeof data.vocId === "undefined") {
-			$("#jquery_jplayer_1").jPlayer("play");
-		}
-    },
-    
-    // 기본 문구 삽입 팝업 표출
-    OPEN_COMMON_SENTENCE_MODAL: function(caller, act, data) {
-    	var _this = this;
-    	axboot.modal.open({
-            modalType: "COMMON_SENTENCE",
-            param: "",
-            callback: function (result) {
-            	this.close();
-            	
-            	axDialog.confirm({
-		            msg: "기본문구 삽입시 작성된 내용이<br>기본문구로 초기화됩니다."
-		        }, function() {
-		            if (this.key == "ok") {
-		            	caller.formView0.model.set(data.dataPath, result.dlCdNm);
-		            }
-		        });
-            }
-        });
-    },
-    
-    // 계약팝업 료출
-    OPEN_CONTRACT_MODEL: function(caller, act, data) {
-    	var _this = this;
-    	axboot.modal.open({
-            modalType: "CONTRACT",
-            param: "",
-            callback: function (result) {
-            	this.close();
-            	
-            	caller.formView0.model.set("conId", result.conId);
-            	caller.formView0.model.set("conNm", result.conNm);
-            	caller.formView0.model.set("playStDate", result.conStDate);
-            	caller.formView0.model.set("playEdDate", result.conEdDate);
-            }
-        });
-    }
+
 });
+
+
+function editCase(input){
+	switch(input){
+	
+		case 'effSpeed' :
+			return {
+				type: "number",
+				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
+					return this.item.__index >= uv_height;
+				},
+				attributes: {
+					'maxlength': 2,
+				}
+		};
+		case 'showTime' :
+			return {
+				type: "number",
+				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
+					return this.item.__index >= uv_height;
+				},
+				attributes: {
+					'maxlength': 4
+				}
+		};
+		case 'effType' :
+			return {
+			type: "select",
+			config: {
+				columnKeys: {
+					optionValue: "CD", optionText: "NM"
+				},
+				options: [	{CD : "01번", NM: "01번"},
+							{CD : "02번", NM: "02번"},
+							{CD : "03번", NM: "03번"},
+							{CD : "04번", NM: "04번"},
+							{CD : "05번", NM: "05번"}]
+			},
+			disabled: function(){
+				return this.item.__index >= uv_height;
+			}
+		};
+	}
+}
 
 
 /**
@@ -411,11 +211,10 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	columnHeight: 28
             	},
             columns: [
-            	{key: "useCheck",			label: "사용", width:50, align:"center", editor: {type: "checkbox", config: {height: 17, trueValue: "Y", falseValue: "N"}, disabled:true}},
-            	{key: "flameNo",			label: "프레임번호",											width: 100},
-            	{key: "effType",			label: "효과",											width: 100, editor: shortRoutNmEdit, align:"right"},
-            	{key: "effSpeed",			label: "효과시간",											width: 100, editor: shortRoutNmEdit, align:"right"},
-                {key: "showTime",			label: "표출시간",											width: 100, editor: shortRoutNmEdit, align:"right"}
+            	{key: "frameNo",			label: "프레임번호",	width: 100},
+            	{key: "effType",			label: "효과",		width: 100, editor: editCase('effType'),	formatter: "money", align:"right"},
+            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 100, editor: editCase('effSpeed'), align:"right"},
+                {key: "showTime",			label: "표출시간(1=10ms)",		width: 100, editor: editCase('showTime'), align:"right"}
             ],
             body: {
                 onClick: function () {
@@ -521,7 +320,16 @@ $("input[id=bmpFile]").change(function(){
     img.onload = function() {
         alert(img.width);
         alert(img.height);
-    	
+        
+    	if(uv_dvc_type == frontCode){
+    		uv_height = img.height / uv_frontheight;
+    	}else if(uv_dvc_type == sideCode){
+    		uv_height = img.height / uv_sideheight;
+    	}else{
+    		console.log('error');
+    	}
+    	console.log(uv_dvc_type);
+    	console.log(uv_height);
         /*if(img.width != 384 || img.height != 64) {
             alert("이미지 가로 684px, 세로 64px로 맞춰서 올려주세요.");
             $("input[id=bmpFile]").val("");
@@ -533,28 +341,13 @@ $("input[id=bmpFile]").change(function(){
 
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
 fnObj.pageStart = function () {
-    /*this.pageButtonView.initView();
-    this.searchView0.initView();
-    this.formView0.initView();*/
-	this.gridView0.initView();
-    this.gridView1.initView();
-    
-    /*$("#jquery_jplayer_1").jPlayer({
-		ready: function (event) {
-		},
-		swfPath: "/assets/js/jplayer",
-		supplied: "wav, mp3",
-		cssSelectorAncestor: "#jp_container_1",
-		wmode: "window",
-		useStateClassSkin: true,
-		autoBlur: true,
-		smoothPlayBar: true,
-		keyEnabled: true,
-		remainingDuration: true,
-		toggleDuration: true
-	});*/
-    
-    /*ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);*/
+	selectBox();
+	this.gridView1.initView();
+    this.pageButtonView.initView();
+    this.gridView0.initView();
+    this.formView0.initView();
+	this.searchView0.initView();
+    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
 fnObj.pageResize = function () {
@@ -633,13 +426,23 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "vocId", label: ADMIN("ax.admin.BM0402F0.voc.id"), width: 80, sortable: true, align: "center"},
-                {key: "vocNm", label: ADMIN("ax.admin.BM0402F0.voc.nm"), width: 210, sortable: true},
-                {key: "playType", label: ADMIN("ax.admin.BM0402F0.play.type"), width: 80, align: "center"},
-                {key: "playTm", label: ADMIN("ax.admin.BM0402F0.play.time"), width: 80, align: "center"},
-                {key: "playDate", label: ADMIN("ax.admin.BM0402F0.play.date"), width: 150, align: "center"},
-                {key: "krTts", label: ADMIN("ax.admin.BM0402F0.kr.tts"), width: 200},
-                {key: "remark", label: ADMIN("ax.admin.BM0402F0.remark"), width: 200},
+            	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),											width: 80},
+            	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),											width: 70},
+                {key: "shortRoutNm",	label: ADMIN("ax.admin.BM0104G0.shortRoutNm"),	width: 130},
+                {key: "wayInfo",		label: ADMIN("ax.admin.BM0104G0.wayInfo"),		width: 130},
+                {key: "dirInfo",		label: ADMIN("ax.admin.BM0104G0.dirInfo"),		width: 130},
+                {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),											width: 160},
+                {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),											width: 160},
+                {key: "wayDivNm",		label: ADMIN("ax.admin.BM0104G0.wayDiv"),											width: 60,	align: "center"},
+                {key: "userWayDiv",		label: ADMIN("ax.admin.BM0104G0.userWayDiv"),	width: 120,	align: "center"},
+                {key: "dvcName",		label: ADMIN("ax.admin.BM0104G0.dvcName"),											width: 90},
+                {key: "line1Str",		label: ADMIN("ax.admin.BM0104G0.line1Str"),											width: 200},
+                {key: "line2Str",		label: ADMIN("ax.admin.BM0104G0.line2Str"),											width: 200},
+                {key: "line1Satstr",	label: ADMIN("ax.admin.BM0104G0.line1Satstr"),										width: 200},
+                {key: "line2Satstr",	label: ADMIN("ax.admin.BM0104G0.line2Satstr"),										width: 200},
+                {key: "line1Sunstr",	label: ADMIN("ax.admin.BM0104G0.line1Sunstr"),										width: 200},
+                {key: "line2Sunstr",	label: ADMIN("ax.admin.BM0104G0.line2Sunstr"),										width: 200},
+                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),										width: 140},			
             ],
             body: {
                 onClick: function () {
@@ -828,3 +631,54 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.target.find('[data-ax-path="key"]').removeAttr("readonly");
     }
 });
+
+function selectBox(){
+	var options = [];
+	axboot.ajax({
+		type: "GET",
+		url: "/api/v1/BM0501G2S0",
+		callback: function (res) {
+			for(var i=0; i<res.list.length; i++){
+				options.push({value: res.list[i].dlCd, text : res.list[i].dlCdNm});				
+			}
+			console.log(options.length);
+			console.log(options.size);
+
+			$('[data-ax5select]').ax5select({
+				options: options,
+				onChange: function(){
+					loadSCH();
+					uv_dvc_type = $('[data-ax5select="selectType"]').ax5select("getValue")[0].value;
+				}
+			});
+		}
+	});
+}
+
+function loadSCH(){
+	//var dvcKindCd = $('#selectBox option:selected').val();
+	uv_dvc_type = $('#selectBox option:selected').val();
+	var foo = {};
+	//foo.dvcKindCd = dvcKindCd;
+	foo.dvcKindCd = uv_dvc_type;
+	var input = Object.assign(foo, selectedRow);
+
+	axboot.ajax({
+		type: "POST",
+		data: JSON.stringify(input),
+		url: "/api/v1/BM0501F0S0",
+		callback: function (res) {
+			console.log(res);
+			fnObj.gridView1.setData(res);
+		}
+	});	
+	loadBmp();
+}
+
+
+function loadBmp(){
+	uv_dvc_type = $('#selectBox option:selected').val();
+	var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&dvcName="+selectedRow.dvcName;
+	console.log(url);
+	$("#previewImg").attr("src", url);
+}
