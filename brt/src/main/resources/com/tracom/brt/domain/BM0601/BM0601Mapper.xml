@@ -4,6 +4,7 @@
 	<select id="BM0601F0S0" resultType="weatAtmoVO" parameterType="String">
       SELECT
 		   RENEW_DT
+		 , MEAS_DT
 		 , DUSTC
 		 , SDC
 		 , CMC
@@ -89,14 +90,17 @@
 		 , V.VHC_NO
 		 , LIV.PROCE_RST
 		 , LIV.SEND_DATE		 
-		FROM
+	FROM
 		 BM_LIVING_LOG LIV
 		 LEFT OUTER JOIN BM_DVC_INFO DV
-		 ON LIV.DVC_ID = DV.DVC_ID
+		 ON LIV.MNG_ID = DV.MNG_ID
 		 LEFT OUTER JOIN BM_VHC_INFO V
 		 ON DV.VHC_ID = V.VHC_ID
 		<where>
+		 LIV.ATTR_ID = "2"
+		 OR LIV.ATTR_ID = "3"
 	    	<if test="value != null">
+		 		AND
 				VHC_NO LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     	</where>

@@ -117,7 +117,8 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
             }
     	}
     	List<WeatAtmoVO> measDtCk = mapper.BM0601F0S0(vo.getMeasDt());
-    	if(measDtCk.get(0).getMeasDt() != vo.getMeasDt()) {
+    	System.out.println(measDtCk.get(0).getMeasDt().substring(0, measDtCk.get(0).getMeasDt().length()-5));
+    	if(!measDtCk.get(0).getMeasDt().substring(0, measDtCk.get(0).getMeasDt().length()-5).equals(vo.getMeasDt())) {
     		System.out.println(vo);
     		mapper.BM0601F0I0(vo);
     	}else {

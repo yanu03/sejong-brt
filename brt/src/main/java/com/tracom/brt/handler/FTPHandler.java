@@ -111,11 +111,16 @@ public class FTPHandler {
 	//BM0205 펌웨어파일 업로드
 	public void uploadBM0205(String id, MultipartFile file) {
 		String dir = Paths.get(getRootLocalPath() , "/device/firmware").toString();
-		
 		String ext = FilenameUtils.getExtension(file.getOriginalFilename());
-		System.out.println(ext);
-		System.out.println(id);
-		String fileName = "firmware." + ext;
+		String fileName;
+		
+		//행선지안내기 OR 다른장비
+		System.out.println(id.substring(10, 12));
+		if(id.substring(10, 12).equals("RD")) {
+			fileName = "SF2016." + ext;
+		}else {
+			fileName = "MANAGERV3." + ext;
+		}
 		File saveFile = Paths.get(dir, fileName).toFile();
 		
 		try {

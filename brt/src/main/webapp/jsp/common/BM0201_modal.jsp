@@ -57,38 +57,34 @@
                  
                      <ax:tr>
                             <ax:td label="ax.admin.BM0201M0.devserialno" width="300px">
-								<input type="text" id="devSerialNo" data-ax-path="devSerialNo" data-key="true" class="form-control">
+								<input type="text" id="devSerialNo" data-ax-path="devSerialNo" data-key="true" class="form-control" maxlength="30">
 							</ax:td>                    
                      </ax:tr>                       	                       
                      <ax:tr>
                          <ax:td label="ax.admin.BM0201M0.modelnm" width="300px" >
-								<input type="text" id="modelNm" data-ax-path="modelNm" data-key="true" class="form-control">
+								<input type="text" id="modelNm" data-ax-path="modelNm" data-key="true" class="form-control" maxlength="30">
 						 </ax:td>                     	                            
                      </ax:tr>
                        	
                       <ax:tr>
                     		<ax:td label="ax.admin.BM0201M0.worktype" width="300px" labelClazz="required">
-                            	<ax:common-code groupCd="WORK_TYPE" dataPath="workType" clazz="form-control"/>
+                            	<ax:SM0105 groupCd="WORK_TYPE" id="workType" dataPath="workType" clazz="form-control"/>
                             </ax:td>
 						</ax:tr>
 						
 						<ax:tr>
 							<ax:td label="ax.admin.BM0201M0.workamt" width="300px">
-                            	<input type="text" data-ax-path="workAmt" class="form-control" data-ax5formatter="money"/>
+                            	<input type="text" data-ax-path="workAmt" class="form-control" data-ax5formatter="money" style="text-align: right;" maxlength="30"/>
                             </ax:td>
 						</ax:tr>                                             	
         
                        	<ax:tr>
                        		<ax:td label="ax.admin.BM0301F0.remark" width="300px">
-                            	<input type="text" data-ax-path="remark" class="form-control"/>
+                            	<input type="text" data-ax-path="remark" class="form-control" maxlength="200"/>
                             </ax:td>
                        	</ax:tr>
-                       	                    
-
                     </ax:tbl>
-                    
                 </ax:form>
-
             </ax:split-panel>
         </ax:split-layout>
 

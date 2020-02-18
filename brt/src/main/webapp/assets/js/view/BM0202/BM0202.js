@@ -137,7 +137,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
                 caller.gridView1.setData(res);
-                
                  {
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);

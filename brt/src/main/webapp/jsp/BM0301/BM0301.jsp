@@ -29,7 +29,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0301S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0301S0.search" maxLength="20"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -77,12 +77,12 @@
                     	</ax:tr>
                         <ax:tr>
                             <ax:td label="ax.admin.BM0301F0.conno" width="250px" labelClazz="required">
-                                <input type="text" data-ax-path="conNo" class="form-control" data-ax-validate="required"/>
+                                <input type="text" data-ax-path="conNo" class="form-control" data-ax-validate="required" maxlength="30"/>
                             </ax:td>
                         </ax:tr>
                         <ax:tr>                    
                             <ax:td label="ax.admin.BM0301F0.connm" width="250px" labelClazz="required">
-                                <input type="text" data-ax-path="conNm" class="form-control" data-ax-validate="required" />
+                                <input type="text" data-ax-path="conNm" class="form-control" data-ax-validate="required" maxlength="30"/>
                             </ax:td>
                         </ax:tr>
                         <ax:tr>
@@ -125,17 +125,17 @@
                      </ax:tr>   
                         <ax:tr>
                             <ax:td label="ax.admin.BM0301F0.suppamt" width="230px">
-                            	<input type="text" data-ax-path="suppAmt" class="form-control" data-ax5formatter="money" style="text-align: right"/>
+                            	<input type="text" data-ax-path="suppAmt" class="form-control" data-ax5formatter="money" style="text-align: right" maxlength="30"/>
                             </ax:td>
                        	</ax:tr>
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0301F0.vatamt" width="230px">
-                            	<input type="text" data-ax-path="vatAmt" class="form-control" data-ax5formatter="money" style="text-align: right"/>
+                            	<input type="text" data-ax-path="vatAmt" class="form-control" data-ax5formatter="money" style="text-align: right" maxlength="30"/>
                             </ax:td>
 						</ax:tr>
                        	<ax:tr>
                        		<ax:td label="ax.admin.BM0301F0.remark" width="100%">
-                       			<textarea data-ax-path="remark" class="form-control" style="height: 32px"></textarea>
+                       			<textarea data-ax-path="remark" class="form-control" style="height: 32px" maxlength="200"></textarea>
                             </ax:td>
                        	</ax:tr>
  

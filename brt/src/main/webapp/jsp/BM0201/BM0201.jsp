@@ -29,7 +29,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0201S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0201S0.search" maxLength="20"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -86,16 +86,16 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.BM0201F0.mngid" width="250px" labelClazz="required">
-                            	<input type="text" data-ax-path="mngId" class="form-control" data-ax-validate="required"/>
+                            	<input type="text" data-ax-path="mngId" class="form-control" data-ax-validate="required" maxlength="20"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0201F0.dvcip" width="250px">
-                            	<input type="text" data-ax-path="dvcIp" class="form-control"/>
+                            	<input type="text" data-ax-path="dvcIp" class="form-control" maxlength="20"/>
                             </ax:td>
                        	</ax:tr>                                             	
         
                        	<ax:tr>
                        		<ax:td label="ax.admin.BM0301F0.remark" width="500px">
-                       			<textarea data-ax-path="remark" class="form-control" style="height: 50px"></textarea>
+                       			<textarea data-ax-path="remark" class="form-control" style="height: 50px" maxlength="200"></textarea>
                             </ax:td>
                        	</ax:tr>                      	
                     </ax:tbl>

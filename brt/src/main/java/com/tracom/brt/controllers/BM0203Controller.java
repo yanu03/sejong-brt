@@ -48,9 +48,6 @@ public class BM0203Controller extends BaseController{
 	}
 	
 	@GetMapping("/BM0203G1S0")
-    @ApiImplicitParams({
-    	@ApiImplicitParam(name ="filter", value = "검색어", dataType = "String", paramType = "query")
-    })
     public Responses.ListResponse BM0203G1S0(RequestParams<DvcConditionVO> requestParams) {
         List<DvcConditionVO> list = service.BM0203G1S0(requestParams);
         System.out.println(list);
