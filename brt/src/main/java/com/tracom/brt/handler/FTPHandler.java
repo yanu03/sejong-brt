@@ -84,11 +84,11 @@ public class FTPHandler {
 	private ArrayList<String> ignoreList;
 	
 	// 승무사원 관리 승무사원 사진 업로드
-	public void uploadBM0108(String id, MultipartFile file) {
+	public void uploadBM0108(String fileName, MultipartFile file) {
 		String dir1 = Paths.get(getRootLocalPath(), "/common/employee").toString();
 		String dir2 = Paths.get(getRootLocalPath(), "/vehicle").toString();
 		//String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
-		String fileName = id + "." + "JPG";//그냥 다 jpg로 저장하게끔...
+		//String fileName = id + "." + "JPG";//그냥 다 jpg로 저장하게끔...
 		
 		File saveFile = Paths.get(dir1, fileName).toFile();
 		try {

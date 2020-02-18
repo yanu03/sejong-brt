@@ -32,11 +32,14 @@ public class EplyInfoVO extends BaseVO {
 	private String certiDate;
  
 	private String attFile;
+	private String attFile2;
  
 	private String remark;
  
 	private String corpId;
 	private String corpNm;
 	
-	private MultipartFile imgFile;
+	private MultipartFile employeeImg;
+	
+	private MultipartFile certiImg;
 }

@@ -95,7 +95,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             if($("#employeeImg")[0].files[0]){
             	formData.append("attFile", $("#employeeImg")[0].files[0].name);
             }
-
+            
+            if($("#certiImg")[0].files[0]){
+            	formData.append("attFile2", $("#certiImg")[0].files[0].name);
+            }
                       
             axboot.promise()
                 .then(function (ok, fail, data) {
@@ -126,10 +129,18 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
             var formData = new FormData(caller.formView0.target[0]);
+            
             if($("#employeeImg")[0].files[0]){
             	formData.append("attFile", $("#employeeImg")[0].files[0].name);
             }
+            
+            if($("#certiImg")[0].files[0]){
+            	formData.append("attFile2", $("#certiImg")[0].files[0].name);
+            }
 
+            
+            console.log($("#employeeImg")[0].files[0]);
+            console.log($("#certiImg")[0].files[0]);
                       
             axboot.promise()
                 .then(function (ok, fail, data) {
@@ -168,10 +179,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.setData(data);
         
         $("#employeeImg").val("");
+        $("#certiImg").val("");
         
     	var url = "/api/v1/filePreview?type=image&eplyId=" + data.eplyId;
+    	var url2 = "/api/v1/filePreview?type=image&eplyId=" + data.eplyId + "_CERTI";
     	
     	$("#previewImg").attr("src", url);
+    	$("#previewImg2").attr("src", url2);
     	
     },
     
@@ -199,7 +213,7 @@ fnObj.pageStart = function () {
     this.searchView0.initView();
     this.gridView0.initView();
     this.formView0.initView();
-    
+    licenNoMask();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -440,25 +454,33 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 /** 승무사원관리 전용 함수 **/
 /********************************************************************************************************************/
 //승무사원이미지가 있다면 파일 불러와서 미리보기(추가예정), 없다면 기본 이미지 미리보기
-function preview_Image(){
+function preview_Image(id){
 	var path;
 	path = "/assets/images/BM0108/EmployeeDefault.png";//default path
-	document.getElementById('previewImg').src=path;
+	document.getElementById(id).src=path;
 }
 
 //승무사원이미지 변경시 미리보기
-function preview_ChangeImage(input) {
+function preview_ChangeImage(input, id) {
     if (input.files && input.files[0]) {
     var reader = new FileReader();
 
+    
     reader.onload = function (e) {
-    	$('#previewImg').attr('src', e.target.result);
+    	$('#' + id).attr('src', e.target.result);
         }
     	reader.readAsDataURL(input.files[0]);
     }
+    
+    reader
 }
 
-//파일 업로드 Form
-function uploadFile(){
-	
+function numberOnly(){
+    $("input:text[numberOnly]").on("keyup", function() {
+        $(this).val($(this).val().replace(/[^0-9]/g,""));
+    });
+}
+
+function licenNoMask(){
+	$('input[name="licenNo"]').mask('00-00-000000-00', {'translation': {0: {pattern: /[0-9*]/}}});
 }

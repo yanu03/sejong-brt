@@ -10,6 +10,7 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN"/>
+        <script type="text/javascript" src="<c:url value='/assets/js/jquery.mask.js' />"></script>
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0108/BM0108.js' />"></script>
     </jsp:attribute>
     <jsp:body>
@@ -58,7 +59,7 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="800px">
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.eplyId" width="380px" labelClazz="required">
-                    			<input type="text" name="eplyId" data-ax-path="eplyId" data-key="true" class="form-control W70" readonly="readonly"/>
+                    			<input type="text" name="eplyId" data-ax-path="eplyId" data-key="true" class="form-control W70"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.eplyNm" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
                     			<input type="text" name="eplyNm" data-ax-path="eplyNm" data-key="true" class="form-control W70" maxlength="4"/>
@@ -104,7 +105,7 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.licenNo" width="380px" labelClazz="required">
-                    			<input type="text" name="licenNo" data-ax-path="licenNo" data-key="true" class="form-control W120" maxlength="15"/>
+                    			<input type="text" numberOnly name="licenNo" data-ax-path="licenNo" data-key="true" class="form-control W120" maxlength="15"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.certiDate" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
                     			<div class="input-group" data-ax5picker="date" style="width:100px;">
@@ -117,38 +118,27 @@
                     		<ax:td labelStyle="height:390px;" label="ax.admin.BM0108F0.attFile" width="380px">
 
 								<div style="float:left;width:260px;border: 0px solid #D8D8D8;">
-									<input type="file" id="employeeImg" name="employeeImg" accept="image/jpg"
-		                                onchange="preview_ChangeImage(this);"
-		                                onError="preview_Image();"
+									<input type="file" id="employeeImg" name="employeeImg" accept="image/jpeg"
+		                                onchange="preview_ChangeImage(this, 'previewImg');"
+		                                
 									 />
 								 </div>
 								 <div style="float:left;width:260px;height:345px;padding:10px;border: 0px solid #D8D8D8;">
-								 	이미지 위치
+								 	<img id="previewImg" src="#" alt="승무사원 이미지" style="width:180px;height:240px"
+	                                onError="preview_Image('previewImg');">
 								 </div>
 
-
-                    			<!-- 
-                    			<div style="width: 200px; height: 150px;">
-	                                <img id="previewImg" src="#" alt="승무사원 이미지" style="width:180px;height:250px"
-	                                onError="/assets/videos/BM0605/Default.png">
-                    			</div>
-                    			<div class="input-group">
-	                                <input type="file" name="imgFile" class="form-control" id="employeeImg"
-
-	                                style="width:100px;" />
-	                        	</div>
-	                        	 -->
                     		</ax:td>
                     		<ax:td labelStyle="height:390px;" label="실명제판이미지" width="380px" style="border-left: 1px solid #D8D8D8;">
 
 								<div style="float:left;width:260px;border:0px solid #D8D8D8;">
-									<input type="file" id="employeeImg" name="employeeImg" accept="image/jpg"
-		                                onchange="preview_ChangeImage(this);"
-		                                onError="preview_Image();"
+									<input type="file" id="certiImg" name="certiImg" accept="image/jpeg"
+		                                onchange="preview_ChangeImage(this, 'previewImg2');"
 									 />
 								 </div>
 								 <div style="float:left;width:260px;height:345px;padding:10px;border: 0px solid #D8D8D8;">
-								 	이미지 위치
+								 	<img id="previewImg2" src="#" alt="실명제판 이미지" style="width:180px;height:240px;"
+	                                onError="preview_Image('previewImg2');">
 								 </div>
 
                     			<!-- 
