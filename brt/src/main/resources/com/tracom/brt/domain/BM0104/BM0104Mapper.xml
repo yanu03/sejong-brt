@@ -7,16 +7,15 @@
 		
 		SELECT
 			  ROUT_ID
+			, INTER_ROUT_ID
 		    , ROUT_NM
 		    , SHORT_ROUT_NM
 		    , WAY_INFO
 		    , DIR_INFO
-		    , WAY_DIV
+		    , CD.DL_CD AS WAY_DIV
 		    , CD.DL_CD_NM AS WAY_DIV_NM
-		    <!-- 
-		     , USER_WAY_DIV
-		     -->
-		    , CD2.DL_CD_NM AS USER_WAY_DIV
+		    , CD2.DL_CD AS USER_WAY_DIV
+		    , CD2.DL_CD_NM AS USER_WAY_DIV_NM
 		    , TURN_DIV
 		    , CD3.DL_CD_NM AS TURN_DIV_NM
 			, ST_STA_NM
@@ -32,12 +31,6 @@
 		    , ROUT.CREATED_BY
 		    , DATE_FORMAT(ROUT.UPDATED_AT, '%Y-%m-%d %T') AS UPDATED_AT
 		    , ROUT.UPDATED_BY
-		    <!-- 
-		    , ROUT.CREATED_AT
-		    , ROUT.CREATED_BY
-		    , ROUT.UPDATED_AT
-		    , ROUT.UPDATED_BY
-		     -->
 		FROM
 			BM_ROUT_INFO ROUT
 		    LEFT JOIN
@@ -47,7 +40,7 @@
 				SM_DL_CD_INFO
 			WHERE
 				CO_CD = 'UPDOWN_FLAG') CD
-			ON ROUT.WAY_DIV = CD.NUM_VAL4
+			ON ROUT.WAY_DIV = CD.TXT_VAL1
 		    
 		    LEFT JOIN
 			(SELECT
@@ -56,7 +49,7 @@
 				SM_DL_CD_INFO
 			WHERE
 				CO_CD = 'UPDOWN_FLAG') CD2
-			ON ROUT.USER_WAY_DIV = CD2.NUM_VAL4
+			ON ROUT.USER_WAY_DIV = CD2.TXT_VAL1
 		    
 		    LEFT JOIN
 		    (SELECT
@@ -108,7 +101,12 @@
     	INSERT INTO
 			BM_ROUT_INFO(
 						  ROUT_ID
+						, INTER_ROUT_ID
 						, ROUT_NM
+						, SHORT_ROUT_NM
+						, DVC_NAME
+						, WAY_INFO
+						, DIR_INFO						
 						, ST_STA_NM
 		                , ED_STA_NM
 		                , CREATED_AT
@@ -120,7 +118,12 @@
 			VALUES 
 			<foreach collection="voList" item="voList" separator=",">
 					( #{voList.routId}
+					, #{voList.routId}
 					, #{voList.routNm}
+					, #{voList.routNm}<!-- SHORT ROUT NM -->
+					, #{voList.routNm}<!-- DVC NM -->
+					, SUBSTR(#{voList.stStaNm}, 1, 10)<!-- WAY_INFO -->
+			        , SUBSTR(#{voList.edStaNm}, 1, 10)<!-- DIR_INFO --> 
 			        , #{voList.stStaNm}
 			        , #{voList.edStaNm}
 			        , #{voList.createdAt}
@@ -140,7 +143,29 @@
 				, UPDATED_BY	= VALUES(UPDATED_BY)
     </insert>
 
+	<select id="BM0104G1S2" parameterType="bmRoutInfoVO" resultType="String">
+		SELECT
+			WAY_DIV
+		FROM
+			BM_ROUT_INFO
+		WHERE
+			INTER_ROUT_ID = #{interRoutId}
+	</select>
+	
 	<update id="BM0104G0U0" parameterType="bmRoutInfoVO">
+		UPDATE
+			BM_ROUT_INFO
+		SET
+			  WAY_DIV		= #{wayDiv}
+			, USER_WAY_DIV 	= #{wayDiv}
+		    , TURN_DIV		= #{turnDiv}
+		    , UPDATED_AT	= #{updatedAt}
+		    , UPDATED_BY	= #{updatedBy}
+		WHERE
+			INTER_ROUT_ID = #{interRoutId}
+	</update>
+	
+	<update id="BM0104G0U2" parameterType="bmRoutInfoVO">
 		UPDATE
 			BM_ROUT_INFO
 		SET
@@ -149,8 +174,9 @@
 		    , UPDATED_AT	= #{updatedAt}
 		    , UPDATED_BY	= #{updatedBy}
 		WHERE
-			ROUT_ID = #{routId}
+			INTER_ROUT_ID = #{interRoutId}
 	</update>
+	
 	
 	<update id="BM0104G0U1" parameterType="bmRoutInfoVO">
 		<foreach collection="voList" item="voList" separator=";">
@@ -177,10 +203,96 @@
 	<select id="BM0104G0S2" resultType="bmRoutInfoVO">
 		SELECT
 			  DL_CD_NM AS NAME
-		    , CAST(NUM_VAL4 AS INTEGER) AS CODE
+		    , TXT_VAL1 AS CODE
 		FROM
 			SM_DL_CD_INFO
 		WHERE
 			CO_CD = 'UPDOWN_FLAG'
 	</select>
+	
+	<select id="BM0104F0S1" parameterType="bmRoutInfoVO" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM 
+			BM_ROUT_INFO
+		WHERE
+			ROUT_ID != #{routId}
+			AND
+			INTER_ROUT_ID = #{interRoutId}
+	</select>
+	
+	<insert id="BM0104F0I0" parameterType="bmRoutInfoVO">
+		<selectKey keyProperty="routId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('ROUT', LPAD(NEXTVAL(SEQ_BM_ROUT_INFO_0), 5, '0'))
+    	</selectKey>
+		INSERT INTO
+			BM_ROUT_INFO(
+				  ROUT_ID
+		        , INTER_ROUT_ID
+		        , ROUT_NM
+		        , SHORT_ROUT_NM
+		        , WAY_INFO
+		        , DIR_INFO
+		        , WAY_DIV
+		        , USER_WAY_DIV
+		        , ST_STA_NM
+		        , ED_STA_NM
+		        , DVC_NAME
+		        , LINE1_STR
+		        , LINE2_STR
+		        , LINE1_SATSTR
+		        , LINE2_SATSTR
+		        , LINE1_SUNSTR
+		        , LINE2_SUNSTR
+		        )
+			VALUES(
+				    #{routId}
+				  , #{interRoutId}
+				  , #{routNm}
+				  , #{shortRoutNm}
+				  , #{wayInfo}
+				  , #{dirInfo}
+  				  , (SELECT TXT_VAL1 FROM SM_DL_CD_INFO WHERE CO_CD = 'UPDOWN_FLAG' AND DL_CD = #{wayDiv})
+				  , (SELECT TXT_VAL1 FROM SM_DL_CD_INFO WHERE CO_CD = 'UPDOWN_FLAG' AND DL_CD = #{userWayDiv})
+				  , #{stStaNm}
+				  , #{edStaNm}
+				  , #{dvcName}
+				  , #{line1Str}
+				  , #{line2Str}
+				  , #{line1Satstr}
+				  , #{line2Satstr}
+				  , #{line1Sunstr}
+				  , #{line2Sunstr}
+				  )
+	</insert>
+	
+	<update id="BM0104F0U0" parameterType="bmRoutInfoVO">
+		UPDATE BM_ROUT_INFO
+		SET
+			  INTER_ROUT_ID	= #{interRoutId}
+		    , ROUT_NM 		= #{routNm}
+		    , SHORT_ROUT_NM	= #{shortRoutNm}
+		    , WAY_INFO		= #{wayInfo}
+		   	, DIR_INFO		= #{dirInfo}
+		   	, WAY_DIV		= (SELECT TXT_VAL1 FROM SM_DL_CD_INFO WHERE CO_CD = 'UPDOWN_FLAG' AND DL_CD = #{wayDiv})
+		    , USER_WAY_DIV	= (SELECT TXT_VAL1 FROM SM_DL_CD_INFO WHERE CO_CD = 'UPDOWN_FLAG' AND DL_CD = #{userWayDiv})
+		    , ST_STA_NM		= #{stStaNm}
+		    , ED_STA_NM		= #{edStaNm}
+		    , DVC_NAME		= #{dvcName}
+		    , LINE1_STR		= #{line1Str}
+		    , LINE2_STR		= #{line2Str}
+		    , LINE1_SATSTR	= #{line1Satstr}
+		    , LINE2_SATSTR	= #{line2Satstr}
+		    , LINE1_SUNSTR	= #{line1Sunstr}
+		    , LINE2_SUNSTR	= #{line2Sunstr}
+		 WHERE
+		 	ROUT_ID = #{routId}
+	</update>
+	
+	<delete id="BM0104F0D0" parameterType="bmRoutInfoVO">
+		DELETE FROM
+			BM_ROUT_INFO
+		WHERE
+			INTER_ROUT_ID = #{interRoutId}
+	</delete>
 </mapper>
