@@ -43,8 +43,9 @@
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0404G0.title"/> </h2>
+                        <h3><i class="cqc-list"></i>
+                            <ax:lang id="ax.admin.BM0404G0.title"/> 
+                        </h3>
                     </div>
                     <div class="right">
 
@@ -57,21 +58,21 @@
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <h2><i class="cqc-news"></i>
+                        <h3><i class="cqc-news"></i>
                             <ax:lang id="ax.admin.BM0404F0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                 <ax:form name="formView0">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0404F0.voc.id" width="300px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0404F0.voc.id" width="210px" labelClazz="required">
                                 <input type="text" name="vocId" data-ax-path="vocId" data-key="true" class="form-control" readonly="readonly"/>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0404F0.play.date" width="400px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0404F0.play.date" width="350px" labelClazz="required">
 	                            <div class="input-group" data-ax5picker="date">
 	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0404F0.play.date"/>" class="form-control" data-ax5formatter="date" data-ax-validate="required">
 	                                <span class="input-group-addon">~</span>
@@ -82,33 +83,41 @@
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0404F0.play.type" width="300px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0404F0.play.type" width="210px" labelClazz="required">
                             	<ax:SM0105 groupCd="PLAY_TYPE" name="playType" dataPath="playType" clazz="form-control" />
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
                             <ax:td id="wavLabel" label="ax.admin.BM0404F0.wav" width="100%">
-                            	<input type="file" id="wavFile" name="wavFile" class="form-control inline-block W180" accept="audio/wav" title="<ax:lang id="ax.admin.BM0404F0.wav"/>"/>
-                            	<button type="button" class="btn btn-default" data-btn data-btn-test="wav">
-                                	<ax:lang id="ax.admin.test"/>
-                            	</button>
+                            	<div style="float:left;width:475px;">
+                            		<input type="file" id="wavFile" name="wavFile" accept="audio/wav" title="<ax:lang id="ax.admin.BM0404F0.wav"/>"/>
+                            	</div>
+                            	<div style="float:left;">
+	                            	<button type="button" class="btn btn-default" data-btn data-btn-test="wav">
+	                                	<ax:lang id="ax.admin.test"/>
+	                            	</button>
+	                            </div>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
                             <ax:td id="krTtsLabel" label="ax.admin.BM0404F0.kr.tts" width="100%">
-                            	<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0404F0.kr.tts"/>" class="form-control"></textarea>
-                            	
-                            	<div style="margin-top: 4px; text-align: right;">
-	                            	<button type="button" class="btn btn-default" data-btn data-btn-test="krTts">
-	                                	<ax:lang id="ax.admin.test"/>
-	                            	</button>
-	                            	
-	                            	<button type="button" class="btn btn-default" data-btn data-btn-common-txt="krTts">
-	                                	<ax:lang id="ax.admin.common.txt"/>
-	                            	</button>
-	                            </div>
+                            	<div style="float:left;width:470px;">
+                            		<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0403F0.kr.tts"/>" rows="4" class="form-control" maxlength="200"></textarea>
+                            	</div>
+                            	<div style="float:left;padding-left:5px;">
+		                            <div>	
+		                            	<button type="button" class="btn btn-default" data-btn data-btn-test="krTts">
+		                                	<ax:lang id="ax.admin.test"/>
+		                            	</button>
+		                            </div>
+		                            <div style="padding-top:5px;">
+		                            	<button type="button" class="btn btn-default" data-btn data-btn-common-txt="krTts">
+		                                	<ax:lang id="ax.admin.common.txt"/>
+		                            	</button>
+		                            </div>
+                            	</div>
                             </ax:td>
                        	</ax:tr>
                        	
@@ -144,8 +153,8 @@
                        	</ax:tr>
                        	
                        	<ax:tr>
-                            <ax:td label="ax.admin.BM0404F0.remark" width="300px">
-                            	<input type="text" name="remark" data-ax-path="remark" class="form-control"/>
+                            <ax:td label="ax.admin.BM0404F0.remark" width="100%">
+                            	<textarea name="remark" data-ax-path="remark" class="form-control" maxlength="200"></textarea>
                             </ax:td>
                        	</ax:tr>
                     </ax:tbl>
