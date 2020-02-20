@@ -28,6 +28,5 @@ public List<UpdateHistoryVO> BM0206G2S1(RequestParams<UpdateHistoryVO> requestPa
 		hm.put("filter", requestParams.getString("filter"));
 		
 		return mapper.BM0206G2S1(hm);
-	}
-	
+	}	
 }

@@ -1,8 +1,11 @@
 package com.tracom.brt.domain.BM0205;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
+import javax.jdo.annotations.Transactional;
 
 import org.springframework.stereotype.Service;
 
@@ -31,13 +34,23 @@ public class BM0205Service extends BaseService<VhcDvcUpdateVO, String>{
 		return vo.getDvcId();
 	}
 	
-	public List<VhcDvcUpdateVO> BM0205Reservation(VhcDvcUpdateVO vo) {
+	@Transactional
+	public void BM0205Reservation(VhcDvcUpdateVO vo) {
+		Map<String, String> map = new HashMap<>();
 		System.out.println("service 예약");
 		System.out.println(vo);
-		List<VhcDvcUpdateVO> dvc = mapper.BM0205Reservation(vo);
+		mapper.BM0205Reservation(vo);
+		map.put("rsvDate", vo.getRsvDate());
+		for(int i = 0; i< vo.getUpList().size(); i++) {
+			map.put("mngId", vo.getUpList().get(i).getMngId());
+			System.out.println(map);
+			VhcDvcUpdateVO list = mapper.BM0205S0(map);
+			System.out.println(list);
+			vo.getUpList().get(i).setMngId(list.getMngId());
+			vo.getUpList().get(i).setRsvId(list.getRsvId());
+		}
+		mapper.BM0205I0(vo);
 		System.out.println("rsvId값 return");
-		System.out.println(dvc);
-		return dvc;
 	}
 
 	public boolean BM0205G0S1(VhcDvcUpdateVO vo) {

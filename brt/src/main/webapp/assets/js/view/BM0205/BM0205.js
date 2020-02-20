@@ -25,7 +25,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                if(selectedRow != null) {
 		                	caller.gridView0.selectRow(selectedRow.__index);
 		                } else {		                	
-		                	caller.gridView0.selectFirstRow();
+		                	//caller.gridView0.selectFirstRow();
 		                }
 	                
 	            }
@@ -70,7 +70,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
       			.then(function(ok, fail , data){
       				if(data.message == "true"){
       					if(check == true){
-      						if(selectedRow != null){
+      						if(list != null){
       							axboot.modal.open({
       								modalType: "RESERVATION",
       								param: "",
@@ -104,6 +104,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         var data = {};
         data.upList = list;
         data.rsvDate = listRsv;
+        data.verInfo = $("#version").val();
         var fileValue = $("#dvcFileUp").val().split("\\");
         var attFile = fileValue[fileValue.length-1];
         for(var i = 0; i< data.upList.length; i++){

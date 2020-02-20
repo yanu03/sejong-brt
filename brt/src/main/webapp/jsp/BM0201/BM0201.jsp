@@ -55,7 +55,7 @@
             <ax:splitter></ax:splitter>
             <ax:split-panel width="600" style="padding-left: 10px;">
                 <!-- 폼 -->
-                <ax:split-panel width="500" style="height:270px; padding-right: 10px;">
+                <ax:split-panel width="500" style="height:270px;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-news"></i>
@@ -70,7 +70,7 @@
 								<input type="text" id="dvcId" data-ax-path="dvcId" data-key="true" class="form-control" readonly="readonly">
 							</ax:td>                         
                              <ax:td label="ax.admin.BM0201F0.maker" width="250px">                         
-                            	<ax:SM0105 groupCd="MAKER" id="maker" name="maker" dataPath="maker" clazz="form-control"/>
+                            	<ax:SM0105 groupCd="DVC_MAKER" id="maker" name="maker" dataPath="maker" clazz="form-control"/>
                             </ax:td>                  
                     	</ax:tr>
 						 <ax:tr>
@@ -101,7 +101,7 @@
                     </ax:tbl>
                 </ax:form>
                 </ax:split-panel>
-                <ax:split-panel width="500" style="height:100%; padding-right: 10px; padding-bottom:155px">
+                <ax:split-panel width="500" style="height:100%; padding-bottom:155px">
 	                    <div class="ax-button-group">
 	                        <div class="left">
 	                            <h3>

@@ -104,8 +104,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                  })
                  .then(function (ok, fail, data) {
              		axToast.push(LANG("onadd"));
-             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-                     isUpdate = true;
+             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH , data.message);
+                    isUpdate = true;
                  })
                  .catch(function () {
 

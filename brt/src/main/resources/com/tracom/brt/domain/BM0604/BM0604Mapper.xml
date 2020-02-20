@@ -38,7 +38,8 @@
 					OR NEWS_TITLE LIKE CONCAT('%', #{value}, '%')
 					OR PROV_NM LIKE CONCAT('%', #{value}, '%')
 		    	</if>
-	    	</where>
+	    </where>
+	    GROUP BY NEWS_TITLE
 	</select>
 	<select id="BM0604G1S0" resultType="newsVO" parameterType="String">
 		SELECT
@@ -53,8 +54,8 @@
 			LEFT OUTER JOIN BM_LIVING_LOG LG
 			ON DV.MNG_ID = LG.MNG_ID
 		WHERE
-			LG.ATTR_ID = 1
-		GROUP BY VHC_NO DESC		
+			LG.ATTR_ID = "1"
+		ORDER BY VHC_NO DESC		
 	</select>
 	<update id="BM0604F0U0" parameterType="newsVO">
 		UPDATE BM_NEWS
