@@ -9,6 +9,9 @@
   "background": {
     "login": "/assets/images/brtimage2.jpg"
   },
+  "main": {
+    "background": "/assets/images/main-bg.png"
+  },
   "layout": {
     "leftSideMenu": ""
   },
