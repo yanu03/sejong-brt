@@ -215,6 +215,7 @@ public class DataInterface {
 		String turnDiv	= ob.get("turn_useflag").toString().replace("\"", "");
 
 		vo.setRoutId(routId);
+		vo.setInterRoutId(routId);
 		vo.setRoutNm(routNm);
 		vo.setWayDiv(wayDiv);
 		vo.setTurnDiv(turnDiv);

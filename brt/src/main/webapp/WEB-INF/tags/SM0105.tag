@@ -13,6 +13,7 @@
 <%@ attribute name="emptyValue" required="false" %>
 <%@ attribute name="emptyText" required="false" %>
 <%@ attribute name="width" required="false" %>
+<%@ attribute name="style" required="false" %>
 
 <%
     if (StringUtils.isEmpty(type)) {
@@ -22,10 +23,16 @@
     StringBuilder builder = new StringBuilder();
 
     List<CommonCodeDetailInfoVO> commonCodes = SM0105Utils.get(groupCd);
+    
+    String _style = "";
+    
+    if(StringUtils.isNotEmpty(style)) {
+    	_style = style; 
+    }
 
     switch (type) {
         case "select":
-            builder.append("<select style=\"width: " + width + ";\" class=\"form-control "+ clazz +" \"");
+            builder.append("<select style=\"width: " + width + "; " + _style + "\" class=\"form-control "+ clazz +" \"");
 
             if (StringUtils.isEmpty(emptyValue)) {
                 emptyValue = "";
@@ -42,7 +49,7 @@
             if (StringUtils.isNotEmpty(dataPath)) {
                 builder.append("data-ax-path=\"" + dataPath + "\"");
             }
-
+            
             builder.append(">");
 
 

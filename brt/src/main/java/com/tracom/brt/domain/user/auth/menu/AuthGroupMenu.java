@@ -46,11 +46,21 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
     @ColumnPosition(4)
     private String savAh = AXBootTypes.Used.NO.getLabel();
 
+    @Column(name = "GEX_AH", length = 1)
+    @Comment(value = "엑셀폼다운권한")
+    @ColumnPosition(5)
+    private String gexAh = AXBootTypes.Used.NO.getLabel();
+    
     @Column(name = "EXL_AH", length = 1)
     @Comment(value = "엑셀권한")
     @ColumnPosition(5)
     private String exlAh = AXBootTypes.Used.NO.getLabel();
 
+    @Column(name = "IEX_AH", length = 1)
+    @Comment(value = "엑셀입력권한")
+    @ColumnPosition(5)
+    private String iexAh = AXBootTypes.Used.NO.getLabel();
+    
     @Column(name = "DEL_AH", length = 1)
     @Comment(value = "삭제권한")
     @ColumnPosition(6)
