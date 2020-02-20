@@ -3,6 +3,7 @@ package com.tracom.brt.controllers;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.jdo.annotations.Transactional;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,17 +32,20 @@ public class BM0205Controller extends BaseController{
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
     })
+    @Transactional
     public Responses.ListResponse BM0205G0S0(RequestParams<VhcDvcUpdateVO> requestParams) {
         List<VhcDvcUpdateVO> list = service.BM0205G0S0(requestParams);
         return Responses.ListResponse.of(list);
     }
     
     @PostMapping("/BM0205G0S1")
-    public ApiResponse BM0205G0S1(@ModelAttribute VhcDvcUpdateVO vo) {
+    public ApiResponse BM0205G0S1(@RequestBody VhcDvcUpdateVO vo) {
     	VhcDvcUpdateVO nVo = new VhcDvcUpdateVO();
     	System.out.println("controller 관리ID체크");
     	System.out.println(vo);
     	boolean mngIdCheck = service.BM0205G0S1(vo);
+    	System.out.println("갔다왔니?");
+    	System.out.println(mngIdCheck);
     	return ok(Boolean.toString(mngIdCheck));
     }
     

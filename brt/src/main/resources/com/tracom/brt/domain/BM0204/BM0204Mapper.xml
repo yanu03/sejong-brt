@@ -20,7 +20,7 @@
     		ON DI.MNG_ID = DC.MNG_ID
     		LEFT OUTER JOIN BM_VHC_INFO V
     		ON DI.VHC_ID = V.VHC_ID
-    		LEFT OUTER JOIN SM_DL_CD_INFO DL
+    		LEFT OUTER JOIN (SELECT * FROM SM_DL_CD_INFO WHERE CO_CD = 'DVC_COND') DL
     		ON DC.DVC_COND = DL.DL_CD
     		LEFT OUTER JOIN BM_DVC_LOC LOC
     		ON DI.MNG_ID = LOC.MNG_ID
@@ -31,7 +31,7 @@
 				DI.MNG_ID LIKE CONCAT('%', #{value}, '%')
 				OR V.VHC_NO LIKE CONCAT('%', #{value}, '%')
 	    	</if>
-    			AND DVC_KIND = "CD004"
+    			AND DVC_KIND = "CD005"
     	ORDER BY DVC_ID
     	</where>
 </select>

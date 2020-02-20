@@ -29,7 +29,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0201S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0201S0.search" maxLength="20"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -42,9 +42,9 @@
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
+                        <h3><i class="cqc-list"></i>
                             <ax:lang id="ax.admin.BM0103G0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                     <div class="right">
 
@@ -55,53 +55,53 @@
             <ax:splitter></ax:splitter>
             <ax:split-panel width="600" style="padding-left: 10px;">
                 <!-- 폼 -->
-                <ax:split-panel width="500" style="height:270px; padding-right: 10px;">
+                <ax:split-panel width="500" style="height:270px;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <h2><i class="cqc-news"></i>
+                        <h3><i class="cqc-news"></i>
                              <ax:lang id="ax.admin.BM0201F0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                 <ax:form name="formView0">                  
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                      	<ax:tr>
-							<ax:td label="ax.admin.BM0201F0.dvcid" width="250px" labelClazz="required">
-								<input type="text" id="dvcId" data-ax-path="dvcId" data-key="true" class="form-control" readonly="readonly">
+							<ax:td label="ax.admin.BM0201F0.dvcid" width="290px" labelClazz="required">
+								<input type="text" id="dvcId" data-ax-path="dvcId" data-key="true" class="form-control W90" readonly="readonly">
 							</ax:td>                         
-                             <ax:td label="ax.admin.BM0201F0.maker" width="250px">                         
-                            	<ax:SM0105 groupCd="MAKER" id="maker" name="maker" dataPath="maker" clazz="form-control"/>
+                             <ax:td label="ax.admin.BM0201F0.maker" width="290px" style="border-left: 1px solid #D8D8D8;">                         
+                            	<ax:SM0105 groupCd="DVC_MAKER" id="maker" name="maker" dataPath="maker" clazz="form-control W120"/>
                             </ax:td>                  
                     	</ax:tr>
 						 <ax:tr>
-							<ax:td label="ax.admin.BM0201F0.dvckind" width="250px" labelClazz="required">
-                            	<ax:SM0105 groupCd="DVC_KIND" id="dvcKind" name="dvcKind" dataPath="dvcKind" clazz="form-control"/>
+							<ax:td label="ax.admin.BM0201F0.dvckind" width="100%" labelClazz="required">
+                            	<ax:SM0105 groupCd="DVC_KIND" id="dvcKind" name="dvcKind" dataPath="dvcKind" clazz="form-control W180"/>
                             </ax:td>                 		
 						</ax:tr>                   
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0201F0.instloc" width="250px" labelClazz="required">
-                            	<ax:SM0105 groupCd="INST_LOC" id="instLoc" name="instLoc" dataPath="instLoc" clazz="form-control"/>
+                            <ax:td label="ax.admin.BM0201F0.instloc" width="100%" labelClazz="required">
+                            	<ax:SM0105 groupCd="INST_LOC" id="instLoc" name="instLoc" dataPath="instLoc" clazz="form-control W120"/>
                            </ax:td>                           
                         </ax:tr>                    	
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0201F0.mngid" width="250px" labelClazz="required">
-                            	<input type="text" data-ax-path="mngId" class="form-control" data-ax-validate="required"/>
+                            <ax:td label="ax.admin.BM0201F0.mngid" width="290px" labelClazz="required">
+                            	<input type="text" data-ax-path="mngId" class="form-control" data-ax-validate="required" maxlength="20"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0201F0.dvcip" width="250px">
-                            	<input type="text" data-ax-path="dvcIp" class="form-control"/>
+                            <ax:td label="ax.admin.BM0201F0.dvcip" width="290px" style="border-left: 1px solid #D8D8D8;">
+                            	<input type="text" data-ax-path="dvcIp" class="form-control" maxlength="20"/>
                             </ax:td>
                        	</ax:tr>                                             	
         
                        	<ax:tr>
-                       		<ax:td label="ax.admin.BM0301F0.remark" width="500px">
-                       			<textarea data-ax-path="remark" class="form-control" style="height: 50px"></textarea>
+                       		<ax:td label="ax.admin.BM0301F0.remark" width="100%">
+                       			<textarea data-ax-path="remark" class="form-control" maxlength="200"></textarea>
                             </ax:td>
                        	</ax:tr>                      	
                     </ax:tbl>
                 </ax:form>
                 </ax:split-panel>
-                <ax:split-panel width="500" style="height:100%; padding-right: 10px; padding-bottom:155px">
+                <ax:split-panel style="height:100%; padding-bottom:155px">
 	                    <div class="ax-button-group">
 	                        <div class="left">
 	                            <h3>

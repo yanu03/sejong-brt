@@ -7,12 +7,15 @@
 		  , UP.SEND_DATE
 		  , UP.REMARK
 		  , UP.RSV_ID
+		  , DL.DL_CD_NM AS PROCE_RST
 		FROM
 			BM_UPD_LOG UP
 			LEFT OUTER JOIN BM_DVC_INFO D
 			ON UP.MNG_ID = D.MNG_ID
+			LEFT OUTER JOIN (SELECT * FROM SM_DL_CD_INFO WHERE CO_CD =  'FTP_RESULT' ) AS DL
+			ON UP.PROCE_RST = DL.DL_CD
 		WHERE
-			D.DVC_ID = #{value}			
+			D.DVC_ID = #{value}		
 	</select>
 	
 	<select id="BM0206G2S1" parameterType="Map" resultType="updateHistoryVO">

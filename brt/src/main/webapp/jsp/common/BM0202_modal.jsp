@@ -57,13 +57,13 @@
                  
                      <ax:tr>
                           <ax:td label="ax.admin.BM0201M0.devserialno" width="250px" >
-								<input type="text" id="devSerialNo" data-ax-path="devSerialNo" data-key="true" class="form-control">
+								<input type="text" id="devSerialNo" data-ax-path="devSerialNo" data-key="true" class="form-control" maxlength="30">
 						  </ax:td>                     
                      </ax:tr>                       	
                         
                         <ax:tr>
                         	<ax:td label="ax.admin.BM0201M0.modelnm" width="250px" >
-								<input type="text" id="modelNm" data-ax-path="modelNm" data-key="true" class="form-control">
+								<input type="text" id="modelNm" data-ax-path="modelNm" data-key="true" class="form-control" maxlength="30">
 						 	</ax:td>                        
                        	</ax:tr>
                        	
@@ -75,13 +75,13 @@
 						
 						<ax:tr>
 							<ax:td label="ax.admin.BM0201M0.workamt" width="250px">
-                            	<input type="text" id="workAmt" data-ax-path="workAmt" class="form-control" data-ax5formatter="money" style="align-self: center"/>
+                            	<input type="text" id="workAmt" data-ax-path="workAmt" class="form-control" data-ax5formatter="money" style="text-align : right" maxlength="30"/>
                             </ax:td>
 						</ax:tr>                                             	
         
                        	<ax:tr>
                        		<ax:td label="ax.admin.BM0301F0.remark" width="100%">
-                       			<textarea data-ax-path="remark" class="form-control" style="height: 100px;"></textarea>
+                       			<textarea data-ax-path="remark" class="form-control" style="height: 100px;" maxlength="200"></textarea>
                             </ax:td>
                        	</ax:tr>
                        	                    

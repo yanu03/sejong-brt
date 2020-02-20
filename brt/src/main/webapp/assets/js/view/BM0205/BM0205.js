@@ -24,8 +24,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	               
 	                if(selectedRow != null) {
 		                	caller.gridView0.selectRow(selectedRow.__index);
-		                } else {
-		                	caller.gridView0.selectFirstRow();
+		                } else {		                	
+		                	//caller.gridView0.selectFirstRow();
 		                }
 	                
 	            }
@@ -37,51 +37,62 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     RESERVATION_MODAL : function(caller, act , data){
       var list = caller.gridView0.getData("selected");
       var check = true;
-      var data = {};
-      data.upList = list;
+      var gridData = {};
+      gridData.upList = list;
+      console.log(gridData);
       console.log($("#dvcFileUp").val());
       	
 	      if($("#dvcFileUp").val() != ""){
 		      for(var i = 1; i< list.length; i++){
-		    	  if(list[i-1].mngId.substring(0,12) != list[i].mngId.substring(0,12)){
-		    		  console.log(list[i].mngId.substring(0,12));
+		    	  if(list[i-1].mngId.substring(10,12) != list[i].mngId.substring(10,12)){
+		    		  console.log(list[i].mngId.substring(10,12));
 		    		  check = false;
 		    		  break
 		    	  }else{
-		    		  console.log(list[i].mngId.substring(0,12));
+		    		  console.log(list[i].mngId.substring(10,12));
 		    		  check = true;
 		    	  }
 		      }
-		      
+		     axboot.promise()
+      		.then(function (ok, fail, data) {
 		      axboot.ajax({
                   type: "POST",
                   url: "/api/v1/BM0205G0S1",
-                  data: JSON.stringify(data),
+                  data: JSON.stringify(gridData),
                   callback: function (res) {
+                	  ok(res);
                       console.log("관리ID응답");
                       console.log(res);
                       console.log("BM0201F0S1");
-                  }
-              });
-		      
-		      if(check == true){
-		    	if(selectedRow != null){
-		    		axboot.modal.open({
-			            modalType: "RESERVATION",
-			            param: "",
-			            callback: function (result) {
-			            	this.close();
-			            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
-			            		date: result
-			            	});
-			            }
-			        });
-		    	}else{
-		    		alert(LANG("ax.script.requireselect"));
-		    	}
-		      }else{
-		    	  alert("같은 종류의 장치만 선택가능합니다.");
-		      }
+                  		}
+              		});
+      			})
+      			.then(function(ok, fail , data){
+      				if(data.message == "true"){
+      					if(check == true){
+      						if(list != null){
+      							axboot.modal.open({
+      								modalType: "RESERVATION",
+      								param: "",
+      								callback: function (result) {
+      									this.close();
+      									ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
+      										date: result
+      									});
+      								}
+      							});
+      						}else{
+      							alert(LANG("ax.script.requireselect"));
+      						}
+      					}else{
+      						alert("같은 종류의 장치만 선택가능합니다.");
+      					}
+      					
+      				}else{
+      					console.log("예약중복");
+      					alert("예약은 중복으로 하실수 없습니다.");
+      				}
+      			})		      	
 	      }else{
 	    	  alert("업로드 파일을 선택해주세요");
 	      }
@@ -93,6 +104,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         var data = {};
         data.upList = list;
         data.rsvDate = listRsv;
+        data.verInfo = $("#version").val();
         var fileValue = $("#dvcFileUp").val().split("\\");
         var attFile = fileValue[fileValue.length-1];
         for(var i = 0; i< data.upList.length; i++){
@@ -259,7 +271,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         	multipleSelect : true,
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
-            
             	 columns: [          		 
             		 {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), sortable: true, width: 100},
             		 {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center" ,width: 150},

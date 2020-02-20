@@ -28,5 +28,12 @@ public class VhcDvcUpdateVO extends BaseVO{
 	private String attFile;
 	private String rsvId;
 	private String rsvDate;	
+	private String proceRst;
+	private String verInfo;
+	private String sendDate;
+	private String completeYn;
+	private String rstCont;
+	private String remark;
+	private String completeCk;
 	private List<VhcDvcUpdateVO> upList;
 }

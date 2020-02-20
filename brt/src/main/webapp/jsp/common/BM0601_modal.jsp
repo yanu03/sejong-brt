@@ -56,7 +56,7 @@
                  
                      <ax:tr>
                             <ax:td label="ax.admin.BM0601M0.weatapi" width="500px" labelClazz="required">
-								<input type="text" data-ax-path="weatApiKey" data-key="true" class="form-control">
+								<input type="text" data-ax-path="weatApiKey" data-key="true" class="form-control" maxlength="200">
 							</ax:td>                    
                      </ax:tr>                       	                       
                      <ax:tr>
@@ -67,7 +67,7 @@
                        	
                       <ax:tr>
                     		<ax:td label="ax.admin.BM0601M0.atmoapi" width="500px" labelClazz="required">
-                            	<input type="text" data-ax-path="atmoApiKey" data-key="true" class="form-control">
+                            	<input type="text" data-ax-path="atmoApiKey" data-key="true" class="form-control" maxlength="200">
                             </ax:td>
 						</ax:tr>                      	                    
                     </ax:tbl>                    

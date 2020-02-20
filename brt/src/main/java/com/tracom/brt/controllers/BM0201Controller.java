@@ -47,9 +47,6 @@ public class BM0201Controller extends BaseController{
     }
     
     @GetMapping("/BM0201M0S0")
-    @ApiImplicitParams({
-    	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
-    })
     public Responses.ListResponse BM0201M0S0(RequestParams<VhcDeviceVO> requestParams) {
         List<VhcDeviceVO> list = service.BM0201M0S0(requestParams);
         System.out.println(service.BM0201M0S0(requestParams));
@@ -57,9 +54,6 @@ public class BM0201Controller extends BaseController{
     }
     
     @GetMapping("/BM0201F0S2")
-    @ApiImplicitParams({
-    	@ApiImplicitParam(name = "dvcId", value = "검색어", dataType = "String", paramType = "query")
-    })
     public Responses.ListResponse BM0201F0S2(RequestParams<VhcDeviceVO> requestParams) {
     	List<VhcDeviceVO> list = service.BM0201F0S2(requestParams);
     	System.out.println(list);
@@ -67,9 +61,6 @@ public class BM0201Controller extends BaseController{
     }
     
     @GetMapping("/BM0201G1S1")
-    @ApiImplicitParams({
-    	@ApiImplicitParam(name = "dvcId", value = "검색어", dataType = "String", paramType = "query")
-    })
     public Responses.ListResponse BM0201G1S1(RequestParams<VhcDeviceVO> requestParams) {
     	List<VhcDeviceVO> list = service.BM0201G1S1(requestParams);
     	System.out.println(list);

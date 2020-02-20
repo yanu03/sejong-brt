@@ -42,9 +42,9 @@
     </select>
     
     <insert id="BM0108F0I0" parameterType="eplyInfoVo">
-    	<selectKey keyProperty="eplyId" resultType="String" order="BEFORE">
+    	<!-- <selectKey keyProperty="eplyId" resultType="String" order="BEFORE">
     		SELECT CONCAT('EP', LPAD(NEXTVAL(SEQ_BM_EPLY_INFO_0), 5, '0'))
-    	</selectKey>
+    	</selectKey> -->
     
     	INSERT INTO BM_EPLY_INFO(
     		  EPLY_ID

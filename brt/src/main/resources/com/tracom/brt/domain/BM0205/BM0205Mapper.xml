@@ -2,36 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tracom.brt.domain.BM0205.BM0205Mapper">
 	<select id="BM0205G0S0" parameterType="String" resultType="vhcDvcUpdateVO">
-			SELECT
-			 V.VHC_NO
+		SELECT
+			  V.VHC_NO
 		   , DL4.DL_CD_NM AS VHC_KIND
 		   , DL5.DL_CD_NM AS VHC_TYPE
 		   , DL0.DL_CD_NM AS MAKER
 		   , DL1.DL_CD_NM AS DVC_KIND
 		   , DL3.DL_CD_NM AS INST_LOC
+		   , D.MAKER
 		   , D.DVC_ID
 		   , D.MNG_ID
 		   , DH.MODEL_NM
-		   , DP.RSV_DATE
 		FROM
 		    BM_VHC_INFO V
 			 LEFT OUTER JOIN BM_DVC_INFO D
 			 ON V.VHC_ID = D.VHC_ID
 			 LEFT OUTER JOIN BM_DVC_HIST DH
 			 ON D.DVC_ID = DH.DVC_ID
-			 LEFT OUTER JOIN BM_UPD_RSV DP
-			 ON D.MNG_ID = DP.MNG_ID
-			 LEFT OUTER JOIN SM_DL_CD_INFO DL0
-			 ON D.MAKER = DL0.DL_CD
-			 LEFT OUTER JOIN SM_DL_CD_INFO DL1
+			 LEFT OUTER JOIN (SELECT * FROM SM_DL_CD_INFO WHERE CO_CD = 'DVC_MAKER') DL0			 
+			 ON D.MAKER = DL0.DL_CD	 
+			 LEFT OUTER JOIN (SELECT * FROM SM_DL_CD_INFO WHERE CO_CD = 'DVC_KIND') DL1
 			 ON D.DVC_KIND = DL1.DL_CD
-			 LEFT OUTER JOIN SM_DL_CD_INFO DL2
-			 ON D.DVC_TYPE = DL2.DL_CD
-			 LEFT OUTER JOIN SM_DL_CD_INFO DL3
+			 LEFT OUTER JOIN (SELECT * FROM SM_DL_CD_INFO WHERE CO_CD = 'INST_LOC') DL3
 			 ON D.INST_LOC = DL3.DL_CD
-			 LEFT OUTER JOIN SM_DL_CD_INFO DL4
+			 LEFT OUTER JOIN (SELECT * FROM SM_DL_CD_INFO WHERE CO_CD = 'VHC_KIND') DL4
 			 ON V.VHC_KIND = DL4.DL_CD
-			 LEFT OUTER JOIN SM_DL_CD_INFO DL5
+			 LEFT OUTER JOIN (SELECT * FROM SM_DL_CD_INFO WHERE CO_CD = 'VHC_TYPE') DL5
 			 ON V.VHC_TYPE = DL5.DL_CD
 	   <where>
 	    	<if test="value != null">
@@ -43,17 +39,29 @@
 		ORDER BY VHC_NO 
 	</select>
 	
-	<select id="BM0205G0S1" parameterType="vhcDvcUpdateVO" resultType="vhcDvcUpdateVO">
+	<select id="BM0205G0S1" resultType="vhcDvcUpdateVO">
 		SELECT
 		   RSV_ID
 		 , MNG_ID
-		 , ATT_FILE
-		 , RSV_DATE
+		 , COMPLETE_YN
 		FROM
-			BM_UPD_RSV
+			BM_UPD_LOG
+		WHERE
+			COMPLETE_YN = "N"
+	</select>
+	<select id="BM0205S0" parameterType="Map" resultType="vhcDvcUpdateVO">
+		SELECT
+			RSV_ID
+		  , MNG_ID
+		  , RSV_DATE
+		FROM 
+		    BM_UPD_RSV
+		WHERE
+			MNG_ID = #{mngId}
+		    AND RSV_DATE = #{rsvDate}
 	</select>
 	
-	<insert id="BM0205Reservation" parameterType="vhcDvcUpdateVO">			
+	<insert id="BM0205Reservation" parameterType="vhcDvcUpdateVO" >		
 		INSERT INTO BM_UPD_RSV(
 			  RSV_DATE
 			, RSV_ID
@@ -79,5 +87,30 @@
    			, #{upList.updatedIp}
 		)
 		</foreach>
-	</insert>	
+	</insert>
+	
+	<insert id="BM0205I0" parameterType="vhcDvcUpdateVO" >		
+		INSERT INTO BM_UPD_LOG(
+			  RSV_ID
+			, MNG_ID
+			, PROCE_RST
+			, RST_CONT
+			, VER_INFO
+			, SEND_DATE
+			, COMPLETE_YN
+			, REMARK)
+		VALUES
+		<foreach collection="upList" item="upList" separator=",">
+			 
+		    ( #{upList.rsvId}
+		    , #{upList.mngId}
+		    , #{upList.proceRst}
+		    , #{upList.rstCont}
+		    , #{upList.verInfo}
+		    , #{upList.sendDate}
+		    , "N"
+		    , #{upList.remark}
+		)
+		</foreach>
+	</insert>		
 </mapper>

@@ -41,7 +41,8 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="*" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="*" style="padding-left: 10px;">
+             <ax:split-panel width="500" style="height:270px;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h2><i class="cqc-list"></i>
@@ -50,6 +51,8 @@
                     </div>
                 </div>
                     <div data-ax5grid="gridView1" style="height: 220px;"></div>
+              </ax:split-panel>
+              <ax:split-panel width="500" style="height:100%; padding-bottom:155px">
                      <div class="ax-button-group">
                         <div class="left">
                             <h3>
@@ -66,7 +69,8 @@
                            </div> 	                                               		                                 		 	                 	 		
             		</ax:form>                      
                     </div>
-                   <div data-ax5grid="gridView2" style="height: 235px;"></div>     
+                   <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height: 100%;"></div>
+              </ax:split-panel>     
             </ax:split-panel>
                  
         </ax:split-layout>

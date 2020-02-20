@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.domain.BM0602.NewsVO;
+import com.tracom.brt.handler.TimsAuthHandler;
 
 @Service
 public class BM0604Service extends BaseService<NewsVO, String>{
 
 	@Inject
 	private BM0604Mapper mapper;
+	
+	@Inject
+	private TimsAuthHandler timsAuthHandler;
 	
 	public List<NewsVO> BM0604G0S0(RequestParams<NewsVO> requestParams) {
 		return mapper.BM0604G0S0(requestParams.getString("filter"));
@@ -41,6 +45,7 @@ public class BM0604Service extends BaseService<NewsVO, String>{
 			  }
 		  }		  
 		   if(request.getUpList().size() > 0 ) {
+			   timsAuthHandler.sendNews();
 			   return true; 
 		  }else {
 			  return false;

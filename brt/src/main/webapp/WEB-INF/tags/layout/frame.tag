@@ -67,11 +67,11 @@
                     <div class="panel-split"></div>
                  -->
                     <c:if test="${isDevelopmentMode}">
-                        <!-- 개발자 툴 연결 아이콘 -->
+                        <!-- 개발자 툴 연결 아이콘 
                         <div class="ax-split-panel">
                             <a href="#ax" onclick="window.open('/jsp/system/system-dev-tools.jsp');"><i class="cqc-tools"></i> <ax:lang id="ax.devtools"/></a>
                         </div>
-                        <div class="panel-split"></div>
+                        <div class="panel-split"></div>-->
                     </c:if>
                     <div class="ax-split-panel">
                         <a href="#ax" onclick="fcObj.open_user_info();"><ax:lang id="ax.admin.login.status.message" args="${loginUser.userNm}"/></a>
@@ -80,7 +80,7 @@
                     <div class="ax-split-panel">
 
                         <a href="#ax" class="ax-frame-logout" onclick="location.href = '${pageContext.request.contextPath}/api/logout';">
-                            <i class="cqc-log-out"></i>
+                            <!-- <i class="cqc-log-out"></i> -->
                             <ax:lang id="ax.admin.logout"/>
                         </a>
                     </div>
@@ -100,9 +100,11 @@
             <c:if test="${config.layout.leftSideMenu ne 'visible'}">
                 <div class="ax-split-panel">&nbsp;</div>
             </c:if>
-            <div class="ax-split-panel cell-logo">
+            <div class="ax-split-panel cell-logo" style="width:360px;">
                 <a href="${pageContext.request.contextPath}/jsp/main.jsp">
-                    <img src="${pageContext.request.contextPath}${config.logo.header}" width="100%"/>
+                    <!-- <img src="${pageContext.request.contextPath}${config.logo.header}" width="100%"/> -->
+                    <div style="float:left;width:40px;height:30px;background-image:url('${pageContext.request.contextPath}${config.logo.header}');background-repeat:no-repeat;border:solid 0px;"></div>
+                    <div style="float:left;height:30px;border:0px solid;padding-top:6px;"><h2>BRT(전기 굴절)관리시스템</h2></div>
                 </a>
             </div>
             <div id="ax-top-menu" class="ax-split-panel ax-split-flex"></div>

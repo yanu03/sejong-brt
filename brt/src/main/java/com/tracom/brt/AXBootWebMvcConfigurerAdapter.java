@@ -33,6 +33,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.View;
@@ -208,6 +209,11 @@ public class AXBootWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter imple
         cookieLocaleResolver.setCookiePath("/");
         cookieLocaleResolver.setDefaultLocale(new Locale("ko_KR"));
         return cookieLocaleResolver;
+    }
+    
+    @Bean
+    public RestTemplate restTemplate() {
+    	return new RestTemplate();
     }
 
     @Override
