@@ -332,27 +332,29 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
  */
 fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     page: {
-        pageNumber: 0,
+    	pageNumber: 0,
         pageSize: 10
     },
     initView: function () {
         var _this = this;
 
         this.target = axboot.gridBuilder({
+        	showLineNumber: true,
+        	lineNumberColumnWidth: 30,
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
             header: {align: 'center'},
             columns: [
             	{key: "confirmYn",	label: ADMIN("ax.admin.BM0301F0.confirmyn"),sortable: true, align: "center", width: 70 , styleClass:function(){return (this.item.confirmYn === "확정") ? "grid-cell-red":"grid-cell-blue" }},
-            	{key: "conNo",		label: ADMIN("ax.admin.BM0301F0.conno"),	sortable: true, align: "center", width: 120},                
-                {key: "conNm",		label: ADMIN("ax.admin.BM0301F0.connm"),	align: "center", width: 120},
+            	{key: "conNo",		label: ADMIN("ax.admin.BM0301F0.conno"),	sortable: true, align: "left", width: 120},                
+                {key: "conNm",		label: ADMIN("ax.admin.BM0301F0.connm"),	align: "left", width: 120},
                 {key: "conFstDate", label: ADMIN("ax.admin.BM0301F0.confd"),	sortable: true, align: "center", type: "date" , width: 120},
                 {key: "conStDate",	label: ADMIN("ax.admin.BM0301F0.consd"),	sortable: true, align: "center", type: "date" , width: 120},
                 {key: "conEdDate",	label: ADMIN("ax.admin.BM0301F0.coned"),	sortable: true, align: "center", type: "date" , width: 120},
-                {key: "custNm",		label: ADMIN("ax.admin.BM0102F0.cust.name"),sortable: true,	align: "center", width: 120},
+                {key: "custNm",		label: ADMIN("ax.admin.BM0102F0.cust.name"),sortable: true,	align: "left", width: 120},
                 {key: "suppAmt",	label: ADMIN("ax.admin.BM0301F0.suppamt"),	align: "right", width: 120, formatter:"money"},
                 {key: "vatAmt",		label: ADMIN("ax.admin.BM0301F0.vatamt"),	align: "right", width: 120, formatter:"money"},
-                {key: "remark",		label: ADMIN("ax.admin.BM0301F0.remark"),	width: 200},
+                {key: "remark",		label: ADMIN("ax.admin.BM0301F0.remark"),	align: "left", width: 200},
             ],
             body: {
                 onClick: function () {
