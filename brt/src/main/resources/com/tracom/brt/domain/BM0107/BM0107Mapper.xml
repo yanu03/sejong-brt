@@ -52,13 +52,11 @@
 		WHERE
 			ROUT_ID = #{routId}
 
-			<if test="value != null">
+			<if test="filter1 != null">
 				AND(
-				NI.STA_ID LIKE CONCAT('%', #{filter1}, '%')
+				NODE_ID LIKE CONCAT('%', #{filter1}, '%')
 				OR
-				SI.STA_NM LIKE CONCAT('%', #{filter1}, '%')
-				OR
-				SI.STA_NO LIKE CONCAT('%', #{filter1}, '%')
+				NODE_NM LIKE CONCAT('%', #{filter1}, '%')
 				)
 	    	</if>
 		ORDER BY SEQ
@@ -205,7 +203,7 @@
 		    , ORGA_NM AS NODE_NM
 		    , LATI
 		    , LONGI
-		    , 898 AS NODE_TYPE
+		    , '898' AS NODE_TYPE
 		    , ROUT_ID
 		    , CREATED_AT
 		    , CREATED_BY
