@@ -100,9 +100,11 @@
             <c:if test="${config.layout.leftSideMenu ne 'visible'}">
                 <div class="ax-split-panel">&nbsp;</div>
             </c:if>
-            <div class="ax-split-panel cell-logo">
+            <div class="ax-split-panel cell-logo" style="width:360px;">
                 <a href="${pageContext.request.contextPath}/jsp/main.jsp">
-                    <img src="${pageContext.request.contextPath}${config.logo.header}" width="100%"/>
+                    <!-- <img src="${pageContext.request.contextPath}${config.logo.header}" width="100%"/> -->
+                    <div style="float:left;width:40px;height:30px;background-image:url('${pageContext.request.contextPath}${config.logo.header}');background-repeat:no-repeat;border:solid 0px;"></div>
+                    <div style="float:left;height:30px;border:0px solid;padding-top:6px;"><h2>BRT(전기 굴절)관리시스템</h2></div>
                 </a>
             </div>
             <div id="ax-top-menu" class="ax-split-panel ax-split-flex"></div>
