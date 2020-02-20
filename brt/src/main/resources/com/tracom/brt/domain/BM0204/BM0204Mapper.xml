@@ -31,7 +31,7 @@
 				DI.MNG_ID LIKE CONCAT('%', #{value}, '%')
 				OR V.VHC_NO LIKE CONCAT('%', #{value}, '%')
 	    	</if>
-    			AND DVC_KIND = "CD004"
+    			AND DVC_KIND = "CD005"
     	ORDER BY DVC_ID
     	</where>
 </select>

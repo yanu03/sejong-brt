@@ -32,8 +32,11 @@
                         <ax:td label='ax.admin.search' width="300px">
                             <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0205S0.search"/>
                         </ax:td>
-                        <ax:td width="300px">
-                        <input type="file" id="dvcFileUp" name="dvcFileUp" class="form-control inline-block W150" style="position:absolute; width:250px;"/>
+                        <ax:td label='ax.admin.BM0205S0.file' width="300px">
+                        <input type="file" id="dvcFileUp" name="dvcFileUp" class="form-control inline-block W150" style="width:200px;"/>
+                        </ax:td>
+                        <ax:td label='ax.admin.BM0205S0.version' width="300px">
+                        	<ax:input type="text" name="version" id="version" clazz="form-control" maxLength="50"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
