@@ -14,4 +14,5 @@ public class UpdateHistoryVO extends BaseVO{
 	private String remark;
 	private String rsvId;
 	private String dvcId;
+	private String proceRst;
 }

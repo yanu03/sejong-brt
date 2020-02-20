@@ -119,7 +119,7 @@ public class FTPHandler {
 		if(id.substring(10, 12).equals("RD")) {
 			fileName = "SF2016." + ext;
 		}else {
-			fileName = "MANAGERV3." + ext;
+			fileName = "firmware." + ext;
 		}
 		File saveFile = Paths.get(dir, fileName).toFile();
 		

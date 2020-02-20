@@ -460,6 +460,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView2"]'),
             columns: [
             	{key: "rsvId", label: ADMIN("ax.admin.BM0206G2.rsvid"), align: "center", sortable: true, width: 120},
+            	{key: "proceRst", label: ADMIN("ax.admin.BM0206G2.procerst"), align: "center", sortable: true, width: 150},
             	{key: "sendDate", label: ADMIN("ax.admin.BM0206G2.senddate"), sortable: true, width: 150},
             	{key: "verInfo", label: ADMIN("ax.admin.BM0206G2.verinfo"), align: "center", sortable: true, width: 120},
             	{key: "remark", label: ADMIN("ax.admin.BM0206G2.remark"), width: 500},

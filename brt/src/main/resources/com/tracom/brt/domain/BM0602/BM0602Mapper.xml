@@ -24,7 +24,7 @@
  	  , NUM_VAL5
  	  , NUM_VAL6
     FROM
-		SM_DL_CD_INFO
+		(SELECT * FROM SM_DL_CD_INFO WHERE CO_CD = 'LINK_SET') AS DL
     WHERE
 		DL_CD = "CD043"
 	</select>
@@ -115,7 +115,8 @@
 		  , NUM_VAL5 = #{numVal5}
 		  , NUM_VAL6 = #{numVal6}
 	  	WHERE
-	  	  DL_CD = "CD043"
+	  	  CO_CD = "LINK_SET"
+	  	  AND DL_CD = "CD043"
 	 </update>
 	<update id="BM0602F0U0" parameterType="newsVO">
 		UPDATE BM_NEWS_SET
