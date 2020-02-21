@@ -92,6 +92,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 fnObj.pageStart = function () {
 	var _this = this;
 	btnClick();
+	chked();
     this.pageButtonView.initView();
     this.searchView0.initView();
     this.searchView1.initView();
@@ -671,4 +672,36 @@ function setInitVal(){
 function initVal2(){
 	$('#distance').val('');
 	$('#duration').val('');
+}
+
+function chked(){
+	$('#toggleNode').on('change', function(){
+		if($('#toggleNode').is(":checked") && !$('#toggleStn').is(":checked")){
+			var list = fnObj.gridView1.getData();
+			
+			for(var i=0; i<list.length; i++){
+				if(list[i].nodeType == '30'){
+					list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+					addMarker(list[i]);
+				}
+			}
+		}else{
+			//꺼지면
+		}
+	});
+	
+	$('#toggleStn').on('change', function(){
+		if($('#toggleStn').is(":checked")){
+			var list = fnObj.gridView1.getData();
+			
+			for(var i=0; i<list.length; i++){
+				if(list[i].nodeType == '1'){
+					list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+					addMarker(list[i]);
+				}
+			}
+		}else{
+			removeMarkers();
+		}
+	});
 }

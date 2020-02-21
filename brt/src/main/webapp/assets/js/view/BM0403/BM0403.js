@@ -461,6 +461,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
                 {key: "vocId", label: ADMIN("ax.admin.BM0403F0.voc.id"), width: 80, sortable: true, align: "center"},

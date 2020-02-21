@@ -179,4 +179,15 @@
 		    AND
 		    DL_CD = #{value}
     </select>
+    
+    <select id="SM0105G2S2" parameterType="String" resultType="String">
+    	SELECT
+			TXT_VAL2
+		FROM
+			SM_DL_CD_INFO
+		WHERE
+			CO_CD = 'UPDOWN_FLAG'
+			AND
+		    DL_CD = #{value}
+    </select>
 </mapper>

@@ -93,14 +93,6 @@
 	                            </div>
                     		</ax:td>
 
-                    		<!-- 
-                    		<ax:td label="ax.admin.BM0108F0.eplyDate2" width="250px">
-                    			<div class="input-group" data-ax5picker="date">
-	                                <input readonly="readonly" type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax-path="eplyDate2" name="data-ax-path"/>
-	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
-	                            </div>
-                    		</ax:td>
-                    		 -->
                     	</ax:tr>
                     	
                     	<ax:tr>
@@ -141,18 +133,6 @@
 	                                onError="preview_Image('previewImg2');">
 								 </div>
 
-                    			<!-- 
-                    			<div style="width: 200px; height: 150px;">
-	                                <img id="previewImg" src="#" alt="승무사원 이미지" style="width:180px;height:250px"
-	                                onError="/assets/videos/BM0605/Default.png">
-                    			</div>
-                    			<div class="input-group">
-	                                <input type="file" name="imgFile" class="form-control" id="employeeImg"
-	                                onchange="preview_ChangeImage(this);"
-	                                onError="preview_Image();"
-	                                style="width:100px;" />
-	                        	</div>
-	                        	 -->
                     		</ax:td>
                     	</ax:tr>
                     	

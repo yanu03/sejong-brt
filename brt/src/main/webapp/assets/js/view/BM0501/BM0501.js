@@ -81,8 +81,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var formData = new FormData();
     	formData.append("dvcKindCd", uv_dvc_type);
     	formData.append("dvcName", selectedRow.dvcName);
+    	formData.append("userWayDiv", selectedRow.userWayDiv);
+    	
     	if($("#bmpFile")[0].files[0]){
-        	formData.append("attFile", $("#bmpFile")[0].files[0].name);
+        	formData.append("attFile", $("#bmpFile")[0].files[0]);
         }
     	
     	
@@ -109,6 +111,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         		input.voList = fnObj.gridView1.getData();
         		input.dvcKindCd = uv_dvc_type;
         		input.dvcName = selectedRow.dvcName;
+        		input.userWayDiv = selectedRow.userWayDiv;
         		axboot.ajax({
         			type: "POST",
                     url: "/api/v1/BM0501G1U1",
@@ -149,7 +152,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		//$("#previewImg").attr("src", url);
     		//element.style.clip = "rect(" + (data.__index * uv_frontheight) + "," + uv_frontwidth + "," + uv_frontwidth + "," + (seq * uv_frontheight) + ")";
     	}
-    	console.log(uv_dvc_type + "," + seq);
     },
 
 });
@@ -199,7 +201,6 @@ function editCase(input){
 }
 
 function styleEdit(){
-	console.log(this.item);
 	if(this.item.__index >= uv_height){
 		return "grid-cell-gray";
 	}
@@ -342,18 +343,20 @@ $("input[id=bmpFile]").change(function(){
     
     img.src = _URL.createObjectURL(file);
     img.onload = function() {
-        alert(img.width);
-        alert(img.height);
+        //alert(img.width);
+        //alert(img.height);
         
-    	if(uv_dvc_type == frontCode){
-    		uv_height = img.height / uv_frontheight;
+        preview_ChangeImage("src", "previewImg");
+    	
+        if(uv_dvc_type == frontCode){
+    		uv_frontheight = img.height / uv_frontheight;
     	}else if(uv_dvc_type == sideCode){
-    		uv_height = img.height / uv_sideheight;
+    		uv_sideheight = img.height / uv_sideheight;
     	}else{
     		console.log('error');
     	}
-    	console.log(uv_dvc_type);
-    	console.log(uv_height);
+    	//console.log(uv_dvc_type);
+    	//console.log(uv_height);
         /*if(img.width != 384 || img.height != 64) {
             alert("이미지 가로 684px, 세로 64px로 맞춰서 올려주세요.");
             $("input[id=bmpFile]").val("");
@@ -361,6 +364,44 @@ $("input[id=bmpFile]").change(function(){
     }
 });
 
+
+$("input[id=bmpFile]").change(function(){
+    
+    var ext = $(this).val().split(".").pop().toLowerCase();
+    
+    if($.inArray(ext,["bmp", "BMP"]) == -1) {
+        alert("bmp 파일만 업로드 가능합니다.");
+        $("input[id=bmpFile]").val("");
+        return;
+    }
+    
+    /*var fileSize = this.files[0].size;
+    var maxSize = 1024 * 1024;
+    if(fileSize > maxSize) {
+        alert("파일용량을 초과하였습니다.");
+        return;
+    }*/
+    
+    var file  = this.files[0];
+    var _URL = window.URL || window.webkitURL;
+    var img = new Image();
+    
+    img.src = _URL.createObjectURL(file);
+    img.onload = function() {
+        //alert(img.width);
+        //alert(img.height);
+        
+        preview_ChangeImage("src", "previewImg");
+    	
+        if(uv_dvc_type == frontCode){
+    		uv_frontheight = img.height / uv_frontheight;
+    	}else if(uv_dvc_type == sideCode){
+    		uv_sideheight = img.height / uv_sideheight;
+    	}else{
+    		console.log('error');
+    	}
+    }
+});
 /********************************************************************************************************************/
 
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
@@ -574,42 +615,9 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         });
         
         axboot.buttonClick(this, "data-btn-test", {
-            "krTts": function () {
-                ACTIONS.dispatch(ACTIONS.TEST_TTS, {
-                	pText: _this.target.find("[data-ax-path='krTts']").val(),
-                	nLanguage: 0,
-                	nSpeakerId: 0,
-                });
-            },
-            "enTts": function() {
-            	ACTIONS.dispatch(ACTIONS.TEST_TTS, {
-                	pText: _this.target.find("[data-ax-path='enTts']").val(),
-                	nLanguage: 1,
-                	nSpeakerId: 2,
-                });
-            },
-            "wav": function() {
-            	ACTIONS.dispatch(ACTIONS.TEST_WAV);
-            }
         });
         
         axboot.buttonClick(this, "data-btn-common-txt", {
-        	"krTts": function() {
-        		ACTIONS.dispatch(ACTIONS.OPEN_COMMON_SENTENCE_MODAL, {
-        			dataPath: "krTts"
-        		});
-        	},
-        	"enTts": function() {
-        		ACTIONS.dispatch(ACTIONS.OPEN_COMMON_SENTENCE_MODAL, {
-        			dataPath: "enTts"
-        		});
-        	}
-        })
-        
-        this.target.find("[data-ax-path='playType']").on("change", function(e) {
-        	ACTIONS.dispatch(ACTIONS.CHANGE_PLAY_TYPE, {
-        		playType: $(this).val()
-        	})
         });
     },
     initEvent: function () {
@@ -643,7 +651,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     	this.target.find("[data-btn],[data-ax-path][data-key!=true]").each(function(index, element) {
     		$(element).attr("readonly", false).attr("disabled", false);
     	});
-    	$("[data-ax-path='playType']").trigger("change");
     },
     disable: function() {
     	this.target.find('#wavFile,[data-btn],[data-ax-path][data-key!=true]').each(function(index, element) {
@@ -665,12 +672,11 @@ function selectBox(){
 			for(var i=0; i<res.list.length; i++){
 				options.push({value: res.list[i].dlCd, text : res.list[i].dlCdNm});				
 			}
-			console.log(options.length);
-			console.log(options.size);
 
 			$('[data-ax5select]').ax5select({
 				options: options,
 				onChange: function(){
+					$("input[id=bmpFile]").val("");
 					loadSCH();
 					uv_dvc_type = $('[data-ax5select="selectType"]').ax5select("getValue")[0].value;
 				}
@@ -699,7 +705,7 @@ function loadSCH(){
 
 function loadBmp(){
 	uv_dvc_type = $('#selectBox option:selected').val();
-	var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&dvcName="+selectedRow.dvcName;
+	var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&userWayDiv=" + selectedRow.userWayDiv + "&dvcName="+selectedRow.dvcName;
 
 	$("#previewImg").attr("src", url);
 	
@@ -709,4 +715,35 @@ function loadBmp(){
 		});
 	});
 	fnObj.gridView1.initView();
+	setTimeVal(uv_height);
+}
+
+function preview_ChangeImage(input, id) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    
+    reader.onload = function (e) {
+    	$('#' + id).attr('src', e.target.result);
+        }
+    	reader.readAsDataURL(input.files[0]);
+    }
+    setTimeVal(uv_height);
+}
+
+function setTimeVal(uv_height){
+	var d = fnObj.gridView1.getData();
+	var list = new Array;
+	if(uv_height > 0){
+		for(var i=0; i < d.length; i++){
+			if(d[i].__index >= uv_height){
+				d[i].effSpeed = '00';
+				d[i].showTime = '0000';
+				list.push(d[i]);
+			}else{
+				list.push(d[i]);
+			}
+		}
+		fnObj.gridView1.setData(list);
+	}
 }
