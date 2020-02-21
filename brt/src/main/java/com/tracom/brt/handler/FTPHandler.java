@@ -373,11 +373,11 @@ public class FTPHandler {
 		
 		for(int i = 0; i < list.size(); i++) {
 			if(i == 0) {
-				txt += list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + list.get(i).getEffType() + GlobalConstants.SCH.TAB + list.get(i).getEffSpeed() + GlobalConstants.SCH.TAB + list.get(i).getShowTime();
+				txt += list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + list.get(i).getEffType() + GlobalConstants.SCH.TAB + String.format("%02d", Integer.valueOf(list.get(i).getEffSpeed())) + GlobalConstants.SCH.TAB + String.format("%04d", Integer.valueOf(list.get(i).getShowTime()));
 			}else {
 				
 				txt += GlobalConstants.CSVForms.ROW_SEPARATOR
-						+ list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + list.get(i).getEffType() + GlobalConstants.SCH.TAB + list.get(i).getEffSpeed() + GlobalConstants.SCH.TAB + list.get(i).getShowTime();
+						+ list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + list.get(i).getEffType() + GlobalConstants.SCH.TAB + String.format("%02d", Integer.valueOf(list.get(i).getEffSpeed())) + GlobalConstants.SCH.TAB + String.format("%04d", Integer.valueOf(list.get(i).getShowTime()));
 			}
 			
 			

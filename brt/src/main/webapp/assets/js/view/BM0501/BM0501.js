@@ -349,9 +349,9 @@ $("input[id=bmpFile]").change(function(){
         preview_ChangeImage("src", "previewImg");
     	
         if(uv_dvc_type == frontCode){
-    		uv_height = img.height / uv_frontheight;
+    		uv_frontheight = img.height / uv_frontheight;
     	}else if(uv_dvc_type == sideCode){
-    		uv_height = img.height / uv_sideheight;
+    		uv_sideheight = img.height / uv_sideheight;
     	}else{
     		console.log('error');
     	}
@@ -364,6 +364,44 @@ $("input[id=bmpFile]").change(function(){
     }
 });
 
+
+$("input[id=bmpFile]").change(function(){
+    
+    var ext = $(this).val().split(".").pop().toLowerCase();
+    
+    if($.inArray(ext,["bmp", "BMP"]) == -1) {
+        alert("bmp 파일만 업로드 가능합니다.");
+        $("input[id=bmpFile]").val("");
+        return;
+    }
+    
+    /*var fileSize = this.files[0].size;
+    var maxSize = 1024 * 1024;
+    if(fileSize > maxSize) {
+        alert("파일용량을 초과하였습니다.");
+        return;
+    }*/
+    
+    var file  = this.files[0];
+    var _URL = window.URL || window.webkitURL;
+    var img = new Image();
+    
+    img.src = _URL.createObjectURL(file);
+    img.onload = function() {
+        //alert(img.width);
+        //alert(img.height);
+        
+        preview_ChangeImage("src", "previewImg");
+    	
+        if(uv_dvc_type == frontCode){
+    		uv_frontheight = img.height / uv_frontheight;
+    	}else if(uv_dvc_type == sideCode){
+    		uv_sideheight = img.height / uv_sideheight;
+    	}else{
+    		console.log('error');
+    	}
+    }
+});
 /********************************************************************************************************************/
 
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/

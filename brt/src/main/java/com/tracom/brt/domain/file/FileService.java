@@ -63,6 +63,8 @@ public class FileService {
 			    case GlobalConstants.Types.BMP:
 			    	path = bmpPreview(requestParams, response);
 			    	break;
+			    case GlobalConstants.Types.BMPLOGO:
+			    	path = bmpPreviewLOGO(requestParams, response);
 			}
 			
 			file = new File(path);
@@ -193,11 +195,15 @@ public class FileService {
 		String fileNameTail = ".BMP";
 		String fileName = "";
 		
-		if(userWayCode == null) {
-			fileName = fileNameHeader + fileNameBody;
-		}else {
-			fileName = fileNameHeader + fileNameBody + userWayCode + fileNameTail;			
-		}
+		fileName = fileNameHeader + fileNameBody + userWayCode + fileNameTail;			
+		return Paths.get(handler.getRootLocalPath(), "/destination/images/", fileName).toString();
+	}
+	
+	private String bmpPreviewLOGO(RequestParams<?> requestParams, HttpServletResponse response) {
+		String fileNameBody = requestParams.getString("dvcName");
+		String fileNameTail = ".BMP";
+		
+		String fileName = requestParams.getString("dvcKindCd") + fileNameBody + fileNameTail;
 		return Paths.get(handler.getRootLocalPath(), "/destination/images/", fileName).toString();
 	}
 }

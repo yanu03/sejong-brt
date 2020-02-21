@@ -78,6 +78,24 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 		return ftpHandler.writeSCH(vo.getVoList(), fileName);
 	}
 	
+	public boolean writeBmpFileLOGO(DestinationVO vo) {
+		if(vo.getAttFile() != null) {
+			String fileNameHeader = vo.getDvcKind();
+			String fileNameTail = ".BMP";
+			String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
+			return ftpHandler.writeBmp(fileName, vo.getAttFile());
+		}else {
+			return true;
+		}
+	}
+	
+	public boolean writeSCHFileLOGO(DestinationVO vo) {
+		String fileNameHeader = vo.getDvcKind();
+		String fileNameTail = ".SCH";
+		String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
+		return ftpHandler.writeSCH(vo.getVoList(), fileName);
+	}
+	
 	public CommonCodeDetailInfoVO getHeader(String value) {
 		return DLCDMapper.SM0105G2S1(value);
 	}
