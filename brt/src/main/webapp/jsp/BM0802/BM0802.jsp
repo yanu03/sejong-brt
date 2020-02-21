@@ -33,16 +33,16 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="*" style="padding-right: 10px;">
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
+                        <h3><i class="cqc-list"></i>
                             <ax:lang id="ax.admin.BM0802G0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
@@ -51,9 +51,9 @@
             <ax:split-panel width="600" style="padding-left: 10px;" scroll="scroll">
                 <div class="ax-button-group" data-fit-height-aside="gridView1">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
+                        <h3><i class="cqc-list"></i>
                              <ax:lang id="ax.admin.BM0802G1.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                     <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height: 300px;"></div>

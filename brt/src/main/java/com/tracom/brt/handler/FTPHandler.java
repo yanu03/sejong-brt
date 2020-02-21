@@ -114,15 +114,18 @@ public class FTPHandler {
 		String ext = FilenameUtils.getExtension(file.getOriginalFilename());
 		String fileName;
 		
-		//행선지안내기 OR 다른장비
-		System.out.println(id.substring(10, 12));
+		//행선지안내기
 		if(id.substring(10, 12).equals("RD")) {
 			fileName = "SF2016." + ext;
+		//키패드
+		}else if(id.substring(10, 12).equals("RK")){
+			fileName = "MANAGERV3." + ext;
+		//다른장비
 		}else {
 			fileName = "firmware." + ext;
 		}
-		File saveFile = Paths.get(dir, fileName).toFile();
 		
+		File saveFile = Paths.get(dir, fileName).toFile();
 		try {
 			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
 		} catch(Exception e){

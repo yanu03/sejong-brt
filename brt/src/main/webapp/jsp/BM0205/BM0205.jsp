@@ -41,7 +41,7 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
         <ax:split-layout name="ax1" orientation="horizontal">
@@ -50,16 +50,14 @@
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridview0">
                     <div class="left">
-                        <h2>
+                        <h3>
                             <i class="cqc-list"></i>
                             <ax:lang id="ax.admin.BM0103G0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 100%;"></div>
             </ax:split-panel>
         </ax:split-layout>
-
-
     </jsp:body>
 </ax:layout>

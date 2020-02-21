@@ -32,16 +32,16 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form> 
-            <div class="H10"></div> 
+            <div class="H3"></div> 
         </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="600" style="padding-right: 10px;" scroll="scroll">
                 <div class="ax-button-group">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
+                        <h3><i class="cqc-list"></i>
                             <ax:lang id="ax.admin.BM0601F0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>                       
                 <ax:form name="formView0">                 
@@ -119,13 +119,13 @@
             	<ax:split-panel width="500" style="height:290px; padding-right: 10px;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
+                        <h3><i class="cqc-list"></i>
                              <ax:lang id="ax.admin.BM0601G0.title"/>
                              <select class="form-control" id="weatAtmo" name="weatAtmo" data-ax-path="weatAtmo" style="width:100px">
                             	<option value="weat"><ax:lang id="ax.admin.BM0601G0.select.weat"/></option>
                             	<option value="atmo"><ax:lang id="ax.admin.BM0601G0.select.atmo"/></option>
                             </select>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                     <div data-ax5grid="gridView1" style="height: 225px;"></div>

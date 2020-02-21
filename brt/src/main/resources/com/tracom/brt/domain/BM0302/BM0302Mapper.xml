@@ -24,8 +24,9 @@
     		ON C.CON_ID = AT.CON_ID
     		LEFT OUTER JOIN BM_CUST_INFO CU
     		ON C.CUST_ID = CU.CUST_ID
-    		LEFT OUTER JOIN SM_DL_CD_INFO DL
+    		LEFT JOIN SM_DL_CD_INFO DL
     		ON AT.ALT_DIV = DL.DL_CD
+    		AND DL.CO_CD = 'ALT_DIV'
     	WHERE
     		C.CON_ID = #{value}
     	ORDER BY CON_ED_DATE DESC
@@ -35,6 +36,7 @@
 		SELECT
 		   D.CON_ID
 		 , D.CON_NM
+		 , D.CON_NO
 		 , D.CONFIRM_YN
 		 , D.CON_ST_DATE
 		 , D.CON_ED_DATE
@@ -44,8 +46,9 @@
 		 , D.REMARK
 		FROM
 			(SELECT
-				A.CON_ID
+			   A.CON_ID
 			 , A.CON_NM
+			 , A.CON_NO
 			 , A.CONFIRM_YN
 			 , IFNULL(B.CON_ST_DATE,A.CON_ST_DATE) AS CON_ST_DATE
 			 , IFNULL(B.CON_ED_DATE,A.CON_ED_DATE) AS CON_ED_DATE
@@ -57,6 +60,7 @@
 				(SELECT
 				   CON_ID
 				,  CON_NM
+				,  CON_NO
 				,  CON_ST_DATE
 				,  CON_ED_DATE
 				,  SUPP_AMT
@@ -69,7 +73,7 @@
 					CONFIRM_YN = "Y" ) AS A
 					LEFT OUTER JOIN 
 				(SELECT
-					 C.CON_ID
+					C.CON_ID
 				  , C.CON_ST_DATE
 				  , C.CON_ED_DATE
 				  , C.ALT_DIV
@@ -82,6 +86,7 @@
 					, DL.DL_CD_NM AS ALT_DIV
 					, AL.CON_ID
 					, CI.CON_NM
+					, CI.CON_NO
 					, AL.CON_ST_DATE
 					, AL.CON_ED_DATE
 					, AL.CONFIRM_YN

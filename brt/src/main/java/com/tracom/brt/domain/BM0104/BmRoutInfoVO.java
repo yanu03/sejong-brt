@@ -13,7 +13,9 @@ import lombok.NoArgsConstructor;
 public class BmRoutInfoVO extends BaseVO {
 	 
 	private String routId;
-	 
+	
+	private String interRoutId;
+	
 	private String routNm;
  
 	private String shortRoutNm;

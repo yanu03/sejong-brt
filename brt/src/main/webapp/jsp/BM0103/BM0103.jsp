@@ -26,7 +26,7 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
 
@@ -76,7 +76,7 @@
                     	</ax:tr>
                     	 
                     	 <ax:tr>
-                    		<ax:td label="ax.admin.BM0103F0.corpId" width="500px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0103F0.corpId" width="500px" labelClazz="findmodal">
                     			<div class="input-group">
 	                    			<div style="float:left;padding-right:5px;"><input type="text" title="<ax:lang id="ax.admin.BM0103F0.corpId"/>" data-ax-path="corpId" data-key="true" class="form-control W70" readonly="readonly" data-ax-validate="required"></div>
 		                        	<div style="float:left;padding-right:5px;"><input type="text" title="<ax:lang id="ax.admin.BM0103F0.corpNm"/>" data-ax-path="corpNm" data-key="true" class="form-control W130" readonly="readonly"></div>
@@ -98,7 +98,7 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0103F0.maker" width="250px">
-                    			<ax:SM0105 groupCd="MAKER" id="maker" name="maker" dataPath="maker"/>
+                    			<ax:SM0105 groupCd="VHC_MAKER" id="maker" name="maker" dataPath="maker"/>
                     		</ax:td>
 						</ax:tr>
 						<ax:tr>
@@ -118,25 +118,25 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                       		<ax:td label="ax.admin.BM0103F0.vhcKind" width="240px" labelClazz="required">
+                       		<ax:td label="ax.admin.BM0103F0.vhcKind" width="240px">
                        			<ax:SM0105 groupCd="VHC_KIND" id="vhcKind" name="vhcKind" dataPath="vhcKind"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                       		<ax:td label="ax.admin.BM0103F0.vhcType" width="200px" labelClazz="required">
+                       		<ax:td label="ax.admin.BM0103F0.vhcType" width="200px">
                        		    <ax:SM0105 groupCd="VHC_TYPE" id="vhcType" name="vhcType" dataPath="vhcType"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                      		<ax:td label="ax.admin.BM0103F0.lfYn" width="200px" labelClazz="required">
+                      		<ax:td label="ax.admin.BM0103F0.lfYn" width="200px">
                     			<ax:SM0105 groupCd="LF_YN" id="lfYn" name="lfYn" dataPath="lfYn"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                       		<ax:td label="ax.admin.BM0103F0.vhcFuel" width="200px" labelClazz="required">
+                       		<ax:td label="ax.admin.BM0103F0.vhcFuel" width="200px">
                        			<ax:SM0105 groupCd="FUEL_TYPE" id="vhcFuel" name="vhcFuel" dataPath="vhcFuel"/>
                     		</ax:td>
                     	</ax:tr>
@@ -148,7 +148,7 @@
                     	</ax:tr>
 
                     	<ax:tr>
-                     		<ax:td label="ax.admin.BM0103F0.remark" width="450px" labelClazz="required">
+                     		<ax:td label="ax.admin.BM0103F0.remark" width="100%">
                     			<textarea title="<ax:lang id="ax.admin.BM0103F0.remark"/>" name="remark" data-ax-path="remark" data-key="true" class="form-control" maxlength="200"></textarea>
                     		</ax:td>
                     	</ax:tr>

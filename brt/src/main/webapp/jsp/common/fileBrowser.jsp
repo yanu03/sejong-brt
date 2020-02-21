@@ -21,10 +21,10 @@
         <script type="text/javascript" src="<c:url value='/assets/js/common/fileBrowser.js' />"></script>
     </jsp:attribute>
     <jsp:attribute name="header">
-        <h1 class="title">
+        <h3 class="title">
             <i class="cqc-browser"></i>
             파일 브라우저
-        </h1>
+        </h3>
     </jsp:attribute>
     <jsp:body>
         <ax:page-buttons>
@@ -48,13 +48,13 @@
                             </ax:tr>
                         </ax:tbl>
                     </ax:form>
-                    <div class="H10"></div>
+                    <div class="H3"></div>
                 </div>
 
                 <div data-ax5grid="grid-view-01" data-fit-height-content="grid-view-01" style="height: 300px;"></div>
 
                 <div data-fit-height-aside="grid-view-01">
-                    <div class="H10"></div>
+                    <div class="H3"></div>
                     <form name="uploadForm" action="/ckeditor/uploadImage" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="targetId" value="${targetId}"/>
                         <input type="hidden" name="targetType" value="CKEDITOR"/>
@@ -82,9 +82,9 @@
                     <div data-fit-height-aside="form-view-01">
                         <div class="ax-button-group">
                             <div class="left">
-                                <h2>
+                                <h3>
                                     <i class="cqc-blackboard"></i>
-                                    파일 뷰어 </h2>
+                                    파일 뷰어 </h3>
                             </div>
                             <div class="right">
 
@@ -110,7 +110,7 @@
                         </ax:tbl>
 
                     </div>
-                    <div class="H10"></div>
+                    <div class="H3"></div>
                     <div id="preview-target"></div>
                 </ax:form>
 

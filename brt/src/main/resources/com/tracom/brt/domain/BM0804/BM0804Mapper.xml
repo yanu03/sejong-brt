@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0804.BM0804Mapper">
+
+<!-- 좌측상단 그리드 select -->
+	<select id="BM0804G0S0" parameterType="String" resultType="bmRoutInfoVO">
+		SELECT
+			ROUT_ID
+		FROM
+			BM_ROUT_SIMULATION
+		GROUP BY ROUT_ID
+		
+		<if test="value != null">
+			HAVING ROUT_ID LIKE CONCAT('%', #{value}, '%')
+    	</if>
+	</select>
+
+<!-- 좌측하단 그리드 select -->
+	<select id="BM0804G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
+		SELECT
+			  NODE_ID
+		    , NODE_NM
+		    , NODE_TYPE
+		    , LATI
+		    , LONGI
+		    , SEQ
+		    , ROUT_ID
+		FROM
+			BM_ROUT_SIMULATION
+		WHERE
+			ROUT_ID = #{routId}
+			
+			<if test="filter1 != null">
+				AND(
+				NODE_ID LIKE CONCAT('%', #{filter1}, '%')
+				OR
+				NODE_NM LIKE CONCAT('%', #{filter1}, '%')
+				)
+	    	</if>
+	    ORDER BY SEQ
+	</select>
+</mapper>

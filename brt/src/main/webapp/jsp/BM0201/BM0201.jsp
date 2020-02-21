@@ -34,7 +34,7 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
@@ -42,9 +42,9 @@
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
+                        <h3><i class="cqc-list"></i>
                             <ax:lang id="ax.admin.BM0103G0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                     <div class="right">
 
@@ -58,9 +58,9 @@
                 <ax:split-panel width="500" style="height:270px;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <h2><i class="cqc-news"></i>
+                        <h3><i class="cqc-news"></i>
                              <ax:lang id="ax.admin.BM0201F0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                 <ax:form name="formView0">                  
@@ -86,7 +86,7 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.BM0201F0.mngid" width="250px" labelClazz="required">
-                            	<input type="text" data-ax-path="mngId" class="form-control" data-ax-validate="required" maxlength="20"/>
+                            	<input type="text" data-ax-path="mngId" class="form-control" title="<ax:lang id="ax.admin.BM0201F0.mngid"/>" data-ax-validate="required" maxlength="20"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0201F0.dvcip" width="250px">
                             	<input type="text" data-ax-path="dvcIp" class="form-control" maxlength="20"/>

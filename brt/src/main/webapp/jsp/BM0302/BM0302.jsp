@@ -37,17 +37,16 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
-
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="*" style="padding-right: 10px;">
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
+                        <h3><i class="cqc-list"></i>
                             <ax:lang id="ax.admin.BM0301G0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                     <div class="right">
 
@@ -58,13 +57,13 @@
             <ax:splitter></ax:splitter>
             <ax:split-panel width="700" style="padding-left: 10px;">
                 <!-- 폼 -->
-                <ax:split-panel width="500" style="height:270px; padding-right: 10px;">
+                <ax:split-panel width="500" style="height:270px;">
                 
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <h2><i class="cqc-news"></i>
+                        <h3><i class="cqc-news"></i>
                              <ax:lang id="ax.admin.BM0302F0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                 <ax:form name="formView0">                  
@@ -72,7 +71,7 @@
                     
 						<ax:tr>
 							<ax:td label="ax.admin.BM0302F0.altdiv" width="300px" labelClazz="required">
-								<ax:common-code groupCd="ALT_DIV" dataPath="altDiv" clazz="form-control"/>
+								<ax:SM0105 groupCd="ALT_DIV" dataPath="altDiv" clazz="form-control"/>
                     		</ax:td>
 						</ax:tr>                    
                      	<ax:tr>
@@ -97,7 +96,7 @@
                          <ax:td label='ax.admin.BM0302F0.altsd' width="300px" labelClazz="required">
 
                             <div class="input-group" data-ax5picker="date">
-                                <input type="text" class="form-control" data-ax-path="conStDate" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-validate="required" />
+                                <input type="text" class="form-control" data-ax-path="conStDate" title="<ax:lang id="ax.admin.BM0302F0.altsd"/>" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-validate="required" />
                                 <span class="input-group-addon"><i class="cqc-calendar"></i></span>
                             </div>
 
@@ -106,14 +105,11 @@
                         <ax:td label='ax.admin.BM0302F0.alted' width="300px" labelClazz="required">
 
                             <div class="input-group" data-ax5picker="date">
-                                <input type="text" class="form-control" data-ax-path="conEdDate" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-validate="required" />
+                                <input type="text" class="form-control" data-ax-path="conEdDate" title="<ax:lang id="ax.admin.BM0302F0.alted"/>" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-validate="required" />
                                 <span class="input-group-addon"><i class="cqc-calendar"></i></span>
                             </div>
-
                         </ax:td>
-                        
                      </ax:tr>                       	
-                        
                         <ax:tr>
                             <ax:td label="ax.admin.BM0301F0.suppamt" width="300px">
                             	<input type="text" data-ax-path="suppAmt" class="form-control" style="text-align: right" data-ax5formatter="money"/>
@@ -128,11 +124,10 @@
                             	<input type="text" data-ax-path="remark" class="form-control"/>
                             </ax:td>
                        	</ax:tr>
-
                     </ax:tbl>
                 </ax:form>
                 </ax:split-panel>
-                 	<ax:split-panel width="500" style="height:100%; padding-right: 10px; padding-bottom:162px">
+                 	<ax:split-panel width="500" style="height:100%; padding-bottom:162px">
 	                    <div class="ax-button-group">
 	                        <div class="left">
 	                            <h3>

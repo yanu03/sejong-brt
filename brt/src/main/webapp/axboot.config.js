@@ -160,6 +160,15 @@
             	},
             	header: false
             },
+            
+            "FILE_UPLOAD": {
+            	width: 400,
+            	height: 150,
+            	iframe: {
+            		url: "/jsp/common/fileUpload_modal.jsp"
+            	},
+            	header: false
+            },
         };
     }
 

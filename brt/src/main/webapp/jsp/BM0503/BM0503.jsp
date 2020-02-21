@@ -31,7 +31,7 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
         <ax:split-layout name="ax1" orientation="horizontal">
@@ -40,8 +40,8 @@
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="grid-view-01">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
-                            프로그램 목록 </h2>
+                        <h3><i class="cqc-list"></i>
+                            프로그램 목록 </h3>
                     </div>
                     <div class="right">
                         <button type="button" class="btn btn-default" data-grid-view-01-btn="add"><i class="cqc-circle-with-plus"></i> 추가</button>

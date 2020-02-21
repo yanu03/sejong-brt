@@ -18,7 +18,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             callback: function (res) {
             	caller.gridView0.setData(res);
                 if(res.list.length == 0) {
+                	isUpdate = false;
+	                caller.formView0.clear();
+	                caller.formView0.disable();
                 } else {
+                	caller.formView0.enable();
                 	if(dataFlag) {
 	                	caller.gridView0.selectIdRow(data);
 	                } else {
@@ -32,6 +36,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             }
         });
 
+
+        
         return false;
     },
     PAGE_EXCEL: function(caller, act, data) {
@@ -41,20 +47,66 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;
     	caller.gridView0.selectAll(false);
+        caller.formView0.clear();
+        caller.formView0.enable();
+
+        caller.formView0.validate(true);
+    },
+    
+    PAGE_DELETE: function(caller, act, data) {
+    	var grid = caller.gridView0.target;
+    	
+    	if(typeof grid.selectedDataIndexs[0] === "undefined") {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("ax.script.deleteconfirm")
+        }, function() {
+            if (this.key == "ok") {
+            	axboot.promise()
+                .then(function (ok, fail, data) {
+	            	axboot.ajax({
+	                    type: "POST",
+	                    url: "/api/v1/BM0104F0D0",
+	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+	                    callback: function (res) {
+	                    	if(res.message == "error"){
+	                    		alert("삭제 실패");
+	                    	}else{
+	                    		ok(res);	                    		
+	                    	}
+	                    }
+	                });
+                })
+                .then(function (ok) {
+                	caller.formView0.clear();
+                	axToast.push(LANG("ondelete"));
+                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                })
+                .catch(function () {
+
+                });
+            }
+        });
     },
     
     PAGE_SAVE: function (caller, act, data) {
         if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
-
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0103F0I0",
+                        url: "/api/v1/BM0104F0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
-                            ok(res);
+                        	if(res.message == "error"){
+                        		alert("중복된 노선ID가 있습니다. 확인 후 저장하세요.");
+                        	}else{
+                        		ok(res);
+                        	}
                         }
                     });
                 })
@@ -70,41 +122,31 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-    	var length = fnObj.gridView0.getData().length;
-    	var allData = fnObj.gridView0.getData();
-    	var lastList = [];
-    	
-    	for(i=0; i < updateList.length; i++){
-    		for(j = 0; j < length; j++) {
-    			if(allData[j].routId == updateList[i]) {
-    				lastList.push(allData[j]);
-    				break;
-    			}
-    		}
-    	}
-    	if(lastList.length > 0){
-    		
-	    	axboot.promise()
-	        .then(function (ok, fail, data) {
-	            axboot.ajax({
-	                type: "POST",
-	                url: "/api/v1/BM0104G0U1",
-	                data: JSON.stringify(lastList),
-	                callback: function (res) {
-	                    console.log(res);
-	                }
-	            });
-	        })
-	        .then(function (ok, fail, data) {
-	    		axToast.push(LANG("onadd"));
-	    		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-	        })
-	        .catch(function () {
-	        });
-    	}
-    	//초기화
-    	updateList = [];
-    	lastList = [];
+        if (caller.formView0.validate()) {
+            var formData = caller.formView0.getData();
+            axboot.promise()
+                .then(function (ok, fail, data) {
+                    axboot.ajax({
+                    	type: "POST",
+                        url: "/api/v1/BM0104F0U0",
+                        data: JSON.stringify(formData),
+                        callback: function (res) {
+                        	if(res.message == "error"){
+                        		alert("중복된 노선ID가 있습니다. 확인 후 업데이트하세요");
+                        	}else{
+                        		ok(res);
+                        	}
+                        }
+                    });
+                })
+                .then(function (ok, fail, data) {
+            		axToast.push(LANG("onupdate"));
+            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                })
+                .catch(function () {
+
+                });
+        }
     },
     
     // 탭닫기
@@ -121,6 +163,30 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             }
         });
+    },
+    
+    PAGE_EXCELFORM: function(caller, act, data){
+    	location.href = "/api/v1/downloadExcel?type=routNode";
+    },
+    
+    ITEM_CLICK: function (caller, act, data) {
+    	isUpdate = true;
+    	selectedRow = data;
+    	caller.formView0.interRout();
+        caller.formView0.setData(data);
+        
+    },
+    
+    PAGE_EXCELIMPORT: function(caller, act, data){
+    	axboot.modal.open({
+            modalType: "FILE_UPLOAD",
+            param: "",
+            callback: function (data) {
+            	console.log(data);
+                this.close();
+                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+            }
+        });
     }
 });
 
@@ -133,7 +199,7 @@ fnObj.pageStart = function () {
     this.pageButtonView.initView();
     this.searchView0.initView();
     this.gridView0.initView();
-    
+    this.formView0.initView();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -150,14 +216,30 @@ fnObj.pageButtonView = axboot.viewExtend({
             "search": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
+            "excelform": function () {
+                ACTIONS.dispatch(ACTIONS.PAGE_EXCELFORM);
+            },
             "excel": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
+            },
+            "excelimport": function () {
+                ACTIONS.dispatch(ACTIONS.PAGE_EXCELIMPORT);
+            },
+            "new": function() {
+            	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
             },
             "interface": function() {
             	ACTIONS.dispatch(ACTIONS.OPEN_BM0104_MODAL);
             },
+            "delete": function() {
+            	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
+            },
             "save": function () {
-           		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
+            	if(isUpdate){
+            		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);            		
+            	}else{
+            		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
+            	}
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
@@ -232,27 +314,29 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
             	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),											width: 80},
+            	{key: "interRoutId",			label: ADMIN("ax.admin.BM0104G0.interRoutId"),											width: 80},
             	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),											width: 70},
-                {key: "shortRoutNm",	label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.shortRoutNm") + "</font>",	width: 130,	editor: shortRoutNmEdit},
-                {key: "wayInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.wayInfo") + "</font>",		width: 130,	editor: shortRoutNmEdit},
-                {key: "dirInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.dirInfo") + "</font>",		width: 130,	editor: shortRoutNmEdit},
+                {key: "shortRoutNm",	label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.shortRoutNm") + "</font>",	width: 130},
+                {key: "wayInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.wayInfo") + "</font>",		width: 130},
+                {key: "dirInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.dirInfo") + "</font>",		width: 130},
                 {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),											width: 160},
                 {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),											width: 160},
-                {key: "wayDivNm",		label: ADMIN("ax.admin.BM0104G0.wayDiv"),											width: 60,								align: "center"},
-                {key: "userWayDiv",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.userWayDiv") + "</font>",	width: 120, editor: userWayEdit,		align: "center"},
+                {key: "wayDivNm",		label: ADMIN("ax.admin.BM0104G0.wayDiv"),											width: 60,			align: "center"},
+                {key: "userWayDivNm",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.userWayDiv") + "</font>",	width: 120,		align: "center"},
                 //{key: "turnDivNm",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),width: 100},
-                {key: "dvcName",		label: ADMIN("ax.admin.BM0104G0.dvcName"),											width: 90,	editor: shortRoutNmEdit},
-                {key: "line1Str",		label: ADMIN("ax.admin.BM0104G0.line1Str"),											width: 200,	editor: shortRoutNmEdit},
-                {key: "line2Str",		label: ADMIN("ax.admin.BM0104G0.line2Str"),											width: 200,	editor: shortRoutNmEdit},
-                {key: "line1Satstr",	label: ADMIN("ax.admin.BM0104G0.line1Satstr"),										width: 200,	editor: shortRoutNmEdit},
-                {key: "line2Satstr",	label: ADMIN("ax.admin.BM0104G0.line2Satstr"),										width: 200,	editor: shortRoutNmEdit},
-                {key: "line1Sunstr",	label: ADMIN("ax.admin.BM0104G0.line1Sunstr"),										width: 200,	editor: shortRoutNmEdit},
-                {key: "line2Sunstr",	label: ADMIN("ax.admin.BM0104G0.line2Sunstr"),										width: 200,	editor: shortRoutNmEdit},
+                {key: "dvcName",		label: ADMIN("ax.admin.BM0104G0.dvcName"),											width: 90},
+                {key: "line1Str",		label: ADMIN("ax.admin.BM0104G0.line1Str"),											width: 200},
+                {key: "line2Str",		label: ADMIN("ax.admin.BM0104G0.line2Str"),											width: 200},
+                {key: "line1Satstr",	label: ADMIN("ax.admin.BM0104G0.line1Satstr"),										width: 200},
+                {key: "line2Satstr",	label: ADMIN("ax.admin.BM0104G0.line2Satstr"),										width: 200},
+                {key: "line1Sunstr",	label: ADMIN("ax.admin.BM0104G0.line1Sunstr"),										width: 200},
+                {key: "line2Sunstr",	label: ADMIN("ax.admin.BM0104G0.line2Sunstr"),										width: 200},
                 {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),										width: 140},
             ],
             body: {
                 onClick: function () {
                     this.self.select(this.dindex);
+                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
                 }
             },
         });
@@ -298,6 +382,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     		this.selectLastRow();
     	} else {
     		this.target.select(index);
+    		ACTIONS.dispatch(ACTIONS.ITEM_CLICK, data);
     	}
     },
     selectIdRow: function(id) {
@@ -311,6 +396,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	}
     	
     	if(i == length) {
+    		isUpdate = false;
+    		fnObj.formView0.clear();
+    		fnObj.formView0.disable();
     	}
     },
     selectAll: function(flag) {
@@ -318,6 +406,80 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     }
 });
 
+/**
+ * formView0
+ */
+fnObj.formView0 = axboot.viewExtend(axboot.formView, {
+    getDefaultData: function () {
+        return $.extend({}, axboot.formView.defaultData, {});
+    },
+    initView: function () {
+        this.target = $("#formView0");
+        this.model = new ax5.ui.binder();
+        this.model.setModel(this.getDefaultData(), this.target);
+        this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
+        this.initEvent();
+    },
+    initEvent: function () {
+        var _this = this;
+    },
+    getData: function () {
+        var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
+        return $.extend({}, data);
+    },
+    setData: function (data) {
+        if (typeof data === "undefined") data = this.getDefaultData();
+        data = $.extend({}, data);
+
+        this.model.setModel(data);
+        this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
+    },
+    validate: function (flag) {
+        var rs = this.model.validate();
+        if (rs.error) {
+        	if(!flag) {
+        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        	}
+            rs.error[0].jquery.focus();
+            return false;
+        }
+        return true;
+    },
+    enable: function() {
+    	this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
+    		$('#wayDiv option').removeAttr('disabled');
+            $('#wayDiv').attr('style', "background:#FFFFFF");
+    		$(element).attr("readonly", false);
+    	});
+    },
+    disable: function() {
+    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    		$(element).attr("readonly", true);
+    	});
+    },
+    interRout: function() {
+    	//if(selectedRow.routId.substr(0, 3) == 'VBR'){
+    	if(/[a-zA-Z]/.test(selectedRow.routId.substr(0,1))){
+	    	this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
+	    		$('#wayDiv option').removeAttr('disabled');
+	            $('#wayDiv').attr('style', "background:#FFFFFF");
+	    		$(element).attr("readonly", false);
+	    	});
+    	}else{
+    		this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
+	    		$(element).attr("readonly", true);
+	    	});
+    		$('#wayDiv option').attr('disabled','disabled');
+            //$('#wayDiv option').not(":selected").attr('disabled','disabled');
+            $('#wayDiv').attr('style', "background:#EEEEEE");
+    	}
+    	
+    },
+    clear: function () {
+        this.model.setModel(this.getDefaultData());
+        this.target.find('[data-ax-path="key"]').removeAttr("readonly");
+    }
+});
 /****************************************************/
 
 var returnCD = function(){

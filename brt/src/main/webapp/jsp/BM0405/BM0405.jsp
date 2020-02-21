@@ -37,7 +37,7 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
 
@@ -46,8 +46,8 @@
                 <!-- 목록 -->
                 <div class="ax-button-group">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0405G0.title"/> </h2>
+                        <h3><i class="cqc-list"></i>
+                            <ax:lang id="ax.admin.BM0405G0.title"/> </h3>
                     </div>
                 </div>
                 
@@ -55,8 +55,8 @@
                 
                 <div class="ax-button-group" style="margin-top: 5px;">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0405G1.title"/> </h2>
+                        <h3><i class="cqc-list"></i>
+                            <ax:lang id="ax.admin.BM0405G1.title"/> </h3>
                     </div>
                 </div>
                 
@@ -75,8 +75,8 @@
                 <!-- 목록 -->
                 <div class="ax-button-group">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0405G2.title"/></h2>
+                        <h3><i class="cqc-list"></i>
+                            <ax:lang id="ax.admin.BM0405G2.title"/></h3>
                     </div>
                 </div>
                 
