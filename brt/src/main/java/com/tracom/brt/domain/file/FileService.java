@@ -17,6 +17,7 @@ import org.springframework.util.FileCopyUtils;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.code.GlobalConstants;
 import com.tracom.brt.domain.BM0501.BM0501Service;
+import com.tracom.brt.domain.SM0105.SM0105Mapper;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
 import com.tracom.brt.handler.FTPHandler;
@@ -30,6 +31,9 @@ public class FileService {
 	
 	@Inject
 	private VoiceService voiceService;
+	
+	@Inject
+	SM0105Mapper DLCDMapper;
 	
 	@Inject
 	private BM0501Service destiService; 
@@ -183,11 +187,17 @@ public class FileService {
 	// 행선지안내기 이미지 미리보기
 	private String bmpPreview(RequestParams<?> requestParams, HttpServletResponse response) {
 		String fileNameHeader = destiService.getHeader(requestParams.getString("dvcKindCd")).getTxtVal2();
+		String userWayDiv = requestParams.getString("userWayDiv");
+		String userWayCode = DLCDMapper.SM0105G2S2(userWayDiv);
 		String fileNameBody = requestParams.getString("dvcName");
 		String fileNameTail = ".BMP";
+		String fileName = "";
 		
-		String fileName = fileNameHeader + fileNameBody + fileNameTail;
-		System.out.println(fileName);
+		if(userWayCode == null) {
+			fileName = fileNameHeader + fileNameBody;
+		}else {
+			fileName = fileNameHeader + fileNameBody + userWayCode + fileNameTail;			
+		}
 		return Paths.get(handler.getRootLocalPath(), "/destination/images/", fileName).toString();
 	}
 }

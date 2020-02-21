@@ -41,8 +41,6 @@ public class BM0501Controller extends BaseController {
     @PostMapping("/BM0501G1U0")
     public ApiResponse BM0501G1U0(@ModelAttribute DestinationVO request) {
     	//BMP파일 업로드
-    	System.out.println("u0");
-    	System.out.println(request);
     	service.writeBmpFile(request);
     	return ok();
     }
@@ -50,8 +48,6 @@ public class BM0501Controller extends BaseController {
     @PostMapping("/BM0501G1U1")
     public ApiResponse BM0501G1U1(@RequestBody DestinationVO request) {
     	//SCH파일 업로드
-    	System.out.println("u1");
-    	System.out.println(request);
     	service.writeSCHFile(request);
     	return ok();
     }

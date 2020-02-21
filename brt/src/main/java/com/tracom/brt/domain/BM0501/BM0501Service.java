@@ -30,13 +30,21 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 	public List<DestinationVO> selectSCHFile(DestinationVO vo) throws Exception{
 		
 		String fileNameHeader = DLCDMapper.SM0105G2S1(vo.getDvcKindCd()).getTxtVal2();
+		String updown = DLCDMapper.SM0105G2S2(vo.getUserWayDiv());
 		String fileNameTail = ".SCH";
-		String fileName =  fileNameHeader + vo.getDvcName() + fileNameTail;
-
+		String fileName =  fileNameHeader + vo.getDvcName() + updown + fileNameTail;
 		return ftpHandler.readSCH(fileName);
 		
 	}
 
+	public List<DestinationVO> selectSCHFileLOGO(DestinationVO vo) throws Exception{
+		String fileNameHeader = vo.getDvcKind();
+		String fileNameTail = ".SCH";
+		String fileName = fileNameHeader + "LOGO" + fileNameTail;
+		System.out.println(fileName);
+		return ftpHandler.readSCH(fileName);
+	}
+	
 	@Transactional
 	public boolean saveBM0501(DestinationVO vo) {
 		if(writeBmpFile(vo)) {
@@ -53,9 +61,9 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 	public boolean writeBmpFile(DestinationVO vo) {
 		if(vo.getAttFile() != null) {
 			String fileNameHeader = DLCDMapper.SM0105G2S1(vo.getDvcKindCd()).getTxtVal2();
+			String updown = DLCDMapper.SM0105G2S2(vo.getUserWayDiv());
 			String fileNameTail = ".BMP";
-			String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
-
+			String fileName = fileNameHeader + vo.getDvcName() + updown + fileNameTail;
 			return ftpHandler.writeBmp(fileName, vo.getAttFile());
 		}else {
 			return true;
@@ -64,9 +72,9 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 	
 	public boolean writeSCHFile(DestinationVO vo) {
 		String fileNameHeader = DLCDMapper.SM0105G2S1(vo.getDvcKindCd()).getTxtVal2();
+		String updown = DLCDMapper.SM0105G2S2(vo.getUserWayDiv());
 		String fileNameTail = ".SCH";
-		String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
-		
+		String fileName = fileNameHeader + vo.getDvcName() + updown + fileNameTail;
 		return ftpHandler.writeSCH(vo.getVoList(), fileName);
 	}
 	
