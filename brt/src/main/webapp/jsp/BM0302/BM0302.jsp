@@ -71,7 +71,7 @@
                     
 						<ax:tr>
 							<ax:td label="ax.admin.BM0302F0.altdiv" width="300px" labelClazz="required">
-								<ax:SM0105 groupCd="ALT_DIV" dataPath="altDiv" clazz="form-control"/>
+								<ax:SM0105 groupCd="ALT_DIV" dataPath="altDiv" id="altDiv" name="altDiv" clazz="form-control"/>
                     		</ax:td>
 						</ax:tr>                    
                      	<ax:tr>

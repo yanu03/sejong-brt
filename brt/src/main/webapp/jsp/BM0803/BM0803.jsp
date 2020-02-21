@@ -17,28 +17,13 @@
     <jsp:body>
 
         <ax:page-buttons></ax:page-buttons>
-
-        <div role="page-header">
-            <ax:form name="searchView0">
-                <ax:tbl clazz="ax-search-tbl" minWidth="500px">
-                    <ax:tr>
-                        <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0105S0.search"/>
-                        </ax:td>
-                    </ax:tr>
-                </ax:tbl>
-            </ax:form>
-            <div class="H3"></div>
-        </div>
-
-
         <ax:split-layout name="ax1" orientation="vertical">
 	            <ax:split-panel width="700" style="height:100%; padding-right: 10px;">
 	                <!-- 목록 -->
 	                <div class="ax-button-group" data-fit-height-aside="gridView0">
 	                    <div class="left">
 	                        <h3><i class="cqc-list"></i>
-	                            <ax:lang id="ax.admin.BM0105G0.title"/> </h3>
+	                            <ax:lang id="ax.admin.BM0103G0.title"/> </h3>
 	                    </div>
 	                </div>
 	                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 100%;"></div>

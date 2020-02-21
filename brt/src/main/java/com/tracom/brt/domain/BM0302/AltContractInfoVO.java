@@ -26,5 +26,6 @@ public class AltContractInfoVO extends BaseVO{
 	private String custId;
 	private String custNm;
 	private String conNo;
+	private String altDivCd;
 	
 }
