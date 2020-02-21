@@ -680,10 +680,8 @@ function selectBox(){
 }
 
 function loadSCH(){
-	//var dvcKindCd = $('#selectBox option:selected').val();
 	uv_dvc_type = $('#selectBox option:selected').val();
 	var foo = {};
-	//foo.dvcKindCd = dvcKindCd;
 	foo.dvcKindCd = uv_dvc_type;
 	var input = Object.assign(foo, selectedRow);
 	loadBmp();

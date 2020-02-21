@@ -21,12 +21,21 @@
             <button type="button" class="btn btn-info" data-page-btn="setting"><i class="cqc-magnifier"></i><%=MessageUtils.getMessage(request, "ax.admin.setting")%></button>
         </c:if>
         
+        <c:if test="${authGroupMenu.schAh eq 'Y'}">
+            <button type="button" class="btn btn-info" data-page-btn="search"><i class="cqc-magnifier"></i> <%=MessageUtils.getMessage(request, "ax.admin.inquery")%> </button>
+        </c:if>
+        
+        
         <c:if test="${authGroupMenu.exlAh eq 'Y'}">
             <button type="button" class="btn btn-info" data-page-btn="excel"><i class="cqc-file-excel-o"></i> <%=MessageUtils.getMessage(request, "ax.admin.excel")%></button>
         </c:if>
 
-        <c:if test="${authGroupMenu.schAh eq 'Y'}">
-            <button type="button" class="btn btn-info" data-page-btn="search"><i class="cqc-magnifier"></i> <%=MessageUtils.getMessage(request, "ax.admin.inquery")%> </button>
+        <c:if test="${authGroupMenu.gexAh eq 'Y'}">
+            <button type="button" class="btn btn-info" data-page-btn="excelform"><i class="cqc-file-excel-o"></i> <%=MessageUtils.getMessage(request, "ax.admin.excelform")%></button>
+        </c:if>
+
+        <c:if test="${authGroupMenu.iexAh eq 'Y'}">
+            <button type="button" class="btn btn-info" data-page-btn="excelimport"><i class="cqc-file-excel-o"></i> <%=MessageUtils.getMessage(request, "ax.admin.excelimport")%></button>
         </c:if>
 
         <c:if test="${authGroupMenu.fn6Ah eq 'Y'}">

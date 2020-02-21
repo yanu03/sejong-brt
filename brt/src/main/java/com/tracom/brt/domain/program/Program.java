@@ -52,6 +52,14 @@ public class Program extends BaseJpaModel<String> {
     @ColumnPosition(7)
     private String savAh = "N";
 
+    @Column(name = "GEX_AH", length = 1)
+    @ColumnPosition(8)
+    private String gexAh = "N";
+    
+    @Column(name = "IEX_AH", length = 1)
+    @ColumnPosition(8)
+    private String iexAh = "N";
+    
     @Column(name = "EXL_AH", length = 1)
     @ColumnPosition(8)
     private String exlAh = "N";

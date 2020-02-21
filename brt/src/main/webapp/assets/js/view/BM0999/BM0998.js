@@ -29,7 +29,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 	seq_arr.push(res.list[i].seq);
                 	popUp(res.list[i].y, res.list[i].x, res.list[i].seq+","+res.list[i].nodeId);
                 }
-                draw_line2(y_arr, x_arr, seq_arr);
+                draw_line(y_arr, x_arr, seq_arr);
                 addMarkers(y_arr, x_arr, id_arr);
                 
                 if(res.list.length == 0) {

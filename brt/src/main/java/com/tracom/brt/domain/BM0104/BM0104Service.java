@@ -90,15 +90,23 @@ public class BM0104Service extends BaseService<BmRoutInfoVO, String> {
     	List<BmRoutInfoVO> resultList = new ArrayList<>();
     	//2. for(routId : voList) 교통정보시스템에서 가져와서 연계함
     	int resultCnt = 0;
+    	int update = 0;
     	String resultString = "";
     	for(BmRoutInfoVO vo : voList) {
     		//vo.getRoutId();
     		//이걸로 교통정보시스템이랑 연계할거임
     		String json = di.interface_URL("POST", baseUrl + vo.getRoutId());
-    		
-    		if(mapper.BM0104G0U0(di.parseJson_RouteInfo(json)) == 1) {
+    		String _div = mapper.BM0104G1S2(vo);
+    		System.out.println(_div);
+    		if(_div == null) {
+    			update = mapper.BM0104G0U0(di.parseJson_RouteInfo(json));
+    		}else {
+    			update = mapper.BM0104G0U2(di.parseJson_RouteInfo(json));
+    		}
+    		if(update == 1) {
     			resultList.add(vo);
-    			resultString = resultString + vo.getRoutNm() + " (" + vo.getRoutId() + ")" + "\n";
+    			
+    			resultString = resultString + vo.getRoutNm() + " (" + vo.getInterRoutId() + ")" + "\n";
     			resultCnt++;
     		}
     	}
@@ -107,10 +115,32 @@ public class BM0104Service extends BaseService<BmRoutInfoVO, String> {
     	return result;
     }
     
-    public String BM0104G0U1(List<BmRoutInfoVO> voList) {
+    public String BM0104G0U2(List<BmRoutInfoVO> voList) {
     	BmRoutInfoVO updateVO = new BmRoutInfoVO();
     	updateVO.setVoList(voList);
-    	int result = mapper.BM0104G0U1(updateVO);
+    	int result = mapper.BM0104G0U2(updateVO);
     	return String.valueOf(result);
+    }
+    
+    /** 연계노선아이디가 이미 있는지 확인 **/
+    public boolean BM0104F0S1(BmRoutInfoVO vo) {
+    	if(mapper.BM0104F0S1(vo) > 0) {
+    		return false;
+    	}else {
+    		return true;
+    	}
+    }
+    
+    public String BM0104F0I0(BmRoutInfoVO vo) {
+    	mapper.BM0104F0I0(vo);
+    	return vo.getRoutId();
+    }
+    
+    public int BM0104F0U0(BmRoutInfoVO vo) {
+    	return mapper.BM0104F0U0(vo);
+    }
+    
+    public int BM0104F0D0(BmRoutInfoVO vo) {
+    	return mapper.BM0104F0D0(vo);
     }
 }
