@@ -66,7 +66,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	axDialog.confirm({
             msg: LANG("ax.script.deleteconfirm")
         }, function() {
-        	if(confirmYn == "N") {  		
+        	if(confirmYn == "미확정") {  		
         	
             if (this.key == "ok") {
             	axboot.promise()
@@ -100,7 +100,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_SAVE: function (caller, act, data) {
     	 if (caller.formView0.validate()) {
-             var formData = caller.formView0.getData();
+             var formData = caller.formView0.getData(); 
              axboot.promise()
                  .then(function (ok, fail, data) {
                      axboot.ajax({
@@ -131,7 +131,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				console.log("N");
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
-    				
+    				formData["confirmYn"] = "N";
     				console.log(formData);
     				
     				axboot.promise()
@@ -339,7 +339,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-            frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+            frozenColumnIndex: 1,
             target: $('[data-ax5grid="gridView0"]'),
             header: {align: 'center'},
             columns: [

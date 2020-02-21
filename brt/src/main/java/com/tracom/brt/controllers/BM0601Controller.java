@@ -14,11 +14,8 @@ import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
-import com.tracom.brt.domain.BM0201.VhcDeviceVO;
 import com.tracom.brt.domain.BM0601.BM0601Service;
 import com.tracom.brt.domain.BM0601.WeatAtmoVO;
-import com.tracom.brt.domain.SM0105.CommonCodeDetailInfoVO;
-import com.tracom.brt.domain.SM0105.SM0105Service;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
 

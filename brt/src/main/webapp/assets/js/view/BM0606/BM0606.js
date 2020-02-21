@@ -409,14 +409,15 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "orgaId",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0606G0.orgaId") + "</font>",		width: 100},
-                {key: "orgaNm",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0606G0.orgaNm") + "</font>",		width: 120},
-                {key: "vdoCnt",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0606G0.vdoCnt") + "</font>",		width: 80,	align: "right"},
-                {key: "ttTime",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0606G0.ttTime") + "</font>",		width: 120,	align: "right"},
+                {key: "orgaId",		label: ADMIN("ax.admin.BM0606G0.orgaId"),		width: 100},
+                {key: "orgaNm",		label: ADMIN("ax.admin.BM0606G0.orgaNm"),		width: 120},
+                {key: "vdoCnt",		label: ADMIN("ax.admin.BM0606G0.vdoCnt"),		width: 80,	align: "right"},
+                {key: "ttTime",		label: ADMIN("ax.admin.BM0606G0.ttTime"),		width: 120,	align: "right"},
                 {key: "remark",		label: ADMIN("ax.admin.BM0606G0.remark"),		width: 80},
             ],
             body: {
@@ -506,6 +507,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
             //sortable: true,
             target: $('[data-ax5grid="gridView1"]'),

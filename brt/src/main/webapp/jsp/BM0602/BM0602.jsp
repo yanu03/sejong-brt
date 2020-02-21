@@ -26,7 +26,7 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
 
@@ -35,9 +35,9 @@
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
+                        <h3><i class="cqc-list"></i>
                             <ax:lang id="ax.admin.BM0602G0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                     <div class="right">
 
@@ -50,9 +50,9 @@
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <h2><i class="cqc-news"></i>
+                        <h3><i class="cqc-news"></i>
                              <ax:lang id="ax.admin.BM0602F0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                 <ax:form name="formView0">                 
@@ -65,7 +65,7 @@
                     
                         <ax:tr>
                             <ax:td label="ax.admin.BM0602G0.provnm" width="230px" labelClazz="required">
-                                <input type="text" data-ax-path="provNm" class="form-control" data-ax-validate="required"/>
+                                <input type="text" data-ax-path="provNm" class="form-control" title="<ax:lang id="ax.admin.BM0301F0.provnm"/>" data-ax-validate="required"/>
                             </ax:td>
                             <div style="position:absolute; top: 60px; right:140px;">
                             	<ax:td>*제공처명(신문사명)을 정확하게 작성해주세요.</ax:td>                        	                            
@@ -74,7 +74,7 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.BM0602F0.provurl" style="position:relation;" width="370px" labelClazz="required">
-                            	<input type="text" data-ax-path="provUrl" class="form-control" data-ax-validate="required"/>
+                            	<input type="text" data-ax-path="provUrl" class="form-control" title="<ax:lang id="ax.admin.BM0301F0.provurl"/>" data-ax-validate="required"/>
                             </ax:td>
                             <div style="position:absolute; top: 100px; right:10px;">
                             	<ax:td>*Rss형식만 지원합니다.</ax:td>                        	                            

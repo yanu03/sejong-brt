@@ -41,7 +41,7 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
 
@@ -53,9 +53,9 @@
 	                <div class="ax-button-group"
 						data-fit-height-aside="gridView0">
 	                    <div class="left">
-	                        <h2>
+	                        <h3>
 								<i class="cqc-list"></i>
-	                            <ax:lang id="ax.admin.BM0606G0.title" /> </h2>
+	                            <ax:lang id="ax.admin.BM0606G0.title" /> </h3>
 	                    </div>
 	                </div>
 	                <div data-ax5grid="gridView0"
@@ -64,9 +64,9 @@
             	<div class="ax-button-group"
 					data-fit-height-aside="formView0">
             		<div class="left">
-			            <h2>
+			            <h3>
 							<i class="cqc-news"></i>
-			            	<ax:lang id="ax.admin.BM0606F0.title" /> </h2>
+			            	<ax:lang id="ax.admin.BM0606F0.title" /> </h3>
             		</div>
             	</div>
 	            <ax:form name="formView0" id="formView0"

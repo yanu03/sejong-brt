@@ -26,18 +26,16 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
-
-
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="*" style="padding-right: 10px;">
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
+                        <h3><i class="cqc-list"></i>
                             <ax:lang id="ax.admin.BM0603G0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                     <div class="right">
 
@@ -50,9 +48,9 @@
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <h2><i class="cqc-news"></i>
+                        <h3><i class="cqc-news"></i>
                              <ax:lang id="ax.admin.BM0603F0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                 <ax:form name="formView0">                 
@@ -65,13 +63,13 @@
                     
                         <ax:tr>
                             <ax:td label="ax.admin.BM0603G0.newstitle" width="230px" labelClazz="required">
-                                <input type="text" data-ax-path="newsTitle" class="form-control" data-ax-validate="required"/>
+                                <input type="text" data-ax-path="newsTitle" class="form-control" title="<ax:lang id="ax.admin.BM0301F0.newstitle"/>" data-ax-validate="required"/>
                             </ax:td>
                         </ax:tr>                                          	
 						
 						<ax:tr>
                        		<ax:td label="ax.admin.BM0603G0.newscontents" width="600px" labelClazz="required">
-                            	<textarea data-ax-path="newsContents" class="form-control" style="height: 100px;"></textarea>
+                            	<textarea data-ax-path="newsContents" class="form-control" title="<ax:lang id="ax.admin.BM0301F0.newscontents"/>" data-ax-validate="required" style="height: 100px;"></textarea>
                             </ax:td>
                        	</ax:tr>
 						

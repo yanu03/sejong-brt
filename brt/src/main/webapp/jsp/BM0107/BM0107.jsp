@@ -28,7 +28,7 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
 
@@ -38,8 +38,8 @@
 	                <!-- 목록 -->
 	                <div class="ax-button-group" data-fit-height-aside="gridView0">
 	                    <div class="left">
-	                        <h2><i class="cqc-list"></i>
-	                            <ax:lang id="ax.admin.BM0107G0.title"/> </h2>
+	                        <h3><i class="cqc-list"></i>
+	                            <ax:lang id="ax.admin.BM0107G0.title"/> </h3>
 	                    </div>
 	                </div>
 	                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
@@ -69,9 +69,9 @@
 					<!-- 지도 -->
 	                <div class="ax-button-group" role="panel-header">
 	                    <div class="left">
-	                        <h2><i class="cqc-news"></i>
+	                        <h3><i class="cqc-news"></i>
 	                            <ax:lang id="ax.admin.BM0107M0.title"/>
-	                        </h2>
+	                        </h3>
 	                    </div>
 	                </div>
 	                <div style="height:100%; padding-bottom:50px; overflow:hidden;">

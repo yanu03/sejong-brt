@@ -39,17 +39,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
       var check = true;
       var gridData = {};
       gridData.upList = list;
-      console.log(gridData);
-      console.log($("#dvcFileUp").val());
       	
+      if(list.length > 0){
 	      if($("#dvcFileUp").val() != ""){
+	    	 if($("#version").val() != ""){
 		      for(var i = 1; i< list.length; i++){
 		    	  if(list[i-1].mngId.substring(10,12) != list[i].mngId.substring(10,12)){
 		    		  console.log(list[i].mngId.substring(10,12));
 		    		  check = false;
 		    		  break
 		    	  }else{
-		    		  console.log(list[i].mngId.substring(10,12));
 		    		  check = true;
 		    	  }
 		      }
@@ -61,9 +60,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                   data: JSON.stringify(gridData),
                   callback: function (res) {
                 	  ok(res);
-                      console.log("관리ID응답");
-                      console.log(res);
-                      console.log("BM0201F0S1");
                   		}
               		});
       			})
@@ -89,13 +85,18 @@ var ACTIONS = axboot.actionExtend(fnObj, {
       					}
       					
       				}else{
-      					console.log("예약중복");
       					alert("예약은 중복으로 하실수 없습니다.");
       				}
-      			})		      	
+      			})
+	    	 }else{
+	    		 alert("버전 정보를 입력해주세요.");
+	    	 }
 	      }else{
 	    	  alert("업로드 파일을 선택해주세요");
 	      }
+      }else{
+    	  alert("업데이트할 장치를 선택해주세요.");
+      }
     },
         
     INSERT_RESERVATION: function(caller, act, data) {
@@ -110,6 +111,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         for(var i = 0; i< data.upList.length; i++){
         	data.upList[i].attFile = attFile;
         }
+        console.log("파일명");
+        console.log(attFile);
+        console.log("버전정보");
+        console.log($("#version").val());
         console.log("data입니다");
         console.log(data);
     	if(list.length > 0){
@@ -269,7 +274,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         	showLineNumber: true,
         	showRowSelector: true,
         	multipleSelect : true,
-            frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+            frozenColumnIndex: 1,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [          		 
             		 {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), sortable: true, width: 100},

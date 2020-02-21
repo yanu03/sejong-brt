@@ -227,19 +227,20 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
             	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),											width: 80},
             	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),											width: 70},
-                {key: "shortRoutNm",	label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.shortRoutNm") + "</font>",	width: 130,	editor: shortRoutNmEdit},
-                {key: "wayInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.wayInfo") + "</font>",		width: 130,	editor: shortRoutNmEdit},
-                {key: "dirInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.dirInfo") + "</font>",		width: 130,	editor: shortRoutNmEdit},
+                {key: "shortRoutNm",	label: ADMIN("ax.admin.BM0104G0.shortRoutNm"),	width: 130,	editor: shortRoutNmEdit},
+                {key: "wayInfo",		label: ADMIN("ax.admin.BM0104G0.wayInfo"),		width: 130,	editor: shortRoutNmEdit},
+                {key: "dirInfo",		label: ADMIN("ax.admin.BM0104G0.dirInfo"),		width: 130,	editor: shortRoutNmEdit},
                 {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),											width: 160},
                 {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),											width: 160},
                 {key: "wayDivNm",		label: ADMIN("ax.admin.BM0104G0.wayDiv"),											width: 60,								align: "center"},
-                {key: "userWayDiv",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.userWayDiv") + "</font>",	width: 120, editor: userWayEdit,		align: "center"},
+                {key: "userWayDiv",		label: ADMIN("ax.admin.BM0104G0.userWayDiv"),	width: 120, editor: userWayEdit,		align: "center"},
                 //{key: "turnDivNm",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),width: 100},
                 {key: "dvcName",		label: ADMIN("ax.admin.BM0104G0.dvcName"),											width: 90,	editor: shortRoutNmEdit},
                 {key: "line1Str",		label: ADMIN("ax.admin.BM0104G0.line1Str"),											width: 200,	editor: shortRoutNmEdit},

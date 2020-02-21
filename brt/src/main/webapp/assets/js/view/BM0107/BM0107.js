@@ -261,6 +261,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
             sortable: true,
 			//showRowSelector: true,
@@ -354,6 +355,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
             //sortable: true,
             //showRowSelector: true,

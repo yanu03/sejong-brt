@@ -50,22 +50,30 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;    	
     	var formData = caller.gridView1.getData();
-        formData["altDiv"] = selectedRowG1.altDiv;
+        //formData["altDiv"] = selectedRowG1.altDiv;
         console.log("추가 노 종료");
         console.log(selectedRowG1.altDiv);
+        console.log(formData[0]);
         
-        if(formData["altDiv"] == "종료"){
-        	console.log("종료");
-        	axDialog.alert({
-                msg: LANG("ax.script.alert.altDelete")
-            });
-        }else{
-    	
-    	caller.gridView1.selectAll(false);
-        caller.formView0.clear();
-        caller.formView0.enable();
-        caller.formView0.validate(true);
-        }
+        for(var i =0; i< formData.length; i++){
+        	if(formData[i].confirmYn == "미확정"){
+        		alert("확정되지 않은 계약이 있으면 추가하실수 없습니다.");
+        		break;
+        	}else{
+        		if(formData["altDiv"] == "종료"){
+        			console.log("종료");
+        			axDialog.alert({
+        				msg: LANG("ax.script.alert.altDelete")
+        			});
+        		}else{
+        			
+        			caller.gridView1.selectAll(false);
+        			caller.formView0.clear();
+        			caller.formView0.enable();
+        			caller.formView0.validate(true);        		
+	        		}
+	        	}
+	        }
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -112,12 +120,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SAVE: function (caller, act, data) {
-
     	 if (caller.formView0.validate()) {
-    		
              var formData = caller.formView0.getData();
              formData["conId"] = selectedRow.conId;
              formData["conNm"] = selectedRow.conNm;
+             formData["conNo"] = selectedRow.conNo;
             
              axboot.promise()
              	.then(function (ok, fail, data) {
@@ -166,12 +173,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_UPDATE: function(caller, act, data) {
     	isUpdate = false;   	
     	var confirmYn = $('#confirmYn').val();
- 	
+    	if(confirmYn = "미확정"){
+    		confirmYn = "N";
+    		}
     		if(confirmYn == "N"){
     				console.log("N");
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
     				formData["conNm"] = selectedRow.conNm;
+    				formData["confirmYn"] = "N";
+    				formData["conNo"] = selectedRow.conNo;
     				console.log(formData);
     				
     				axboot.promise()
@@ -424,13 +435,15 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-            frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+            frozenColumnIndex: 1,
             target: $('[data-ax5grid="gridView0"]'),            
             	 columns: [         		                 	
-            		{key: "altDiv", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0302F0.altdiv") + "</font>", align: "center", sortable: true, styleClass:function(){return (this.item.altDiv === "연장") ? "grid-cell-yellow" : "grid-cell-red" } , width: 70},
+            		{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), align: "center", sortable: true, styleClass:function(){return (this.item.altDiv === "연장") ? "grid-cell-yellow" : "grid-cell-red" } , width: 70},
                     {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), align: "center", sortable: true, width: 100},
-                    {key: "conStDate", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0301F0.consd") + "</font>", sortable: true, align: "center", width: 100},
-                    {key: "conEdDate", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0301F0.coned") + "</font>", sortable: true, align: "center", width: 100},
+                    {key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), align: "center", sortable: true, width: 100},
+                    {key: "conStDate", label: ADMIN("ax.admin.BM0301F0.consd"), sortable: true, align: "center", width: 100},
+                    {key: "conEdDate", label: ADMIN("ax.admin.BM0301F0.coned"), sortable: true, align: "center", width: 100},
                     {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), align: "center", width: 150},              
                     {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), formatter:"money" , align: "right", width: 100},
                     {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), formatter:"money" , align: "right", width: 100},
@@ -524,15 +537,16 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-        	frozenColumnIndex: 0,            
+        	lineNumberColumnWidth: 30,
+        	frozenColumnIndex: 2,            
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
             	{key: "confirmYn", label:ADMIN("ax.admin.BM0301F0.confirmyn"), align: "center" , sortable: true, width: 70 , styleClass:function(){return (this.item.confirmYn === "확정") ? "grid-cell-red": "grid-cell-blue" }},
-            	{key: "altDiv", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0302F0.altdiv") + "</font>" , align: "center" , sortable: true, width: 70 , styleClass:function(){return (this.item.altDiv === "연장") ? "grid-cell-yellow" : "grid-cell-blue"}},
+            	{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv") , align: "center" , sortable: true, width: 70},
             	{key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"), align: "center" ,width: 120},
                 {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), sortable: true, align: "center", width: 120},
-                {key: "conStDate", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0302F0.altsd") + "</font>" , sortable: true, align: "center", width: 120},
-                {key: "conEdDate", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0302F0.alted") + "</font>", sortable: true, align: "center", width: 120},
+                {key: "conStDate", label: ADMIN("ax.admin.BM0302F0.altsd") , sortable: true, align: "center", width: 120},
+                {key: "conEdDate", label: ADMIN("ax.admin.BM0302F0.alted"), sortable: true, align: "center", width: 120},
                 {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), formatter:"money",align: "right", width: 100},
                 {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), formatter:"money" , align: "right", width: 100},
                 {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), align: "center", width: 120},

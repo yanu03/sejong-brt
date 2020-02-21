@@ -26,7 +26,7 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
 
@@ -98,7 +98,7 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0103F0.maker" width="250px">
-                    			<ax:SM0105 groupCd="MAKER" id="maker" name="maker" dataPath="maker"/>
+                    			<ax:SM0105 groupCd="VHC_MAKER" id="maker" name="maker" dataPath="maker"/>
                     		</ax:td>
 						</ax:tr>
 						<ax:tr>

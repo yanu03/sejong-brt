@@ -190,7 +190,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-            frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+            frozenColumnIndex: 1,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [
             		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), sortable: true, align:"center" , width: 80 ,styleClass:function(){return (this.item.dlCdNm === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
@@ -295,7 +296,8 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-        	frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+        	frozenColumnIndex: 1,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
             	{key: "dvcCond", label: ADMIN("ax.admin.BM0203G0.dvccond"), id:"dvcCond",align:"center", sortable: true, width: 80 , styleClass:function(){return (this.item.dvcCond === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
