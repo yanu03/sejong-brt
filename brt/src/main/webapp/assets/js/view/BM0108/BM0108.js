@@ -289,20 +289,21 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "eplyId",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0108F0.eplyId") + "</font>",		width: 100},
-                {key: "eplyNm",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0108F0.eplyNm") + "</font>",		width: 80},
-                {key: "phone",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0108F0.phone") + "</font>" ,		width: 120},
-                {key: "corpNm",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0108F0.corpId") + "</font>",		width: 120},
-                {key: "busDivNm",	label: "<font color=BF360C>" + ADMIN("ax.admin.BM0108F0.busDiv") + "</font>",		width: 80},
-                {key: "eplyDate1",	label: "<font color=BF360C>" + ADMIN("ax.admin.BM0108F0.eplyDate1") + "</font>",	width: 100},
+                {key: "eplyId",		label: ADMIN("ax.admin.BM0108F0.eplyId"),		width: 100},
+                {key: "eplyNm",		label: ADMIN("ax.admin.BM0108F0.eplyNm"),		width: 80},
+                {key: "phone",		label: ADMIN("ax.admin.BM0108F0.phone"),		width: 120},
+                {key: "corpNm",		label: ADMIN("ax.admin.BM0108F0.corpId"),		width: 120},
+                {key: "busDivNm",	label: ADMIN("ax.admin.BM0108F0.busDiv"),		width: 80},
+                {key: "eplyDate1",	label: ADMIN("ax.admin.BM0108F0.eplyDate1"),	width: 100},
                 //{key: "eplyDate2",	label: ADMIN("ax.admin.BM0108F0.eplyDate2"),										width: 100},
-                {key: "licenNo",	label: "<font color=BF360C>" + ADMIN("ax.admin.BM0108F0.licenNo") + "</font>",		width: 120},
-                {key: "certiDate",	label: "<font color=BF360C>" + ADMIN("ax.admin.BM0108F0.certiDate") + "</font>",	width: 100},
-                {key: "retireYnNm",	label: "<font color=BF360C>" + ADMIN("ax.admin.BM0108F0.retireYn") + "</font>",		width: 80},
+                {key: "licenNo",	label: ADMIN("ax.admin.BM0108F0.licenNo"),		width: 120},
+                {key: "certiDate",	label: ADMIN("ax.admin.BM0108F0.certiDate"),	width: 100},
+                {key: "retireYnNm",	label: ADMIN("ax.admin.BM0108F0.retireYn"),		width: 80},
                 {key: "remark",		label: ADMIN("ax.admin.BM0108F0.remark"),											width: 150},
             ],
             body: {

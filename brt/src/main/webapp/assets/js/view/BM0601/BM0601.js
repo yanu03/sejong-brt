@@ -315,6 +315,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         
         if(selectType == "weat"){
 	        this.target = axboot.gridBuilder({
+	        	lineNumberColumnWidth: 30,
 	        	frozenColumnIndex: 0,
 	            target: $('[data-ax5grid="gridView1"]'),
 	            columns: [
@@ -337,6 +338,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 	        });
         }else{
         	this.target = axboot.gridBuilder({
+        		lineNumberColumnWidth: 30,
 	        	frozenColumnIndex: 0,
 	            target: $('[data-ax5grid="gridView1"]'),
 	            columns: [	            	
@@ -438,6 +440,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
     initView: function () {
         var _this = this;
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView2"]'),
             columns: [

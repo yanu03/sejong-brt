@@ -186,7 +186,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-            frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+            frozenColumnIndex: 1,
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             
@@ -288,12 +289,13 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-        	frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+        	frozenColumnIndex: 2,
             sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
             	{key: "confirmYn", label:ADMIN("ax.admin.BM0301F0.confirmyn"), align: "center" , sortable: true, width: 70 , styleClass:function(){return (this.item.confirmYn === "확정") ? "grid-cell-red": "grid-cell-blue" }},
-            	{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), align: "center" , sortable: true, width: 70 , styleClass:function(){return (this.item.altDiv === "연장") ? "grid-cell-yellow" : "grid-cell-blue"}},
+            	{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), align: "center" , sortable: true, width: 70},
             	{key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"), align: "center" ,width: 120},
                 {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), sortable: true, align: "center", width: 120},
                 {key: "conStDate", label: ADMIN("ax.admin.BM0302F0.altsd") , sortable: true, align: "center", width: 120},
@@ -392,7 +394,8 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
     initView: function () {
         var _this = this;
         this.target = axboot.gridBuilder({
-        	frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+        	frozenColumnIndex: 1,
             target: $('[data-ax5grid="gridView2"]'),
             columns: [
             	{key: "type", label: ADMIN("ax.admin.BM0303G2.type"), sortable: true, align:"center" ,width: 80},

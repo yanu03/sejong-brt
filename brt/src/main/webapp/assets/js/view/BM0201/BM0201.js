@@ -357,13 +357,14 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-            frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+            frozenColumnIndex: 1,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [      		
+            		 {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), align:"center", styleClass:function(){return (this.item.useYn === "Y") ? "grid-cell-red": "grid-cell-blue" } , width: 70},
             		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 80},
                      {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center",sortable: true, width: 120},
                      {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), sortable: true, width: 120},
-                     {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), align:"center", styleClass:function(){return (this.item.useYn === "Y") ? "grid-cell-red": "grid-cell-blue" } , width: 70},
                      {key: "corpNm", label: ADMIN("ax.admin.BM0103F0.corpId"), width: 120},
                      {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), align:"center", width: 120},
                      {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align:"center", width: 120},
@@ -463,14 +464,15 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "dvcId", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0201F0.dvcid") + "</font>", sortable: true, width: 80},
+            	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), sortable: true, width: 80},
             	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), align: "center", width: 120},
-                {key: "dvcKind", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0201F0.dvckind") + "</font>", align: "center", sortable: true, width: 120},
-                {key: "instLoc", label: "<font color=BF360C>" + ADMIN("ax.admin.BM0201F0.instloc") + "</font>", align: "center", width: 120},
-                {key: "mngId", label: "<font color=BF360C>" +ADMIN("ax.admin.BM0201F0.mngid") + "</font>", align: "center", width: 130},
+                {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), align: "center", sortable: true, width: 120},
+                {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), align: "center", width: 120},
+                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), align: "center", width: 130},
                 {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), width: 130},
                 {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
             ],

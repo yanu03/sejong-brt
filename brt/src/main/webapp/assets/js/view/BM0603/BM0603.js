@@ -243,6 +243,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     initView: function () {
         var _this = this;
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
             frozenColumnIndex: 0,            
             target: $('[data-ax5grid="gridView0"]'),
             columns: [

@@ -25,7 +25,7 @@
         </ax:page-buttons>
 
         <div role="page-header">
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
         <ax:split-layout name="ax1" orientation="vertical">

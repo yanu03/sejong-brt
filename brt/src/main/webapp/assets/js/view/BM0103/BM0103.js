@@ -249,24 +249,25 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
             //sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "vhcId",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0103F0.vhcId") + "</font>",	width: 65,	align: "center",		sortable: true},
-                {key: "vhcNo",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0103F0.vhcNo") + "</font>",	width: 90,							sortable: true},
-                {key: "chasNo", 	label: "<font color=BF360C>" + ADMIN("ax.admin.BM0103F0.chasNo"),				width: 130},
-                {key: "corpNm",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0103F0.corpId"),				width: 120},
+                {key: "vhcId",		label: ADMIN("ax.admin.BM0103F0.vhcId"),	width: 65,	align: "center",		sortable: true},
+                {key: "vhcNo",		label: ADMIN("ax.admin.BM0103F0.vhcNo"),	width: 90,							sortable: true},
+                {key: "chasNo", 	label: ADMIN("ax.admin.BM0103F0.chasNo"),				width: 130},
+                {key: "corpNm",		label: ADMIN("ax.admin.BM0103F0.corpId"),				width: 120},
                 {key: "area",		label: ADMIN("ax.admin.BM0103F0.area"),											width: 80},
                 {key: "maker",		label: ADMIN("ax.admin.BM0103F0.maker"),										width: 80},
                 {key: "relsDate",	label: ADMIN("ax.admin.BM0103F0.relsDate"),										width: 80,	align: "center"},
                 {key: "modelNm",	label: ADMIN("ax.admin.BM0103F0.modelNm"),										width: 100},
-                {key: "vhcKindNm",	label: "<font color=BF360C>" + ADMIN("ax.admin.BM0103F0.vhcKind") + "</font>",	width: 80},
-                {key: "vhcTypeNm",	label: "<font color=BF360C>" + ADMIN("ax.admin.BM0103F0.vhcType") + "</font>",	width: 70},
-                {key: "lfYnNm",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0103F0.lfYn") + "</font>",		width: 70},
-                {key: "vhcFuelNm",	label: "<font color=BF360C>" + ADMIN("ax.admin.BM0103F0.vhcFuel") + "</font>",	width: 50},
-                {key: "useYn",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0103F0.useYn") + "</font>",	width: 70},
-                {key: "remark",		label: "<font color=BF360C>" + ADMIN("ax.admin.BM0103F0.remark") + "</font>",	width: 100},
+                {key: "vhcKindNm",	label: ADMIN("ax.admin.BM0103F0.vhcKind"),	width: 80},
+                {key: "vhcTypeNm",	label: ADMIN("ax.admin.BM0103F0.vhcType"),	width: 70},
+                {key: "lfYnNm",		label: ADMIN("ax.admin.BM0103F0.lfYn"),		width: 70},
+                {key: "vhcFuelNm",	label: ADMIN("ax.admin.BM0103F0.vhcFuel"),	width: 50},
+                {key: "useYn",		label: ADMIN("ax.admin.BM0103F0.useYn"),	width: 70},
+                {key: "remark",		label: ADMIN("ax.admin.BM0103F0.remark"),	width: 100},
             ],
             body: {
                 onClick: function () {

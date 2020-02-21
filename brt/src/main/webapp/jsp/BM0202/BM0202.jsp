@@ -11,6 +11,14 @@
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0202/BM0202.js' />"></script>
+        <style>
+			.grid-cell-red{
+		        background: #A9F5A9;
+		    }
+		    .grid-cell-blue{
+		        background: #F78181;
+		    }
+		</style>
     </jsp:attribute>
     <jsp:body>
 
@@ -26,16 +34,16 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="*" style="padding-right: 10px;">
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
+                        <h3><i class="cqc-list"></i>
                             <ax:lang id="ax.admin.BM0103G0.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
@@ -45,9 +53,9 @@
            	<ax:split-panel width="500" style="height:270px;"> 
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
+                        <h3><i class="cqc-list"></i>
                              <ax:lang id="ax.admin.BM0202G1.title"/>
-                        </h2>
+                        </h3>
                     </div>
                 </div>
                     <div data-ax5grid="gridView1" style="height: 225px;"></div>

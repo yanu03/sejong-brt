@@ -31,7 +31,7 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
@@ -39,7 +39,7 @@
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <i class="cqc-list"></i>노선목록
+                        <h3><i class="cqc-list"></i>노선목록</h3>
                     </div>
                     <div class="right">
 						<!-- 우측에 필요시 -->
@@ -51,7 +51,7 @@
             <ax:split-panel width="620" style="padding-left: 10px;" scroll="scroll">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <i class="cqc-news"></i>표출정보
+                        <h3><i class="cqc-news"></i>표출정보</h3>
                     </div>
                     <div class="right">
 						<!-- 우측에 필요시 -->

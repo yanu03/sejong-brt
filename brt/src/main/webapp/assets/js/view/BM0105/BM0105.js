@@ -239,6 +239,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 		var _this = this;
 
 		this.target = axboot.gridBuilder({
+			lineNumberColumnWidth: 30,
 			frozenColumnIndex: 0,
 			sortable: true,
 			//showRowSelector: true,
@@ -340,11 +341,12 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 		var _this = this;
 
 		this.target = axboot.gridBuilder({
+			lineNumberColumnWidth: 30,
 			frozenColumnIndex: 0,
 			sortable: true,
 			target: $('[data-ax5grid="gridView1"]'),
 			columns: [
-				{key: "staId",		label: "<font color=CD1039>" + ADMIN("ax.admin.BM0105G1.staId") + "</font>",		width: 80,	align: "center"},
+				{key: "staId",		label: ADMIN("ax.admin.BM0105G1.staId"),		width: 80,	align: "center"},
 				{key: "staNm",		label: ADMIN("ax.admin.BM0105G1.staNm"),		width: 160},
 				{key: "staNo",		label: ADMIN("ax.admin.BM0105G1.staNo"),		width: 90},
 				{key: "lati", 		label: ADMIN("ax.admin.BM0105G1.lati"),			width: 90},

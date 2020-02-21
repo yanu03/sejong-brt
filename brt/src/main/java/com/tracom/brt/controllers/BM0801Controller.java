@@ -1,5 +1,7 @@
 package com.tracom.brt.controllers;
 
+import javax.inject.Inject;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,5 +12,6 @@ import com.tracom.brt.domain.BM0801.BM0801Service;
 @RequestMapping(value="/api/v1")
 public class BM0801Controller extends BaseController{
 	
+	@Inject
 	private BM0801Service service;
 }

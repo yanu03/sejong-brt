@@ -225,7 +225,8 @@
 		SET
 		  REMARK = #{weatApiKey}
 		WHERE
-		  DL_CD = "CD040"		  		
+		  DL_CD = "CD040"
+		  AND CO_CD = ""		  		
 	</update>
 	<update id="BM0601M0U4" parameterType="Map">
 		UPDATE SM_DL_CD_INFO

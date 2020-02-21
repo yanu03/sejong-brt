@@ -21,9 +21,7 @@
         <script type="text/javascript" src="<c:url value="/assets/js/view/BM0402/BM0402.js"/>"></script>
     </jsp:attribute>
     <jsp:body>
-
         <ax:page-buttons></ax:page-buttons>
-
         <div role="page-header">
             <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
@@ -34,7 +32,7 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
 
@@ -182,8 +180,6 @@
 										</div>
 									</div>
 								</div>
-								
-								
                             </ax:td>
                        	</ax:tr>
                        	

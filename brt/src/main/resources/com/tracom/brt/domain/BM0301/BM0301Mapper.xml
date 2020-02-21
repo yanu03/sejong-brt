@@ -5,7 +5,17 @@
 
     <select id="BM0301G0S0" parameterType="String" resultType="contractInfoVO">
     	SELECT
-    		  C.*
+    		  C.CON_ID
+    		, C.CON_NM
+    		, C.CON_FST_DATE
+    		, C.CON_ST_DATE
+    		, C.CON_ED_DATE
+    		, C.CONFIRM_YN
+    		, C.SUPP_AMT
+    		, C.VAT_AMT
+    		, C.CUST_ID
+    		, C.REMARK
+    		, C.CON_NO
     		, CU.CUST_NM
     	FROM
     		BM_CON_INFO C

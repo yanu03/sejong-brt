@@ -407,6 +407,7 @@ fnObj.gridView4 = axboot.viewExtend(axboot.gridView, {
         this.target = axboot.gridBuilder({
             showLineNumber: true,
             frozenColumnIndex: 0,
+            lineNumberColumnWidth: 30,
             target: $('[data-ax5grid="gridView4"]'),
             columns: [
             	{key: "vocNm", label: ADMIN("ax.admin.BM0405F0.voc.nm"), width: 100,

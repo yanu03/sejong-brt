@@ -249,10 +249,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
             frozenColumnIndex: 0,
-            
             target: $('[data-ax5grid="gridView0"]'),
-            
             	 columns: [        		
             		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 70},
                      {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), sortable: true, align: "center", width: 120},
@@ -356,6 +355,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
@@ -456,6 +456,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
     	console.log("그리드2");
         var _this = this;
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView2"]'),
             columns: [
