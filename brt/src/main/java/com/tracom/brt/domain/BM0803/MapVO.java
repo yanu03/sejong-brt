@@ -8,5 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class MapVO extends BaseVO{
-
+	private String vhcId;
+	private String vhcNo;
+	private String chasNo;
+	private String modelNm;
+	private String corpId;
+	private String useYn;
+	private String remark;
 }

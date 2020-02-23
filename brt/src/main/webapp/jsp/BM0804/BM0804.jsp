@@ -12,6 +12,7 @@
         <ax:script-lang key="ax.admin" var="ADMIN"/>
         <script type="text/javascript" src="<c:url value='/assets/js/common/tmap.js' />"></script>
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0804/BM0804.js' />"></script>
+        <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/BM0405/BM0405.css"/>">
         <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appkey=bbaeca8d-24d4-425d-9bd2-946552e4e2a7"></script>
     </jsp:attribute>
     <jsp:body>
@@ -82,6 +83,12 @@
 	                    </div>
 	                    <div id="stopAdd" style="float:right;">
 	                    	<button class="btn btn-default" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>
+	                    </div>
+	                    <div id="toggleN" style="float:right;">
+	                    	<input type="checkbox" id="toggleNode" checked="checked">경로&nbsp;
+	                    </div>
+	                    <div id="toggleS" style="float:right;">
+	                    	<input type="checkbox" id="toggleStn" checked="checked">정류장&nbsp;
 	                    </div>
                     </div>
                 </div>

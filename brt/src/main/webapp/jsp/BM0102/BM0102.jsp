@@ -61,12 +61,12 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
                             <ax:td label="ax.admin.BM0102F0.cust.id" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="custId" data-key="true" class="form-control" readonly="readonly"/>
+                                <input type="text" data-ax-path="custId" data-key="true" class="form-control W90" readonly="readonly"/>
                             </ax:td>
                         <ax:tr>
                         </ax:tr>
                             <ax:td label="ax.admin.BM0102F0.cust.name" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="custNm" title="<ax:lang id="ax.admin.BM0102F0.cust.name"/>" class="form-control" data-ax-validate="required" maxlength="20"/>
+                                <input type="text" data-ax-path="custNm" title="<ax:lang id="ax.admin.BM0102F0.cust.name"/>" class="form-control W150" data-ax-validate="required" maxlength="20"/>
                             </ax:td>
                         </ax:tr>
                     </ax:tbl>

@@ -20,6 +20,7 @@ public class GlobalConstants {
     	public static final String VIDEO		= "video";		// 영상
     	public static final String IMAGE		= "image";		// 이미지
     	public static final String BMP			= "BMP";		// 행선지안내기 이미지
+    	public static final String BMPLOGO		= "BMPLOGO";	// 행선지안내기 시정홍보
     }
     
     public static class VoiceTypes {

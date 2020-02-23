@@ -45,7 +45,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="500" style="padding-left: 10px;" scroll="auto">
+            <ax:split-panel width="500" style="padding-left: 10px;" scroll="scroll">
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
@@ -140,7 +140,6 @@
                        			<ax:SM0105 groupCd="FUEL_TYPE" id="vhcFuel" name="vhcFuel" dataPath="vhcFuel"/>
                     		</ax:td>
                     	</ax:tr>
-                    	
                     	<ax:tr>
                      		<ax:td label="ax.admin.BM0103F0.useYn" width="200px" labelClazz="required">
                     			<ax:common-code groupCd="USE_YN" name="useYn" dataPath="useYn" clazz="form-control" type=""/>

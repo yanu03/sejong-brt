@@ -17,6 +17,7 @@ import org.springframework.util.FileCopyUtils;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.code.GlobalConstants;
 import com.tracom.brt.domain.BM0501.BM0501Service;
+import com.tracom.brt.domain.SM0105.SM0105Mapper;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
 import com.tracom.brt.handler.FTPHandler;
@@ -30,6 +31,9 @@ public class FileService {
 	
 	@Inject
 	private VoiceService voiceService;
+	
+	@Inject
+	SM0105Mapper DLCDMapper;
 	
 	@Inject
 	private BM0501Service destiService; 
@@ -59,6 +63,8 @@ public class FileService {
 			    case GlobalConstants.Types.BMP:
 			    	path = bmpPreview(requestParams, response);
 			    	break;
+			    case GlobalConstants.Types.BMPLOGO:
+			    	path = bmpPreviewLOGO(requestParams, response);
 			}
 			
 			file = new File(path);
@@ -183,11 +189,21 @@ public class FileService {
 	// 행선지안내기 이미지 미리보기
 	private String bmpPreview(RequestParams<?> requestParams, HttpServletResponse response) {
 		String fileNameHeader = destiService.getHeader(requestParams.getString("dvcKindCd")).getTxtVal2();
+		String userWayDiv = requestParams.getString("userWayDiv");
+		String userWayCode = DLCDMapper.SM0105G2S2(userWayDiv);
+		String fileNameBody = requestParams.getString("dvcName");
+		String fileNameTail = ".BMP";
+		String fileName = "";
+		
+		fileName = fileNameHeader + fileNameBody + userWayCode + fileNameTail;			
+		return Paths.get(handler.getRootLocalPath(), "/destination/images/", fileName).toString();
+	}
+	
+	private String bmpPreviewLOGO(RequestParams<?> requestParams, HttpServletResponse response) {
 		String fileNameBody = requestParams.getString("dvcName");
 		String fileNameTail = ".BMP";
 		
-		String fileName = fileNameHeader + fileNameBody + fileNameTail;
-		System.out.println(fileName);
+		String fileName = requestParams.getString("dvcKindCd") + fileNameBody + fileNameTail;
 		return Paths.get(handler.getRootLocalPath(), "/destination/images/", fileName).toString();
 	}
 }

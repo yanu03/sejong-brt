@@ -17,6 +17,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			data: filter,
 			callback: function (res) {
 				caller.gridView0.setData(res);
+				console.log(res);
 				if(res.list.length == 0) {
 				} else {
 					if(dataFlag) {
@@ -224,12 +225,12 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 			target: $('[data-ax5grid="gridView0"]'),
 			columns: [
 				{key: "vhcId",			label: ADMIN("ax.admin.BM0103F0.vhcId"),		width: 80,	align: "center"},
-				{key: "vhcNo",			label: ADMIN("ax.admin.BM0103F0.vhcNo"),		width: 100},
-				{key: "chasNo",	label: ADMIN("ax.admin.BM0103F0.chasNo"),	width: 160},
-				{key: "modelNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),		width: 160},
-				{key: "corpId",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),		width: 160},
-				{key: "useYn",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),		width: 160},
-				{key: "remark",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),		width: 160},
+				{key: "vhcNo",			label: ADMIN("ax.admin.BM0103F0.vhcNo"),		width: 100 , align: "center"},
+				{key: "chasNo",			label: ADMIN("ax.admin.BM0103F0.chasNo"),		width: 160 , align: "center"},
+				{key: "modelNm",		label: ADMIN("ax.admin.BM0103F0.modelNm"),		width: 160},
+				{key: "corpId",			label: ADMIN("ax.admin.BM0103F0.corpId"),		width: 160},
+				{key: "useYn",			label: ADMIN("ax.admin.BM0103F0.useYn"),		width: 160},
+				{key: "remark",			label: ADMIN("ax.admin.BM0103F0.remark"),		width: 160},
 
 				],
 				body: {
