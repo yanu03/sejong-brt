@@ -6,7 +6,6 @@ var isAdd = false;
 var selectedRow = null;
 var selectedOrga = null;
 var routeData;
-var orgaIcon = "http://tmapapi.sktelecom.com//resources/images/common/pin_car.png";
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -318,6 +317,8 @@ function drawRoute(list) {
 					list[i].index = i;
 					list[i].icon = orgaIcon;
 					list[i].draggable = true;
+				} else {
+					list[i].icon = busstopIcon
 				}
 				
 				addMarker(list[i]);
