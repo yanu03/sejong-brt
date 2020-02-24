@@ -1,5 +1,8 @@
 package com.tracom.brt.controllers;
 
+
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +23,10 @@ public class BM0803Controller extends BaseController{
 	private BM0803Service service;
 	
 	@GetMapping("/BM0803G0S0")
-	public Responses.ListResponse BM0803G0S0(){
-		return service.BM0803G0S0();
+	public Responses.ListResponse BM0803G0S0(RequestParams<MapVO> requestParams){
+		List<MapVO> list = service.BM0803G0S0(requestParams);
+		System.out.println(list);
+		return Responses.ListResponse.of(list);
 	}
 
 }

@@ -19,6 +19,9 @@ var busstopNodeType;
 
 // 음성 편성 노드 타입
 var orgaNodeType;
+var orgaIcon = "http://tmapapi.sktelecom.com//resources/images/common/pin_car.png";
+
+var busstopIcon = "/assets/images/tmap/busstop.png"
 
 /**티맵 시작**/
 function initTmap(options) {

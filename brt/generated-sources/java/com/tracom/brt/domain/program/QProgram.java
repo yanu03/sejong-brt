@@ -45,6 +45,10 @@ public class QProgram extends EntityPathBase<Program> {
 
     public final StringPath fn6Ah = createString("fn6Ah");
 
+    public final StringPath gexAh = createString("gexAh");
+
+    public final StringPath iexAh = createString("iexAh");
+
     public final StringPath progCd = createString("progCd");
 
     public final StringPath progNm = createString("progNm");

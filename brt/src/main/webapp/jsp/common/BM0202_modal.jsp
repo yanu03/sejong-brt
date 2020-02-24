@@ -16,7 +16,7 @@
     <jsp:attribute name="header">
         <h3 class="title">
             <i class="cqc-browser"></i>
-            <ax:lang id="ax.admin.BM0201M0.title"/>
+            <ax:lang id="ax.admin.BM0202M0.title"/>
         </h3>
     </jsp:attribute>
     <jsp:body>

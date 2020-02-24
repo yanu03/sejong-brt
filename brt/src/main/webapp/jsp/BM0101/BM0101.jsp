@@ -58,12 +58,12 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
                             <ax:td label="ax.admin.BM0101F0.corp.id" width="210px" labelClazz="required">
-                                <input type="text" data-ax-path="corpId" data-key="true" class="form-control" readonly="readonly"/>
+                                <input type="text" data-ax-path="corpId" data-key="true" class="form-control W90" readonly="readonly"/>
                             </ax:td>
 						</ax:tr>
 						<ax:tr>
                             <ax:td label="ax.admin.BM0101F0.corp.name" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="corpNm" title="<ax:lang id="ax.admin.BM0101F0.corp.name"/>" class="form-control" data-ax-validate="required" maxlength="20"/>
+                                <input type="text" data-ax-path="corpNm" title="<ax:lang id="ax.admin.BM0101F0.corp.name"/>" class="form-control W150" data-ax-validate="required" maxlength="20"/>
                             </ax:td>
                         </ax:tr>
 					</ax:tbl>
@@ -71,7 +71,7 @@
 					<ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
                             <ax:td label="ax.admin.BM0101F0.corp.no" width="200px">
-                                <input type="text" numberOnly data-ax-path="corpNo" class="form-control" maxlength="10" />
+                                <input type="text"  data-ax-path="corpNo" class="form-control" maxlength="10" />
                             </ax:td>
 						</ax:tr>
 						<ax:tr>

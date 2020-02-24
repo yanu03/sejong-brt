@@ -59,7 +59,7 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="800px">
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.eplyId" width="380px" labelClazz="required">
-                    			<input type="text" name="eplyId" data-ax-path="eplyId" data-key="true" class="form-control W70"/>
+                    			<input type="text" name="eplyId" data-ax-path="eplyId" data-key="true" class="form-control W70" required="required"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.eplyNm" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
                     			<input type="text" name="eplyNm" data-ax-path="eplyNm" data-key="true" class="form-control W70" maxlength="4"/>
@@ -68,11 +68,11 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.phone" width="380px" labelClazz="required">
-                    			<input type="text" name="phone" data-ax-path="phone" data-key="true" class="form-control W100" maxlength="11"/>
+                    			<input type="text" name="phone" data-ax-path="phone" data-key="true" class="form-control W100" required="required" maxlength="11"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.corpId" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
                     			<div class="input-group">
-	                        		<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="corpId" name="corpId" data-key="true" class="form-control W70" readonly="readonly"></div>
+	                        		<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="corpId" name="corpId" data-key="true" class="form-control W70" readonly="readonly" required="required"></div>
 	                        		<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="corpNm" name="corpNm" data-key="true" class="form-control W130" readonly="readonly"></div>
                         			<div style="float:left;padding-right:5px;"><button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0101">
 	                                		<ax:lang id="ax.admin.select"/>
@@ -84,7 +84,7 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.busDiv" width="380px" labelClazz="required">
-                    			<ax:SM0105 groupCd="VHC_TYPE" name="busDiv" dataPath="busDiv" clazz="form-control W100" />
+                    			<ax:SM0105 groupCd="VHC_TYPE" name="busDiv" dataPath="busDiv" clazz="form-control W100"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.eplyDate1" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
 	                            <div class="input-group" data-ax5picker="date" style="width:100px;">

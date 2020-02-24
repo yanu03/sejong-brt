@@ -8,7 +8,8 @@
     	  	  C.CON_ID
     	  	, AT.CON_ID
     	  	, AT.SEQ
-    	  	, DL.DL_CD_NM AS ALT_DIV
+    	  	, AT.ALT_DIV
+    	  	, DL.DL_CD_NM AS ALT_DIV_CD
     	  	, AT.ALT_CON_DATE
     	  	, AT.CON_ST_DATE
     	  	, AT.CON_ED_DATE

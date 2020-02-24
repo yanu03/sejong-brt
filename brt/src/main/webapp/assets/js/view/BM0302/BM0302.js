@@ -298,7 +298,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
     	selectedRowG1 = data;
+    	console.log(data.altDiv);
+    	data.altDiv = data.altDivCd;
     	caller.formView0.setData(data);
+    	console.log("데이터확인");
+    	console.log(data);
+    	console.log(data.altDiv);
     	if(selectedRowG1.confirmYn == "확정" || selectedRowG1.altDiv == "종료"){
     		caller.formView0.disable();
     	}else{
@@ -433,7 +438,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     },
     initView: function () {
         var _this = this;
-
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
             frozenColumnIndex: 1,
@@ -542,7 +546,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
             	{key: "confirmYn", label:ADMIN("ax.admin.BM0301F0.confirmyn"), align: "center" , sortable: true, width: 70 , styleClass:function(){return (this.item.confirmYn === "확정") ? "grid-cell-red": "grid-cell-blue" }},
-            	{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv") , align: "center" , sortable: true, width: 70},
+            	{key: "altDivCd", label: ADMIN("ax.admin.BM0302F0.altdiv") , align: "center" , sortable: true, width: 70},
             	{key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"), align: "center" ,width: 120},
                 {key: "altConDate", label: ADMIN("ax.admin.BM0302F0.altcd"), sortable: true, align: "center", width: 120},
                 {key: "conStDate", label: ADMIN("ax.admin.BM0302F0.altsd") , sortable: true, align: "center", width: 120},
@@ -648,8 +652,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
                 type: 'date'
             }
         });
-        
-        //${"#vatAmt"}.append("");
+
         axboot.buttonClick(this, "data-form-view-0-btn", {
             "selectBM0102": function() {
             	ACTIONS.dispatch(ACTIONS.OPEN_BM0102_MODAL);
