@@ -82,6 +82,7 @@
     		BM_DVC_INFO DVC
     		LEFT OUTER JOIN SM_DL_CD_INFO DL0
     		ON DVC.DVC_KIND = DL0.DL_CD
+    		AND DL0.CO_CD = "DVC_KIND"
     	ORDER BY DVC_ID DESC LIMIT 1
     </select>
     

@@ -63,8 +63,19 @@
                     </div>
                 </div>
                    <div data-ax5grid="gridView1" style="height: 220px;"></div>
-            </ax:split-panel>
-                   <ax:split-panel width="500" style="height:100%; padding-bottom:155px">
+            	</ax:split-panel>
+            	<ax:tab-layout name="ax2">
+					    <ax:tab-panel label="영상" scroll="scroll" active="true" style="height:100%; padding-bottom:270px;">
+					            <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height:100%;"></div>
+					    </ax:tab-panel>
+					    <ax:tab-panel label="음성" scroll="scroll" style="height:100%; padding-bottom:270px;">
+					            <div data-ax5grid="gridView3" data-fit-height-content="gridView3" style="height:100%;"></div>
+					    </ax:tab-panel>
+					    <ax:tab-panel label="랩핑" scroll="scroll" style="height:100%; padding-bottom:270px;">
+					            <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height:100%;"></div>
+					    </ax:tab-panel>
+				</ax:tab-layout>
+             <%-- <ax:split-panel width="500" style="height:100%; padding-bottom:155px">
                      <div class="ax-button-group">
                         <div class="left">
                             <h3>
@@ -74,7 +85,7 @@
                         </div>
                     </div>
                    <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height: 100%;"></div>       
-            </ax:split-panel>
+              </ax:split-panel> --%>
            </ax:split-panel> 
         </ax:split-layout>
     </jsp:body>

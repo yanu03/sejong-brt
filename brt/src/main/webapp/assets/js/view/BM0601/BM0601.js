@@ -21,7 +21,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             callback: function (res) {
             	console.log(res.list[0].skyCondCode);
                 caller.formView0.setData(res.list[0]);
-                $("#weatImg").append("<input type='image' src='/assets/images/BM0601/"+res.list[0].skyCondCode+".gif' style='width:400px; height:180px;' />");
+                $("#weatImg").append("<input type='image' src='/assets/images/BM0601/"+res.list[0].skyCondCode+".png'/>");
                 ACTIONS.dispatch(ACTIONS.RELOAD_G1);             
 	            }
 	        });
@@ -33,6 +33,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView1.getData());
     	
+    	if(selectType == "weat"){
         axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0601G2S1",
@@ -47,6 +48,22 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                
 	            }
 	        });
+    	}else{
+    		axboot.ajax({
+                type: "GET",
+                url: "/api/v1/BM0601G2S2",
+                data: filter,
+                callback: function (res) {
+                    caller.gridView2.setData(res);         	               
+    	                if(selectedRowG1 != null) {
+    		                	caller.gridView2.selectRow(selectedRowG1.__index);
+    		                } else {
+    		                	caller.gridView2.selectFirstRow();
+    		                }
+    	                
+    	            }
+    	        });
+    	}
 
         return false;
     },
@@ -79,7 +96,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var selectWeat = $("select[name='weatAtmo']").val();
     	var filter = $.extend({}, caller.searchView0.getData());
     	
-    	if(selectWeat == "weat"){
+    	
+    		
+    	   //기상 목록
 	    	axboot.ajax({
 	            type: "GET",
 	            url: "/api/v1/BM0601G1S0",
@@ -100,14 +119,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                }
 	            }
 	        });
-    	}else{
+	    	
+	    	//대기 목록
     		axboot.ajax({
                 type: "GET",
                 url: "/api/v1/BM0601G1S1",
                 data: filter,
                 callback: function (res) {
-                    caller.gridView1.initView();
-                    caller.gridView1.setData(res);
+                    caller.gridView3.initView();
+                    caller.gridView3.setData(res);
                     
                      {
                     	if(dataFlag) {
@@ -121,7 +141,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     }
                 }
             });
-    	}   	
+    	   	
     	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);
     },
     
@@ -152,6 +172,7 @@ fnObj.pageStart = function () {
     this.searchView1.initView();
     this.gridView1.initView();
     this.gridView2.initView();
+    this.gridView3.initView();
     this.formView0.initView();
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
@@ -242,7 +263,6 @@ fnObj.searchView1 = axboot.viewExtend(axboot.searchView, {
 });
 
 fnObj.formView0 = axboot.viewExtend(axboot.formView, {
-	
     getDefaultData: function () {
         return $.extend({}, axboot.formView.defaultData, {});
     },
@@ -255,10 +275,19 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
            
     },
     initEvent: function () {
-    	$("#weatAtmo").on("change" , function(){
-        	selectType = $("select[name='weatAtmo']").val();
-        	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
-        });
+    	//기상 이력 grid
+    	$('[data-tab-label="0"]').click(function(){
+    		console.log("기상");
+    		selectType = "weat";
+    		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);
+    	})
+    	
+    	//대기 이력 grid
+    	$('[data-tab-label="1"]').click(function(){
+    		console.log("대기");
+    		selectType = "atmo";
+    		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);
+    	})
     },
     
     getData: function () {
@@ -312,8 +341,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
       
     initView: function () {
         var _this = this;
-        
-        if(selectType == "weat"){
 	        this.target = axboot.gridBuilder({
 	        	lineNumberColumnWidth: 30,
 	        	frozenColumnIndex: 0,
@@ -336,29 +363,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 	                }
 	            },
 	        });
-        }else{
-        	this.target = axboot.gridBuilder({
-        		lineNumberColumnWidth: 30,
-	        	frozenColumnIndex: 0,
-	            target: $('[data-ax5grid="gridView1"]'),
-	            columns: [	            	
-	            	{key: "renewDt", label: ADMIN("ax.admin.BM0601F0.renewdt"), sortable: true, width: 150},
-	            	{key: "measDt", label: ADMIN("ax.admin.BM0601F0.measdt"), sortable: true, width: 150},
-	            	{key: "dustc", label: ADMIN("ax.admin.BM0601F0.dustc"), align:"right", width: 120},
-	                {key: "sdc", label: ADMIN("ax.admin.BM0601F0.sdc"), align:"right", width: 120},
-	                {key: "cmc", label: ADMIN("ax.admin.BM0601F0.cmc"), align:"right", width: 120},
-	                {key: "ozonec", label: ADMIN("ax.admin.BM0601F0.ozonec"), align:"right", width: 120},
-	                {key: "ndc", label: ADMIN("ax.admin.BM0601F0.ndc"), align:"right", width: 120},	                	                
-	            ],
-	            body: {
-	                onClick: function () {
-	                    this.self.select(this.dindex);
-	                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
-	                }
-	            },
-	        });
-        }
-        
     },
     getData: function (_type) {
         var list = [];
@@ -445,7 +449,6 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView2"]'),
             columns: [
             	{key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center", sortable: true, width: 200},
-            	{key: "proceRst", label: ADMIN("ax.admin.BM0601G1.procerst"), align:"center", styleClass:function(){return (this.item.proceRst === "성공") ? "grid-cell-red":"grid-cell-blue" } , width: 200},
             	{key: "sendDate", label: ADMIN("ax.admin.BM0601G1.senddate"), align:"center",width: 200},
             ],
             body: {
@@ -522,3 +525,103 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
     }
 });
 
+/**
+ * gridView3
+ */
+fnObj.gridView3 = axboot.viewExtend(axboot.gridView, {
+    page: {
+        pageNumber: 0,
+        pageSize: 10
+    },
+      
+    initView: function () {
+        var _this = this;
+
+        	this.target = axboot.gridBuilder({
+        		lineNumberColumnWidth: 30,
+	        	frozenColumnIndex: 0,
+	            target: $('[data-ax5grid="gridView3"]'),
+	            columns: [	            	
+	            	{key: "renewDt", label: ADMIN("ax.admin.BM0601F0.renewdt"), sortable: true, width: 150},
+	            	{key: "measDt", label: ADMIN("ax.admin.BM0601F0.measdt"), sortable: true, width: 150},
+	            	{key: "dustc", label: ADMIN("ax.admin.BM0601F0.dustc"), align:"right", width: 120},
+	                {key: "sdc", label: ADMIN("ax.admin.BM0601F0.sdc"), align:"right", width: 120},
+	                {key: "cmc", label: ADMIN("ax.admin.BM0601F0.cmc"), align:"right", width: 120},
+	                {key: "ozonec", label: ADMIN("ax.admin.BM0601F0.ozonec"), align:"right", width: 120},
+	                {key: "ndc", label: ADMIN("ax.admin.BM0601F0.ndc"), align:"right", width: 120},	                	                
+	            ],
+	            body: {
+	                onClick: function () {
+	                    this.self.select(this.dindex);
+	                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
+	                }
+	            },
+	        });
+    },
+    getData: function (_type) {
+        var list = [];
+        var _list = this.target.getList(_type);
+
+        if (_type == "modified" || _type == "deleted") {
+            list = ax5.util.filter(_list, function () {
+                delete this.deleted;
+                return this.key;
+            });
+        } else {
+            list = _list;
+        }
+        return list;
+    },
+    addRow: function (data) {
+    	if(typeof data === "undefined") {
+    		this.target.addRow({__created__: true}, "last");
+    		console.log("데이터없음");
+    	} else {
+    		console.log("데이터있음");
+    		data["__created__"] = true;
+            this.target.addRow(data, "last");
+    	}
+    },
+    selectFirstRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(0);
+    	} else {
+    		isUpdate = false;
+    	}
+    },
+    selectLastRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(this.target.list.length - 1);
+    	} else {
+    		isUpdate = false;
+    	}
+    },
+    selectRow: function(index) {
+    	isUpdate = true;
+    	var data = this.target.list[index];
+    	
+    	if(typeof data === "undefined") {
+    		this.selectLastRow();
+    	} else {
+    		this.target.select(index);
+        	ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, data);
+    	}
+    },
+    selectIdRow: function(id) {
+    	var i;
+    	var length = this.target.list.length;
+    	for(i = 0; i < length; i++) {
+    		if(this.target.list[i].dvcId == id) {
+    			this.selectRow(i);
+    			break;
+    		}
+    	}
+    	
+    	if(i == length) {
+    		isUpdate = false;
+    	}
+    },
+    selectAll: function(flag) {
+    	this.target.selectAll({selected: flag});
+    }
+});

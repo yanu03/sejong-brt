@@ -86,24 +86,42 @@
 	</select>
 	<select id="BM0601G2S1" resultType="weatAtmoVO" parameterType="String">
 		SELECT
-		   V.VHC_ID
-		 , V.VHC_NO
-		 , LIV.PROCE_RST
-		 , LIV.SEND_DATE		 
-	FROM
-		 BM_LIVING_LOG LIV
-		 LEFT OUTER JOIN BM_DVC_INFO DV
-		 ON LIV.MNG_ID = DV.MNG_ID
-		 LEFT OUTER JOIN BM_VHC_INFO V
-		 ON DV.VHC_ID = V.VHC_ID
-		<where>
-		 LIV.ATTR_ID = "2"
-		 OR LIV.ATTR_ID = "3"
-	    	<if test="value != null">
-		 		AND
-				VHC_NO LIKE CONCAT('%', #{value}, '%')
-	    	</if>
-    	</where>
+			   V.VHC_ID
+			 , V.VHC_NO
+			 , LIV.SEND_DATE	 
+		FROM
+			 BM_LIVING_LOG LIV
+			 LEFT OUTER JOIN BM_DVC_INFO DV
+			 ON LIV.MNG_ID = DV.MNG_ID
+			 LEFT OUTER JOIN BM_VHC_INFO V
+			 ON DV.VHC_ID = V.VHC_ID
+			<where>
+		    	<if test="value != null">
+					V.VHC_NO LIKE CONCAT('%', #{value}, '%')
+					AND
+		    	</if>
+			 LIV.ATTR_ID = "CD002"
+	    	</where>
+	</select>
+	
+	<select id="BM0601G2S2" resultType="weatAtmoVO" parameterType="String">
+		SELECT
+			   V.VHC_ID
+			 , V.VHC_NO
+			 , LIV.SEND_DATE 
+		FROM
+			 BM_LIVING_LOG LIV
+			 LEFT OUTER JOIN BM_DVC_INFO DV
+			 ON LIV.MNG_ID = DV.MNG_ID
+			 LEFT OUTER JOIN BM_VHC_INFO V
+			 ON DV.VHC_ID = V.VHC_ID
+			<where>
+		    	<if test="value != null">
+					V.VHC_NO LIKE CONCAT('%', #{value}, '%')
+					AND
+		    	</if>
+			 LIV.ATTR_ID = "CD003"
+	    	</where>
 	</select>
 	
 	<select id="BM0601M0S0" resultType="weatAtmoVO" parameterType="String">

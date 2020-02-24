@@ -67,7 +67,7 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                      	<ax:tr>
 							<ax:td label="ax.admin.BM0201F0.dvcid" width="250px" labelClazz="required">
-								<input type="text" id="dvcId" data-ax-path="dvcId" data-key="true" class="form-control" readonly="readonly">
+								<input type="text" id="dvcId" data-ax-path="dvcId" data-key="true" class="form-control W90" readonly="readonly">
 							</ax:td>                         
                              <ax:td label="ax.admin.BM0201F0.maker" width="250px">                         
                             	<ax:SM0105 groupCd="DVC_MAKER" id="maker" name="maker" dataPath="maker" clazz="form-control"/>
@@ -75,12 +75,12 @@
                     	</ax:tr>
 						 <ax:tr>
 							<ax:td label="ax.admin.BM0201F0.dvckind" width="250px" labelClazz="required">
-                            	<ax:SM0105 groupCd="DVC_KIND" id="dvcKind" name="dvcKind" dataPath="dvcKind" clazz="form-control"/>
+                            	<ax:SM0105 groupCd="DVC_KIND" id="dvcKind" name="dvcKind" dataPath="dvcKind" clazz="form-control W150"/>
                             </ax:td>                 		
 						</ax:tr>                   
                         <ax:tr>
                             <ax:td label="ax.admin.BM0201F0.instloc" width="250px" labelClazz="required">
-                            	<ax:SM0105 groupCd="INST_LOC" id="instLoc" name="instLoc" dataPath="instLoc" clazz="form-control"/>
+                            	<ax:SM0105 groupCd="INST_LOC" id="instLoc" name="instLoc" dataPath="instLoc" clazz="form-control W90"/>
                            </ax:td>                           
                         </ax:tr>                    	
                         

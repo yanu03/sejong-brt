@@ -88,6 +88,7 @@
 			AND DL3.CO_CD = 'DVC_COND'
 		WHERE
 			DI.VHC_ID = #{value}
+			AND DVC_KIND != "CD005"
 </select>
 
 </mapper>

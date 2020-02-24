@@ -161,11 +161,19 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		}  	
     },
     
-    //////////////////////////////// 확정
+    // 확정
     
     PAGE_CONFIRMYN : function (caller, act, data) {
     	isUpdate = false; 
     	var confirmYn = $('#confirmYn').val();
+    	
+    	/*
+    	axboot.ajax({
+    		type:"GET",
+    		url:"/api/v1/BM0301F0S2"
+    		data:JSON.stringify()
+    	})
+    	*/
     	
     	if(confirmYn == "미확정"){
 	    	axDialog.confirm({
@@ -346,11 +354,11 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             columns: [
             	{key: "confirmYn",	label: ADMIN("ax.admin.BM0301F0.confirmyn"),sortable: true, align: "center", width: 70 , styleClass:function(){return (this.item.confirmYn === "확정") ? "grid-cell-red":"grid-cell-blue" }},
             	{key: "conNo",		label: ADMIN("ax.admin.BM0301F0.conno"),	sortable: true, align: "center", width: 120},                
-                {key: "conNm",		label: ADMIN("ax.admin.BM0301F0.connm"),	align: "center", width: 120},
+                {key: "conNm",		label: ADMIN("ax.admin.BM0301F0.connm"),    width: 120},
                 {key: "conFstDate", label: ADMIN("ax.admin.BM0301F0.confd"),	sortable: true, align: "center", type: "date" , width: 120},
                 {key: "conStDate",	label: ADMIN("ax.admin.BM0301F0.consd"),	sortable: true, align: "center", type: "date" , width: 120},
                 {key: "conEdDate",	label: ADMIN("ax.admin.BM0301F0.coned"),	sortable: true, align: "center", type: "date" , width: 120},
-                {key: "custNm",		label: ADMIN("ax.admin.BM0102F0.cust.name"),sortable: true,	align: "center", width: 120},
+                {key: "custNm",		label: ADMIN("ax.admin.BM0102F0.cust.name"),sortable: true, width: 120},
                 {key: "suppAmt",	label: ADMIN("ax.admin.BM0301F0.suppamt"),	align: "right", width: 120, formatter:"money"},
                 {key: "vatAmt",		label: ADMIN("ax.admin.BM0301F0.vatamt"),	align: "right", width: 120, formatter:"money"},
                 {key: "remark",		label: ADMIN("ax.admin.BM0301F0.remark"),	width: 200},

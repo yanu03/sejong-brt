@@ -34,7 +34,6 @@
             </ax:form> 
             <div class="H3"></div> 
         </div>
-
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="600" style="padding-right: 10px;" scroll="scroll">
                 <div class="ax-button-group">
@@ -115,8 +114,8 @@
                 
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="*" style="padding-left: 10px;">
-            	<ax:split-panel width="500" style="height:290px; padding-right: 10px;">
+            <ax:split-panel width="*" style="height:100%; padding-left: 10px;">
+            	<%-- <ax:split-panel width="500" style="height:290px; padding-right: 10px;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h3><i class="cqc-list"></i>
@@ -129,8 +128,12 @@
                     </div>
                 </div>
                     <div data-ax5grid="gridView1" style="height: 225px;"></div>
-                 </ax:split-panel>
-                 <ax:split-panel width="500" style="height:100%; padding-right: 10px; padding-bottom:155px">  
+                 </ax:split-panel> --%>
+                <ax:split-panel width="*" scroll="scroll">  
+                   		<div>
+	                         <input type="text" class="form-control" name="filterG2" id="filterG2" style="position: absolute; top: 5px; width: 100px; right: 10px;" placeholder="<ax:lang id="ax.admin.BM0103F0.vhcNo"/>">
+	                         <button type="button" class="btn btn-info" data-page-btn="searchDate" style="position: absolute; top:5px;right:10px;"><i class="cqc-magnifier"></i></button>
+						</div>                     
                      <div class="ax-button-group">
                         <div class="left">
                             <h3>
@@ -138,16 +141,18 @@
                                 <ax:lang id="ax.admin.BM0601G1.title"/>
                             </h3>
                         </div>
-                   		<div>
-	                         <input type="text" class="form-control" name="filterG2" id="filterG2" style="position: absolute; top: 5px; width: 100px; right: 40px;" placeholder="<ax:lang id="ax.admin.BM0103F0.vhcNo"/>">
-	                         <button type="button" class="btn btn-info" data-page-btn="searchDate" style="position: absolute; top:5px;right:10px;"><i class="cqc-magnifier"></i></button>
-						</div>                     
                     </div>
-                   <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height: 100%;"></div>
-                   </ax:split-panel>     
-            </ax:split-panel>
-                 
-        </ax:split-layout>
-
-    </jsp:body>
+                   <div data-ax5grid="gridView2" style="height: 220px;"></div>
+                  </ax:split-panel>
+                	<ax:tab-layout name="ax2">
+					    <ax:tab-panel label="기상" scroll="scroll" active="true" style="height:100%; padding-bottom:260px;">
+					            <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height:100%;"></div>
+					    </ax:tab-panel>
+					    <ax:tab-panel label="대기" scroll="scroll" style="height:100%; padding-bottom:260px;">
+					            <div data-ax5grid="gridView3" data-fit-height-content="gridView3" style="height:100%;"></div>
+					    </ax:tab-panel>
+					</ax:tab-layout>
+	            </ax:split-panel>
+	        </ax:split-layout>
+	    </jsp:body>
    </ax:layout>

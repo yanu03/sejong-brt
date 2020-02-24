@@ -30,6 +30,23 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                
 	            }
 	        });
+        
+        axboot.ajax({
+            type: "GET",
+            url: "/api/v1/BM0203G0S0",
+            data: filter,
+            callback: function (res) {
+            	console.log(res);
+                caller.gridView1.setData(res);             
+	               
+	                if(selectedRow != null) {
+		                	caller.gridView1.selectRow(selectedRow.__index);
+		                } else {
+		                	caller.gridView1.selectFirstRow();
+		                }
+	                
+	            }
+	        });
 
         return false;
     },
@@ -46,11 +63,141 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     },
     
+    PAGE_NEW: function (caller, act, data) {
+    	isUpdate = false;
+    	caller.gridView1.selectAll(false);
+        caller.formView0.clear();
+        caller.formView0.enable();
+        caller.formView0.validate(true);
+        
+    },
+    
+    PAGE_DELETE: function(caller, act, data) {
+    	var grid = caller.gridView0.target;
+    	var count;
+    	
+    	if(typeof grid.selectedDataIndexs[0] === "undefined") {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    		return false;
+    	}   
+        	axboot.ajax({
+                type: "GET",
+                url: "/api/v1/BM0201G1S1",
+                data:{dvcId : selectedRowG1.dvcId},
+                callback: function (res) {
+                	
+                	if(res.list.length < 2){
+		                if(res.list.length > 0){               	               	
+		                    axDialog.confirm({
+		                    	msg: ("관련장치이력:"+res.list.length+"건이 있습니다. 삭제하시겠습니까?")
+		                    }, function() {          	          	
+		                    	if (this.key == "ok"){      	
+		                    		axboot.promise()
+		                    		.then(function (ok, fail, data){
+		                    			axboot.ajax({
+		                    				type: "POST",
+		                    				url: "/api/v1/BM0201G1D0",
+		                    				data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
+		                    				callback: function (res){
+		                    					ok(res);
+		                    				}
+		                    			});
+		                    		})
+		                    		.then(function (ok) {
+		                    			caller.formView0.clear();
+		                    			axToast.push(LANG("ondelete"));
+		                    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+		                    		})
+		                    		.catch(function () {
+		                    			
+		                    		});
+		                    	}   	
+		                    });
+		                }else{
+		                	axDialog.confirm({
+		                    	msg: LANG("ax.script.deleteconfirm")
+		                    }, function() {          	          	
+		                    	if (this.key == "ok") {      	
+		                    		axboot.promise()
+		                    		.then(function (ok, fail, data) {
+		                    			axboot.ajax({
+		                    				type: "POST",
+		                    				url: "/api/v1/BM0201G1D0",
+		                    				data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
+		                    				callback: function (res) {
+		                    					ok(res);
+		                    				}
+		                    			});
+		                    		})
+		                    		.then(function (ok) {
+		                    			caller.formView0.clear();
+		                    			axToast.push(LANG("ondelete"));
+		                    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+		                    		})
+		                    		.catch(function () {
+		                    			
+		                    		});
+		                    	}   	
+		                    });
+		                }
+                	}else{
+                		alert("장치이력이"+res.list.length+"건 있어서 삭제가 불가능합니다.");
+                	}
+                }
+            });
+    	   	
+    },
+    
+    PAGE_SAVE: function (caller, act, data) {
+    	 if (caller.formView0.validate()) {
+             var formData = caller.formView0.getData();
+                		axboot.ajax({
+                			type: "POST",
+                			url: "/api/v1/BM0201F0I0",
+                			data: JSON.stringify(formData),
+                			callback: function (res) {
+                				ok(res);
+                				console.log("BM0201F0I0");
+                				ACTIONS.dispatch(ACTIONS.OPEN_BM0201_MODAL);
+                			 }
+                     });
+                }
+    },
+    
+    PAGE_UPDATE: function(caller, act, data) {
+    	isUpdate = false;   	
+    		
+    			if (caller.formView0.validate()) {
+    				var formData = caller.formView0.getData();
+    				console.log(formData);
+    				axboot.promise()
+    				.then(function (ok, fail, data) {
+    					axboot.ajax({
+    						type: "POST",
+    						url: "/api/v1/BM0201F0U0",
+    						data: JSON.stringify(formData),
+    						callback: function (res) {
+    							ok(res);
+    						}
+    					});
+    				})
+    				.then(function (ok, fail, data) {
+    					axToast.push(LANG("onupdate"));
+    					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    					isUpdate = true;
+    				})
+    				.catch(function () {
+    					
+    				});
+    			}
+    },
+    
     // gridView0항목 클릭 이벤트
     ITEM_CLICK: function (caller, act, data) {
     	selectedRow = data;
     	selectedRowG1 = null;
-    	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
+    	caller.formView0.setData(selectedRow);
+    	//ACTIONS.dispatch(ACTIONS.RELOAD_G1);
     },
     
  // gridView1 항목 클릭 이벤트
@@ -69,31 +216,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
                 caller.gridView1.setData(res);
-              
-             //버스이미지 및 정상 비정상 이미지 넣는곳
-             /*if(res.list[0].txtVal1 != null){
-                for(var i = 0; i < res.list.length; i++){                	
-                	var dvcCond;
-                	if(typeof res.list[i].txtVal1 !== "undefined"){
-                		if(res.list[i].dvcCond == "정상"){
-                			console.log("정상");
-                			dvcCond = "#00FF00";
-                		}else{
-                			if(typeof res.list[i].dvcCond !== "undefined"){
-                				console.log("비정상");
-                				console.log(res.list[i].dvcCond);
-                				dvcCond = "#DC143C";            				
-                			}else{
-                				console.log(res.list[i].dvcCond);
-                				dvcCond = "##00ff0000";
-                			}
-                		}
-                $("#check").append("<div id='busCheck' style='background-color:"+dvcCond+"; width:22px;height:22px; border-radius:11px; position: absolute; left:"+res.list[i].txtVal1+"px; top:"+res.list[i].txtVal2+"px;]'/>");
-                		}else{
-                			alert(LANG("ax.script.requireselect"));
-                		}
-                	}              	
-               }*/
+             
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
 	                	console.log(data);
@@ -111,12 +234,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_CLOSE: function(caller, act, data) {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
-    
-    GRID_COLOR : function(caller, act , data){
-    	$("#dvcCond").css({
-    		"background-color" : "red"
-    	});
-    }
 });
 /********************************************************************************************************************/
 
@@ -126,6 +243,7 @@ fnObj.pageStart = function () {
 	
     this.pageButtonView.initView();
     this.searchView0.initView();
+    this.formView0.initView();
     this.gridView0.initView();
     this.gridView1.initView();
     
@@ -143,16 +261,28 @@ fnObj.pageResize = function () {
 fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
-            "search": function () {
+        	"search": function () {
             	selectedRow = null;
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
-            "excel": function () {
-            	ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
+            "new": function() {
+            	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
+            },
+            "delete": function() {
+            	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
+            },
+            "save": function () {
+            	if(isUpdate) {
+            		console.log("업데이트");
+            		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
+            	} else {
+            		console.log("세이브");
+            		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
+            	}
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
-            },
+            },       
         });
     }
 });
@@ -191,26 +321,14 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
-            frozenColumnIndex: 1,
+            frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [
-            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), sortable: true, align:"center" , width: 80 ,styleClass:function(){return (this.item.dlCdNm === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
-            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), align:"center", sortable: true, width: 80},
-                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center", sortable: true, width: 120},
-                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), align:"center", sortable: true, width: 120},
-                     {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), sortable: true, width: 120},
-                     {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), width: 120},
-                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 120},
-                     {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), align:"center", width: 120},
-                     {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), width: 120},
-                     {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center", width: 120},
-                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center", width: 120},
-                     {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), align:"center", width: 80},
-                     {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), align:"center", width: 80},
-                     {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), width: 80},
+            		 {key: "", label: ADMIN("ax.admin.BM0304F0.rsvid"), sortable: true, align:"center" , width: 90},
+            		 {key: "", label: ADMIN("ax.admin.BM0304F0.rsvsd"), align:"center", sortable: true, width: 120},
+            		 {key: "", label: ADMIN("ax.admin.BM0304F0.rsved"), align:"center", sortable: true, width: 120},
                      {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 200},
                  ],
-            
             body: {
                 onClick: function () {
                     this.self.select(this.dindex);
@@ -382,5 +500,66 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     },
     selectAll: function(flag) {
     	this.target.selectAll({selected: flag});
+    }
+});
+/**
+ * formView0
+ */
+fnObj.formView0 = axboot.viewExtend(axboot.formView, {
+    getDefaultData: function () {
+        return $.extend({}, axboot.formView.defaultData, {});
+    },
+    initView: function () {
+        this.target = $("#formView0");
+        this.model = new ax5.ui.binder();
+        this.model.setModel(this.getDefaultData(), this.target);
+        this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
+        this.initEvent();
+        
+        this.target.find('[data-ax5picker="date"]').ax5picker({
+            direction: "auto",
+            content: {
+                type: 'date'
+            }
+        });
+    },
+    initEvent: function () {
+    },
+    getData: function () {
+        var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
+        return $.extend({}, data);
+    },
+    setData: function (data) {
+
+        if (typeof data === "undefined") data = this.getDefaultData();
+        data = $.extend({}, data);
+
+        this.model.setModel(data);
+        this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
+    },
+    validate: function (flag) {
+        var rs = this.model.validate();
+        if (rs.error) {
+        	if(!flag) {
+        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        	}
+            rs.error[0].jquery.focus();
+            return false;
+        }
+        return true;
+    },
+    enable: function() {
+    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    		$(element).attr("readonly", false);
+    	});
+    },
+    disable: function() {
+    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    		$(element).attr("readonly", true);
+    	});
+    },
+    clear: function () {
+        this.model.setModel(this.getDefaultData());
+        this.target.find('[data-ax-path="key"]').removeAttr("readonly");
     }
 });

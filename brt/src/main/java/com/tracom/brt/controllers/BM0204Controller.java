@@ -35,6 +35,7 @@ public class BM0204Controller extends BaseController{
 		Float longiConfirm;
 		System.out.println(list);
 		
+		 //gps 상태확인 코드
 		for(int i = 0;  i <list.size(); i++ ) {
 			latiConfirm = list.get(i).getLati();
 			longiConfirm = list.get(i).getLongi();
@@ -45,6 +46,7 @@ public class BM0204Controller extends BaseController{
 				list.get(i).setGps("정상");
 				  }
 			}
+			
 			return Responses.ListResponse.of(list);
 		}
 }

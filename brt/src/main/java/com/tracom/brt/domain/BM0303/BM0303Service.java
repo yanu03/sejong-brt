@@ -25,8 +25,6 @@ public class BM0303Service extends BaseService<ContractViewVO, String>{
 
 	public List<ContractViewVO> BM0303G2S1(RequestParams<ContractViewVO> requestParams) {
 		return mapper.BM0303G2S1(requestParams.getString("conId"));
-	}
-    
-	
+	}   	
    
 }

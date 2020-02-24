@@ -3,7 +3,7 @@
 <mapper namespace="com.tracom.brt.domain.BM0205.BM0205Mapper">
 	<select id="BM0205G0S0" parameterType="String" resultType="vhcDvcUpdateVO">
 		SELECT
-			  V.VHC_NO
+			 V.VHC_NO
 		   , DL0.DL_CD_NM AS MAKER
 		   , DL1.DL_CD_NM AS DVC_KIND
 		   , DL2.DL_CD_NM AS INST_LOC
@@ -12,6 +12,7 @@
 		   , D.DVC_ID
 		   , D.MNG_ID
 		   , DH.MODEL_NM
+		   , ULOG.COMPLETE_YN
 		FROM
 		    BM_VHC_INFO V
 			 LEFT OUTER JOIN BM_DVC_INFO D
@@ -33,6 +34,8 @@
 			 LEFT JOIN SM_DL_CD_INFO  DL4
 			 ON V.VHC_TYPE = DL4.DL_CD
 			 AND DL4.CO_CD = 'VHC_TYPE'
+			 LEFT OUTER JOIN BM_UPD_LOG ULOG
+			 ON D.MNG_ID = ULOG.MNG_ID
 	   <where>
 	    	<if test="value != null">
 				DH.MODEL_NM LIKE CONCAT('%', #{value}, '%')
