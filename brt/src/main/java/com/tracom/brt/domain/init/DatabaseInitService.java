@@ -308,22 +308,22 @@ public class DatabaseInitService {
         commonCodeService.saveLog(CommonCode.of("USE_YN","Whether or not to use","Y","Use",1));
         */
 
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 1L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 2L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 3L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 4L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 5L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 6L, "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 7L, "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 8L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 9L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 10L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 11L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 12L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 13L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 14L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 15L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 16L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 1L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 2L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 3L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 4L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 5L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 6L, "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 7L, "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 8L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 9L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 10L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 11L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 12L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 13L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 14L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 15L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 16L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
 
     }
 

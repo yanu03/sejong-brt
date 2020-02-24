@@ -4,7 +4,7 @@
 <mapper namespace="com.tracom.brt.domain.BM0103.BM0103Mapper">
 
     <select id="BM0103G0S0" parameterType="String" resultType="vhcInfoVO">
-    	SELECT
+		SELECT
     		  VHC_ID
     		, VHC_NO
     		, CHAS_NO
@@ -12,6 +12,7 @@
             , CORP_INFO.CORP_NM AS CORP_NM
     		, AREA
     		, MAKER
+            , DL_CD5.DL_CD_NM AS MAKER_NM
     		, RELS_DATE
     		, MODEL_NM
     		, VHC_KIND
@@ -31,16 +32,19 @@
             ON VHC_INFO.CORP_ID = CORP_INFO.CORP_ID
             LEFT JOIN
             SM_DL_CD_INFO DL_CD
-            ON VHC_INFO.VHC_KIND = DL_CD.DL_CD
+            ON VHC_INFO.VHC_KIND = DL_CD.DL_CD AND DL_CD.CO_CD = 'VHC_KIND'
             LEFT JOIN
             SM_DL_CD_INFO DL_CD2
-            ON VHC_INFO.VHC_TYPE = DL_CD2.DL_CD
+            ON VHC_INFO.VHC_TYPE = DL_CD2.DL_CD AND DL_CD2.CO_CD = 'VHC_TYPE'
             LEFT JOIN 
             SM_DL_CD_INFO DL_CD3
-            ON VHC_INFO.LF_YN = DL_CD3.DL_CD
+            ON VHC_INFO.LF_YN = DL_CD3.DL_CD AND DL_CD3.CO_CD = 'LF_YN'
             LEFT JOIN
             SM_DL_CD_INFO DL_CD4
-            ON VHC_INFO.VHC_FUEL = DL_CD4.DL_CD
+            ON VHC_INFO.VHC_FUEL = DL_CD4.DL_CD AND DL_CD4.CO_CD = 'VHC_FUEL'
+            LEFT JOIN
+            SM_DL_CD_INFO DL_CD5
+            ON VHC_INFO.MAKER = DL_CD5.DL_CD AND DL_CD5.CO_CD = 'VHC_MAKER'
     	<where>
 	    	<if test="value != null">
 				VHC_NO LIKE CONCAT('%', #{value}, '%')
