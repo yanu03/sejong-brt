@@ -11,6 +11,7 @@
     		, VHC_INFO.CORP_ID
             , CORP_INFO.CORP_NM AS CORP_NM
     		, AREA
+            , DL_CD6.DL_CD_NM AS AREA_NM
     		, MAKER
             , DL_CD5.DL_CD_NM AS MAKER_NM
     		, RELS_DATE
@@ -45,6 +46,9 @@
             LEFT JOIN
             SM_DL_CD_INFO DL_CD5
             ON VHC_INFO.MAKER = DL_CD5.DL_CD AND DL_CD5.CO_CD = 'VHC_MAKER'
+            LEFT JOIN
+            SM_DL_CD_INFO DL_CD6
+            ON VHC_INFO.AREA = DL_CD6.DL_CD AND DL_CD6.CO_CD = 'AREA'
     	<where>
 	    	<if test="value != null">
 				VHC_NO LIKE CONCAT('%', #{value}, '%')
