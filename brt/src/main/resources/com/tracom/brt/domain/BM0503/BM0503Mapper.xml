@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0503.BM0503Mapper">
+
+	<select id="BM0503G0S0" parameterType="String" resultType="routRsvVO">
+		SELECT
+			  ROUT.ROUT_ID		AS ROUT_ID
+			, ROUT.INTER_ROUT_ID	AS INTER_ROUT_ID
+            , ROUT.ROUT_NM		AS ROUT_NM
+			, DVC_NAME			AS DVC_NAME
+			, DLCD.DL_CD_NM		AS USER_WAY_DIV_NM
+		    , DLCD2.DL_CD_NM	AS DVC_TYPE
+		FROM
+			BM_ROUT_INFO ROUT
+		    LEFT JOIN
+		    SM_DL_CD_INFO DLCD
+		    ON DLCD.CO_CD = 'UPDOWN_FLAG' AND ROUT.USER_WAY_DIV = DLCD.TXT_VAL1
+		    LEFT OUTER JOIN 
+			SM_DL_CD_INFO DLCD2
+		    ON DLCD2.CO_CD = 'DVC_KIND' AND DLCD2.TXT_VAL1 = 'RD'
+		WHERE
+			ROUT.DVC_NAME IS NOT NULL
+			<if test="value != null">
+				AND
+				(
+				ROUT.ROUT_ID LIKE CONCAT('%', #{value}, '%')
+			    OR
+			    ROUT.INTER_ROUT_ID LIKE CONCAT('%', #{value}, '%')
+			    OR
+			    ROUT.ROUT_NM LIKE CONCAT('%', #{value}, '%')
+			    OR
+			    ROUT.DVC_NAME LIKE CONCAT('%', #{value}, '%')
+				)
+	    	</if>
+	</select>
+
+	<select id="BM0503G1S0" resultType="routRsvVO">
+		SELECT
+			  VHC.VHC_ID	AS VHC_ID
+		    , VHC.VHC_NO	AS VHC_NO
+		    , DVC.DVC_ID	AS DVC_ID
+		    , DVC.MNG_ID	AS MNG_ID
+		FROM
+			BM_VHC_INFO VHC
+		    LEFT JOIN
+			BM_DVC_INFO DVC
+		    ON VHC.VHC_ID = DVC.VHC_ID
+		WHERE
+			DVC.DVC_KIND = 'CD005'
+	</select>
+</mapper>

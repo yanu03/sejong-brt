@@ -53,47 +53,47 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
     
     @Column(name = "EXL_AH", length = 1)
     @Comment(value = "엑셀권한")
-    @ColumnPosition(5)
+    @ColumnPosition(6)
     private String exlAh = AXBootTypes.Used.NO.getLabel();
 
     @Column(name = "IEX_AH", length = 1)
     @Comment(value = "엑셀입력권한")
-    @ColumnPosition(5)
+    @ColumnPosition(7)
     private String iexAh = AXBootTypes.Used.NO.getLabel();
     
     @Column(name = "DEL_AH", length = 1)
     @Comment(value = "삭제권한")
-    @ColumnPosition(6)
+    @ColumnPosition(8)
     private String delAh = AXBootTypes.Used.NO.getLabel();
 
     @Column(name = "FN1_AH", length = 1)
     @Comment(value = "기능키1권한")
-    @ColumnPosition(7)
+    @ColumnPosition(9)
     private String fn1Ah = AXBootTypes.Used.NO.getLabel();
 
     @Column(name = "FN2_AH", length = 1)
     @Comment(value = "기능키2권한")
-    @ColumnPosition(8)
+    @ColumnPosition(10)
     private String fn2Ah = AXBootTypes.Used.NO.getLabel();
 
     @Column(name = "FN3_AH", length = 1)
     @Comment(value = "기능키3권한")
-    @ColumnPosition(9)
+    @ColumnPosition(11)
     private String fn3Ah = AXBootTypes.Used.NO.getLabel();
 
     @Column(name = "FN4_AH", length = 1)
     @Comment(value = "기능키4권한")
-    @ColumnPosition(10)
+    @ColumnPosition(12)
     private String fn4Ah = AXBootTypes.Used.NO.getLabel();
 
     @Column(name = "FN5_AH", length = 1)
     @Comment(value = "기능키5권한")
-    @ColumnPosition(11)
+    @ColumnPosition(13)
     private String fn5Ah = AXBootTypes.Used.NO.getLabel();
     
     @Column(name = "FN6_AH", length = 1)
     @Comment(value = "기능키6권한")
-    @ColumnPosition(12)
+    @ColumnPosition(14)
     private String fn6Ah = AXBootTypes.Used.NO.getLabel();
 
     @Transient
@@ -102,7 +102,9 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
     public void updateAuthorization(AuthGroupMenu authGroupMenu) {
         this.schAh = positive(this.schAh, authGroupMenu.getSchAh());
         this.savAh = positive(this.savAh, authGroupMenu.getSavAh());
+        this.gexAh = positive(this.gexAh, authGroupMenu.getGexAh());
         this.exlAh = positive(this.exlAh, authGroupMenu.getExlAh());
+        this.iexAh = positive(this.iexAh, authGroupMenu.getIexAh());
         this.delAh = positive(this.delAh, authGroupMenu.getDelAh());
         this.fn1Ah = positive(this.fn1Ah, authGroupMenu.getFn1Ah());
         this.fn2Ah = positive(this.fn2Ah, authGroupMenu.getFn2Ah());
@@ -115,7 +117,9 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
     public void updateAuthorization(Program program) {
         this.schAh = negative(this.schAh, program.getSchAh());
         this.savAh = negative(this.savAh, program.getSavAh());
+        this.gexAh = negative(this.gexAh, program.getGexAh());
         this.exlAh = negative(this.exlAh, program.getExlAh());
+        this.iexAh = negative(this.iexAh, program.getIexAh());
         this.delAh = negative(this.delAh, program.getDelAh());
         this.fn1Ah = negative(this.fn1Ah, program.getFn1Ah());
         this.fn2Ah = negative(this.fn2Ah, program.getFn2Ah());
@@ -160,13 +164,15 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
         private Long menuId;
     }
 
-    public static AuthGroupMenu of(String grpAuthCd, Long menuId, String schAh, String savAh, String exlAh, String delAh, String fn1Ah, String fn2Ah, String fn3Ah, String fn4Ah, String fn5Ah, String fn6Ah) {
+    public static AuthGroupMenu of(String grpAuthCd, Long menuId, String schAh, String savAh, String gexAh, String exlAh, String iexAh, String delAh, String fn1Ah, String fn2Ah, String fn3Ah, String fn4Ah, String fn5Ah, String fn6Ah) {
         AuthGroupMenu authGroupMenu = new AuthGroupMenu();
         authGroupMenu.setGrpAuthCd(grpAuthCd);
         authGroupMenu.setMenuId(menuId);
         authGroupMenu.setSchAh(schAh);
         authGroupMenu.setSavAh(savAh);
+        authGroupMenu.setGexAh(gexAh);
         authGroupMenu.setExlAh(exlAh);
+        authGroupMenu.setIexAh(iexAh);
         authGroupMenu.setDelAh(delAh);
         authGroupMenu.setFn1Ah(fn1Ah);
         authGroupMenu.setFn2Ah(fn2Ah);

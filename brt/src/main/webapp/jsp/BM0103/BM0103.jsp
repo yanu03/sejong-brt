@@ -137,7 +137,7 @@
                     	
                     	<ax:tr>
                        		<ax:td label="ax.admin.BM0103F0.vhcFuel" width="200px">
-                       			<ax:SM0105 groupCd="FUEL_TYPE" id="vhcFuel" name="vhcFuel" dataPath="vhcFuel"/>
+                       			<ax:SM0105 groupCd="VHC_FUEL" id="vhcFuel" name="vhcFuel" dataPath="vhcFuel"/>
                     		</ax:td>
                     	</ax:tr>
                     	<ax:tr>

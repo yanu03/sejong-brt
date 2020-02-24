@@ -21,9 +21,12 @@ public class VHCInfoVO extends BaseVO {
 	private String corpNm;
  
 	private String area;
+	
+	private String areaNm;
  
 	private String maker;
  
+	private String makerNm;
 	private String relsDate;
  
 	private String modelNm;
