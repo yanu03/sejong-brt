@@ -11,11 +11,6 @@
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0608/BM0608.js' />"></script>
-        <style>
-			.grid-cell-gray{
-		        color: FFFFFF<!-- #F1F3F5 -->;
-		    }
-		</style>
     </jsp:attribute>
     <jsp:body>
 
@@ -26,7 +21,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="노선ID OR 노선명"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="템플릿ID 또는 템플릿명"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -61,7 +56,7 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
                             <ax:td label="템플릿ID" width="300px" labelClazz="required">
-                                <input type="text" id="setId" data-ax-path="setId" title="<ax:lang id="ax.admin.BM0608F0.tplId"/>" class="form-control" readonly="readonly"/>
+                                <input type="text" id="setId" data-ax-path="setId" data-key="true" title="<ax:lang id="ax.admin.BM0608F0.tplId"/>" class="form-control" readonly="readonly"/>
                             </ax:td>
                         </ax:tr>
                         
@@ -78,20 +73,21 @@
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="영상부배경" width="100%" labelClazz="required">
-								<input type="file" id="videoBg" name="videoBg" accept="image/bmp" onchange="preview_ChangeImage(this, 'previewImg');"/>
+                            <ax:td label="이번정류장" width="100%" labelClazz="required">
+								<input type="file" id="land" name="land" accept="image/png" onchange="preview_ChangeImage(this, 'previewImg');"/>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="현재정류장" width="100%" labelClazz="required">
-								<input type="file" id="busstopBg" name="busstopBg" accept="image/bmp" onchange="preview_ChangeImage(this, 'previewImg');"/>
+                            <ax:td label="다음정류장" width="100%" labelClazz="required">
+								<input type="file" id="nextstopbg" name="nextstopbg" accept="image/png" onchange="preview_ChangeImage(this, 'previewImg');"/>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
                             <ax:td label="글씨 색 일괄 변경" width="300px">
                                 <input type="text" id="fontAll" data-ax-path="fontAll" title="<ax:lang id="ax.admin.BM0608F0.fontAll"/>" class="form-control"/>
+                                <input type="button" value="변경" style="float:left;">
                             </ax:td>
                         </ax:tr>
                         

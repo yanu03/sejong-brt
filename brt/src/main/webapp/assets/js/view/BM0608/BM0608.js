@@ -448,8 +448,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
             	{key: "setId",	label: ADMIN("ax.admin.BM0608F0.setId"),	width: 70},
-            	{key: "setNm",	label: ADMIN("ax.admin.BM0608F0.setNm"),	width: 70},
-                {key: "remark",	label: ADMIN("ax.admin.BM0608F0.remark"),	width: 130},
+            	{key: "setNm",	label: ADMIN("ax.admin.BM0608F0.setNm"),	width: 100,	align: "left"},
+                {key: "remark",	label: ADMIN("ax.admin.BM0608F0.remark"),	width: 130,	align: "left"},
             ],
             body: {
                 onClick: function () {
