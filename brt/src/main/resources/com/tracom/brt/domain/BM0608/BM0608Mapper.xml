@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0608.BM0608Mapper">
+	<select id="BM0608G0S0" parameterType="String" resultType="bmScrInfoVO">
+		SELECT
+			  SET_ID
+			, SET_NM
+			, FONT_COLOR
+			, REMARK
+		FROM
+			BM_SCR_INFO
+		<where>
+			<if test="value != null">
+				SET_ID LIKE CONCAT('%', #{value}, '%')
+			    OR
+			    SET_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+		</where>
+	</select>	
+</mapper>
