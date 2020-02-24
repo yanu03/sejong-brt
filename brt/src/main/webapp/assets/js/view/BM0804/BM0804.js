@@ -195,11 +195,12 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             lineNumberColumnWidth:40,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "routId", label: ADMIN("ax.admin.BM0107G0.routId"), width: 140},
-                {key: "updatedAt", label: ADMIN("ax.admin.BM0107G0.updatedAt"), width: 250},
+                {key: "routId",		label: ADMIN("ax.admin.BM0107G0.routId"),		width: 100,	align: "center"},
+                {key: "updatedAt",	label: ADMIN("ax.admin.BM0107G0.updatedAt"),	width: 150,	align: "center"},
             ],
             body: {
                 onClick: function () {
+                	
                 	if(isNewData == true){
             			if(confirm("편집 후 저장하지 않은 데이터가 유실됩니다. 계속 진행하시겠습니까?")){
             				fnObj.gridView0.delRow("last");
