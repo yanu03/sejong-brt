@@ -55,6 +55,9 @@ public class FTPHandler {
 	@Value("${sftp.windows.local.directory}")
 	private String ROOT_WINDOWS_LOCAL_PATH;
 	
+	@Value("${sftp.employee.directory}")
+	private String COMMON_EMPLOYEE_PATH;
+	
 	@Value("${sftp.audio.directory}")
 	private String COMMON_AUDIO_PATH;
 	
@@ -85,22 +88,13 @@ public class FTPHandler {
 	
 	// 승무사원 관리 승무사원 사진 업로드
 	public void uploadBM0108(String fileName, MultipartFile file) {
-		String dir1 = Paths.get(getRootLocalPath(), "/common/employee").toString();
-		String dir2 = Paths.get(getRootLocalPath(), "/vehicle").toString();
-		//String fileName = id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
-		//String fileName = id + "." + "JPG";//그냥 다 jpg로 저장하게끔...
+		String dir1 = Paths.get(getRootLocalPath(), getCommonEmployeePath()).toString();
 		
 		File saveFile = Paths.get(dir1, fileName).toFile();
 		try {
 			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
 			
-			File[] fileList = Paths.get(dir2).toFile().listFiles();
-			
-			if(fileList != null) {
-				for(int i = 0; i < fileList.length; i++) {
-					FileUtils.writeByteArrayToFile(Paths.get(dir2, fileList[i].getName(), "/employee", fileName).toFile(), file.getBytes());
-				}
-			}
+			processSynchronize(getRootLocalPath() + getCommonEmployeePath(), getRootServerPath() + getCommonEmployeePath());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -948,5 +942,9 @@ public class FTPHandler {
 	
 	public String getDestinationListPath() {
 		return DESTINATION_LIST_PATH;
+	}
+	
+	public String getCommonEmployeePath() {
+		return COMMON_EMPLOYEE_PATH;
 	}
 }
