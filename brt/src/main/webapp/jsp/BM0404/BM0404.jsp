@@ -72,17 +72,6 @@
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0404F0.play.date" width="350px" labelClazz="required">
-	                            <div class="input-group" data-ax5picker="date">
-	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0404F0.play.date"/>" class="form-control" data-ax5formatter="date" data-ax-validate="required">
-	                                <span class="input-group-addon">~</span>
-	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0404F0.play.date"/>" class="form-control" data-ax5formatter="date" data-ax-validate="required">
-	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
-	                            </div>
-                            </ax:td>
-                        </ax:tr>
-                        
-                        <ax:tr>
                             <ax:td label="ax.admin.BM0404F0.play.type" width="210px" labelClazz="required">
                             	<ax:SM0105 groupCd="PLAY_TYPE" name="playType" dataPath="playType" clazz="form-control" />
                             </ax:td>

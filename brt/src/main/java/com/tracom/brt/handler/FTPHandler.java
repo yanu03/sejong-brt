@@ -453,12 +453,24 @@ public class FTPHandler {
 	// 음성파일(WAV, TTS) 업로드
 	public boolean uploadVoice(VoiceInfoVO vo) {
     	if(vo.getPlayType().equals("TTS")) {
-    		return uploadVoiceTTS(vo);
+    		uploadVoiceTTS(vo);
     	} else if(vo.getPlayType().equals("WAV")) {
     		if(vo.getWavFile() != null && vo.getWavFile().getSize() != 0) {
-    			return uploadVoiceWAV(vo);
+    			uploadVoiceWAV(vo);
     		}
     	}
+    	
+    	// 노선별 선택 음성일 경우 바로 FTP Sync
+    	String routId = vo.getRoutId();
+		if(routId != null && !routId.equals("")) {
+			try {
+				processSynchronize(getRootLocalPath() + getRouteAudioPath(), getRootServerPath() + getRouteAudioPath());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+    	
 		return true;
     }
 	
