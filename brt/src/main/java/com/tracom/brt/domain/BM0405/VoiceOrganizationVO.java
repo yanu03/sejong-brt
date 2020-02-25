@@ -11,6 +11,7 @@ import lombok.Data;
 public class VoiceOrganizationVO extends BmRoutNodeInfoVO {
 	private String orgaId;
 	private String orgaNm;
+	private String routId;
 	private String remark;
 	private List<VoiceInfoVO> playList;
 }

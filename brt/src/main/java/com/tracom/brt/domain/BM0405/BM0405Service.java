@@ -14,15 +14,11 @@ import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
-import com.tracom.brt.handler.FTPHandler;
 
 @Service
 public class BM0405Service extends BaseService<VoiceInfoVO, String> {
 	@Inject
 	private BM0405Mapper mapper;
-	
-	@Inject
-	private FTPHandler handler;
 	
     public List<BmRoutInfoVO> BM0405G0S0(RequestParams<BmRoutInfoVO> requestParams) {
         return mapper.BM0405G0S0(requestParams.getString("filter"));

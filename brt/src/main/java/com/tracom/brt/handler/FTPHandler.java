@@ -36,6 +36,7 @@ import com.jcraft.jsch.SftpException;
 import com.tracom.brt.code.GlobalConstants;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
 import com.tracom.brt.domain.BM0501.DestinationVO;
 import com.tracom.brt.domain.BM0605.VideoInfoVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
@@ -421,6 +422,72 @@ public class FTPHandler {
 		return true;
 	}
 	//*/
+	
+	// 음성 Playlist 업로드
+	public boolean uploadVoicePlayList(String routId, List<VoiceOrganizationVO> orgaList) {
+		String playListPath = Paths.get(getRootLocalPath(), "/route", routId, "/playlist").toString();
+		
+		try {
+			FileUtils.deleteDirectory(new File(playListPath));
+			
+			for(VoiceOrganizationVO orgaVO : orgaList) {
+				String fileName = orgaVO.getOrgaId() + ".csv";
+				StringBuilder csvContent = new StringBuilder();
+				csvContent.append(GlobalConstants.CSVForms.VOICE_PLAYLIST_TITLE);
+				
+				for(VoiceInfoVO v : orgaVO.getPlayList()) {
+		    		if(v.getPlayType().equals("TTS")) {
+		    			if(v.getVocCode() == GlobalConstants.PlayListVoiceTypes.BUS_KR) {
+			    			// 한국어
+			    			csvContent.append(
+					    			v.getSeq() + GlobalConstants.CSVForms.COMMA
+					    			+ GlobalConstants.PlayListVoiceTypes.BUS_KR + GlobalConstants.CSVForms.COMMA
+					    			+ v.getVocId() + GlobalConstants.VoiceTypes.KR + ".wav" + GlobalConstants.CSVForms.COMMA 
+					    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
+					    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
+					    			+ v.getScrTxt() + GlobalConstants.CSVForms.ROW_SEPARATOR);
+			    			
+			    			// 영어
+			    			csvContent.append(
+					    			v.getSeq() + GlobalConstants.CSVForms.COMMA
+					    			+ GlobalConstants.PlayListVoiceTypes.BUS_EN + GlobalConstants.CSVForms.COMMA
+					    			+ v.getVocId() + GlobalConstants.VoiceTypes.EN + ".wav" + GlobalConstants.CSVForms.COMMA 
+					    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
+					    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
+					    			+ v.getScrTxtEn());
+			    		} else {
+			    			// 기타 다른음성들
+			    			csvContent.append(
+					    			v.getSeq() + GlobalConstants.CSVForms.COMMA
+					    			+ v.getVocCode() + GlobalConstants.CSVForms.COMMA
+					    			+ v.getVocId() + GlobalConstants.VoiceTypes.KR + ".wav" + GlobalConstants.CSVForms.COMMA 
+					    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
+					    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
+					    			+ v.getScrTxt());
+			    		}
+		    		} else {
+		    			// WAV 업로드 음성
+		    			csvContent.append(
+				    			v.getSeq() + GlobalConstants.CSVForms.COMMA
+				    			+ v.getVocCode() + GlobalConstants.CSVForms.COMMA
+				    			+ v.getVocId() + GlobalConstants.VoiceTypes.US + ".wav" + GlobalConstants.CSVForms.COMMA 
+				    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
+				    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
+				    			+ v.getScrTxt());
+		    		}
+		    		
+		    		csvContent.append(GlobalConstants.CSVForms.ROW_SEPARATOR);
+		    	}
+				
+				Utils.createCSV(Paths.get(playListPath, fileName).toFile(), csvContent.toString());
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+    	return true;
+	}
 	
 	// 음성파일(WAV, TTS) 업로드
 	public boolean uploadVoice(VoiceInfoVO vo) {

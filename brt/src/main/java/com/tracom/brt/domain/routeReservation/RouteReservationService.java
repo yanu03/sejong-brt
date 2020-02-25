@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
 import com.tracom.brt.handler.FTPHandler;
 
 @Service
@@ -22,7 +23,7 @@ public class RouteReservationService extends BaseService<RouteReservationVO, Str
 	private FTPHandler ftpHandler;
 	
 	/** 노선 예약 **/
-	public void makeRouteFile() {
+	public void makeRouteFile(String routId) {
 		//노선 리스트, 노선별 파일명
 		List<BmRoutInfoVO> routeList = rsvRouteList();
 		String maxVersion = mapper.rsv_maxVersion();
@@ -50,6 +51,11 @@ public class RouteReservationService extends BaseService<RouteReservationVO, Str
 			//노선별노드리스트.csv
 			ftpHandler.uploadRouteNodeList(routeList);
 			
+			//노선 플레이리스트.csv
+			VoiceOrganizationVO vo = new VoiceOrganizationVO();
+			vo.setRoutId(routId);
+			ftpHandler.uploadVoicePlayList(routId, mapper.selectVoiceOrganization(vo));
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -58,8 +64,6 @@ public class RouteReservationService extends BaseService<RouteReservationVO, Str
 		//TODO
 		//1. FTPHANDLER에 엑셀파일을 받아서 
 		//routelist가 완성되었음
-		
-		
 	}
 	
 	/** 노선 리스트, 노선별 파일명쿼리 (routelist.csv) **/
