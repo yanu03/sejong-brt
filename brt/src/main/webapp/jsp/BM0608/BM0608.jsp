@@ -34,7 +34,7 @@
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h3><i class="cqc-list"></i>노선목록</h3>
+                        <h3><i class="cqc-list"></i>템플릿목록</h3>
                     </div>
                     <div class="right">
 						<!-- 우측에 필요시 -->

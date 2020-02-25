@@ -447,21 +447,20 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     enable: function() {
     	this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
-    		$('#wayDiv option').removeAttr('disabled');
+    		$('#wayDiv').removeAttr('disabled');
             $('#wayDiv').attr('style', "background:#FFFFFF");
-    		$(element).attr("readonly", false);
+    		$(element).attr("readonly", false).attr("disabled", false);
     	});
     },
     disable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", true);
+    		$(element).attr("readonly", true).attr("disabled", true);
     	});
     },
     interRout: function() {
-    	//if(selectedRow.routId.substr(0, 3) == 'VBR'){
     	if(/[a-zA-Z]/.test(selectedRow.routId.substr(0,1))){
 	    	this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
-	    		$('#wayDiv option').removeAttr('disabled');
+	    		$('#wayDiv').removeAttr('disabled');
 	            $('#wayDiv').attr('style', "background:#FFFFFF");
 	    		$(element).attr("readonly", false);
 	    	});
@@ -469,8 +468,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     		this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
 	    		$(element).attr("readonly", true);
 	    	});
-    		$('#wayDiv option').attr('disabled','disabled');
-            //$('#wayDiv option').not(":selected").attr('disabled','disabled');
+    		$('#wayDiv').attr("readonly", true).attr("disabled", true);
             $('#wayDiv').attr('style', "background:#EEEEEE");
     	}
     	

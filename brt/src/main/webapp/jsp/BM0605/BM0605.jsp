@@ -65,22 +65,24 @@
                 <ax:form name="formView0" id="formView0">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0605G0.vdoId" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0605G0.vdoId" width="240px" labelClazz="required">
                     			<input type="text" name="vdoId" data-ax-path="vdoId" data-key="true" class="form-control" readonly="readonly"/>
                     		</ax:td>
-                    		<ax:td label="ax.admin.BM0605G0.vdoNm" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0605G0.vdoNm" width="240px" labelClazz="required">
                     			<input type="text" name="vdoNm" data-ax-path="vdoNm" data-key="true" class="form-control"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0605G0.conNm" width="300px">
+                    		<ax:td label="ax.admin.BM0605G0.conNm" width="500px">
                     			<div class="input-group">
-	                        		<input type="text" data-ax-path="conId" name="conId" data-key="true" class="form-control W70" readonly="readonly">
-	                        		<input type="text" data-ax-path="conNm" name="conNm" data-key="true" class="form-control W70" readonly="readonly">
-                        			<button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0301">
-	                                	<ax:lang id="ax.admin.select"/>
-	                            	</button>
+	                    			<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="conId" name="conId" data-key="true" class="form-control W70" readonly="readonly"></div>
+	                    			<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="conNm" name="conNm" data-key="true" class="form-control W70" readonly="readonly"></div>
+	                    			<div style="float:left;padding-right:5px;">
+	                    				<button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0301">
+		                                	<ax:lang id="ax.admin.select"/>
+		                            	</button>
+	                    			</div>
 	                        	</div>
                     		</ax:td>
                     	</ax:tr>
@@ -98,22 +100,20 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0605G0.fileType" width="300px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0605G0.fileType" width="240px" labelClazz="required">
                     			<ax:SM0105 groupCd="FILE_TYPE" name="fileType" dataPath="fileType" clazz="form-control" id="fileType"/>
                     		</ax:td>
 
-                    		<ax:td label="ax.admin.BM0605G0.imgPlayTm" width="300px">
+                    		<ax:td label="ax.admin.BM0605G0.imgPlayTm" width="240px">
 								<input type="text" name="imgPlayTm" id="imgPlayTm" data-ax-path="imgPlayTm" data-key="true" class="form-control"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0605F0.attFile" width="300px" labelClazz="required">
+                    			
                     			<input type="file" name="vdoFile" data-ax-path="vdoFile" data-key="true" class="form-control" id="vdoFile"
                     				                                onchange="preview_Change(this);" style="width: 300px;" />
-                    		 <!-- 
-                    			<input style="" type="file" accept="image/*" data-ax-path="upFile" id="upFile" name="upFile" onchange="javascript:getThumbnailPreview(this,$('#selectFile'),$('#videoSelect'));" />
-                    		  -->
                     		</ax:td>
                     	</ax:tr>
                     	
@@ -139,8 +139,8 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0605G0.remark" width="300px">
-                    			<input type="text" maxlength="200" name="remark" data-ax-path="remark" data-key="true" class="form-control"/>
+                    		<ax:td label="ax.admin.BM0605G0.remark" width="100%">
+                    			<textarea maxlength="200" name="remark" data-ax-path="remark" data-key="true" class="form-control"></textarea>
                     		</ax:td>
                     	</ax:tr>
                     	 

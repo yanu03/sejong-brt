@@ -31,7 +31,6 @@
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="*" style="padding-right: 0px;">
 				<div style="width:100%; height:100%; border: solid 1px black;">
-					aaaa
 				</div>
 				
             </ax:split-panel>

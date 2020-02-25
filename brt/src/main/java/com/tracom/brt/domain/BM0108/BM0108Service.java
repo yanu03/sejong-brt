@@ -46,10 +46,10 @@ public class BM0108Service extends BaseService<EplyInfoVO, String> {
     public boolean BM0108F0U0(EplyInfoVO vo) {
     	if(mapper.BM0108F0U0(vo) > 0) {
     		
-    		if(vo.getAttFile() != null) {
+    		if(!vo.getEmployeeImg().isEmpty()) {
     			handler.uploadBM0108(vo.getEplyId() + ".jpg", vo.getEmployeeImg());
     		}
-    		if(vo.getAttFile2() != null) {
+    		if(!vo.getCertiImg().isEmpty()) {
     			handler.uploadBM0108(vo.getEplyId() + "_CERTI.jpg", vo.getCertiImg());
     		}
     		return true;

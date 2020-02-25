@@ -111,7 +111,7 @@
 
 								<div style="float:left;width:260px;border: 0px solid #D8D8D8;">
 									<input type="file" id="employeeImg" name="employeeImg" accept="image/jpeg"
-		                                onchange="preview_ChangeImage(this, 'previewImg');"
+		                                onchange="preview_ChangeImage(this, 'previewImg');" data-ax-path="employeeImg"
 		                                
 									 />
 								 </div>
@@ -125,7 +125,7 @@
 
 								<div style="float:left;width:260px;border:0px solid #D8D8D8;">
 									<input type="file" id="certiImg" name="certiImg" accept="image/jpeg"
-		                                onchange="preview_ChangeImage(this, 'previewImg2');"
+		                                onchange="preview_ChangeImage(this, 'previewImg2');" data-ax-path="certiImg"
 									 />
 								 </div>
 								 <div style="float:left;width:260px;height:345px;padding:10px;border: 0px solid #D8D8D8;">
