@@ -54,9 +54,4 @@ public class SM0105Controller extends BaseController {
     	return ok();
     }
     
-    @GetMapping("/SM0105G3S0")
-    public Responses.ListResponse SM0105G3S0(RequestParams<CommonCodeDetailInfoVO> requestParams){
-    	return Responses.ListResponse.of(service.SM0105G3S0());
-    }
-    
 }
