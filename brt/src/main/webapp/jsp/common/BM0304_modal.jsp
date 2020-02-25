@@ -28,6 +28,19 @@
             <button type="button" class="btn btn-exl" data-page-btn="exl"><ax:lang id="ax.admin.sample.modal.button.excel"/></button>
             <button type="button" class="btn btn-default" data-page-btn="close"><ax:lang id="ax.admin.sample.modal.button.close"/></button>
         </ax:page-buttons>
+        
+        <div role="page-header">
+            <ax:form name="searchView0">
+                <ax:tbl clazz="ax-search-tbl" minWidth="500px">
+                    <ax:tr>
+                        <ax:td label='ax.admin.sample.search.condition' width="300px">
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0304M0.search"/>
+                        </ax:td>
+                    </ax:tr>
+                </ax:tbl>
+            </ax:form>
+            <div class="H3"></div>
+        </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="*" style="padding-right: 0px;">
