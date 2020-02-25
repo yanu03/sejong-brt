@@ -661,16 +661,15 @@ public class FTPHandler {
 				    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
 				    			+ v.getScrTxt());
 		    		}
-		    		
 		    		csvContent.append(GlobalConstants.CSVForms.ROW_SEPARATOR);
 		    	}
 				
 				Utils.createCSV(Paths.get(playListPath, fileName).toFile(), csvContent.toString());
 			}
 			
-			processSynchronize(Paths.get(getRootLocalPath(), getCommonAudioPath()).toString(), getRootServerPath() + getCommonAudioPath());
+			processSynchronize(getRootLocalPath() + getCommonAudioPath(), getRootServerPath() + getCommonAudioPath());
 			processSynchronize(playListPath, getRootServerPath() + routePath);
-			processSynchronize(Paths.get(getRootLocalPath(), getRoutePath()).toString(), getRootServerPath() + getRoutePath());
+			processSynchronize(getRootLocalPath() + getRoutePath(), getRootServerPath() + getRoutePath());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
