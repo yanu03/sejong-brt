@@ -10,7 +10,7 @@
     "login": "/assets/images/login-bg.jpg"
   },
   "main": {
-    "background": "/assets/images/main-bg.png"
+    "background": "/assets/images/white.png"
   },
   "layout": {
     "leftSideMenu": ""

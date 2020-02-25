@@ -24,6 +24,8 @@
         <p class="desc">${page_desc}</p>
     </jsp:attribute>
     <jsp:body>
+    <div style="background-color: white;"></div>
+    <!-- 
         <ax:split-layout name="ax1" orientation="vertical">
     		<ax:split-panel width="*" style="padding:0px;" scroll="scroll">
     			<div data-fit-height-content="left-view-01" style="padding:0px 0px 0px 0px;">내용0</div>
@@ -34,5 +36,6 @@
 				</ax:split-panel>
     		</ax:split-panel>
     	</ax:split-layout>
+     -->
     </jsp:body>
 </ax:layout>
