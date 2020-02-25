@@ -592,11 +592,13 @@ public class FTPHandler {
 		
 		try {
 			if(routId != null && !routId.equals("")) {
-				File file = Paths.get(getRouteAudioPath(), routId + ".wav").toFile();
+				File file = Paths.get(getRootLocalPath(), getRouteAudioPath(), routId + ".wav").toFile();
 				
 				if(file.exists()) {
 					file.delete();
 				}
+				
+				processSynchronize(getRootLocalPath() + getRouteAudioPath(), getRootServerPath() + getRouteAudioPath());
 			} else if(playType.equals("TTS")) {
 				File ttsKrFile = Paths.get(dir, fileNameKr).toFile();
 				File ttsEnFile = Paths.get(dir, fileNameEn).toFile();
@@ -692,7 +694,7 @@ public class FTPHandler {
 	
 	// 서버FTP와 Synchronization
 	private void processSynchronize(String localPath, String serverPath) throws Exception {
-		System.out.println(localPath + ", " + serverPath);
+		System.out.println("fileSync: " + localPath + ", " + serverPath);
 		setServerDirectory(localPath, serverPath);
 		synchronize(new File(localPath), serverPath);
 	}

@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
+import com.tracom.brt.domain.voiceReservation.VoiceReservationVO;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -39,4 +41,10 @@ public class VoiceConroller extends BaseController {
         
         return new ResponseEntity<>(buffer, httpHeaders, HttpStatus.OK);
 	}
+	
+	@GetMapping("/checkVoiceOrganization")
+	public ApiResponse checkVoiceReservation(RequestParams<VoiceReservationVO> requestParams) {
+        boolean check = service.checkVoiceOrganization(requestParams);
+        return ok(Boolean.toString(check));
+    }
 }

@@ -44,8 +44,8 @@ public class BM0404Service extends BaseService<VoiceInfoVO, String> {
     
     @Transactional
     public boolean BM0404G0D0(VoiceInfoVO vo) {
+    	handler.deleteVoice(vo);
     	if(mapper.BM0404G0D0(vo) > 0) {
-    		handler.deleteVoice(vo);
     		return true;
     	} else {
     		return false;

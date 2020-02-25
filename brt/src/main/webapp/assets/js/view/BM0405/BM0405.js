@@ -131,6 +131,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	ACTIONS.dispatch(ACTIONS.REFRESH_G1);
             	ACTIONS.dispatch(ACTIONS.REFRESH_G2);
             	ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+            	
+            	if(result.isDelete) {
+            		axToast.push(LANG("ondelete"));
+            	}
             },
         });
     },
