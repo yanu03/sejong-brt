@@ -79,8 +79,6 @@ public class FTPHandler {
 	@Inject
 	private VoiceService voiceService;
     
-	private File ROOT_LOCAL_DIRECTORY;
-	
 	private ArrayList<String> serverContentList;
 	private ArrayList<String> pathList;
 	private ArrayList<String> ignoreList;
@@ -103,8 +101,6 @@ public class FTPHandler {
 					FileUtils.writeByteArrayToFile(Paths.get(dir2, fileList[i].getName(), "/employee", fileName).toFile(), file.getBytes());
 				}
 			}
-			
-			processSynchronize();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -342,7 +338,6 @@ public class FTPHandler {
 		File saveFile = Paths.get(path, "/" ,fileName).toFile();
 		try {
 			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
-			processSynchronize();
 			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -455,72 +450,6 @@ public class FTPHandler {
 	}
 	//*/
 	
-	// 음성 Playlist 업로드
-	public boolean uploadVoicePlayList(String routId, List<VoiceOrganizationVO> orgaList) {
-		String playListPath = Paths.get(getRootLocalPath(), "/route", routId, "/playlist").toString();
-		
-		try {
-			FileUtils.deleteDirectory(new File(playListPath));
-			
-			for(VoiceOrganizationVO orgaVO : orgaList) {
-				String fileName = orgaVO.getOrgaId() + ".csv";
-				StringBuilder csvContent = new StringBuilder();
-				csvContent.append(GlobalConstants.CSVForms.VOICE_PLAYLIST_TITLE);
-				
-				for(VoiceInfoVO v : orgaVO.getPlayList()) {
-		    		if(v.getPlayType().equals("TTS")) {
-		    			if(v.getVocCode() == GlobalConstants.PlayListVoiceTypes.BUS_KR) {
-			    			// 한국어
-			    			csvContent.append(
-					    			v.getSeq() + GlobalConstants.CSVForms.COMMA
-					    			+ GlobalConstants.PlayListVoiceTypes.BUS_KR + GlobalConstants.CSVForms.COMMA
-					    			+ v.getVocId() + GlobalConstants.VoiceTypes.KR + ".wav" + GlobalConstants.CSVForms.COMMA 
-					    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
-					    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
-					    			+ v.getScrTxt() + GlobalConstants.CSVForms.ROW_SEPARATOR);
-			    			
-			    			// 영어
-			    			csvContent.append(
-					    			v.getSeq() + GlobalConstants.CSVForms.COMMA
-					    			+ GlobalConstants.PlayListVoiceTypes.BUS_EN + GlobalConstants.CSVForms.COMMA
-					    			+ v.getVocId() + GlobalConstants.VoiceTypes.EN + ".wav" + GlobalConstants.CSVForms.COMMA 
-					    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
-					    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
-					    			+ v.getScrTxtEn());
-			    		} else {
-			    			// 기타 다른음성들
-			    			csvContent.append(
-					    			v.getSeq() + GlobalConstants.CSVForms.COMMA
-					    			+ v.getVocCode() + GlobalConstants.CSVForms.COMMA
-					    			+ v.getVocId() + GlobalConstants.VoiceTypes.KR + ".wav" + GlobalConstants.CSVForms.COMMA 
-					    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
-					    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
-					    			+ v.getScrTxt());
-			    		}
-		    		} else {
-		    			// WAV 업로드 음성
-		    			csvContent.append(
-				    			v.getSeq() + GlobalConstants.CSVForms.COMMA
-				    			+ v.getVocCode() + GlobalConstants.CSVForms.COMMA
-				    			+ v.getVocId() + GlobalConstants.VoiceTypes.US + ".wav" + GlobalConstants.CSVForms.COMMA 
-				    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
-				    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
-				    			+ v.getScrTxt());
-		    		}
-		    		
-		    		csvContent.append(GlobalConstants.CSVForms.ROW_SEPARATOR);
-		    	}
-				
-				Utils.createCSV(Paths.get(playListPath, fileName).toFile(), csvContent.toString());
-				
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-    	return true;
-	}
-	
 	// 음성파일(WAV, TTS) 업로드
 	public boolean uploadVoice(VoiceInfoVO vo) {
     	if(vo.getPlayType().equals("TTS")) {
@@ -565,8 +494,6 @@ public class FTPHandler {
 			if(ttsEnFile.exists()) {
 				ttsEnFile.delete();
 			}
-			
-			processSynchronize();
 		} catch(Exception e) {
 			e.printStackTrace();
 			return false;
@@ -632,8 +559,6 @@ public class FTPHandler {
 			if(file.exists()) {
 				file.delete();
 			}
-			
-			processSynchronize();
 		} catch(Exception e) {
 			e.printStackTrace();
 			return false;
@@ -683,32 +608,104 @@ public class FTPHandler {
 		}
 	}
 	
+	// 음성 Playlist 업로드
+	public boolean uploadVoicePlayList(String routId, List<VoiceOrganizationVO> orgaList) {
+		String routePath = "/route/" + routId + "/playlist";
+		String playListPath = Paths.get(getRootLocalPath(), routePath).toString();
+		
+		try {
+			FileUtils.deleteDirectory(new File(playListPath));
+			
+			for(VoiceOrganizationVO orgaVO : orgaList) {
+				String fileName = orgaVO.getOrgaId() + ".csv";
+				StringBuilder csvContent = new StringBuilder();
+				csvContent.append(GlobalConstants.CSVForms.VOICE_PLAYLIST_TITLE);
+				
+				for(VoiceInfoVO v : orgaVO.getPlayList()) {
+		    		if(v.getPlayType().equals("TTS")) {
+		    			if(v.getVocCode() == GlobalConstants.PlayListVoiceTypes.BUS_KR) {
+			    			// 한국어
+			    			csvContent.append(
+					    			v.getSeq() + GlobalConstants.CSVForms.COMMA
+					    			+ GlobalConstants.PlayListVoiceTypes.BUS_KR + GlobalConstants.CSVForms.COMMA
+					    			+ v.getVocId() + GlobalConstants.VoiceTypes.KR + ".wav" + GlobalConstants.CSVForms.COMMA 
+					    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
+					    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
+					    			+ v.getScrTxt() + GlobalConstants.CSVForms.ROW_SEPARATOR);
+			    			
+			    			// 영어
+			    			csvContent.append(
+					    			v.getSeq() + GlobalConstants.CSVForms.COMMA
+					    			+ GlobalConstants.PlayListVoiceTypes.BUS_EN + GlobalConstants.CSVForms.COMMA
+					    			+ v.getVocId() + GlobalConstants.VoiceTypes.EN + ".wav" + GlobalConstants.CSVForms.COMMA 
+					    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
+					    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
+					    			+ v.getScrTxtEn());
+			    		} else {
+			    			// 기타 다른음성들
+			    			csvContent.append(
+					    			v.getSeq() + GlobalConstants.CSVForms.COMMA
+					    			+ v.getVocCode() + GlobalConstants.CSVForms.COMMA
+					    			+ v.getVocId() + GlobalConstants.VoiceTypes.KR + ".wav" + GlobalConstants.CSVForms.COMMA 
+					    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
+					    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
+					    			+ v.getScrTxt());
+			    		}
+		    		} else {
+		    			// WAV 업로드 음성
+		    			csvContent.append(
+				    			v.getSeq() + GlobalConstants.CSVForms.COMMA
+				    			+ v.getVocCode() + GlobalConstants.CSVForms.COMMA
+				    			+ v.getVocId() + GlobalConstants.VoiceTypes.US + ".wav" + GlobalConstants.CSVForms.COMMA 
+				    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
+				    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
+				    			+ v.getScrTxt());
+		    		}
+		    		
+		    		csvContent.append(GlobalConstants.CSVForms.ROW_SEPARATOR);
+		    	}
+				
+				Utils.createCSV(Paths.get(playListPath, fileName).toFile(), csvContent.toString());
+			}
+			
+			processSynchronize(Paths.get(getRootLocalPath(), getCommonAudioPath()).toString(), getRootServerPath() + getCommonAudioPath());
+			processSynchronize(playListPath, getRootServerPath() + routePath);
+			processSynchronize(Paths.get(getRootLocalPath(), getRoutePath()).toString(), getRootServerPath() + getRoutePath());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+    	return true;
+	}
+	
 	// 서버FTP와 Synchronization
-	private void processSynchronize() throws Exception {
-		setServerDirectory();
-		synchronize(ROOT_LOCAL_DIRECTORY, ROOT_SERVER_PATH);
+	private void processSynchronize(String localPath, String serverPath) throws Exception {
+		System.out.println(localPath + ", " + serverPath);
+		setServerDirectory(localPath, serverPath);
+		synchronize(new File(localPath), serverPath);
 	}
 	
 	/************************************************************************ FTP 공통 모듈 *****************************************************************************************/
 	// 초기 디렉토리 셋팅
-	private void setServerDirectory() throws SftpException {
+	private void setServerDirectory(String localPath, String serverPath) throws SftpException {
 		try{
-			sftpChannel.cd(ROOT_SERVER_PATH);
+			sftpChannel.cd(serverPath);
 		}catch(Exception e){
-			System.out.println(ROOT_SERVER_PATH + " don't exist on your server!");
+			System.out.println(serverPath + " don't exist on your server!");
 			e.printStackTrace();
 		}
 		
-		ROOT_LOCAL_DIRECTORY = new File(getRootLocalPath());
-		String serverFolder = ROOT_SERVER_PATH.substring(ROOT_SERVER_PATH.lastIndexOf('/') + 1, ROOT_SERVER_PATH.length());
-		if(!ROOT_LOCAL_DIRECTORY.getName().equals(serverFolder)){
+		File localDirectory = new File(localPath);
+		String serverFolder = serverPath.substring(serverPath.lastIndexOf('/') + 1, serverPath.length());
+		if(!localDirectory.getName().equals(serverFolder)){
 			try{
-				sftpChannel.mkdir(ROOT_LOCAL_DIRECTORY.getName());
-				sftpChannel.cd(ROOT_LOCAL_DIRECTORY.getName());
+				sftpChannel.mkdir(localDirectory.getName());
+				sftpChannel.cd(localDirectory.getName());
 			} catch (Exception e){
-				sftpChannel.cd(ROOT_LOCAL_DIRECTORY.getName());
+				sftpChannel.cd(localDirectory.getName());
 			}
-			ROOT_SERVER_PATH = ROOT_SERVER_PATH + "/" + ROOT_LOCAL_DIRECTORY.getName();
+			serverPath = serverPath + "/" + localDirectory.getName();
 		}
 		
 		serverContentList = new ArrayList<String>();
@@ -717,6 +714,7 @@ public class FTPHandler {
 		
 		ignoreList.add("temp");
 		ignoreList.add("chime");
+		ignoreList.add("video");
 	}
 	
 	// 서버 폴더 내 목록 가져오기
