@@ -54,12 +54,50 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_NEW: function (caller, act, data) {
-    	var list = makeData();
+    	isUpdate = false;
+    	caller.gridView0.selectAll(false);
+        caller.formView0.clear();
+        caller.formView0.enable();
+        caller.formView0.validate(true);
+
+        clearFiles();
+        var list = makeData();
         caller.gridView1.setData(list);
     },
     
     PAGE_DELETE: function(caller, act, data) {
+    	var grid = caller.gridView0.target;
+    	
+    	if(typeof grid.selectedDataIndexs[0] === "undefined") {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("ax.script.deleteconfirm")
+        }, function() {
+            if (this.key == "ok") {
+            	axboot.promise()
+                .then(function (ok, fail, data) {
+	            	axboot.ajax({
+	                    type: "POST",
+	                    url: "/api/v1/BM0608G0D0",
+	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+	                    callback: function (res) {
+	                        ok(res);
+	                    }
+	                });
+                })
+                .then(function (ok) {
+                	caller.formView0.clear();
+                	axToast.push(LANG("ondelete"));
+                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                })
+                .catch(function () {
 
+                });
+            }
+        });
     },
     
     PAGE_SAVE: function (caller, act, data) {  
@@ -91,7 +129,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
 	    	formData.append("setId", f.setId);
 	    	formData.append("setNm", f.setNm);
-	    	formData.append("remark", f.remark);
+	    	if(f.remark != undefined){
+	    		formData.append("remark", f.remark);	    		
+	    	}
 	    	formData.append("fontColor", fontColor);
 	    	
 	    	axboot.promise()
@@ -112,7 +152,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        })
 	        .then(function (ok) {
 	        	//파일업로드하고 진행
-
+        		axToast.push(LANG("onupdate"));
+        		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 	        })
 	        .catch(function () {
 	
@@ -170,6 +211,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        })
 	        .then(function (ok) {
 	        	//파일업로드하고 진행
+        		axToast.push(LANG("onupdate"));
+        		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 
 	        })
 	        .catch(function () {
@@ -191,7 +234,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         var setId = data.setId;
         
         var frame = makeData();
-        
+        clearFiles();
         var arr = data.fontColor.split(',');
         for(var i=0; i< arr.length; i++){
         	frame[i].color = arr[i];
@@ -201,11 +244,24 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         
     },
     
-    ITEM_CLICK2: function (caller, act, data) {
-    	var element = document.getElementById("previewImg");
-    	var seq = data.__index + 1;
+    CHANGE_ALL: function (caller, act, data) {
+    	var frame = makeData();
+    	var color = $('#fontAll').val();
+    	
+    	if(color.length != 9 || color.substr(0, 1) != '#'){
+    		alert("ARGB 양식을 맞춰주세요");
+    		return false;
+    	}    	
+    	else{
+    		for(var i=0; i<frame.length; i++){
+    			frame[i].color = color;
+    		}
+    		
+    		caller.gridView1.setData(frame);
+    	}
     },
 
+    
 });
 
 
@@ -291,13 +347,18 @@ fnObj.pageStart = function () {
     this.gridView1.initView();
 	this.searchView0.initView();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    clickUserBtn();
 };
 
 fnObj.pageResize = function () {
 
 };
 /********************************************************************************************************************/
-
+function clickUserBtn(){
+	$('#chAllColor').on('click', function(){
+		ACTIONS.dispatch(ACTIONS.CHANGE_ALL);
+	});
+}
 
 /******************************************** 공통 버튼 클릭 이벤트 ******************************************************/
 fnObj.pageButtonView = axboot.viewExtend({
@@ -634,6 +695,12 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     }
 });
 
+
+function clearFiles(){
+	$('#background').val('');
+	$('#land').val('');
+	$('#nextstopbg').val('');
+}
 
 function makeData(){
 

@@ -34,8 +34,7 @@ public class BM0608Controller extends BaseController{
     }
     
     @PostMapping("/BM0608F0I0")
-    public ApiResponse BM0608F0I0(@RequestBody BmScrInfoVO request) {
-    	
+    public ApiResponse BM0608F0I0(@ModelAttribute BmScrInfoVO request) {
         String setId = service.BM0608F0I0(request);
         return ok(setId);
     }
@@ -43,6 +42,12 @@ public class BM0608Controller extends BaseController{
     @PostMapping("/BM0608F0U0")
     public ApiResponse BM0608F0U0(@ModelAttribute BmScrInfoVO request) {
     	service.BM0608F0U0(request);
+    	return ok();
+    }
+    
+    @PostMapping("/BM0608G0D0")
+    public ApiResponse BM0608G0D0(@RequestBody BmScrInfoVO request) {
+    	service.BM0608G0D0(request);
     	return ok();
     }
 }

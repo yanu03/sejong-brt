@@ -20,6 +20,10 @@
 	</select>	
 	
 	<insert id="BM0608F0I0" parameterType="bmScrInfoVO">
+	    <selectKey keyProperty="setId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('SP', LPAD(NEXTVAL(SEQ_BM_SCR_INFO_0), 5, '0'))
+    	</selectKey>
+    	
 		INSERT INTO
 			BM_SCR_INFO(  SET_ID
 						, SET_NM
@@ -41,4 +45,12 @@
 		WHERE
 			SET_ID	= #{setId} 
 	</update>
+	
+	<delete id="BM0608G0D0" parameterType="bmScrInfoVO">
+		DELETE
+		FROM
+			BM_SCR_INFO
+		WHERE
+			SET_ID = #{setId}
+	</delete>
 </mapper>

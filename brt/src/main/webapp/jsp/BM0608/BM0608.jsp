@@ -49,7 +49,9 @@
                         <h3><i class="cqc-news"></i>표출정보</h3>
                     </div>
                     <div class="right">
-						<!-- 우측에 필요시 -->
+						<div id="preview" style="float:right;">
+	                    	<button class="btn btn-default" data-grid-control="preview">미리보기</button>
+	                    </div>
                     </div>
                 </div>
                 <ax:form name="formView0">
@@ -62,7 +64,7 @@
                         
                         <ax:tr>
                             <ax:td label="템플릿명" width="300px" labelClazz="required">
-                                <input type="text" id="setNm" data-ax-path="setNm" title="<ax:lang id="ax.admin.BM0608F0.tplNm"/>" class="form-control" required="required"/>
+                                <input type="text" id="setNm" data-ax-path="setNm" title="<ax:lang id="ax.admin.BM0608F0.tplNm"/>" class="form-control" data-ax-validate="required"/>
                             </ax:td>
                         </ax:tr>
                         
@@ -85,9 +87,17 @@
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="글씨 색 일괄 변경" width="300px">
-                                <input type="text" id="fontAll" data-ax-path="fontAll" title="<ax:lang id="ax.admin.BM0608F0.fontAll"/>" class="form-control"/>
-                                <input type="button" value="변경" style="float:left;">
+                            <ax:td label="색 일괄 변경" width="500px">
+                            	<div class="input-group">
+                            		<div style="float:left;padding-right:5px;">
+		                                <input type="text" id="fontAll" data-ax-path="fontAll" maxlength="9" title="<ax:lang id="ax.admin.BM0608F0.fontAll"/>" class="form-control"/>
+                            		</div>
+                            		<div style="float:left;padding-right:5px;">
+	                                    <button type="button" id="chAllColor" class="btn btn-primary" onclick="">
+				                         	변경
+				                        </button>
+                            		</div>
+	                        	</div>
                             </ax:td>
                         </ax:tr>
                         
@@ -98,7 +108,7 @@
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="비고" width="300px">
+                            <ax:td label="비고" width="100%">
                             	<textarea data-ax-path="remark" class="form-control" title="<ax:lang id="ax.admin.BM0608F0.remark"/>" maxlength="200"></textarea>
                             </ax:td>
                         </ax:tr>

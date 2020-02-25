@@ -9,4 +9,6 @@ public interface BM0608Mapper extends MyBatisMapper{
 	List<BmScrInfoVO> BM0608G0S0(String value);
 	int BM0608F0I0(BmScrInfoVO vo);
 	int BM0608F0U0(BmScrInfoVO vo);
+	
+	int BM0608G0D0(BmScrInfoVO vo);
 }
