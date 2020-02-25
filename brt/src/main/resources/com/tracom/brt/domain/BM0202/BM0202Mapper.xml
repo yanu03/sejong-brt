@@ -9,11 +9,12 @@
     	   , DH.APLY_DATE
     	   , DL.DL_CD_NM AS WORK_TYPE
     	   , DH.WORK_AMT
-   		   , DH.REMARK
-   		   , DH.DVC_ID
-   		   , DH.SEQ
-   		   , DI.DVC_ID			
-   		   , DI.DVC_KIND
+	   	   , DH.REMARK
+	   	   , DH.DVC_ID
+	   	   , DH.SEQ
+	   	   , DI.DVC_ID			
+	   	   , DI.DVC_KIND
+	   	   , DH.WORK_TYPE AS WORK_TYPE_CD
         FROM
     		BM_DVC_HIST DH
     		LEFT OUTER JOIN BM_DVC_INFO DI

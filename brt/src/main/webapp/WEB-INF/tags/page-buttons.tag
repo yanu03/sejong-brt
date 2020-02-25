@@ -62,7 +62,9 @@
             <button type="button" class="btn btn-info" data-page-btn="confirmyn"><i class="cqc-check"></i> <%=MessageUtils.getMessage(request, "ax.admin.confirmyn")%></button>
         </c:if>
         
-
+         <c:if test="${authGroupMenu.fn7Ah eq 'Y'}">
+            <button type="button" class="btn btn-info" data-page-btn="operstatus"><i class="cqc-check"></i> <%=MessageUtils.getMessage(request, "ax.admin.operstatus")%></button>
+        </c:if>
         <jsp:doBody/>
     </div>
 </div>

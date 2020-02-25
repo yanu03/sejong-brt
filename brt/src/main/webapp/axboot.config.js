@@ -82,7 +82,7 @@
             },
             "BM0201": {
             	width: 400,
-            	height: 450,
+            	height: 500,
             	iframe: {
             		url: "/jsp/common/BM0201_modal.jsp"
             	},
@@ -93,7 +93,8 @@
             	height: 500,
             	iframe: {
             		url: "/jsp/common/BM0202_modal.jsp"
-            	}
+            	},
+            	header: false
            },
            "BM0301": {
 	           	width: 400,
@@ -102,6 +103,14 @@
 	           		url: "/jsp/common/BM0301_modal.jsp"
 	           	}
 	          },
+	          "BM0304": {
+		           	width: 970,
+		           	height: 500,
+		           	iframe: {
+		           		url: "/jsp/common/BM0304_modal.jsp"
+		           	},
+		           header: false
+		         },
             "COMMON_SENTENCE": {
             	width: 600,
             	height: 450,
@@ -169,6 +178,15 @@
             	},
             	header: false
             },
+            
+            "BM0608": {
+            	width: 550,
+            	height: 350,
+            	iframe: {
+            		url: "/jsp/common/BM0608_modal.jsp"
+            	},
+            	header: false
+            }
         };
     }
 

@@ -190,4 +190,13 @@
 			AND
 		    DL_CD = #{value}
     </select>
+    
+    <select id="SM0105G3S0" resultType="commonCodedetailInfoVO">
+    	SELECT
+			*
+		FROM
+			SM_DL_CD_INFO
+		WHERE
+			CO_CD = 'EFFECT_TYPE'
+    </select>
 </mapper>

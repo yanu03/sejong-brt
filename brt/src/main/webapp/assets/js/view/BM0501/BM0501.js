@@ -1,5 +1,6 @@
 var fnObj = {}, CODE = {};
 var updateList = [];
+var opt = [];
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
@@ -156,10 +157,26 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
 });
 
+function getEffType(){
+	var arr = new Array();
+
+	axboot.ajax({
+        type: "GET",
+        url: "/api/v1/SM0105G3S0",
+        callback: function (res) {
+        	var res = res.list;
+        	for(var i=0; i<res.length; i++){
+        		var tmp = {CD: res[i].txtVal1, NM: res[i].dlCdNm};
+        		arr[i] = tmp;
+        	}
+        	console.log(arr);
+        	return arr;
+        }
+    });
+}
 
 function editCase(input){
 	switch(input){
-	
 		case 'effSpeed' :
 			return {
 				type: "number",
@@ -181,17 +198,21 @@ function editCase(input){
 				}
 		};
 		case 'effType' :
+			console.log("opt");
+			console.log(opt);
 			return {
 			type: "select",
 			config: {
 				columnKeys: {
 					optionValue: "CD", optionText: "NM"
 				},
-				options: [	{CD : "01번", NM: "01번"},
-							{CD : "02번", NM: "02번"},
-							{CD : "03번", NM: "03번"},
-							{CD : "04번", NM: "04번"},
-							{CD : "05번", NM: "05번"}]
+				//options : opt
+				
+				options: [	{CD : "01", NM: "화면그대로 표출"},
+							{CD : "71", NM: "왼쪽으로 쉬프트하면서 밀어내기"},
+							{CD : "72", NM: "오른쪽으로 쉬프트하면서 밀어내기"},
+							{CD : "73", NM: "위로 쉬프트하면서 밀어내기"},
+							{CD : "74", NM: "아래로 쉬프트하면서 밀어내기"}]
 			},
 			disabled: function(){
 				return this.item.__index >= uv_height;
@@ -199,6 +220,8 @@ function editCase(input){
 		};
 	}
 }
+
+
 
 function styleEdit(){
 	if(this.item.__index >= uv_height){
@@ -235,7 +258,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	},
             columns: [
             	{key: "frameNo",			label: "프레임번호",			width: 100,																		styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
-            	{key: "effType",			label: "효과",				width: 100, editor: editCase('effType'),	formatter: "money", align:"right",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+            	{key: "effType",			label: "효과",				width: 100, editor: editCase('effType'), align:"right",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
             	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 110, editor: editCase('effSpeed'), align:"right",						styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
                 {key: "showTime",			label: "표출시간(1=10ms)",		width: 110, editor: editCase('showTime'), align:"right",						styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }}
             ],
@@ -407,12 +430,14 @@ $("input[id=bmpFile]").change(function(){
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
 fnObj.pageStart = function () {
 	selectBox();
+	opt = getEffType();
 	//this.gridView1.initView();
     this.pageButtonView.initView();
     this.gridView0.initView();
     this.formView0.initView();
 	this.searchView0.initView();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    
 };
 
 fnObj.pageResize = function () {

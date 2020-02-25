@@ -34,14 +34,19 @@ public class BM0203Controller extends BaseController{
 		List<DvcConditionVO> list = service.BM0203G0S0(requestParams);
 		
 		for(int i = 0; i<list.size(); i++) {
-			String dlCdNm = list.get(i).getDlCdNm();
-			int dlCdNmInt = Integer.parseInt(dlCdNm);
-			
+			if(list.get(i).getDlCdNm()!=null) {
+				String dlCdNm = list.get(i).getDlCdNm();
+				int dlCdNmInt = Integer.parseInt(dlCdNm);
+				
 				if(dlCdNmInt == 3) {
 					list.get(i).setDlCdNm("비정상");
 				}else {
 					list.get(i).setDlCdNm("정상");
 				}
+			}else {
+				list.get(i).setDlCdNm("비정상");
+				System.out.println("장치상태 값이 없습니다.");
+			}
 			
 		}
 		return Responses.ListResponse.of(list);

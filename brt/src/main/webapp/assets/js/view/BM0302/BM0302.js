@@ -41,8 +41,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRow != null){   		
-    		caller.gridView1.target.exportExcel(selectedRow.conId + "data.xls");
-    	}else {
+    		caller.gridView0.target.exportExcel(selectedRow.conId + "data.xls");
+    	}else if(selectedRowG1 != null){
+    		caller.gridView1.target.exportExcel(selectedRowG1.conId + "data.xls");
+    	}
+    	else {
     		alert("계약 항목을 선택해주세요");
     	}
     },
@@ -434,7 +437,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             	 columns: [         		                 	
             		{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), align: "center", sortable: true, styleClass:function(){return (this.item.altDiv === "연장") ? "grid-cell-yellow" : "grid-cell-red" } , width: 70},
                     {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), align: "center", sortable: true, width: 100},
-                    {key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), sortable: true, width: 100},
+                    {key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), sortable: true, width: 120},
+                    {key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"),width: 120},
                     {key: "conStDate", label: ADMIN("ax.admin.BM0301F0.consd"), sortable: true, align: "center", width: 100},
                     {key: "conEdDate", label: ADMIN("ax.admin.BM0301F0.coned"), sortable: true, align: "center", width: 100},
                     {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 150},              

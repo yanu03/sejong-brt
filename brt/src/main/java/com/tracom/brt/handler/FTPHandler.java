@@ -39,6 +39,7 @@ import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
 import com.tracom.brt.domain.BM0501.DestinationVO;
 import com.tracom.brt.domain.BM0605.VideoInfoVO;
+import com.tracom.brt.domain.BM0608.BmScrInfoVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
 import com.tracom.brt.utils.Utils;
@@ -196,6 +197,37 @@ public class FTPHandler {
 			return result;
 		}
 	}
+	
+
+	//템플릿 배경 파일 업로드
+	public boolean uploadBM0608(BmScrInfoVO vo) {
+		String dir = Paths.get(getRootLocalPath(), "/template" + "/" + vo.getSetId()).toString();
+
+		String background = "background.png";
+		String land = "land.png";
+		String nextstopbg = "nextstopbg.png";
+		
+		File backgroundFile = Paths.get(dir, background).toFile();			
+		File landFile = Paths.get(dir, land).toFile();
+		File nextstopbgFile = Paths.get(dir, nextstopbg).toFile();
+		try {
+			if(!vo.getBackground().isEmpty()) {
+				FileUtils.writeByteArrayToFile(backgroundFile, vo.getBackground().getBytes());				
+			}
+			if(!vo.getLand().isEmpty()) {
+				FileUtils.writeByteArrayToFile(landFile, vo.getLand().getBytes());				
+			}
+			if(!vo.getNextstopbg().isEmpty()) {
+				FileUtils.writeByteArrayToFile(nextstopbgFile, vo.getNextstopbg().getBytes());				
+			}
+			
+			return true;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	
 	//null이면 공백으로 처리
 	public String checkNull(Object txt) {

@@ -3,11 +3,11 @@
 <mapper namespace="com.tracom.brt.domain.BM0206.BM0206Mapper">
 	<select id="BM0206G2S0" parameterType="String" resultType="updateHistoryVO">
 	   SELECT
-			UP.VER_INFO
-		  , UP.SEND_DATE
+		    UP.SEND_DATE
 		  , UP.REMARK
 		  , UP.RSV_ID
 		  , DL.DL_CD_NM AS PROCE_RST
+		  , RSV.VER_INFO
 		FROM
 			BM_UPD_LOG UP
 			LEFT OUTER JOIN BM_DVC_INFO D
@@ -15,6 +15,8 @@
 			LEFT JOIN SM_DL_CD_INFO DL
 			ON UP.PROCE_RST = DL.DL_CD
 			AND DL.CO_CD = 'FTP_RESULT'
+			LEFT OUTER JOIN BM_UPD_RSV RSV
+			ON UP.RSV_ID = RSV.RSV_ID
 		WHERE
 			D.DVC_ID = #{value}		
 	</select>
