@@ -72,6 +72,7 @@
 		INSERT INTO BM_UPD_RSV(
 			  RSV_DATE
 			, RSV_ID
+			, VER_INFO
 			, ATT_FILE
 			, MNG_ID
 			, CREATED_AT
@@ -84,6 +85,7 @@
 		<foreach collection="upList" item="upList" separator=",">
 			( #{rsvDate}
 		    , CONCAT('UR', LPAD(NEXTVAL(SEQ_BM_UPD_RSV_0), 5, '0'))
+		    , #{verInfo}
 		    , #{upList.attFile}
 		    , #{upList.mngId}
 		    , #{upList.createdAt}
@@ -102,7 +104,6 @@
 			, MNG_ID
 			, PROCE_RST
 			, RST_CONT
-			, VER_INFO
 			, SEND_DATE
 			, COMPLETE_YN
 			, REMARK)
@@ -113,7 +114,6 @@
 		    , #{upList.mngId}
 		    , #{upList.proceRst}
 		    , #{upList.rstCont}
-		    , #{upList.verInfo}
 		    , #{upList.sendDate}
 		    , "N"
 		    , #{upList.remark}

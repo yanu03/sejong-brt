@@ -43,6 +43,8 @@ public class QAuthGroupMenu extends EntityPathBase<AuthGroupMenu> {
 
     public final StringPath fn6Ah = createString("fn6Ah");
 
+    public final StringPath fn7Ah = createString("fn7Ah");
+
     public final StringPath gexAh = createString("gexAh");
 
     public final StringPath grpAuthCd = createString("grpAuthCd");

@@ -95,13 +95,17 @@ public class Program extends BaseJpaModel<String> {
     @Column(name = "REMARK", length = 200)
     @ColumnPosition(16)
     private String remark;
+    
+    @Column(name = "FN7_AH", length = 1)
+    @ColumnPosition(17)
+    private String fn7Ah = "N";
 
     @Override
     public String getId() {
         return progCd;
     }
 
-    public static Program of(String progCd, String progNm, String progPh, String target, String authCheck, String schAh, String savAh, String exlAh, String delAh, String fn1Ah, String fn2Ah, String fn3Ah, String fn4Ah, String fn5Ah, String fn6Ah) {
+    public static Program of(String progCd, String progNm, String progPh, String target, String authCheck, String schAh, String savAh, String exlAh, String delAh, String fn1Ah, String fn2Ah, String fn3Ah, String fn4Ah, String fn5Ah, String fn6Ah , String fn7Ah) {
         Program program = new Program();
         program.setProgCd(progCd);
         program.setProgNm(progNm);
@@ -118,6 +122,7 @@ public class Program extends BaseJpaModel<String> {
         program.setFn4Ah(fn4Ah);
         program.setFn5Ah(fn5Ah);
         program.setFn6Ah(fn6Ah);
+        program.setFn7Ah(fn7Ah);
         return program;
     }
 }
