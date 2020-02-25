@@ -5,6 +5,8 @@ isUpdate = false;
 selectedRow = null;
 /*************************************************************************************************************/
 
+
+
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_RESERVATION: function(caller, act, data) {
@@ -46,12 +48,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
         return false;
     },
+    
 	PAGE_EXCEL: function(caller, act, data) {
     	caller.gridView0.target.exportExcel("data.xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
-
+    	var list = makeData();
+        caller.gridView1.setData(list);
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -59,63 +63,119 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SAVE: function (caller, act, data) {  
+    	if(caller.formView0.validate()){
+	    	var formData = new FormData(caller.formView0.target[0]);
+	    	
+	    	if($("#background")[0].files[0]){
+	        	formData.append("background", $("#background")[0].files[0]);
+	        }
+	    	if($("#land")[0].files[0]) {
+	        	formData.append("land", $("#land")[0].files[0]);
+	        }
+	    	if($("#nextstopbg")[0].files[0]){
+	        	formData.append("nextstopbg", $("#nextstopbg")[0].files[0]);
+	        }
+	    	
+	    	var d = fnObj.gridView1.getData();
 
+	    	var fontColor = "";
+	    	for(var i = 0; i < d.length; i++){
+	    		if(i < d.length - 1){
+	    			fontColor+=d[i].color+",";    			
+	    		}else{
+	    			fontColor+=d[i].color;
+	    		}
+	    	}
+	    	
+	    	var f = caller.formView0.getData();
+
+	    	formData.append("setId", f.setId);
+	    	formData.append("setNm", f.setNm);
+	    	formData.append("remark", f.remark);
+	    	formData.append("fontColor", fontColor);
+	    	
+	    	axboot.promise()
+	        .then(function (ok, fail, data) {
+	        	axboot.ajax({
+	            	type: "POST",
+	            	enctype: "multipart/form-data",
+	            	processData: false,
+	                url: "/api/v1/BM0608F0I0",
+	                data: formData,
+	                callback: function (res) {
+	                    ok(res);
+	                },
+	                options: {
+	                	contentType:false
+	                }
+	            });
+	        })
+	        .then(function (ok) {
+	        	//파일업로드하고 진행
+
+	        })
+	        .catch(function () {
+	
+	        });
+    	}
     },
-    
+     
     PAGE_UPDATE: function(caller, act, data) {
+    	if(caller.formView0.validate()){
+	    	var formData = new FormData(caller.formView0.target[0]);
+	    	
+	    	if($("#background")[0].files[0]){
+	        	formData.append("background", $("#background")[0].files[0]);
+	        }
+	    	if($("#land")[0].files[0]) {
+	        	formData.append("land", $("#land")[0].files[0]);
+	        }
+	    	if($("#nextstopbg")[0].files[0]){
+	        	formData.append("nextstopbg", $("#nextstopbg")[0].files[0]);
+	        }
+	    	
+	    	var d = fnObj.gridView1.getData();
 
-    	var formData = new FormData();
+	    	var fontColor = "";
+	    	for(var i = 0; i < d.length; i++){
+	    		if(i < d.length - 1){
+	    			fontColor+=d[i].color+",";    			
+	    		}else{
+	    			fontColor+=d[i].color;
+	    		}
+	    	}
+	    	
+	    	var f = caller.formView0.getData();
 
-    	
-    	if($("#entireBg")[0].files[0]){
-        	formData.append("entireBg", $("#entireBg")[0].files[0]);
-        }
-    	if($("#mediaBg")[0].files[0]){
-        	formData.append("mediaBg", $("#mediaBg")[0].files[0]);
-        }
-    	if($("#stopBg")[0].files[0]){
-        	formData.append("stopBg", $("#stopBg")[0].files[0]);
-        }
-    	
-    	
-    	
-    	axboot.promise()
-        .then(function (ok, fail, data) {
-        	axboot.ajax({
-            	type: "POST",
-            	enctype: "multipart/form-data",
-            	processData: false,
-                url: "/api/v1/BM0501G1U0",
-                data: formData,
-                callback: function (res) {
-                    ok(res);
-                },
-                options: {
-                	contentType:false
-                }
-            });
-        })
-        .then(function (ok) {
-        	//파일업로드하고 진행
-        	axboot.promise().then(function(ok, fail, data){
-        		var input = {};
-        		input.voList = fnObj.gridView1.getData();
-        		axboot.ajax({
-        			type: "POST",
-                    url: "/api/v1/BM0501G1U1",
-                    data: JSON.stringify(input),
-                    callback: function (res) {
-                        ok(res);
-                    }
-        		});
-        	});
-        	
-    		axToast.push(LANG("onupdate"));
-    		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-        })
-        .catch(function () {
+	    	formData.append("setId", f.setId);
+	    	formData.append("setNm", f.setNm);
+	    	formData.append("remark", f.remark);
+	    	formData.append("fontColor", fontColor);
+	    	
+	    	axboot.promise()
+	        .then(function (ok, fail, data) {
+	        	axboot.ajax({
+	            	type: "POST",
+	            	enctype: "multipart/form-data",
+	            	processData: false,
+	                url: "/api/v1/BM0608F0U0",
+	                data: formData,
+	                callback: function (res) {
+	                    ok(res);
+	                },
+	                options: {
+	                	contentType:false
+	                }
+	            });
+	        })
+	        .then(function (ok) {
+	        	//파일업로드하고 진행
 
-        });
+	        })
+	        .catch(function () {
+	
+	        });
+    	}
     },
     
     // 탭닫기
@@ -124,10 +184,21 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK: function (caller, act, data) {
+    	isUpdate = true;
     	selectedRow = data;
         caller.formView0.setData(data);
-        caller.formView0.enable();
-        $("#selectBox option:eq(0)").attr("selected", "selected");
+
+        var setId = data.setId;
+        
+        var frame = makeData();
+        
+        var arr = data.fontColor.split(',');
+        for(var i=0; i< arr.length; i++){
+        	frame[i].color = arr[i];
+        }
+
+        caller.gridView1.setData(frame);
+        
     },
     
     ITEM_CLICK2: function (caller, act, data) {
@@ -138,157 +209,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 });
 
 
-function editCase(input){
-	switch(input){
-	
-		case 'effSpeed' :
-			return {
-				type: "number",
-				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
-				},
-				attributes: {
-					'maxlength': 2,
-				}
-		};
-		case 'showTime' :
-			return {
-				type: "number",
-				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
-				},
-				attributes: {
-					'maxlength': 4
-				}
-		};
-		case 'effType' :
-			return {
-			type: "select",
-			config: {
-				columnKeys: {
-					optionValue: "CD", optionText: "NM"
-				},
-				options: [	{CD : "01번", NM: "01번"},
-							{CD : "02번", NM: "02번"},
-							{CD : "03번", NM: "03번"},
-							{CD : "04번", NM: "04번"},
-							{CD : "05번", NM: "05번"}]
-			},
-			disabled: function(){
-			}
-		};
-	}
-}
 
-function styleEdit(){
-}
-
-/**
- * gridView0
- */
-fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
-    page: {
-        pageNumber: 0,
-        pageSize: 10
-    },
-    
-    initView: function () {
-        var _this = this;
-        
-        this.target = axboot.gridBuilder({
-        	showLineNumber: true,
-        	showRowSelector: false,
-        	lineNumberColumnWidth: 30,
-        	rowSelectorColumnWidth: 30,
-        	frozenColumnIndex: 0,
-            sortable: false,
-            target: $('[data-ax5grid="gridView1"]'),
-            header: {
-            	align: "center",
-            	columnHeight: 28
-            	},
-            columns: [
-            	{key: "frameNo",			label: "프레임번호",			width: 100,																		},
-            	{key: "effType",			label: "효과",				width: 100, editor: editCase('effType'),	formatter: "money", align:"right",	},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 110, editor: editCase('effSpeed'), align:"right",						},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 110, editor: editCase('showTime'), align:"right",						}
-            ],
-            body: {
-                onClick: function () {
-                    this.self.select(this.dindex);
-            		ACTIONS.dispatch(ACTIONS.ITEM_CLICK2, this.item);
-                }
-            },
-        });
-    },
-    getData: function (_type) {
-        var list = [];
-        var _list = this.target.getList(_type);
-
-        if (_type == "modified" || _type == "deleted") {
-            list = ax5.util.filter(_list, function () {
-                delete this.deleted;
-                return this.key;
-            });
-        } else {
-            list = _list;
-        }
-        return list;
-    },
-    addRow: function (data) {
-    	if(typeof data === "undefined") {
-    		this.target.addRow({__created__: true}, "last");
-    	} else {
-    		data["__created__"] = true;
-            this.target.addRow(data, "last");
-    	}
-    },
-    selectFirstRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(0);
-    	} else {
-    	}
-    },
-    selectLastRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(this.target.list.length - 1);
-    	} else {
-    	}
-    },
-    selectRow: function(index) {
-    	var data = this.target.list[index];
-    	
-    	if(typeof data === "undefined") {
-    		this.selectLastRow();
-    	} else {
-    		this.target.select(index);
-    		ACTIONS.dispatch(ACTIONS.ITEM_CLICK2, data);
-    	}
-    },
-    selectIdRow: function(id) {
-    	var i;
-    	var length = this.target.list.length;
-    	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].routId == id) {
-    			this.selectRow(i);
-    			break;
-    		}
-    	}
-    	
-    	if(i == length) {
-    	}
-    },
-    selectAll: function(flag) {
-    	this.target.selectAll({selected: flag});
-    }
-});
-
-var shortRoutNmEdit = {
-		type: "text",
-		disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
-			if(!updateList.includes(this.item.routId)){
-				updateList.push(this.item.routId);									
-			}
-		}
-	};
 
 
 /*이미지확인*/
@@ -367,6 +288,7 @@ fnObj.pageStart = function () {
     this.pageButtonView.initView();
     this.gridView0.initView();
     this.formView0.initView();
+    this.gridView1.initView();
 	this.searchView0.initView();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -604,3 +526,146 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.target.find('[data-ax-path="key"]').removeAttr("readonly");
     }
 });
+
+function fontColorEditor(){
+	return {
+		type: "text",
+		attributes: {
+			"maxlength": 9
+		}
+	}
+}
+
+/**
+ * gridView1
+ */
+fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
+    page: {
+        pageNumber: 0,
+        pageSize: 10
+    },
+    
+    initView: function () {
+        var _this = this;
+        
+        this.target = axboot.gridBuilder({
+        	showLineNumber: true,
+        	showRowSelector: false,
+        	lineNumberColumnWidth: 30,
+        	rowSelectorColumnWidth: 30,
+        	frozenColumnIndex: 0,
+            sortable: false,
+            target: $('[data-ax5grid="gridView1"]'),
+            header: {
+            	align: "center",
+            	columnHeight: 28
+            	},
+            columns: [
+            	{key: "col1",	label: "위치",	width: 100},
+            	{key: "col2",	label: "위치",	width: 100},
+            	{key: "color",	label: "폰트 색",	width: 100, editor: fontColorEditor()},
+            ],
+            body: {
+            	mergeCells: ["col1"],
+                onClick: function () {
+                    this.self.select(this.dindex);
+                }
+            },
+        });
+    },
+    getData: function (_type) {
+        var list = [];
+        var _list = this.target.getList(_type);
+
+        if (_type == "modified" || _type == "deleted") {
+            list = ax5.util.filter(_list, function () {
+                delete this.deleted;
+                return this.key;
+            });
+        } else {
+            list = _list;
+        }
+        return list;
+    },
+    addRow: function (data) {
+    	if(typeof data === "undefined") {
+    		this.target.addRow({__created__: true}, "last");
+    	} else {
+    		data["__created__"] = true;
+            this.target.addRow(data, "last");
+    	}
+    },
+    selectFirstRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(0);
+    	} else {
+    	}
+    },
+    selectLastRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(this.target.list.length - 1);
+    	} else {
+    	}
+    },
+    selectRow: function(index) {
+    	var data = this.target.list[index];
+    	
+    	if(typeof data === "undefined") {
+    		this.selectLastRow();
+    	} else {
+    		this.target.select(index);
+    	}
+    },
+    selectIdRow: function(id) {
+    	var i;
+    	var length = this.target.list.length;
+    	for(i = 0; i < length; i++) {
+    		if(this.target.list[i].routId == id) {
+    			this.selectRow(i);
+    			break;
+    		}
+    	}
+    	
+    	if(i == length) {
+    	}
+    },
+    selectAll: function(flag) {
+    	this.target.selectAll({selected: flag});
+    }
+});
+
+
+function makeData(){
+
+	var black	= "#FF000000";
+
+	var list = new Array();
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c1"), col2: ADMIN("ax.admin.BM0608G1.c1r1"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c1"), col2: ADMIN("ax.admin.BM0608G1.c1r2"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c1"), col2: ADMIN("ax.admin.BM0608G1.c1r3"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c1"), col2: ADMIN("ax.admin.BM0608G1.c1r4"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c2"), col2: ADMIN("ax.admin.BM0608G1.c2r1"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c3"), col2: ADMIN("ax.admin.BM0608G1.c3r1"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c3"), col2: ADMIN("ax.admin.BM0608G1.c3r2"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c4"), col2: ADMIN("ax.admin.BM0608G1.c4r1"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c4"), col2: ADMIN("ax.admin.BM0608G1.c4r2"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c4"), col2: ADMIN("ax.admin.BM0608G1.c4r3"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c4"), col2: ADMIN("ax.admin.BM0608G1.c4r4"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c5"), col2: ADMIN("ax.admin.BM0608G1.c5r1"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c5"), col2: ADMIN("ax.admin.BM0608G1.c5r2"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c5"), col2: ADMIN("ax.admin.BM0608G1.c5r3"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c5"), col2: ADMIN("ax.admin.BM0608G1.c5r4"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c5"), col2: ADMIN("ax.admin.BM0608G1.c5r5"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c5"), col2: ADMIN("ax.admin.BM0608G1.c5r6"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c5"), col2: ADMIN("ax.admin.BM0608G1.c5r7"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c6"), col2: ADMIN("ax.admin.BM0608G1.c6r1"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c6"), col2: ADMIN("ax.admin.BM0608G1.c6r2"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c6"), col2: ADMIN("ax.admin.BM0608G1.c6r3"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c6"), col2: ADMIN("ax.admin.BM0608G1.c6r4"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c6"), col2: ADMIN("ax.admin.BM0608G1.c6r5"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c6"), col2: ADMIN("ax.admin.BM0608G1.c6r6"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c7"), col2: ADMIN("ax.admin.BM0608G1.c7r1"), color: black});
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c7"), col2: ADMIN("ax.admin.BM0608G1.c7r2"), color: black});
+	
+	return list;
+}

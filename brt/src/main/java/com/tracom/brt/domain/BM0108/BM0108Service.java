@@ -34,10 +34,10 @@ public class BM0108Service extends BaseService<EplyInfoVO, String> {
     public String BM0108F0I0(EplyInfoVO vo) {
     	mapper.BM0108F0I0(vo);
     	if(vo.getEmployeeImg() != null) {
-    		handler.uploadBM0108(vo.getEplyId() + ".JPG", vo.getEmployeeImg());    		
+    		handler.uploadBM0108(vo.getEplyId() + ".jpg", vo.getEmployeeImg());    		
     	}
     	if(vo.getCertiImg() != null) {
-    		handler.uploadBM0108(vo.getEplyId() + "_CERTI.JPG", vo.getCertiImg());    		
+    		handler.uploadBM0108(vo.getEplyId() + "_CERTI.jpg", vo.getCertiImg());    		
     	}
     	return vo.getEplyId();
     }
@@ -47,10 +47,10 @@ public class BM0108Service extends BaseService<EplyInfoVO, String> {
     	if(mapper.BM0108F0U0(vo) > 0) {
     		
     		if(vo.getAttFile() != null) {
-    			handler.uploadBM0108(vo.getEplyId() + ".JPG", vo.getEmployeeImg());
+    			handler.uploadBM0108(vo.getEplyId() + ".jpg", vo.getEmployeeImg());
     		}
     		if(vo.getAttFile2() != null) {
-    			handler.uploadBM0108(vo.getEplyId() + "_CERTI.JPG", vo.getCertiImg());
+    			handler.uploadBM0108(vo.getEplyId() + "_CERTI.jpg", vo.getCertiImg());
     		}
     		return true;
     	} else {

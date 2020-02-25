@@ -68,19 +68,19 @@
                         
                         <ax:tr>
                             <ax:td label="전체배경" width="100%" labelClazz="required">
-								<input type="file" id="background" name="background" accept="image/bmp" onchange="preview_ChangeImage(this, 'previewImg');"/>
+								<input type="file" id="background" name="background" class="pngFile" accept="image/png"/>
+                            </ax:td>
+                        </ax:tr>
+                        
+                        <ax:tr>
+                            <ax:td label="정류장안내" width="100%" labelClazz="required">
+								<input type="file" id="land" name="land" accept="image/png" class="pngFile"/>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
                             <ax:td label="이번정류장" width="100%" labelClazz="required">
-								<input type="file" id="land" name="land" accept="image/png" onchange="preview_ChangeImage(this, 'previewImg');"/>
-                            </ax:td>
-                        </ax:tr>
-                        
-                        <ax:tr>
-                            <ax:td label="다음정류장" width="100%" labelClazz="required">
-								<input type="file" id="nextstopbg" name="nextstopbg" accept="image/png" onchange="preview_ChangeImage(this, 'previewImg');"/>
+								<input type="file" id="nextstopbg" name="nextstopbg" accept="image/png" class="pngFile"/>
                             </ax:td>
                         </ax:tr>
                         
@@ -92,14 +92,14 @@
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="동작설정" width="100%" labelClazz="required">
-	                             <div data-ax5grid="gridView1" style="min-height:280px;height:340px;"></div>
+                            <ax:td label="구역별 글씨 색" width="100%" labelClazz="required">
+	                             <div data-ax5grid="gridView1" style="min-height:280px;height:790px;"></div>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
                             <ax:td label="비고" width="300px">
-                                <input type="text" id="remark" data-ax-path="remark" title="<ax:lang id="ax.admin.BM0608F0.remark"/>" class="form-control"/>
+                            	<textarea data-ax-path="remark" class="form-control" title="<ax:lang id="ax.admin.BM0608F0.remark"/>" maxlength="200"></textarea>
                             </ax:td>
                         </ax:tr>
                         
