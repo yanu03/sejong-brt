@@ -7,7 +7,7 @@
     "logo": "logo.png"
   },
   "background": {
-    "login": "/assets/images/brtimage2.jpg"
+    "login": "/assets/images/login-bg.jpg"
   },
   "main": {
     "background": "/assets/images/main-bg.png"
