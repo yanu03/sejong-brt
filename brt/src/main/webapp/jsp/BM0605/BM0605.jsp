@@ -111,11 +111,9 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0605F0.attFile" width="300px" labelClazz="required">
+                    			
                     			<input type="file" name="vdoFile" data-ax-path="vdoFile" data-key="true" class="form-control" id="vdoFile"
                     				                                onchange="preview_Change(this);" style="width: 300px;" />
-                    		 <!-- 
-                    			<input style="" type="file" accept="image/*" data-ax-path="upFile" id="upFile" name="upFile" onchange="javascript:getThumbnailPreview(this,$('#selectFile'),$('#videoSelect'));" />
-                    		  -->
                     		</ax:td>
                     	</ax:tr>
                     	
