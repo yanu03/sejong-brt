@@ -212,8 +212,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	formDataHist["devSerialNo"] = selectedRowG2.devSerialNo;
     	formDataHist["aplyDate"] = selectedRowG2.aplyDate;
     	formDataHist["modelNm"] = selectedRowG2.modelNm;
-    	formDataHist["workType"] = selectedRowG2.workType;
+    	//dl_cd_nm 값 -> code값으로 변경 (modal의 select box값을 변환시켜주기 위해)
+    	formDataHist["workType"] = selectedRowG2.workTypeCd;
     	formDataHist["workAmt"] = selectedRowG2.workAmt;
+    	console.log(formDataHist["workTypeCd"]);
     	console.log(formDataHist["workType"]);
     	formDataHist["remark"] = selectedRowG2.remark;
     	

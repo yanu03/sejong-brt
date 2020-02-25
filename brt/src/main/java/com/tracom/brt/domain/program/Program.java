@@ -91,14 +91,15 @@ public class Program extends BaseJpaModel<String> {
     @Column(name = "FN6_AH", length = 1)
     @ColumnPosition(15)
     private String fn6Ah = "N";
-
-    @Column(name = "REMARK", length = 200)
-    @ColumnPosition(16)
-    private String remark;
     
     @Column(name = "FN7_AH", length = 1)
-    @ColumnPosition(17)
+    @ColumnPosition(16)
     private String fn7Ah = "N";
+
+    @Column(name = "REMARK", length = 200)
+    @ColumnPosition(17)
+    private String remark;
+    
 
     @Override
     public String getId() {

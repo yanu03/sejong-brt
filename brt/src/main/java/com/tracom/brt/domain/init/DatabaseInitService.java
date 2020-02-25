@@ -91,7 +91,8 @@ public class DatabaseInitService {
                     program.getFn2Ah(),
                     program.getFn3Ah(),
                     program.getFn4Ah(),
-                    program.getFn5Ah());
+                    program.getFn5Ah(),
+                    program.getFn6Ah());
 
             lines.add(line);
         }

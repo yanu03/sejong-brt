@@ -231,6 +231,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
     },
     
+    OPEN_BM0304_MODAL: function(caller, act, data) {
+    	axboot.modal.open({
+            modalType: "BM0304",
+            param: "",
+            callback: function (data) {
+            	//ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+            }
+        });
+    },
+    
     PAGE_CLOSE: function(caller, act, data) {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
@@ -282,7 +292,10 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
-            },       
+            },
+            "operstatus": function() {
+            	ACTIONS.dispatch(ACTIONS.OPEN_BM0304_MODAL);
+            },
         });
     }
 });
@@ -403,7 +416,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 });
 
 /**
- * gridView1
+ * gridView0
  */
 fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     page: {
@@ -415,24 +428,23 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
-        	frozenColumnIndex: 1,
+            frozenColumnIndex: 0,            
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "dvcCond", label: ADMIN("ax.admin.BM0203G0.dvccond"), id:"dvcCond",align:"center", sortable: true, width: 80 , styleClass:function(){return (this.item.dvcCond === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
-            	{key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), sortable: true, width: 100},
-            	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), align:"center", sortable: true, width: 80},
-            	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), width: 100},
-                {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), sortable: true, width: 130},
-                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), align:"center", width: 150},
-                {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), width: 150},
-                {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
+            	{key: "", label: ADMIN("ax.admin.BM0602G0.useyn"), align: "center", sortable: true, editor:{type:"checkbox"}, width: 70},
+                {key: "category", label: ADMIN("ax.admin.BM0103F0.vhcId"), align: "center", sortable: true,  width: 120},
+                {key: "provNm", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align: "center", sortable: true,  width: 120},
             ],
             body: {
-            	 onClick: function () {
-                     this.self.select(this.dindex);
-                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
-                 }
+                onClick: function () {
+                    this.self.select(this.dindex);
+                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
+                }
             },
+            onPageChange: function (pageNumber) {
+                _this.setPageData({pageNumber: pageNumber});
+                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+            }
         });
     },
     getData: function (_type) {
@@ -441,7 +453,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 
         if (_type == "modified" || _type == "deleted") {
             list = ax5.util.filter(_list, function () {
-                delete this.deleted;
                 return this.key;
             });
         } else {
@@ -452,9 +463,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     addRow: function (data) {
     	if(typeof data === "undefined") {
     		this.target.addRow({__created__: true}, "last");
-    		console.log("데이터없음");
     	} else {
-    		console.log("데이터있음");
     		data["__created__"] = true;
             this.target.addRow(data, "last");
     	}
@@ -481,14 +490,14 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     		this.selectLastRow();
     	} else {
     		this.target.select(index);
-        	ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, data);
+        	ACTIONS.dispatch(ACTIONS.ITEM_CLICK, data);
     	}
     },
     selectIdRow: function(id) {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].dvcId == id) {
+    		if(this.target.list[i].conId == id) {
     			this.selectRow(i);
     			break;
     		}
@@ -496,6 +505,8 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     	
     	if(i == length) {
     		isUpdate = false;
+    		fnObj.formView0.clear();
+    		fnObj.formView0.disable();
     	}
     },
     selectAll: function(flag) {

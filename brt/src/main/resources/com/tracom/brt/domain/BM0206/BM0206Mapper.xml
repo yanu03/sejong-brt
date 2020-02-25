@@ -3,8 +3,7 @@
 <mapper namespace="com.tracom.brt.domain.BM0206.BM0206Mapper">
 	<select id="BM0206G2S0" parameterType="String" resultType="updateHistoryVO">
 	   SELECT
-			UP.VER_INFO
-		  , UP.SEND_DATE
+		    UP.SEND_DATE
 		  , UP.REMARK
 		  , UP.RSV_ID
 		  , DL.DL_CD_NM AS PROCE_RST
