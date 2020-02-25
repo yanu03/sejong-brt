@@ -260,6 +260,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		caller.gridView1.setData(frame);
     	}
     },
+    
+    PREVIEW: function (caller, act, data){
+    	axboot.modal.open({
+            modalType: "BM0608",
+            param: "",
+            callback: function (data) {
+            	// 운수사, 거래처 등을 선택한 후 이벤트 ex) input에 값을 넣어 주는 등의 로직을 작성하면됨
+                this.close();
+            }
+        });
+    }
 
     
 });
@@ -388,6 +399,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
+            },
+            "preview": function(){
+            	ACTIONS.dispatch(ACTIONS.PREVIEW);
             }
         });
     }

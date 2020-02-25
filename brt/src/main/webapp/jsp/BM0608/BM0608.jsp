@@ -50,7 +50,7 @@
                     </div>
                     <div class="right">
 						<div id="preview" style="float:right;">
-	                    	<button class="btn btn-default" data-grid-control="preview">미리보기</button>
+	                    	<button class="btn btn-default" data-page-btn="preview" data-grid-control="preview">미리보기</button>
 	                    </div>
                     </div>
                 </div>
