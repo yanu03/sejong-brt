@@ -39,13 +39,11 @@
     	INSERT INTO BM_VOC_INFO(
     		  VOC_ID
     		, ROUT_ID
-    		, PLAY_ST_DATE
     		, PLAY_TYPE
     		, KR_TTS
     		, REMARK
     		, PLAY_TM
     		, VOC_DIV
-    		, PLAY_ED_DATE
     		, CREATED_AT
     		, CREATED_BY
     		, CREATED_IP
@@ -55,13 +53,11 @@
    		VALUES(
    			  #{vocId}
    			, #{routId}
-   			, #{playStDate}
    			, #{playType}
    			, #{krTts}
    			, #{remark}
    			, #{playTm}
    			, 'CD028'
-   			, #{playEdDate}
    			, #{createdAt}
    			, #{createdBy}
    			, #{createdIp}
@@ -74,14 +70,12 @@
     <update id="BM0404F0U0" parameterType="voiceInfoVO">
     	UPDATE BM_VOC_INFO
     	SET
-    		  PLAY_ST_DATE	=	#{playStDate}
-    		, PLAY_TYPE		=	#{playType}
+    		  PLAY_TYPE		=	#{playType}
     		, KR_TTS		=	#{krTts}
     		, REMARK		=	#{remark}
     		<if test="playTm != null">
     			, PLAY_TM		=	#{playTm}
     		</if>
-    		, PLAY_ED_DATE	=	#{playEdDate}
     		, UPDATED_AT	=	#{updatedAt}
     		, UPDATED_BY	=	#{updatedBy}
     		, UPDATED_IP	=	#{updatedIp}

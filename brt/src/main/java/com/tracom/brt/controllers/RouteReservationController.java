@@ -23,7 +23,7 @@ public class RouteReservationController extends BaseController {
 	 * */
 	@PostMapping("/makeRoute")
 	public ApiResponse makeRoute() {
-		service.makeRouteFile();
+		//service.makeRouteFile();
 		return ok();
 	}
 	

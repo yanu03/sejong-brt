@@ -2,11 +2,72 @@
 var fnObj = {}, CODE = {};
 
 /***************************************** 전역 변수 초기화 ******************************************************/
-selectedRow = null;
+var selectedRow = null;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
+	PAGE_RESERVATION: function(caller, act, data) {
+    	if(selectedRow == null) {
+    		axDialog.alert("노선을 선택해주세요");
+    		return false;
+    	}
+    	
+    	var vehicleList = caller.gridView1.getData("selected");
+    	
+    	if(vehicleList.length == 0) {
+    		axDialog.alert("차량을 선택해주세요");
+    	}
+    	
+    	vehicleList.forEach(function(item) {
+    		if(item.rsvId != null) {
+    			axDialog.alert("예약중인 차량은 중복예약이 되지 않습니다.")
+    			return false;
+    		}
+    	});
+    	
+    	
+		axboot.modal.open({
+            modalType: "RESERVATION",
+            param: "",
+            callback: function (result) {
+            	this.close();
+            	
+            	var rsvDate = result;
+            	var routId = selectedRow.routId;
+            	var list = vehicleList.map(function(item) {
+            		return item.mngId;
+            	});
+            	
+            	var data = {
+            		rsvDate: rsvDate,
+            		routId: routId,
+            		list: list
+            	}
+            	
+            	axboot.promise()
+	    	        .then(function (ok, fail, _data) {
+	    	            axboot.ajax({
+	    	                type: "POST",
+	    	                url: "/api/v1/BM0406G1I0",
+	    	                data: JSON.stringify(data),
+	    	                callback: function (res) {
+	    	                    ok(res);
+	    	                }
+	    	            });
+	    	        })
+	    	        .then(function (ok, fail, data) {
+	    	        	axToast.push(LANG("ax.script.alert.reservation"));
+	    	        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G1);
+	    	        })
+	    	        .catch(function () {
+	    	
+	    	        });
+            }
+        });
+        //*/
+    },
+    
 	PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
@@ -39,7 +100,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH_G1: function(caller, act, data) {
     	axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0103G0S0",
+            url: "/api/v1/BM0406G1S0",
             data: null,
             callback: function (res) {
             	caller.gridView1.setData(res);
@@ -89,6 +150,7 @@ fnObj.pageButtonView = axboot.viewExtend({
         	},
             "search": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G1);
             },
             "excel": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
@@ -241,22 +303,28 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
             sortable: true,
+            showRowSelector: true,
+            multipleSelect : true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-                {key: "vhcId",		label: ADMIN("ax.admin.BM0406G1.vhcId"),	width: 65,	align: "center",},
-                {key: "vhcNo",		label: ADMIN("ax.admin.BM0406G1.vhcNo"),	width: 90,},
+            	{key: "rsvId",		label: ADMIN("ax.admin.BM0406G1.rsvYn"),	width: 70,	align: "center", formatter: function() {
+            		if(this.item.rsvId != null)
+            			return ADMIN("ax.admin.item.reservation");
+                }},
+                {key: "vhcId",		label: ADMIN("ax.admin.BM0406G1.vhcId"),	width: 65,	align: "center"},
+                {key: "vhcNo",		label: ADMIN("ax.admin.BM0406G1.vhcNo"),	width: 90,	align: "center"},
                 {key: "chasNo", 	label: ADMIN("ax.admin.BM0406G1.chasNo"),	width: 130},
-                {key: "corpNm",		label: ADMIN("ax.admin.BM0406G1.corpId"),	width: 120},
-                {key: "area",		label: ADMIN("ax.admin.BM0406G1.area"),		width: 80},
-                {key: "maker",		label: ADMIN("ax.admin.BM0406G1.maker"),	width: 80},
+                {key: "corpNm",		label: ADMIN("ax.admin.BM0406G1.corpId"),	width: 120,	align: "center"},
+                {key: "areaNm",		label: ADMIN("ax.admin.BM0406G1.area"),		width: 100,	align: "center"},
+                {key: "makerNm",	label: ADMIN("ax.admin.BM0406G1.maker"),	width: 80,	align: "center"},
                 {key: "relsDate",	label: ADMIN("ax.admin.BM0406G1.relsDate"),	width: 80,	align: "center"},
-                {key: "modelNm",	label: ADMIN("ax.admin.BM0406G1.modelNm"),	width: 100},
-                {key: "vhcKindNm",	label: ADMIN("ax.admin.BM0406G1.vhcKind"),	width: 80},
-                {key: "vhcTypeNm",	label: ADMIN("ax.admin.BM0406G1.vhcType"),	width: 70},
-                {key: "lfYnNm",		label: ADMIN("ax.admin.BM0406G1.lfYn"),		width: 70},
-                {key: "vhcFuelNm",	label: ADMIN("ax.admin.BM0406G1.vhcFuel"),	width: 50},
-                {key: "useYn",		label: ADMIN("ax.admin.BM0406G1.useYn"),	width: 70},
-                {key: "remark",		label: ADMIN("ax.admin.BM0406G1.remark"),	width: 100},
+                {key: "modelNm",	label: ADMIN("ax.admin.BM0406G1.modelNm"),	width: 100,	align: "center"},
+                {key: "vhcKindNm",	label: ADMIN("ax.admin.BM0406G1.vhcKind"),	width: 80,	align: "center"},
+                {key: "vhcTypeNm",	label: ADMIN("ax.admin.BM0406G1.vhcType"),	width: 70,	align: "center"},
+                {key: "lfYnNm",		label: ADMIN("ax.admin.BM0406G1.lfYn"),		width: 70,	align: "center"},
+                {key: "vhcFuelNm",	label: ADMIN("ax.admin.BM0406G1.vhcFuel"),	width: 50,	align: "center"},
+                {key: "useYn",		label: ADMIN("ax.admin.BM0406G1.useYn"),	width: 70,	align: "center"},
+                {key: "remark",		label: ADMIN("ax.admin.BM0406G1.remark"),	width: 100,	align: "center"},
             ],
             body: {
                 onClick: function () {

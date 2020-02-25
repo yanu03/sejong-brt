@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0406.BM0406Mapper">
+    <select id="BM0406G1S0" resultType="vhcInfoVO">
+		SELECT
+			  V.RSV_ID
+			, D.MNG_ID
+    		, VHC_INFO.VHC_ID
+    		, VHC_NO
+    		, CHAS_NO
+			, CORP_INFO.CORP_NM AS CORP_NM
+	        , DL_CD6.DL_CD_NM AS AREA_NM
+	        , DL_CD5.DL_CD_NM AS MAKER_NM
+    		, RELS_DATE
+    		, MODEL_NM
+	        , DL_CD.DL_CD_NM AS VHC_KIND_NM
+	        , DL_CD2.DL_CD_NM AS VHC_TYPE_NM
+	        , DL_CD3.DL_CD_NM AS LF_YN_NM
+	        , DL_CD4.DL_CD_NM AS VHC_FUEL_NM
+    		, VHC_INFO.REMARK
+    		, VHC_INFO.USE_YN
+    	FROM
+    		BM_VHC_INFO VHC_INFO
+			LEFT OUTER JOIN BM_CORP_INFO CORP_INFO
+			ON VHC_INFO.CORP_ID = CORP_INFO.CORP_ID
+         LEFT OUTER JOIN SM_DL_CD_INFO DL_CD
+			ON VHC_INFO.VHC_KIND = DL_CD.DL_CD
+			AND DL_CD.CO_CD = 'VHC_KIND'
+         LEFT OUTER JOIN SM_DL_CD_INFO DL_CD2
+			ON VHC_INFO.VHC_TYPE = DL_CD2.DL_CD 
+			AND DL_CD2.CO_CD = 'VHC_TYPE'
+			LEFT OUTER JOIN SM_DL_CD_INFO DL_CD3
+			ON VHC_INFO.LF_YN = DL_CD3.DL_CD 
+			AND DL_CD3.CO_CD = 'LF_YN'
+			LEFT OUTER JOIN SM_DL_CD_INFO DL_CD4
+			ON VHC_INFO.VHC_FUEL = DL_CD4.DL_CD 
+			AND DL_CD4.CO_CD = 'VHC_FUEL'
+			LEFT OUTER JOIN SM_DL_CD_INFO DL_CD5
+			ON VHC_INFO.MAKER = DL_CD5.DL_CD 
+			AND DL_CD5.CO_CD = 'VHC_MAKER'
+			LEFT OUTER JOIN SM_DL_CD_INFO DL_CD6
+			ON VHC_INFO.AREA = DL_CD6.DL_CD 
+			AND DL_CD6.CO_CD = 'AREA'
+			LEFT OUTER JOIN BM_DVC_INFO D
+			ON VHC_INFO.VHC_ID = D.VHC_ID
+			AND D.DVC_KIND = 'CD005'
+			LEFT OUTER JOIN BM_VOC_RSV_RST V
+			ON D.MNG_ID = V.MNG_ID
+			AND COMPLETE_YN = 'N'
+		WHERE
+			D.MNG_ID IS NOT NULL
+		ORDER BY VHC_INFO.VHC_ID ASC
+    </select>
+    
+    <insert id="insertVoiceReservation" parameterType="hashmap">
+   		<selectKey keyProperty="rsvId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('AR', LPAD(NEXTVAL(SEQ_BM_VOC_ORGA_0), 5, '0'))
+    	</selectKey>
+    	INSERT INTO BM_VOC_RSV(
+    		  RSV_ID
+    		, RSV_DATE
+    		, ROUT_ID)
+    	VALUES(
+    		  #{rsvId}
+    		, #{rsvDate}
+    		, #{routId}
+    	)
+    </insert>
+    
+    <insert id="insertVoiceReservationResult" parameterType="hashmap">
+    	INSERT INTO BM_VOC_RSV_RST(
+    		  RSV_ID
+    		, MNG_ID
+    		, COMPLETE_YN)
+    	VALUES
+    	<foreach collection="list" item="item" separator=",">
+    	(
+    		  #{rsvId}
+    		, #{item}
+    		, 'N'
+    	)
+    	</foreach>
+    </insert>
+</mapper>

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VoiceInfoVO extends BaseVO {
 	private String vocId;
+	private Integer seq;
 	private String routId;
 	private String routNm;
 	private String vocNm;
@@ -23,6 +24,7 @@ public class VoiceInfoVO extends BaseVO {
 	private String remark;
 	private Integer playTm;
 	private String vocDiv;
+	private Integer vocCode;
 	private String conId;
 	private String conNm;
 	private String drvEvt;
