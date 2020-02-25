@@ -1,6 +1,5 @@
 var fnObj = {}, CODE = {};
 var updateList = [];
-var opt = [];
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
@@ -137,6 +136,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK: function (caller, act, data) {
+    	uv_height = 0;
     	selectedRow = data;
     	//loadSCH(data);
         caller.formView0.setData(data);
@@ -158,21 +158,22 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 });
 
 function getEffType(){
-	var arr = new Array();
-
+	var effArr = new Array();
+/*
 	axboot.ajax({
         type: "GET",
         url: "/api/v1/SM0105G3S0",
         callback: function (res) {
         	var res = res.list;
         	for(var i=0; i<res.length; i++){
-        		var tmp = {CD: res[i].txtVal1, NM: res[i].dlCdNm};
-        		arr[i] = tmp;
+        		//var tmp = {CD: res[i].txtVal1, NM: res[i].dlCdNm};
+        		var tmp = {CD: res[i].dlCdNm, NM: res[i].dlCdNm};
+        		effArr.push(tmp);
         	}
-        	console.log(arr);
-        	return arr;
         }
     });
+	
+ * */
 }
 
 function editCase(input){
@@ -181,6 +182,7 @@ function editCase(input){
 			return {
 				type: "number",
 				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
+					console.log(uv_height);
 					return this.item.__index >= uv_height;
 				},
 				attributes: {
@@ -198,21 +200,17 @@ function editCase(input){
 				}
 		};
 		case 'effType' :
-			console.log("opt");
-			console.log(opt);
 			return {
 			type: "select",
 			config: {
 				columnKeys: {
 					optionValue: "CD", optionText: "NM"
 				},
-				//options : opt
-				
-				options: [	{CD : "01", NM: "화면그대로 표출"},
-							{CD : "71", NM: "왼쪽으로 쉬프트하면서 밀어내기"},
-							{CD : "72", NM: "오른쪽으로 쉬프트하면서 밀어내기"},
-							{CD : "73", NM: "위로 쉬프트하면서 밀어내기"},
-							{CD : "74", NM: "아래로 쉬프트하면서 밀어내기"}]
+				options: [	{CD : "화면그대로 표출", NM: "화면그대로 표출"},
+							{CD : "왼쪽으로 쉬프트하면서 밀어내기", NM: "왼쪽으로 쉬프트하면서 밀어내기"},
+							{CD : "오른쪽으로 쉬프트하면서 밀어내기", NM: "오른쪽으로 쉬프트하면서 밀어내기"},
+							{CD : "위로 쉬프트하면서 밀어내기", NM: "위로 쉬프트하면서 밀어내기"},
+							{CD : "아래로 쉬프트하면서 밀어내기", NM: "아래로 쉬프트하면서 밀어내기"}]
 			},
 			disabled: function(){
 				return this.item.__index >= uv_height;
@@ -228,7 +226,7 @@ function styleEdit(){
 		return "grid-cell-gray";
 	}
 	else{
-		return "";
+		return "grid-cell-black";
 	}
 }
 
@@ -257,10 +255,10 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	columnHeight: 28
             	},
             columns: [
-            	{key: "frameNo",			label: "프레임번호",			width: 100,																		styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
-            	{key: "effType",			label: "효과",				width: 100, editor: editCase('effType'), align:"right",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 110, editor: editCase('effSpeed'), align:"right",						styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 110, editor: editCase('showTime'), align:"right",						styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }}
+            	{key: "frameNo",			label: "프레임번호",			width: 70,																		styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+            	{key: "effType",			label: "효과",				width: 200, editor: editCase('effType'), align:"left",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 130, editor: editCase('effSpeed'), align:"right",						styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+                {key: "showTime",			label: "표출시간(1=10ms)",		width: 130, editor: editCase('showTime'), align:"right",						styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }}
             ],
             body: {
                 onClick: function () {
@@ -430,7 +428,6 @@ $("input[id=bmpFile]").change(function(){
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
 fnObj.pageStart = function () {
 	selectBox();
-	opt = getEffType();
 	//this.gridView1.initView();
     this.pageButtonView.initView();
     this.gridView0.initView();
@@ -524,7 +521,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),											width: 160},
                 {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),											width: 160},
                 {key: "wayDivNm",		label: ADMIN("ax.admin.BM0104G0.wayDiv"),											width: 60,	align: "center"},
-                {key: "userWayDiv",		label: ADMIN("ax.admin.BM0104G0.userWayDiv"),	width: 120,	align: "center"},
+                {key: "userWayDivNm",		label: ADMIN("ax.admin.BM0104G0.userWayDiv"),	width: 120,	align: "center"},
                 {key: "dvcName",		label: ADMIN("ax.admin.BM0104G0.dvcName"),											width: 90},
                 {key: "line1Str",		label: ADMIN("ax.admin.BM0104G0.line1Str"),											width: 200},
                 {key: "line2Str",		label: ADMIN("ax.admin.BM0104G0.line2Str"),											width: 200},

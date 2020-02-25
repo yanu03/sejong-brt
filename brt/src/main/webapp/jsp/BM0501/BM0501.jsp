@@ -13,7 +13,10 @@
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0501/BM0501.js' />"></script>
         <style>
 			.grid-cell-gray{
-		        color: FFFFFF<!-- #F1F3F5 -->;
+		        color: #F1F3F5;
+		    }
+		    .grid-cell-black{
+		    	color: #FFFFFF;
 		    }
 		</style>
     </jsp:attribute>
@@ -48,7 +51,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="620" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="720" style="padding-left: 10px;" scroll="scroll">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h3><i class="cqc-news"></i>표출정보</h3>
@@ -62,9 +65,6 @@
                         <ax:tr>
                             <ax:td label="장치유형" width="100%" labelClazz="required">
                             	<div data-ax5select="selectType" id="selectBox"></div>
-                            	<!-- 
-                                <ax:SM0105 groupCd="DVC_TYPE" id="dvcType" name="dvcType" dataPath="dvcType" clazz="form-control"/>
-                            	 -->
                             </ax:td>
                         </ax:tr>
                         <ax:tr>
