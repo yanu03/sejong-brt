@@ -62,7 +62,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     RELOAD_G1: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
-    	var listLength ;
+    	var listLength;
+    	var list = {};
+    	var vocList;
+    	var vdoList;
+    	var etcList;
     	console.log("리로드1");
     	axboot.ajax({
             type: "GET",
@@ -99,15 +103,28 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     			  console.log(res);
     			  if(res.list[0] != null){
     				  for(var i = 0; i<res.list.length; i++){
-    					  if(res.list[i].vocId != null){
-    						  res.list[i].type = "음성";
-    					  }else{
-    						  res.list[i].type = "영상";
-    					  }
+    						res.list[i].vdoType = "영상";
     				  }
     				  caller.gridView2.setData(res);
     			  }else{
     				  caller.gridView2.clear();
+    			  }
+    		  }
+    	  })
+    	  
+    	  axboot.ajax({
+    		  type: "GET",
+    		  url: "/api/v1/BM0303G2S1",
+    		  data:{conId: selectedRow.conId},
+    		  callback:function(res){
+    			  console.log(res);
+    			  if(res.list[0] != null){
+    				  for(var i = 0; i<res.list.length; i++){
+    						res.list[i].vocType = "음성";
+    				  }
+    				  caller.gridView3.setData(res);
+    			  }else{
+    				  caller.gridView3.clear();
     			  }
     		  }
     	  })
@@ -124,6 +141,7 @@ fnObj.pageStart = function () {
     this.gridView0.initView();
     this.gridView1.initView();
     this.gridView2.initView();
+    this.gridView3.initView();
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -194,11 +212,11 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             	 columns: [        		
             		 {key: "confirmYn",	label: ADMIN("ax.admin.BM0301F0.confirmyn"),sortable: true, align: "center", width: 70 , styleClass:function(){return (this.item.confirmYn === "확정") ? "grid-cell-red":"grid-cell-blue" }},
                  	 {key: "conNo",		label: ADMIN("ax.admin.BM0301F0.conno"),	sortable: true, align: "center", width: 120},                
-                     {key: "conNm",		label: ADMIN("ax.admin.BM0301F0.connm"),	align: "center", width: 120},
+                     {key: "conNm",		label: ADMIN("ax.admin.BM0301F0.connm"),	width: 120},
                      {key: "conFstDate",label: ADMIN("ax.admin.BM0301F0.confd"),	sortable: true, align: "center", type: "date" , width: 120},
                      {key: "conStDate",	label: ADMIN("ax.admin.BM0301F0.consd"),	sortable: true, align: "center", type: "date" , width: 120},
                      {key: "conEdDate",	label: ADMIN("ax.admin.BM0301F0.coned"),	sortable: true, align: "center", type: "date" , width: 120},
-                     {key: "custNm",	label: ADMIN("ax.admin.BM0102F0.cust.name"),sortable: true,	align: "center", width: 120},
+                     {key: "custNm",	label: ADMIN("ax.admin.BM0102F0.cust.name"),sortable: true,	width: 120},
                      {key: "suppAmt",	label: ADMIN("ax.admin.BM0301F0.suppamt"),	align: "right", width: 120, formatter:"money"},
                      {key: "vatAmt",	label: ADMIN("ax.admin.BM0301F0.vatamt"),	align: "right", width: 120, formatter:"money"},
                      {key: "remark",	label: ADMIN("ax.admin.BM0301F0.remark"),	width: 200},
@@ -302,7 +320,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
                 {key: "conEdDate", label:ADMIN("ax.admin.BM0302F0.alted"), sortable: true, align: "center", width: 120},
                 {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), formatter:"money",align: "right", width: 100},
                 {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), formatter:"money" , align: "right", width: 100},
-                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), align: "center", width: 120},
                 {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
             ],
             body: {
@@ -393,24 +410,116 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
     },
     initView: function () {
         var _this = this;
-        this.target = axboot.gridBuilder({
-        	lineNumberColumnWidth: 30,
-        	frozenColumnIndex: 1,
-            target: $('[data-ax5grid="gridView2"]'),
-            columns: [
-            	{key: "type", label: ADMIN("ax.admin.BM0303G2.type"), sortable: true, align:"center" ,width: 80},
-            	{key: "attFile", label: ADMIN("ax.admin.BM0303G2.filename"), align:"center" , width: 100},
-                {key: "playStDate", label: ADMIN("ax.admin.BM0303G2.playstdate"), sortable: true, align:"center" , width: 120},
-                {key: "playEdDate", label: ADMIN("ax.admin.BM0303G2.playeddate"), sortable: true, align:"center" , width: 120},
-                {key: "playTm", label: ADMIN("ax.admin.BM0303G2.playtm"), sortable: true, align:"right" , width: 80},
-            ],
-            body: {
-                onClick: function () {
-                    this.self.select(this.dindex);
-                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G2, this.item);
-                }
-            },
-        });
+        	this.target = axboot.gridBuilder({
+        		lineNumberColumnWidth: 30,
+        		frozenColumnIndex: 1,
+        		target: $('[data-ax5grid="gridView2"]'),
+        		columns: [
+        			{key: "vdoType", label: ADMIN("ax.admin.BM0303G2.type"), sortable: true, align:"center" ,width: 80},
+        			{key: "attFile", label: ADMIN("ax.admin.BM0303G2.filename"), align:"center" , width: 100},
+        			{key: "playStDate", label: ADMIN("ax.admin.BM0303G2.playstdate"), sortable: true, align:"center" , width: 120},
+        			{key: "playEdDate", label: ADMIN("ax.admin.BM0303G2.playeddate"), sortable: true, align:"center" , width: 120},
+        			{key: "playTm", label: ADMIN("ax.admin.BM0303G2.playtm"), sortable: true, align:"right" , width: 80},
+        			],
+        			body: {
+        				onClick: function () {
+        					this.self.select(this.dindex);
+        					ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G2, this.item);
+        				}
+        			},
+        	});
+    },
+    getData: function (_type) {
+        var list = [];
+        var _list = this.target.getList(_type);
+
+        if (_type == "modified" || _type == "deleted") {
+            list = ax5.util.filter(_list, function () {
+                delete this.deleted;
+                return this.key;
+            });
+        } else {
+            list = _list;
+        }
+        return list;
+    },
+    addRow: function (data) {
+    	if(typeof data === "undefined") {
+    		this.target.addRow({__created__: true}, "last");
+    	} else {
+    		data["__created__"] = true;
+            this.target.addRow(data, "last");
+    	}
+    },
+    selectFirstRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(0);
+    	} else {
+    		isUpdate = false;
+    	}
+    },
+    selectLastRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(this.target.list.length - 1);
+    	} else {
+    		isUpdate = false;
+    	}
+    },
+    selectRow: function(index) {
+    	isUpdate = true;
+    	var data = this.target.list[index];
+    	
+    	if(typeof data === "undefined") {
+    		this.selectLastRow();
+    	} else {
+    		this.target.select(index);
+        	ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, data);
+    	}
+    },
+    selectIdRow: function(id) {
+    	var i;
+    	var length = this.target.list.length;
+    	for(i = 0; i < length; i++) {
+    		if(this.target.list[i].seq == id) {
+    			this.selectRow(i);
+    			break;
+    		}
+    	}
+    	
+    	if(i == length) {
+    		isUpdate = false;
+    	}
+    },
+    selectAll: function(flag) {
+    	this.target.selectAll({selected: flag});
+    }
+});
+
+fnObj.gridView3 = axboot.viewExtend(axboot.gridView, {
+    page: {
+        pageNumber: 0,
+        pageSize: 10
+    },
+    initView: function () {
+        var _this = this;
+        	this.target = axboot.gridBuilder({
+        		lineNumberColumnWidth: 30,
+        		frozenColumnIndex: 1,
+        		target: $('[data-ax5grid="gridView3"]'),
+        		columns: [
+        			{key: "vocType", label: ADMIN("ax.admin.BM0303G2.type"), sortable: true, align:"center" ,width: 80},
+        			{key: "attFile", label: ADMIN("ax.admin.BM0303G2.filename"), align:"center" , width: 100},
+        			{key: "playStDate", label: ADMIN("ax.admin.BM0303G2.playstdate"), sortable: true, align:"center" , width: 120},
+        			{key: "playEdDate", label: ADMIN("ax.admin.BM0303G2.playeddate"), sortable: true, align:"center" , width: 120},
+        			{key: "playTm", label: ADMIN("ax.admin.BM0303G2.playtm"), sortable: true, align:"right" , width: 80},
+        			],
+        			body: {
+        				onClick: function () {
+        					this.self.select(this.dindex);
+        					ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G2, this.item);
+        				}
+        			},
+        	});
     },
     getData: function (_type) {
         var list = [];

@@ -84,6 +84,15 @@ public class BM0601Controller extends BaseController{
 		return Responses.ListResponse.of(list);
 	}
 	
+	@GetMapping("/BM0601G2S2")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name ="filter" , value="검색어" , dataType = "String" , paramType = "query")
+	})
+	public Responses.ListResponse BM0601G2S2(RequestParams<WeatAtmoVO> requestParams){
+		List<WeatAtmoVO> list = service.BM0601G2S2(requestParams);
+		return Responses.ListResponse.of(list);
+	}
+	
 	@GetMapping("/BM0601M0S0")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="filter" , value="검색어" , dataType = "String" , paramType = "query")

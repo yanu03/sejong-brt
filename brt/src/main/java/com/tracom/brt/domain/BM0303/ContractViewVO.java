@@ -31,5 +31,7 @@ public class ContractViewVO extends BaseVO{
 	private String playEdDate;
 	private String attFile;
 	private String type;
+	private String vocType;
+	private String vdoType;
 	private int playTm;
 }

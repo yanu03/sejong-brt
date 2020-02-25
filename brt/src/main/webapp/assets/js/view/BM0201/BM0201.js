@@ -68,59 +68,64 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 url: "/api/v1/BM0201G1S1",
                 data:{dvcId : selectedRowG1.dvcId},
                 callback: function (res) {
-                if(res.list.length > 0){               	               	
-                    axDialog.confirm({
-                    	msg: ("관련장치이력:"+res.list.length+"건이 있습니다. 삭제하시겠습니까?(관련이력이 모두 사라집니다.)")
-                    }, function() {          	          	
-                    	if (this.key == "ok") {      	
-                    		axboot.promise()
-                    		.then(function (ok, fail, data) {
-                    			axboot.ajax({
-                    				type: "POST",
-                    				url: "/api/v1/BM0201G1D0",
-                    				data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
-                    				callback: function (res) {
-                    					ok(res);
-                    				}
-                    			});
-                    		})
-                    		.then(function (ok) {
-                    			caller.formView0.clear();
-                    			axToast.push(LANG("ondelete"));
-                    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                    		})
-                    		.catch(function () {
-                    			
-                    		});
-                    	}   	
-                    });
-                }else{
-                	axDialog.confirm({
-                    	msg: LANG("ax.script.deleteconfirm")
-                    }, function() {          	          	
-                    	if (this.key == "ok") {      	
-                    		axboot.promise()
-                    		.then(function (ok, fail, data) {
-                    			axboot.ajax({
-                    				type: "POST",
-                    				url: "/api/v1/BM0201G1D0",
-                    				data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
-                    				callback: function (res) {
-                    					ok(res);
-                    				}
-                    			});
-                    		})
-                    		.then(function (ok) {
-                    			caller.formView0.clear();
-                    			axToast.push(LANG("ondelete"));
-                    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                    		})
-                    		.catch(function () {
-                    			
-                    		});
-                    	}   	
-                    });
-                }
+                	
+                	if(res.list.length < 2){
+		                if(res.list.length > 0){               	               	
+		                    axDialog.confirm({
+		                    	msg: ("관련장치이력:"+res.list.length+"건이 있습니다. 삭제하시겠습니까?")
+		                    }, function() {          	          	
+		                    	if (this.key == "ok"){      	
+		                    		axboot.promise()
+		                    		.then(function (ok, fail, data){
+		                    			axboot.ajax({
+		                    				type: "POST",
+		                    				url: "/api/v1/BM0201G1D0",
+		                    				data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
+		                    				callback: function (res){
+		                    					ok(res);
+		                    				}
+		                    			});
+		                    		})
+		                    		.then(function (ok) {
+		                    			caller.formView0.clear();
+		                    			axToast.push(LANG("ondelete"));
+		                    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+		                    		})
+		                    		.catch(function () {
+		                    			
+		                    		});
+		                    	}   	
+		                    });
+		                }else{
+		                	axDialog.confirm({
+		                    	msg: LANG("ax.script.deleteconfirm")
+		                    }, function() {          	          	
+		                    	if (this.key == "ok") {      	
+		                    		axboot.promise()
+		                    		.then(function (ok, fail, data) {
+		                    			axboot.ajax({
+		                    				type: "POST",
+		                    				url: "/api/v1/BM0201G1D0",
+		                    				data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
+		                    				callback: function (res) {
+		                    					ok(res);
+		                    				}
+		                    			});
+		                    		})
+		                    		.then(function (ok) {
+		                    			caller.formView0.clear();
+		                    			axToast.push(LANG("ondelete"));
+		                    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+		                    		})
+		                    		.catch(function () {
+		                    			
+		                    		});
+		                    	}   	
+		                    });
+		                }
+                	}else{
+                		alert("장치이력이"+res.list.length+"건 있어서 삭제가 불가능합니다.");
+                	}
                 }
             });
     	   	

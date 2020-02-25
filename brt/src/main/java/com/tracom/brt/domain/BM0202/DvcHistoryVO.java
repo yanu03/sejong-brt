@@ -33,6 +33,7 @@ public class DvcHistoryVO extends BaseVO{
 	private String devSerialNo;
 	private String aplyDate;
 	private String workType;
+	private String workTypeCd;
 	private String workAmt;
 	private String seq;
 	private String txtVal1;

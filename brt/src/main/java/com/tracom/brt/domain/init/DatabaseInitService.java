@@ -91,7 +91,8 @@ public class DatabaseInitService {
                     program.getFn2Ah(),
                     program.getFn3Ah(),
                     program.getFn4Ah(),
-                    program.getFn5Ah());
+                    program.getFn5Ah(),
+                    program.getFn6Ah());
 
             lines.add(line);
         }
@@ -197,24 +198,24 @@ public class DatabaseInitService {
         userAuth.setGrpAuthCd("S0001");
         userAuthService.save(userAuth);
 
-        programService.save(Program.of("api", "API", "/swagger/", "_self", "N", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("ax5ui-sample", "UI 템플릿", "/jsp/_samples/ax5ui-sample.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("axboot-js", "[API]axboot.js", "/jsp/_apis/axboot-js.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("basic", "기본 템플릿", "/jsp/_samples/basic.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("grid-form", "그리드&폼 템플릿", "/jsp/_samples/grid-form.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("grid-modal", "그리드&모달 템플릿", "/jsp/_samples/grid-modal.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("grid-tabform", "그리드&폼탭 템플릿", "/jsp/_samples/grid-tabform.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("horizontal-layout", "상하 레이아웃", "/jsp/_samples/horizontal-layout.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("login", "로그인", "/jsp/login.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("main", "메인", "/jsp/main.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("page-structure", "페이지 구조", "/jsp/_samples/page-structure.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("system-auth-user", "사용자 관리", "/jsp/system/system-auth-user.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("system-config-common-code", "공통코드 관리", "/jsp/system/system-config-common-code.jsp", "_self", "Y", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("system-config-menu", "메뉴 관리", "/jsp/system/system-config-menu.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("system-config-program", "프로그램 관리", "/jsp/system/system-config-program.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("system-operation-log", "에러로그 관리", "/jsp/system/system-operation-log.jsp", "_self", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("tab-layout", "탭 레이아웃", "/jsp/_samples/tab-layout.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        programService.save(Program.of("vertical-layout", "좌우 레이아웃", "/jsp/_samples/vertical-layout.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        programService.save(Program.of("api", "API", "/swagger/", "_self", "N", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        programService.save(Program.of("ax5ui-sample", "UI 템플릿", "/jsp/_samples/ax5ui-sample.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        programService.save(Program.of("axboot-js", "[API]axboot.js", "/jsp/_apis/axboot-js.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("basic", "기본 템플릿", "/jsp/_samples/basic.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("grid-form", "그리드&폼 템플릿", "/jsp/_samples/grid-form.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("grid-modal", "그리드&모달 템플릿", "/jsp/_samples/grid-modal.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("grid-tabform", "그리드&폼탭 템플릿", "/jsp/_samples/grid-tabform.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("horizontal-layout", "상하 레이아웃", "/jsp/_samples/horizontal-layout.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("login", "로그인", "/jsp/login.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("main", "메인", "/jsp/main.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("page-structure", "페이지 구조", "/jsp/_samples/page-structure.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("system-auth-user", "사용자 관리", "/jsp/system/system-auth-user.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("system-config-common-code", "공통코드 관리", "/jsp/system/system-config-common-code.jsp", "_self", "Y", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("system-config-menu", "메뉴 관리", "/jsp/system/system-config-menu.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("system-config-program", "프로그램 관리", "/jsp/system/system-config-program.jsp", "_self", "Y", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("system-operation-log", "에러로그 관리", "/jsp/system/system-operation-log.jsp", "_self", "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("tab-layout", "탭 레이아웃", "/jsp/_samples/tab-layout.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        programService.save(Program.of("vertical-layout", "좌우 레이아웃", "/jsp/_samples/vertical-layout.jsp", "_self", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
 
         /*
         programService.saveLog(Program.of("api", "API", "/swagger/", "_self", "N", "Y", "Y", "N", "N", "N", "N", "N", "N", "N"));
@@ -308,22 +309,22 @@ public class DatabaseInitService {
         commonCodeService.saveLog(CommonCode.of("USE_YN","Whether or not to use","Y","Use",1));
         */
 
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 1L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 2L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 3L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 4L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 5L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 6L, "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 7L, "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 8L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 9L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 10L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 11L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 12L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 13L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 14L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 15L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
-        authGroupMenuService.save(AuthGroupMenu.of("S0001", 16L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 1L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 2L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 3L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 4L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 5L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 6L, "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 7L, "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 8L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 9L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 10L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 11L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N" ,"N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 12L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 13L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 14L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 15L, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
+        authGroupMenuService.save(AuthGroupMenu.of("S0001", 16L, "Y", "Y", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N","N"));
 
     }
 

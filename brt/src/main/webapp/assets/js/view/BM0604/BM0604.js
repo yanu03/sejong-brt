@@ -294,7 +294,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
             	{key: "vhcNo", label: ADMIN("ax.admin.BM0604G1.vhcno"), align: "center", sortable: true, width: 150},
-                {key: "proceRst", label: ADMIN("ax.admin.BM0604G1.procerst"), align: "center", styleClass:function(){return (this.item.proceRst === "성공") ? "grid-cell-red" : "grid-cell-blue" } ,sortable: true, width: 100},
+            	{key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), align: "center", sortable: true, width: 150},
                 {key: "sendDate", label: ADMIN("ax.admin.BM0604G1.senddate"), sortable: true, width: 190},
             ],
             body: {

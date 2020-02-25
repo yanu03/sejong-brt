@@ -204,4 +204,8 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 		/* 기상 */		
 	    }
 	}
+
+	public List<WeatAtmoVO> BM0601G2S2(RequestParams<WeatAtmoVO> requestParams) {
+		return mapper.BM0601G2S2(requestParams.getString("filter"));
+	}
 }

@@ -41,8 +41,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRow != null){   		
-    		caller.gridView1.target.exportExcel(selectedRow.conId + "data.xls");
-    	}else {
+    		caller.gridView0.target.exportExcel(selectedRow.conId + "data.xls");
+    	}else if(selectedRowG1 != null){
+    		caller.gridView1.target.exportExcel(selectedRowG1.conId + "data.xls");
+    	}
+    	else {
     		alert("계약 항목을 선택해주세요");
     	}
     },
@@ -51,9 +54,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = false;    	
     	var formData = caller.gridView1.getData();
         //formData["altDiv"] = selectedRowG1.altDiv;
-        console.log("추가 노 종료");
-        console.log(selectedRowG1.altDiv);
-        console.log(formData[0]);
         
         for(var i =0; i< formData.length; i++){
         	if(formData[i].confirmYn == "미확정"){
@@ -61,7 +61,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         		break;
         	}else{
         		if(formData["altDiv"] == "종료"){
-        			console.log("종료");
         			axDialog.alert({
         				msg: LANG("ax.script.alert.altDelete")
         			});
@@ -298,12 +297,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
     	selectedRowG1 = data;
-    	console.log(data.altDiv);
-    	data.altDiv = data.altDivCd;
     	caller.formView0.setData(data);
-    	console.log("데이터확인");
-    	console.log(data);
-    	console.log(data.altDiv);
     	if(selectedRowG1.confirmYn == "확정" || selectedRowG1.altDiv == "종료"){
     		caller.formView0.disable();
     	}else{
@@ -319,13 +313,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0302G1S0",
             data: {conId: selectedRow.conId},
             callback: function (res) {
+            	console.log("reloadG1");
             	console.log(res);
             	if(res.list[0].altDiv != null){
-            		console.log(res);
             		caller.gridView1.setData(res);            			
-            		
             	} 
-            		console.log("리로드쪽"+data);
                 
                 if(res.list[0].altDiv == null) {
                 	isUpdate = false;
@@ -445,10 +437,11 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             	 columns: [         		                 	
             		{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), align: "center", sortable: true, styleClass:function(){return (this.item.altDiv === "연장") ? "grid-cell-yellow" : "grid-cell-red" } , width: 70},
                     {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), align: "center", sortable: true, width: 100},
-                    {key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), align: "center", sortable: true, width: 100},
+                    {key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), sortable: true, width: 120},
+                    {key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"),width: 120},
                     {key: "conStDate", label: ADMIN("ax.admin.BM0301F0.consd"), sortable: true, align: "center", width: 100},
                     {key: "conEdDate", label: ADMIN("ax.admin.BM0301F0.coned"), sortable: true, align: "center", width: 100},
-                    {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), align: "center", width: 150},              
+                    {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 150},              
                     {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), formatter:"money" , align: "right", width: 100},
                     {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), formatter:"money" , align: "right", width: 100},
                     {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 300},
@@ -539,6 +532,8 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     },
     initView: function () {
         var _this = this;
+        var layout$ = $('[data-ax5layout="ax1"]');
+        layout$.ax5layout();
 
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
@@ -553,7 +548,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
                 {key: "conEdDate", label: ADMIN("ax.admin.BM0302F0.alted"), sortable: true, align: "center", width: 120},
                 {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), formatter:"money",align: "right", width: 100},
                 {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), formatter:"money" , align: "right", width: 100},
-                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), align: "center", width: 120},
                 {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
             ],
             body: {

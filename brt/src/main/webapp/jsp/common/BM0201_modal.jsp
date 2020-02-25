@@ -78,11 +78,9 @@
                             </ax:td>
 						</ax:tr>                                             	
         
-                       	<ax:tr>
-                       		<ax:td label="ax.admin.BM0301F0.remark" width="300px">
-                            	<input type="text" data-ax-path="remark" class="form-control" maxlength="200"/>
+                       	<ax:td label="ax.admin.BM0301F0.remark" width="100%">
+                       			<textarea data-ax-path="remark" class="form-control" style="height: 100px;" maxlength="200"></textarea>
                             </ax:td>
-                       	</ax:tr>
                     </ax:tbl>
                 </ax:form>
             </ax:split-panel>

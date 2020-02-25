@@ -143,6 +143,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                             fn4Ah: "N",
                             fn5Ah: "N",
                             fn6Ah: "N",
+                            fn7Ah: "N",
                             menuId: data.menuId
                         };
 
@@ -161,7 +162,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                                     fn3Ah: n.fn3Ah || "N",
                                     fn4Ah: n.fn4Ah || "N",
                                     fn5Ah: n.fn5Ah || "N",
-                                    fn6Ah: n.fn6Ah || "N"
+                                    fn6Ah: n.fn6Ah || "N",
+                                    fn7Ah: n.fn7Ah || "N"
                                 });
                             }
                         });
@@ -179,7 +181,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                                 program_fn3Ah: res.program.fn3Ah || "N",
                                 program_fn4Ah: res.program.fn4Ah || "N",
                                 program_fn5Ah: res.program.fn5Ah || "N",
-                                program_fn6Ah: res.program.fn6Ah || "N"
+                                program_fn6Ah: res.program.fn6Ah || "N",
+                                program_fn7Ah: res.program.fn7Ah || "N"
                             });
                         }
                         list.push(item);
@@ -620,6 +623,7 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
                 {key: "fn4Ah", label: "FN4", width: 50, align: "center", editor: "menu-program-auth-checkYn"},
                 {key: "fn5Ah", label: "FN5", width: 50, align: "center", editor: "menu-program-auth-checkYn"},
                 {key: "fn6Ah", label: "FN6", width: 50, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "fn7Ah", label: "FN7", width: 50, align: "center", editor: "menu-program-auth-checkYn"},
                 /// --> 이것들을 list로 담아서  [PUT] "/api/v2/menu/auth"
             ],
             body: {
