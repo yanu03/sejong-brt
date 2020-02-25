@@ -102,10 +102,10 @@ public class FileService {
 		
 		File file = null;
 		String fileName = "";
-		String path = Paths.get(handler.getRootLocalPath(), "/common/audio").toString();
+		String path = Paths.get(handler.getRootLocalPath(), handler.getCommonAudioPath()).toString();
 		
 		if(playType.equals("WAV")) {
-			fileName = vocId;
+			fileName = vocId + GlobalConstants.VoiceTypes.US;
 		} else if(playType.equals("TTS")){
 			if(vocType.equals(GlobalConstants.VoiceTypes.KR)) {
 				fileName = vocId + GlobalConstants.VoiceTypes.KR;
