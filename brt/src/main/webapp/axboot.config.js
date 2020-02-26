@@ -189,7 +189,7 @@
             },
             
             "TTS_HELP": {
-            	width: 400,
+            	width: 690,
             	height: 400,
             	iframe: {
             		url: "/jsp/common/tts-help_modal.jsp"

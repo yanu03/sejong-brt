@@ -8,6 +8,16 @@ selectedRow = null;
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
+	PAGE_HELP: function(caller, act, data) {
+		axboot.modal.open({
+            modalType: "TTS_HELP",
+            param: "",
+            callback: function (result) {
+            
+            }
+		});
+	},
+	
 	PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
@@ -369,8 +379,8 @@ fnObj.pageResize = function () {
 fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
-        	"reservation": function() {
-        		ACTIONS.dispatch(ACTIONS.PAGE_RESERVATION);
+        	"help": function() {
+        		ACTIONS.dispatch(ACTIONS.PAGE_HELP);
         	},
             "search": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);

@@ -1,5 +1,7 @@
 package com.tracom.brt.controllers;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.http.HttpHeaders;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chequer.axboot.core.api.response.ApiResponse;
+import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
+import com.tracom.brt.domain.BM0202.DvcHistoryVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
 import com.tracom.brt.domain.voiceReservation.VoiceReservationVO;
@@ -47,4 +51,9 @@ public class VoiceConroller extends BaseController {
         boolean check = service.checkVoiceOrganization(requestParams);
         return ok(Boolean.toString(check));
     }
+	
+	@GetMapping("/selectTtsHelp")
+	public Responses.ListResponse selectTtsHelp(RequestParams<DvcHistoryVO> requestParams){
+		return Responses.ListResponse.of(service.selectTtsHelp());
+	}
 }

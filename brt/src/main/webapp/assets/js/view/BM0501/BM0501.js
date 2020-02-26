@@ -6,7 +6,7 @@ selectedRow = null;
 /*************************************************************************************************************/
 
 /***사용자 변수***/
-uv_frontwidth = 348;
+uv_frontwidth = 384;
 uv_frontheight = 64;
 uv_sidewidth = 160;
 uv_sideheight = 32;
@@ -123,7 +123,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         	});
         	
     		axToast.push(LANG("onupdate"));
-    		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
         })
         .catch(function () {
 
@@ -136,6 +135,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK: function (caller, act, data) {
+    	selectBox();
     	uv_height = 0;
     	selectedRow = data;
     	//loadSCH(data);
@@ -182,7 +182,6 @@ function editCase(input){
 			return {
 				type: "number",
 				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
-					console.log(uv_height);
 					return this.item.__index >= uv_height;
 				},
 				attributes: {
@@ -244,10 +243,8 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         
         this.target = axboot.gridBuilder({
         	showLineNumber: true,
-        	showRowSelector: false,
         	lineNumberColumnWidth: 30,
         	rowSelectorColumnWidth: 30,
-        	frozenColumnIndex: 0,
             sortable: false,
             target: $('[data-ax5grid="gridView1"]'),
             header: {
@@ -255,10 +252,10 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	columnHeight: 28
             	},
             columns: [
-            	{key: "frameNo",			label: "프레임번호",			width: 70,																		styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
-            	{key: "effType",			label: "효과",				width: 200, editor: editCase('effType'), align:"left",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 130, editor: editCase('effSpeed'), align:"right",						styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 130, editor: editCase('showTime'), align:"right",						styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }}
+            	{key: "frameNo",			label: "프레임번호",			width: 70,													styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+            	{key: "effType",			label: "효과",				width: 200, editor: editCase('effType'), align:"left",		styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 130, editor: editCase('effSpeed'), align:"right",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+                {key: "showTime",			label: "표출시간(1=10ms)",		width: 130, editor: editCase('showTime'), align:"right",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }}
             ],
             body: {
                 onClick: function () {
@@ -351,50 +348,7 @@ $("input[id=bmpFile]").change(function(){
         return;
     }
     
-    /*var fileSize = this.files[0].size;
-    var maxSize = 1024 * 1024;
-    if(fileSize > maxSize) {
-        alert("파일용량을 초과하였습니다.");
-        return;
-    }*/
     
-    var file  = this.files[0];
-    var _URL = window.URL || window.webkitURL;
-    var img = new Image();
-    
-    img.src = _URL.createObjectURL(file);
-    img.onload = function() {
-        //alert(img.width);
-        //alert(img.height);
-        
-        preview_ChangeImage("src", "previewImg");
-    	
-        if(uv_dvc_type == frontCode){
-    		uv_frontheight = img.height / uv_frontheight;
-    	}else if(uv_dvc_type == sideCode){
-    		uv_sideheight = img.height / uv_sideheight;
-    	}else{
-    		console.log('error');
-    	}
-    	//console.log(uv_dvc_type);
-    	//console.log(uv_height);
-        /*if(img.width != 384 || img.height != 64) {
-            alert("이미지 가로 684px, 세로 64px로 맞춰서 올려주세요.");
-            $("input[id=bmpFile]").val("");
-        } */
-    }
-});
-
-
-$("input[id=bmpFile]").change(function(){
-    
-    var ext = $(this).val().split(".").pop().toLowerCase();
-    
-    if($.inArray(ext,["bmp", "BMP"]) == -1) {
-        alert("bmp 파일만 업로드 가능합니다.");
-        $("input[id=bmpFile]").val("");
-        return;
-    }
     
     /*var fileSize = this.files[0].size;
     var maxSize = 1024 * 1024;
@@ -408,21 +362,38 @@ $("input[id=bmpFile]").change(function(){
     var img = new Image();
     
     img.src = _URL.createObjectURL(file);
+
     img.onload = function() {
-        //alert(img.width);
-        //alert(img.height);
-        
-        preview_ChangeImage("src", "previewImg");
-    	
         if(uv_dvc_type == frontCode){
-    		uv_frontheight = img.height / uv_frontheight;
+        	console.log(img.height + ", " + uv_frontheight + ", " + (img.height/uv_frontheight));
+        	if(!isInt(img.height/uv_frontheight) || !isInt(img.width/uv_frontwidth)){
+        		alert("이미지 사이즈를 확인하세요");
+        		$('#bmpFile').val('');
+        		return;
+        	}else{
+        		uv_height = img.height / uv_frontheight;
+        		preview_ChangeImage($('#bmpFile'), "previewImg");
+        	}
     	}else if(uv_dvc_type == sideCode){
-    		uv_sideheight = img.height / uv_sideheight;
+    		console.log(img.height + ", " + uv_sideheight + ", " + (img.height/uv_sideheight));
+    		if(!isInt(img.height/uv_sideheight) || !isInt(img.width/uv_sidewidth)){
+    			alert("이미지 사이즈를 확인하세요");
+    			$('#bmpFile').val('');
+    			return;
+    		}else{
+    			uv_height = img.height / uv_sideheight;    			
+    			preview_ChangeImage("src", "previewImg");
+    		}
     	}else{
     		console.log('error');
     	}
     }
 });
+
+function isInt(n){
+	return n % 1 === 0;
+}
+
 /********************************************************************************************************************/
 
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
@@ -511,6 +482,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+        	rowSelectorColumnWidth: 30,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
             	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),											width: 80},
@@ -729,26 +702,31 @@ function loadBmp(){
 	uv_dvc_type = $('#selectBox option:selected').val();
 	var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&userWayDiv=" + selectedRow.userWayDiv + "&dvcName="+selectedRow.dvcName;
 
-	$("#previewImg").attr("src", url);
 	
 	$('#previewImg').each(function(){
 		$(this).load(function(){
-			uv_height = this.naturalHeight / uv_frontheight;
+			if(uv_dvc_type == "CD001"){
+				uv_height = this.naturalHeight / uv_frontheight;				
+			}else{
+				uv_height = this.naturalHeight / uv_sideheight;
+			}
 		});
 	});
+	
+	$("#previewImg").attr("src", url);
+	
 	fnObj.gridView1.initView();
 	setTimeVal(uv_height);
 }
 
 function preview_ChangeImage(input, id) {
-    if (input.files && input.files[0]) {
-    var reader = new FileReader();
-
-    
-    reader.onload = function (e) {
-    	$('#' + id).attr('src', e.target.result);
-        }
-    	reader.readAsDataURL(input.files[0]);
+	if (input[0].files && input[0].files[0]) {
+	    var reader = new FileReader();
+	    reader.onload = function (e) {
+	    	$('#' + id).attr('src', e.target.result);
+	    }
+	    
+    	reader.readAsDataURL(input[0].files[0]);
     }
     setTimeVal(uv_height);
 }

@@ -16,7 +16,7 @@
 		        color: #F1F3F5;
 		    }
 		    .grid-cell-black{
-		    	color: #FFFFFF;
+		    	color: #000000;
 		    }
 		</style>
     </jsp:attribute>
@@ -63,13 +63,13 @@
                 <ax:form name="formView0">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
-                            <ax:td label="장치유형" width="100%" labelClazz="required">
+                            <ax:td label="장치유형" width="500px" labelClazz="required">
                             	<div data-ax5select="selectType" id="selectBox"></div>
                             </ax:td>
                         </ax:tr>
                         <ax:tr>
                             <ax:td label="노선표시파일" width="100%" labelClazz="required">
-								<input type="file" id="bmpFile" name="bmpFile" accept="image/bmp" onchange="preview_ChangeImage(this, 'previewImg');"/>
+								<input type="file" id="bmpFile" name="bmpFile" accept="image/bmp" />
                             </ax:td>
                         </ax:tr>
                         <ax:tr>
