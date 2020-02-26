@@ -49,7 +49,8 @@
 			ON D.MNG_ID = V.MNG_ID
 			AND COMPLETE_YN = 'N'
 		WHERE
-			D.MNG_ID IS NOT NULL
+			VHC_INFO.USE_YN = 'Y'
+	        AND D.MNG_ID IS NOT NULL
 		ORDER BY VHC_INFO.VHC_ID ASC
     </select>
     

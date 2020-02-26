@@ -20,7 +20,7 @@ var axboot = {};
 axboot.def = {
     "pageFunctionName": "fnObj",
     "iframeLoadingMsg": '<i class="cqc-chequer ax-loading-icon lg"></i>',
-    "dialogTitle": "CHEQUER"
+    "dialogTitle": "알림"
 };
 
 /**
