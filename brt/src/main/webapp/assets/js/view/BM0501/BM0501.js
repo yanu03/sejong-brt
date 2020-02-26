@@ -123,7 +123,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         	});
         	
     		axToast.push(LANG("onupdate"));
-    		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
         })
         .catch(function () {
 
@@ -136,6 +135,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK: function (caller, act, data) {
+    	selectBox();
     	uv_height = 0;
     	selectedRow = data;
     	//loadSCH(data);
@@ -182,7 +182,6 @@ function editCase(input){
 			return {
 				type: "number",
 				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
-					console.log(uv_height);
 					return this.item.__index >= uv_height;
 				},
 				attributes: {
@@ -244,10 +243,8 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         
         this.target = axboot.gridBuilder({
         	showLineNumber: true,
-        	showRowSelector: false,
         	lineNumberColumnWidth: 30,
         	rowSelectorColumnWidth: 30,
-        	frozenColumnIndex: 0,
             sortable: false,
             target: $('[data-ax5grid="gridView1"]'),
             header: {
@@ -255,10 +252,10 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	columnHeight: 28
             	},
             columns: [
-            	{key: "frameNo",			label: "프레임번호",			width: 70,																		styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
-            	{key: "effType",			label: "효과",				width: 200, editor: editCase('effType'), align:"left",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 130, editor: editCase('effSpeed'), align:"right",						styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 130, editor: editCase('showTime'), align:"right",						styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }}
+            	{key: "frameNo",			label: "프레임번호",			width: 70,													styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+            	{key: "effType",			label: "효과",				width: 200, editor: editCase('effType'), align:"left",		styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 130, editor: editCase('effSpeed'), align:"right",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+                {key: "showTime",			label: "표출시간(1=10ms)",		width: 130, editor: editCase('showTime'), align:"right",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }}
             ],
             body: {
                 onClick: function () {
@@ -368,17 +365,18 @@ $("input[id=bmpFile]").change(function(){
 
     img.onload = function() {
         if(uv_dvc_type == frontCode){
+        	console.log(img.height + ", " + uv_frontheight + ", " + (img.height/uv_frontheight));
         	if(!isInt(img.height/uv_frontheight) || !isInt(img.width/uv_frontwidth)){
         		alert("이미지 사이즈를 확인하세요");
         		$('#bmpFile').val('');
         		return;
         	}else{
         		uv_height = img.height / uv_frontheight;
-        		console.log("ok1");
         		preview_ChangeImage($('#bmpFile'), "previewImg");
         	}
     	}else if(uv_dvc_type == sideCode){
-    		if(!isInt(img.height / uv_sideheight) || !isInt(img.width / uv_sidewidth)){
+    		console.log(img.height + ", " + uv_sideheight + ", " + (img.height/uv_sideheight));
+    		if(!isInt(img.height/uv_sideheight) || !isInt(img.width/uv_sidewidth)){
     			alert("이미지 사이즈를 확인하세요");
     			$('#bmpFile').val('');
     			return;
@@ -484,6 +482,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+        	rowSelectorColumnWidth: 30,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
             	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),											width: 80},
@@ -705,7 +705,11 @@ function loadBmp(){
 	
 	$('#previewImg').each(function(){
 		$(this).load(function(){
-			uv_height = this.naturalHeight / uv_frontheight;
+			if(uv_dvc_type == "CD001"){
+				uv_height = this.naturalHeight / uv_frontheight;				
+			}else{
+				uv_height = this.naturalHeight / uv_sideheight;
+			}
 		});
 	});
 	
