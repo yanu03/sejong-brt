@@ -92,10 +92,14 @@
     <select id="BM0201G1S0" parameterType="String" resultType="vhcDeviceVO">
     	SELECT
     	  	  D.VHC_ID
+    	  	, D.USE_YN  
     	  	, D.DVC_ID
-    	  	, DL0.DL_CD_NM AS MAKER
-    	  	, DL1.DL_CD_NM AS DVC_KIND
-    	  	, DL3.DL_CD_NM AS INST_LOC
+    	  	, DL0.DL_CD_NM AS MAKER_CD
+    	  	, DL1.DL_CD_NM AS DVC_KIND_CD
+    	  	, DL3.DL_CD_NM AS INST_LOC_CD
+    	  	, D.MAKER
+    	  	, D.DVC_KIND
+    	  	, D.INST_LOC
     	  	, D.MNG_ID
     	  	, D.DVC_IP
     	  	, D.REMARK
@@ -119,11 +123,16 @@
     
     <select id="BM0201G1S1" parameterType="String" resultType="vhcDeviceVO">
     	SELECT
-			DEV_SERIAL_NO
+		   HIST.DEV_SERIAL_NO
+		 , IFNULL(UPD.COMPLETE_YN , "Y") AS COMPLETE_YN
 		FROM
-			BM_DVC_HIST
+			BM_DVC_HIST HIST
+			LEFT OUTER JOIN BM_DVC_INFO DVC
+			ON HIST.DVC_ID = DVC.DVC_ID
+			LEFT OUTER JOIN BM_UPD_LOG UPD
+			ON DVC.MNG_ID = UPD.MNG_ID
 		WHERE
-			DVC_ID = #{value}
+			DVC.DVC_ID = #{value}
     </select>
     
     <insert id="BM0201F0I0" parameterType="vhcInfoVo">
@@ -139,7 +148,8 @@
     		, MNG_ID
     		, DVC_IP
     		, REMARK
-    		, VHC_ID  		
+    		, VHC_ID
+    		, USE_YN 		
     		, CREATED_AT
     		, CREATED_BY
     		, UPDATED_AT
@@ -154,6 +164,7 @@
    			, #{dvcIp}
    			, #{remark}
    			, #{vhcId}
+   			, "Y"
    			, #{createdAt}
    			, #{createdBy}
    			, #{updatedAt}
@@ -165,7 +176,6 @@
     	<selectKey keyProperty="seq" resultType="String" order="BEFORE">
     		SELECT NEXTVAL(SEQ_BM_DVC_HIST_0)
     	</selectKey>
-    
     	INSERT INTO BM_DVC_HIST(
     		  DEV_SERIAL_NO
     		, MODEL_NM

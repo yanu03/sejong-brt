@@ -11,14 +11,14 @@
     		, V.VHC_NO
     		, V.CHAS_NO
     		, CP.CORP_NM AS CORP_NM
-    		, V.AREA
     		, V.RELS_DATE
     		, V.MODEL_NM
     		, DL1.DL_CD_NM AS VHC_KIND
     		, DL2.DL_CD_NM AS VHC_TYPE
     		, DL3.DL_CD_NM AS LF_YN
     		, DL4.DL_CD_NM AS VHC_FUEL
-    		, DL5.DL_CD_NM AS DVC_MAKER
+    		, DL5.DL_CD_NM AS MAKER
+    		, DL6.DL_CD_NM AS AREA
     		, V.REMARK
     		, V.USE_YN
     		, MAX(CHAR_LENGTH(DL0.DL_CD_NM)) AS DL_CD_NM
@@ -46,10 +46,15 @@
     		LEFT JOIN SM_DL_CD_INFO DL5
     		ON V.MAKER = DL5.DL_CD
     		AND DL5.CO_CD = 'DVC_MAKER'
+    		LEFT JOIN SM_DL_CD_INFO DL6
+    		ON V.AREA = DL6.DL_CD
+    		AND DL6.CO_CD = 'AREA'
 			LEFT OUTER JOIN BM_CORP_INFO CP
 			ON V.CORP_ID = CP.CORP_ID
     	<where>
+    		DI.MNG_ID != 'NULL'
 	    	<if test="value != null">
+	    		AND
 				V.VHC_ID LIKE CONCAT('%', #{value}, '%')
 				OR V.VHC_NO LIKE CONCAT('%', #{value}, '%')
 	    	</if>
@@ -89,6 +94,8 @@
 		WHERE
 			DI.VHC_ID = #{value}
 			AND DVC_KIND != "CD005"
+			AND DVC_COND != 'NULL'
+			AND DI.MNG_ID != 'NULL'
 </select>
 
 </mapper>

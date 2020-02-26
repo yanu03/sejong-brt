@@ -43,9 +43,9 @@
 	</select>
 	<select id="BM0604G1S0" resultType="newsVO" parameterType="String">
 		SELECT
-			 VH.VHC_NO
+			VH.VHC_NO
 		 ,  LG.MNG_ID
-		 ,  LG.SEND_DATE	
+		 ,  MAX(LG.SEND_DATE) AS SEND_DATE	
 		FROM
 			BM_VHC_INFO VH
 			LEFT OUTER JOIN BM_DVC_INFO DV
@@ -54,7 +54,7 @@
 			ON DV.MNG_ID = LG.MNG_ID
 		WHERE
 			LG.ATTR_ID = "CD001"
-		ORDER BY LG.SEND_DATE DESC		
+			GROUP BY VH.VHC_NO		
 	</select>
 	<update id="BM0604F0U0" parameterType="newsVO">
 		UPDATE BM_NEWS

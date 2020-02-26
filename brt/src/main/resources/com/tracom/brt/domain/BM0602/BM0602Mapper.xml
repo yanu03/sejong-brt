@@ -13,6 +13,7 @@
 	 <where>
 	    	<if test="value != null">
 				PROV_NM LIKE CONCAT('%', #{value}, '%')
+				OR PROV_ID LIKE CONCAT('%' , #{value} , '%')
 	    	</if>
     	</where>
 	</select>

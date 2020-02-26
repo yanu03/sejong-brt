@@ -46,8 +46,8 @@
 				  , #{remark}
 				  , #{newsContents}
 				  , "N"
+				  , #{category}
 				  , "세종도시교통공사"
-				  , "사용자뉴스"
 				  , CURRENT_TIMESTAMP
 				  , #{createdAt}
    			  	  , #{createdBy}

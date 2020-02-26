@@ -172,9 +172,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_UPDATE: function(caller, act, data) {
     	isUpdate = false;   	
     	var confirmYn = $('#confirmYn').val();
-    	if(confirmYn = "미확정"){
+    	if(confirmYn == "미확정"){
     		confirmYn = "N";
+    		console.log("미확정");
     		}
+    	console.log(confirmYn);
     		if(confirmYn == "N"){
     				console.log("N");
     			if (caller.formView0.validate()) {
@@ -229,13 +231,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    	}, function() {
 	    		if(this.key == "ok"){	    			
 	    			if (caller.formView0.validate()) {
-	    					var formData = caller.formView0.getData();    					
 	    					axboot.promise()
 	    					.then(function (ok, fail, data) {
 	    						axboot.ajax({
 	    							type: "POST",
 	    							url: "/api/v1/BM0302F0U1",
-	    							data: JSON.stringify(formData),
+	    							data: JSON.stringify({seq : selectedRowG1.seq}),
 	    							callback: function (res) {
 	    								ok(res);
 	    							}
@@ -258,13 +259,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    		if(this.key == "ok"){
 	    			console.log("해제ok");
 	    			if (caller.formView0.validate()){
-	    				var formData = caller.formView0.getData();
 	    				axboot.promise()
 	    				.then(function (ok, fail, data) {
 	    				axboot.ajax({
 							type: "POST",
 							url: "/api/v1/BM0302F0U2",
-							data: JSON.stringify(formData),
+							data: JSON.stringify({seq : selectedRowG1.seq}),
 							callback: function (res) {
 								ok(res);
 								ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
@@ -297,6 +297,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
     	selectedRowG1 = data;
+    	console.log(data);
     	caller.formView0.setData(data);
     	if(selectedRowG1.confirmYn == "확정" || selectedRowG1.altDiv == "종료"){
     		caller.formView0.disable();
@@ -435,7 +436,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 1,
             target: $('[data-ax5grid="gridView0"]'),            
             	 columns: [         		                 	
-            		{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), align: "center", sortable: true, styleClass:function(){return (this.item.altDiv === "연장") ? "grid-cell-yellow" : "grid-cell-red" } , width: 70},
+            		{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), align: "center", sortable: true , width: 70},
                     {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), align: "center", sortable: true, width: 100},
                     {key: "conNo", label: ADMIN("ax.admin.BM0301F0.conno"), sortable: true, width: 120},
                     {key: "custNm", label: ADMIN("ax.admin.BM0301F0.custnm"),width: 120},

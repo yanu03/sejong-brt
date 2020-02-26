@@ -60,6 +60,27 @@
 			GROUP BY WORK_TYPE LIMIT 1
 	</select>
 	
+	<update id="BM0202G1U0" parameterType="dvcHistoryVO">
+		UPDATE BM_DVC_INFO
+    	SET
+    	      MNG_ID        =   NULL
+    		, USE_YN        =   "N"
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		DVC_ID = #{dvcId}
+	</update>
+	
+	<update id="BM0202G1U1" parameterType="dvcHistoryVO">
+		UPDATE BM_DVC_INFO
+    	SET
+    		  USE_YN        =   "Y"
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		DVC_ID = #{dvcId}
+	</update>
+	
 	<update id="BM0202G2U0" parameterType="dvcHistoryVO">
 		UPDATE BM_DVC_HIST
 		SET
@@ -74,7 +95,7 @@
     	   , UPDATED_BY	   = #{updatedBy}
     	WHERE
     		DVC_ID = #{dvcId}
-    		AND DEV_SERIAL_NO = #{devSerialNo}		
+    		AND SEQ = #{seq}		
 	</update>
 	
 	<delete id="BM0202G2D0" parameterType="String">

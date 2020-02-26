@@ -265,7 +265,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             	{key: "provId", label: ADMIN("ax.admin.BM0602G0.provid"), align:"center", width: 120},
                 {key: "provNm", label: ADMIN("ax.admin.BM0602G0.provnm"), align:"center", width: 150},
                 {key: "provUrl", label: ADMIN("ax.admin.BM0602F0.provurl"), width: 200},
-                {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 200},
+                {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 250},
             ],
             body: {
                 onClick: function () {

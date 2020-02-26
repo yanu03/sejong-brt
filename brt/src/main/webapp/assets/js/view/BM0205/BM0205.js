@@ -78,24 +78,24 @@ var ACTIONS = axboot.actionExtend(fnObj, {
       								}
       							});
       						}else{
-      							alert(LANG("ax.script.requireselect"));
+      							axDialog.alert(LANG("ax.script.requireselect"));
       						}
       					}else{
-      						alert("같은 종류의 장치만 선택가능합니다.");
+      						axDialog.alert("같은 종류의 장치만 선택가능합니다.");
       					}
       					
       				}else{
-      					alert("예약은 중복으로 하실수 없습니다.");
+      					axDialog.alert("예약은 중복으로 하실수 없습니다.");
       				}
       			})
 	    	 }else{
-	    		 alert("버전 정보를 입력해주세요.");
+	    		 axDialog.alert("버전 정보를 입력해주세요.");
 	    	 }
 	      }else{
-	    	  alert("업로드 파일을 선택해주세요");
+	    	  axDialog.alert("업로드 파일을 선택해주세요.");
 	      }
       }else{
-    	  alert("업데이트할 장치를 선택해주세요.");
+    	  axDialog.alert("업데이트할 장치를 선택해주세요.");
       }
     },
         

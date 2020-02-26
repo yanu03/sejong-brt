@@ -37,12 +37,15 @@
 			 LEFT OUTER JOIN BM_UPD_LOG ULOG
 			 ON D.MNG_ID = ULOG.MNG_ID
 	   <where>
+	   		D.USE_YN != "N"
+	   		AND D.MNG_ID != "NULL"
 	    	<if test="value != null">
+	    	AND
 				DH.MODEL_NM LIKE CONCAT('%', #{value}, '%')
 				OR V.VHC_NO LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     	</where>
-    	GROUP BY DVC_ID
+    	GROUP BY D.MNG_ID
 		ORDER BY VHC_NO 
 	</select>
 	

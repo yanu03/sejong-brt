@@ -25,12 +25,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     	url : "/api/v1/BM0604G0S1",
                     	data : filter,
                     	callback : function(resOne){
-                    		if(res.list[0] != null || typeof res.list[0] == "undefined"){
+                    		if(res.list[0] != null || typeof res.list[0] != "undefined"){
                     			for(var i = 0; i<res.list.length; i++){
                     				res.list[i].newsTitle = res.list[i].newsContents;
                     			}
                     			plusRes = res.list.length;
-                    			for(var i = res.list.length; i<resOne.list.length; i++){
+                    			for(var i = res.list.length; i<resOne.list.length+plusRes; i++){
                     			res.list[i] = resOne.list[i-plusRes];
                     			}
                     		caller.gridView0.setData(res);

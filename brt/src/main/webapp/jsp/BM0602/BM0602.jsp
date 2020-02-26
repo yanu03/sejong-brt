@@ -21,7 +21,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0602G0.provnm"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control W220" placeholder="ax.admin.BM0602G0.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -46,7 +46,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="700" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="600" style="padding-left: 10px;" scroll="scroll">
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
@@ -56,34 +56,34 @@
                     </div>
                 </div>
                 <ax:form name="formView0">                 
-                    <ax:tbl clazz="ax-form-tbl" minWidth="500px">
+                    <ax:tbl clazz="ax-form-tbl" minWidth="600px">
                      	<ax:tr>
-							<ax:td label="ax.admin.BM0602G0.provid" width="200px" labelClazz="required">
-								<input type="text" data-ax-path="provId" data-key="true" class="form-control" readonly="readonly">
+							<ax:td label="ax.admin.BM0602G0.provid" width="250px" labelClazz="required W250">
+								<input type="text" data-ax-path="provId" data-key="true" class="form-control W90" readonly="readonly">
 							</ax:td>						                
                     	</ax:tr>
                     
                         <ax:tr>
                             <ax:td label="ax.admin.BM0602G0.provnm" width="230px" labelClazz="required">
-                                <input type="text" data-ax-path="provNm" class="form-control" title="<ax:lang id="ax.admin.BM0301F0.provnm"/>" data-ax-validate="required"/>
+                                <input type="text" data-ax-path="provNm" class="form-control" title="<ax:lang id="ax.admin.BM0301F0.provnm"/>" data-ax-validate="required" maxlength="20"/>
                             </ax:td>
-                            <div style="position:absolute; top: 60px; right:140px;">
+                            <div style="position:absolute; top: 60px; right:50px;">
                             	<ax:td>*제공처명(신문사명)을 정확하게 작성해주세요.</ax:td>                        	                            
                             </div>
                         </ax:tr>                                          	
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0602F0.provurl" style="position:relation;" width="370px" labelClazz="required">
-                            	<input type="text" data-ax-path="provUrl" class="form-control" title="<ax:lang id="ax.admin.BM0301F0.provurl"/>" data-ax-validate="required"/>
+                            <ax:td label="ax.admin.BM0602F0.provurl" style="position:relation;" width="500px" labelClazz="required">
+                            	<input type="text" data-ax-path="provUrl" class="form-control W250" title="<ax:lang id="ax.admin.BM0301F0.provurl"/>" data-ax-validate="required" maxlength="200"/>
                             </ax:td>
-                            <div style="position:absolute; top: 100px; right:10px;">
+                            <div style="position:absolute; top: 100px; left:370px;">
                             	<ax:td>*Rss형식만 지원합니다.</ax:td>                        	                            
                             </div>
                        	</ax:tr>
 
                        	<ax:tr>
                        		<ax:td label="ax.admin.BM0602F0.remark" width="100%">
-                            	<textarea data-ax-path="remark" class="form-control" style="height: 100px"></textarea>
+                            	<textarea data-ax-path="remark" class="form-control" maxlength="255"></textarea>
                             </ax:td>
                        	</ax:tr>
  
