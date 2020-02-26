@@ -11,4 +11,18 @@
     	WHERE
     		VOC_ID = #{value}
     </select>
+    
+    <select id="selectTtsHelp" resultType="hashmap">
+    	SELECT
+			  DL_CD_NM AS tag
+			, TXT_VAL1 AS description
+			, CONCAT(CAST(NUM_VAL4 AS INTEGER), ' ~ ', CAST(NUM_VAL5 AS INTEGER)) AS minMax
+			, REMARK AS example
+		FROM
+			SM_DL_CD_INFO
+		WHERE
+			CO_CD = 'TTS_HELP'
+			AND USE_YN = 'Y'
+		ORDER BY SORT_ODR ASC
+    </select>
 </mapper>
