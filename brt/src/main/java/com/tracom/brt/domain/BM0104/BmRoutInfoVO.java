@@ -59,5 +59,10 @@ public class BmRoutInfoVO extends BaseVO {
 	private String upDown;
 	private String fileName;
 	
+	/** 버전관리 **/
+	private String pubDate;
+	private String pubSeq;
+	private String flag;
+	
 	private List<BmRoutNodeInfoVO> nodeList;
 }
