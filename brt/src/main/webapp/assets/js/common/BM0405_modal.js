@@ -50,10 +50,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		            });
 		        })
 		        .then(function (ok, fail, data) {
+		        	axToast.push(LANG("onsave"));
 		        	if (parent && parent.axboot && parent.axboot.modal) {
 	                    parent.axboot.modal.callback();
 	                }
-		        	axToast.push(LANG("onsave"));
 		        	//window.location.reload();
 		        })
 		        .catch(function () {
@@ -94,7 +94,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		            });
 		        })
 		        .then(function (ok, fail, data) {
-		        	axToast.push(LANG("onadd"));
+		        	axToast.push(LANG("onsave"));
 		        	if (parent && parent.axboot && parent.axboot.modal) {
 	                    parent.axboot.modal.callback();
 	                }
@@ -134,7 +134,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 				        })
 				        .then(function (ok, fail, data) {
 				        	if (parent && parent.axboot && parent.axboot.modal) {
-			                    parent.axboot.modal.callback();
+			                    parent.axboot.modal.callback({
+					        		isDelete: true
+			                    });
 			                }
 				        	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
 				        })
@@ -143,7 +145,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 				        });
             	} else {
             		if (parent && parent.axboot && parent.axboot.modal) {
-	                    parent.axboot.modal.callback();
+	                    parent.axboot.modal.callback({
+			        		isDelete: true
+	                    });
 	                }
 		        	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             	}

@@ -41,7 +41,6 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 		String fileNameHeader = vo.getDvcKind();
 		String fileNameTail = ".SCH";
 		String fileName = fileNameHeader + "LOGO" + fileNameTail;
-		System.out.println(fileName);
 		return ftpHandler.readSCH(fileName);
 	}
 	

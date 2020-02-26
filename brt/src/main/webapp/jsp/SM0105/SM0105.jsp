@@ -71,7 +71,7 @@
                             </ax:td>
                             
                             <ax:td label="ax.admin.SM0105F0.sort.odr" width="300px">
-                                <input type="text" data-ax-path="sortOdr" class="form-control"/>
+                                <input type="number" data-ax-path="sortOdr" min="0" class="form-control"/>
                             </ax:td>
                         </ax:tr>
                         

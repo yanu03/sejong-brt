@@ -186,11 +186,11 @@ function editCaseFront(input){
 				columnKeys: {
 					optionValue: "CD", optionText: "NM"
 				},
-				options: [	{CD : "01번", NM: "01번"},
-							{CD : "02번", NM: "02번"},
-							{CD : "03번", NM: "03번"},
-							{CD : "04번", NM: "04번"},
-							{CD : "05번", NM: "05번"}]
+				options: [	{CD : "화면그대로 표출", NM: "화면그대로 표출"},
+					{CD : "왼쪽으로 쉬프트하면서 밀어내기", NM: "왼쪽으로 쉬프트하면서 밀어내기"},
+					{CD : "오른쪽으로 쉬프트하면서 밀어내기", NM: "오른쪽으로 쉬프트하면서 밀어내기"},
+					{CD : "위로 쉬프트하면서 밀어내기", NM: "위로 쉬프트하면서 밀어내기"},
+					{CD : "아래로 쉬프트하면서 밀어내기", NM: "아래로 쉬프트하면서 밀어내기"}]
 			},
 			disabled: function(){
 				return this.item.__index >= uv_frontheightz;
@@ -229,11 +229,11 @@ function editCaseSide(input){
 				columnKeys: {
 					optionValue: "CD", optionText: "NM"
 				},
-				options: [	{CD : "01번", NM: "01번"},
-							{CD : "02번", NM: "02번"},
-							{CD : "03번", NM: "03번"},
-							{CD : "04번", NM: "04번"},
-							{CD : "05번", NM: "05번"}]
+				options: [	{CD : "화면그대로 표출", NM: "화면그대로 표출"},
+					{CD : "왼쪽으로 쉬프트하면서 밀어내기", NM: "왼쪽으로 쉬프트하면서 밀어내기"},
+					{CD : "오른쪽으로 쉬프트하면서 밀어내기", NM: "오른쪽으로 쉬프트하면서 밀어내기"},
+					{CD : "위로 쉬프트하면서 밀어내기", NM: "위로 쉬프트하면서 밀어내기"},
+					{CD : "아래로 쉬프트하면서 밀어내기", NM: "아래로 쉬프트하면서 밀어내기"}]
 			},
 			disabled: function(){
 				return this.item.__index >= uv_sideheightz;
@@ -286,7 +286,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             	},
             columns: [
             	{key: "frameNo",			label: "프레임번호",			width: 100,																		styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effType",			label: "효과",				width: 100, editor: editCaseFront('effType'),	formatter: "money", align:"right",	styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
+            	{key: "effType",			label: "효과",				width: 100, editor: editCaseFront('effType'),  align:"right",	styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
             	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 110, editor: editCaseFront('effSpeed'), align:"right",						styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
                 {key: "showTime",			label: "표출시간(1=10ms)",		width: 110, editor: editCaseFront('showTime'), align:"right",						styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }}
             ],
@@ -386,7 +386,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	},
             columns: [
             	{key: "frameNo",			label: "프레임번호",			width: 100,																		styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effType",			label: "효과",				width: 100, editor: editCaseSide('effType'),	formatter: "money", align:"right",	styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
+            	{key: "effType",			label: "효과",				width: 100, editor: editCaseSide('effType'), align:"right",	styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
             	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 110, editor: editCaseSide('effSpeed'), align:"right",						styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
                 {key: "showTime",			label: "표출시간(1=10ms)",		width: 110, editor: editCaseSide('showTime'), align:"right",						styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }}
             ],

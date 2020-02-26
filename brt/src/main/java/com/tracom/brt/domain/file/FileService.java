@@ -102,10 +102,10 @@ public class FileService {
 		
 		File file = null;
 		String fileName = "";
-		String path = Paths.get(handler.getRootLocalPath(), "/common/audio").toString();
+		String path = Paths.get(handler.getRootLocalPath(), handler.getCommonAudioPath()).toString();
 		
 		if(playType.equals("WAV")) {
-			fileName = vocId;
+			fileName = vocId + GlobalConstants.VoiceTypes.US;
 		} else if(playType.equals("TTS")){
 			if(vocType.equals(GlobalConstants.VoiceTypes.KR)) {
 				fileName = vocId + GlobalConstants.VoiceTypes.KR;
@@ -137,7 +137,7 @@ public class FileService {
 		File tempFile = null;
 		
 		if(routId != null && !routId.equals("")) {
-			file = new File(Paths.get(handler.getRootLocalPath(), "/common/audio", routId + GlobalConstants.VoiceTypes.US + ".wav").toString());
+			file = new File(Paths.get(handler.getRootLocalPath(), "/common/route_audio", routId + ".wav").toString());
 		}
 		// playType이 TTS일떄
 		else if(vocId == null) {
@@ -148,7 +148,7 @@ public class FileService {
 		}
 		// playType이 WAV일때
 		else {
-			file = new File(Paths.get(handler.getRootLocalPath(), "/common/audio", vocId + ".wav").toString());
+			file = new File(Paths.get(handler.getRootLocalPath(), handler.getCommonAudioPath(), vocId + GlobalConstants.VoiceTypes.US + ".wav").toString());
 		}
 		
 		tempFile = new File(Paths.get(handler.getRootLocalPath(), "/temp/temp.mp3").toString());

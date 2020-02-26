@@ -93,11 +93,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if (caller.formView0.validate()) {
             var formData = new FormData(caller.formView0.target[0]);
             if($("#employeeImg")[0].files[0]){
-            	formData.append("attFile", $("#employeeImg")[0].files[0].name);
+            	formData.append("employeeImg", $("#employeeImg")[0].files[0]);
             }
             
             if($("#certiImg")[0].files[0]){
-            	formData.append("attFile2", $("#certiImg")[0].files[0].name);
+            	formData.append("certiImg", $("#certiImg")[0].files[0]);
             }
                       
             axboot.promise()
@@ -131,16 +131,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             var formData = new FormData(caller.formView0.target[0]);
             
             if($("#employeeImg")[0].files[0]){
-            	formData.append("attFile", $("#employeeImg")[0].files[0].name);
+            	formData.append("employeeImg", $("#employeeImg")[0].files[0]);
             }
             
             if($("#certiImg")[0].files[0]){
-            	formData.append("attFile2", $("#certiImg")[0].files[0].name);
+            	formData.append("certiImg", $("#certiImg")[0].files[0]);
             }
 
-            
-            console.log($("#employeeImg")[0].files[0]);
-            console.log($("#certiImg")[0].files[0]);
                       
             axboot.promise()
                 .then(function (ok, fail, data) {

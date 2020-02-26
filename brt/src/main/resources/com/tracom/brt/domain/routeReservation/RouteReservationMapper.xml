@@ -3,6 +3,12 @@
 
 <mapper namespace="com.tracom.brt.domain.routeReservation.RouteReservationMapper">
 
+	<resultMap id="orgaList" type="com.tracom.brt.domain.BM0405.VoiceOrganizationVO">
+		<result property="orgaId" column="orgaId"/>
+		<result property="routId" column="routId"/>
+		<collection property="playList" column="orgaId" javaType="java.util.ArrayList" select="selectVoiceOrganizationVoiceList"></collection>
+	</resultMap>
+
  	<!-- routemap 폴더 내 파일 생성 쿼리 -->
  	<!-- 노선별 파일명 생성 쿼리 -->
  	<select id="rsv_routelist" resultType="bmRoutInfoVO">
@@ -114,4 +120,39 @@
 			GROUP BY ROUT.ROUT_ID
 			HAVING COUNT(*) > 1) A
 	</select>
+	
+	<select id="selectVoiceOrganization" parameterType="voiceOrganizationVO" resultMap="orgaList">
+    	SELECT
+			  ORGA_ID		AS orgaId
+			, ROUT_ID		AS routId
+		FROM
+			BM_VOC_ORGA
+		WHERE
+			ROUT_ID = #{routId}
+    </select>
+    
+    <select id="selectVoiceOrganizationVoiceList" parameterType="voiceOrganizationVO" resultType="voiceInfoVO">
+    	SELECT
+    		  O.VOC_ID
+    		, O.SEQ
+    		, CAST(D.NUM_VAL4 AS INTEGER) AS VOC_CODE
+    		, V.PLAY_TYPE
+    		, DATE_FORMAT(V.PLAY_ST_DATE, '%Y%m%d') AS PLAY_ST_DATE
+    		, DATE_FORMAT(V.PLAY_ED_DATE, '%Y%m%d') AS PLAY_ED_DATE
+    		, IFNULL(V.SCR_TXT, '') AS SCR_TXT
+    		, IFNULL(V.SCR_TXT_EN, '') AS SCR_TXT_EN
+
+    	FROM
+    		BM_VOC_ORGA_LIST O
+    		LEFT OUTER JOIN BM_VOC_INFO V
+    		ON O.VOC_ID = V.VOC_ID
+    		LEFT OUTER JOIN SM_DL_CD_INFO D
+    		ON V.VOC_DIV = D.DL_CD
+    		AND D.CO_CD = 'VOC_DIV'
+    	WHERE
+    		O.ORGA_ID = #{orgaId}
+    		AND V.PLAY_ED_DATE >= DATE_FORMAT(NOW(), '%Y-%m-%d')
+    	ORDER BY O.SEQ
+    
+    </select>
 </mapper>

@@ -446,38 +446,34 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         return true;
     },
     enable: function() {
-    	this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
-    		$('#wayDiv option').removeAttr('disabled');
-            $('#wayDiv').attr('style', "background:#FFFFFF");
-    		$(element).attr("readonly", false);
+    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element){
+    		$('#wayDiv').attr("readonly", false).attr("disabled", false);
+    		$(element).attr("readonly", false).attr("disabled", false);
     	});
     },
     disable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", true);
+    		$(element).attr("readonly", true).attr("disabled", true);
     	});
     },
     interRout: function() {
-    	//if(selectedRow.routId.substr(0, 3) == 'VBR'){
     	if(/[a-zA-Z]/.test(selectedRow.routId.substr(0,1))){
-	    	this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
-	    		$('#wayDiv option').removeAttr('disabled');
-	            $('#wayDiv').attr('style', "background:#FFFFFF");
+	    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element){
+	    		$('#wayDiv').attr("readonly", false).attr("disabled", false);
 	    		$(element).attr("readonly", false);
 	    	});
     	}else{
     		this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
 	    		$(element).attr("readonly", true);
 	    	});
-    		$('#wayDiv option').attr('disabled','disabled');
-            //$('#wayDiv option').not(":selected").attr('disabled','disabled');
-            $('#wayDiv').attr('style', "background:#EEEEEE");
+    		$('#wayDiv').attr("readonly", true).attr("disabled", true);
     	}
     	
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());
         this.target.find('[data-ax-path="key"]').removeAttr("readonly");
+        $('#wayDiv').attr("readonly", false).attr("disabled", false);
     }
 });
 /****************************************************/

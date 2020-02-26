@@ -50,6 +50,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.clear();
         caller.formView0.enable();
         caller.formView0.validate(true);
+        caller.gridView1.setData([{}]);
     },
     
     PAGE_DELETE: function(caller, act, data) {

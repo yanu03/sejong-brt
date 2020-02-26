@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.chequer.axboot.core.parameter.RequestParams;
+import com.gargoylesoftware.htmlunit.javascript.host.Console;
 import com.tracom.brt.domain.BaseService;
 
 @Service
@@ -56,4 +57,5 @@ public class SM0105Service extends BaseService<CommonCodeDetailInfoVO, String> {
     	vo.setCoCd(requestParams.getString("coCd"));
     	return mapper.SM0105G1S2(vo);
     }
+    
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import com.chequer.axboot.core.mybatis.MyBatisMapper;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
+import com.tracom.brt.domain.voice.VoiceInfoVO;
 
 public interface RouteReservationMapper extends MyBatisMapper {
 	
@@ -22,4 +24,7 @@ public interface RouteReservationMapper extends MyBatisMapper {
 	
 	/** 최신 버전 **/
 	public String rsv_maxVersion();
+	
+	List<VoiceOrganizationVO> selectVoiceOrganization(VoiceOrganizationVO param);
+	List<VoiceInfoVO> selectVoiceOrganizationVoiceList(VoiceOrganizationVO param);
 }

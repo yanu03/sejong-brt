@@ -111,12 +111,12 @@
 
 								<div style="float:left;width:260px;border: 0px solid #D8D8D8;">
 									<input type="file" id="employeeImg" name="employeeImg" accept="image/jpeg"
-		                                onchange="preview_ChangeImage(this, 'previewImg');"
+		                                onchange="preview_ChangeImage(this, 'previewImg');" data-ax-path="employeeImg"
 		                                
 									 />
 								 </div>
 								 <div style="float:left;width:260px;height:345px;padding:10px;border: 0px solid #D8D8D8;">
-								 	<img id="previewImg" src="#" alt="승무사원 이미지" style="width:180px;height:240px"
+								 	<img id="previewImg" src="#" alt="승무사원 이미지" style="width:180px;"
 	                                onError="preview_Image('previewImg');">
 								 </div>
 
@@ -125,11 +125,11 @@
 
 								<div style="float:left;width:260px;border:0px solid #D8D8D8;">
 									<input type="file" id="certiImg" name="certiImg" accept="image/jpeg"
-		                                onchange="preview_ChangeImage(this, 'previewImg2');"
+		                                onchange="preview_ChangeImage(this, 'previewImg2');" data-ax-path="certiImg"
 									 />
 								 </div>
 								 <div style="float:left;width:260px;height:345px;padding:10px;border: 0px solid #D8D8D8;">
-								 	<img id="previewImg2" src="#" alt="실명제판 이미지" style="width:180px;height:240px;"
+								 	<img id="previewImg2" src="#" alt="실명제판 이미지" style="width:180px;"
 	                                onError="preview_Image('previewImg2');">
 								 </div>
 

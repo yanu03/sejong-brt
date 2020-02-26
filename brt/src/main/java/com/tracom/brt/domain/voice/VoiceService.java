@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.chequer.axboot.core.parameter.RequestParams;
+import com.tracom.brt.domain.voiceReservation.VoiceReservationVO;
 import com.tracom.brt.handler.FTPHandler;
 
 import selvytts.Pttsnet;
@@ -56,6 +58,9 @@ public class VoiceService {
 	
 	@Inject
 	private FTPHandler handler;
+	
+	@Inject
+	private VoiceMapper mapper;
 	
 	public byte[] getWavBuffer(String pText, int nLanguage, int nSpeakerId, String chimeYn) {
     	Pttsnet TTS = new Pttsnet();
@@ -147,4 +152,14 @@ public class VoiceService {
         return null;
     }
 	//*/
+	
+	public boolean checkVoiceOrganization(RequestParams<VoiceReservationVO> requestParams) {
+		String vocId = requestParams.getString("vocId");
+		int count = mapper.checkVoiceOrganization(vocId);
+		if(count > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
