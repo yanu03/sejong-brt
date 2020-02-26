@@ -69,7 +69,7 @@
                         </ax:tr>
                         <ax:tr>
                             <ax:td label="노선표시파일" width="100%" labelClazz="required">
-								<input type="file" id="bmpFile" name="bmpFile" accept="image/bmp" onchange="preview_ChangeImage(this, 'previewImg');"/>
+								<input type="file" id="bmpFile" name="bmpFile" accept="image/bmp" />
                             </ax:td>
                         </ax:tr>
                         <ax:tr>

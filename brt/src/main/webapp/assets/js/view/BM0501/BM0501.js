@@ -6,7 +6,7 @@ selectedRow = null;
 /*************************************************************************************************************/
 
 /***사용자 변수***/
-uv_frontwidth = 348;
+uv_frontwidth = 384;
 uv_frontheight = 64;
 uv_sidewidth = 160;
 uv_sideheight = 32;
@@ -351,50 +351,7 @@ $("input[id=bmpFile]").change(function(){
         return;
     }
     
-    /*var fileSize = this.files[0].size;
-    var maxSize = 1024 * 1024;
-    if(fileSize > maxSize) {
-        alert("파일용량을 초과하였습니다.");
-        return;
-    }*/
     
-    var file  = this.files[0];
-    var _URL = window.URL || window.webkitURL;
-    var img = new Image();
-    
-    img.src = _URL.createObjectURL(file);
-    img.onload = function() {
-        //alert(img.width);
-        //alert(img.height);
-        
-        preview_ChangeImage("src", "previewImg");
-    	
-        if(uv_dvc_type == frontCode){
-    		uv_frontheight = img.height / uv_frontheight;
-    	}else if(uv_dvc_type == sideCode){
-    		uv_sideheight = img.height / uv_sideheight;
-    	}else{
-    		console.log('error');
-    	}
-    	//console.log(uv_dvc_type);
-    	//console.log(uv_height);
-        /*if(img.width != 384 || img.height != 64) {
-            alert("이미지 가로 684px, 세로 64px로 맞춰서 올려주세요.");
-            $("input[id=bmpFile]").val("");
-        } */
-    }
-});
-
-
-$("input[id=bmpFile]").change(function(){
-    
-    var ext = $(this).val().split(".").pop().toLowerCase();
-    
-    if($.inArray(ext,["bmp", "BMP"]) == -1) {
-        alert("bmp 파일만 업로드 가능합니다.");
-        $("input[id=bmpFile]").val("");
-        return;
-    }
     
     /*var fileSize = this.files[0].size;
     var maxSize = 1024 * 1024;
@@ -408,21 +365,37 @@ $("input[id=bmpFile]").change(function(){
     var img = new Image();
     
     img.src = _URL.createObjectURL(file);
+
     img.onload = function() {
-        //alert(img.width);
-        //alert(img.height);
-        
-        preview_ChangeImage("src", "previewImg");
-    	
         if(uv_dvc_type == frontCode){
-    		uv_frontheight = img.height / uv_frontheight;
+        	if(!isInt(img.height/uv_frontheight) || !isInt(img.width/uv_frontwidth)){
+        		alert("이미지 사이즈를 확인하세요");
+        		$('#bmpFile').val('');
+        		return;
+        	}else{
+        		uv_height = img.height / uv_frontheight;
+        		console.log("ok1");
+        		preview_ChangeImage($('#bmpFile'), "previewImg");
+        	}
     	}else if(uv_dvc_type == sideCode){
-    		uv_sideheight = img.height / uv_sideheight;
+    		if(!isInt(img.height / uv_sideheight) || !isInt(img.width / uv_sidewidth)){
+    			alert("이미지 사이즈를 확인하세요");
+    			$('#bmpFile').val('');
+    			return;
+    		}else{
+    			uv_height = img.height / uv_sideheight;    			
+    			preview_ChangeImage("src", "previewImg");
+    		}
     	}else{
     		console.log('error');
     	}
     }
 });
+
+function isInt(n){
+	return n % 1 === 0;
+}
+
 /********************************************************************************************************************/
 
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
@@ -729,26 +702,27 @@ function loadBmp(){
 	uv_dvc_type = $('#selectBox option:selected').val();
 	var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&userWayDiv=" + selectedRow.userWayDiv + "&dvcName="+selectedRow.dvcName;
 
-	$("#previewImg").attr("src", url);
 	
 	$('#previewImg').each(function(){
 		$(this).load(function(){
 			uv_height = this.naturalHeight / uv_frontheight;
 		});
 	});
+	
+	$("#previewImg").attr("src", url);
+	
 	fnObj.gridView1.initView();
 	setTimeVal(uv_height);
 }
 
 function preview_ChangeImage(input, id) {
-    if (input.files && input.files[0]) {
-    var reader = new FileReader();
-
-    
-    reader.onload = function (e) {
-    	$('#' + id).attr('src', e.target.result);
-        }
-    	reader.readAsDataURL(input.files[0]);
+	if (input[0].files && input[0].files[0]) {
+	    var reader = new FileReader();
+	    reader.onload = function (e) {
+	    	$('#' + id).attr('src', e.target.result);
+	    }
+	    
+    	reader.readAsDataURL(input[0].files[0]);
     }
     setTimeVal(uv_height);
 }
