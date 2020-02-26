@@ -37,8 +37,8 @@
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0104G0.title"/> </h2>
+                        <h3><i class="cqc-list"></i>
+                            <ax:lang id="ax.admin.BM0104G0.title"/> </h3>
                     </div>
                     <div class="right">
 
@@ -48,10 +48,11 @@
 	        </ax:split-panel>
 	            
 	        <ax:splitter></ax:splitter>
+	        
 	        <ax:split-panel width="520" style="padding-left: 10px;" scroll="scroll">
 	        	<div class="ax-button-group" role="panel-header">
 	        		<div class="left">
-	        			<i class="cqc-news"></i>노선정보
+	        			<h3><i class="cqc-news"></i>노선정보</h3>
 	        		</div>
 	        		<div class="right">
 	        		</div>
@@ -60,20 +61,20 @@
 	        		<ax:tbl clazz="ax-form-tbl" minWidth="500px">
 	        			<ax:tr>
 	        				<ax:td label="ax.admin.BM0104G0.routId" width="250px" labelClazz="required">
-                                <input type="text" id="routId" data-ax-path="routId" title="<ax:lang id="ax.admin.BM0104G0.routId"/>" class="form-control" readonly="readonly" maxlength="9"/>
+                                <input type="text" id="routId" data-ax-path="routId" data-key="true" title="<ax:lang id="ax.admin.BM0104G0.routId"/>" class="form-control" readonly="readonly" maxlength="9"/>
                             </ax:td>
                             
                             <ax:td label="ax.admin.BM0104G0.routNm" width="250px" style="border-left: 1px solid #D8D8D8;" labelClazz="required">
-                                <input type="text" data-ax-path="routNm" title="<ax:lang id="ax.admin.BM0104G0.routNm"/>" class="form-control" data-key="true" maxlength="20" data-ax-validate="required"/>
+                                <input type="text" data-ax-path="routNm" title="<ax:lang id="ax.admin.BM0104G0.routNm"/>" class="form-control" maxlength="20" data-ax-validate="required"/>
                             </ax:td>
 						</ax:tr>
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0104G0.stStaNm" width="250px" labelClazz="required">
-                            	<input type="text" data-ax-path="stStaNm" data-key="true" title="<ax:lang id="ax.admin.BM0104G0.stStaNm"/>" class="form-control" maxlength="20" data-ax-validate="required"/>
+                            	<input type="text" data-ax-path="stStaNm" title="<ax:lang id="ax.admin.BM0104G0.stStaNm"/>" class="form-control" maxlength="20" data-ax-validate="required"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0104G0.edStaNm" width="250px" style="border-left: 1px solid #D8D8D8;" labelClazz="required">
-                            	<input type="text" data-ax-path="edStaNm" data-key="true" title="<ax:lang id="ax.admin.BM0104G0.edStaNm"/>" class="form-control" maxlength="20" data-ax-validate="required"/>
+                            	<input type="text" data-ax-path="edStaNm" title="<ax:lang id="ax.admin.BM0104G0.edStaNm"/>" class="form-control" maxlength="20" data-ax-validate="required"/>
                             </ax:td>
                        	</ax:tr>
                        	

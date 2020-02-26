@@ -446,9 +446,8 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         return true;
     },
     enable: function() {
-    	this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
-    		$('#wayDiv').removeAttr('disabled');
-            $('#wayDiv').attr('style', "background:#FFFFFF");
+    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element){
+    		$('#wayDiv').attr("readonly", false).attr("disabled", false);
     		$(element).attr("readonly", false).attr("disabled", false);
     	});
     },
@@ -459,9 +458,8 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     interRout: function() {
     	if(/[a-zA-Z]/.test(selectedRow.routId.substr(0,1))){
-	    	this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
-	    		$('#wayDiv').removeAttr('disabled');
-	            $('#wayDiv').attr('style', "background:#FFFFFF");
+	    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element){
+	    		$('#wayDiv').attr("readonly", false).attr("disabled", false);
 	    		$(element).attr("readonly", false);
 	    	});
     	}else{
@@ -469,13 +467,13 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 	    		$(element).attr("readonly", true);
 	    	});
     		$('#wayDiv').attr("readonly", true).attr("disabled", true);
-            $('#wayDiv').attr('style', "background:#EEEEEE");
     	}
     	
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());
         this.target.find('[data-ax-path="key"]').removeAttr("readonly");
+        $('#wayDiv').attr("readonly", false).attr("disabled", false);
     }
 });
 /****************************************************/

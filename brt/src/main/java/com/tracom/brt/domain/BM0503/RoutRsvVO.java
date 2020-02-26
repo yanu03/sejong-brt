@@ -1,5 +1,7 @@
 package com.tracom.brt.domain.BM0503;
 
+import java.util.List;
+
 import com.tracom.brt.domain.BaseVO;
 
 import lombok.Data;
@@ -29,4 +31,6 @@ public class RoutRsvVO extends BaseVO {
 	private String dvcId;
 	
 	private String mngId;
+	
+	private List<RoutRsvVO> voList;
 }
