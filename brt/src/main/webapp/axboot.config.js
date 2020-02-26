@@ -186,7 +186,16 @@
             		url: "/jsp/common/BM0608_modal.jsp"
             	},
             	header: false
-            }
+            },
+            
+            "TTS_HELP": {
+            	width: 400,
+            	height: 400,
+            	iframe: {
+            		url: "/jsp/common/tts-help_modal.jsp"
+            	},
+            	header: false
+            },
         };
     }
 
