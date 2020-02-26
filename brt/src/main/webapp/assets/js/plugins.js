@@ -14851,7 +14851,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          * console.log( ax5.info.weekNames[(new Date()).getDay()].label )
          * ```
          */
-        var weekNames = [{ label: "SUN" }, { label: "MON" }, { label: "TUE" }, { label: "WED" }, { label: "THU" }, { label: "FRI" }, { label: "SAT" }];
+        var weekNames = [{ label: "일" }, { label: "월" }, { label: "화" }, { label: "수" }, { label: "목" }, { label: "금" }, { label: "토" }];
 
         /**
          * 사용자 브라우저 식별용 오브젝트
@@ -21173,7 +21173,7 @@ ax5.ui = function () {
                     yearHeading: "Choose the year",
                     monthHeading: "Choose the month",
                     yearTmpl: "%s",
-                    months: ax5.info.months || ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+                    months: ax5.info.months || ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
                     dayTmpl: "%s"
                 },
                 multipleSelect: false,
@@ -36631,8 +36631,12 @@ jQuery.fn.ax5layout = function () {
                          * */
                         if (_this.onerror) _this.onerror("not found target [model." + get_real_path(dataPath) + "]");
                     }
+                    
+                    if(val == null || typeof val === "undefined") {
+                    	val = "";
+                    } 
 
-                    _this.set_els_value(this, this.tagName.toLowerCase(), this_type, val || "", dataPath);
+                    _this.set_els_value(this, this.tagName.toLowerCase(), this_type, val, dataPath);
                 });
 
                 if (typeof isupdate == "undefined") {
@@ -36913,7 +36917,12 @@ jQuery.fn.ax5layout = function () {
                         if (_this.onerror) _this.onerror("not found target [model." + mix_path + "]");
                     }
                     //if (typeof val !== "undefined") _this.set_els_value(this, this.tagName.toLowerCase(), this_type, val, mix_path);
-                    _this.set_els_value(this, this.tagName.toLowerCase(), this_type, val || "", mix_path);
+                    
+                    if(val == null || typeof val === "undefined") {
+                    	val = "";
+                    }
+                    
+                    _this.set_els_value(this, this.tagName.toLowerCase(), this_type, val, mix_path);
                 });
 
                 // binding event to els

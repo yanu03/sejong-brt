@@ -287,19 +287,10 @@
     
     <update id="BM0302F0U1" parameterType="altContractInfoVO">
     	UPDATE BM_CON_ALT
-    	SET
-    		  ALT_DIV			=	#{altDiv}
-    		, ALT_CON_DATE		=	#{altConDate}
-    		, CON_ST_DATE		=	#{conStDate}
-    		, CON_ED_DATE		=	#{conEdDate}
-    		, SUPP_AMT			=	#{suppAmt}
-    		, VAT_AMT			=	#{vatAmt}
-    		, REMARK			=	#{remark}
-    		, CONFIRM_YN        =   "Y"
-    		, CON_NO			=	#{conNo}
-    		, UPDATED_AT		=	#{updatedAt}
-    		, UPDATED_BY		=	#{updatedBy}
-    		
+    	SET    		
+    		  CONFIRM_YN        =   "Y"
+    	    , UPDATED_AT		=	#{updatedAt}
+    		, UPDATED_BY		=	#{updatedBy}  		
     	WHERE
     		SEQ = #{seq}
     </update>
@@ -307,18 +298,9 @@
     <update id="BM0302F0U2" parameterType="altContractInfoVO">
     	UPDATE BM_CON_ALT
     	SET
-    		  ALT_DIV			=	#{altDiv}
-    		, ALT_CON_DATE		=	#{altConDate}
-    		, CON_ST_DATE		=	#{conStDate}
-    		, CON_ED_DATE		=	#{conEdDate}
-    		, SUPP_AMT			=	#{suppAmt}
-    		, VAT_AMT			=	#{vatAmt}
-    		, REMARK			=	#{remark}
-    		, CONFIRM_YN        =   "N"
-    		, CON_NO			=	#{conNo}
+    		  CONFIRM_YN        =   "N"
     		, UPDATED_AT		=	#{updatedAt}
     		, UPDATED_BY		=	#{updatedBy}
-    		
     	WHERE
     		SEQ = #{seq}
     </update>

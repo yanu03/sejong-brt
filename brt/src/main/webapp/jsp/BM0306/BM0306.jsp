@@ -21,9 +21,7 @@
 		</style>
     </jsp:attribute>
     <jsp:body>
-
         <ax:page-buttons></ax:page-buttons>
-		
         <div role="page-header">
         	<div style="position: absolute; top: 10px; right: 600px;">
 					<input type="text" id="year" value="2020" name="year" class="form-control" readonly="readonly" style="width:100px; height: 50px; text-align: center; font-size: 30px; background-color:transparent; border:none;"/>
@@ -39,7 +37,6 @@
             </ax:form>
             <div class="H3"></div>
         </div>
-
         <ax:split-layout name="ax1" orientation="horizontal">
             <ax:split-panel width="*" style="">
 
@@ -48,12 +45,11 @@
                     <div class="left">
                         <h3>
                             <i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0204G0.title"/>
+                            <ax:lang id="ax.admin.BM0304M0.title"/>
                         </h3>
                     </div>
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
-
             </ax:split-panel>
         </ax:split-layout>
 

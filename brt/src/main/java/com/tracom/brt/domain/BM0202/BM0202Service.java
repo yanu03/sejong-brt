@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
-import com.tracom.brt.domain.SM0105.CommonCodeDetailInfoVO;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
 
 
@@ -67,6 +66,14 @@ public class BM0202Service extends BaseService<DvcHistoryVO, String>{
     			System.out.println("나머지 친구들 인설트");
     			return true;
     		}
-    	}  	
+    	}
+
+	public void BM0202G1U0(DvcHistoryVO request) {
+		mapper.BM0202G1U0(request);
+	}
+
+	public void BM0202G1U1(DvcHistoryVO request) {
+		mapper.BM0202G1U1(request);
+	}  	
 	}
 

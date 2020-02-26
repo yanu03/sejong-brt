@@ -98,11 +98,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                	caller.gridView1.selectIdRow(data);
 	                	console.log(data);
 	                } 
-		                if(selectedRowG1 != null) {
+		                /*if(selectedRowG1 != null) {
 		                	caller.gridView1.selectRow(selectedRowG1.__index);
 		                } else {
 		                	caller.gridView1.selectFirstRow();
-		                }
+		                }*/
             }
         });    	
     	

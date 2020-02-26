@@ -1,8 +1,4 @@
 var fnObj = {};
-
-isUpdate = false;
-
-
 var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_CLOSE: function (caller, act, data) {
         if (parent) {
@@ -10,40 +6,27 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         }
     },
     
-    PAGE_SEARCH: function (caller, act, data) {   	
-    	caller.formView0.setData(parent.axboot.modal.getData());
-    	var formData = caller.formView0.getData();
-    	if(formData["aplyDate"] != null){
-    		isUpdate = true;
-    		console.log("true");
-    	}
+    PAGE_SEARCH: function (caller, act, data) {    
+        axboot.ajax({
+            type: "GET",
+            url: "/api/v1/BM0601M0S0",
+            data: caller.searchView0.getData(),
+            callback: function (res) {            	              
+            	caller.formView0.setData(res);
+            }
+        });
+        return false;
     },
     
     
     PAGE_SAVE: function (caller, act, data) {
         if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
-            var formDataCheck = formData["dvcId"];
             axboot.promise()
-         	.then(function (ok, fail, data) {
-                axboot.ajax({
-                    type: "POST",
-                    url: "/api/v1/BM0202M0S0", //이부분하는중이었다.
-                    data: JSON.stringify({dvcId : formDataCheck , workType : formData["workType"]}),
-                    callback: function (res) {
-                        ok(res);
-                        console.log(res);
-                    }
-                });
-            })
-              .then(function (ok, fail, data) {
-               console.log(data.message);
-               if(data.message == "true"){
-            	axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0201M0I0",
+                        url: "/api/v1/BM0601M0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -52,50 +35,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 })
                 .then(function (ok, fail, data) {
             		axToast.push(LANG("onadd"));
-            		if (parent && parent.axboot && parent.axboot.modal) {
-	                    parent.axboot.modal.callback();
-	                }
             		ACTIONS.dispatch(ACTIONS.PAGE_CLOSE, data.message);
-            		
                     isUpdate = true;
                 })
                 .catch(function () {
 
                 });
-               }else{
-            	   axDialog.alert(LANG("ax.script.alert.firstconfirm"));
-               }
-              })
         }
     },
-    
-    PAGE_UPDATE : function(caller , act , data) {
-    	isUpdate = false;
-    			var formData = caller.formView0.getData();
-    			axboot.promise()
-    			.then(function (ok , fail , data){
-    				axboot.ajax({
-    					type : "POST",
-    					url : "/api/v1/BM0202G2U0",
-    					data : JSON.stringify(formData),
-    					callback : function(res){
-    						ok(res);
-    					}
-    				});
-    			})
-    			.then(function(ok , fail , data){
-    				axToast.push(LANG("onupdate"));
-    				if (parent && parent.axboot && parent.axboot.modal) {
-	                    parent.axboot.modal.callback();
-	                }
-    				ACTIONS.dispatch(ACTIONS.PAGE_CLOSE, data.message);
-					isUpdate = true;
-    			})
-    			.catch(function () {
-					
-				});
-    		
-	},
    
     ITEM_CLICK: function (caller, act, data) {
     },
@@ -122,11 +69,7 @@ fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
             "save": function () {
-            	if(isUpdate){
-            	ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
-            	}else{
                 ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
-            	}
             },
             "close": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
@@ -180,6 +123,8 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     initEvent: function () {
     	var _this = this;
+    	
+                	
     },
     
     getData: function () {
@@ -190,9 +135,8 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         if (typeof data === "undefined") data = this.getDefaultData();
         console.log("data1");
         console.log(data);
-        var workData = data.workType;
-        data = $.extend({}, data);
-        console.log(data);
+        data = $.extend({}, data.list[0]);
+        console.log("setData2"+data);
 
         this.model.setModel(data);
         this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경

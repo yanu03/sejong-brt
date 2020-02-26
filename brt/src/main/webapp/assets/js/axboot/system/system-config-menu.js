@@ -144,6 +144,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                             fn5Ah: "N",
                             fn6Ah: "N",
                             fn7Ah: "N",
+                            helpAh: "N",
                             menuId: data.menuId
                         };
 
@@ -163,7 +164,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                                     fn4Ah: n.fn4Ah || "N",
                                     fn5Ah: n.fn5Ah || "N",
                                     fn6Ah: n.fn6Ah || "N",
-                                    fn7Ah: n.fn7Ah || "N"
+                                    fn7Ah: n.fn7Ah || "N",
+                                    helpAh: n.helpAh || "N",
                                 });
                             }
                         });
@@ -182,7 +184,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                                 program_fn4Ah: res.program.fn4Ah || "N",
                                 program_fn5Ah: res.program.fn5Ah || "N",
                                 program_fn6Ah: res.program.fn6Ah || "N",
-                                program_fn7Ah: res.program.fn7Ah || "N"
+                                program_fn7Ah: res.program.fn7Ah || "N",
+                                program_helpAh: res.program.helpAh || "N",
                             });
                         }
                         list.push(item);
@@ -611,19 +614,20 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
                 {key: "grpAuthCd", label: COL("ax.admin.menu.auth.group.code"), width: 80, align: "center"},
                 {key: "grpAuthNm", label: COL("ax.admin.menu.auth.group.name"), width: 160, align: "left"},
                 {key: "useYn", label: COL("ax.admin.menu.auth.apply"),				 						editor: "checkYn"},
-                {key: "schAh", label: COL("ax.admin.menu.auth.inquery"),		width: 50, align: "center", editor: "menu-program-auth-checkYn"},
-                {key: "gexAh", label: COL("ax.admin.menu.auth.excelform"),		width: 50, align: "center", editor: "menu-program-auth-checkYn"},
-                {key: "iexAh", label: COL("ax.admin.menu.auth.excelimport"),	width: 50, align: "center", editor: "menu-program-auth-checkYn"},
-                {key: "savAh", label: COL("ax.admin.menu.auth.save"),			width: 50, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "helpAh", label: COL("ax.admin.program.auth.help"), width: 50, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "fn4Ah", label: COL("ax.admin.program.auth.reservation"), width: 60, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "fn5Ah", label: COL("ax.admin.program.auth.setting"), width: 50, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "fn6Ah", label: COL("ax.admin.program.auth.interface"), width: 50, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "fn3Ah", label: COL("ax.admin.program.auth.confirmyn"), width: 50, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "fn7Ah", label: COL("ax.admin.program.auth.operstatus"), width: 60, align: "center", editor: "menu-program-auth-checkYn"},
                 {key: "exlAh", label: COL("ax.admin.menu.auth.excel"),			width: 50, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "gexAh", label: COL("ax.admin.menu.auth.excelform"),		width: 60, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "iexAh", label: COL("ax.admin.menu.auth.excelimport"),	width: 60, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "schAh", label: COL("ax.admin.menu.auth.inquery"),		width: 50, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "fn1Ah", label: COL("ax.admin.program.auth.new"), width: 50, align: "center", editor: "menu-program-auth-checkYn"},
                 {key: "delAh", label: COL("ax.admin.menu.auth.delete"),			width: 50, align: "center", editor: "menu-program-auth-checkYn"},
-                {key: "fn1Ah", label: "FN1", width: 50, align: "center", editor: "menu-program-auth-checkYn"},
-                {key: "fn2Ah", label: "FN2", width: 50, align: "center", editor: "menu-program-auth-checkYn"},
-                {key: "fn3Ah", label: "FN3", width: 50, align: "center", editor: "menu-program-auth-checkYn"},
-                {key: "fn4Ah", label: "FN4", width: 50, align: "center", editor: "menu-program-auth-checkYn"},
-                {key: "fn5Ah", label: "FN5", width: 50, align: "center", editor: "menu-program-auth-checkYn"},
-                {key: "fn6Ah", label: "FN6", width: 50, align: "center", editor: "menu-program-auth-checkYn"},
-                {key: "fn7Ah", label: "FN7", width: 50, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "savAh", label: COL("ax.admin.menu.auth.save"),			width: 50, align: "center", editor: "menu-program-auth-checkYn"},
+                {key: "fn2Ah", label: COL("ax.admin.program.auth.close"), width: 50, align: "center", editor: "menu-program-auth-checkYn"},
                 /// --> 이것들을 list로 담아서  [PUT] "/api/v2/menu/auth"
             ],
             body: {
