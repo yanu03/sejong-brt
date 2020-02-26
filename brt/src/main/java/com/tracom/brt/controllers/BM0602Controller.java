@@ -34,8 +34,8 @@ public class BM0602Controller extends BaseController{
 	public Responses.ListResponse BM0602G0S0(RequestParams<NewsVO> requestParams){
 		List<NewsVO> list = service.BM0602G0S0(requestParams);
 		System.out.println("그리드 체크박스");
-		System.out.println(list.get(0).getUseYn());
 		
+		if(list != null) {
 		for(int i = 0; list.size() > i; i++) {
 			if(list.get(i).getUseYn().equals("Y")) {
 				System.out.println("true");
@@ -44,6 +44,9 @@ public class BM0602Controller extends BaseController{
 				System.out.println("false");
 				list.get(i).setUseYn("false");
 			}
+		}
+		}else {
+			System.out.println("list가없습니다.");
 		}
 		return Responses.ListResponse.of(list);
 	}

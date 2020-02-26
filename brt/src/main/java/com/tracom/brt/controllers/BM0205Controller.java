@@ -32,7 +32,6 @@ public class BM0205Controller extends BaseController{
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
     })
-    @Transactional
     public Responses.ListResponse BM0205G0S0(RequestParams<VhcDvcUpdateVO> requestParams) {
         List<VhcDvcUpdateVO> list = service.BM0205G0S0(requestParams);
         for(int i = 0; i<list.size(); i++) {

@@ -37,5 +37,8 @@ public class VhcDeviceVO extends BaseVO{
 	private String workType;
 	private String workAmt;
 	private String seq;
-	
+	private String dvcKindCd;
+	private String makerCd;
+	private String instLocCd;
+	private String completeYn;
 }

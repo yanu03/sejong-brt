@@ -13,8 +13,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {   	
     	caller.formView0.setData(parent.axboot.modal.getData());
     	var formData = caller.formView0.getData();
-    	if(formData["devSerialNo"] != null){
+    	if(formData["aplyDate"] != null){
     		isUpdate = true;
+    		console.log("true");
     	}
     },
     
@@ -51,6 +52,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 })
                 .then(function (ok, fail, data) {
             		axToast.push(LANG("onadd"));
+            		if (parent && parent.axboot && parent.axboot.modal) {
+	                    parent.axboot.modal.callback();
+	                }
             		ACTIONS.dispatch(ACTIONS.PAGE_CLOSE, data.message);
             		
                     isUpdate = true;
@@ -67,9 +71,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_UPDATE : function(caller , act , data) {
     	isUpdate = false;
-    	
     			var formData = caller.formView0.getData();
-    			
     			axboot.promise()
     			.then(function (ok , fail , data){
     				axboot.ajax({
@@ -83,6 +85,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     			})
     			.then(function(ok , fail , data){
     				axToast.push(LANG("onupdate"));
+    				if (parent && parent.axboot && parent.axboot.modal) {
+	                    parent.axboot.modal.callback();
+	                }
     				ACTIONS.dispatch(ACTIONS.PAGE_CLOSE, data.message);
 					isUpdate = true;
     			})
@@ -175,8 +180,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     initEvent: function () {
     	var _this = this;
-    	
-                	
     },
     
     getData: function () {
@@ -188,7 +191,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         console.log("data1");
         console.log(data);
         var workData = data.workType;
-        console.log(workData);
         data = $.extend({}, data);
         console.log(data);
 

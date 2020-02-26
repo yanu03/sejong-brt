@@ -24,9 +24,30 @@ public class RouteReservationService extends BaseService<RouteReservationVO, Str
 	
 	/** 노선 예약 **/
 	public void makeRouteFile(String routId) {
+		
+		/**TODO:
+		 * 
+		 * 00. route/routeId/playlist 빈폴더 생성/
+		 * 0. 노선ID를 이용, ROUT_INFO 테이블의 PUBDATE,PUBSEQ를 조회 후 
+		 * 		- PUBDATE가 NULL
+		 * 			오늘날짜, 00으로 초기화
+		 * 		- PUBDATE가 오늘이면
+		 * 			PUBSEQ+1
+		 * 		- PUBDATE가 오늘이 아니면
+		 * 			PUBDATE 오늘날짜 PUBSEQ = 00
+		 * 
+		 * 1. 앞서얻은 버전을 이용, BUSSTOP.CSV파일에 ADD
+		 * 2. 앞서 얻은 버전을 이용, BUSSTOP.CSV파일에 ADD
+		 * 3. 노선아이디를 이용해 ROUT_RESULT 테이블 조회 후 CSV파일 생성 (ROUTID.CSV파일)
+		 * 4. 앞서 얻은 버전을 받아감. ROUTLIST.CSV파일을 불러와 VO 리스트로 만듬
+		 * 		같은 아이디가 있다면 새로운 내용을 SET하여 CSV파일 새로 갱신
+		 * 		같은 아이디가 없다면 새로운 ROW로 추가
+		 * **/
+
 		//노선 리스트, 노선별 파일명
 		List<BmRoutInfoVO> routeList = rsvRouteList();
 		String maxVersion = mapper.rsv_maxVersion();
+		String routVer = "";
 		
 		//노선별 노드리스트
 		for(BmRoutInfoVO vo : routeList) {
@@ -39,17 +60,17 @@ public class RouteReservationService extends BaseService<RouteReservationVO, Str
 		
 		
 		try {
-			//busstop_version.csv
-			ftpHandler.uploadBusstop(stopList, "busstop_" + maxVersion + ".csv");
+			//busstop.csv
+			ftpHandler.uploadBusstop(stopList, "busstop.csv", routVer);
 			
-			//node_version.csv
-			ftpHandler.uploadNodeList(nodeList, "node_" + maxVersion + ".csv");
+			//node.csv
+			ftpHandler.uploadNodeList(nodeList, "node.csv", routVer);
 			
 			//routelist.csv
-			ftpHandler.uploadRouteList(routeList, "routelist.csv");
+			ftpHandler.uploadRouteList(routeList, "routelist.csv", routVer);
 			
 			//노선별노드리스트.csv
-			ftpHandler.uploadRouteNodeList(routeList);
+			ftpHandler.uploadRouteNodeList(routeList, routVer);
 			
 			//노선 플레이리스트.csv
 			VoiceOrganizationVO vo = new VoiceOrganizationVO();
@@ -61,9 +82,7 @@ public class RouteReservationService extends BaseService<RouteReservationVO, Str
 		}
 		
 		
-		//TODO
-		//1. FTPHANDLER에 엑셀파일을 받아서 
-		//routelist가 완성되었음
+		
 	}
 	
 	/** 노선 리스트, 노선별 파일명쿼리 (routelist.csv) **/
