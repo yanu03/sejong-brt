@@ -88,7 +88,7 @@
 		SELECT
 			   V.VHC_ID
 			 , V.VHC_NO
-			 , LIV.SEND_DATE	 
+			 , MAX(LIV.SEND_DATE) AS SEND_DATE	 
 		FROM
 			 BM_LIVING_LOG LIV
 			 LEFT OUTER JOIN BM_DVC_INFO DV
@@ -101,6 +101,7 @@
 					AND
 		    	</if>
 			 LIV.ATTR_ID = "CD002"
+	    GROUP BY V.VHC_ID
 	    	</where>
 	</select>
 	
@@ -108,7 +109,7 @@
 		SELECT
 			   V.VHC_ID
 			 , V.VHC_NO
-			 , LIV.SEND_DATE 
+			 , MAX(LIV.SEND_DATE) AS SEND_DATE 
 		FROM
 			 BM_LIVING_LOG LIV
 			 LEFT OUTER JOIN BM_DVC_INFO DV
@@ -121,6 +122,7 @@
 					AND
 		    	</if>
 			 LIV.ATTR_ID = "CD003"
+	    GROUP BY V.VHC_ID
 	    	</where>
 	</select>
 	

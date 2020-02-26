@@ -319,7 +319,11 @@ fnObj.pageButtonView = axboot.viewExtend({
             	ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "dvcHistDelete": function() {
-            	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
+            	if(isPlus){
+            		axDialog.alert("폐기된 장치는 삭제가 불가합니다.");
+            	}else{
+            		ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
+            	}
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
@@ -335,7 +339,11 @@ fnObj.pageButtonView = axboot.viewExtend({
             	}
             },
             "dvcHistUpdate" : function(){
-            	ACTIONS.dispatch(ACTIONS.OPEN_BM0202_MODAL_UPDATE);
+            	if(isPlus){
+            		axDialog.alert("폐기된 장치는 수정이 불가합니다.");
+            	}else{
+            		ACTIONS.dispatch(ACTIONS.OPEN_BM0202_MODAL_UPDATE);
+            	}
             },
         });
     }
@@ -414,7 +422,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 70},
                      {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align: "center", width: 120},
                      {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 150},
-                     {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), sortable: true, width: 120},
+                     {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), width: 120},
                      {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), align: "center", width: 120},
                      {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align: "center", width: 120},
                      {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), sortable: true, width: 120},

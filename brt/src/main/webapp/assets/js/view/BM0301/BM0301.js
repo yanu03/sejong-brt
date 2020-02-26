@@ -252,6 +252,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
     	selectedRow = data;
+    	console.log(selectedRow);
+    	if(selectedRow.confirmYn == "확정"){
+    		caller.formView0.disable();
+    		$("#conFstDate").attr("readonly", true).attr("disabled", true);
+    		$("#conStDate").attr("readonly", true).attr("disabled", true);
+    		$("#conEdDate").attr("readonly", true).attr("disabled", true);
+    		$("#selectButton").hide();
+    	}else{
+    		$("#selectButton").show();
+    		caller.formView0.enable();
+    	}
         caller.formView0.setData(data);
     }
 });

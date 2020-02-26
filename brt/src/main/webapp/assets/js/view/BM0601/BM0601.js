@@ -21,8 +21,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             callback: function (res) {
             	console.log(res.list[0].skyCondCode);
                 caller.formView0.setData(res.list[0]);
-                $("#weatImg").append("<input type='image' src='/assets/images/BM0601/"+res.list[0].skyCondCode+".png'/>");
-                ACTIONS.dispatch(ACTIONS.RELOAD_G1);             
+                console.log(res);
+                if($("#weatImage").val() == null){
+                	$("#weatImg").append("<input type='image' id='weatImage' value='image' src='/assets/images/BM0601/"+res.list[0].skyCondCode+".png' style='padding-left:100px;'/>");
+                	ACTIONS.dispatch(ACTIONS.RELOAD_G1);             
+                }else{
+                	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
+                	}
 	            }
 	        });
         
