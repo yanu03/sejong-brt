@@ -77,6 +77,9 @@ public class FTPHandler {
 	@Value("${sftp.destination.list}")
 	private String DESTINATION_LIST_PATH;
 	
+	@Value("${sftp.routeori.directory}")
+	private String ROUTE_ORI;
+	
 	@Inject
 	private ChannelSftp sftpChannel;
 	
@@ -236,9 +239,20 @@ public class FTPHandler {
 			}
 		}
 	}
-	//busstop_version.csv 생성
-	public void uploadBusstop(List<BmRoutNodeInfoVO> stopList, String fileName) throws FileNotFoundException, IOException {
-		String txt = GlobalConstants.CSVForms.ROUTE_BUSSTOP_TITLE;
+	
+	/**200226 디렉토리 생성**/
+	public void makeDir(String routId) {
+		String path = Paths.get(getRootLocalPath(), getRouteOriPath()).toString();
+		File dir = new File(path + "/" + routId);
+		if(!dir.isDirectory()) {
+			dir.mkdir();
+		}
+	}
+	
+	/**200226 busstop.csv **/
+	public void uploadBusstop(List<BmRoutNodeInfoVO> stopList, String fileName, String routVer) throws FileNotFoundException, IOException {
+		String txt = GlobalConstants.CSVForms.ROUTE_VERSION + routVer + GlobalConstants.CSVForms.ROW_SEPARATOR;
+		txt += GlobalConstants.CSVForms.ROUTE_BUSSTOP_TITLE;
 		for(BmRoutNodeInfoVO vo : stopList) {
 				txt += GlobalConstants.CSVForms.ROW_SEPARATOR +
 					checkNull(vo.getNodeId()) 	+ GlobalConstants.CSVForms.COMMA +
@@ -260,9 +274,11 @@ public class FTPHandler {
 		}
 	}
 	
-	//node_version.csv 생성
-	public void uploadNodeList(List<BmRoutNodeInfoVO> nodeList, String fileName) throws FileNotFoundException, IOException {
-		String txt = GlobalConstants.CSVForms.ROUTE_NODELIST_TITLE;
+	/**200226 node.csv**/
+	public void uploadNodeList(List<BmRoutNodeInfoVO> nodeList, String fileName, String routVer) throws FileNotFoundException, IOException {
+		String txt = GlobalConstants.CSVForms.ROUTE_VERSION + routVer + GlobalConstants.CSVForms.ROW_SEPARATOR;
+		txt += GlobalConstants.CSVForms.ROUTE_NODELIST_TITLE;
+		
 		for(BmRoutNodeInfoVO vo : nodeList) {
 				txt += GlobalConstants.CSVForms.ROW_SEPARATOR +
 					checkNull(vo.getNodeId()) 	+ GlobalConstants.CSVForms.COMMA +
@@ -285,6 +301,15 @@ public class FTPHandler {
 	
 	//routelist.csv 생성
 	public void uploadRouteList(List<BmRoutInfoVO> routeList, String fileName) {
+		//TODO
+		/**
+		 * 기존의 csv파일 읽어와서 vo 리스트로 만듬
+		 * 첫번째컬럼에서 아이디 얻어서 같은 아이디가 있는지 확인
+		 * 	1. 같은 아이디가있을경우 (
+		 * 		- 버전, 상행하행등의 정보 새로 set
+		 * 	2. 같은 아이디가 없을경우(새로운노선추가)
+		 * **/
+		
 		
 		String txt = "";
 		for(BmRoutInfoVO vo : routeList) {
@@ -305,13 +330,14 @@ public class FTPHandler {
 	}
 	
 	//노선별 노드리스트.csv생성
-	public void uploadRouteNodeList(List<BmRoutInfoVO> routeList) {
+	public void uploadRouteNodeList(List<BmRoutInfoVO> routeList, String routVer) {
 		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();
 		for(BmRoutInfoVO vo : routeList) {
 			if(vo.getFileName() == null) {
 				continue;
 			}
-			String txt = GlobalConstants.CSVForms.ROUTE_TITLE;
+			String txt = GlobalConstants.CSVForms.ROUTE_VERSION + routVer + GlobalConstants.CSVForms.ROW_SEPARATOR;
+			txt += GlobalConstants.CSVForms.ROUTE_TITLE;
 			String fileName = vo.getFileName();
 			
 			for(BmRoutNodeInfoVO node : vo.getNodeList()) {
@@ -422,6 +448,7 @@ public class FTPHandler {
 			return false;
 		}
 	}
+	
 	
 	
 	/*
@@ -936,6 +963,10 @@ public class FTPHandler {
 		return ROUTE_PATH;
 	}
 	
+	public String getRouteOriPath() {
+		return ROUTE_ORI;
+	}
+	
 	public String getDestinationPath() {
 		return DESTINATION_PATH;
 	}
@@ -951,4 +982,5 @@ public class FTPHandler {
 	public String getCommonEmployeePath() {
 		return COMMON_EMPLOYEE_PATH;
 	}
+	
 }
