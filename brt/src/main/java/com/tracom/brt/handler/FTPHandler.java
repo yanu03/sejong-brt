@@ -300,7 +300,7 @@ public class FTPHandler {
 	}
 	
 	//routelist.csv 생성
-	public void uploadRouteList(List<BmRoutInfoVO> routeList, String fileName) {
+	public void uploadRouteList(List<BmRoutInfoVO> routeList, String fileName, String routVer) {
 		//TODO
 		/**
 		 * 기존의 csv파일 읽어와서 vo 리스트로 만듬
@@ -309,7 +309,6 @@ public class FTPHandler {
 		 * 		- 버전, 상행하행등의 정보 새로 set
 		 * 	2. 같은 아이디가 없을경우(새로운노선추가)
 		 * **/
-		
 		
 		String txt = "";
 		for(BmRoutInfoVO vo : routeList) {
