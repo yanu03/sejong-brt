@@ -83,6 +83,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0201G1S0",
             data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
+            	for(var i = 0; i<res.list.length; i++){
+            		if(res.list[i].useYn == "N"){
+            			res.list[i].mngId = "폐기된 장치입니다.";
+            		}
+            	}
+            	console.log(res);
                 caller.gridView1.setData(res);
                 
                  {
@@ -360,9 +366,9 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             columns: [
             	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), sortable: true, width: 80},
             	{key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), sortable: true, width: 130},
-            	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), width: 120},
-                {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), sortable: true, width: 120},
-                {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), width: 100},
+            	{key: "makerCd", label: ADMIN("ax.admin.BM0201F0.maker"), width: 120},
+                {key: "dvcKindCd", label: ADMIN("ax.admin.BM0201F0.dvckind"), sortable: true, width: 120},
+                {key: "instLocCd", label: ADMIN("ax.admin.BM0201F0.instloc"), width: 100},
                 {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), align: "right", width: 120},
                 {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
             ],

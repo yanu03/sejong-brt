@@ -26,16 +26,16 @@
               <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                      <ax:tr>
-                        <ax:td label='ax.admin.BM0601S0.search' width="300px">
-                        	<input type="text" data-ax5picker="date" data-ax5formatter="date" class="form-control" name="filter" id="filter" width="50px;" placeholder="yyyy/mm(해당월별)">
+                        <ax:td label='ax.admin.BM0601S0.search' width="300px" labelWidth="130px;">
+                        	<input type="text" data-ax5picker="date" data-ax5formatter="date" class="form-control" name="filter" id="filter" width="50px;" placeholder="yyyy/mm(해당월별)" maxlength="7">
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
             </ax:form> 
-            <div class="H3"></div> 
+            <div class="H3"></div>
         </div>
         <ax:split-layout name="ax1" orientation="vertical">
-            <ax:split-panel width="600" style="padding-right: 10px;" scroll="scroll">
+            <ax:split-panel width="500" style="padding-right: 10px;" scroll="scroll">
                 <div class="ax-button-group">
                     <div class="left">
                         <h3><i class="cqc-list"></i>
@@ -46,20 +46,23 @@
                 <ax:form name="formView0">                 
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px" style="position:relative;">
                       <div style="position:absolute; width:300px; left:100px; top:10px;">
-                      	<ax:tr>
-                      	 <ax:td label="ax.admin.BM0601F0.renewdt" width="300px">
-                    		<input type="text" id="renewDt" data-ax-path="renewDt" class="form-control" readonly="readonly" style="width:200px;"/>
-                    	 </ax:td>
-                    	</ax:tr> 
                       </div>
-                      <div id="123" style="position:absolute; width:400px; left:60px; top:60px;">
+                      <div id="123" style="position:absolute; width:400px; left:60px; top:20px;">
                       	<div id="weatImg"></div>
+                      		<ax:tr>
+		                      	 <ax:td label="ax.admin.BM0601F0.renewdt" width="220px">
+		                    		<input type="text" id="renewDt" data-ax-path="renewDt" class="form-control W105" readonly="readonly"/>
+		                    	 </ax:td>
+		                    	 <ax:td label="ax.admin.BM0601F0.skycond" width="100px">
+		                    		<input type="text" id="skyCond" data-ax-path="skyCond" class="form-control W65" readonly="readonly"/>
+		                    	 </ax:td>
+                    		</ax:tr> 
                       	<ax:tr>   
                       		<ax:td label="ax.admin.BM0601F0.tempc" width="200px">                   	           
 								<input type="text" id="tempc" data-ax-path="tempc" class="form-control" readonly="readonly">
 							</ax:td>
-							<ax:td label="ax.admin.BM0601F0.skycond" width="200px">												
-							    <input type="text" data-ax-path="skyCond" class="form-control" readonly="readonly">
+							<ax:td label="ax.admin.BM0601F0.sdustc" width="200px">												
+							    <input type="text" data-ax-path="sdustc" class="form-control" readonly="readonly">
 							</ax:td>    													                 		
                       	</ax:tr>
                       
@@ -114,7 +117,7 @@
                 
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="*" style="height:100%; padding-left: 10px;">
+            <ax:split-panel width="*" style="height:100%; padding-left: 10px; padding-bottom:260px;">
             	<%-- <ax:split-panel width="500" style="height:290px; padding-right: 10px;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
@@ -129,30 +132,26 @@
                 </div>
                     <div data-ax5grid="gridView1" style="height: 225px;"></div>
                  </ax:split-panel> --%>
-                <ax:split-panel width="*" scroll="scroll">  
-                   		<div>
-	                         <input type="text" class="form-control" name="filterG2" id="filterG2" style="position: absolute; top: 5px; width: 100px; right: 10px;" placeholder="<ax:lang id="ax.admin.BM0103F0.vhcNo"/>">
-	                         <button type="button" class="btn btn-info" data-page-btn="searchDate" style="position: absolute; top:5px;right:10px;"><i class="cqc-magnifier"></i></button>
-						</div>                     
-                     <div class="ax-button-group">
-                        <div class="left">
-                            <h3>
-                                <i class="cqc-list"></i>
-                                <ax:lang id="ax.admin.BM0601G1.title"/>
-                            </h3>
-                        </div>
-                    </div>
-                   <div data-ax5grid="gridView2" style="height: 220px;"></div>
-                  </ax:split-panel>
-                	<ax:tab-layout name="ax2">
-					    <ax:tab-panel label="기상" scroll="scroll" active="true" style="height:100%; padding-bottom:260px;">
+                	<ax:tab-layout name="ax2" style="padding-bottom:150px;">
+					    <ax:tab-panel label="기상" scroll="scroll" active="true" style="height:100%; padding-bottom:5px;">
 					            <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height:100%;"></div>
 					    </ax:tab-panel>
-					    <ax:tab-panel label="대기" scroll="scroll" style="height:100%; padding-bottom:260px;">
+					    <ax:tab-panel label="대기" scroll="scroll" style="height:100%; padding-bottom:5px;">
 					            <div data-ax5grid="gridView3" data-fit-height-content="gridView3" style="height:100%;"></div>
 					    </ax:tab-panel>
 					</ax:tab-layout>
-	            </ax:split-panel>
+	               <ax:split-panel width="*" scroll="scroll"> 
+	                     <div class="ax-button-group">
+	                        <div class="left">
+	                            <h3>
+	                                <i class="cqc-list"></i>
+	                                <ax:lang id="ax.admin.BM0601G1.title"/>
+	                            </h3>
+	                        </div>
+	                    </div>
+	                   <div data-ax5grid="gridView2" style="height: 220px;"></div>
+	                  </ax:split-panel>
+		        </ax:split-panel>
 	        </ax:split-layout>
 	    </jsp:body>
    </ax:layout>

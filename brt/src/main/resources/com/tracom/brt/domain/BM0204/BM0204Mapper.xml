@@ -26,9 +26,9 @@
     	<where>
 	    	<if test="value != null">
 				DI.MNG_ID LIKE CONCAT('%', #{value}, '%')
-				OR V.VHC_NO LIKE CONCAT('%', #{value}, '%')
+				AND
 	    	</if>
-    			AND DVC_KIND = "CD005"
+    			DI.DVC_KIND = "CD005"
     	ORDER BY DVC_ID
     	</where>
 </select>

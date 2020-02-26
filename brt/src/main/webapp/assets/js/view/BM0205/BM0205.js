@@ -279,7 +279,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [          		 
             		 {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), sortable: true, width: 100},
-            		 {key: "completeYn", label: ADMIN("ax.admin.BM0205G0.completeyn"), align:"center" ,width: 100},
+            		 {key: "completeYn", label: ADMIN("ax.admin.BM0205G0.completeyn"), sortable: true, align:"center" ,width: 100},
             		 {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center" ,width: 150},
                      {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center" ,width: 150},
                      {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align:"center" , width: 170},

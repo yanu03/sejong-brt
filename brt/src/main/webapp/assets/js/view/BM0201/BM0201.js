@@ -408,7 +408,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             		 {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), sortable: true, align:"center", styleClass:function(){return (this.item.useYn === "Y") ? "grid-cell-red": "grid-cell-blue" } , width: 80},
             		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 70},
                      {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center", width: 120},
-                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), sortable: true, width: 150},
+                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 150},
                      {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), width: 120},
                      {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), align:"center", width: 120},
                      {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align:"center", width: 120},
