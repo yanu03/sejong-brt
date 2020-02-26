@@ -40,6 +40,7 @@ import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
 import com.tracom.brt.domain.BM0501.DestinationVO;
 import com.tracom.brt.domain.BM0605.VideoInfoVO;
 import com.tracom.brt.domain.BM0608.BmScrInfoVO;
+import com.tracom.brt.domain.SM0105.SM0105Mapper;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
 import com.tracom.brt.utils.Utils;
@@ -79,6 +80,9 @@ public class FTPHandler {
 	@Inject
 	private VoiceService voiceService;
     
+	@Inject
+	private SM0105Mapper SM0105Mapper;
+	
 	private ArrayList<String> serverContentList;
 	private ArrayList<String> pathList;
 	private ArrayList<String> ignoreList;
@@ -369,7 +373,7 @@ public class FTPHandler {
         	tmp = line.split("\t");
         	
         	vo.setFrameNo(tmp[0]);
-        	vo.setEffType(tmp[1]);
+        	vo.setEffType(SM0105Mapper.SM0105G3S1(tmp[1]));
         	vo.setEffSpeed(tmp[2]);
         	vo.setShowTime(tmp[3]);
         	
@@ -404,11 +408,11 @@ public class FTPHandler {
 		
 		for(int i = 0; i < list.size(); i++) {
 			if(i == 0) {
-				txt += list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + list.get(i).getEffType() + GlobalConstants.SCH.TAB + String.format("%02d", Integer.valueOf(list.get(i).getEffSpeed())) + GlobalConstants.SCH.TAB + String.format("%04d", Integer.valueOf(list.get(i).getShowTime()));
+				txt += list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + SM0105Mapper.SM0105G3S0(list.get(i).getEffType()) + GlobalConstants.SCH.TAB + String.format("%02d", Integer.valueOf(list.get(i).getEffSpeed())) + GlobalConstants.SCH.TAB + String.format("%04d", Integer.valueOf(list.get(i).getShowTime()));
 			}else {
 				
 				txt += GlobalConstants.CSVForms.ROW_SEPARATOR
-						+ list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + list.get(i).getEffType() + GlobalConstants.SCH.TAB + String.format("%02d", Integer.valueOf(list.get(i).getEffSpeed())) + GlobalConstants.SCH.TAB + String.format("%04d", Integer.valueOf(list.get(i).getShowTime()));
+						+ list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + SM0105Mapper.SM0105G3S0(list.get(i).getEffType()) + GlobalConstants.SCH.TAB + String.format("%02d", Integer.valueOf(list.get(i).getEffSpeed())) + GlobalConstants.SCH.TAB + String.format("%04d", Integer.valueOf(list.get(i).getShowTime()));
 			}
 			
 			

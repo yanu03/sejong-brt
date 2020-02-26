@@ -3,11 +3,13 @@ package com.tracom.brt.controllers;
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.controllers.BaseController;
+import com.tracom.brt.domain.BM0503.RoutRsvVO;
 import com.tracom.brt.domain.routeReservation.RouteReservationService;
 
 @RestController
