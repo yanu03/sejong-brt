@@ -68,7 +68,7 @@
 						, #{fileType}
 						, #{attFile}
 						, #{playTm}
-						, #{imgPlayTm}
+						, IFNULL(#{imgPlayTm}, '10')
 						, #{remark}
 						, #{createdAt}
 						, #{createdBy}
@@ -83,7 +83,7 @@
     		, CON_ID		=	#{conId}
     		, PLAY_ST_DATE	=	#{playStDate}
     		, FILE_TYPE		=	#{fileType}
-    		, IMG_PLAY_TM	=	#{imgPlayTm}
+    		, IMG_PLAY_TM	=	IFNULL(#{imgPlayTm}, '10')
     		, ATT_FILE		=	#{attFile}
     		, REMARK		=	#{remark}
     		, PLAY_TM		=	#{playTm}

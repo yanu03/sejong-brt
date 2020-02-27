@@ -189,7 +189,7 @@ public class FileService {
 	// 행선지안내기 이미지 미리보기
 	private String bmpPreview(RequestParams<?> requestParams, HttpServletResponse response) {
 		String fileNameHeader = destiService.getHeader(requestParams.getString("dvcKindCd")).getTxtVal2();
-		String userWayDiv = requestParams.getString("userWayDiv");
+		//String userWayDiv = requestParams.getString("userWayDiv");
 		//String userWayCode = DLCDMapper.SM0105G2S2(userWayDiv);
 		String fileNameBody = requestParams.getString("dvcName");
 		String fileNameTail = ".BMP";

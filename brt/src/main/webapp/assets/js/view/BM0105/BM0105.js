@@ -16,6 +16,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			url: "/api/v1/BM0104G0S0",
 			data: filter,
 			callback: function (res) {
+				caller.gridView1.clear();
 				caller.gridView0.setData(res);
 				if(res.list.length == 0) {
 				} else {
@@ -247,6 +248,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 			target: $('[data-ax5grid="gridView0"]'),
 			columns: [
 				{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),		width: 80,	align: "center"},
+				{key: "interRoutId",	label: ADMIN("ax.admin.BM0104G0.interRoutId"),		width: 80,	align: "center"},
 				{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),		width: 100},
 				{key: "shortRoutNm",	label: ADMIN("ax.admin.BM0104G0.shortRoutNm"),	width: 160},
 				{key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),		width: 160},

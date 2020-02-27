@@ -39,17 +39,19 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
     	if(vo.getFileType().equals("AV001")) {
     		type = "video";
     		ext = "mp4";
+    		handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
+    		mapper.BM0605F0I0(vo);
+    		VideoInfoVO o = handler.parseMp4(vo.getVdoId() + "." + ext);
+    		vo.setPlayTm(o.getPlayTm());
     	}else {
     		type = "image";
     		ext = "jpg";
+    		handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
+    		vo.setPlayTm(vo.getImgPlayTm());
+    		mapper.BM0605F0I0(vo);
+    		handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
     		vo.setPlayTm(vo.getImgPlayTm());
     	}
-    	
-    	mapper.BM0605F0I0(vo);
-    	handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
-    	VideoInfoVO o = handler.parseMp4(vo.getVdoId() + "." + ext);
-    	vo.setFileSize(o.getFileSize());
-    	vo.setPlayTm(o.getPlayTm());
     	mapper.BM0605F0U0(vo);
     	return vo.getVdoId();
     }
@@ -59,18 +61,23 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
     public String BM0605F0U0(VideoInfoVO vo) throws Exception {
     	String type;
     	String ext;
+    	VideoInfoVO o = new VideoInfoVO();
     	if(vo.getFileType().equals("AV001")) {
     		type = "video";
     		ext = "mp4";
+    		handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
+        	o = handler.parseMp4(vo.getVdoId() + "." + ext);
+        	vo.setPlayTm(o.getPlayTm());
     	}else {
     		type = "image";
     		ext = "jpg";
+    		vo.setPlayTm(vo.getImgPlayTm());
+    		handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
+    		vo.setPlayTm(vo.getImgPlayTm());
     	}
     	
-    	handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
-    	VideoInfoVO o = handler.parseMp4(vo.getVdoId() + "." + ext);
-    	vo.setFileSize(o.getFileSize());
-    	vo.setPlayTm(o.getPlayTm());
+    	//handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
+    	//VideoInfoVO o = handler.parseMp4(vo.getVdoId() + "." + ext);
     	mapper.BM0605F0U0(vo);
     	return vo.getVdoId();
     }
