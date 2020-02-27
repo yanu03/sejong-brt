@@ -21,10 +21,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             callback: function (res) {
                 caller.gridView0.setData(res);
                 
+                
+                
                 if(res.list.length == 0) {
                 	isUpdate = false;
 	                caller.formView0.clear();
 	                caller.formView0.disable();
+	                caller.gridView1.clear();
                 } else {
                 	caller.formView0.enable();
 	                if(selectedRow != null) {
@@ -308,37 +311,42 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     RELOAD_G1: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
+    	console.log(selectedRow);
     	
-    	axboot.ajax({
-            type: "GET",
-            url: "/api/v1/BM0302G1S0",
-            data: {conId: selectedRow.conId},
-            callback: function (res) {
-            	console.log("reloadG1");
-            	console.log(res);
-            	if(res.list[0].altDiv != null){
-            		caller.gridView1.setData(res);            			
-            	} 
-                
-                if(res.list[0].altDiv == null) {
-                	isUpdate = false;
-	                caller.formView0.clear();
-                	caller.formView0.disable();
-                	caller.gridView1.clear();
-                } else {
-                	if(dataFlag) {
-	                	caller.gridView1.selectIdRow(data);
-	                } else {
-		                if(selectedRowG1 != null) {
-		                	caller.gridView1.selectRow(selectedRowG1.__index);
-		                } else {
-		                	caller.gridView1.selectFirstRow();
-		                }
-	                }
-                }
-            	
-            }
-        });
+    	if(selectedRow != null){
+    		axboot.ajax({
+    			type: "GET",
+    			url: "/api/v1/BM0302G1S0",
+    			data: {conId: selectedRow.conId},
+    			callback: function (res) {
+    				console.log("reloadG1");
+    				console.log(res);
+    				if(res.list[0].altDiv != null){
+    					caller.gridView1.setData(res);            			
+    				} 
+    				
+    				if(res.list[0].altDiv == null) {
+    					isUpdate = false;
+    					caller.formView0.clear();
+    					caller.formView0.disable();
+    					caller.gridView1.clear();
+    				} else {
+    					if(dataFlag) {
+    						caller.gridView1.selectIdRow(data);
+    					} else {
+    						if(selectedRowG1 != null) {
+    							caller.gridView1.selectRow(selectedRowG1.__index);
+    						} else {
+    							caller.gridView1.selectFirstRow();
+    						}
+    					}
+    				}
+    				
+    			}
+    		});
+    	}else{
+    		caller.gridView0.clear();
+    	}
     }
 });
 /********************************************************************************************************************/

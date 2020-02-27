@@ -110,13 +110,11 @@
                     		</ax:td>
                     		
                     	</ax:tr>
-                    	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0103F0.modelNm" width="350px">
                     			<input type="text" title="<ax:lang id="ax.admin.BM0103F0.modelNm"/>" name="modelNm" data-ax-path="modelNm" data-key="true" class="form-control" maxlength="20"/>
                     		</ax:td>
                     	</ax:tr>
-                    	
                     	<ax:tr>
                        		<ax:td label="ax.admin.BM0103F0.vhcKind" width="240px">
                        			<ax:SM0105 groupCd="VHC_KIND" id="vhcKind" name="vhcKind" dataPath="vhcKind"/>

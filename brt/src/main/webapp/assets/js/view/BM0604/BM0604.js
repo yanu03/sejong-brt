@@ -37,6 +37,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     		}else{
                     			caller.gridView0.setData(resOne);
                     		}
+                    		if(res.list.length == 0) {
+            	                caller.gridView1.clear();
+                            }else{
+                    			
                             	if(dataFlag) {
                             		console.log(dataFlag);
             	                	caller.gridView0.selectIdRow(data);
@@ -47,6 +51,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             		                	caller.gridView1.selectFirstRow();
             		                }
             	                }
+                            }
                     	}
                     })              
                 axboot.ajax({

@@ -18,13 +18,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0301G0S0",
             data: filter,
             callback: function (res) {
-                caller.gridView0.setData(res);             
-	               console.log("ㅋㅋ");
-	                if(selectedRow != null) {
-		                	caller.gridView0.selectRow(selectedRow.__index);
-		                } else {
-		                	caller.gridView0.selectFirstRow();
-		                }	                
+                caller.gridView0.setData(res);
+                
+                if(res.list.length ==0){
+                	caller.gridView1.clear();
+                	caller.gridView2.clear();
+                }else{
+                	console.log("ㅋㅋ");
+                	if(selectedRow != null) {
+                		caller.gridView0.selectRow(selectedRow.__index);
+                	} else {
+                		caller.gridView0.selectFirstRow();
+                	}	                
+                }
+                
 	            }
 	        });
 

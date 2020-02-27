@@ -17,6 +17,10 @@ public class BM0301Service extends BaseService<ContractInfoVO, String> {
 	public List<ContractInfoVO> BM0301G0S0(RequestParams<ContractInfoVO> requestParams) {
         return mapper.BM0301G0S0(requestParams.getString("filter"));
     }
+	
+	public List<ContractInfoVO> BM0301G0S1(RequestParams<ContractInfoVO> requestParams) {
+        return mapper.BM0301G0S1(requestParams.getString("conId"));
+    }
     
     public String BM0301F0I0(ContractInfoVO vo) {
     	mapper.BM0301F0I0(vo);
