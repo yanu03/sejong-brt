@@ -140,11 +140,11 @@
 	            
 	            <ax:split-panel width="500" style="height:30px; margin-top:50px;">
 	            	<div style="margin-left: 10px; margin-right: 10px; text-align:center;">
-		            	<button type="button" class="btn btn-default" style="width: 70px;" data-page-btn="addPlayList">
+		            	<button type="button" id="addlist" class="btn btn-default" style="width: 70px;" data-page-btn="addPlayList">
 		            		목록추가↓
 		            	</button>
 		            	
-		            	<button type="button" class="btn btn-default" style="width: 70px;" data-page-btn="deletePlayList">
+		            	<button type="button" id="rmvlist" class="btn btn-default" style="width: 70px;" data-page-btn="deletePlayList">
 		            		목록제거↑
 		            	</button>
 	            	</div>
@@ -159,11 +159,11 @@
 				            </h3>
 			            </div>
 			            <div class="right">
-				            <button type="button" class="btn btn-default" data-page-btn="upItem">
+				            <button type="button" id="uplist" class="btn btn-default" data-page-btn="upItem">
 			            		↑
 			            	</button>
 			            	
-			            	<button type="button" class="btn btn-default" data-page-btn="downItem">
+			            	<button type="button" id="dnlist" class="btn btn-default" data-page-btn="downItem">
 			            		↓
 			            	</button>
 			            </div>
