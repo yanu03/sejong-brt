@@ -42,6 +42,7 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
     	}else {
     		type = "image";
     		ext = "jpg";
+    		vo.setPlayTm(vo.getImgPlayTm());
     	}
     	
     	mapper.BM0605F0I0(vo);
@@ -72,6 +73,15 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
     	vo.setPlayTm(o.getPlayTm());
     	mapper.BM0605F0U0(vo);
     	return vo.getVdoId();
+    }
+    
+    //그리드 삭제
+    public boolean BM0605G0D0(VideoInfoVO vo) {
+    	if(mapper.BM0605G0D0(vo) > 0) {
+    		return true;
+    	}else {
+    		return false;
+    	}
     }
     
 }

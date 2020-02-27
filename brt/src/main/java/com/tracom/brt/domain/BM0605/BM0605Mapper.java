@@ -13,4 +13,6 @@ public interface BM0605Mapper extends MyBatisMapper {
 	int BM0605F0I0(VideoInfoVO vo);
 	//우측 폼 업데이트
 	int BM0605F0U0(VideoInfoVO vo);
+	
+	int BM0605G0D0(VideoInfoVO vo);
 }

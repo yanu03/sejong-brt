@@ -414,11 +414,11 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "orgaId",		label: ADMIN("ax.admin.BM0606G0.orgaId"),		width: 100},
-                {key: "orgaNm",		label: ADMIN("ax.admin.BM0606G0.orgaNm"),		width: 120},
+                {key: "orgaId",		label: ADMIN("ax.admin.BM0606G0.orgaId"),		width: 80,	align: "center"},
+                {key: "orgaNm",		label: ADMIN("ax.admin.BM0606G0.orgaNm"),		width: 120,	align: "left"},
                 {key: "vdoCnt",		label: ADMIN("ax.admin.BM0606G0.vdoCnt"),		width: 80,	align: "right"},
                 {key: "ttTime",		label: ADMIN("ax.admin.BM0606G0.ttTime"),		width: 120,	align: "right"},
-                {key: "remark",		label: ADMIN("ax.admin.BM0606G0.remark"),		width: 80},
+                {key: "remark",		label: ADMIN("ax.admin.BM0606G0.remark"),		width: 80,	align: "left"},
             ],
             body: {
                 onClick: function () {
@@ -760,11 +760,20 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     enable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", false);
+    		$('#addlist').attr("readonly", false).attr("disabled", false);
+    		$('#rmvlist').attr("readonly", false).attr("disabled", false);
+    		$('#uplist').attr("readonly", false).attr("disabled", false);
+    		$('#dnlist').attr("readonly", false).attr("disabled", false);
     	});
     },
     disable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", true);
+    		$('#addlist').attr("readonly", true).attr("disabled", true);
+    		$('#rmvlist').attr("readonly", true).attr("disabled", true);
+    		$('#uplist').attr("readonly", true).attr("disabled", true);
+    		$('#dnlist').attr("readonly", true).attr("disabled", true);
+    		fnObj.gridView2.setData([{}]);
     	});
     },
     clear: function () {

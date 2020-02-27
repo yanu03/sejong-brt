@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.controllers.BaseController;
-import com.tracom.brt.domain.BM0503.RoutRsvVO;
+import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.routeReservation.RouteReservationService;
 
 @RestController
@@ -24,8 +24,8 @@ public class RouteReservationController extends BaseController {
 	 * 
 	 * */
 	@PostMapping("/makeRoute")
-	public ApiResponse makeRoute() {
-		//service.makeRouteFile();
+	public ApiResponse makeRoute(@RequestBody BmRoutInfoVO vo) {
+		service.makeRouteFile(vo.getRoutId());
 		return ok();
 	}
 	
