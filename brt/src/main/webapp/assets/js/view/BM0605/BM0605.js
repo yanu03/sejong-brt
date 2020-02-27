@@ -192,6 +192,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 				// 운수사, 거래처 등을 선택한 후 이벤트 ex) input에 값을 넣어 주는 등의 로직을 작성하면됨
 				caller.formView0.model.set("conId", data.conId);
 				caller.formView0.model.set("conNm", data.conNm);
+            	caller.formView0.model.set("playStDate", data.conStDate);
+            	caller.formView0.model.set("playEdDate", data.conEdDate);
 				this.close();
 			}
 		});
