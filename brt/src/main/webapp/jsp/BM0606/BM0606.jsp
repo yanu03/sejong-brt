@@ -85,7 +85,7 @@
                     		<ax:td label="ax.admin.BM0606G0.orgaNm"
 								width="300px" labelClazz="required">
                     			<input type="text" name="orgaNm"
-									data-ax-path="orgaNm" data-key="true" class="form-control" />
+									data-ax-path="orgaNm" class="form-control" />
                     		</ax:td>
                     	</ax:tr>
                     	
@@ -109,7 +109,7 @@
                     		<ax:td label="ax.admin.BM0606G0.remark"
 								width="300px">
                     			<input type="text" name="remark"
-									data-ax-path="remark" data-key="true" class="form-control" />
+									data-ax-path="remark" class="form-control" />
                     		</ax:td>
                     	</ax:tr>
                     	
@@ -138,23 +138,14 @@
 
 				</ax:split-panel>
 	            
-	            <ax:split-panel width="500" style="height:50px; margin-top:50px;">
-	            	<div style="margin-left: 10px; margin-right: 10px; float:left;">
-		            	<button type="button" class="btn btn-default" style="width: 100%;" data-page-btn="addPlayList">
-		            		추가<!-- ↓ -->
+	            <ax:split-panel width="500" style="height:30px; margin-top:50px;">
+	            	<div style="margin-left: 10px; margin-right: 10px; text-align:center;">
+		            	<button type="button" class="btn btn-default" style="width: 70px;" data-page-btn="addPlayList">
+		            		목록추가↓
 		            	</button>
 		            	
-		            	<button type="button" class="btn btn-default" style="width: 100%;" data-page-btn="deletePlayList">
-		            		제거 <!-- ↑ -->
-		            	</button>
-	            	</div>
-	            	<div style="float:left;">
-          	            <button type="button" class="btn btn-default" data-page-btn="upItem">
-		            		↑
-		            	</button>
-		            	
-		            	<button type="button" class="btn btn-default" data-page-btn="downItem">
-		            		↓
+		            	<button type="button" class="btn btn-default" style="width: 70px;" data-page-btn="deletePlayList">
+		            		목록제거↑
 		            	</button>
 	            	</div>
 	            </ax:split-panel>
@@ -166,6 +157,15 @@
 								<i class="cqc-list"></i>
 				                <ax:lang id="ax.admin.BM0606G2.title" />
 				            </h3>
+			            </div>
+			            <div class="right">
+				            <button type="button" class="btn btn-default" data-page-btn="upItem">
+			            		↑
+			            	</button>
+			            	
+			            	<button type="button" class="btn btn-default" data-page-btn="downItem">
+			            		↓
+			            	</button>
 			            </div>
 		            </div>
 		            

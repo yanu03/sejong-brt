@@ -42,6 +42,7 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
     	}else {
     		type = "image";
     		ext = "jpg";
+    		vo.setPlayTm(vo.getImgPlayTm());
     	}
     	
     	mapper.BM0605F0I0(vo);
