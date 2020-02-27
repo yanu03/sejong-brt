@@ -142,6 +142,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.setData(data);
         caller.formView0.enable();
         $("#selectBox option:eq(0)").attr("selected", "selected");
+        $('#bmpFile').val("");
+        $('#previewImg').attr("src", "");
         loadSCH();
     },
     

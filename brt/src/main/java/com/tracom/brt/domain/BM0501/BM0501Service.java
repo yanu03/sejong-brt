@@ -60,9 +60,9 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 	public boolean writeBmpFile(DestinationVO vo) {
 		if(vo.getAttFile() != null) {
 			String fileNameHeader = DLCDMapper.SM0105G2S1(vo.getDvcKindCd()).getTxtVal2();
-			String updown = DLCDMapper.SM0105G2S2(vo.getUserWayDiv());
+			//String updown = DLCDMapper.SM0105G2S2(vo.getUserWayDiv());
 			String fileNameTail = ".BMP";
-			String fileName = fileNameHeader + vo.getDvcName() + updown + fileNameTail;
+			String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
 			return ftpHandler.writeBmp(fileName, vo.getAttFile());
 		}else {
 			return true;
