@@ -76,7 +76,7 @@
 						, #{updatedBy})
 	</insert>
 	
-	<update id="BM0605F0U0" parameterType="VideoInfoVO">
+	<update id="BM0605F0U0" parameterType="videoInfoVO">
 		UPDATE BM_VDO_INFO
     	SET
     		  VDO_NM		=	#{vdoNm}
@@ -93,4 +93,11 @@
     	WHERE
     		VDO_ID = #{vdoId}
 	</update>
+	
+	<delete id="BM0605G0D0" parameterType="videoInfoVO">
+		DELETE FROM
+			BM_VDO_INFO
+		WHERE
+			VDO_ID = #{vdoId}
+	</delete>
 </mapper>

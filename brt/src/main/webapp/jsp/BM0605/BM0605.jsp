@@ -69,7 +69,7 @@
                     			<input type="text" name="vdoId" data-ax-path="vdoId" data-key="true" class="form-control" readonly="readonly"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0605G0.vdoNm" width="240px" labelClazz="required">
-                    			<input type="text" name="vdoNm" data-ax-path="vdoNm" data-key="true" class="form-control"/>
+                    			<input type="text" name="vdoNm" data-ax-path="vdoNm" maxlength="20" class="form-control"/>
                     		</ax:td>
                     	</ax:tr>
                     	
@@ -90,10 +90,9 @@
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0605F0.playTerm" width="400px" labelClazz="required">
 	                            <div class="input-group" data-ax5picker="date">
-	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0605G0.playStDate"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
+	                                <input type="text" id="stdate" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0605G0.playStDate"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
 	                                <span class="input-group-addon">~</span>
-	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0605G0.playEdDate"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">
-	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
+	                                <input type="text" id="eddate" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0605G0.playEdDate"/>" class="form-control" placeholder="0000-00-00" data-ax5formatter="date" data-ax-validate="required">	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                     		</ax:td>
 
@@ -112,7 +111,7 @@
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0605F0.attFile" width="300px" labelClazz="required">
                     			
-                    			<input type="file" name="vdoFile" data-ax-path="vdoFile" data-key="true" class="form-control" id="vdoFile"
+                    			<input type="file" name="vdoFile" data-ax-path="vdoFile" class="form-control" id="vdoFile"
                     				                                onchange="preview_Change(this);" style="width: 300px;" />
                     		</ax:td>
                     	</ax:tr>
@@ -140,7 +139,7 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0605G0.remark" width="100%">
-                    			<textarea maxlength="200" name="remark" data-ax-path="remark" data-key="true" class="form-control"></textarea>
+                    			<textarea maxlength="200" name="remark" data-ax-path="remark" class="form-control"></textarea>
                     		</ax:td>
                     	</ax:tr>
                     	 

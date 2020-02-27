@@ -67,6 +67,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			if (this.key == "ok") {
 				axboot.promise()
 				.then(function (ok, fail, data) {
+					console.log("딤ㅇㄴ랄");
 					axboot.ajax({
 						type: "POST",
 						url: "/api/v1/BM0605G0D0",
@@ -209,6 +210,7 @@ fnObj.pageStart = function () {
 	this.formView0.initView();
 	fileTypeOnChange();
 	togglePreview('AV002');
+	onChangeFile();
 	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 
 };
@@ -290,16 +292,16 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 			sortable: true,
 			target: $('[data-ax5grid="gridView0"]'),
 			columns: [
-				{key: "vdoId",		label: ADMIN("ax.admin.BM0605G0.vdoId"),		width: 100},
-				{key: "conNm",		label: ADMIN("ax.admin.BM0605G0.conNm"),		width: 120},
-				{key: "vdoNm",		label: ADMIN("ax.admin.BM0605G0.vdoNm"),		width: 80},
-				{key: "imgPlayTm",	label: ADMIN("ax.admin.BM0605G0.imgPlayTm"),	width: 120},
-				{key: "fileType",	label: ADMIN("ax.admin.BM0605G0.fileType"),		width: 80},
-				{key: "attFile",	label: ADMIN("ax.admin.BM0605F0.attFile"),		width: 80},
-				{key: "playStDate",	label: ADMIN("ax.admin.BM0605G0.playStDate"),	width: 100},
-				{key: "playEdDate",	label: ADMIN("ax.admin.BM0605G0.playEdDate"),	width: 100},
-				{key: "playTm",		label: ADMIN("ax.admin.BM0605G0.playTm"),		width: 120},
-				{key: "remark",		label: ADMIN("ax.admin.BM0605G0.remark"),		width: 150},
+				{key: "vdoId",		label: ADMIN("ax.admin.BM0605G0.vdoId"),		width: 80,	align: "center"},
+				{key: "conNm",		label: ADMIN("ax.admin.BM0605G0.conNm"),		width: 120,	align: "left"},
+				{key: "vdoNm",		label: ADMIN("ax.admin.BM0605G0.vdoNm"),		width: 80,	align: "left"},
+				{key: "fileTypeNm",	label: ADMIN("ax.admin.BM0605G0.fileType"),		width: 80,	align: "center"},
+				//{key: "attFile",	label: ADMIN("ax.admin.BM0605F0.attFile"),		width: 80},
+				{key: "playStDate",	label: ADMIN("ax.admin.BM0605G0.playStDate"),	width: 100,	align: "center"},
+				{key: "playEdDate",	label: ADMIN("ax.admin.BM0605G0.playEdDate"),	width: 100,	align: "center"},
+				{key: "playTm",		label: ADMIN("ax.admin.BM0605G0.playTm"),		width: 120, align: "right"},
+				{key: "imgPlayTm",	label: ADMIN("ax.admin.BM0605G0.imgPlayTm"),	width: 100, align: "right"},
+				{key: "remark",		label: ADMIN("ax.admin.BM0605G0.remark"),		width: 150, align: "left"},
 				{key: "updatedAt",	label: ADMIN("ax.admin.BM0605G0.updatedAt"),	width: 120},
 				],
 				body: {
@@ -436,11 +438,18 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 	enable: function() {
 		this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
 			$(element).attr("readonly", false);
+			$(element).attr("disabled", false);
+			$('#selectButton').attr("disabled", false);
+			$('.input-group-addon').show();
 		});
 	},
 	disable: function() {
 		this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
 			$(element).attr("readonly", true);
+			$(element).attr("disabled", true);
+			$('#selectButton').attr("disabled", true);
+			$('.input-group-addon').hide();
+			
 		});
 	},
 	clear: function () {
@@ -464,6 +473,26 @@ function fileTypeOnChange(){
 	$('#fileType').on('change', function(){
 		var input = $('#fileType').val();
 		togglePreview(input);
+	});
+}
+
+function onChangeFile(){
+	$('#vdoFile').on('change', function(){
+		
+    var ext = $(this).val().split(".").pop().toLowerCase();
+		if($('#fileType').val() == 'AV001'){
+			if($.inArray(ext,["mp4", "mp4"]) == -1) {
+				alert("mp4 파일만 업로드 가능합니다.");
+				$("input[id=vdoFile]").val("");
+				return;
+			}		
+		}else{
+			if($.inArray(ext,["jpg", "JPG"]) == -1) {
+				alert("JPG 파일만 업로드 가능합니다.");
+				$("input[id=vdoFile]").val("");
+				return;
+			}
+		}
 	});
 }
 

@@ -74,4 +74,13 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
     	return vo.getVdoId();
     }
     
+    //그리드 삭제
+    public boolean BM0605G0D0(VideoInfoVO vo) {
+    	if(mapper.BM0605G0D0(vo) > 0) {
+    		return true;
+    	}else {
+    		return false;
+    	}
+    }
+    
 }
