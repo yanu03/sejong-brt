@@ -34,6 +34,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                caller.formView0.clear();
 	                caller.formView0.disable();
                 } else {
+                	caller.formView0.enable();
                 	if(dataFlag) {
 	                	caller.gridView0.selectIdRow(data);
 	                } else {
@@ -444,7 +445,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "setId",	label: ADMIN("ax.admin.BM0608F0.setId"),	width: 70},
+            	{key: "setId",	label: ADMIN("ax.admin.BM0608F0.setId"),	width: 80,	align: "center"},
             	{key: "setNm",	label: ADMIN("ax.admin.BM0608F0.setNm"),	width: 100,	align: "left"},
                 {key: "remark",	label: ADMIN("ax.admin.BM0608F0.remark"),	width: 130,	align: "left"},
             ],
@@ -587,13 +588,20 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     enable: function() {
     	var _this = this;
-    	this.target.find("[data-btn],[data-ax-path][data-key!=true]").each(function(index, element) {
-    		$(element).attr("readonly", false).attr("disabled", false);
+    	this.target.find("[data-ax-path][data-key!=true]").each(function(index, element) {
+    		$(element).attr("readonly", false);
+    		$('#chAllColor').attr("readonly", false).attr("disabled", false);
+    		$('.pngFile').attr("readonly", false).attr("disabled", false);
+    		$('#previewBtn').attr("readonly", false).attr("disabled", false);
     	});
     },
     disable: function() {
-    	this.target.find('#wavFile,[data-btn],[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", true).attr("disabled", true);
+    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    		$(element).attr("readonly", true);
+    		$('#chAllColor').attr("readonly", true).attr("disabled", true);
+    		$('.pngFile').attr("readonly", true).attr("disabled", true);
+    		$('#previewBtn').attr("readonly", true).attr("disabled", true);
+    		fnObj.gridView1.setData([{}]);
     	});
     },
     clear: function () {

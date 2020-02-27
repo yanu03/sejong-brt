@@ -50,7 +50,7 @@
                     </div>
                     <div class="right">
 						<div id="preview" style="float:right;">
-	                    	<button class="btn btn-default" data-page-btn="preview" data-grid-control="preview">미리보기</button>
+	                    	<button class="btn btn-default" data-page-btn="preview" id="previewBtn" data-grid-control="preview">미리보기</button>
 	                    </div>
                     </div>
                 </div>
@@ -70,19 +70,19 @@
                         
                         <ax:tr>
                             <ax:td label="전체배경" width="100%" labelClazz="required">
-								<input type="file" id="background" name="background" class="pngFile" accept="image/png"/>
+								<input type="file" data-ax-path="background" id="background" name="background" class="pngFile" accept="image/png"/>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
                             <ax:td label="정류장안내" width="100%" labelClazz="required">
-								<input type="file" id="land" name="land" accept="image/png" class="pngFile"/>
+								<input type="file" data-ax-path="land" id="land" name="land" accept="image/png" class="pngFile"/>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
                             <ax:td label="이번정류장" width="100%" labelClazz="required">
-								<input type="file" id="nextstopbg" name="nextstopbg" accept="image/png" class="pngFile"/>
+								<input type="file" data-ax-path="nextstopbg" id="nextstopbg" name="nextstopbg" accept="image/png" class="pngFile"/>
                             </ax:td>
                         </ax:tr>
                         
