@@ -25,6 +25,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 	isUpdate = false;
 	                caller.formView0.clear();
 	                caller.formView0.disable();
+	                caller.gridView1.clear();
                 } else {
                 	caller.formView0.enable();
                 }

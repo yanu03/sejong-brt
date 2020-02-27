@@ -52,7 +52,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="400" style="height:100%; padding-left: 10px; padding-bottom:50px">
+            <ax:split-panel width="500" style="height:100%; padding-left: 10px; padding-bottom:50px">
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
@@ -84,28 +84,29 @@
                             </ax:td>
                         </ax:tr>
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0301F0.custnm" width="300px"  labelClazz="required">
+                            <ax:td label="ax.admin.BM0301F0.custnm" width="500px"  labelClazz="findmodal">
                            		<div class="input-group">
-	                        		<input type="text" data-ax-path="custId" data-key="true" class="form-control W70" title="<ax:lang id="ax.admin.BM0301F0.custnm"/>" readonly="readonly" data-ax-validate="required">
-	                        		<input type="text" data-ax-path="custNm" data-key="true" class="form-control W70" title="<ax:lang id="ax.admin.BM0301F0.custnm"/>" readonly="readonly" data-ax-validate="required">
-                        			<button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0102">
+	                        		<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="custId" data-key="true" class="form-control W70" title="<ax:lang id="ax.admin.BM0301F0.custnm"/>" readonly="readonly" data-ax-validate="required"></div>
+	                        		<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="custNm" data-key="true" class="form-control W70" title="<ax:lang id="ax.admin.BM0301F0.custnm"/>" readonly="readonly" data-ax-validate="required"></div>
+                        			<div style="float:left;padding-right:5px;"><button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0102">
 	                                	<ax:lang id="ax.admin.select"/>
-	                            	</button>
+	                            		</button>
+	                                </div>
 	                        	</div>
                             </ax:td>
                         </ax:tr>
                         <ax:tr>                    
-                            <ax:td label="ax.admin.BM0301F0.confd" width="300px">
+                            <ax:td label="ax.admin.BM0301F0.confd" width="220px">
                             	<div class="input-group" data-ax5picker="date">
-	                            	<input type="text" class="form-control" data-ax-path="conFstDate" data-ax5formatter="date" placeholder="yyyy/mm/dd" />
+	                            	<input type="text" class="form-control W100" data-ax-path="conFstDate" data-ax5formatter="date" placeholder="yyyy-mm-dd" />
 	                            	<span class="input-group-addon"><i class="cqc-calendar"></i></span>
                             	</div>
                             </ax:td>
                         </ax:tr>
                       <ax:tr>
-                         <ax:td label='ax.admin.BM0301F0.consd' width="300px" labelClazz="required">
+                         <ax:td label='ax.admin.BM0301F0.consd' width="220px" labelClazz="required">
                             <div class="input-group" data-ax5picker="date">
-                                <input type="text" class="form-control" data-ax-path="conStDate" data-ax5formatter="date" placeholder="yyyy/mm/dd" title="<ax:lang id="ax.admin.BM0301F0.consd"/>" data-ax-validate="required"/>
+                                <input type="text" class="form-control W100" data-ax-path="conStDate" data-ax5formatter="date" placeholder="yyyy-mm-dd" title="<ax:lang id="ax.admin.BM0301F0.consd"/>" data-ax-validate="required"/>
                                 <span class="input-group-addon"><i class="cqc-calendar"></i></span>
                             </div>
 
@@ -113,9 +114,9 @@
                      </ax:tr>
                      
                      <ax:tr>                  	
-                        <ax:td label='ax.admin.BM0301F0.coned' width="300px" labelClazz="required"> 
+                        <ax:td label='ax.admin.BM0301F0.coned' width="220px" labelClazz="required"> 
                             <div class="input-group" data-ax5picker="date">
-                                <input type="text" class="form-control" data-ax-path="conEdDate" title="<ax:lang id="ax.admin.BM0301F0.coned"/>" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-validate="required"/>
+                                <input type="text" class="form-control W100" data-ax-path="conEdDate" title="<ax:lang id="ax.admin.BM0301F0.coned"/>" data-ax5formatter="date" placeholder="yyyy-mm-dd" data-ax-validate="required"/>
                                 <span class="input-group-addon"><i class="cqc-calendar"></i></span>
                             </div>
 
@@ -123,12 +124,12 @@
                      </ax:tr>   
                         <ax:tr>
                             <ax:td label="ax.admin.BM0301F0.suppamt" width="230px">
-                            	<input type="text" data-ax-path="suppAmt" class="form-control" data-ax5formatter="money" style="text-align: right" maxlength="30"/>
+                            	<input type="text" data-ax-path="suppAmt" class="form-control W100" data-ax5formatter="money" style="text-align: right" maxlength="30"/>
                             </ax:td>
                        	</ax:tr>
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0301F0.vatamt" width="230px">
-                            	<input type="text" data-ax-path="vatAmt" class="form-control" data-ax5formatter="money" style="text-align: right" maxlength="30"/>
+                            	<input type="text" data-ax-path="vatAmt" class="form-control W100" data-ax5formatter="money" style="text-align: right" maxlength="30"/>
                             </ax:td>
 						</ax:tr>
                        	<ax:tr>

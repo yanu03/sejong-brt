@@ -57,28 +57,50 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_DELETE: function(caller, act, data) {
     	var grid = caller.gridView0.target;
     	var confirmYn = $('#confirmYn').val();
+    	var vocCount = 0;
+    	var vdoCount = 0;
+
     	
     	if(typeof grid.selectedDataIndexs[0] === "undefined") {
     		axDialog.alert(LANG("ax.script.alert.requireselect"));
     		return false;
     	}
+    	console.log("conID");
+    	console.log(selectedRow.conId);
     	
     	axDialog.confirm({
             msg: LANG("ax.script.deleteconfirm")
         }, function() {
         	if(confirmYn == "미확정") {  		
-        	
-            if (this.key == "ok") {
-            	axboot.promise()
-                .then(function (ok, fail, data) {
-	            	axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/BM0301G0D0",
-	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
-	                    callback: function (res) {
-	                        ok(res);
-	                    }
-	                });
+        	  if (this.key == "ok") {
+        		  axboot.promise()
+        		  .then(function (ok, fail, data) {
+        			 axboot.ajax({
+        		    		type: "GET",
+        		    		url: "/api/v1/BM0301G0S1",
+        		    		data:{conId : selectedRow.conId},
+        		    		callback: function (res) {
+        		    		  if(res.list.length != 0){
+        		    			  for(var i = 0; i<res.list.length; i++){
+        		    				  if(res.list[i].vocId != "0"){
+        		    					  vocCount++;
+        		    				  }else{
+        		    					  vdoCount++;
+        		    				  }
+        		    			  }
+        		    			  axDialog.alert("음성광고:"+vocCount+"건, 영상광고:"+vdoCount+"건 이 계약되 있어서 삭제가 불가능합니다.");
+        		    		  }else{
+        		    			  axboot.ajax({
+        		    				  type: "POST",
+        		    				  url: "/api/v1/BM0301G0D0",
+        		    				  data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+        		    				  callback: function (res) {
+        		    					  ok(res);
+        		    				  }
+        		    			  });
+        		    		  }
+        		    		}
+        		    	});
                 })
                 .then(function (ok) {
                 	caller.formView0.clear();
@@ -258,9 +280,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		$("#conFstDate").attr("readonly", true).attr("disabled", true);
     		$("#conStDate").attr("readonly", true).attr("disabled", true);
     		$("#conEdDate").attr("readonly", true).attr("disabled", true);
-    		$("#selectButton").hide();
+    		$("#selectButton").attr("readonly", true).attr("disabled", true);
     	}else{
-    		$("#selectButton").show();
+    		$("#selectButton").attr("readonly", false).attr("disabled", false);
     		caller.formView0.enable();
     	}
         caller.formView0.setData(data);

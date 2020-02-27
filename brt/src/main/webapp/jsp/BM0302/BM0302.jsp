@@ -55,7 +55,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="700" style="padding-left: 10px;">
+            <ax:split-panel width="600" style="padding-left: 10px;">
                 <!-- 폼 -->
                 <ax:split-panel width="500" style="height:270px;">
                 
@@ -78,7 +78,7 @@
 							<ax:td label="ax.admin.BM0301F0.confirmyn" width="260px" >
 								<input type="text" id="confirmYn" data-ax-path="confirmYn" data-key="true" class="form-control W90" readonly="readonly">
 							</ax:td>
-							<ax:td label="ax.admin.BM0301F0.conid" width="260px">
+							<ax:td label="ax.admin.BM0301F0.conid" width="80px">
 							    <input type="text" data-ax-path="conId" data-key="true" class="form-control W90" readonly="readonly">
 							</ax:td>                    
                     	</ax:tr>                                   		                   
@@ -112,7 +112,7 @@
                             <ax:td label="ax.admin.BM0301F0.suppamt" width="260px">
                             	<input type="text" data-ax-path="suppAmt" class="form-control W90" style="text-align: right" data-ax5formatter="money" maxlength="15"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0301F0.vatamt" width="260px">
+                            <ax:td label="ax.admin.BM0301F0.vatamt" width="80px">
                             	<input type="text" id="vatAmt" data-ax-path="vatAmt" class="form-control W90" style="text-align: right" data-ax5formatter="money" maxlength="15"/>
                             </ax:td>
                        	</ax:tr>                                             	
@@ -126,7 +126,7 @@
                 </ax:form>
                 </ax:split-panel>
                 
-                 	<ax:split-panel width="500" style="height:100%; padding-bottom:162px">
+                 	<ax:split-panel width="500" style="height:100%; padding-bottom:168px">
 	                    <div class="ax-button-group">
 	                        <div class="left">
 	                            <h3>
