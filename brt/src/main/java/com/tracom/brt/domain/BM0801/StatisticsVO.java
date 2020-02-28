@@ -9,4 +9,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StatisticsVO extends BaseVO{
 
+	private String vocId;
+	private String vocNm;
+	private String playStDate;
+	private String playEdDate;
+	private String playTm;
+	private String conId;
+	private long suppAmt;
+	private int vatAmt;
+	private String custNm;
+	private String vdoId;
+	private String vdoNm;
+	private String promotionTy;
+	private String promotionNm;
+	private String remark;
 }

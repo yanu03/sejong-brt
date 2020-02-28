@@ -257,7 +257,19 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     // gridView1 항목 클릭 이벤트
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
+    	console.log("g1클릭");
     	selectedRowG1 = data;
+    	if(selectedRowG1.useYn == "N"){
+    		caller.formView0.disable();
+    		$("#maker").attr("readonly", true).attr("disabled", true);
+    		$("#dvcKind").attr("readonly", true).attr("disabled", true);
+    		$("#instLoc").attr("readonly", true).attr("disabled", true);
+    	}else{
+    		caller.formView0.enable();
+    		$("#maker").attr("readonly", false).attr("disabled", false);
+    		$("#dvcKind").attr("readonly", false).attr("disabled", false);
+    		$("#instLoc").attr("readonly", false).attr("disabled", false);
+    	}
     	caller.formView0.setData(data);
     },
     

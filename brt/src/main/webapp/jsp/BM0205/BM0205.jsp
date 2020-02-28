@@ -26,12 +26,13 @@
         <ax:page-buttons></ax:page-buttons>
 
         <div role="page-header" style="position: relative;">
-        	  <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
-                    <ax:tr>
+                   <ax:tr>
+        	         <ax:form name="searchView0">
                         <ax:td label='ax.admin.search' width="300px">
                             <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0205S0.search"/>
                         </ax:td>
+                     </ax:form>
                         <ax:td label='ax.admin.BM0205S0.file' width="300px">
                         <input type="file" id="dvcFileUp" name="dvcFileUp" class="form-control inline-block W150" style="width:200px;"/>
                         </ax:td>
@@ -40,7 +41,6 @@
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
-            </ax:form>
             <div class="H3"></div>
         </div>
 
