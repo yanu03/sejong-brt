@@ -448,6 +448,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
                 {key: "vocId", label: ADMIN("ax.admin.BM0402F0.voc.id"), width: 80, sortable: true, align: "center"},
+                {key: "conNm", label: ADMIN("ax.admin.BM0401G0.con.nm"), width: 130, sortable: true},
                 {key: "vocNm", label: ADMIN("ax.admin.BM0402F0.voc.nm"), width: 210, sortable: true},
                 {key: "playType", label: ADMIN("ax.admin.BM0402F0.play.type"), width: 80, align: "center"},
                 {key: "playTm", label: ADMIN("ax.admin.BM0402F0.play.time"), width: 80, align: "center"},
