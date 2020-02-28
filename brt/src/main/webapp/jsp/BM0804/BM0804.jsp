@@ -99,7 +99,7 @@
 		                            <button type="button" id="searchSta" class="btn btn-primary" onclick="">
 			                         	<ax:lang id="ax.admin.search"/>
 			                        </button>
-				                        <button type="button" id="refresh" class="btn btn-info" style="margin-right:5px;margin-left:50px;">새로고침</button>
+			                        <button type="button" id="refresh" class="btn btn-info" style="margin-right:5px;margin-left:50px;">새로고침</button>
 		                        </div>
 	                        </ax:td>
 	                    </ax:tr>
@@ -122,13 +122,13 @@
                     </div>
                     <div class="right">
 	                    <div id="rowDel" style="float:right;">
-	                    	<button class="btn btn-default" data-grid-control="row-del"><i class="cqc-minus"></i>삭제</button>
+	                    	<button class="btn btn-info" data-grid-control="row-del"><i class="cqc-minus"></i>삭제</button>
 	                    </div>
 	                    <div id="nodeAdd" style="float:right;">
-	                    	<button class="btn btn-default" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>
+	                    	<button class="btn btn-info" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>
 	                    </div>
 	                    <div id="stopAdd" style="float:right;">
-	                    	<button class="btn btn-default" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>
+	                    	<button class="btn btn-info" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>
 	                    </div>
 	                    <div id="toggleN" style="float:right;">
 	                    	<input type="checkbox" id="toggleNode" checked="checked">경로&nbsp;
