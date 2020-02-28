@@ -159,11 +159,11 @@
 				            </h3>
 			            </div>
 			            <div class="right">
-				            <button type="button" id="uplist" class="btn btn-default" data-page-btn="upItem">
+				            <button type="button" id="uplist" class="btn btn-info" data-page-btn="upItem" style="width:20px">
 			            		↑
 			            	</button>
 			            	
-			            	<button type="button" id="dnlist" class="btn btn-default" data-page-btn="downItem">
+			            	<button type="button" id="dnlist" class="btn btn-info" data-page-btn="downItem" style="width:20px">
 			            		↓
 			            	</button>
 			            </div>

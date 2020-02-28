@@ -137,7 +137,7 @@ public class FTPHandler {
 
 	//BM0606 영상, 이미지파일 업로드
 	public void uploadBM0605(String id, MultipartFile file, String type) {
-		String dir = Paths.get(getRootLocalPath(), "/common/video").toString();
+		String dir = Paths.get(getRootLocalPath(), "/video").toString();
 		
 		String ext = null;
 		String fileName = null;
@@ -150,7 +150,7 @@ public class FTPHandler {
 			saveFile = Paths.get(dir, fileName).toFile();			
 			break;
 		case "image" : 
-			ext = "JPG";
+			ext = FilenameUtils.getExtension(file.getOriginalFilename());
 			fileName = id + "." + ext;
 			saveFile = Paths.get(dir, fileName).toFile();			
 			break;
@@ -175,7 +175,7 @@ public class FTPHandler {
 		VideoInfoVO result = new VideoInfoVO();
 		
 		Metadata metadata = new Metadata();
-		String path = Paths.get(getRootLocalPath(), "/common/video").toString();
+		String path = Paths.get(getRootLocalPath(), "/video").toString();
 		File file = new File(path + "/" + fileName);
 		
 		FileInputStream inputstream = new FileInputStream(file);

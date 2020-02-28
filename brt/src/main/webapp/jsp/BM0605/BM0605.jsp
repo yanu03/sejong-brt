@@ -69,7 +69,7 @@
                     			<input type="text" name="vdoId" data-ax-path="vdoId" data-key="true" class="form-control" readonly="readonly"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0605G0.vdoNm" width="240px" labelClazz="required">
-                    			<input type="text" name="vdoNm" data-ax-path="vdoNm" maxlength="20" class="form-control"/>
+                    			<input type="text" name="vdoNm" data-ax-path="vdoNm" title="영상명" maxlength="20" class="form-control" data-ax-validate="required"/>
                     		</ax:td>
                     	</ax:tr>
                     	
@@ -104,7 +104,7 @@
                     		</ax:td>
 
                     		<ax:td label="ax.admin.BM0605G0.imgPlayTm" width="240px">
-								<input type="text" name="imgPlayTm" id="imgPlayTm" data-ax-path="imgPlayTm" data-key="true" class="form-control"/>
+								<input type="text" name="imgPlayTm" title="이미지재생(초)" id="imgPlayTm" data-ax-path="imgPlayTm" class="form-control" />
                     		</ax:td>
                     	</ax:tr>
                     	
@@ -112,7 +112,7 @@
                     		<ax:td label="ax.admin.BM0605F0.attFile" width="300px" labelClazz="required">
                     			
                     			<input type="file" name="vdoFile" data-ax-path="vdoFile" class="form-control" id="vdoFile"
-                    				                                onchange="preview_Change(this);" style="width: 300px;" />
+                    				                                onchange="preview_Change(this);" style="width: 300px;"/>
                     		</ax:td>
                     	</ax:tr>
                     	

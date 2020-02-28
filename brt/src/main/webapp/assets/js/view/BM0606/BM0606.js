@@ -773,7 +773,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     		$('#rmvlist').attr("readonly", true).attr("disabled", true);
     		$('#uplist').attr("readonly", true).attr("disabled", true);
     		$('#dnlist').attr("readonly", true).attr("disabled", true);
-    		fnObj.gridView2.setData([{}]);
+    		fnObj.gridView2.clear();
     	});
     },
     clear: function () {

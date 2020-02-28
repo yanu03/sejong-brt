@@ -47,6 +47,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_NEW: function (caller, act, data) {
 		togglePreview();
 		isUpdate = false;
+		$("#videoPreview").attr("src", "");
+		$("#imagePreview").attr("src", "");
 		caller.gridView0.selectAll(false);
 		caller.formView0.clear();
 		caller.formView0.enable();
@@ -67,7 +69,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			if (this.key == "ok") {
 				axboot.promise()
 				.then(function (ok, fail, data) {
-					console.log("딤ㅇㄴ랄");
 					axboot.ajax({
 						type: "POST",
 						url: "/api/v1/BM0605G0D0",
@@ -92,7 +93,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_SAVE: function (caller, act, data) {
 
 		if (caller.formView0.validate()) {
-			console.log(data);
 			var formData = new FormData(caller.formView0.target[0]);
 			if($("#vdoFile")[0].files[0]){
 				formData.append("vdoFile", $("#vdoFile")[0].files[0].name);
@@ -451,6 +451,8 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 			$(element).attr("disabled", true);
 			$('#selectButton').attr("disabled", true);
 			$('.input-group-addon').hide();
+			$("#videoPreview").attr("src", "");
+			$("#imagePreview").attr("src", "");
 			
 		});
 	},
@@ -505,12 +507,16 @@ function togglePreview(input){
 		$('#videoPreview').hide();
 		$('#imagePreview').show();
 		$('#imgPlayTm').attr('disabled', false);
+		$('#imgPlayTm').attr("data-ax-validate", "required");
+		
 	}else if(input == 'AV001'){
 		$('#vdoFile').val('');
 		$('#imagePreview').hide();
 		$('#videoPreview').show();
 		$('#imgPlayTm').val('');
 		$('#imgPlayTm').attr('disabled', true);
+		$('#imgPlayTm').removeAttr("data-ax-validate");
+
 	}else{
 		$('#imgPlayTm').val('');
 		$('#videoPreview').attr('src', '');
