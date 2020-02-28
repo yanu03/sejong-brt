@@ -3,12 +3,11 @@ package com.tracom.brt.controllers;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,5 +48,9 @@ public class BM0605Controller extends BaseController {
     	return ok(vdoId);
     }
     
-
+    @PostMapping("/BM0605G0D0")
+    public ApiResponse BM0605G0D0(@RequestBody VideoInfoVO request) {
+    	service.BM0605G0D0(request);
+    	return ok();
+    }
 }

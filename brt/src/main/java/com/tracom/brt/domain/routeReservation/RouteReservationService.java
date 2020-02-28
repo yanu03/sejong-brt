@@ -43,40 +43,46 @@ public class RouteReservationService extends BaseService<RouteReservationVO, Str
 		 * 		같은 아이디가 있다면 새로운 내용을 SET하여 CSV파일 새로 갱신
 		 * 		같은 아이디가 없다면 새로운 ROW로 추가
 		 * **/
-
-		//노선 리스트, 노선별 파일명
-		List<BmRoutInfoVO> routeList = rsvRouteList();
-		String maxVersion = mapper.rsv_maxVersion();
-		String routVer = "";
 		
-		//노선별 노드리스트
-		for(BmRoutInfoVO vo : routeList) {
-			//vo.setFileName(vo.getRoutId() + "_" + vo.getVersion() + "_" + vo.getDvcName() + "");
-			vo.setNodeList(rsvRouteNode(vo));
-		}
 		
+		//노선정보 쿼리
+		BmRoutInfoVO routInfo = rsv_routInfo(routId);
+		
+		
+		//노선id 받아서 노드 리스트 생성
+		List<BmRoutNodeInfoVO> routeNodeList = rsvRouteNode(routId);
+		
+		//정류장리스트 생성
 		List<BmRoutNodeInfoVO> stopList = rsvBusStopList();
+		//노드리스트 생성
 		List<BmRoutNodeInfoVO> nodeList = rsvNodeList();
 		
 		
 		try {
-			//busstop.csv
-			ftpHandler.uploadBusstop(stopList, "busstop.csv", routVer);
+			//01. playlist폴더가 없다면 playlist 폴더 생성
+			ftpHandler.makeDir(routId);
 			
-			//node.csv
-			ftpHandler.uploadNodeList(nodeList, "node.csv", routVer);
+			//02. ver 생성
+			String routVer = newVersion(routInfo);
+			String maxVer = mapper.rsv_getMaxVersion();
+			//03. busstop.csv 파일 생성
+			ftpHandler.uploadBusstop(stopList, "busstop.csv", maxVer);
 			
-			//routelist.csv
-			ftpHandler.uploadRouteList(routeList, "routelist.csv", routVer);
+			//04. node.csv 파일 생성
+			ftpHandler.uploadNodeList(nodeList, "node.csv", maxVer);
 			
-			//노선별노드리스트.csv
-			ftpHandler.uploadRouteNodeList(routeList, routVer);
+			//05. 노선.csv 파일 생성
+			ftpHandler.uploadRouteNodeList(routeNodeList, routId, routVer);
+			
+			RoutListCSVVO newRow = mapper.rsv_routListRow(routId);
+			//06. routlist.csv 파일 생성
+			ftpHandler.uploadRouteList(routId, "routelist.csv", routVer, maxVer, newRow);
+			
 			
 			//노선 플레이리스트.csv
 			VoiceOrganizationVO vo = new VoiceOrganizationVO();
 			vo.setRoutId(routId);
 			ftpHandler.uploadVoicePlayList(routId, mapper.selectVoiceOrganization(vo));
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -101,7 +107,34 @@ public class RouteReservationService extends BaseService<RouteReservationVO, Str
 	}
 	
 	/** 노선별 노드 리스트쿼리 (seq순, 노선파일명.csv) **/
-	public List<BmRoutNodeInfoVO> rsvRouteNode(BmRoutInfoVO vo) {
-		return mapper.rsv_routenode(vo);
+	public List<BmRoutNodeInfoVO> rsvRouteNode(String routId) {
+		return mapper.rsv_routenode(routId);
 	}
+	
+	/** 노선 정보 쿼리 **/
+	public BmRoutInfoVO rsv_routInfo(String routId) {
+		return mapper.rsv_routInfo(routId);
+	}
+	
+	/** 버전정보를 구해보자 **/
+	public String newVersion(BmRoutInfoVO vo) {
+		String routId = vo.getRoutId();
+		String version;
+		//없으면 넣고
+		//있으면 
+		if(vo.getPubDate() == null || vo.getPubSeq() == null) {
+			mapper.rsv_startPub(routId);
+		}else{
+			if(vo.getFlag().equals("TRUE")) {
+				mapper.rsv_addPubSeq(routId);
+			}else {
+				mapper.rsv_startPub(routId);
+			}
+		}
+		version = mapper.rsv_getVersion(routId);
+		return version;
+	}
+	
+	
+	
 }

@@ -68,7 +68,7 @@
 						, #{fileType}
 						, #{attFile}
 						, #{playTm}
-						, #{imgPlayTm}
+						, IFNULL(#{imgPlayTm}, '10')
 						, #{remark}
 						, #{createdAt}
 						, #{createdBy}
@@ -76,14 +76,14 @@
 						, #{updatedBy})
 	</insert>
 	
-	<update id="BM0605F0U0" parameterType="VideoInfoVO">
+	<update id="BM0605F0U0" parameterType="videoInfoVO">
 		UPDATE BM_VDO_INFO
     	SET
     		  VDO_NM		=	#{vdoNm}
     		, CON_ID		=	#{conId}
     		, PLAY_ST_DATE	=	#{playStDate}
     		, FILE_TYPE		=	#{fileType}
-    		, IMG_PLAY_TM	=	#{imgPlayTm}
+    		, IMG_PLAY_TM	=	IFNULL(#{imgPlayTm}, '10')
     		, ATT_FILE		=	#{attFile}
     		, REMARK		=	#{remark}
     		, PLAY_TM		=	#{playTm}
@@ -93,4 +93,11 @@
     	WHERE
     		VDO_ID = #{vdoId}
 	</update>
+	
+	<delete id="BM0605G0D0" parameterType="videoInfoVO">
+		DELETE FROM
+			BM_VDO_INFO
+		WHERE
+			VDO_ID = #{vdoId}
+	</delete>
 </mapper>

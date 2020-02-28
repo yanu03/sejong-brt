@@ -174,10 +174,10 @@ public class FileService {
 		File file		= null;
 		switch(fileType) {
 		case "AV001" :
-			path = handler.getRootLocalPath() + "/common/video/" + vdoId + ".mp4";
+			path = handler.getRootLocalPath() + "/video/" + vdoId + ".mp4";
 			break;
 		case "AV002" :
-			path = handler.getRootLocalPath() + "/common/video/" + vdoId + ".jpg";
+			path = handler.getRootLocalPath() + "/video/" + vdoId + ".jpg";
 			break;
 		}
 		
@@ -189,13 +189,13 @@ public class FileService {
 	// 행선지안내기 이미지 미리보기
 	private String bmpPreview(RequestParams<?> requestParams, HttpServletResponse response) {
 		String fileNameHeader = destiService.getHeader(requestParams.getString("dvcKindCd")).getTxtVal2();
-		String userWayDiv = requestParams.getString("userWayDiv");
-		String userWayCode = DLCDMapper.SM0105G2S2(userWayDiv);
+		//String userWayDiv = requestParams.getString("userWayDiv");
+		//String userWayCode = DLCDMapper.SM0105G2S2(userWayDiv);
 		String fileNameBody = requestParams.getString("dvcName");
 		String fileNameTail = ".BMP";
 		String fileName = "";
 		
-		fileName = fileNameHeader + fileNameBody + userWayCode + fileNameTail;			
+		fileName = fileNameHeader + fileNameBody + fileNameTail;			
 		return Paths.get(handler.getRootLocalPath(), "/destination/images/", fileName).toString();
 	}
 	

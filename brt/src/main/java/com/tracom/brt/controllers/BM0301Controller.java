@@ -52,6 +52,14 @@ public class BM0301Controller extends BaseController {
         }
         return Responses.ListResponse.of(list);
     }
+    
+    @GetMapping("/BM0301G0S1")
+    public Responses.ListResponse BM0301G0S1(RequestParams<ContractInfoVO> requestParams) {
+    	System.out.println("list");
+    	System.out.println(requestParams);
+        List<ContractInfoVO> list = service.BM0301G0S1(requestParams);
+        return Responses.ListResponse.of(list);
+    }
 
     @PostMapping("/BM0301F0I0")
     public ApiResponse BM0301F0I0(@RequestBody ContractInfoVO request) {
@@ -79,6 +87,7 @@ public class BM0301Controller extends BaseController {
     
     @PostMapping("/BM0301G0D0")
     public ApiResponse BM0301G0D0(@RequestBody ContractInfoVO request) {
+    	System.out.println(request);
     	service.BM0301G0D0(request);
     	return ok();
     }

@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,13 +35,13 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpException;
 import com.tracom.brt.code.GlobalConstants;
-import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
 import com.tracom.brt.domain.BM0501.DestinationVO;
 import com.tracom.brt.domain.BM0605.VideoInfoVO;
 import com.tracom.brt.domain.BM0608.BmScrInfoVO;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
+import com.tracom.brt.domain.routeReservation.RoutListCSVVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
 import com.tracom.brt.utils.Utils;
@@ -136,7 +137,7 @@ public class FTPHandler {
 
 	//BM0606 영상, 이미지파일 업로드
 	public void uploadBM0605(String id, MultipartFile file, String type) {
-		String dir = Paths.get(getRootLocalPath(), "/common/video").toString();
+		String dir = Paths.get(getRootLocalPath(), "/video").toString();
 		
 		String ext = null;
 		String fileName = null;
@@ -149,7 +150,7 @@ public class FTPHandler {
 			saveFile = Paths.get(dir, fileName).toFile();			
 			break;
 		case "image" : 
-			ext = "JPG";
+			ext = FilenameUtils.getExtension(file.getOriginalFilename());
 			fileName = id + "." + ext;
 			saveFile = Paths.get(dir, fileName).toFile();			
 			break;
@@ -174,7 +175,7 @@ public class FTPHandler {
 		VideoInfoVO result = new VideoInfoVO();
 		
 		Metadata metadata = new Metadata();
-		String path = Paths.get(getRootLocalPath(), "/common/video").toString();
+		String path = Paths.get(getRootLocalPath(), "/video").toString();
 		File file = new File(path + "/" + fileName);
 		
 		FileInputStream inputstream = new FileInputStream(file);
@@ -299,26 +300,94 @@ public class FTPHandler {
 		}
 	}
 	
-	//routelist.csv 생성
-	public void uploadRouteList(List<BmRoutInfoVO> routeList, String fileName, String routVer) {
-		//TODO
-		/**
-		 * 기존의 csv파일 읽어와서 vo 리스트로 만듬
-		 * 첫번째컬럼에서 아이디 얻어서 같은 아이디가 있는지 확인
-		 * 	1. 같은 아이디가있을경우 (
-		 * 		- 버전, 상행하행등의 정보 새로 set
-		 * 	2. 같은 아이디가 없을경우(새로운노선추가)
-		 * **/
+	/** routelist.csv 파일을 읽어옴 **/
+	public List<RoutListCSVVO> readRouteList(String fileName) throws IOException {
+		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();
 		
-		String txt = "";
-		for(BmRoutInfoVO vo : routeList) {
-			if(vo.getFileName() != null) {
-				txt += vo.getFileName() + GlobalConstants.CSVForms.ROW_SEPARATOR;
-			}
+		File file = new File(path + "/" + fileName);
+		
+		List<RoutListCSVVO> list = new ArrayList<>();
+		
+        //입력 버퍼 생성
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "CP949"));
+        String line = "";
+        String[] tmp = null;
+        
+        int lineNum = 0;
+        while((line = br.readLine()) != null){
+        	lineNum++;
+        	if(lineNum <= 2) {
+        		continue;
+        	}else {        		
+        	RoutListCSVVO vo = new RoutListCSVVO();
+        	
+        	tmp = line.split(",");
+        	
+        	vo.setFileName(tmp[0]);
+        	vo.setRoutVersion(tmp[1]);
+        	vo.setRoutNo(tmp[2]);
+        	vo.setRoutNmKo(tmp[3]);
+        	vo.setRoutNmEn(tmp[4]);
+        	
+        	list.add(vo);
+        	}
+        }
+        br.close();
+        
+        return list;
+	}
+
+	//routelist.csv 생성
+	public void uploadRouteList(String routeListRow, String fileName, String routVer, String maxVer, RoutListCSVVO newRow) throws IOException{
+		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();
+		
+		File file = new File(path + "/" + fileName);
+		List<RoutListCSVVO> list = new ArrayList<>();
+		if(file.exists()) {
+			list = readRouteList("routelist.csv");
+		}else {
+			
 		}
 		
-		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();
-		File file = new File(path + "/" + fileName);
+		if(list.size() > 0) {
+			//기존에 정보가 있으면 업데이트, 없으면 인서트
+			int seq = 0;
+			boolean flag = false;
+			
+			loop:
+			for(int i = 0; i < list.size(); i++) {
+				if(list.get(i).getFileName().equals(newRow.getFileName())) {
+					flag = true;
+					seq = i;
+					break loop;
+				}			
+			}
+			
+			if(flag) {
+				list.get(seq).setRoutVersion(newRow.getRoutVersion());
+				list.get(seq).setRoutNo(newRow.getRoutNo());
+				list.get(seq).setRoutNmKo(newRow.getRoutNmKo());
+				list.get(seq).setRoutNmEn(newRow.getRoutNmEn());
+			}else {
+				list.add(newRow);
+			}
+			
+		}else {
+			list.add(newRow);
+		}
+					
+		String txt = "";
+		txt += GlobalConstants.CSVForms.ROUTE_VERSION + maxVer + GlobalConstants.CSVForms.ROW_SEPARATOR;
+		txt += GlobalConstants.CSVForms.ROUTE_LIST;
+		
+		for(RoutListCSVVO vo : list) {
+			txt += GlobalConstants.CSVForms.ROW_SEPARATOR;
+			txt += vo.getFileName() 
+					+ GlobalConstants.CSVForms.COMMA + vo.getRoutVersion() 
+					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNo() 
+					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNmKo()
+					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNmEn();
+		}
 		
 		try {
 			Utils.createCSV(file, txt);
@@ -329,29 +398,27 @@ public class FTPHandler {
 	}
 	
 	//노선별 노드리스트.csv생성
-	public void uploadRouteNodeList(List<BmRoutInfoVO> routeList, String routVer) {
+	public void uploadRouteNodeList(List<BmRoutNodeInfoVO> routeList, String routId, String routVer) {
 		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();
-		for(BmRoutInfoVO vo : routeList) {
-			if(vo.getFileName() == null) {
-				continue;
-			}
-			String txt = GlobalConstants.CSVForms.ROUTE_VERSION + routVer + GlobalConstants.CSVForms.ROW_SEPARATOR;
-			txt += GlobalConstants.CSVForms.ROUTE_TITLE;
-			String fileName = vo.getFileName();
+		
+		String txt = GlobalConstants.CSVForms.ROUTE_VERSION + routVer + GlobalConstants.CSVForms.ROW_SEPARATOR;		
+		txt += GlobalConstants.CSVForms.ROUTE_TITLE;
+		
+		String fileName = routId + ".csv";
+		
 			
-			for(BmRoutNodeInfoVO node : vo.getNodeList()) {
-				txt += GlobalConstants.CSVForms.ROW_SEPARATOR + node.getNodeId();
-			}
-			
-			File file = new File(path + "/" + fileName);
-			
-			try {
-				Utils.createCSV(file, txt);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
+		for(BmRoutNodeInfoVO node : routeList) {
+			txt += GlobalConstants.CSVForms.ROW_SEPARATOR + node.getNodeId();
 		}
+		
+		File file = new File(path + "/" + fileName);
+		
+		try {
+			Utils.createCSV(file, txt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
 	}
 	
 	//BMP파일 write

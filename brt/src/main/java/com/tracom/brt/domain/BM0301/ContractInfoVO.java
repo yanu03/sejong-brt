@@ -21,6 +21,7 @@ public class ContractInfoVO extends BaseVO{
 	private String custNm;
 	private String remark;
 	private String conNo;
-	
+	private String vocId;
+	private String vdoId;
 
 }

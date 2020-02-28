@@ -23,11 +23,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	console.log(res);
                 caller.gridView0.setData(res);             
 	               
+                if(res.list.length == 0) {
+	                caller.gridView1.clear();
+	                caller.gridView2.clear();
+                }else{
 	                if(selectedRow != null) {
 		                	caller.gridView0.selectRow(selectedRow.__index);
 		                } else {
 		                	caller.gridView0.selectFirstRow();
-		                }	                
+		                }
+                }
 	            }
 	        });
 
