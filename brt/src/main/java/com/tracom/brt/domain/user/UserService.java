@@ -18,6 +18,7 @@ import com.tracom.brt.domain.user.auth.UserAuth;
 import com.tracom.brt.domain.user.auth.UserAuthService;
 import com.tracom.brt.domain.user.role.UserRole;
 import com.tracom.brt.domain.user.role.UserRoleService;
+import com.tracom.brt.utils.SessionUtils;
 
 
 @Service
@@ -115,5 +116,18 @@ public class UserService extends BaseService<User, String> {
     
     public void deleteUser(User user) {
     	delete(user);
+    }
+    
+    public Boolean checkScdPs(User user) {
+    	User originalUser = userRepository.findOne(SessionUtils.getCurrentLoginUserCd());
+    	
+    	if(isNotEmpty(user.getScdPs())) {
+    		if(standardPasswordEncoder.matches(user.getScdPs(), originalUser.getScdPs())) {
+    			return true;
+    		} else {
+    			return false;
+    		}
+		} 
+    	return false;
     }
 }

@@ -49,4 +49,9 @@ public class UserController extends BaseController {
     	userService.deleteUser(user);
     	return ok();
     }
+    
+    @PostMapping("/checkScdPs")
+    public ApiResponse checkScdPs(@RequestBody User user) {
+    	return ok(userService.checkScdPs(user).toString());
+    }
 }
