@@ -12,7 +12,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
     	var resCount = 0;
-    	var resOneCount = 0;
     	console.log(filter);
     	
         axboot.ajax({
@@ -21,37 +20,38 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: filter,
             callback: function (res) {
             	console.log(res);
-            	if(res.list.length > 0){
-            	  for(var i = 0; i < res.list.length; i++){
-            		  if(res.list[i].vocId){
-            			  res.list[i].promotionTy = "음성광고";
-            			  res.list[i].promotionNm = res.list[i].vocNm;
-            			  res.list[i].suppAmt = res.list[i].suppAmt + res.list[i].vatAmt;
-            		  }
-            	  }
-            	  axboot.ajax({
-            		  type:"GET",
-            		  url:"/api/v1/BM0801G0S1",
-            		  data: filter,
-            		  callback:function(resOne){
-            			  console.log(resOne);
-            			  if(resOne.list.length != 0){
-            				  resCount = res.list.length + resOne.list.length;
-            				  for(var i = res.list.length; i<resCount; i++){
-            					  console.log(resOneCount);
-            					  res.list[i] = resOne.list[resOneCount];
-            					  res.list[i].promotionTy = "영상광고";
-            					  res.list[i].promotionNm = resOne.list[resOneCount].vdoNm;
-            					  res.list[i].suppAmt = resOne.list[resOneCount].suppAmt + resOne.list[resOneCount].vatAmt;
-            					  console.log(res);
-            					  resOneCount ++;
-            				  }
-            			  }
-            		  }
-            	  })
-            	}
+            	axboot.ajax({
+            		type:"GET",
+            		url:"/api/v1/BM0801G0S1",
+            		data: filter,
+            		callback:function(resOne){
+            			console.log(resOne);
+            			if(res.list.length > 0){
+            				for(var i = 0; i < res.list.length; i++){
+            					if(res.list[i].vocId){
+            						res.list[i].promotionTy = "음성광고";
+            						res.list[i].promotionNm = res.list[i].vocNm;
+            						res.list[i].suppAmt = res.list[i].suppAmt + res.list[i].vatAmt;
+            					}
+            				}
+            			}else{
+            				caller.gridView0.clear();
+            			}
+            			if(resOne.list.length != 0){
+            				resCount = res.list.length + resOne.list.length;
+            				plusRes = res.list.length;
+            				for(var i = res.list.length; i<resCount; i++){
+            					res.list[i] = resOne.list[i-plusRes];
+            					res.list[i].promotionTy = "영상광고";
+            					res.list[i].promotionNm = resOne.list[i-plusRes].vdoNm;
+            					res.list[i].suppAmt = resOne.list[i-plusRes].suppAmt + resOne.list[i-plusRes];
+            					console.log(res);
+            				}
+            			}
+            			caller.gridView0.setData(res);
+            		}
+            	})
             	console.log(res);
-                caller.gridView0.setData(res);
 	               
 	                if(selectedRow != null) {
 		                	caller.gridView0.selectRow(selectedRow.__index);
@@ -163,11 +163,11 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [
-            		 {key: "promotionNm", label: ADMIN("ax.admin.BM0801G0.promotionnm"), align:"center" , sortable: true, width: 120},
-            		 {key: "promotionTy", label: ADMIN("ax.admin.BM0801G0.promotiontype"), align:"center" , width: 120},
-                     {key: "custNm", label: ADMIN("ax.admin.BM0801G0.custnm"), align:"center" , sortable: true, width: 150},
-                     {key: "playStDate", label: ADMIN("ax.admin.BM0801G0.sd"), align:"right", sortable: true, width: 120},
-                     {key: "playEdDate", label: ADMIN("ax.admin.BM0801G0.ed"), align:"right", sortable: true, width: 120},
+            		 {key: "promotionNm", label: ADMIN("ax.admin.BM0801G0.promotionnm"), align:"left" , sortable: true, width: 120},
+            		 {key: "promotionTy", label: ADMIN("ax.admin.BM0801G0.promotiontype"), align:"center" , sortable: true , width: 120},
+                     {key: "custNm", label: ADMIN("ax.admin.BM0801G0.custnm"), align:"left", width: 150},
+                     {key: "playStDate", label: ADMIN("ax.admin.BM0801G0.sd"), align:"center", sortable: true, width: 120},
+                     {key: "playEdDate", label: ADMIN("ax.admin.BM0801G0.ed"), align:"center", sortable: true, width: 120},
                      {key: "playTm", label: ADMIN("ax.admin.BM0801G0.exposure.time"), align:"right", width: 100},
                      {key: "suppAmt", label: ADMIN("ax.admin.BM0801G0.suppamt"), formatter:"money" ,align:"right", width: 100},
                      {key: "remark", label: ADMIN("ax.admin.BM0801G0.remark"), width: 500},
