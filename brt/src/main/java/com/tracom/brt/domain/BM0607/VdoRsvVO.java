@@ -12,10 +12,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VdoRsvVO extends BaseVO {
 
-
+	private String possible;
+	
 	private String vhcId;
 	
 	private String vhcNo;
+	
+	private String vhcKindNm;
+	
+	private String instLocNm;
+	
+	private String mngId;
 	
 	private String dvcType;
 	

@@ -303,34 +303,25 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         
         this.target = axboot.gridBuilder({
-        	frozenColumnIndex: 0,
+        	frozenColumnIndex: 3,
             showLineNumber: true,
-            //showRowSelector: true,
-            //multipleSelect :true,
+            showRowSelector: true,
+            multipleSelect :true,
             sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "isChecked",	label: ADMIN("ax.admin.BM0607G1.checkd"),	width: 50, sortable: true,
-            		editor: {
-            			type: "checkbox",
-	            		config: {height: 17, trueValue: "ckd", falseValue: "nckd"}, 
-	            		disabled: function(){
-	            			return (this.item.completeYn == "N");
-	            		}
-            		}
-            	},
+            	{key: "possible",	label: "가능여부",								width: 100},
+            	{key: "vhcId",		label: "차량ID",								width: 100},
                 {key: "vhcNo",		label: ADMIN("ax.admin.BM0607G1.vhcNo"),	width: 100},
-                {key: "dvcTypeNm",	label: ADMIN("ax.admin.BM0607G1.dvcTypeNm"),width: 150},
-                {key: "rsvId",		label: ADMIN("ax.admin.BM0607G1.rsvId"),	width: 100},
-                {key: "rsvDate",	label: ADMIN("ax.admin.BM0607G1.rsvDate"),	width: 100},
-                {key: "orgaNm",		label: ADMIN("ax.admin.BM0607G1.orgaNm"),	width: 100},
-                
+                {key: "vhcKindNm",	label: "장치종류",								width: 150},
+                {key: "instLocNm",	label: "장치위치",								width: 100},
+                {key: "mngId",		label: "관리ID",								width: 100},
             ],
             header:{
             	selector: false,
             },
             body: {
-            	mergeCells:["vhcNo"],
+            	mergeCells:["vhcId", "vhcNo"],
             	
                 onClick: function () {
                     this.self.select(this.dindex);
