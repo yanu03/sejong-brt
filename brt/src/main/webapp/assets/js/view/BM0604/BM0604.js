@@ -40,7 +40,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     		if(res.list.length == 0) {
             	                caller.gridView1.clear();
                             }else{
-                    			
+                            	axboot.ajax({
+                                	type: "GET",
+                                	url : "/api/v1/BM0604G1S0",
+                                	data : filter,
+                                	callback : function(res){
+                                		caller.gridView1.setData(res);
+                                	}
+                                })
                             	if(dataFlag) {
                             		console.log(dataFlag);
             	                	caller.gridView0.selectIdRow(data);
@@ -54,14 +61,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                             }
                     	}
                     })              
-                axboot.ajax({
-                	type: "GET",
-                	url : "/api/v1/BM0604G1S0",
-                	data : filter,
-                	callback : function(res){
-                		caller.gridView1.setData(res);
-                	}
-                })
+                
             }
         });
 

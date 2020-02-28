@@ -113,7 +113,8 @@
 				<where>
 				<if test="value != null">	
 						( D.CON_NM LIKE CONCAT('%', #{value}, '%')
-						OR D.ALT_DIV LIKE CONCAT('%', #{value}, '%'))
+						OR D.ALT_DIV LIKE CONCAT('%', #{value}, '%')
+						OR D.CON_ID LIKE CONCAT('%' , #{value}, '%'))
 			    </if>
 				AND
 				D.CON_ED_DATE > NOW()

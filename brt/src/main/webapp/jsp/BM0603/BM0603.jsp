@@ -56,25 +56,25 @@
                 <ax:form name="formView0">                 
                     <ax:tbl clazz="ax-form-tbl" minWidth="700px">
                      	<ax:tr>
-							<ax:td label="ax.admin.BM0603G0.usernewsid" width="200px" labelClazz="required">
+							<ax:td label="ax.admin.BM0603G0.usernewsid" width="200px" labelClazz="required" labelWidth="120px">
 								<input type="text" data-ax-path="userNewsId" data-key="true" class="form-control" readonly="readonly">
 							</ax:td>						                
                     	</ax:tr>
                     	
                     	<ax:tr>
-							<ax:td label="ax.admin.BM0603G0.category" width="200px" labelClazz="required">
+							<ax:td label="ax.admin.BM0603G0.category" width="200px" labelClazz="required" labelWidth="120px">
 								<input type="text" data-ax-path="category" data-key="true" class="form-control W150" data-ax-validate="required" maxlength="20">
 							</ax:td>						                
                     	</ax:tr>                                          	
 						
 						<ax:tr>
-                       		<ax:td label="ax.admin.BM0603G0.newscontents" width="600px" labelClazz="required">
+                       		<ax:td label="ax.admin.BM0603G0.newscontents" width="100%" labelClazz="required" labelWidth="120px">
                             	<textarea data-ax-path="newsContents" class="form-control" title="<ax:lang id="ax.admin.BM0301F0.newscontents"/>" data-ax-validate="required" maxlength="255" style="height: 60px;"></textarea>
                             </ax:td>
                        	</ax:tr>
 						
                        	<ax:tr>
-                       		<ax:td label="ax.admin.BM0602F0.remark" width="600px">
+                       		<ax:td label="ax.admin.BM0602F0.remark" width="100%" labelWidth="120px">
                             	<textarea data-ax-path="remark" class="form-control" maxlength="255"></textarea>
                             </ax:td>
                        	</ax:tr>

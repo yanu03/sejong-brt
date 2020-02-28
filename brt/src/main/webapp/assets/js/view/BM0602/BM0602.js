@@ -261,11 +261,11 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,            
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "useYn",  label: ADMIN("ax.admin.BM0602G0.useyn"), editor:{type:"checkbox"}, width: 60},
-            	{key: "provId", label: ADMIN("ax.admin.BM0602G0.provid"), align:"center", width: 120},
+            	{key: "useYn",  label: ADMIN("ax.admin.BM0602G0.useyn"), sortable: true, editor:{type:"checkbox"}, width: 70},
+            	{key: "provId", label: ADMIN("ax.admin.BM0602G0.provid"), sortable: true, align:"center", width: 120},
                 {key: "provNm", label: ADMIN("ax.admin.BM0602G0.provnm"), align:"center", width: 150},
                 {key: "provUrl", label: ADMIN("ax.admin.BM0602F0.provurl"), width: 200},
-                {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 250},
+                {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 500},
             ],
             body: {
                 onClick: function () {
