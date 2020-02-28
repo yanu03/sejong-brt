@@ -19,13 +19,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		axDialog.alert("차량을 선택해주세요");
     	}
     	
-    	vehicleList.forEach(function(item) {
-    		if(item.rsvId != null) {
+    	for(var i = 0; i < vehicleList.length; i++) {
+    		if(vehicleList[i].rsvId != null) {
     			axDialog.alert("예약중인 차량은 중복예약이 되지 않습니다.")
     			return false;
     		}
-    	});
-    	
+    	}
     	
 		axboot.modal.open({
             modalType: "RESERVATION",
