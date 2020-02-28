@@ -30,4 +30,31 @@ public class BM0804Service extends BaseService<BmRoutInfoVO, String>{
     	map.put("filter1", requestParams.getString("filter1"));
 		return mapper.BM0804G1S0(map);
 	}
+	
+	public void BM0804G1I0(List<BmRoutNodeInfoVO> voList) {
+		BmRoutNodeInfoVO vo = new BmRoutNodeInfoVO();
+		String routId = null;
+		for(BmRoutNodeInfoVO tmp : voList) {
+			if(tmp.getRoutId() != null) {
+				routId = tmp.getRoutId();
+				break;
+			}
+		}
+		vo.setRoutId(routId);
+		vo.setVoList(voList);
+		if(routId == null) {
+			mapper.BM0804G1I1(vo);
+		}else {
+			mapper.BM0804G1D0(vo.getRoutId());
+			mapper.BM0804G1I0(vo);			
+		}
+	}
+	
+	public boolean BM0804G0D0(BmRoutNodeInfoVO vo) {
+		if(mapper.BM0804G0D0(vo) > 0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 }

@@ -571,10 +571,12 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
+    		/*
     		if(this.target.list[i].vocId == id) {
     			this.selectRow(i);
     			break;
     		}
+    		*/
     	}
     	
     	if(i == length) {

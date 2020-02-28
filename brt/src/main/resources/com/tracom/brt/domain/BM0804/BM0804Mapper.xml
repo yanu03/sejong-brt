@@ -40,4 +40,88 @@
 	    	</if>
 	    ORDER BY SEQ
 	</select>
+	
+	<delete id="BM0804G1D0" parameterType="String">
+		DELETE FROM
+			BM_ROUT_SIMULATION
+		WHERE
+			ROUT_ID = #{routId} 
+	</delete>
+
+	
+	<insert id="BM0804G1I0" parameterType="bmRoutNodeInfoVO">
+    	INSERT INTO
+    		BM_ROUT_SIMULATION
+    			(
+    				  NODE_ID
+    				, NODE_NM
+    				, NODE_TYPE
+    				, LATI
+    				, LONGI
+    				, SEQ
+    				, ROUT_ID
+    			)
+		VALUES
+			<foreach collection="voList" item="voList" separator=",">
+			(
+				<choose>
+					<when test="voList.nodeId != null">
+						#{voList.nodeId}
+					</when>
+					<otherwise>
+	  			    	CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_TEMP_NODE_0), 7, '0'))
+					</otherwise>
+				</choose>
+			  	, #{voList.nodeNm}
+				, #{voList.nodeType}
+				, #{voList.lati}
+				, #{voList.longi} 
+				, #{voList.seq}
+				, #{routId}
+			)
+			</foreach>   
+    
+	</insert>
+	
+	<insert id="BM0804G1I1" parameterType="bmRoutNodeInfoVO">
+    	<selectKey keyProperty="routId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('VBR', LPAD(NEXTVAL(SEQ_BM_TEMP_ROUT_0), 6, '0'))
+    	</selectKey>
+    	
+    	INSERT INTO
+    		BM_ROUT_SIMULATION
+    			(
+    				  NODE_ID
+    				, NODE_NM
+    				, NODE_TYPE
+    				, LATI
+    				, LONGI
+    				, SEQ
+    				, ROUT_ID
+    			)
+		VALUES
+			<foreach collection="voList" item="voList" separator=",">
+			(
+				<choose>
+					<when test="voList.nodeId != null">
+						#{voList.nodeId}
+					</when>
+					<otherwise>
+	  			    	CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_TEMP_NODE_0), 7, '0'))
+					</otherwise>
+				</choose>
+			  	, #{voList.nodeNm}
+				, #{voList.nodeType}
+				, #{voList.lati}
+				, #{voList.longi} 
+				, #{voList.seq}
+				, #{routId}
+			)
+			</foreach>   
+	</insert>
+	
+	<delete id="BM0804G0D0" parameterType="bmRoutNodeInfoVO">
+		DELETE FROM BM_ROUT_SIMULATION
+		WHERE ROUT_ID = #{routId}
+	</delete>
 </mapper>

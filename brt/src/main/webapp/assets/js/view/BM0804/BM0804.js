@@ -6,13 +6,21 @@ isNewData = false;
 selectedRow = null;
 var routeData;
 var addSeq;
-var stnSeq;
+var stnSeq = 1;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
+    	if(isNewData == true){
+			if(!confirm("편집 후 저장하지 않은 데이터가 유실됩니다. 계속 진행하시겠습니까?")){
+				return false;
+			}else{
+				isNewData = false;
+			}
+    	}    	
+    	
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
         axboot.ajax({
@@ -43,13 +51,49 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
   
     PAGE_DELETE: function(caller, act, data) {
+    	var grid = caller.gridView0.target;
+    	
+    	if(typeof grid.selectedDataIndexs[0] === "undefined") {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("ax.script.deleteconfirm")
+        }, function() {
+            if (this.key == "ok") {
+            	axboot.promise()
+                .then(function (ok, fail, data) {
+	            	axboot.ajax({
+	                    type: "POST",
+	                    url: "/api/v1/BM0804G0D0",
+	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+	                    callback: function (res) {
+	                        ok(res);
+	                    }
+	                });
+                })
+                .then(function (ok) {
+                	axToast.push(LANG("ondelete"));
+                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                })
+                .catch(function () {
 
+                });
+            }
+        });
     },
     
     // 탭닫기
     PAGE_CLOSE: function(caller, act, data) {
     	//원본
-    	window.parent.fnObj.tabView.closeActiveTab();
+    	if(isNewData == true){
+			if(confirm("편집 후 저장하지 않은 데이터가 유실됩니다. 계속 진행하시겠습니까?")){
+				window.parent.fnObj.tabView.closeActiveTab();
+			}
+    	}else{
+    		window.parent.fnObj.tabView.closeActiveTab();
+    	}
     },
     
     ITEM_CLICK_G0: function (caller, act, data) {
@@ -82,6 +126,31 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isNewData = true;
     	initVal2();
     	addSeq = 1;
+    },
+    
+    PAGE_SAVE: function(caller, act, data){
+    	var nodeList = fnObj.gridView1.getData();
+    	
+        axboot.promise()
+            .then(function (ok, fail, data) {
+                axboot.ajax({
+                    type: "POST",
+                    url: "/api/v1/BM0804G1I0",
+                    data: JSON.stringify(nodeList),
+                    callback: function (res) {
+                        ok(res);
+                    }
+                });
+            })
+            .then(function (ok, fail, data) {
+        		axToast.push(LANG("onadd"));
+        		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+                isUpdate = true;
+                isNewData = false;
+            })
+            .catch(function () {
+
+            });
     }
     
 });
@@ -98,12 +167,14 @@ fnObj.pageStart = function () {
     this.searchView1.initView();
     this.gridView0.initView();
     this.gridView1.initView();
+    this.gridView2.initView();
     initTmap({width:"100%"
     		, height:"100%"
     		, onClick: onClickMap	
     		});
     setInitVal();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    calcDistance();
 };
 
 fnObj.pageResize = function () {
@@ -131,6 +202,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
+            },
+            "save": function(){
+            	ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             }
             
         });
@@ -292,6 +366,18 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     }
 });
 
+function editSeq(){
+	return {
+		type: "money",
+		disabled: function(){
+			return ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+		},
+		attributes:{
+			"maxlength" : 11
+		}
+			
+	}
+}
 /**
  * gridView1
  */
@@ -312,8 +398,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
                 {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80},
-                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: {type: "number"}
-                },
+                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq()},
                 {key: "nodeType",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 30},
                 {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
                 {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120},
@@ -391,6 +476,126 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     }
 });
 
+var numEditor = {
+		type: "money",
+		disabled: function(){
+			var duration = calcDuration();
+			var distance = calcDistance();
+			console.log(duration + " , " + distance);
+			footSumConfig(distance, duration);
+		}
+}
+
+/**********************
+ * gridView2
+ **********************/
+fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
+    page: {
+        pageNumber: 0,
+        pageSize: 10
+    },
+    
+    initView: function () {
+        var _this = this;
+        
+        this.target = axboot.gridBuilder({
+        	frozenColumnIndex: 0,
+        	lineNumberColumnWidth:40,
+            //sortable: true,
+        	showLineNumber:false,
+            //showRowSelector: true,
+            target: $('[data-ax5grid="gridView2"]'),
+            columns: [
+                {key: "col1", 	label: "비고",	width: 120},
+                {key: "col2",	label: "값",		width: 50,	align: "right", editor: numEditor},
+            ],
+            footSum: [
+		    	[
+		    		{label: "총 노선 길이", colspan: 1, align: "left"},
+		    		{key: "distance", collector: function() {
+		    			var result = calcDistance();
+		    			return result;
+		    		}}
+		    	],
+		    	[
+		    		{label: "예상 이동시간", colspan: 1, align: "left"},
+		    		{key: "duration", collector: function() {
+		    			//return calcDuration(this.list[0].col2, this.list[1].col2);
+		    			var result = calcDuration();
+		    			return result;
+		    		}}
+		    	]
+		    ],
+            body: {
+                onClick: function () {
+                    this.self.select(this.dindex);
+                }
+            },
+        });
+        setDefaultData();
+    },
+    getData: function (_type) {
+        var list = [];
+        var _list = this.target.getList(_type);
+
+        if (_type == "modified" || _type == "deleted") {
+            list = ax5.util.filter(_list, function () {
+                delete this.deleted;
+                return this.key;
+            });
+        } else {
+            list = _list;
+        }
+        return list;
+    },
+    addRow: function (data) {
+    	if(typeof data === "undefined") {
+    		this.target.addRow({__created__: true}, "last");
+    	} else {
+    		data["__created__"] = true;
+            this.target.addRow(data, "last");
+    	}
+    },
+    selectFirstRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(0);
+    	} else {
+    	}
+    },
+    selectLastRow: function() {
+    	if(this.target.list.length != 0) {
+    		this.selectRow(this.target.list.length - 1);
+    	} else {
+    	}
+    },
+    selectRow: function(index) {
+    	var data = this.target.list[index];
+    	
+    	if(typeof data === "undefined") {
+    		this.selectLastRow();
+    	} else {
+    		this.target.select(index);
+    	}
+    },
+    selectIdRow: function(id) {
+    	var i;
+    	var length = this.target.list.length;
+    	for(i = 0; i < length; i++) {
+    		if(this.target.list[i].staId == id) {
+    			this.selectRow(i);
+    			break;
+    		}
+    	}
+    	
+    	if(i == length) {
+    	}
+    },
+    selectAll: function(flag) {
+    	this.target.selectAll({selected: flag});
+    }
+});
+
+
 /*****************************************/
 function searchGrid1(caller, act, data){
 	var dataFlag = typeof data !== "undefined";
@@ -418,6 +623,8 @@ function searchGrid1(caller, act, data){
 /*****************************************/
 //맵 클릭 이벤트
 function onClickMap(e) {
+	$("input:checkbox[id='toggleStn']").prop("checked", true);
+	$("input:checkbox[id='toggleNode']").prop("checked", true);
 	if(stopAdd && !nodeAdd) {
 		var lonlat = e.latLng;
 		var min = 10000000;
@@ -470,7 +677,7 @@ function onClickMap(e) {
 			lati: lonlat.lat(),
 			longi: lonlat.lng(),
 			seq: addSeq*100,
-			nodeNm: "임시노드" + addSeq*100,
+			nodeNm: "임시노드" + addSeq,
 			nodeType: '30', 
 			icon: '',
 		});
@@ -482,6 +689,7 @@ function onClickMap(e) {
 	}
 	
 }
+
 
 function returnInsertRouteInfo(lat, lon) {
 	var min = 10000000;
@@ -535,43 +743,13 @@ function drawRoute(list) {
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
 			if(list[i].nodeType == busstopNodeType) {
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				
-				if(list[i].nodeType == orgaNodeType) {
-					list[i].click = function(e) {
-						var point = e.marker.getPosition();
-						var node = $.extend(true, {}, routeData[e.index]);
-						
-						routeData.splice(e.index, 1);
-						
-						var val = returnInsertRouteInfo(point.lat(), point.lng());
-						
-						if(val) {
-							var temp = {
-								orgaId: e.nodeId,
-								lati: point.lat(),
-								longi: point.lng(),
-								seq: val.seq
-							};
-							
-							temp = $.extend(true, node, temp);
-							
-							routeData.splice(val.index, 0, temp);
-							
-							ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
-							ACTIONS.dispatch(ACTIONS.OPEN_BM0405, temp);
-						} else {
-							axDialog.alert("선택할 수 없는 좌표입니다.");
-						}
-					};
-					list[i].index = i;
-					list[i].icon = orgaIcon;
-					list[i].draggable = true;
-				}
-				
 				addMarker(list[i]);
 			}
 			// 아닐 경우(일반 노드) 네모 박스 표시
 			else {
+				list[i].icon = "/assets/images/tmap/road_trans.png";
+				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				addMarker(list[i]);
 				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
 			}
 		}
@@ -596,6 +774,13 @@ function btnClick(){
 	$('#nodeAdd').on('click', function(){
 		addNode();
 	});
+	
+	$('#refresh').on('click', function(){
+		var tmpData = fnObj.gridView1.getData();
+		tmpData.sort(function (a,b){return a.seq - b.seq});
+		fnObj.gridView1.setData(tmpData);
+		drawRoute(fnObj.gridView1.getData());
+	})
 }
 
 function addStop(){
@@ -656,14 +841,92 @@ function calcResult(){
 			result += tmp;
 		}
 	}
-	console.log((result/1000).toFixed(3));
-	var stopTime = $('#stopTime').val() / 60;
-	var avgSpeed = $('#avgSpeed').val();
+	var stopTime = fnObj.gridView2.target.list[0].col2;
+	var avgSpeed = fnObj.gridView2.target.list[1].col2;
+	console.log(stopTime + " , " + avgSpeed);
+	//var stopTime = $('#stopTime').val() / 60;
+	//var avgSpeed = $('#avgSpeed').val();
 	var distance = (result/1000).toFixed(3);
 	var duration = (distance/avgSpeed * 60) + (stopCnt * stopTime);
-	$('#distance').val(distance + "km");
-	$('#duration').val("약 " + duration.toFixed(1) + "분");
+
+	//$('#distance').val(distance + "km");
+	//$('#duration').val("약 " + duration.toFixed(1) + "분");
 }
+function footSumConfig(distance, duration){
+	fnObj.gridView2.target.setConfig(
+			{footSum: [
+		    	[
+		    		{label: "총 노선 길이", colspan: 1, align: "left"},
+		    		{key: "distance", collector: function() {
+		    			return distance;
+		    		}}
+		    	],
+		    	[
+		    		{label: "예상 이동시간", colspan: 1, align: "left"},
+		    		{key: "duration", collector: function() {
+		    			//return calcDuration(this.list[0].col2, this.list[1].col2);
+		    			return duration;
+		    		}}
+		    	]
+		    ]}
+	);
+}
+function calcDuration(){
+	var result = 0;
+	var stopCnt = 0;
+	if(routeData != undefined){
+		for(var i = 0; i < routeData.length - 1; i++) {
+			if(routeData[i].nodeType == '1'){
+				stopCnt++;
+			}
+			if(routeData[i].seq == '0'){
+				continue;
+			}
+			var tmp = getDistanceBetween(
+					routeData[i].lati,
+					routeData[i].longi,
+					routeData[i + 1].lati,
+					routeData[i + 1].longi
+			)
+			result += tmp;
+		}
+	}
+	
+	var stopTime = fnObj.gridView2.target.list[0].col2 / 60;
+	var avgSpeed = fnObj.gridView2.target.list[1].col2;
+	//var stopTime = var1 / 60;
+	//var avgSpeed = var2;
+	var distance = (result/1000).toFixed(3);
+	var duration = (distance/avgSpeed * 60) + (stopCnt * stopTime);
+	
+	return duration;
+	
+}
+
+function calcDistance(){
+	var result = 0;
+	var stopCnt = 0;
+	if(routeData != undefined){
+		for(var i = 0; i < routeData.length - 1; i++) {
+			if(routeData[i].nodeType == '1'){
+				stopCnt++;
+			}
+			if(routeData[i].seq == '0'){
+				continue;
+			}
+			var tmp = getDistanceBetween(
+					routeData[i].lati,
+					routeData[i].longi,
+					routeData[i + 1].lati,
+					routeData[i + 1].longi
+			)
+			result += tmp;
+		}
+	}
+	return distance = (result/1000).toFixed(3);
+	
+}
+
 
 function setInitVal(){
 	$('#stopTime').val('60');
@@ -676,33 +939,82 @@ function initVal2(){
 }
 
 function chked(){
-	$('#toggleNode').on('change', function(){
-		if($('#toggleNode').is(":checked") && !$('#toggleStn').is(":checked")){
-			var list = fnObj.gridView1.getData();
-			
-			for(var i=0; i<list.length; i++){
-				if(list[i].nodeType == '30'){
-					list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-					addMarker(list[i]);
-				}
+	$('#toggleStn').on('change', function(){
+		if($('#toggleStn').is(":checked")){
+			if($('#toggleNode').is(":checked")){
+				onOffMarker("11");
+			}else{
+				onOffMarker("10");
 			}
 		}else{
-			//꺼지면
+			if($('#toggleNode').is(":checked")){
+				onOffMarker("01");
+			}else{
+				onOffMarker("00");
+			}
 		}
 	});
 	
-	$('#toggleStn').on('change', function(){
+	$('#toggleNode').on('change', function(){
 		if($('#toggleStn').is(":checked")){
-			var list = fnObj.gridView1.getData();
-			
-			for(var i=0; i<list.length; i++){
-				if(list[i].nodeType == '1'){
-					list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-					addMarker(list[i]);
-				}
+			if($('#toggleNode').is(":checked")){
+				onOffMarker("11");
+			}else{
+				onOffMarker("10");
 			}
 		}else{
-			removeMarkers();
+			if($('#toggleNode').is(":checked")){
+				onOffMarker("01");
+			}else{
+				onOffMarker("00");
+			}
 		}
 	});
+}
+
+function onOffMarker(input){
+	var list = fnObj.gridView1.getData();
+	switch(input){
+	case "00" :
+		removeMarkers();
+		break;
+		
+	case "10" : //정류장만
+		removeMarkers();
+		for(var i=0; i<list.length; i++){
+			if(list[i].nodeType == '1'){
+				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				addMarker(list[i]);
+			}
+		}
+		break;
+		
+	case "01" : //경로만
+		removeMarkers();
+		for(var i=0; i<list.length; i++){
+			if(list[i].nodeType == '30'){
+				list[i].icon = "/assets/images/tmap/road_trans.png";
+				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				addMarker(list[i]);
+			}
+		}
+		break;
+		
+	case "11" : //다
+		removeMarkers();
+		for(var i=0; i<list.length; i++){
+			if(list[i].nodeType=="30"){
+				list[i].icon = "/assets/images/tmap/road_trans.png";
+			}else{
+				
+			}
+			list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+			addMarker(list[i]);
+		}
+		break;
+	}
+}
+
+function setDefaultData(){
+	fnObj.gridView2.setData([{col1 : "정류소정차시간", col2 : "60"}, {col1 : "버스평균속도", col2 : "40"}]);
 }
