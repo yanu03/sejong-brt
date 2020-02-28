@@ -12,7 +12,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
-    	var plusFilter ;
     	var plusRes;
     	
         axboot.ajax({

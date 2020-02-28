@@ -380,7 +380,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
                 {key: "dvcKindCd", label: ADMIN("ax.admin.BM0201F0.dvckind"), sortable: true, width: 120},
                 {key: "instLocCd", label: ADMIN("ax.admin.BM0201F0.instloc"), width: 100},
                 {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), align: "right", width: 120},
-                {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
+                {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 250},
             ],
             body: {
                 onClick: function () {
@@ -479,7 +479,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
             	{key: "proceRst", label: ADMIN("ax.admin.BM0206G2.procerst"), align: "center", sortable: true, width: 150},
             	{key: "sendDate", label: ADMIN("ax.admin.BM0206G2.senddate"), sortable: true, width: 150},
             	{key: "verInfo", label: ADMIN("ax.admin.BM0206G2.verinfo"), align: "center", sortable: true, width: 120},
-            	{key: "remark", label: ADMIN("ax.admin.BM0206G2.remark"), width: 500},
+            	{key: "remark", label: ADMIN("ax.admin.BM0206G2.remark"), width: 250},
             ],
             body: {
                 onClick: function () {
