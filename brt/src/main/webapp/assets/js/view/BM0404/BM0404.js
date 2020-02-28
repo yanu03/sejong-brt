@@ -17,60 +17,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             }
 		});
 	},
-	
-	PAGE_RESERVATION: function(caller, act, data) {
-    	if(selectedRow == null) {
-    		axDialog.alert(LANG("ax.script.alert.requireselect"));
-    		return false;
-    	}
-    	
-        axboot.ajax({
-            type: "GET",
-            url: "/api/v1/checkVoiceReservation",
-            data: {
-        		vocId: selectedRow.vocId,
-            },
-            callback: function (res) {
-                if(res.message == "true") {
-	        		// 예약적용일때
-        			axboot.modal.open({
-        	            modalType: "RESERVATION",
-        	            param: "",
-        	            callback: function (result) {
-        	            	this.close();
-        	            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
-        	            		date: result
-        	            	});
-        	            }
-        	        });
-	        	} else {
-	        		axDialog.alert(LANG("ax.script.check.organization"));
-	        	}
-            }
-        });
-    },
-    
-    INSERT_RESERVATION: function(caller, act, data) {
-    	axboot.promise()
-	        .then(function (ok, fail, _data) {
-	            axboot.ajax({
-	                type: "POST",
-	                url: "/api/v1/voiceReservation",
-	                data: JSON.stringify({
-	            		vocId: selectedRow.vocId,
-	            		rsvDate: data.date
-	                }),
-	                callback: function (res) {
-	                    ok(res);
-	                }
-	            });
-	        })
-	        .then(function (ok, fail, data) {
-	        })
-	        .catch(function () {
-	
-	        });
-    },
     
 	PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
@@ -106,7 +52,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
 	PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("노선선택별 음성 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     PAGE_DELETE: function(caller, act, data) {

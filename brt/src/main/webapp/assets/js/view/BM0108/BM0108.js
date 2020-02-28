@@ -436,11 +436,13 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", false);
     	});
+    	this.target.find(".cqc-calendar").parent().show();
     },
     disable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", true);
     	});
+    	this.target.find(".cqc-calendar").parent().hide();
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());

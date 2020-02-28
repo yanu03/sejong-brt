@@ -53,7 +53,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
 	PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("정류소안내기음성 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
@@ -650,11 +650,14 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     		$(element).attr("readonly", false).attr("disabled", false);
     	});
     	$("[data-ax-path='playType']").trigger("change");
+    	this.target.find(".cqc-calendar").parent().show();
     },
     disable: function() {
     	this.target.find('#wavFile,[data-btn],[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", true).attr("disabled", true);
     	});
+    	
+    	this.target.find(".cqc-calendar").parent().hide();
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());
