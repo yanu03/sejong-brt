@@ -1,5 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tracom.brt.domain.BM0801.BM0801Mapper">
-
+	<select id="BM0801G0S0" parameterType="String" resultType="StatisticsVO">
+		SELECT
+		   VOC.VOC_ID
+		 , VOC.VOC_NM
+		 , VOC.PLAY_ST_DATE
+		 , VOC.PLAY_ED_DATE
+		 , VOC.PLAY_TM
+		 , CON.CON_ID
+		 , CON.SUPP_AMT
+		 , CON.VAT_AMT
+		 , CUST.CUST_NM
+		FROM
+			BM_VOC_INFO VOC
+			LEFT OUTER JOIN BM_CON_INFO CON
+			ON CON.CON_ID = VOC.CON_ID
+			LEFT JOIN BM_CUST_INFO CUST
+			ON CON.CUST_ID = CUST.CUST_ID
+		WHERE
+			VOC.CON_ID != 'NULL'
+			<if test="value != null">
+			AND
+				VOC.VOC_NM LIKE CONCAT('%', #{value}, '%')
+				OR CUST.CUST_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+	</select>
+	
+	<select id="BM0801G0S1" parameterType="String" resultType="StatisticsVO">
+		SELECT
+		   VDO.VDO_ID
+		 , VDO.VDO_NM
+		 , VDO.PLAY_ST_DATE
+		 , VDO.PLAY_ED_DATE
+		 , VDO.PLAY_TM
+		 , CON.CON_ID
+		 , CON.SUPP_AMT
+		 , CON.VAT_AMT
+		 , CUST.CUST_NM
+		FROM
+			BM_VDO_INFO VDO
+			LEFT OUTER JOIN BM_CON_INFO CON
+			ON CON.CON_ID = VDO.CON_ID
+			LEFT JOIN BM_CUST_INFO CUST
+			ON CON.CUST_ID = CUST.CUST_ID
+		WHERE
+			VDO.CON_ID != 'NULL'
+			<if test="value != null">
+			AND
+				VDO.VDO_NM LIKE CONCAT('%', #{value}, '%')
+				OR CUST.CUST_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+	</select>
 </mapper>

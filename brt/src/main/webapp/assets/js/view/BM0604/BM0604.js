@@ -83,7 +83,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     						useYnCount++;
     					}
     				}
-    				checkData.upList = list; 
+    				checkData.upList = list;
+    				console.log(list);
     				if(useYnCount < 20){
     					axboot.promise()
     					.then(function (ok, fail, data) {

@@ -102,7 +102,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             }
         });
     	
-    	  axboot.ajax({
+    	  /*axboot.ajax({
     		  type: "GET",
     		  url: "/api/v1/BM0303G2S0",
     		  data:{conId: selectedRow.conId},
@@ -134,7 +134,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				  caller.gridView3.clear();
     			  }
     		  }
-    	  })
+    	  })*/
     }
 });
 /********************************************************************************************************************/

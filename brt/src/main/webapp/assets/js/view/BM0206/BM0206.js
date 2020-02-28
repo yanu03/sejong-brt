@@ -75,9 +75,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
  // gridView1 항목 클릭 이벤트
     ITEM_CLICK_G1: function(caller, act, data) {
-    	isUpdate = true;
     	selectedRowG1 = data;
     	ACTIONS.dispatch(ACTIONS.RELOAD_G2);
+    },
+    
+    // gridView2 항목 클릭 이벤트
+    ITEM_CLICK_G2: function(caller, act, data) {
+    	selectedRowG2 = data;
     },
     
     RELOAD_G1: function(caller, act, data) {
@@ -158,7 +162,7 @@ fnObj.pageStart = function () {
 	
     this.pageButtonView.initView();
     this.searchView0.initView();
-    this.searchView1.initView();
+   /*this.searchView1.initView(); 업데이트 이력 달력검색 */
     this.gridView0.initView();
     this.gridView1.initView();
     this.gridView2.initView();
@@ -217,8 +221,9 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
 
 /**
  * searchView1
+ * 업데이트 이력 달력검색
  */
-fnObj.searchView1 = axboot.viewExtend(axboot.searchView, {
+/*fnObj.searchView1 = axboot.viewExtend(axboot.searchView, {
     initView: function () {
         this.target = $(document["searchView1"]);
         this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);");
@@ -245,7 +250,7 @@ fnObj.searchView1 = axboot.viewExtend(axboot.searchView, {
              filter: this.filter.val()
          }
     }
-});
+});*/
 
 /**
  * gridView0
@@ -264,7 +269,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [        		
             		 {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), align: "center", sortable: true,  width: 80},
-            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 70},
+            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), align: "center", sortable: true, width: 70},
                      {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), sortable: true, align: "center", width: 120},
                      {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), sortable: true, width: 150},
                      {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), sortable: true, width: 120},
@@ -369,7 +374,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), sortable: true, width: 80},
+            	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), align: "center", sortable: true, width: 80},
             	{key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), sortable: true, width: 130},
             	{key: "makerCd", label: ADMIN("ax.admin.BM0201F0.maker"), width: 120},
                 {key: "dvcKindCd", label: ADMIN("ax.admin.BM0201F0.dvckind"), sortable: true, width: 120},
