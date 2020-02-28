@@ -10,51 +10,12 @@ var routeData;
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
-	PAGE_RESERVATION: function(caller, act, data) {
-    	if(selectedOrga == null) {
-    		axDialog.alert(ADMIN("ax.admin.BM0405G2.require.orga"));
-    		return false;
-    	}
-		axboot.modal.open({
-            modalType: "RESERVATION",
-            param: "",
-            callback: function (result) {
-            	this.close();
-            	ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
-            		date: result
-            	});
-            }
-        });
-    },
-    
-    INSERT_RESERVATION: function(caller, act, data) {
-    	axboot.promise()
-	        .then(function (ok, fail, _data) {
-	            axboot.ajax({
-	                type: "POST",
-	                url: "/api/v1/voiceOrgaReservation",
-	                data: JSON.stringify({
-	            		orgaId: selectedOrga.orgaId,
-	            		rsvDate: data.date
-	                }),
-	                callback: function (res) {
-	                    ok(res);
-	                }
-	            });
-	        })
-	        .then(function (ok, fail, data) {
-	        })
-	        .catch(function () {
-	
-	        });
-    },
-    
 	PAGE_SEARCH: function (caller, act, data) {
     	var filter = $.extend({}, caller.searchView0.getData());
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0405G0S0",
+            url: "/api/v1/BM0104G0S0",
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);
@@ -432,15 +393,14 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             lineNumberColumnWidth: 30,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "routId", label: ADMIN("ax.admin.BM0405G0.routId"), width: 80},
-            	{key: "routNm", label: ADMIN("ax.admin.BM0405G0.routNm"), width: 70},
-                {key: "shortRoutNm", label: ADMIN("ax.admin.BM0405G0.shortRoutNm"), width: 100},
-                {key: "stStaNm", label: ADMIN("ax.admin.BM0405G0.stStaNm"), width: 140},
-                {key: "edStaNm", label: ADMIN("ax.admin.BM0405G0.edStaNm"), width: 140},
-                {key: "wayDiv", label: ADMIN("ax.admin.BM0405G0.wayDiv"), width: 100},
-                {key: "userWayDiv", label: ADMIN("ax.admin.BM0405G0.userWayDiv"), width: 140},
-                {key: "turnDiv", label: ADMIN("ax.admin.BM0405G0.turnDiv"), width: 100},
-                {key: "updatedAt", label: ADMIN("ax.admin.BM0405G0.updatedAt"), width: 140},
+            	{key: "routId", label: ADMIN("ax.admin.BM0104G0.routId"), width: 80, align: "center"},
+            	{key: "routNm", label: ADMIN("ax.admin.BM0104G0.routNm"), width: 70},
+                {key: "shortRoutNm", label: ADMIN("ax.admin.BM0104G0.shortRoutNm"), width: 100},
+                {key: "stStaNm", label: ADMIN("ax.admin.BM0104G0.stStaNm"), width: 140},
+                {key: "edStaNm", label: ADMIN("ax.admin.BM0104G0.edStaNm"), width: 140},
+                {key: "wayDivNm", label: ADMIN("ax.admin.BM0104G0.wayDiv"), width: 70, align: "center"},
+                {key: "userWayDivNm", label: ADMIN("ax.admin.BM0104G0.userWayDiv"), width: 110, align: "center"},
+                {key: "updatedAt", label: ADMIN("ax.admin.BM0104G0.updatedAt"), width: 140, align: "center"},
             ],
             body: {
                 onClick: function () {
@@ -515,7 +475,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             lineNumberColumnWidth: 30,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "nodeId",		label: ADMIN("ax.admin.BM0405G1.node.id"),		width: 80,		align: "center"},
+            	{key: "nodeId",		label: ADMIN("ax.admin.BM0405G1.node.id"),		width: 90,		align: "center"},
                 {key: "nodeNm",		label: ADMIN("ax.admin.BM0405G1.node.nm"),		width: 100,		align: "center"},
                 {key: "nodeType",	label: ADMIN("ax.admin.BM0405G1.node.type"),	width: 80,		align: "center"},
                 {key: "lati", 		label: ADMIN("ax.admin.BM0405G1.lati"),			width: 80,		align: "center"},
@@ -595,11 +555,11 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
             lineNumberColumnWidth: 30,
             target: $('[data-ax5grid="gridView2"]'),
             columns: [
-            	{key: "orgaId",		label: ADMIN("ax.admin.BM0405G2.orga.id"),		width: 80},
-                {key: "orgaNm",		label: ADMIN("ax.admin.BM0405G2.orga.nm"),		width: 160},
-                {key: "allPlayTm",	label: ADMIN("ax.admin.BM0405G2.all.play.tm"),	width: 160},
-                {key: "lati",		label: ADMIN("ax.admin.BM0405G2.lati"),			width: 120},
-                {key: "longi", 		label: ADMIN("ax.admin.BM0405G2.longi"),		width: 120},
+            	{key: "orgaId",		label: ADMIN("ax.admin.BM0405G2.orga.id"),		width: 80,		align: "center"},
+                {key: "orgaNm",		label: ADMIN("ax.admin.BM0405G2.orga.nm"),		width: 120},
+                {key: "allPlayTm",	label: ADMIN("ax.admin.BM0405G2.all.play.tm"),	width: 100,		align: "center"},
+                {key: "lati",		label: ADMIN("ax.admin.BM0405G2.lati"),			width: 80,		align: "center"},
+                {key: "longi", 		label: ADMIN("ax.admin.BM0405G2.longi"),		width: 80,		align: "center"},
                 {key: "remark",		label: ADMIN("ax.admin.BM0405G2.remark"),		width: 180},
             ],
             body: {

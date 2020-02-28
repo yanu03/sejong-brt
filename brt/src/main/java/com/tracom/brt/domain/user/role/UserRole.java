@@ -3,8 +3,11 @@ package com.tracom.brt.domain.user.role;
 import com.tracom.brt.domain.BaseJpaModel;
 import com.chequer.axboot.core.annotations.ColumnPosition;
 import com.chequer.axboot.core.annotations.Comment;
+
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.ibatis.type.Alias;
 import org.hibernate.annotations.DynamicInsert;
@@ -22,6 +25,8 @@ import javax.persistence.*;
 @Table(name = "USER_ROLE_M")
 @Comment(value = "사용자 롤")
 @Alias("userRole")
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRole extends BaseJpaModel<Long> {
 
     @Id

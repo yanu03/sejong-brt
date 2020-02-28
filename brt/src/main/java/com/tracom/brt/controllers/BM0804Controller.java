@@ -5,9 +5,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
@@ -41,5 +44,17 @@ public class BM0804Controller extends BaseController {
     public Responses.ListResponse BM0107G1S0(RequestParams<BmRoutNodeInfoVO> requestParams) {
         List<BmRoutNodeInfoVO> list = service.BM0804G1S0(requestParams);
         return Responses.ListResponse.of(list);
+    }
+    
+    @PostMapping("/BM0804G1I0")
+    public ApiResponse BM0804G1I0(@RequestBody List<BmRoutNodeInfoVO> voList) {
+    	service.BM0804G1I0(voList);
+    	return ok();
+    }
+    
+    @PostMapping("/BM0804G0D0")
+    public ApiResponse BM0804G0D0(@RequestBody BmRoutNodeInfoVO vo) {
+    	boolean result = service.BM0804G0D0(vo);
+    	return ok();
     }
 }

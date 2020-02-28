@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,6 +26,15 @@ public class TimsAuthHandler {
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@Value("${tims.server.address}")
+	private String timsServerAddress;
+	
+	@Value("${tims.server.http.port}")
+	private String timsServerHttpPort;
+	
+	@Value("${tims.server.news.url}")
+	private String timsServerNewsUrl;
+	
 	public void sendNews() {
 		CommonCodeDetailInfoVO param = new CommonCodeDetailInfoVO();
 		param.setCoCd("TIMS_AUTH");
@@ -40,7 +50,7 @@ public class TimsAuthHandler {
 			HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(headers);
 			Map<String, Object> params = new HashMap<>();
 			
-			restTemplate.exchange("http://localhost:8086/brt/sendNews", HttpMethod.GET, httpEntity, String.class, params);
+			restTemplate.exchange("http://" + timsServerAddress + ":" + timsServerHttpPort + timsServerNewsUrl, HttpMethod.GET, httpEntity, String.class, params);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

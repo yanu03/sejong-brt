@@ -35,7 +35,7 @@
 
         <ax:split-layout name="ax1" orientation="vertical">
 	        <ax:split-panel width="700">
-	            <ax:split-panel width="500" style="height:270px; padding-right: 10px;">
+	            <ax:split-panel width="500" style="height:290px; padding-right: 10px;">
 	                <!-- 목록 -->
 	                <div class="ax-button-group" data-fit-height-aside="gridView0">
 	                    <div class="left">
@@ -43,7 +43,18 @@
 	                            <ax:lang id="ax.admin.BM0107G0.title"/> </h2>
 	                    </div>
 	                </div>
-	                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height:300px; width:310px; float:left"></div>
+	                <ax:split-panel width="350" style="height:250px;float:left;">
+	                	<div data-ax5grid="gridView0"  style="height:250px; width:410px; float:left"></div>
+	                </ax:split-panel>
+	                <ax:split-panel width="350" style="height:250px;float:left;">
+	                	<div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="width:270px; height:250px;float:left;"></div>
+	                </ax:split-panel>
+	                <!-- 
+                    <ax:split-panel width="200" style="height:270px;">
+                 	   <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style=" float:left"></div>
+                    </ax:split-panel>
+	                 -->
+	                <!-- 
 	                <div style="float:left; width:368px;">
 	                	<div id="rowDel" style="float:right;">
 	                    	<button class="btn btn-default" data-grid-control="row-del">적용</button>
@@ -77,23 +88,25 @@
 		                    </ax:form>
 	                    </div>
 	                </div>
+	                 -->
 	            </ax:split-panel>
-	             <ax:form name="searchView1" style="padding-right:20px">
+	             <ax:form name="searchView1" style="padding-right:20px; ">
 	                <ax:tbl clazz="ax-search-tbl" minWidth="500px">
 	                    <ax:tr>
-	                        <ax:td label='ax.admin.search' width="400px">
+	                        <ax:td label='ax.admin.search' width="500px">
 	                        	<div class="input-group" >
 		                            <ax:input type="text" name="filter1" id="filter1" placeholder="ax.admin.BM0107S1.search" clazz="inline-block" style="width:180px; margin-right:20px;"/>
 		                            <button type="button" id="searchSta" class="btn btn-primary" onclick="">
 			                         	<ax:lang id="ax.admin.search"/>
 			                        </button>
+				                        <button type="button" id="refresh" class="btn btn-info" style="margin-right:5px;margin-left:50px;">새로고침</button>
 		                        </div>
 	                        </ax:td>
 	                    </ax:tr>
 	                </ax:tbl>
 	            </ax:form>
 	            
-	            <ax:split-panel width="*" style="height:100%; padding-right: 10px; padding-bottom:155px">
+	            <ax:split-panel width="*" style="height:100%; padding-right: 10px; padding-bottom:166px">
 	                <!-- 목록 -->
 	                <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height: 100%;"></div>
 	            </ax:split-panel>
