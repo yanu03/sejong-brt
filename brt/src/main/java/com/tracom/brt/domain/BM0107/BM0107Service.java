@@ -52,6 +52,18 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     }
     
     @Transactional
+    public int BM0107G1I1(List<BmRoutNodeInfoVO> voList) {
+    	BmRoutNodeInfoVO vo = new BmRoutNodeInfoVO();
+    	vo.setVoList(voList);
+    	BmRoutInfoVO vo2 = new BmRoutInfoVO();
+    	vo2.setRoutId(voList.get(0).getRoutId());
+    	if(mapper_107.BM0107G1D0(vo2) > 0) {
+    		return mapper_107.BM0107G1I0(vo);    		
+    	}else {
+    		return 0;
+    	}
+    }
+    @Transactional
     public int BM0107G1I0(List<BmRoutInfoVO> requestParams) {
     	String baseUrl = "http://bis.sejong.go.kr/web/traffic/searchBusRouteDetail.do?busRouteId=";
     	DataInterface dif = new DataInterface();
@@ -262,6 +274,6 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     	}//정류장for end
     	
     	return nodeList;
-    	
     }
+
 }

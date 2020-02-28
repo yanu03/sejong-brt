@@ -65,5 +65,11 @@ public class BM0107Controller extends BaseController {
     	service.BM0107G1D1(request);
     	return ok();
     }
+    
+    @PostMapping("/BM0107G1I0")
+    public ApiResponse BM0107G1I0(@RequestBody List<BmRoutNodeInfoVO> request) {
+    	service.BM0107G1I1(request);
+    	return ok();
+    }
 
 }
