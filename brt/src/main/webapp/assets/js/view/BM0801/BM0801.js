@@ -11,22 +11,53 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
+    	var resCount = 0;
     	console.log(filter);
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0204G0S0",
+            url: "/api/v1/BM0801G0S0",
             data: filter,
             callback: function (res) {
             	console.log(res);
-                caller.gridView0.setData(res);
+            	axboot.ajax({
+            		type:"GET",
+            		url:"/api/v1/BM0801G0S1",
+            		data: filter,
+            		callback:function(resOne){
+            			console.log(resOne);
+            			if(res.list.length > 0){
+            				for(var i = 0; i < res.list.length; i++){
+            					if(res.list[i].vocId){
+            						res.list[i].promotionTy = "음성광고";
+            						res.list[i].promotionNm = res.list[i].vocNm;
+            						res.list[i].suppAmt = res.list[i].suppAmt + res.list[i].vatAmt;
+            					}
+            				}
+            			}else{
+            				caller.gridView0.clear();
+            			}
+            			if(resOne.list.length != 0){
+            				resCount = res.list.length + resOne.list.length;
+            				plusRes = res.list.length;
+            				for(var i = res.list.length; i<resCount; i++){
+            					res.list[i] = resOne.list[i-plusRes];
+            					res.list[i].promotionTy = "영상광고";
+            					res.list[i].promotionNm = resOne.list[i-plusRes].vdoNm;
+            					res.list[i].suppAmt = resOne.list[i-plusRes].suppAmt + resOne.list[i-plusRes];
+            					console.log(res);
+            				}
+            			}
+            			caller.gridView0.setData(res);
+            		}
+            	})
+            	console.log(res);
 	               
 	                if(selectedRow != null) {
 		                	caller.gridView0.selectRow(selectedRow.__index);
 		                } else {
 		                	caller.gridView0.selectFirstRow();
 		                }
-	                
 	            }
 	        });
 
@@ -132,15 +163,13 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [
-            		 {key: "dvcId", label: ADMIN("ax.admin.BM0801G0.promotionnm"), align:"center" , sortable: true, width: 120},
-            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0801G0.promotiontype"), align:"center" , width: 120},
-                     {key: "vhcNo", label: ADMIN("ax.admin.BM0801G0.custnm"), align:"center" , sortable: true, width: 150},
-                     {key: "corpNm", label: ADMIN("ax.admin.BM0801G0.play.date"), align:"center" , width: 150},
-                     {key: "gps", label: ADMIN("ax.admin.BM0801G0.play.time"), align:"center" , width: 100 },
-                     {key: "lati", label: ADMIN("ax.admin.BM0801G0.exposure.time"), align:"right", width: 100},
-                     {key: "longi", label: ADMIN("ax.admin.BM0801G0.sd"), align:"right", sortable: true, width: 120},
-                     {key: "spd", label: ADMIN("ax.admin.BM0801G0.ed"), align:"right", sortable: true, width: 120},
-                     {key: "heading", label: ADMIN("ax.admin.BM0801G0.suppamt"), formatter:"money" ,align:"right", width: 100},
+            		 {key: "promotionNm", label: ADMIN("ax.admin.BM0801G0.promotionnm"), align:"left" , sortable: true, width: 120},
+            		 {key: "promotionTy", label: ADMIN("ax.admin.BM0801G0.promotiontype"), align:"center" , sortable: true , width: 120},
+                     {key: "custNm", label: ADMIN("ax.admin.BM0801G0.custnm"), align:"left", width: 150},
+                     {key: "playStDate", label: ADMIN("ax.admin.BM0801G0.sd"), align:"center", sortable: true, width: 120},
+                     {key: "playEdDate", label: ADMIN("ax.admin.BM0801G0.ed"), align:"center", sortable: true, width: 120},
+                     {key: "playTm", label: ADMIN("ax.admin.BM0801G0.exposure.time"), align:"right", width: 100},
+                     {key: "suppAmt", label: ADMIN("ax.admin.BM0801G0.suppamt"), formatter:"money" ,align:"right", width: 100},
                      {key: "remark", label: ADMIN("ax.admin.BM0801G0.remark"), width: 500},
                  ],
             

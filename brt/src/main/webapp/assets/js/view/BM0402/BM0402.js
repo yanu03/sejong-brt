@@ -52,7 +52,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
 	PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("홍보음성 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
@@ -448,6 +448,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
                 {key: "vocId", label: ADMIN("ax.admin.BM0402F0.voc.id"), width: 80, sortable: true, align: "center"},
+                {key: "conNm", label: ADMIN("ax.admin.BM0401G0.con.nm"), width: 130, sortable: true},
                 {key: "vocNm", label: ADMIN("ax.admin.BM0402F0.voc.nm"), width: 210, sortable: true},
                 {key: "playType", label: ADMIN("ax.admin.BM0402F0.play.type"), width: 80, align: "center"},
                 {key: "playTm", label: ADMIN("ax.admin.BM0402F0.play.time"), width: 80, align: "center"},
@@ -631,11 +632,13 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     		$(element).attr("readonly", false).attr("disabled", false);
     	});
     	$("[data-ax-path='playType']").trigger("change");
+    	this.target.find(".cqc-calendar").parent().show();
     },
     disable: function() {
     	this.target.find('#wavFile,[data-btn],[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", true).attr("disabled", true);
     	});
+    	this.target.find(".cqc-calendar").parent().hide();
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());

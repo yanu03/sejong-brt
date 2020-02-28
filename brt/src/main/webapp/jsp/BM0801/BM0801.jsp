@@ -25,13 +25,13 @@
         <ax:page-buttons></ax:page-buttons>
 
         <div role="page-header">
-            <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
+            		  <ax:form name="searchView0">
                         <ax:td label='ax.admin.search' width="300px">
                             <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0801S0.search"/>
                         </ax:td>
-                        
+            		  </ax:form>
                         <ax:td label="ax.admin.BM0401F0.play.date" width="400px">
 	                            <div class="input-group" data-ax5picker="date">
 	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" data-ax5formatter="date" placeholder="yyyy/mm/dd">
@@ -42,7 +42,6 @@
                        </ax:td>
                     </ax:tr>
                 </ax:tbl>
-            </ax:form>
             <div class="H3"></div>
         </div>
 

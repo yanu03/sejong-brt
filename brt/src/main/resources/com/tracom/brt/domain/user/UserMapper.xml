@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.user.UserMapper">
+
+	<select id="selectUserList" parameterType="String" resultType="hashmap">
+		SELECT
+		 	  U.USER_CD							AS userCd
+		 	, U.USER_NM							AS userNm
+		 	, U.EMAIL							AS email
+		 	, CONCAT(LEFT(U.HP_NO, 3), '-', SUBSTRING(U.HP_NO, 3, 4), '-', RIGHT(U.HP_NO, 4)) AS hpNo
+		 	, U.REMARK							AS remark
+		 	, IF(U.SCD_PS IS NULL OR U.SCD_PS = '', 'N', 'Y')	AS extScdPs 
+		 	, U.SCD_PS_USE_YN					AS scdPsUseYn
+		 	, U.USE_YN							AS useYn
+		 	, U.DEL_YN							AS delYn
+			, A.GRP_AUTH_CD						AS grpAuthCd
+		FROM
+			USER_M U
+			LEFT OUTER JOIN USER_AUTH_M A
+			ON U.USER_CD = A.USER_CD
+		<where>
+	    	<if test="value != null">
+				U.USER_CD LIKE CONCAT('%', #{value}, '%')
+				OR U.USER_NM LIKE CONCAT('%' , #{value} , '%')
+	    	</if>
+    	</where>
+    	ORDER BY U.USER_CD ASC
+	</select>
+</mapper>

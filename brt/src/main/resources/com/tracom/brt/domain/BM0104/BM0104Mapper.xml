@@ -33,32 +33,16 @@
 		    , ROUT.UPDATED_BY
 		FROM
 			BM_ROUT_INFO ROUT
-		    LEFT JOIN
-			(SELECT
-				*
-			FROM
-				SM_DL_CD_INFO
-			WHERE
-				CO_CD = 'UPDOWN_FLAG') CD
-			ON ROUT.WAY_DIV = CD.TXT_VAL1
-		    
-		    LEFT JOIN
-			(SELECT
-				*
-			FROM
-				SM_DL_CD_INFO
-			WHERE
-				CO_CD = 'UPDOWN_FLAG') CD2
-			ON ROUT.USER_WAY_DIV = CD2.TXT_VAL1
-		    
-		    LEFT JOIN
-		    (SELECT
-				*
-			FROM
-				SM_DL_CD_INFO
-			WHERE
-				CO_CD = 'WAYDIV_FLAG') CD3
-			ON ROUT.TURN_DIV = CD3.TXT_VAL1
+		    LEFT JOIN SM_DL_CD_INFO CD
+		    ON ROUT.WAY_DIV = CD.TXT_VAL1
+		    AND CD.CO_CD = 'UPDOWN_FLAG'
+		    LEFT JOIN SM_DL_CD_INFO CD2
+		    ON ROUT.USER_WAY_DIV = CD2.TXT_VAL1 
+			AND CD2.CO_CD = 'UPDOWN_FLAG'
+		    LEFT JOIN SM_DL_CD_INFO CD3
+		    ON ROUT.TURN_DIV = CD3.TXT_VAL1
+		    AND CD3.CO_CD = 'WAYDIV_FLAG'
+			
 		<where>
 			<if test="value != null">
 				ROUT_ID LIKE CONCAT('%', #{value}, '%')
@@ -199,16 +183,6 @@
 			ROUT_ID = #{voList.routId}
 		</foreach>
 	</update>
-	
-	<select id="BM0104G0S2" resultType="bmRoutInfoVO">
-		SELECT
-			  DL_CD_NM AS NAME
-		    , TXT_VAL1 AS CODE
-		FROM
-			SM_DL_CD_INFO
-		WHERE
-			CO_CD = 'UPDOWN_FLAG'
-	</select>
 	
 	<select id="BM0104F0S1" parameterType="bmRoutInfoVO" resultType="Integer">
 		SELECT
