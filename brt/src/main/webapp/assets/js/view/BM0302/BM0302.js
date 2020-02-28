@@ -21,13 +21,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             callback: function (res) {
                 caller.gridView0.setData(res);
                 
-                
-                
                 if(res.list.length == 0) {
                 	isUpdate = false;
 	                caller.formView0.clear();
 	                caller.formView0.disable();
 	                caller.gridView1.clear();
+	                
                 } else {
                 	caller.formView0.enable();
 	                if(selectedRow != null) {
@@ -56,8 +55,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;    	
     	var formData = caller.gridView1.getData();
-        //formData["altDiv"] = selectedRowG1.altDiv;
-        
+        if(formData.length != 0){
         for(var i =0; i< formData.length; i++){
         	if(formData[i].confirmYn == "미확정"){
         		alert("확정되지 않은 계약이 있으면 추가하실수 없습니다.");
@@ -72,10 +70,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         			caller.gridView1.selectAll(false);
         			caller.formView0.clear();
         			caller.formView0.enable();
-        			caller.formView0.validate(true);        		
+        			caller.formView0.validate(true);       		
 	        		}
 	        	}
 	        }
+        }else{
+        	caller.gridView1.selectAll(false);
+			caller.formView0.clear();
+			caller.formView0.enable();
+			caller.formView0.validate(true); 
+        }
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -221,18 +225,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_CONFIRMYN : function (caller, act, data) {
     	isUpdate = false; 
     	var confirmYn = $('#confirmYn').val();
-    	console.log(confirmYn);
-    	console.log("confirmYn");
     	var gridData = caller.gridView1.getData();
-    	console.log(gridData[0].seq);
-    	console.log(selectedRowG1.seq);
+    	
     	
     	if(gridData[0].seq == selectedRowG1.seq){
     	if(confirmYn == "미확정"){
+    		axDialog.alert("계약기간을 변경하실 경우 , 영상 , 음성 재생시간을 재편성해주시기 바랍니다.");
 	    	axDialog.confirm({
 	    		msg: LANG("ax.script.contractconfirm")
 	    	}, function() {
-	    		if(this.key == "ok"){	    			
+	    		if(this.key == "ok"){
 	    			if (caller.formView0.validate()) {
 	    					axboot.promise()
 	    					.then(function (ok, fail, data) {
@@ -260,7 +262,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    		msg: LANG("ax.script.contractconfirmn")
 	    	}, function(){
 	    		if(this.key == "ok"){
-	    			console.log("해제ok");
 	    			if (caller.formView0.validate()){
 	    				axboot.promise()
 	    				.then(function (ok, fail, data) {
@@ -301,6 +302,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = true;
     	selectedRowG1 = data;
     	console.log(data);
+    	if(selectedRowG1 == null){
+    		selectedRow = data;
+    		console.log("변경데이터가 없습니다.");
+    	}
     	caller.formView0.setData(data);
     	if(selectedRowG1.confirmYn == "확정" || selectedRowG1.altDiv == "종료"){
     		caller.formView0.disable();
@@ -327,9 +332,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				
     				if(res.list[0].altDiv == null) {
     					isUpdate = false;
-    					caller.formView0.clear();
+    					if(selectedRow.confirmYn == "Y"){
+    						console.log("일루와");
+    						selectedRow.confirmYn = "확정";
+    					}
+    					caller.formView0.setData(selectedRow);
     					caller.formView0.disable();
     					caller.gridView1.clear();
+    					
     				} else {
     					if(dataFlag) {
     						caller.gridView1.selectIdRow(data);
@@ -690,14 +700,21 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         return true;
     },
     enable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", false);
-    	});
-    },
-    disable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", true);
-    	});
+		this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+			$(element).attr("readonly", false);
+			$(element).attr("disabled", false);
+			$('#altDiv').attr("readonly", false).attr("disabled", false);
+			$('.input-group-addon').show();
+		});
+	},
+	disable: function() {
+		this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+			$(element).attr("readonly", true);
+			$(element).attr("disabled", true);
+			$('#altDiv').attr("readonly", true).attr("disabled", true);
+			$('.input-group-addon').hide();
+			
+		});
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());

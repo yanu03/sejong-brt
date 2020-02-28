@@ -46,7 +46,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="600" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="600" style="padding-left: 10px;">
                 <!-- 폼 -->
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
@@ -58,13 +58,13 @@
                 <ax:form name="formView0">                 
                     <ax:tbl clazz="ax-form-tbl" minWidth="600px">
                      	<ax:tr>
-							<ax:td label="ax.admin.BM0602G0.provid" width="250px" labelClazz="required W250">
+							<ax:td label="ax.admin.BM0602G0.provid" width="250px" labelClazz="required" labelWidth="120px">
 								<input type="text" data-ax-path="provId" data-key="true" class="form-control W90" readonly="readonly">
 							</ax:td>						                
                     	</ax:tr>
                     
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0602G0.provnm" width="230px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0602G0.provnm" width="230px" labelClazz="required" labelWidth="120px">
                                 <input type="text" data-ax-path="provNm" class="form-control" title="<ax:lang id="ax.admin.BM0301F0.provnm"/>" data-ax-validate="required" maxlength="20"/>
                             </ax:td>
                             <div style="position:absolute; top: 60px; right:50px;">
@@ -73,16 +73,16 @@
                         </ax:tr>                                          	
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0602F0.provurl" style="position:relation;" width="500px" labelClazz="required">
+                            <ax:td label="ax.admin.BM0602F0.provurl" style="position:relation;" width="500px" labelClazz="required" labelWidth="120px">
                             	<input type="text" data-ax-path="provUrl" class="form-control W250" title="<ax:lang id="ax.admin.BM0301F0.provurl"/>" data-ax-validate="required" maxlength="200"/>
                             </ax:td>
-                            <div style="position:absolute; top: 100px; left:370px;">
+                            <div style="position:absolute; top: 100px; left:390px;">
                             	<ax:td>*Rss형식만 지원합니다.</ax:td>                        	                            
                             </div>
                        	</ax:tr>
 
                        	<ax:tr>
-                       		<ax:td label="ax.admin.BM0602F0.remark" width="100%">
+                       		<ax:td label="ax.admin.BM0602F0.remark" width="100%" labelWidth="120px">
                             	<textarea data-ax-path="remark" class="form-control" maxlength="255"></textarea>
                             </ax:td>
                        	</ax:tr>

@@ -65,8 +65,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		axDialog.alert(LANG("ax.script.alert.requireselect"));
     		return false;
     	}
-    	console.log("conID");
-    	console.log(selectedRow.conId);
     	
     	axDialog.confirm({
             msg: LANG("ax.script.deleteconfirm")
@@ -81,15 +79,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         		    		data:{conId : selectedRow.conId},
         		    		callback: function (res) {
         		    		  if(res.list.length != 0){
-        		    			  for(var i = 0; i<res.list.length; i++){
-        		    				  if(res.list[i].vocId != "0"){
-        		    					  vocCount++;
-        		    				  }else{
-        		    					  vdoCount++;
+        		    			  if(typeof res.list[0].vocId != "0" && typeof res.list[0].vdoId != "0"){
+        		    				  for(var i = 0; i<res.list.length; i++){
+        		    					  if(typeof res.list[i].vocId != "0"){
+        		    						  vocCount++;
+        		    					  }else if(typeof res.list[i].vdoId != "0"){
+        		    						  vdoCount++;
+        		    					  }
         		    				  }
+        		    				  axDialog.alert("음성광고:"+vocCount+"건, 영상광고:"+vdoCount+"건 이 계약되 있어서 삭제가 불가능합니다.");
         		    			  }
-        		    			  axDialog.alert("음성광고:"+vocCount+"건, 영상광고:"+vdoCount+"건 이 계약되 있어서 삭제가 불가능합니다.");
-        		    		  }else{
+        		    		  else{
         		    			  axboot.ajax({
         		    				  type: "POST",
         		    				  url: "/api/v1/BM0301G0D0",
@@ -98,6 +98,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         		    					  ok(res);
         		    				  }
         		    			  });
+        		    		  }
         		    		  }
         		    		}
         		    	});
@@ -201,28 +202,37 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    	axDialog.confirm({
 	    		msg: LANG("ax.script.contractconfirm")
 	    	}, function() {
-	    		if(this.key == "ok"){	    			
-	    			if (caller.formView0.validate()) {
-	    					var formData = caller.formView0.getData();    					
-	    					axboot.promise()
-	    					.then(function (ok, fail, data) {
-	    						axboot.ajax({
-	    							type: "POST",
-	    							url: "/api/v1/BM0301F0U1",
-	    							data: JSON.stringify(formData),
-	    							callback: function (res) {
-	    								ok(res);
-	    							}
-	    						});
-	    					})
-	    					.then(function (ok, fail, data) {
-	    						axToast.push(LANG("onupdate"));
-	    						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-	    						isUpdate = true;
-	    					})
-	    					.catch(function () {   						
-	    					});
-	    				}	    			
+	    		if(this.key == "ok"){
+	    			
+	    			/*axDialog.prompt({ msg: LANG("ax.script.prompt.password")
+	    				},function(){
+	    					if(this.key == "ok"){*/
+	    						
+	    						if (caller.formView0.validate()) {
+	    							var formData = caller.formView0.getData();    					
+	    							axboot.promise()
+	    							.then(function (ok, fail, data) {
+	    								axboot.ajax({
+	    									type: "POST",
+	    									url: "/api/v1/BM0301F0U1",
+	    									data: JSON.stringify(formData),
+	    									callback: function (res) {
+	    										ok(res);
+	    									}
+	    								});
+	    							})
+	    							.then(function (ok, fail, data) {
+	    								axToast.push(LANG("onupdate"));
+	    								ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	    								isUpdate = true;
+	    							})
+	    							.catch(function () {   						
+	    							});
+	    						}
+	    						
+	    					/*}else{
+	    						axDialog.alert("비밀번호가 틀립니다.");
+	    					}*/
 	    		}
 			});
 	    }else{
@@ -277,12 +287,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	console.log(selectedRow);
     	if(selectedRow.confirmYn == "확정"){
     		caller.formView0.disable();
-    		$("#conFstDate").attr("readonly", true).attr("disabled", true);
-    		$("#conStDate").attr("readonly", true).attr("disabled", true);
-    		$("#conEdDate").attr("readonly", true).attr("disabled", true);
-    		$("#selectButton").attr("readonly", true).attr("disabled", true);
+
     	}else{
-    		$("#selectButton").attr("readonly", false).attr("disabled", false);
     		caller.formView0.enable();
     	}
         caller.formView0.setData(data);
@@ -386,6 +392,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             header: {align: 'center'},
             columns: [
             	{key: "confirmYn",	label: ADMIN("ax.admin.BM0301F0.confirmyn"),sortable: true, align: "center", width: 70 , styleClass:function(){return (this.item.confirmYn === "확정") ? "grid-cell-red":"grid-cell-blue" }},
+            	{key: "conId", 		label: ADMIN("ax.admin.BM0301F0.conid"), 	align: "center", sortable: true, width: 100},
             	{key: "conNo",		label: ADMIN("ax.admin.BM0301F0.conno"),	sortable: true, align: "center", width: 120},                
                 {key: "conNm",		label: ADMIN("ax.admin.BM0301F0.connm"),    width: 120},
                 {key: "conFstDate", label: ADMIN("ax.admin.BM0301F0.confd"),	sortable: true, align: "center", type: "date" , width: 120},
@@ -530,14 +537,21 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         return true;
     },
     enable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", false);
-    	});
-    },
-    disable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", true);
-    	});
+		this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+			$(element).attr("readonly", false);
+			$(element).attr("disabled", false);
+			$('#selectButton').attr("disabled", false);
+			$('.input-group-addon').show();
+		});
+	},
+	disable: function() {
+		this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+			$(element).attr("readonly", true);
+			$(element).attr("disabled", true);
+			$('#selectButton').attr("disabled", true);
+			$('.input-group-addon').hide();
+			
+		});
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());

@@ -27,20 +27,21 @@
 				OR CON_NM LIKE CONCAT('%', #{value}, '%')
 	    	</if>
     	</where>
+    	ORDER BY CONFIRM_YN DESC
     </select>
     
     <select id="BM0301G0S1" parameterType="String" resultType="contractInfoVO">
-    SELECT
-		IFNULL(VOC.VOC_ID , "0") AS VOC_ID
-	  , IFNULL(VDO.VDO_ID , "0") AS VDO_ID
-	FROM
-		BM_CON_INFO CON
-		LEFT JOIN BM_VOC_INFO VOC
-		ON CON.CON_ID = VOC.CON_ID
-		LEFT JOIN BM_VDO_INFO VDO
-		ON CON.CON_ID = VDO.CON_ID
-	WHERE
-	   CON.CON_ID = #{value}
+	    SELECT
+			IFNULL(VOC.VOC_ID , "0") AS VOC_ID
+		  , IFNULL(VDO.VDO_ID , "0") AS VDO_ID
+		FROM
+			BM_CON_INFO CON
+			LEFT JOIN BM_VOC_INFO VOC
+			ON CON.CON_ID = VOC.CON_ID
+			LEFT JOIN BM_VDO_INFO VDO
+			ON CON.CON_ID = VDO.CON_ID
+		WHERE
+		   CON.CON_ID = #{value}
     </select>
 
     <insert id="BM0301F0I0" parameterType="contractInfoVO">

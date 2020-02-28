@@ -23,7 +23,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 caller.formView0.setData(res.list[0]);
                 console.log(res);
                 if($("#weatImage").val() == null){
-                	$("#weatImg").append("<input type='image' id='weatImage' value='image' src='/assets/images/BM0601/"+res.list[0].skyCondCode+".png' style='padding-left:100px;'/>");
+                	$("#weatImg").append("<input type='image' id='weatImage' value='image' src='/assets/images/BM0601/"+res.list[0].skyCondCode+".png' style='padding-left:150px;' disabled='disabled'/>");
                 	ACTIONS.dispatch(ACTIONS.RELOAD_G1);             
                 }else{
                 	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
@@ -225,7 +225,8 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
         this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
         this.filter = $("#filter");
         
-        this.target.find('[data-ax5picker="date"]').ax5picker({
+        //달력으로 검색하는 기능
+        /*this.target.find('[data-ax5picker="date"]').ax5picker({
             direction: "auto",
             content: {
                 type: 'date' , 
@@ -236,7 +237,7 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
                 	pattern : 'data(month)'
                 }
             }
-        });
+        });*/
         
     },
     getData: function () {
