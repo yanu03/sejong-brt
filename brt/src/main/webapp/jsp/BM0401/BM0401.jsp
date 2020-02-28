@@ -110,7 +110,7 @@
                             <ax:td id="krTtsLabel" label="ax.admin.BM0401F0.kr.tts" width="100%">
                             	<%-- <span>차임벨: </span><ax:common-code groupCd="CHIME_YN" dataPath="chimeYn" clazz="form-control" /> --%>
                             	<div style="float:left;width:470px;">
-                            		<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0401F0.kr.tts"/>" rows="4" class="form-control" maxlength="200"></textarea>
+                            		<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0401F0.kr.tts"/>" rows="4" class="form-control" maxlength="100"></textarea>
                             	</div>
                             	<div style="float:left;padding-left:5px;">
 		                            <div>	
@@ -130,7 +130,7 @@
                        	<ax:tr>
                        		<ax:td id="enTtsLabel" label="ax.admin.BM0401F0.en.tts" width="100%">
                        			<div style="float:left;width:470px;">
-                            		<textarea name="enTts" data-ax-path="enTts" title="<ax:lang id="ax.admin.BM0401F0.en.tts"/>" rows="4" class="form-control" maxlength="200"></textarea>
+                            		<textarea name="enTts" data-ax-path="enTts" title="<ax:lang id="ax.admin.BM0401F0.en.tts"/>" rows="4" class="form-control" maxlength="100"></textarea>
                             	</div>
                             	<div style="float:left;padding-left:5px;">
 	                            	<div>
@@ -149,13 +149,13 @@
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0401F0.scr.txt" width="100%" labelClazz="required">
-                            	<textarea name="scrTxt" data-ax-path="scrTxt" class="form-control" maxlength="100" title="<ax:lang id="ax.admin.BM0401F0.scr.txt"/>" data-ax-validate="required" rows="3" maxlength="200"></textarea>
+                            	<textarea name="scrTxt" data-ax-path="scrTxt" class="form-control" maxlength="100" title="<ax:lang id="ax.admin.BM0401F0.scr.txt"/>" data-ax-validate="required" rows="3" maxlength="100"></textarea>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0401F0.scr.txt.en" width="100%" labelClazz="required">
-                            	<textarea name="scrTxtEn" data-ax-path="scrTxtEn" class="form-control" maxlength="100" title="<ax:lang id="ax.admin.BM0401F0.scr.txt.en"/>" data-ax-validate="required" rows="3" maxlength="200"></textarea>
+                            	<textarea name="scrTxtEn" data-ax-path="scrTxtEn" class="form-control" maxlength="100" title="<ax:lang id="ax.admin.BM0401F0.scr.txt.en"/>" data-ax-validate="required" rows="3" maxlength="100"></textarea>
                             </ax:td>
                        	</ax:tr>
                        	
