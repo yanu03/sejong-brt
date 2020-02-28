@@ -43,24 +43,27 @@
 
         <ax:split-layout name="ax1" orientation="vertical" width="250">
             <ax:split-panel width="300" style="padding-right: 10px;">
-                <!-- 목록 -->
-                <div class="ax-button-group">
-                    <div class="left">
-                        <h3><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0405G0.title"/> </h3>
-                    </div>
-                </div>
+            	<ax:split-panel width="300" style="height:270px;">
+	                <div class="ax-button-group" data-fit-height-aside="gridView0">
+	                    <div class="left">
+	                        <h3><i class="cqc-list"></i>
+	                            <ax:lang id="ax.admin.BM0405G0.title"/> </h3>
+	                    </div>
+	                </div>
+	                
+	               	<div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 270px;"></div>
+            	</ax:split-panel>
                 
-               	<div data-ax5grid="gridView0" style="height: 270px;"></div>
-                
-                <div class="ax-button-group" style="margin-top: 5px;">
-                    <div class="left">
-                        <h3><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0405G1.title"/> </h3>
-                    </div>
-                </div>
-                
-               	<div data-ax5grid="gridView1" style="height: 320px;"></div>
+                <ax:split-panel width="300" style="height:100%; padding-bottom:140px;">
+                	<div class="ax-button-group" style="margin-top: 5px;" data-fit-height-aside="gridView1">
+	                    <div class="left">
+	                        <h3><i class="cqc-list"></i>
+	                            <ax:lang id="ax.admin.BM0405G1.title"/> </h3>
+	                    </div>
+	                </div>
+	                
+	               	<div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height: 100%;"></div>
+                </ax:split-panel>
             </ax:split-panel>
             
             <ax:splitter></ax:splitter>
@@ -72,15 +75,16 @@
             <ax:splitter></ax:splitter>
             
             <ax:split-panel width="300" style="padding-left: 10px;">
-                <!-- 목록 -->
-                <div class="ax-button-group">
+                <div class="ax-button-group" data-fit-height-aside="gridView2">
                     <div class="left">
                         <h3><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0405G2.title"/></h3>
+                            <ax:lang id="ax.admin.BM0405G2.title"/>
+                        </h3>
+                    </div>
+                    <div class="right">
                     </div>
                 </div>
-                
-               	<div data-ax5grid="gridView2" style="height: 635px;"></div>
+                <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height: 600px;"></div>
             </ax:split-panel>
         </ax:split-layout>
 
