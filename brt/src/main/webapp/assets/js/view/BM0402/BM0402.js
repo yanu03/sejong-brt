@@ -52,7 +52,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
 	PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("홍보음성 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
