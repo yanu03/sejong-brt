@@ -43,14 +43,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0609G1S0",
             callback: function (res) {
             	//res.list[0].selecton_disable=true;
-            	
-            	for(var i = 0; i < res.list.length; i++){
-            		if(res.list[i].rsvId != null){
-            			res.list[i].isChecked = Y;
-            			//$('.tr-'+i).attr('data-ax5grid-disable-selection', true);
-            		}else{
-            		}
-            	}
             	caller.gridView1.setData(res);
             }
         });
@@ -98,6 +90,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
     	if(vehicleList.length == 0) {
     		axDialog.alert("장비를 선택해주세요");
+    		return false;
     	}
     	
     	for(var i = 0; i < vehicleList.length; i++) {
@@ -326,12 +319,12 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "possible",	label: "예약여부",								width: 100},
-            	{key: "vhcId",		label: "차량ID",								width: 100},
-                {key: "vhcNo",		label: ADMIN("ax.admin.BM0607G1.vhcNo"),	width: 100},
-                {key: "vhcKindNm",	label: "장치종류",								width: 150},
-                {key: "instLocNm",	label: "장치위치",								width: 100},
-                {key: "mngId",		label: "관리ID",								width: 100},
+            	{key: "possible",	label: "예약여부",		width: 100},
+            	{key: "vhcId",		label: "차량ID",		width: 100},
+                {key: "vhcNo",		label: "차량번호",		width: 100},
+                {key: "vhcKindNm",	label: "장치종류",		width: 150},
+                {key: "instLocNm",	label: "장치위치",		width: 100},
+                {key: "mngId",		label: "관리ID",		width: 150},
             ],
             header:{
             	selector: false,

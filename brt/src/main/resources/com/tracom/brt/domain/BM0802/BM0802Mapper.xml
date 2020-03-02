@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tracom.brt.domain.BM0802.BM0802Mapper">
-
+	<select id="BM0802G0S0" parameterType="String" resultType="RaceHistoryVO">
+SELECT
+	   VHC.VHC_NO
+	 , VHC.CHAS_NO
+	 , VHC.MODEL_NM
+	 , DL0.DL_CD_NM AS VHC_KIND
+	 , DL1.DL_CD_NM AS VHC_TYPE
+	 , DL2.DL_CD_NM AS LF_YN
+	 , DL3.DL_CD_NM AS VHC_FUEL
+	 , DL4.DL_CD_NM AS MAKER
+	 , DL5.DL_CD_NM AS AREA
+	 , VHC.REMARK
+	 , DVC.DVC_ID
+	 , CORP.CORP_NM
+FROM
+	 BM_VHC_INFO VHC
+	 LEFT JOIN BM_DVC_INFO DVC
+	 ON VHC.VHC_ID = DVC.VHC_ID
+	 LEFT JOIN BM_CORP_INFO CORP
+	 ON VHC.CORP_ID = CORP.CORP_ID
+	 LEFT JOIN SM_DL_CD_INFO DL0
+	 ON VHC.VHC_KIND = DL0.DL_CD
+	 AND DL0.CO_CD = 'VHC_KIND'
+	 LEFT JOIN SM_DL_CD_INFO DL1
+	 ON VHC.VHC_TYPE = DL1.DL_CD
+	 AND DL1.CO_CD = 'VHC_TYPE'
+	 LEFT JOIN SM_DL_CD_INFO DL2
+	 ON VHC.LF_YN = DL2.DL_CD
+	 AND DL2.CO_CD = 'LF_YN'
+	 LEFT JOIN SM_DL_CD_INFO DL3
+	 ON VHC.VHC_FUEL = DL3.DL_CD
+	 AND DL3.CO_CD = 'VHC_FUEL'
+	 LEFT JOIN SM_DL_CD_INFO DL4
+	 ON VHC.MAKER = DL4.DL_CD
+	 AND DL4.CO_CD = 'VHC_MAKER'
+	 LEFT JOIN SM_DL_CD_INFO DL5
+	 ON VHC.AREA = DL5.DL_CD
+	 AND DL5.CO_CD = 'AREA'	 
+WHERE
+ 	 DVC.DVC_KIND = 'CD005'
+ 	 <if test="value != null">
+ 	 AND
+ 	 	VHC.VHC_NO LIKE CONCAT('%',#{filter},'%')
+ 	 	OR VHC.MODEL_NM LIKE CONCAT('%', #{filter},'%')
+ 	 </if>
+	</select>
 </mapper>

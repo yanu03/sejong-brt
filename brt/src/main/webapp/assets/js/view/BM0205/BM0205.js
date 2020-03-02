@@ -169,7 +169,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
       
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRow != null){   		
-    		caller.gridView0.target.exportExcel(selectedRow.dvcId + "data.xls");
+    		caller.gridView0.target.exportExcel("차내장치 업데이트 차량 목록_" + new Date().yyyymmdd() + ".xls");
     	}else {
     		alert(LANG("ax.script.requireselect"));
     	}

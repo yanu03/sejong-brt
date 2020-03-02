@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tracom.brt.domain.BM0801.BM0801Mapper">
-	<select id="BM0801G0S0" parameterType="String" resultType="StatisticsVO">
+	<select id="BM0801G0S0" parameterType="Map" resultType="StatisticsVO">
 		SELECT
 		   VOC.VOC_ID
 		 , VOC.VOC_NM
@@ -20,14 +20,19 @@
 			ON CON.CUST_ID = CUST.CUST_ID
 		WHERE
 			VOC.CON_ID != 'NULL'
-			<if test="value != null">
+	    	<if test="playStDate != null">
+	    	AND
+	    	    VOC.PLAY_ST_DATE &gt;= #{playStDate}
+	    	    AND VOC.PLAY_ED_DATE &lt;= #{playEdDate}
+	    	</if>
+			<if test="filter != null">
 			AND
-				VOC.VOC_NM LIKE CONCAT('%', #{value}, '%')
-				OR CUST.CUST_NM LIKE CONCAT('%', #{value}, '%')
+				VOC.VOC_NM LIKE CONCAT('%', #{filter}, '%')
+				OR CUST.CUST_NM LIKE CONCAT('%', #{filter}, '%')
 	    	</if>
 	</select>
 	
-	<select id="BM0801G0S1" parameterType="String" resultType="StatisticsVO">
+	<select id="BM0801G0S1" parameterType="Map" resultType="StatisticsVO">
 		SELECT
 		   VDO.VDO_ID
 		 , VDO.VDO_NM
@@ -46,10 +51,15 @@
 			ON CON.CUST_ID = CUST.CUST_ID
 		WHERE
 			VDO.CON_ID != 'NULL'
-			<if test="value != null">
+	    	<if test="playStDate != null">
+	    	AND
+	    	    VDO.PLAY_ST_DATE &gt;= #{playStDate}
+	    	    AND VDO.PLAY_ED_DATE &lt;= #{playEdDate}
+	    	</if>
+			<if test="filter != null">
 			AND
-				VDO.VDO_NM LIKE CONCAT('%', #{value}, '%')
-				OR CUST.CUST_NM LIKE CONCAT('%', #{value}, '%')
+				VDO.VDO_NM LIKE CONCAT('%', #{filter}, '%')
+				OR CUST.CUST_NM LIKE CONCAT('%', #{filter}, '%')
 	    	</if>
 	</select>
 </mapper>

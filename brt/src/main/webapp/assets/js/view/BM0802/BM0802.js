@@ -16,7 +16,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0203G0S0",
+            url: "/api/v1/BM0802G0S0",
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);             
@@ -187,15 +187,16 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [
-            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0802G0.vhcno"), sortable: true, align:"center" , width: 100},
-            		 {key: "vhcId", label: ADMIN("ax.admin.BM0802G0.chasno"), align:"center", sortable: true, width: 120},
-                     {key: "vhcNo", label: ADMIN("ax.admin.BM0802G0.modelnm"), align:"center", sortable: true, width: 120},
-                     {key: "chasNo", label: ADMIN("ax.admin.BM0802G0.vhckind"), align:"center", sortable: true, width: 120},
-                     {key: "corpNm", label: ADMIN("ax.admin.BM0802G0.vhctype"), align:"center", sortable: true, width: 120},
-                     {key: "area", label: ADMIN("ax.admin.BM0802G0.lfyn"), align:"center",width: 120},
-                     {key: "maker", label: ADMIN("ax.admin.BM0802G0.vhcfuel"), align:"center", width: 100},
-                     {key: "relsDate", label: ADMIN("ax.admin.BM0802G0.maker"), align:"center", width: 120},
-                     {key: "modelNm", label: ADMIN("ax.admin.BM0802G0.remark"), align:"center", width: 300},
+            		 {key: "vhcNo", label: ADMIN("ax.admin.BM0802G0.vhcno"), sortable: true, align:"center" , width: 100},
+            		 {key: "chasNo", label: ADMIN("ax.admin.BM0802G0.chasno"), align:"center", sortable: true, width: 120},
+                     {key: "modelNm", label: ADMIN("ax.admin.BM0802G0.modelnm"), align:"center", sortable: true, width: 120},
+                     {key: "vhcKind", label: ADMIN("ax.admin.BM0802G0.vhckind"), align:"center", sortable: true, width: 120},
+                     {key: "vhcType", label: ADMIN("ax.admin.BM0802G0.vhctype"), align:"center", sortable: true, width: 120},
+                     {key: "lfYn", label: ADMIN("ax.admin.BM0802G0.lfyn"), align:"center",width: 120},
+                     {key: "vhcFuel", label: ADMIN("ax.admin.BM0802G0.vhcfuel"), align:"center", width: 100},
+                     {key: "maker", label: ADMIN("ax.admin.BM0802G0.maker"), align:"center", width: 120},
+                     {key: "area", label: ADMIN("ax.admin.BM0802G0.area"), align:"center", width: 120},
+                     {key: "remark", label: ADMIN("ax.admin.BM0802G0.remark"), align:"center", width: 250},
                  ],
             
             body: {

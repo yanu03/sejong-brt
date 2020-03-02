@@ -29,22 +29,23 @@
                     <ax:tr>
             		  <ax:form name="searchView0">
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0801S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0801S0.search" maxLength="20"/>
                         </ax:td>
             		  </ax:form>
+            		  <ax:form name="searchView1">
                         <ax:td label="ax.admin.BM0401F0.play.date" width="400px">
 	                            <div class="input-group" data-ax5picker="date">
-	                                <input type="text" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" data-ax5formatter="date" placeholder="yyyy/mm/dd">
+	                                <input type="text" id="playStDate" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" data-ax5formatter="date" placeholder="yyyy-mm-dd" maxlength="10" readonly="readonly">
 	                                <span class="input-group-addon">~</span>
-	                                <input type="text" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" data-ax5formatter="date" placeholder="yyyy/mm/dd">
+	                                <input type="text" id="playEdDate" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" data-ax5formatter="date" placeholder="yyyy-mm-dd" maxlength="10" readonly="readonly">
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                        </ax:td>
+                       </ax:form>
                     </ax:tr>
                 </ax:tbl>
             <div class="H3"></div>
         </div>
-
         <ax:split-layout name="ax1" orientation="horizontal">
             <ax:split-panel width="*" style="">
 

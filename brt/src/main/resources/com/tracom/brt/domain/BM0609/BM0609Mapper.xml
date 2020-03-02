@@ -27,6 +27,8 @@
 		    ON DVC.MNG_ID = RST.MNG_ID AND COMPLETE_YN = 'N'
 		WHERE
 			VHC.USE_YN = 'Y'
+			AND
+			DVC.USE_YN = 'Y'
 			AND DL.TXT_VAL1 = 'PD'
 		ORDER BY VHC.VHC_ID, DVC.MNG_ID
 	</select>
