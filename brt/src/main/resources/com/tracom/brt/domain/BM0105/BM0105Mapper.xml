@@ -31,11 +31,11 @@
     </select>
     
     <delete id="BM0105G1D0" parameterType="String">
-    DELETE
-	FROM
-		BM_ROUT_STA_INFO
-	WHERE
-		ROUT_ID = #{routId}
+	    DELETE
+		FROM
+			BM_ROUT_STA_INFO
+		WHERE
+			ROUT_ID = #{routId}
     </delete>
     
     <insert id="BM0105G1I0" parameterType="bmStaInfoVO">

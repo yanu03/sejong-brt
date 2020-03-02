@@ -34,6 +34,7 @@ public class BM0804Service extends BaseService<BmRoutInfoVO, String>{
 	public void BM0804G1I0(List<BmRoutNodeInfoVO> voList) {
 		BmRoutNodeInfoVO vo = new BmRoutNodeInfoVO();
 		String routId = null;
+		System.out.println(voList);
 		for(BmRoutNodeInfoVO tmp : voList) {
 			if(tmp.getRoutId() != null) {
 				routId = tmp.getRoutId();

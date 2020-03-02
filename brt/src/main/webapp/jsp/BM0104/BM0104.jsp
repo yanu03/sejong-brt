@@ -44,7 +44,7 @@
 
                    	</div>
                 </div>
-                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height:500px;"></div>
+                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height:500px;padding-right:10px;"></div>
 	        </ax:split-panel>
 	            
 	        <ax:splitter></ax:splitter>

@@ -543,7 +543,7 @@ function onClickMap(e) {
 		if(minIndex == null) {
 			axDialog.alert("선택할 수 없는 좌표입니다. 경로를 먼저 입력하세요");
 		} else {
-			var seq = routeData[minIndex].seq + (routeData[minIndex + 1].seq - routeData[minIndex].seq) / 2;
+			var seq = routeData[minIndex].seq + (routeData[minIndex +  1].seq - routeData[minIndex].seq) / 2;
 			var insertIndex = minIndex + 1;
 			
 			routeData.splice(insertIndex, 0, {
@@ -636,13 +636,15 @@ function drawRoute(list) {
 			if(list[i].nodeType == busstopNodeType) {
 				list[i].icon = "/assets/images/tmap/busstop.png";
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				addMarker(list[i]);
+				list[i].draggable = true;
+				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
 			// 아닐 경우(일반 노드) 네모 박스 표시
 			else {
 				list[i].icon = "/assets/images/tmap/road_trans.png";
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				addMarker(list[i]);
+				list[i].draggable = true;
+				addMarkerInter(list[i], fnObj.gridView1, i);
 				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
 			}
 		}
@@ -685,7 +687,7 @@ function addStop(){
 		stopAdd = true;
 		isNewData = true;
 		$("#mapView0").addClass("cursor-crosshair");
-		$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add"><i class="cqc-minus"></i>정류장추가 취소</button>');
+		$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add"><i class="cqc-minus"></i>정류장추가 종료</button>');
 	}
 	
 	if(nodeAdd) {
@@ -704,7 +706,7 @@ function addNode(){
 		nodeAdd = true;
 		isNewData = true;
 		$("#mapView0").addClass("cursor-crosshair");
-		$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add"><i class="cqc-minus"></i>경로추가 취소</button>');
+		$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add"><i class="cqc-minus"></i>경로추가 종료</button>');
 	}
 	
 	if(stopAdd) {

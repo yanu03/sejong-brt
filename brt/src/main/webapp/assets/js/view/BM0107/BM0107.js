@@ -525,14 +525,16 @@ function drawRoute(list) {
 			if(list[i].nodeType == '1' || list[i].nodeType == '898') {
 				list[i].icon = "/assets/images/tmap/busstop.png";
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				addMarker(list[i]);
+				//addMarker(list[i]);
+				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
 			// 일반 노드인 경우
 			else if(list[i].nodeType == '30'){
 				list[i].icon = "/assets/images/tmap/road_trans.png";
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeId + "</span>";
 				//addMarkerInter(list[i], fnObj.gridView1, i);
-				addMarker(list[i]);
+				//addMarker(list[i]);
+				addMarkerInter(list[i], fnObj.gridView1, i);
 				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
 			}
 		}

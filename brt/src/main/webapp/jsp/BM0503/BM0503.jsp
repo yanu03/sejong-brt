@@ -32,7 +32,7 @@
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h3><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0103G0.title"/>
+                            	노선 목록
                         </h3>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                 <div class="ax-button-group" data-fit-height-aside="gridView1">
                     <div class="left">
                         <h3><i class="cqc-list"></i>
-                             <ax:lang id="ax.admin.BM0202G1.title"/>
+                             	차량 목록
                         </h3>
                     </div>
                 </div>
