@@ -48,6 +48,8 @@ public class GlobalConstants {
     	public static final String ROUTE_BUSSTOP_TITLE		= "NODE_ID,NODE_NAME,TYPE,RANGE,X,Y,NODE_ENAME";
     	public static final String ROUTE_NODELIST_TITLE		= "NODE_ID,NODE_NAME,RANGE,X,Y";
     	public static final String ROUTE_TITLE				= "NODE_ID";
+    	
+    	public static final String VIDEO_PLAY_LIST			="Seq_No,Video_Type,Video_File,Start_Date,Expire_Date,Runtime";
     }
     
     public static class SCH {

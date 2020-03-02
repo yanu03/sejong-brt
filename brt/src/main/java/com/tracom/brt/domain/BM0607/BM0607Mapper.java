@@ -9,5 +9,7 @@ import com.tracom.brt.domain.SM0105.CommonCodeDetailInfoVO;
 public interface BM0607Mapper extends MyBatisMapper{
 
 	List<VdoRsvVO> BM0607G1S0();
-	int	BM0607G1I0();
+	int	BM0607G1I0(VdoRsvVO vo);
+	int	BM0607G1I1(VdoRsvVO vo);
+	List<VdoRsvVO> makePlayList(String value);
 }

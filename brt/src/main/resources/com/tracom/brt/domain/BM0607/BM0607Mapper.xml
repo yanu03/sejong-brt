@@ -5,7 +5,7 @@
 
 	<select id="BM0607G1S0" resultType="vdoRsvVO">
 		SELECT
-			  IF(RST.COMPLETE_YN = 'N', '예약불가', '예약가능') AS POSSIBLE
+			  IF(RST.COMPLETE_YN = 'N', '예약중', NULL) AS POSSIBLE
 			, VHC.VHC_ID	AS VHC_ID
 		    , VHC.VHC_NO	AS VHC_NO
 		    , DL.DL_CD_NM AS VHC_KIND_NM
@@ -28,7 +28,7 @@
 		WHERE
 			VHC.USE_YN = 'Y'
 			AND DL.TXT_VAL1 = 'PD'
-		ORDER BY VHC.VHC_ID
+		ORDER BY VHC.VHC_ID, DVC.MNG_ID
 	<!-- 
 		SELECT
 			  VHC.VHC_ID		AS VHC_ID
@@ -69,23 +69,47 @@
     	INSERT INTO
     		BM_VDO_RSV(
     			  RSV_ID
+    			, MNG_ID
     			, RSV_DATE
-    			, DVC_ID
     			, ORGA_ID
-    			, COMPLETE_YN
     			)
     			
    		VALUES
-   			<foreach collection="voList" item="voList" separator=",">
    			(
-   			    #{rsvId}
+   				#{rsvId}
+   			  , #{mngId}
    			  , #{rsvDate}
-   			  , #{voList.dvcId}
    			  , #{orgaId}
-   			  , 'N'
    			)
-   			</foreach>
 	</insert>
 	
+	<insert id="BM0607G1I1" parameterType="vdoRsvVO">
+		INSERT INTO
+			BM_VDO_RSV_RST(
+				  RSV_ID
+				, MNG_ID
+				, COMPLETE_YN
+				)
+			VALUES(
+				    #{rsvId}
+				  , #{mngId}
+				  , 'N')
+	</insert>
 	
+	<select id="makePlayList" parameterType="String" resultType="vdoRsvVO">
+		SELECT
+			  IF(FILE_TYPE = 'AV001', 'V', 'I') AS VIDEO_TYPE
+		    , IF(FILE_TYPE = 'AV001', CONCAT(VINFO.VDO_ID, '.mp4'), CONCAT(VINFO.VDO_ID, '.jpg')) AS VIDEO_FILE
+			, DATE_FORMAT(PLAY_ST_DATE, '%Y%m%d') AS PLAY_ST_DATE
+		    , DATE_FORMAT(PLAY_ED_DATE, '%Y%m%d') AS PLAY_ED_DATE
+		    , IMG_PLAY_TM AS RUN_TIME
+		FROM
+			BM_VDO_ORGA_LIST OLIST
+		    LEFT JOIN
+		    BM_VDO_INFO VINFO
+		    ON OLIST.VDO_ID = VINFO.VDO_ID
+		WHERE
+			ORGA_ID = #{value}
+		ORDER BY SEQ
+	</select>
 </mapper>
