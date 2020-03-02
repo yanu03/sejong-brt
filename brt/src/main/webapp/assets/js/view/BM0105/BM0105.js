@@ -93,7 +93,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		removeAllPopUp();
 		removeMarkers();
 		searchGrid1(caller, act, data);
-		
+		selectedRow = data;
 	},
 
 	ITEM_CLICK_G1: function (caller, act, data) {
@@ -121,7 +121,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 					data: JSON.stringify(list),
 					callback: function (res) {
 						if(res.list.length > 0){
-							alert('갱신 성공');
+							console.log(selectedRow);
+							searchGrid1(caller, act, selectedRow);
+							axToast.push(LANG("onsave"));
 						}else{
 							alert('갱신 실패');
 						}
