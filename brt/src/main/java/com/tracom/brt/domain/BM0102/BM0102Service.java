@@ -48,10 +48,12 @@ public class BM0102Service extends BaseService<CustInfoVO, String> {
     }
     
     @Transactional
-    public int BM0102G1I0(List<MngrInfoVO> voList) {
-    	MngrInfoVO vo = new MngrInfoVO();
-    	vo.setVoList(voList);
-    	mapper.BM0102G1D0(voList.get(0).getCustId());
-    	return mapper.BM0102G1I0(vo);
+    public int BM0102G1I0(CustInfoVO vo) {
+    	mapper.BM0102G1D0(vo.getCustId());
+    	if(vo.getMngrList() != null && vo.getMngrList().size() != 0) {
+	    	return mapper.BM0102G1I0(vo);
+    	} else {
+    		return 0;
+    	}
     }
 }
