@@ -43,7 +43,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("계약 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
@@ -136,7 +136,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                      });
                  })
                  .then(function (ok, fail, data) {
-             		axToast.push(LANG("onadd"));
+             		axToast.push(LANG("onsave"));
              		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
                      isUpdate = true;
                  })
@@ -167,7 +167,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     					});
     				})
     				.then(function (ok, fail, data) {
-    					axToast.push(LANG("onupdate"));
+    					axToast.push(LANG("onsave"));
     					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
     					isUpdate = true;
     				})
