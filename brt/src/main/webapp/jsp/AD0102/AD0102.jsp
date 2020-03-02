@@ -10,64 +10,57 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
-        <script type="text/javascript" src="<c:url value='/assets/js/view/BM0604/BM0604.js' />"></script>
-        <style>
+        <script type="text/javascript" src="<c:url value='/assets/js/view/AD0102/AD0102.js' />"></script>       
+         	<style>
 			.grid-cell-red{
 		        background: #A9F5A9;
 		    }
 		    .grid-cell-blue{
 		        background: #F78181;
 		    }
-		 </style>
+			</style>
     </jsp:attribute>
+   
     <jsp:body>
-
         <ax:page-buttons></ax:page-buttons>
-
-        <div role="page-header">      	
+        <div role="page-header">
             <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0604S0.search" maxLength="20"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0201S0.search"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
             <div class="H3"></div>
         </div>
+
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="*" style="padding-right: 10px;">
-                <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h3><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0604G0.title"/>
+                            <ax:lang id="ax.admin.BM0103G0.title"/>
                         </h3>
-                    </div>
-                    <div class="right">
-
                     </div>
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            
-            <ax:split-panel width="500" style="padding-right: 10px; padding-left:10px;">
-                <!-- 목록 -->
+            <ax:split-panel width="600" style="padding-left: 10px;" scroll="scroll">
                 <div class="ax-button-group" data-fit-height-aside="gridView1">
                     <div class="left">
                         <h3><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0604G1.title"/>
+                             <ax:lang id="ax.admin.BM0202G1.title"/>
                         </h3>
                     </div>
-                    <div class="right">
-
-                    </div>
                 </div>
-                <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height: 300px;"></div>
-            </ax:split-panel>           
+                    <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height: 300px;"></div>
+            </ax:split-panel>
+            
+            
         </ax:split-layout>
 
     </jsp:body>
-</ax:layout>
+   </ax:layout>

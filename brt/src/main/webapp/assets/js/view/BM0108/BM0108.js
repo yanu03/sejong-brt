@@ -50,7 +50,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.clear();
         caller.formView0.enable();
         caller.formView0.validate(true);
-        preview_Image();
+        preview_Image("previewImg");
+        preview_Image("previewImg2");
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -117,11 +118,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
-            		axToast.push(LANG("onupdate"));
+            		axToast.push(LANG("onsave"));
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
-
+                	
                 });
         }
     },
@@ -156,7 +157,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
-            		axToast.push(LANG("onupdate"));
+            		axToast.push(LANG("onsave"));
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
@@ -210,6 +211,7 @@ fnObj.pageStart = function () {
     this.searchView0.initView();
     this.gridView0.initView();
     this.formView0.initView();
+    numberOnly();
     licenNoMask();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -286,7 +288,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         
         this.target = axboot.gridBuilder({
-        	lineNumberColumnWidth: 30,
+        	lineNumberColumnWidth: 40,
         	frozenColumnIndex: 0,
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
@@ -384,7 +386,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
  */
 fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     getDefaultData: function () {
-        return $.extend({}, axboot.formView.defaultData, {});
+        return $.extend({}, axboot.formView.defaultData, {
+        	retireYn: 'N'
+        });
     },
     initView: function () {
         this.target = $("#formView0");
@@ -476,7 +480,7 @@ function preview_ChangeImage(input, id) {
 }
 
 function numberOnly(){
-    $("input:text[numberOnly]").on("keyup", function() {
+    $("[numberOnly]").on("keyup", function() {
         $(this).val($(this).val().replace(/[^0-9]/g,""));
     });
 }
