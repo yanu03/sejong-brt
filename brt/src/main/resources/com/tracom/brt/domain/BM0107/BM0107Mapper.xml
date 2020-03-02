@@ -92,8 +92,6 @@
     <insert id="BM0107G2I0" parameterType="bmRoutNodeInfoVO">
     	INSERT INTO
     		BM_ROUT_NODE_TRASH
-    	
-		(
 		SELECT 
 			  NODE.NODE_ID
 		    , NODE.NODE_NM
@@ -115,9 +113,8 @@
 		    LEFT JOIN
 		    BM_ROUT_INFO ROUT
 		    ON NODE.ROUT_ID = ROUT.ROUT_ID
-		)
-    	WHERE
-    		ROUT_ID = #{routId}
+	    WHERE
+    		NODE.ROUT_ID = #{routId}
     </insert>
     
     <insert id="BM0107G1I0" parameterType="bmRoutNodeInfoVO">	    
