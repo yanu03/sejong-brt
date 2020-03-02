@@ -383,6 +383,16 @@ function editSeq(){
 			
 	}
 }
+
+var editName = {
+	type: "text",
+	disabled: function(){
+		ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+	},
+	attributes:{
+		"maxlength" : 20
+	}
+};
 /**
  * gridView1
  */
@@ -406,7 +416,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
                 {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq()},
                 {key: "nodeType",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 30},
                 {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
-                {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120},
+                {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120, editor: editName},
                 {key: "lati",		label: ADMIN("ax.admin.BM0107G1.lati"),			width: 120},
                 {key: "longi",		label: ADMIN("ax.admin.BM0107G1.longi"),		width: 120},
                 {key: "updatedAt",	label: ADMIN("ax.admin.BM0107G1.updatedAt"),	width: 120},
