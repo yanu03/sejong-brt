@@ -42,6 +42,75 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
     
+    PAGE_RESERVATION: function(caller, act, data) {
+    	var routList = caller.gridView0.getData("selected");
+    	
+    	if(routList.length == 0) {
+    		axDialog.alert("편성을 선택해주세요");
+    		return false;
+    	}
+    	
+    	var vehicleList = caller.gridView1.getData("selected");
+    	var allList = caller.gridView1.getData();
+    	
+    	if(vehicleList.length == 0) {
+    		axDialog.alert("장비를 선택해주세요");
+    		return false;
+    	}
+    	
+    	for(var i = 0; i < allList.length; i++) {
+    		if(allList[i].possible != null) {
+    			axDialog.alert("업데이트가 완료되지 않은 장비가 있습니다. 예약이 불가합니다.")
+    			return false;
+    		}
+    	}
+    	
+		axboot.modal.open({
+            modalType: "RESERVATION",
+            param: "",
+            callback: function (result) {
+            	this.close();
+            	
+            	var rsvDate = result;
+            	var routNameList = new Array();
+
+            	for(var i=0; i<routList.length; i++){
+            		routNameList.push({dvcName:routList[i].dvcName});
+            	}
+            	
+            	var dataList = new Array();
+            	
+            	//for(var i=0; i<routList.length; i++){
+            		var data = {
+            				rsvDate: rsvDate,
+            				rsvList: routNameList,
+            				vhcList: vehicleList
+            		//}
+            		
+            	}
+            	axboot.promise()
+	    	        .then(function (ok, fail, _data) {
+	    	            axboot.ajax({
+	    	                type: "POST",
+	    	                url: "/api/v1/BM0503G1I0",
+	    	                data: JSON.stringify(data),
+	    	                callback: function (res) {
+	    	                    ok(res);
+	    	                }
+	    	            });
+	    	        })
+	    	        .then(function (ok, fail, data) {
+	    	        	axToast.push(LANG("ax.script.alert.reservation"));
+	    	        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	    	        })
+	    	        .catch(function () {
+	    	        	
+	    	        });
+            }
+        });
+    },
+    
+    
 });
 /********************************************************************************************************************/
 
@@ -75,6 +144,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             },
+        	"reservation": function() {
+        		ACTIONS.dispatch(ACTIONS.PAGE_RESERVATION);
+        	},
         });
     }
 });
@@ -215,10 +287,12 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         	lineNumberColumnWidth: 30,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "vhcId", label: "차량ID", align:"center", sortable: true, width: 80},
-            	{key: "vhcNo", label: "차량번호", align:"center", sortable: true, width: 100},
-            	{key: "dvcId", label: "장치ID(OBE)", align:"center", sortable: true, width: 120},
-            	{key: "mngId", label: "장치 관리ID", align:"center", sortable: true, width: 120},
+            	{key: "possible",	label: "예약여부",		width: 100},
+            	{key: "vhcId",		label: "차량ID",		width: 100},
+                {key: "vhcNo",		label: "차량번호",		width: 100},
+                {key: "vhcKindNm",	label: "장치종류",		width: 150},
+                {key: "instLocNm",	label: "장치위치",		width: 100},
+                {key: "mngId",		label: "관리ID",		width: 150},
             ],
             body: {
             	 onClick: function () {

@@ -131,6 +131,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
     	if(vehicleList.length == 0) {
     		axDialog.alert("장비를 선택해주세요");
+    		return false;
     	}
     	
     	for(var i = 0; i < vehicleList.length; i++) {
@@ -359,7 +360,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
                 {key: "vhcNo",		label: ADMIN("ax.admin.BM0607G1.vhcNo"),	width: 100},
                 {key: "vhcKindNm",	label: "장치종류",								width: 150},
                 {key: "instLocNm",	label: "장치위치",								width: 100},
-                {key: "mngId",		label: "관리ID",								width: 100},
+                {key: "mngId",		label: "관리ID",								width: 150},
             ],
             header:{
             	selector: false,
