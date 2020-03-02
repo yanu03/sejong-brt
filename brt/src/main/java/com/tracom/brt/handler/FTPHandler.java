@@ -39,6 +39,7 @@ import com.tracom.brt.code.GlobalConstants;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
 import com.tracom.brt.domain.BM0501.DestinationVO;
+import com.tracom.brt.domain.BM0503.RoutRsvVO;
 import com.tracom.brt.domain.BM0605.VideoInfoVO;
 import com.tracom.brt.domain.BM0607.BM0607Mapper;
 import com.tracom.brt.domain.BM0607.VdoRsvVO;
@@ -291,6 +292,55 @@ public class FTPHandler {
 			Utils.createCSV(file, txt);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	//BM0503 행선지안내기 예약(파일이동)
+	public void reserveDst(RoutRsvVO vo) throws IOException {
+		String path = Paths.get(getRootLocalPath(), "/destination", "/images").toString();
+		String toPath = Paths.get(getRootLocalPath(), "/vehicle/", vo.getImpId(), "/device/", vo.getDvcId(), "/images").toString();
+		
+		List<RoutRsvVO> voList = vo.getRsvList();
+		
+		for(RoutRsvVO v : voList) {
+			File fFile1 = new File(path + "/F" + v.getDvcName() + ".SCH");
+			File tFile1 = new File(toPath + "/F" + v.getDvcName() + ".SCH");
+			File fFile2 = new File(path + "/F" + v.getDvcName() + ".BMP");
+			File tFile2 = new File(toPath + "/F" + v.getDvcName() + ".BMP");
+			
+			File fFile3 = new File(path + "/S" + v.getDvcName() + ".SCH");
+			File tFile3 = new File(toPath + "/S" + v.getDvcName() + ".SCH");
+			File fFile4 = new File(path + "/S" + v.getDvcName() + ".BMP");
+			File tFile4 = new File(toPath + "/S" + v.getDvcName() + ".BMP");
+			
+			copyFile(fFile1, tFile1);
+			copyFile(fFile2, tFile2);
+			copyFile(fFile3, tFile3);
+			copyFile(fFile4, tFile4);
+		}
+		
+		
+	}
+	
+	//BM0503행선지안내기 예약(list 생성)
+	public void makeDstConfig(List<RoutRsvVO> voList, List<RoutRsvVO> rsvVO) throws Exception {
+		String txt = "";
+		txt += "FLOGO.BMP" + GlobalConstants.CSVForms.COMMA + "A" + GlobalConstants.CSVForms.ROW_SEPARATOR + 
+				"FLOGO.SCH" + GlobalConstants.CSVForms.COMMA + "A" + GlobalConstants.CSVForms.ROW_SEPARATOR +
+				"SLOGO.BMP" + GlobalConstants.CSVForms.COMMA + "A" + GlobalConstants.CSVForms.ROW_SEPARATOR +
+				"SLOGO.SCH" + GlobalConstants.CSVForms.COMMA + "A";
+		for(int i = 0; i < rsvVO.size(); i ++) {
+			txt +=  GlobalConstants.CSVForms.ROW_SEPARATOR + "F" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" + 
+					GlobalConstants.CSVForms.ROW_SEPARATOR + "F" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A" +
+					GlobalConstants.CSVForms.ROW_SEPARATOR + "S" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" + 
+					GlobalConstants.CSVForms.ROW_SEPARATOR + "S" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A";
+			
+		}
+		
+		for(RoutRsvVO vo : voList) {
+			String path = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device", "/", vo.getDvcId(), "/list").toString();
+			File file = new File(path + "/LIST.CSV");
+			Utils.createCSV(file, txt);
 		}
 	}
 	

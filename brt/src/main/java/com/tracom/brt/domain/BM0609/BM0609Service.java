@@ -31,8 +31,6 @@ public class BM0609Service extends BaseService<ScrRsvVO, String>{
 	
 	@Transactional
 	public void BM0609G1I0(ScrRsvVO vo) throws IOException {
-		String col1[] = makeCol1();
-		
 		for(ScrRsvVO v : vo.getVoList()) {
 			v.setRsvDate(vo.getRsvDate());
 			v.setSetId(vo.getSetId());
@@ -45,8 +43,6 @@ public class BM0609Service extends BaseService<ScrRsvVO, String>{
 					handler.reserveScreen(v);
 				}
 			}
-			
-			
 		}
 	}
 

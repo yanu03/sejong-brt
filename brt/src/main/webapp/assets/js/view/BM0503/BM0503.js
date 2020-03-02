@@ -14,7 +14,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0503G0S0",
+            url: "/api/v1/BM0104G0S0",
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);             
@@ -73,7 +73,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	
             	var rsvDate = result;
             	var routNameList = new Array();
-
+            	console.log(routList);
             	for(var i=0; i<routList.length; i++){
             		routNameList.push({dvcName:routList[i].dvcName});
             	}
@@ -188,14 +188,27 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         	multipleSelect : true,
         	lineNumberColumnWidth: 30,
             target: $('[data-ax5grid="gridView0"]'),
-            	 columns: [
-            		 {key: "routId",		label: "노선ID", sortable: true, width: 100,	align: "center"},
-            		 {key: "interRoutId",	label: "연계노선ID", sortable: true, width: 100,	align: "left"},
-            		 {key: "routNm",		label: "노선명", sortable: true, width: 150,	align: "left"},
-            		 {key: "dvcName",		label: "행선지용 명칭", sortable: true, width: 150,	align: "left"},
-            		 {key: "userWayDivNm",	label: "상하행(사용자)", width: 100,	align: "center"},
-            		 {key: "dvcType",		label: "장치유형", width: 130, align: "left"},
-                 ],
+            columns: [
+            	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),											width: 80},
+            	{key: "interRoutId",			label: ADMIN("ax.admin.BM0104G0.interRoutId"),											width: 80},
+            	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),											width: 70},
+                {key: "shortRoutNm",	label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.shortRoutNm") + "</font>",	width: 130},
+                {key: "wayInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.wayInfo") + "</font>",		width: 130},
+                {key: "dirInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.dirInfo") + "</font>",		width: 130},
+                {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),											width: 160},
+                {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),											width: 160},
+                {key: "wayDivNm",		label: ADMIN("ax.admin.BM0104G0.wayDiv"),											width: 60,			align: "center"},
+                {key: "userWayDivNm",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.userWayDiv") + "</font>",	width: 120,		align: "center"},
+                //{key: "turnDivNm",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),width: 100},
+                {key: "dvcName",		label: ADMIN("ax.admin.BM0104G0.dvcName"),											width: 90},
+                {key: "line1Str",		label: ADMIN("ax.admin.BM0104G0.line1Str"),											width: 200},
+                {key: "line2Str",		label: ADMIN("ax.admin.BM0104G0.line2Str"),											width: 200},
+                {key: "line1Satstr",	label: ADMIN("ax.admin.BM0104G0.line1Satstr"),										width: 200},
+                {key: "line2Satstr",	label: ADMIN("ax.admin.BM0104G0.line2Satstr"),										width: 200},
+                {key: "line1Sunstr",	label: ADMIN("ax.admin.BM0104G0.line1Sunstr"),										width: 200},
+                {key: "line2Sunstr",	label: ADMIN("ax.admin.BM0104G0.line2Sunstr"),										width: 200},
+                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),										width: 140},
+            ],
             
             body: {
                 onClick: function () {
