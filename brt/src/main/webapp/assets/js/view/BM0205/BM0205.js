@@ -12,14 +12,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
-    	console.log(filter);
     	
         axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0205G0S0",
             data: filter,
             callback: function (res) {
-            	console.log(res);
                 caller.gridView0.setData(res);             
 	               
 	                if(selectedRow != null) {
@@ -45,7 +43,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    	 if($("#version").val() != ""){
 		      for(var i = 1; i< list.length; i++){
 		    	  if(list[i-1].mngId.substring(10,12) != list[i].mngId.substring(10,12)){
-		    		  console.log(list[i].mngId.substring(10,12));
 		    		  check = false;
 		    		  break
 		    	  }else{
@@ -111,12 +108,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         for(var i = 0; i< data.upList.length; i++){
         	data.upList[i].attFile = attFile;
         }
-        console.log("파일명");
-        console.log(attFile);
-        console.log("버전정보");
-        console.log($("#version").val());
-        console.log("data입니다");
-        console.log(data);
     	if(list.length > 0){
 	            axboot.ajax({
 	                type: "POST",
@@ -134,7 +125,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     UPDATE_FILE : function(caller , act , data){
-    	console.log("update_file");
     	var fileCheck = $("input[name='dvcFileUp']")[0].files[0].name;
     	var list = caller.gridView0.getData("selected");
     	var formData = new FormData();
@@ -142,7 +132,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	formData.append("dvcFileUp" , $("input[name='dvcFileUp']")[0].files[0]);   	
     	
     	for(var i = 0; i < list.length;i++){
-    		console.log(list[i]);
     		formData.append("upList[" + i + "].mngId", list[i].mngId);
     	}
     	

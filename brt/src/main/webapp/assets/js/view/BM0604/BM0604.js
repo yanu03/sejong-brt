@@ -48,7 +48,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                                 	}
                                 })
                             	if(dataFlag) {
-                            		console.log(dataFlag);
             	                	caller.gridView0.selectIdRow(data);
             	                } else {
             		                if(selectedRowG1 != null) {
@@ -83,7 +82,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     					}
     				}
     				checkData.upList = list;
-    				console.log(list);
     				if(useYnCount < 20){
     					axboot.promise()
     					.then(function (ok, fail, data) {
@@ -148,7 +146,6 @@ fnObj.pageButtonView = axboot.viewExtend({
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },                     
             "save": function () {
-            	console.log("저장입니다.");
             	ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
             },
             "close": function() {

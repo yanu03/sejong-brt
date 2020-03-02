@@ -19,7 +19,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0203G0S0",
             data: filter,
             callback: function (res) {
-            	console.log(res);
                 caller.gridView0.setData(res);             
 	               
 	                if(selectedRow != null) {
@@ -76,15 +75,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 	var dvcCond;
                 	if(typeof res.list[i].txtVal1 !== "undefined"){
                 		if(res.list[i].dvcCond == "정상"){
-                			console.log("정상");
                 			dvcCond = "#00FF00";
                 		}else{
                 			if(typeof res.list[i].dvcCond !== "undefined"){
-                				console.log("비정상");
-                				console.log(res.list[i].dvcCond);
                 				dvcCond = "#DC143C";            				
                 			}else{
-                				console.log(res.list[i].dvcCond);
                 				dvcCond = "##00ff0000";
                 			}
                 		}
@@ -96,7 +91,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                }*/
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
-	                	console.log(data);
 	                } 
 		                if(selectedRowG1 != null) {
 		                	caller.gridView1.selectRow(selectedRowG1.__index);
@@ -319,9 +313,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     addRow: function (data) {
     	if(typeof data === "undefined") {
     		this.target.addRow({__created__: true}, "last");
-    		console.log("데이터없음");
     	} else {
-    		console.log("데이터있음");
     		data["__created__"] = true;
             this.target.addRow(data, "last");
     	}

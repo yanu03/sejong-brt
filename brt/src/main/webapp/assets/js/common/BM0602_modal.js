@@ -12,7 +12,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0602M0S0",
             data: caller.searchView0.getData(),
             callback: function (res) {
-            	console.log(res);
             	caller.formView0.setData(res);
             }
         });
@@ -131,10 +130,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     setData: function (data) {
         if (typeof data === "undefined") data = this.getDefaultData();
-        console.log("data1");
-        console.log(data);
         data = $.extend({}, data.list[0]);
-        console.log("setData2"+data);
 
         this.model.setModel(data);
         this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경

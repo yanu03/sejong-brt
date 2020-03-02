@@ -12,20 +12,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
     	var resCount = 0;
-    	console.log(filter);
     	
         axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0801G0S0",
             data: filter,
             callback: function (res) {
-            	console.log(res);
             	axboot.ajax({
             		type:"GET",
             		url:"/api/v1/BM0801G0S1",
             		data: filter,
             		callback:function(resOne){
-            			console.log(resOne);
             			if(res.list.length > 0){
             				for(var i = 0; i < res.list.length; i++){
             					if(res.list[i].vocId){
@@ -45,13 +42,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             					res.list[i].promotionTy = "영상광고";
             					res.list[i].promotionNm = resOne.list[i-plusRes].vdoNm;
             					res.list[i].suppAmt = resOne.list[i-plusRes].suppAmt + resOne.list[i-plusRes];
-            					console.log(res);
             				}
             			}
             			caller.gridView0.setData(res);
             		}
             	})
-            	console.log(res);
 	               
 	                if(selectedRow != null) {
 		                	caller.gridView0.selectRow(selectedRow.__index);

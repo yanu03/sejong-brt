@@ -261,7 +261,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 				body: {
 					onClick: function () {
 						this.self.select(this.dindex);
-						//console.log(this.self.list[this.dindex]);
 						ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G0, this.item);
 					}
 				},
@@ -358,7 +357,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 				body: {
 					onClick: function () {
 						this.self.select(this.dindex);
-						//console.log(this.item);
 						ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
 					}
 				},
@@ -387,7 +385,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 		}
 	},
 	selectFirstRow: function() {
-		//console.log("FirstRow");
 		if(this.target.list.length != 0) {
 			this.selectRow(0);
 			//ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.target.list[0]);

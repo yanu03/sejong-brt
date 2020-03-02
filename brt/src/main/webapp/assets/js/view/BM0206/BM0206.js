@@ -13,14 +13,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
-    	console.log(filter);
     	
         axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0201G0S0",
             data: filter,
             callback: function (res) {
-            	console.log(res);
                 caller.gridView0.setData(res);             
 	               
                 if(res.list.length == 0) {
@@ -97,13 +95,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             			res.list[i].mngId = "폐기된 장치입니다.";
             		}
             	}
-            	console.log(res);
                 caller.gridView1.setData(res);
                 
                  {
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
-	                	console.log(data);
 	                } 
 		                if(selectedRowG1 != null) {
 		                	caller.gridView1.selectRow(selectedRowG1.__index);
@@ -118,20 +114,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     RELOAD_G2: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
-    	console.log("리로드2");
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0206G2S0",
             data: {dvcId: selectedRowG1.dvcId},
             callback: function (res) {
                 caller.gridView2.setData(res);
-                console.log(res);
                  {
                 	if(dataFlag) {
 	                	caller.gridView2.selectIdRow(data);
 	                	
 	                }if(selectedRowG2 != null) {
-	                	console.log("g2.검색");
 	                	caller.gridView2.selectRow(selectedRowG2.__index);
 	                } else {
 	                	caller.gridView2.selectFirstRow();
@@ -366,7 +359,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         pageSize: 10
     },
     initView: function () {
-    	console.log("그리드1");
         var _this = this;
 
         this.target = axboot.gridBuilder({
@@ -407,9 +399,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     addRow: function (data) {
     	if(typeof data === "undefined") {
     		this.target.addRow({__created__: true}, "last");
-    		console.log("데이터없음");
     	} else {
-    		console.log("데이터있음");
     		data["__created__"] = true;
             this.target.addRow(data, "last");
     	}
@@ -468,7 +458,6 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
         pageSize: 10
     },
     initView: function () {
-    	console.log("그리드2");
         var _this = this;
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
@@ -483,7 +472,6 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
             ],
             body: {
                 onClick: function () {
-                	console.log("그리드2.2");
                     this.self.select(this.dindex);
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G2, this.item);
                 }

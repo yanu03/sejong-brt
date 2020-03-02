@@ -17,7 +17,7 @@
 
         <ax:page-buttons></ax:page-buttons>
 
-<%-- 
+
         <div role="page-header">
             <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
@@ -30,7 +30,7 @@
             </ax:form>
             <div class="H10"></div>
         </div>
- --%>
+
 
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="300" style="padding-right: 10px;">

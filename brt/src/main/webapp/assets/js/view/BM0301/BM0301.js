@@ -151,11 +151,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var confirmYn = $('#confirmYn').val();
  	
     		if(confirmYn == "미확정"){
-    				console.log("N");
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
     				formData["confirmYn"] = "N";
-    				console.log(formData);
     				
     				axboot.promise()
     				.then(function (ok, fail, data) {
@@ -240,7 +238,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    		msg: LANG("ax.script.contractconfirmn")
 	    	}, function(){
 	    		if(this.key == "ok"){
-	    			console.log("해제ok");
 	    			if (caller.formView0.validate()){
 	    				var formData = caller.formView0.getData();
 	    				axboot.promise()
@@ -284,7 +281,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
     	selectedRow = data;
-    	console.log(selectedRow);
     	if(selectedRow.confirmYn == "확정"){
     		caller.formView0.disable();
 
@@ -334,10 +330,8 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "save": function () {
             	if(isUpdate) {
-            		console.log("업데이트");
             		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
             	} else {
-            		console.log("세이브");
             		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             	}
             },

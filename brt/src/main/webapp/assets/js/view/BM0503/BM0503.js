@@ -17,7 +17,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0503G0S0",
             data: filter,
             callback: function (res) {
-            	console.log(res);
                 caller.gridView0.setData(res);             
 	            }
 	        });
@@ -26,7 +25,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             type: "GET",
             url: "/api/v1/BM0503G1S0",
             callback: function (res) {
-            	console.log(res);
                 caller.gridView1.setData(res);             
 	            }
 	        });
