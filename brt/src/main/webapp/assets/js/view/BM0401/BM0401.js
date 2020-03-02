@@ -293,7 +293,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		                });
 		            })
 		            .then(function (ok, fail, data) {
-		            	console.log("333");
 	                	$("#jquery_jplayer_1").jPlayer("setMedia", {
 	    	        		mp3: "/api/v1/filePreview?type=tempVoice",
 	    	        	}).jPlayer("play");

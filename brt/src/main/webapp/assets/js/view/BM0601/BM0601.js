@@ -19,9 +19,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0601F0S0",
             data: filter,
             callback: function (res) {
-            	console.log(res.list[0].skyCondCode);
                 caller.formView0.setData(res.list[0]);
-                console.log(res);
                 if($("#weatImage").val() == null){
                 	$("#weatImg").append("<input type='image' id='weatImage' value='image' src='/assets/images/BM0601/"+res.list[0].skyCondCode+".png' style='padding-left:150px;' disabled='disabled'/>");
                 	ACTIONS.dispatch(ACTIONS.RELOAD_G1);             
@@ -283,14 +281,12 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     initEvent: function () {
     	//기상 이력 grid
     	$('[data-tab-label="0"]').click(function(){
-    		console.log("기상");
     		selectType = "weat";
     		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);
     	})
     	
     	//대기 이력 grid
     	$('[data-tab-label="1"]').click(function(){
-    		console.log("대기");
     		selectType = "atmo";
     		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);
     	})
@@ -387,9 +383,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     addRow: function (data) {
     	if(typeof data === "undefined") {
     		this.target.addRow({__created__: true}, "last");
-    		console.log("데이터없음");
     	} else {
-    		console.log("데이터있음");
     		data["__created__"] = true;
             this.target.addRow(data, "last");
     	}
@@ -581,9 +575,7 @@ fnObj.gridView3 = axboot.viewExtend(axboot.gridView, {
     addRow: function (data) {
     	if(typeof data === "undefined") {
     		this.target.addRow({__created__: true}, "last");
-    		console.log("데이터없음");
     	} else {
-    		console.log("데이터있음");
     		data["__created__"] = true;
             this.target.addRow(data, "last");
     	}

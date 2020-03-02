@@ -73,7 +73,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    data: JSON.stringify({provId : selectedRow.provId}),
 	                    callback: function (res) {
 	                        ok(res);
-	                        console.log(data);
 	                    }
 	                });
                 })
@@ -125,7 +124,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				checkData.provNm = formData["newsContents"];
     				checkData.remark = formData["remark"];
     				checkData.useYn = selectedRow.useYn;
-    				console.log(checkData);   				
     				axboot.promise()
     				.then(function (ok, fail, data) {
     					axboot.ajax({
@@ -196,10 +194,8 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "save": function () {
             	if(isUpdate) {
-            		console.log("업데이트");
             		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
             	} else {
-            		console.log("세이브");
             		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             	}
             },

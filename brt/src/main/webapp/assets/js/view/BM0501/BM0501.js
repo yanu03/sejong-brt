@@ -367,7 +367,6 @@ $("input[id=bmpFile]").change(function(){
 
     img.onload = function() {
         if(uv_dvc_type == frontCode){
-        	console.log(img.height + ", " + uv_frontheight + ", " + (img.height/uv_frontheight));
         	if(!isInt(img.height/uv_frontheight) || !isInt(img.width/uv_frontwidth)){
         		alert("이미지 사이즈를 확인하세요");
         		$('#bmpFile').val('');
@@ -377,7 +376,6 @@ $("input[id=bmpFile]").change(function(){
         		preview_ChangeImage($('#bmpFile'), "previewImg");
         	}
     	}else if(uv_dvc_type == sideCode){
-    		console.log(img.height + ", " + uv_sideheight + ", " + (img.height/uv_sideheight));
     		if(!isInt(img.height/uv_sideheight) || !isInt(img.width/uv_sidewidth)){
     			alert("이미지 사이즈를 확인하세요");
     			$('#bmpFile').val('');

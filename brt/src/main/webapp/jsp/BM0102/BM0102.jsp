@@ -46,7 +46,7 @@
             </ax:split-panel>
             <ax:splitter></ax:splitter>
             
-            <ax:split-panel width="600" style="padding-left: 10px; height:100%; padding-bottom:490px;">
+            <ax:split-panel width="550" style="padding-left: 10px; height:100%; padding-bottom:490px;">
 	            <ax:split-panel width="500" style="height:450px;" scroll="scroll">
 	                <!-- 폼 -->
 	                <div class="ax-button-group" role="panel-header">

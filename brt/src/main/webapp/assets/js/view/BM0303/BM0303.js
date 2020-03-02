@@ -24,7 +24,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 	caller.gridView1.clear();
                 	caller.gridView2.clear();
                 }else{
-                	console.log("ㅋㅋ");
                 	if(selectedRow != null) {
                 		caller.gridView0.selectRow(selectedRow.__index);
                 	} else {
@@ -74,15 +73,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var vocList;
     	var vdoList;
     	var etcList;
-    	console.log("리로드1");
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0303G1S0",
             data: {conId: selectedRow.conId},
             callback: function (res) {
-            	console.log(res);
             	if(res.list[0].altDiv != "신규"){
-            		console.log(res);
             		caller.gridView1.setData(res);            			
             		
             	}else if(res.list[0].altDiv == "신규") {
@@ -107,7 +103,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		  url: "/api/v1/BM0303G2S0",
     		  data:{conId: selectedRow.conId},
     		  callback:function(res){
-    			  console.log(res);
     			  if(res.list[0] != null){
     				  for(var i = 0; i<res.list.length; i++){
     						res.list[i].vdoType = "영상";
@@ -124,7 +119,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		  url: "/api/v1/BM0303G2S1",
     		  data:{conId: selectedRow.conId},
     		  callback:function(res){
-    			  console.log(res);
     			  if(res.list[0] != null){
     				  for(var i = 0; i<res.list.length; i++){
     						res.list[i].vocType = "음성";
@@ -354,9 +348,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     addRow: function (data) {
     	if(typeof data === "undefined") {
     		this.target.addRow({__created__: true}, "last");
-    		console.log("데이터없음");
     	} else {
-    		console.log("데이터있음");
     		data["__created__"] = true;
             this.target.addRow(data, "last");
     	}

@@ -93,7 +93,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             var formData = caller.formView0.getData();
             
             formData.append("mngrList", fnObj.gridView1.getData());
-            console.log(formData);
             
             axboot.promise()
                 .then(function (ok, fail, data) {
@@ -190,7 +189,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 url: "/api/v1/BM0102G1S0",
                 data: JSON.stringify(selectedRow),
                 callback: function (res) {
-                	console.log(res);
                 	fnObj.gridView1.setData(res);
                 }
             });

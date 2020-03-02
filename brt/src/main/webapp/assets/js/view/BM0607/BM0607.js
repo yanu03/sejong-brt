@@ -42,7 +42,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             type: "GET",
             url: "/api/v1/BM0607G1S0",
             callback: function (res) {
-            	console.log(res);
             	//res.list[0].selecton_disable=true;
             	
             	for(var i = 0; i < res.list.length; i++){
@@ -87,7 +86,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    data: JSON.stringify({provId : selectedRow.provId}),
 	                    callback: function (res) {
 	                        ok(res);
-	                        console.log(data);
 	                    }
 	                });
                 })
@@ -417,8 +415,6 @@ function reservation(date){
 		}
 	}
 	var formData = new FormData()
-	console.log(input);
-	console.log(date);
 	
 	/*
     axboot.promise()

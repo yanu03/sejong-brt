@@ -20,7 +20,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: filter,
             callback: function (res) {           	
                 caller.gridView0.setData(res);
-                console.log(res);
                 if(res.list.length == 0) {
                 	isUpdate = false;
 	                caller.formView0.clear();
@@ -73,19 +72,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 url: "/api/v1/BM0201G1S1",
                 data:{dvcId : selectedRowG1.dvcId},
                 callback: function (res) {
-                	console.log(res);
                   for(var i = 0; i<res.list.length; i++){
                 	  if(res.list[i].completeYn == "N"){
                 		  completeYn = "false";
-                		  console.log("false");
                 		  break;
                 	  }else{
                 		  completeYn = "true";
-                		  console.log("true");
                 	  }
                   }
-                  console.log("completeYn");
-                  console.log(completeYn);
                   if(completeYn == "true"){
                 	if(res.list.length < 2){
 		                if(res.list.length > 0){               	               	
@@ -166,7 +160,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    data: JSON.stringify(formData),
 	                    callback: function (res) {
 	                        ok(res);
-	                        console.log("BM0201F0S1");
 	                    }
 	                });
 	            })
@@ -180,7 +173,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 			  data: JSON.stringify(formData),
                 			  callback: function (res) {
                 				  ok(res);
-                				  console.log("BM0201F0I0");
                 				  ACTIONS.dispatch(ACTIONS.OPEN_BM0201_MODAL);
                 			  }
                 		  });
@@ -205,7 +197,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
-    				console.log(formData);
     				axboot.promise()
     				.then(function (ok, fail, data) {
     					axboot.ajax({
@@ -242,10 +233,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		$("#dvcKind").attr("readonly", true).attr("disabled", true);
     		$("#instLoc").attr("readonly", true).attr("disabled", true);
     		isCheck = false;
-    		console.log("false");
     	}else{
     		isCheck = true;
-    		console.log("true");
     		caller.formView0.enable();
     		$("#maker").attr("readonly", false).attr("disabled", false);
     		$("#dvcKind").attr("readonly", false).attr("disabled", false);
@@ -257,7 +246,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     // gridView1 항목 클릭 이벤트
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
-    	console.log("g1클릭");
     	selectedRowG1 = data;
     	if(selectedRowG1.useYn == "N"){
     		caller.formView0.disable();
@@ -283,8 +271,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             callback: function (res) {
                 caller.gridView1.setData(res);
                 
-                console.log("리로드쪽");
-                console.log(res);
                 if(res.list.length == 0) {
                 	isUpdate = false;
 	                caller.formView0.clear();
@@ -364,10 +350,8 @@ fnObj.pageButtonView = axboot.viewExtend({
             "save": function () {
             	if(isCheck){
             	if(isUpdate) {
-            		console.log("업데이트");
             		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
             	} else {
-            		console.log("세이브");
             		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             	}
             	}else{

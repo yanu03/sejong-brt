@@ -516,6 +516,5 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     refreshSummary: function() {
     	var allPlayTm = this.model.get("allPlayTm");
-    	console.log(allPlayTm);
     }
 });

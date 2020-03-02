@@ -309,8 +309,6 @@ $("input[id=bmpFile]").change(function(){
         
         preview_ChangeImage("src", "previewImg");
     	
-    	//console.log(uv_dvc_type);
-    	//console.log(uv_height);
         /*if(img.width != 384 || img.height != 64) {
             alert("이미지 가로 684px, 세로 64px로 맞춰서 올려주세요.");
             $("input[id=bmpFile]").val("");

@@ -101,7 +101,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     setData: function (data) {
         if (typeof data === "undefined") data = this.getDefaultData();
         data = $.extend({}, data.list[0]);
-        console.log(data);
         this.model.setModel(data);
         this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
     },

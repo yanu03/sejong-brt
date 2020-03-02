@@ -20,7 +20,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0201G0S0",
             data: filter,
             callback: function (res) {
-            	console.log(res);
                 caller.gridView0.setData(res);
                 
                 if(res.list.length == 0) {
@@ -88,7 +87,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    data: JSON.stringify({seq : selectedRowG2.seq}),
 	                    callback: function (res) {
 	                        ok(res);
-	                        console.log(data);
 	                    }
 	                });
                 })
@@ -144,7 +142,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                  {
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
-	                	console.log(data);
 	                } 
 		                if(selectedRowG1 != null) {
 		                	caller.gridView1.selectRow(selectedRowG1.__index);
@@ -159,34 +156,29 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     RELOAD_G2: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
-    	console.log("리로드2");
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0202G2S0",
             data: {dvcId: selectedRowG1.dvcId},
             callback: function (res) {
                 caller.gridView2.setData(res);
-                console.log(res);
                 if(res.list.length == 0){
                 	axboot.ajax({
                         type: "POST",
                         url: "/api/v1/BM0202G1U1",
                         data: JSON.stringify({dvcId: selectedRowG1.dvcId}),
                         callback: function (res) {
-                        		console.log("사용함");
                         	}
                         });
                 }else{
                 for(var i = 0; i<res.list.length; i++){
                 	if(res.list[i].workType == "폐기"){
                 		isPlus = true;
-                		console.log(isPlus);
                 		axboot.ajax({
                             type: "POST",
                             url: "/api/v1/BM0202G1U0",
                             data: JSON.stringify({dvcId: selectedRowG1.dvcId}),
                             callback: function (res) {
-                            	console.log("사용안함");
                             	}
                             });
                 		break;
@@ -196,7 +188,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                             url: "/api/v1/BM0202G1U1",
                             data: JSON.stringify({dvcId: selectedRowG1.dvcId}),
                             callback: function (res) {
-                            		console.log("사용함");
                             	}
                             });
                 	}
@@ -206,7 +197,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                	caller.gridView2.selectIdRow(data);
 	                	
 	                }if(selectedRowG2 != null) {
-	                	console.log("g2.검색");
 	                	caller.gridView2.selectRow(selectedRowG2.__index);
 	                } else {
 	                	caller.gridView2.selectFirstRow();
@@ -233,7 +223,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				};
     			},
     			callback: function (data) {
-    				console.log(data);
     				selectedRowG1.dvcId = formDataDvcId;
     				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
     			}
@@ -251,8 +240,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	//dl_cd_nm 값 -> code값으로 변경 (modal의 select box값을 변환시켜주기 위해)
     	formDataHist["workType"] = selectedRowG2.workTypeCd;
     	formDataHist["workAmt"] = selectedRowG2.workAmt;
-    	console.log(formDataHist["workTypeCd"]);
-    	console.log(formDataHist["workType"]);
     	formDataHist["remark"] = selectedRowG2.remark;
     	formDataHist["seq"] = selectedRowG2.seq;
     	
@@ -275,7 +262,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				};
     			},
     			callback: function (data) {
-    				console.log(data);
     				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
     			}
     		});
@@ -521,7 +507,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         pageSize: 10
     },
     initView: function () {
-    	console.log("그리드1");
         var _this = this;
 
         this.target = axboot.gridBuilder({
@@ -563,9 +548,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     addRow: function (data) {
     	if(typeof data === "undefined") {
     		this.target.addRow({__created__: true}, "last");
-    		console.log("데이터없음");
     	} else {
-    		console.log("데이터있음");
     		data["__created__"] = true;
             this.target.addRow(data, "last");
     	}
@@ -624,7 +607,6 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
         pageSize: 10
     },
     initView: function () {
-    	console.log("그리드2");
         var _this = this;
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
@@ -639,7 +621,6 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
             ],
             body: {
                 onClick: function () {
-                	console.log("그리드2.2");
                     this.self.select(this.dindex);
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G2, this.item);
                 }

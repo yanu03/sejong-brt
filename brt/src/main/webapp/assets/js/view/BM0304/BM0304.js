@@ -19,7 +19,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0203G0S0",
             data: filter,
             callback: function (res) {
-            	console.log(res);
                 caller.gridView0.setData(res);             
 	               
 	                if(selectedRow != null) {
@@ -36,7 +35,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0203G0S0",
             data: filter,
             callback: function (res) {
-            	console.log(res);
                 caller.gridView1.setData(res);             
 	               
 	                if(selectedRow != null) {
@@ -157,7 +155,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 			data: JSON.stringify(formData),
                 			callback: function (res) {
                 				ok(res);
-                				console.log("BM0201F0I0");
                 				ACTIONS.dispatch(ACTIONS.OPEN_BM0201_MODAL);
                 			 }
                      });
@@ -169,7 +166,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
-    				console.log(formData);
     				axboot.promise()
     				.then(function (ok, fail, data) {
     					axboot.ajax({
@@ -219,7 +215,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
              
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
-	                	console.log(data);
 	                } 
 		                if(selectedRowG1 != null) {
 		                	caller.gridView1.selectRow(selectedRowG1.__index);
@@ -283,10 +278,8 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "save": function () {
             	if(isUpdate) {
-            		console.log("업데이트");
             		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
             	} else {
-            		console.log("세이브");
             		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             	}
             },
