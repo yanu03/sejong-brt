@@ -3,7 +3,6 @@ package com.tracom.brt.controllers;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.jdo.annotations.Transactional;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,17 +33,6 @@ public class BM0205Controller extends BaseController{
     })
     public Responses.ListResponse BM0205G0S0(RequestParams<VhcDvcUpdateVO> requestParams) {
         List<VhcDvcUpdateVO> list = service.BM0205G0S0(requestParams);
-        for(int i = 0; i<list.size(); i++) {
-        	if(list.get(i).getCompleteYn() == null) {
-        		list.get(i).setCompleteYn("예약가능");
-        	}
-        	else if(list.get(i).getCompleteYn().equals("N")) {
-        		list.get(i).setCompleteYn("예약중");
-        	}else {
-        		list.get(i).setCompleteYn("예약가능");
-        	}
-        }
-        
         return Responses.ListResponse.of(list);
     }
     
