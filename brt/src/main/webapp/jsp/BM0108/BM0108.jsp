@@ -122,7 +122,7 @@
 		                                
 									 />
 								 </div>
-								 <div style="float:left;width:260px;height:345px;padding:10px;border: 0px solid #D8D8D8;">
+								 <div style="float:left;width:260px;height:320px;padding:10px;border: 0px solid #D8D8D8;">
 								 	<img id="previewImg" src="#" alt="승무사원 이미지" style="width:180px;"
 	                                onError="preview_Image('previewImg');">
 								 </div>
@@ -135,7 +135,7 @@
 		                                onchange="preview_ChangeImage(this, 'previewImg2');" data-ax-path="certiImg"
 									 />
 								 </div>
-								 <div style="float:left;width:260px;height:345px;padding:10px;border: 0px solid #D8D8D8;">
+								 <div style="float:left;width:260px;height:320px;padding:10px;border: 0px solid #D8D8D8;">
 								 	<img id="previewImg2" src="#" alt="실명제판 이미지" style="width:180px;"
 	                                onError="preview_Image('previewImg2');">
 								 </div>
