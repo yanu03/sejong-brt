@@ -60,13 +60,16 @@
     	</selectKey>
     	INSERT INTO BM_VOC_RSV(
     		  RSV_ID
-    		, RSV_DATE
-    		, ROUT_ID)
-    	VALUES(
+    		, ROUT_ID
+    		, RSV_DATE)
+    	VALUES
+    	<foreach collection="routeList" item="item" separator=",">
+    	(
     		  #{rsvId}
+    		, #{item.routId}
     		, #{rsvDate}
-    		, #{routId}
     	)
+    	</foreach>
     </insert>
     
     <insert id="insertVoiceReservationResult" parameterType="hashmap">

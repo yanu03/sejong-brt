@@ -720,6 +720,7 @@ public class FTPHandler {
 		
 		try {
 			FileUtils.deleteDirectory(new File(playListPath));
+			FileUtils.forceMkdir(new File(playListPath));
 			
 			for(VoiceOrganizationVO orgaVO : orgaList) {
 				String fileName = orgaVO.getOrgaId() + ".csv";
@@ -772,9 +773,9 @@ public class FTPHandler {
 				Utils.createCSV(Paths.get(playListPath, fileName).toFile(), csvContent.toString());
 			}
 			
-			processSynchronize(getRootLocalPath() + getCommonAudioPath(), getRootServerPath() + getCommonAudioPath());
 			processSynchronize(playListPath, getRootServerPath() + routePath);
 			processSynchronize(getRootLocalPath() + getRoutePath(), getRootServerPath() + getRoutePath());
+			processSynchronize(getRootLocalPath() + getCommonAudioPath(), getRootServerPath() + getCommonAudioPath());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

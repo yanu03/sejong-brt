@@ -1,7 +1,5 @@
 package com.tracom.brt.controllers;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.springframework.http.HttpHeaders;
@@ -47,7 +45,7 @@ public class VoiceConroller extends BaseController {
 	}
 	
 	@GetMapping("/checkVoiceOrganization")
-	public ApiResponse checkVoiceReservation(RequestParams<VoiceReservationVO> requestParams) {
+	public ApiResponse checkVoiceOrganization(RequestParams<VoiceReservationVO> requestParams) {
         boolean check = service.checkVoiceOrganization(requestParams);
         return ok(Boolean.toString(check));
     }
