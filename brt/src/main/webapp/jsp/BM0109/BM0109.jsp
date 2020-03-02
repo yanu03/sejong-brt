@@ -34,8 +34,8 @@
 
 
         <ax:split-layout name="ax1" orientation="vertical">
-	        <ax:split-panel width="700">
-	            <ax:split-panel width="500" style="height:290px; padding-right: 10px;">
+	        <ax:split-panel width="450">
+	            <ax:split-panel width="450" style="height:290px; padding-right: 10px;">
 	                <!-- 목록 -->
 	                <div class="ax-button-group" data-fit-height-aside="gridView0">
 	                    <div class="left">
@@ -43,8 +43,8 @@
 	                            <ax:lang id="ax.admin.BM0107G0.title"/> </h2>
 	                    </div>
 	                </div>
-	                <ax:split-panel width="500" style="height:250px;float:left;">
-	                	<div data-ax5grid="gridView0"  style="height:250px; width:700px; padding-right:10px;"></div>
+	                <ax:split-panel width="450" style="height:250px;float:left;">
+	                	<div data-ax5grid="gridView0"  style="height:250px; width:450px; padding-right:10px;"></div>
 	                </ax:split-panel>
 	                    
 	            </ax:split-panel>
@@ -57,7 +57,8 @@
 		                            <button type="button" id="searchSta" class="btn btn-primary" onclick="">
 			                         	<ax:lang id="ax.admin.search"/>
 			                        </button>
-			                        <button type="button" id="refresh" class="btn btn-info" style="margin-right:5px;margin-left:50px;">새로고침</button>
+			                        <button type="button" id="refresh" class="btn btn-info" style="float:right;margin-left:55px;"><i class="cqc-cw"></i></button>
+			                    
 		                        </div>
 	                        </ax:td>
 	                    </ax:tr>
