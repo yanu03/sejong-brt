@@ -12,8 +12,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
     	var resCount = 0;
+    	 if($("#playStDate").val() != null || $("#playStDate").val() != ""){
+    		 filter.playStDate = $("#playStDate").val();
+    		 filter.playEdDate = $("#playEdDate").val();
+    	 }
     	console.log(filter);
-    	
         axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0801G0S0",
@@ -60,13 +63,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		                }
 	            }
 	        });
-
         return false;
     },
    
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRow != null){   		
-    		caller.gridView0.target.exportExcel(selectedRow.dvcId + "data.xls");
+    		caller.gridView0.target.exportExcel("홍보 이력_" + new Date().yyyymmdd() + ".xls");
     	}else {
     		alert("장치 목록을 선택해주세요");
     	}
@@ -90,6 +92,7 @@ fnObj.pageStart = function () {
 	
     this.pageButtonView.initView();
     this.searchView0.initView();
+    this.searchView1.initView();
     this.gridView0.initView();
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
@@ -128,6 +131,25 @@ fnObj.pageButtonView = axboot.viewExtend({
 fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
     initView: function () {
         this.target = $(document["searchView0"]);
+        this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
+        this.filter = $("#filter");
+        
+    },
+    getData: function () {
+    	 return {
+             pageNumber: this.pageNumber,
+             pageSize: this.pageSize,
+             filter: this.filter.val()
+         }
+    }
+});
+
+/**
+ * searchView0
+ */
+fnObj.searchView1 = axboot.viewExtend(axboot.searchView, {
+    initView: function () {
+        this.target = $(document["searchView1"]);
         this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
         this.filter = $("#filter");
         

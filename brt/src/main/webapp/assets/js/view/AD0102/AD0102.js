@@ -16,18 +16,21 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0802G0S0",
+            url: "/api/v1/BM0203G0S0",
             data: filter,
             callback: function (res) {
             	console.log(res);
-                caller.gridView0.setData(res);             
-	               
+                caller.gridView0.setData(res);
+                
+                if(res.list.length == 0) {
+	                caller.gridView1.clear();
+                }else{
 	                if(selectedRow != null) {
 		                	caller.gridView0.selectRow(selectedRow.__index);
 		                } else {
 		                	caller.gridView0.selectFirstRow();
 		                }
-	                
+                }
 	            }
 	        });
 
@@ -98,11 +101,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                	caller.gridView1.selectIdRow(data);
 	                	console.log(data);
 	                } 
-		                if(selectedRowG1 != null) {
+		                /*if(selectedRowG1 != null) {
 		                	caller.gridView1.selectRow(selectedRowG1.__index);
 		                } else {
 		                	caller.gridView1.selectFirstRow();
-		                }
+		                }*/
             }
         });    	
     	
@@ -190,19 +193,25 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-            frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+            frozenColumnIndex: 1,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [
-            		 {key: "vhcNo", label: ADMIN("ax.admin.BM0802G0.vhcno"), sortable: true, align:"center" , width: 100},
-            		 {key: "chasNo", label: ADMIN("ax.admin.BM0802G0.chasno"), align:"center", sortable: true, width: 120},
-                     {key: "modelNm", label: ADMIN("ax.admin.BM0802G0.modelnm"), align:"center", sortable: true, width: 120},
-                     {key: "vhcKind", label: ADMIN("ax.admin.BM0802G0.vhckind"), align:"center", sortable: true, width: 120},
-                     {key: "vhcType", label: ADMIN("ax.admin.BM0802G0.vhctype"), align:"center", sortable: true, width: 120},
-                     {key: "lfYn", label: ADMIN("ax.admin.BM0802G0.lfyn"), align:"center",width: 120},
-                     {key: "vhcFuel", label: ADMIN("ax.admin.BM0802G0.vhcfuel"), align:"center", width: 100},
-                     {key: "maker", label: ADMIN("ax.admin.BM0802G0.maker"), align:"center", width: 120},
-                     {key: "area", label: ADMIN("ax.admin.BM0802G0.area"), align:"center", width: 120},
-                     {key: "remark", label: ADMIN("ax.admin.BM0802G0.remark"), align:"center", width: 250},
+            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), sortable: true, align:"center" , width: 80 ,styleClass:function(){return (this.item.dlCdNm === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
+            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), align:"center", sortable: true, width: 80},
+                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center", sortable: true, width: 120},
+                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), align:"center", sortable: true, width: 120},
+                     {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), sortable: true, width: 120},
+                     {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), width: 120},
+                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 120},
+                     {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), align:"center", width: 120},
+                     {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), width: 120},
+                     {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center", width: 120},
+                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center", width: 120},
+                     {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), align:"center", width: 80},
+                     {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), align:"center", width: 80},
+                     {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), width: 80},
+                     {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 200},
                  ],
             
             body: {
@@ -290,15 +299,18 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-        	frozenColumnIndex: 0,
+        	lineNumberColumnWidth: 30,
+        	frozenColumnIndex: 1,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "dvcCond", label: ADMIN("ax.admin.BM0802G1.lati"), id:"dvcCond",align:"center", sortable: true, width: 120},
-            	{key: "instLoc", label: ADMIN("ax.admin.BM0802G1.longi"), align:"center", sortable: true, width: 120},
-            	{key: "dvcId", label: ADMIN("ax.admin.BM0802G1.buscond"), align:"center", sortable: true, width: 120},
-            	{key: "maker", label: ADMIN("ax.admin.BM0802G1.driving.time"), align:"center", width: 120},
-                {key: "dvcKind", label: ADMIN("ax.admin.BM0802G1.driving.dc"), align:"center", sortable: true, width: 120},
-                {key: "dvcType", label: ADMIN("ax.admin.BM0802G1.regi.date"), align:"center", sortable: true, width: 120},
+            	{key: "dvcCond", label: ADMIN("ax.admin.BM0203G0.dvccond"), id:"dvcCond",align:"center", sortable: true, width: 80 , styleClass:function(){return (this.item.dvcCond === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
+            	{key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), sortable: true, width: 100},
+            	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), align:"center", sortable: true, width: 80},
+            	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), width: 100},
+                {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), sortable: true, width: 130},
+                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), align:"center", width: 150},
+                {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), width: 150},
+                {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
             ],
             body: {
             	 onClick: function () {
