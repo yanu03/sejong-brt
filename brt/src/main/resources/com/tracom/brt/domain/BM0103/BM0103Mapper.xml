@@ -9,23 +9,25 @@
     		, VHC_NO
     		, CHAS_NO
     		, VHC_INFO.CORP_ID
-            , CORP_INFO.CORP_NM AS CORP_NM
+            , CORP_INFO.CORP_NM		AS CORP_NM
     		, AREA
-            , DL_CD6.DL_CD_NM AS AREA_NM
+            , DL_CD6.DL_CD_NM		AS AREA_NM
     		, MAKER
-            , DL_CD5.DL_CD_NM AS MAKER_NM
+            , DL_CD5.DL_CD_NM		AS MAKER_NM
     		, RELS_DATE
     		, MODEL_NM
     		, VHC_KIND
-            , DL_CD.DL_CD_NM AS VHC_KIND_NM
+            , DL_CD.DL_CD_NM		AS VHC_KIND_NM
     		, VHC_TYPE
-            , DL_CD2.DL_CD_NM AS VHC_TYPE_NM
+            , DL_CD2.DL_CD_NM		AS VHC_TYPE_NM
     		, LF_YN
-            , DL_CD3.DL_CD_NM AS LF_YN_NM
+            , DL_CD3.DL_CD_NM		AS LF_YN_NM
     		, VHC_FUEL
-            , DL_CD4.DL_CD_NM AS VHC_FUEL_NM
-    		, VHC_INFO.REMARK
-    		, VHC_INFO.USE_YN
+            , DL_CD4.DL_CD_NM		AS VHC_FUEL_NM
+    		, VHC_INFO.REMARK		AS REMARK
+    		, VHC_INFO.USE_YN		AS USE_YN
+    		, VHC_INFO.AD_ROUT		AS AD_ROUT
+    		, VHC_INFO.AD_LVL		AS AD_LVL
     	FROM
     		BM_VHC_INFO VHC_INFO
             LEFT JOIN
@@ -77,7 +79,9 @@
     		, LF_YN
     		, VHC_FUEL
     		, REMARK
-    		, USE_YN    		
+    		, USE_YN    	
+    		, AD_ROUT
+    		, AD_LVL	
     		, CREATED_AT
     		, CREATED_BY
     		, UPDATED_AT
@@ -98,6 +102,8 @@
    			, #{vhcFuel}
    			, #{remark}
    			, #{useYn}
+   			, #{adRout}
+   			, #{adLvl}
    			, #{createdAt}
    			, #{createdBy}
    			, #{updatedAt}
@@ -121,6 +127,8 @@
     		, VHC_FUEL		=	#{vhcFuel}
     		, REMARK		= 	#{remark}
     		, USE_YN		=	#{useYn}
+    		, AD_ROUT		= 	#{adRout}
+    		, AD_LVL		=	#{adLvl}
     		, UPDATED_AT	=	#{updatedAt}
     		, UPDATED_BY	=	#{updatedBy}
     	WHERE

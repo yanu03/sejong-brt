@@ -120,7 +120,62 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     ITEM_CLICK: function (caller, act, data) {
     	selectedRow = data;
-    }
+    },
+    PAGE_RESERVATION: function(caller, act, data) {
+    	if(selectedRow == null) {
+    		axDialog.alert("편성을 선택해주세요");
+    		return false;
+    	}
+    	
+    	var vehicleList = caller.gridView1.getData("selected");
+    	
+    	if(vehicleList.length == 0) {
+    		axDialog.alert("장비를 선택해주세요");
+    	}
+    	
+    	for(var i = 0; i < vehicleList.length; i++) {
+    		if(vehicleList[i].possible != null) {
+    			axDialog.alert("예약중인 장비는 중복예약이 되지 않습니다.")
+    			return false;
+    		}
+    	}
+    	
+		axboot.modal.open({
+            modalType: "RESERVATION",
+            param: "",
+            callback: function (result) {
+            	this.close();
+            	
+            	var rsvDate = result;
+            	var orgaId = selectedRow.orgaId;
+            	
+            	
+            	var data = {
+            		rsvDate: rsvDate,
+            		orgaId: orgaId,
+            		voList: vehicleList
+            	}
+            	axboot.promise()
+	    	        .then(function (ok, fail, _data) {
+	    	            axboot.ajax({
+	    	                type: "POST",
+	    	                url: "/api/v1/BM0607G1I0",
+	    	                data: JSON.stringify(data),
+	    	                callback: function (res) {
+	    	                    ok(res);
+	    	                }
+	    	            });
+	    	        })
+	    	        .then(function (ok, fail, data) {
+	    	        	axToast.push(LANG("ax.script.alert.reservation"));
+	    	        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	    	        })
+	    	        .catch(function () {
+	    	        	
+	    	        });
+            }
+        });
+    },
 });
 /********************************************************************************************************************/
 
@@ -150,21 +205,12 @@ fnObj.pageButtonView = axboot.viewExtend({
             	selectedRow = null;
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
-            "new": function() {
-            	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
-            },
-            "delete": function() {
-            	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
-            },
-            "save": function () {
-           		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
-            },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             },
-            "commonSetting": function() {
-            	ACTIONS.dispatch(ACTIONS.OPEN_BM0602_MODAL);
-            },
+        	"reservation": function() {
+        		ACTIONS.dispatch(ACTIONS.PAGE_RESERVATION);
+        	},
         });
     }
 });
@@ -308,7 +354,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "possible",	label: "가능여부",								width: 100},
+            	{key: "possible",	label: "예약여부",								width: 100},
             	{key: "vhcId",		label: "차량ID",								width: 100},
                 {key: "vhcNo",		label: ADMIN("ax.admin.BM0607G1.vhcNo"),	width: 100},
                 {key: "vhcKindNm",	label: "장치종류",								width: 150},
@@ -403,36 +449,4 @@ function clickRowSelector(){
     		}
     	}
 	});
-}
-
-function reservation(date){
-	var data = fnObj.gridView1.getData();
-	var input = [];
-
-	for(var i=0; i<data.length; i++){
-		if(data[i].isChecked == "ckd"){
-			input.push(data[i]);
-		}
-	}
-	var formData = new FormData()
-	
-	/*
-    axboot.promise()
-        .then(function (ok, fail, data) {
-            axboot.ajax({
-                type: "POST",
-                url: "/api/v1/BM0607G1U0",
-                data: JSON.stringify(input),
-                callback: function (res) {
-                    ok(res);
-                }
-            });
-        })
-        .then(function (ok, fail, data) {
-        	axToast.push(LANG("onadd"));
-        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-        })
-        .catch(function () {
-        });
-        */
 }
