@@ -87,6 +87,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     },
     
+    PAGE_EXCEL: function(caller, act, data) {
+    	caller.gridView0.target.exportExcel("정류장목록_" + new Date().yyyymmdd() + ".xls");
+    },
+    
     PAGE_SAVE: function (caller, act, data) {
     	if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
@@ -179,7 +183,7 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "excel": function () {
             	selectedRow = null;
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "new": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
