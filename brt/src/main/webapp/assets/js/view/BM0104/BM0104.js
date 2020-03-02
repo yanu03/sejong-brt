@@ -182,7 +182,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             modalType: "FILE_UPLOAD",
             param: "",
             callback: function (data) {
-            	console.log(data);
                 this.close();
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             }

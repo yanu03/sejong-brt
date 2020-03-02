@@ -165,6 +165,8 @@
     		CO_CD = 'DVC_KIND'
     		AND
     		TXT_VAL1 = 'RD'
+    		AND
+    		USE_YN = 'Y'
     </select>
     
     <select id="SM0105G2S1" parameterType="String" resultType="commonCodedetailInfoVO">
@@ -178,6 +180,8 @@
 		    TXT_VAL1 = 'RD'
 		    AND
 		    DL_CD = #{value}
+		    AND
+		    USE_YN = 'Y'
     </select>
     
     <select id="SM0105G2S2" parameterType="String" resultType="String">
@@ -189,6 +193,8 @@
 			CO_CD = 'UPDOWN_FLAG'
 			AND
 		    DL_CD = #{value}
+		    AND
+		    USE_YN = 'Y'
     </select>
     
     <select id="SM0105G3S0" parameterType="String" resultType="String">
@@ -200,6 +206,8 @@
 			CO_CD = 'EFFECT_TYPE'
 		    AND
 		    DL_CD_NM = #{value}
+		    AND
+		    USE_YN = 'Y'
     </select>
     
     <select id="SM0105G3S1" parameterType="String" resultType="String">
@@ -211,5 +219,7 @@
 			CO_CD = 'EFFECT_TYPE'
 		    AND
 		    TXT_VAL1 = #{value}
+		    AND
+		   	USE_YN = 'Y'
     </select>
 </mapper>

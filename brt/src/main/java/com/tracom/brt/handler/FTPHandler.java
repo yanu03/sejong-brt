@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,7 +40,11 @@ import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
 import com.tracom.brt.domain.BM0501.DestinationVO;
 import com.tracom.brt.domain.BM0605.VideoInfoVO;
+import com.tracom.brt.domain.BM0607.BM0607Mapper;
+import com.tracom.brt.domain.BM0607.VdoRsvVO;
 import com.tracom.brt.domain.BM0608.BmScrInfoVO;
+import com.tracom.brt.domain.BM0609.BM0609Service;
+import com.tracom.brt.domain.BM0609.ScrRsvVO;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
 import com.tracom.brt.domain.routeReservation.RoutListCSVVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
@@ -89,6 +94,12 @@ public class FTPHandler {
     
 	@Inject
 	private SM0105Mapper SM0105Mapper;
+	
+	@Inject
+	private BM0607Mapper BM0607Mapper;
+	
+	@Inject
+	private BM0609Service BM0609Service;
 	
 	private ArrayList<String> serverContentList;
 	private ArrayList<String> pathList;
@@ -195,8 +206,95 @@ public class FTPHandler {
 			return result;
 		}
 	}
-	
 
+	public void copyFile(File fFile, File tFile) throws IOException {
+		FileInputStream fis = new FileInputStream(fFile);
+		FileOutputStream fos = new FileOutputStream(tFile);
+		
+		int fileByte = 0;
+		while((fileByte = fis.read()) != -1){
+			fos.write(fileByte);
+		}
+		
+		fis.close();
+		fos.close();
+	}
+	
+	//BM0607 영상예약
+	public void reserveVideo(VdoRsvVO vo) throws IOException {
+		String path = Paths.get(getRootLocalPath(), "/vehicle", "/" , vo.getImpId(), "/device" , "/", vo.getDvcId(), "/playlist").toString();
+		String fromPath = Paths.get(getRootLocalPath(), "/video/").toString();
+		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device", "/device/passenger/").toString();
+		
+		String txt = GlobalConstants.CSVForms.VIDEO_PLAY_LIST;
+		
+		List<VdoRsvVO> voList = BM0607Mapper.makePlayList(vo.getOrgaId());
+		for(int i = 0; i < voList.size(); i++) {
+			String row = GlobalConstants.CSVForms.ROW_SEPARATOR
+					+ (i+1) + GlobalConstants.CSVForms.COMMA
+					+ voList.get(i).getVideoType() + GlobalConstants.CSVForms.COMMA
+					+ voList.get(i).getVideoFile() + GlobalConstants.CSVForms.COMMA
+					+ voList.get(i).getPlayStDate() + GlobalConstants.CSVForms.COMMA
+					+ voList.get(i).getPlayEdDate() + GlobalConstants.CSVForms.COMMA
+					+ voList.get(i).getRunTime();
+			txt += row;
+			
+			File fFile = new File(fromPath + "/" + voList.get(i).getVideoFile());
+			File tFile = new File(toPath + "/" + voList.get(i).getVideoFile());
+			
+			copyFile(fFile, tFile);
+
+		}
+		
+		
+		File file = new File(path + "/playlist.csv");
+		
+		try {
+			Utils.createCSV(file, txt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//BM0609 화면예약
+	public void reserveScreen(ScrRsvVO vo) throws IOException {
+		String path = Paths.get(getRootLocalPath(), "/vehicle", "/" , vo.getImpId(), "/device" , "/", vo.getDvcId(), "/config").toString();
+		String fromPath = Paths.get(getRootLocalPath(), "/template/", vo.getSetId()).toString();
+		
+		String txt = "";
+		
+		List<ScrRsvVO> voList = BM0609Service.makeConfig(vo);
+		
+		for(int i = 0; i < voList.size(); i++) {
+			String row = voList.get(i).getCol1() + GlobalConstants.CSVForms.COMMA + voList.get(i).getCol2();
+			if(i < voList.size() - 1) {
+				row += GlobalConstants.CSVForms.ROW_SEPARATOR;
+			}
+			
+			txt += row;
+		}
+		
+		File fFile1 = new File(fromPath + "/background.png");
+		File tFile1 = new File(path + "/background.png");
+		File fFile2 = new File(fromPath + "/land.png");
+		File tFile2 = new File(path + "/land.png");
+		File fFile3 = new File(fromPath + "/nextstopbg.png");
+		File tFile3 = new File(path + "/nextstopbg.png");
+		
+		copyFile(fFile1, tFile1);
+		copyFile(fFile2, tFile2);
+		copyFile(fFile3, tFile3);
+		
+		File file = new File(path + "/config.csv");
+		
+		try {
+			Utils.createCSV(file, txt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	//템플릿 배경 파일 업로드
 	public boolean uploadBM0608(BmScrInfoVO vo) {
 		String dir = Paths.get(getRootLocalPath(), "/template" + "/" + vo.getSetId()).toString();
@@ -720,6 +818,7 @@ public class FTPHandler {
 		
 		try {
 			FileUtils.deleteDirectory(new File(playListPath));
+			FileUtils.forceMkdir(new File(playListPath));
 			
 			for(VoiceOrganizationVO orgaVO : orgaList) {
 				String fileName = orgaVO.getOrgaId() + ".csv";
@@ -772,9 +871,9 @@ public class FTPHandler {
 				Utils.createCSV(Paths.get(playListPath, fileName).toFile(), csvContent.toString());
 			}
 			
-			processSynchronize(getRootLocalPath() + getCommonAudioPath(), getRootServerPath() + getCommonAudioPath());
 			processSynchronize(playListPath, getRootServerPath() + routePath);
 			processSynchronize(getRootLocalPath() + getRoutePath(), getRootServerPath() + getRoutePath());
+			processSynchronize(getRootLocalPath() + getCommonAudioPath(), getRootServerPath() + getCommonAudioPath());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

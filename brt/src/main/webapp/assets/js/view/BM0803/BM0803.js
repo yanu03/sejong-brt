@@ -17,7 +17,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			data: filter,
 			callback: function (res) {
 				caller.gridView0.setData(res);
-				console.log(res);
 				if(res.list.length == 0) {
 				} else {
 					if(dataFlag) {
@@ -236,7 +235,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 				body: {
 					onClick: function () {
 						this.self.select(this.dindex);
-						//console.log(this.self.list[this.dindex]);
 						ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G0, this.item);
 					}
 				},

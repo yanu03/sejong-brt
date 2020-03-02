@@ -52,8 +52,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     	if(confirm("삭제 후에는 되돌릴수 없습니다. 정말 삭제하시겠습니까?") == true){    //확인
     		//노드 삭제
-    		console.log(grid.selectedDataIndexs[0]);
-    		
     		axboot.promise()
 			.then(function (ok, fail, data) {
 				axboot.ajax({

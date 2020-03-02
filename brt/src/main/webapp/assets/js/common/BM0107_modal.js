@@ -18,7 +18,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     PAGE_CHOICE: function (caller, act, data) {
         var list = caller.gridView01.getData("selected");
-        console.log(list);
         if (list.length > 0) {
         	alert(LANG("ax.script.interfaceConfirm"));
             /*if (parent && parent.axboot && parent.axboot.modal) {

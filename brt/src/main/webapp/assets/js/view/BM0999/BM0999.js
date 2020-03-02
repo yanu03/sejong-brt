@@ -169,7 +169,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
 /**onclick 이벤트시 마커 추가**/
 function onClickMap(e){
-	console.log('ee');
 	// 클릭한 위치에 새로 마커를 찍기 위해 이전에 있던 마커들을 제거
 	removeMarkers_user();
 	var lonlat = e.latLng;

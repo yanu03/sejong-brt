@@ -29,10 +29,12 @@ public class BM0406Service extends BaseService<VoiceOrganizationVO, String> {
 	
 	@Transactional
 	public void BM0406G1I0(Map<String, Object> param) {
-		String routId = param.get("routId").toString();
-		service.makeRouteFile(routId);
+		List<Map<String, Object>> routeList = (List<Map<String, Object>>) param.get("routeList");
+		
+		for(Map<String, Object> route : routeList) {
+			service.makeRouteFile(route.get("routId").toString());
+		}
 		mapper.insertVoiceReservation(param);
-		System.out.println(param);
 		mapper.insertVoiceReservationResult(param);
 	}
 }

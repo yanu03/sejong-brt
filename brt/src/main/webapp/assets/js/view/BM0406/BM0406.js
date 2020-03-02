@@ -8,7 +8,9 @@ var selectedRow = null;
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_RESERVATION: function(caller, act, data) {
-    	if(selectedRow == null) {
+		var routeList = caller.gridView0.getData("selected");
+		
+    	if(routeList.length == 0) {
     		axDialog.alert("노선을 선택해주세요");
     		return false;
     	}
@@ -17,15 +19,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
     	if(vehicleList.length == 0) {
     		axDialog.alert("차량을 선택해주세요");
+    		return false;
     	}
     	
-    	vehicleList.forEach(function(item) {
-    		if(item.rsvId != null) {
+    	for(var i = 0; i < vehicleList.length; i++) {
+    		if(vehicleList[i].rsvId != null) {
     			axDialog.alert("예약중인 차량은 중복예약이 되지 않습니다.")
     			return false;
     		}
-    	});
-    	
+    	}
     	
 		axboot.modal.open({
             modalType: "RESERVATION",
@@ -34,14 +36,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	this.close();
             	
             	var rsvDate = result;
-            	var routId = selectedRow.routId;
             	var list = vehicleList.map(function(item) {
             		return item.mngId;
             	});
             	
             	var data = {
             		rsvDate: rsvDate,
-            		routId: routId,
+            		routeList: routeList,
             		list: list
             	}
             	
@@ -70,7 +71,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
 	PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
-    	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
     	
         axboot.ajax({
@@ -79,18 +79,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);
-                
-                if(res.list.length != 0) {
-                	if(dataFlag) {
-	                	caller.gridView0.selectIdRow(data);
-	                } else {
-		                if(selectedRow != null) {
-		                	caller.gridView0.selectRow(selectedRow.__index);
-		                } else {
-		                	caller.gridView0.selectFirstRow();
-		                }
-	                }
-                }
             }
         });
 
@@ -199,6 +187,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
         	lineNumberColumnWidth: 30,
+        	multipleSelect : true,
+        	showRowSelector: true,
         	sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [

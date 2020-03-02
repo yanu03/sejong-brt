@@ -140,7 +140,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    data: JSON.stringify(formData),
 	                    callback: function (res) {
 	                        ok(res);
-	                        console.log("서치");
 	                    }
 	                });
 	            })          
@@ -154,7 +153,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 			  data: JSON.stringify(formData),
                 			  callback: function (res) {
                 				  ok(res);
-                				  console.log("insert");
                 			  }
                 		  });
                  })
@@ -181,17 +179,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var confirmYn = $('#confirmYn').val();
     	if(confirmYn == "미확정"){
     		confirmYn = "N";
-    		console.log("미확정");
     		}
-    	console.log(confirmYn);
     		if(confirmYn == "N"){
-    				console.log("N");
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
     				formData["conNm"] = selectedRow.conNm;
     				formData["confirmYn"] = "N";
     				formData["conNo"] = selectedRow.conNo;
-    				console.log(formData);
     				
     				axboot.promise()
     				.then(function (ok, fail, data) {
@@ -301,10 +295,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
     	selectedRowG1 = data;
-    	console.log(data);
     	if(selectedRowG1 == null){
     		selectedRow = data;
-    		console.log("변경데이터가 없습니다.");
     	}
     	caller.formView0.setData(data);
     	if(selectedRowG1.confirmYn == "확정" || selectedRowG1.altDiv == "종료"){
@@ -316,7 +308,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     RELOAD_G1: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
-    	console.log(selectedRow);
     	
     	if(selectedRow != null){
     		axboot.ajax({
@@ -324,8 +315,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     			url: "/api/v1/BM0302G1S0",
     			data: {conId: selectedRow.conId},
     			callback: function (res) {
-    				console.log("reloadG1");
-    				console.log(res);
     				if(res.list[0].altDiv != null){
     					caller.gridView1.setData(res);            			
     				} 
@@ -333,7 +322,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				if(res.list[0].altDiv == null) {
     					isUpdate = false;
     					if(selectedRow.confirmYn == "Y"){
-    						console.log("일루와");
     						selectedRow.confirmYn = "확정";
     					}
     					caller.formView0.setData(selectedRow);
@@ -400,10 +388,8 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "save": function () {
             	if(isUpdate) {
-            		console.log("업데이트");
             		ACTIONS.dispatch(ACTIONS.PAGE_UPDATE);
             	} else {
-            		console.log("세이브");
             		ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             	}
             },

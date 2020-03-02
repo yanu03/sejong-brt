@@ -167,12 +167,12 @@ fnObj.pageStart = function () {
     this.searchView1.initView();
     this.gridView0.initView();
     this.gridView1.initView();
-    this.gridView2.initView();
     initTmap({width:"100%"
     		, height:"100%"
     		, onClick: onClickMap	
     		});
     setInitVal();
+    this.gridView2.initView();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
     calcDistance();
 };
@@ -282,13 +282,13 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             				if(stopAdd) {
             					stopAdd = false;
             					$("#mapView0").removeClass("cursor-crosshair");
-            					$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>');
+            					$('#stopAdd').html('<button class="btn btn-info" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>');
             				}
             				
             				if(nodeAdd) {
             					nodeAdd = false;
             					$("#mapView0").removeClass("cursor-crosshair");
-            					$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>');
+            					$('#nodeAdd').html('<button class="btn btn-info" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>');
             				}
             				
             				isNewData = false;
@@ -370,7 +370,7 @@ function editSeq(){
 	return {
 		type: "money",
 		disabled: function(){
-			return ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+			ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
 		},
 		attributes:{
 			"maxlength" : 11
@@ -520,7 +520,6 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
 		    	[
 		    		{label: "예상 이동시간", colspan: 1, align: "left"},
 		    		{key: "duration", collector: function() {
-		    			//return calcDuration(this.list[0].col2, this.list[1].col2);
 		    			var result = calcDuration();
 		    			return result;
 		    		}}
@@ -599,6 +598,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
 /*****************************************/
 function searchGrid1(caller, act, data){
 	var dataFlag = typeof data !== "undefined";
+	data.filter1 = $('#filter1').val();
 	axboot.ajax({
         type: "GET",
         url: "/api/v1/BM0804G1S0",
@@ -742,6 +742,7 @@ function drawRoute(list) {
 			
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
 			if(list[i].nodeType == busstopNodeType) {
+				list[i].icon = "/assets/images/tmap/busstop.png";
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				addMarker(list[i]);
 			}
@@ -787,7 +788,7 @@ function addStop(){
 	if(stopAdd) {
 		stopAdd = false;
 		$("#mapView0").removeClass("cursor-crosshair");
-		$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>');
+		$('#stopAdd').html('<button class="btn btn-info" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>');
 	} else {
 		stopAdd = true;
 		isNewData = true;
@@ -798,7 +799,7 @@ function addStop(){
 	if(nodeAdd) {
 		nodeAdd = false;
 		$("#mapView0").removeClass("cursor-crosshair");
-		$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>');
+		$('#nodeAdd').html('<button class="btn btn-info" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>');
 	}
 }
 
@@ -806,7 +807,7 @@ function addNode(){
 	if(nodeAdd) {
 		nodeAdd = false;
 		$("#mapView0").removeClass("cursor-crosshair");
-		$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>');
+		$('#nodeAdd').html('<button class="btn btn-info" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>');
 	} else {
 		nodeAdd = true;
 		isNewData = true;
@@ -817,7 +818,7 @@ function addNode(){
 	if(stopAdd) {
 		stopAdd = false;
 		$("#mapView0").removeClass("cursor-crosshair");
-		$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>');
+		$('#stopAdd').html('<button class="btn btn-info" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>');
 	}
 }
 
@@ -983,6 +984,7 @@ function onOffMarker(input){
 		removeMarkers();
 		for(var i=0; i<list.length; i++){
 			if(list[i].nodeType == '1'){
+				list[i].icon = "/assets/images/tmap/busstop.png";
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				addMarker(list[i]);
 			}
@@ -1006,7 +1008,7 @@ function onOffMarker(input){
 			if(list[i].nodeType=="30"){
 				list[i].icon = "/assets/images/tmap/road_trans.png";
 			}else{
-				
+				list[i].icon = "/assets/images/tmap/busstop.png";				
 			}
 			list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 			addMarker(list[i]);

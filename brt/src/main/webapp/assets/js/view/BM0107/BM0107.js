@@ -52,7 +52,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     	if(confirm("삭제 후에는 되돌릴수 없습니다. 정말 삭제하시겠습니까?") == true){    //확인
     		//노드 삭제
-    		console.log(grid.selectedDataIndexs[0]);
     		
     		axboot.promise()
 			.then(function (ok, fail, data) {
@@ -79,7 +78,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
     },
     
-    
+    PAGE_EXCELIMPORT: function(caller, act, data){
+    	axboot.modal.open({
+            modalType: "FILE_UPLOAD",
+            param: "",
+            callback: function (data) {
+                this.close();
+                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+            }
+        });
+    },
     
     // 탭닫기
     PAGE_CLOSE: function(caller, act, data) {
@@ -157,6 +165,32 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	drawRoute(routeData);
     },
     
+    PAGE_SAVE: function(caller, act, data){
+    	var postData = fnObj.gridView1.getData();
+        axboot.promise()
+            .then(function (ok, fail, data) {
+                axboot.ajax({
+                    type: "POST",
+                    url: "/api/v1/BM0107G1I0",
+                    data: JSON.stringify(postData),
+                    callback: function (res) {
+                    	if(res.message == "error"){
+                    		alert("중복된 노선ID가 있습니다. 확인 후 저장하세요.");
+                    	}else{
+                    		ok(res);
+                    	}
+                    }
+                });
+            })
+            .then(function (ok, fail, data) {
+        		axToast.push(LANG("onadd"));
+        		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+                isUpdate = true;
+            })
+            .catch(function () {
+
+            });
+    },
     
 });
 
@@ -173,7 +207,8 @@ fnObj.pageStart = function () {
     this.gridView1.initView();
     initTmap({width:"100%"
     		, height:"100%"});
-    
+	chked();
+	btnClick();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -202,6 +237,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
+            },
+            "save": function(){
+            	ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             }
             
         });
@@ -362,8 +400,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
                 {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80},
-                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: {type: "number"}
-                },
+                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq},
                 {key: "nodeType",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 30},
                 {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
                 {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120},
@@ -444,6 +481,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 /*****************************************/
 function searchGrid1(caller, act, data){
 	var dataFlag = typeof data !== "undefined";
+	data.filter1 = $('#filter1').val();
 	axboot.ajax({
         type: "GET",
         url: "/api/v1/BM0107G1S0",
@@ -463,6 +501,7 @@ function searchGrid1(caller, act, data){
             /**추가한거끝**/	
         }
     });
+	return false;
 }
 
 /*****************************************/
@@ -484,6 +523,7 @@ function drawRoute(list) {
 			
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
 			if(list[i].nodeType == '1' || list[i].nodeType == '898') {
+				list[i].icon = "/assets/images/tmap/busstop.png";
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				addMarker(list[i]);
 			}
@@ -491,10 +531,8 @@ function drawRoute(list) {
 			else if(list[i].nodeType == '30'){
 				list[i].icon = "/assets/images/tmap/road_trans.png";
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeId + "</span>";
-				addMarkerInter(list[i], fnObj.gridView1, i);
-			}
-			// 아닐 경우(무슨노드?) 네모 박스 표시
-			else {
+				//addMarkerInter(list[i], fnObj.gridView1, i);
+				addMarker(list[i]);
 				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
 			}
 		}
@@ -507,4 +545,100 @@ function drawRoute(list) {
 			zIndex: -1
 		}); 
 	}
+}
+
+function chked(){
+	$('#toggleStn').on('change', function(){
+		if($('#toggleStn').is(":checked")){
+			if($('#toggleNode').is(":checked")){
+				onOffMarker("11");
+			}else{
+				onOffMarker("10");
+			}
+		}else{
+			if($('#toggleNode').is(":checked")){
+				onOffMarker("01");
+			}else{
+				onOffMarker("00");
+			}
+		}
+	});
+	
+	$('#toggleNode').on('change', function(){
+		if($('#toggleStn').is(":checked")){
+			if($('#toggleNode').is(":checked")){
+				onOffMarker("11");
+			}else{
+				onOffMarker("10");
+			}
+		}else{
+			if($('#toggleNode').is(":checked")){
+				onOffMarker("01");
+			}else{
+				onOffMarker("00");
+			}
+		}
+	});
+}
+
+function onOffMarker(input){
+	var list = fnObj.gridView1.getData();
+	switch(input){
+	case "00" :
+		removeMarkers();
+		break;
+		
+	case "10" : //정류장만
+		removeMarkers();
+		for(var i=0; i<list.length; i++){
+			if(list[i].nodeType == '1'){
+				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				addMarker(list[i]);
+			}
+		}
+		break;
+		
+	case "01" : //경로만
+		removeMarkers();
+		for(var i=0; i<list.length; i++){
+			if(list[i].nodeType == '30'){
+				list[i].icon = "/assets/images/tmap/road_trans.png";
+				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				addMarker(list[i]);
+			}
+		}
+		break;
+		
+	case "11" : //다
+		removeMarkers();
+		for(var i=0; i<list.length; i++){
+			if(list[i].nodeType=="30"){
+				list[i].icon = "/assets/images/tmap/road_trans.png";
+			}else{
+				
+			}
+			list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+			addMarker(list[i]);
+		}
+		break;
+	}
+}
+
+var editSeq = {
+		type: "money",
+		disabled: function(){
+		},
+		attributes:{
+			"maxlength" : 11
+		}
+}
+
+function btnClick(){
+	
+	$('#refresh').on('click', function(){
+		var tmpData = fnObj.gridView1.getData();
+		tmpData.sort(function (a,b){return a.seq - b.seq});
+		fnObj.gridView1.setData(tmpData);
+		drawRoute(fnObj.gridView1.getData());
+	})
 }

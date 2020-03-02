@@ -92,10 +92,30 @@
     <insert id="BM0107G2I0" parameterType="bmRoutNodeInfoVO">
     	INSERT INTO
     		BM_ROUT_NODE_TRASH
-    	SELECT
-    		*
-    	FROM
-    		BM_ROUT_NODE_INFO
+    	
+		(
+		SELECT 
+			  NODE.NODE_ID
+		    , NODE.NODE_NM
+		    , NODE.LATI
+		    , NODE.LONGI
+		    , NODE.SEQ
+		    , NODE.ROUT_ID
+		    , NODE.INTER_ROUT_ID
+		    , NODE.STA_ID
+		    , NODE.NODE_TYPE
+		    , NODE.CREATED_AT
+		    , NODE.CREATED_BY
+		    , NODE.UPDATED_AT
+		    , NODE.UPDATED_BY
+		    , ROUT.PUB_DATE
+		    , ROUT.PUB_SEQ
+		FROM
+			BM_ROUT_NODE_INFO NODE
+		    LEFT JOIN
+		    BM_ROUT_INFO ROUT
+		    ON NODE.ROUT_ID = ROUT.ROUT_ID
+		)
     	WHERE
     		ROUT_ID = #{routId}
     </insert>

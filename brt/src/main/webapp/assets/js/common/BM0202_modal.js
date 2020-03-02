@@ -15,7 +15,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var formData = caller.formView0.getData();
     	if(formData["aplyDate"] != null){
     		isUpdate = true;
-    		console.log("true");
     	}
     },
     
@@ -32,12 +31,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     data: JSON.stringify({dvcId : formDataCheck , workType : formData["workType"]}),
                     callback: function (res) {
                         ok(res);
-                        console.log(res);
                     }
                 });
             })
               .then(function (ok, fail, data) {
-               console.log(data.message);
                if(data.message == "true"){
             	axboot.promise()
                 .then(function (ok, fail, data) {
@@ -188,11 +185,8 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     setData: function (data) {
         if (typeof data === "undefined") data = this.getDefaultData();
-        console.log("data1");
-        console.log(data);
         var workData = data.workType;
         data = $.extend({}, data);
-        console.log(data);
 
         this.model.setModel(data);
         this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경

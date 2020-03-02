@@ -8,48 +8,59 @@
 
 <ax:layout name="base">
     <jsp:attribute name="script">
+        <ax:script-lang key="ax.script" />
+        <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/SM0108/SM0108.js' />"></script>
     </jsp:attribute>
     <jsp:body>
 
         <ax:page-buttons></ax:page-buttons>
 
-
         <div role="page-header">
             <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
-                        <ax:td label='검색조건' width="300px">
-                            <input type="text" class="form-control" />
-                        </ax:td>
-                        <ax:td label='검색조건 1' width="300px">
-                            <input type="text" class="form-control" />
-                        </ax:td>
-                        <ax:td label='검색조건 2' width="300px">
-                            <input type="text" class="form-control" />
+                        <ax:td>
+                            <!--
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.SM0104S0.search"/>
+                            -->
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H10"></div>
+            <div class="H3"></div>
         </div>
 
-        <ax:split-layout name="ax1" orientation="horizontal">
-            <ax:split-panel width="*" style="">
-
+        <ax:split-layout name="ax1" orientation="vertical">
+            <ax:split-panel width="*" style="padding-right: 10px; height:100%;">
                 <!-- 목록 -->
-                <div class="ax-button-group" data-fit-height-aside="grid-view-01">
+                <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
-                        <h2><i class="cqc-list"></i>
-                            프로그램 목록 </h2>
+                        <h3><i class="cqc-list"></i>
+                            	예약적용 관리 </h3>
                     </div>
                     <div class="right">
-                        <button type="button" class="btn btn-default" data-grid-view-01-btn="add"><i class="cqc-circle-with-plus"></i> 추가</button>
-                        <button type="button" class="btn btn-default" data-grid-view-01-btn="delete"><i class="cqc-circle-with-plus"></i> 삭제</button>
+
                     </div>
                 </div>
-                <div data-ax5grid="grid-view-01" data-fit-height-content="grid-view-01" style="height: 300px;"></div>
 
+            	<ax:tab-layout name="ax2">
+            			<ax:tab-panel label="차내장치 업데이트 관리" scroll="scroll" active="true" style="height:100%; padding-bottom:5px;">
+					            <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height:100%;"></div>
+					    </ax:tab-panel>
+					    <ax:tab-panel label="음성예약 관리" scroll="scroll" style="height:100%; padding-bottom:5px;">
+					            <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height:100%;"></div>
+					    </ax:tab-panel>
+					    <ax:tab-panel label="표출예약 관리" scroll="scroll" style="height:100%; padding-bottom:5px;">
+					            <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height:100%;"></div>
+					    </ax:tab-panel>
+					    <ax:tab-panel label="편성영상예약 관리" scroll="scroll" style="height:100%; padding-bottom:5px;">
+					            <div data-ax5grid="gridView3" data-fit-height-content="gridView3" style="height:100%;"></div>
+					    </ax:tab-panel>
+					    <ax:tab-panel label="화면설정예약 관리" scroll="scroll" style="height:100%; padding-bottom:5px;">
+					            <div data-ax5grid="gridView4" data-fit-height-content="gridView4" style="height:100%;"></div>
+					    </ax:tab-panel>
+				</ax:tab-layout>
             </ax:split-panel>
         </ax:split-layout>
 

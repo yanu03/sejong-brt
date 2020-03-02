@@ -1,4 +1,4 @@
-package com.tracom.brt.domain.BM0607;
+package com.tracom.brt.domain.BM0609;
  
 import java.util.List;
 
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
  
 @Data
 @NoArgsConstructor
-public class VdoRsvVO extends BaseVO {
+public class ScrRsvVO extends BaseVO {
 
 	private String possible;
 	
@@ -29,24 +29,22 @@ public class VdoRsvVO extends BaseVO {
 	
 	private String rsvId;
 	
+	private String setId;
+
+	private String col1;
+	
+	private String col2;
+	
+	private String fontColor;
+	
 	private String rsvDate;
 	
 	private String impId;
 	
 	private String dvcId;
-	
-	private String orgaId;
-	
-	private String orgaNm;
-	
+
 	private String completeYn;
 	
-	/** playlist **/
-	private String videoType;
-	private String videoFile;
-	private String playStDate;
-	private String playEdDate;
-	private String runTime;
-	
-	private List<VdoRsvVO> voList;
+
+	private List<ScrRsvVO> voList;
 }
