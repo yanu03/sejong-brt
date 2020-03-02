@@ -86,6 +86,9 @@ public class FTPHandler {
 	@Value("${sftp.routeori.directory}")
 	private String ROUTE_ORI;
 	
+	@Value("${sftp.deivce.directory}")
+	private String DEVICE_FIRMWARE_PATH;
+	
 	@Inject
 	private ChannelSftp sftpChannel;
 	
@@ -121,7 +124,7 @@ public class FTPHandler {
 	
 	//BM0205 펌웨어파일 업로드
 	public void uploadBM0205(String id, MultipartFile file) {
-		String dir = Paths.get(getRootLocalPath() , "/device/firmware").toString();
+		String dir = Paths.get(getRootLocalPath() , getFirmwarePath()).toString();
 		String ext = FilenameUtils.getExtension(file.getOriginalFilename());
 		String fileName;
 		
@@ -139,6 +142,8 @@ public class FTPHandler {
 		File saveFile = Paths.get(dir, fileName).toFile();
 		try {
 			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+			
+			processSynchronize(getRootLocalPath() + getFirmwarePath(), getRootServerPath() + getFirmwarePath());
 		} catch(Exception e){
 			e.printStackTrace();
 		}
@@ -1146,6 +1151,10 @@ public class FTPHandler {
 	
 	public String getCommonEmployeePath() {
 		return COMMON_EMPLOYEE_PATH;
+	}
+	
+	public String getFirmwarePath() {
+		return DEVICE_FIRMWARE_PATH;
 	}
 	
 }

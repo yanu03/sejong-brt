@@ -79,11 +79,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         		    		data:{conId : selectedRow.conId},
         		    		callback: function (res) {
         		    		  if(res.list.length != 0){
-        		    			  if(typeof res.list[0].vocId != "0" && typeof res.list[0].vdoId != "0"){
+        		    			  if(res.list[0].vocId != "0" && res.list[0].vdoId != "0"){
         		    				  for(var i = 0; i<res.list.length; i++){
-        		    					  if(typeof res.list[i].vocId != "0"){
+        		    					  if(res.list[i].vocId != "0"){
         		    						  vocCount++;
-        		    					  }else if(typeof res.list[i].vdoId != "0"){
+        		    					  }else if(res.list[i].vdoId != "0"){
         		    						  vdoCount++;
         		    					  }
         		    				  }

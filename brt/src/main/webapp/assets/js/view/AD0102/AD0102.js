@@ -16,7 +16,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0203G0S0",
+            url: "/api/v1/BM0201G0S0",
             data: filter,
             callback: function (res) {
             	console.log(res);
@@ -49,6 +49,36 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     },
     
+    PAGE_SAVE: function (caller, act, data) {
+    	console.log("save");
+    	var list = caller.gridView1.getData();
+    	var checkData = {};
+    	checkData.upList = list;
+    	checkData.vhcId = selectedRow.vhcId;
+    	console.log(checkData);
+    	
+            axboot.promise()
+                .then(function (ok, fail, data) {
+                    axboot.ajax({
+                        type: "POST",
+                        url: "/api/v1/AD0102G1I0",
+                        data: JSON.stringify(checkData),
+                        callback: function (res) {
+                            ok(res);
+                        }
+                    });
+                })
+                .then(function (ok, fail, data) {
+            		axToast.push(LANG("onadd"));
+            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH , data.message);
+                   isUpdate = true;
+                })
+                .catch(function () {
+
+                });
+   	 console.log("끝");
+   },
+    
     // gridView0항목 클릭 이벤트
     ITEM_CLICK: function (caller, act, data) {
     	selectedRow = data;
@@ -56,7 +86,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
     },
     
- // gridView1 항목 클릭 이벤트
+    // gridView1 항목 클릭 이벤트
     ITEM_CLICK_G1: function(caller, act, data) {
     	isUpdate = true;
     	selectedRow = null;
@@ -65,47 +95,18 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     RELOAD_G1: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
-    	$("#busCheck").remove();
     	axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0203G1S0",
+            url: "/api/v1/AD0102G1S0",
             data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
+                console.log(res);
+                console.log(dataFlag);
                 caller.gridView1.setData(res);
-              
-             //버스이미지 및 정상 비정상 이미지 넣는곳
-             /*if(res.list[0].txtVal1 != null){
-                for(var i = 0; i < res.list.length; i++){                	
-                	var dvcCond;
-                	if(typeof res.list[i].txtVal1 !== "undefined"){
-                		if(res.list[i].dvcCond == "정상"){
-                			console.log("정상");
-                			dvcCond = "#00FF00";
-                		}else{
-                			if(typeof res.list[i].dvcCond !== "undefined"){
-                				console.log("비정상");
-                				console.log(res.list[i].dvcCond);
-                				dvcCond = "#DC143C";            				
-                			}else{
-                				console.log(res.list[i].dvcCond);
-                				dvcCond = "##00ff0000";
-                			}
-                		}
-                $("#check").append("<div id='busCheck' style='background-color:"+dvcCond+"; width:22px;height:22px; border-radius:11px; position: absolute; left:"+res.list[i].txtVal1+"px; top:"+res.list[i].txtVal2+"px;]'/>");
-                		}else{
-                			alert(LANG("ax.script.requireselect"));
-                		}
-                	}              	
-               }*/
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
 	                	console.log(data);
 	                } 
-		                /*if(selectedRowG1 != null) {
-		                	caller.gridView1.selectRow(selectedRowG1.__index);
-		                } else {
-		                	caller.gridView1.selectFirstRow();
-		                }*/
             }
         });    	
     	
@@ -114,12 +115,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_CLOSE: function(caller, act, data) {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
-    
-    GRID_COLOR : function(caller, act , data){
-    	$("#dvcCond").css({
-    		"background-color" : "red"
-    	});
-    }
 });
 /********************************************************************************************************************/
 
@@ -150,8 +145,8 @@ fnObj.pageButtonView = axboot.viewExtend({
             	selectedRow = null;
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
-            "excel": function () {
-            	ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
+            "save": function () {
+            	ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
@@ -196,21 +191,20 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         	lineNumberColumnWidth: 30,
             frozenColumnIndex: 1,
             target: $('[data-ax5grid="gridView0"]'),
-            	 columns: [
-            		 {key: "dlCdNm", label: ADMIN("ax.admin.BM0203G0.dvccond"), sortable: true, align:"center" , width: 80 ,styleClass:function(){return (this.item.dlCdNm === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
-            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), align:"center", sortable: true, width: 80},
-                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center", sortable: true, width: 120},
-                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), align:"center", sortable: true, width: 120},
-                     {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), sortable: true, width: 120},
-                     {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), width: 120},
-                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), width: 120},
-                     {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), align:"center", width: 120},
-                     {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), width: 120},
-                     {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center", width: 120},
-                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center", width: 120},
-                     {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), align:"center", width: 80},
-                     {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), align:"center", width: 80},
-                     {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), width: 80},
+            columns: [      		
+            		 {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), sortable: true, align:"center", styleClass:function(){return (this.item.useYn === "Y") ? "grid-cell-red": "grid-cell-blue" } , width: 80},
+            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 70},
+                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center", width: 120},
+                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 150},
+                     {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), width: 120},
+                     {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), align:"center", width: 120},
+                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align:"center", width: 120},
+                     {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), sortable: true, width: 120},
+                     {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), align:"center", width: 120},
+                     {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center", width: 100},
+                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center", width: 100},
+                     {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), align:"center", width: 70},
+                     {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), align:"center", width: 70},
                      {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 200},
                  ],
             
@@ -300,17 +294,12 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
-        	frozenColumnIndex: 1,
+            frozenColumnIndex: 0,            
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "dvcCond", label: ADMIN("ax.admin.BM0203G0.dvccond"), id:"dvcCond",align:"center", sortable: true, width: 80 , styleClass:function(){return (this.item.dvcCond === "정상") ?   "grid-cell-red":"grid-cell-blue" }},
-            	{key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), sortable: true, width: 100},
-            	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), align:"center", sortable: true, width: 80},
-            	{key: "maker", label: ADMIN("ax.admin.BM0201F0.maker"), width: 100},
-                {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), sortable: true, width: 130},
-                {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), align:"center", width: 150},
-                {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), width: 150},
-                {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
+            	{key: "adPosYn",  label: ADMIN("ax.admin.AD0102G1.adpos"), sortable: true, align: "center", editor:{type:"checkbox"}, width: 70},
+                {key: "txtVal1", label: ADMIN("ax.admin.AD0102G1.txtval1"), align: "center", sortable: true,  width: 120},
+                {key: "dlCdNm", label: ADMIN("ax.admin.AD0102G1.dlcdnm"), align: "center", sortable: true,  width: 168},
             ],
             body: {
             	 onClick: function () {

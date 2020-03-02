@@ -139,7 +139,6 @@
     	<selectKey keyProperty="dvcId" resultType="String" order="BEFORE">
     		SELECT CONCAT('DV', LPAD(NEXTVAL(SEQ_BM_DVC_INFO_0), 5, '0'))
     	</selectKey>
-    
     	INSERT INTO BM_DVC_INFO(
     		  DVC_ID
     		, MAKER
@@ -164,7 +163,7 @@
    			, #{dvcIp}
    			, #{remark}
    			, #{vhcId}
-   			, "Y"
+   			, "N"
    			, #{createdAt}
    			, #{createdBy}
    			, #{updatedAt}
@@ -205,6 +204,16 @@
    			, #{updatedBy}
    			)
     </insert>
+    
+    <update id="BM0201G1U1" parameterType="dvcHistoryVO">
+		UPDATE BM_DVC_INFO
+    	SET
+    		  USE_YN        =   "Y"
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		DVC_ID = #{dvcId}
+	</update>
     
      <update id="BM0201F0U0" parameterType="vhcInfoVo">
     	UPDATE BM_DVC_INFO

@@ -4,6 +4,7 @@ package com.tracom.brt.controllers;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.jdo.annotations.Transactional;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,8 +54,12 @@ public class BM0202Controller extends BaseController{
 	}
 	
 	@PostMapping("/BM0202G2U0")
+	@Transactional
 	public ApiResponse BM0202G2U0(@RequestBody DvcHistoryVO request) {
 		service.BM0202G2U0(request);
+		if(request.getWorkType().equals("CD025")) {
+			service.BM0202G1U0(request);
+		}
 		return ok();
 	}
 	

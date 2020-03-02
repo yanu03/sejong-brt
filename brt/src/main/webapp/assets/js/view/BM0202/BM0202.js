@@ -34,7 +34,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 }
                 }
 	        });
-
         return false;
     },
     
@@ -138,6 +137,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0201G1S0",
             data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
+            	for(var i = 0; i<res.list.length; i++){
+            		
+            	}
+            	
                 caller.gridView1.setData(res);
                  {
                 	if(dataFlag) {
@@ -161,16 +164,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0202G2S0",
             data: {dvcId: selectedRowG1.dvcId},
             callback: function (res) {
-                caller.gridView2.setData(res);
-                if(res.list.length == 0){
-                	axboot.ajax({
-                        type: "POST",
-                        url: "/api/v1/BM0202G1U1",
-                        data: JSON.stringify({dvcId: selectedRowG1.dvcId}),
-                        callback: function (res) {
-                        	}
-                        });
-                }else{
                 for(var i = 0; i<res.list.length; i++){
                 	if(res.list[i].workType == "폐기"){
                 		isPlus = true;
@@ -192,7 +185,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                             });
                 	}
                 }
-                }
+                
                 	if(dataFlag) {
 	                	caller.gridView2.selectIdRow(data);
 	                	
@@ -201,6 +194,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                } else {
 	                	caller.gridView2.selectFirstRow();
 	                }	                
+	                caller.gridView2.setData(res);
             }
         });
     },

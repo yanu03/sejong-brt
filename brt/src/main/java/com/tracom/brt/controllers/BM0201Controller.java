@@ -3,6 +3,7 @@ package com.tracom.brt.controllers;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.jdo.annotations.Transactional;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +50,6 @@ public class BM0201Controller extends BaseController{
     @GetMapping("/BM0201M0S0")
     public Responses.ListResponse BM0201M0S0(RequestParams<VhcDeviceVO> requestParams) {
         List<VhcDeviceVO> list = service.BM0201M0S0(requestParams);
-        System.out.println(service.BM0201M0S0(requestParams));
         return Responses.ListResponse.of(list);
     }
     
@@ -63,31 +63,27 @@ public class BM0201Controller extends BaseController{
     @GetMapping("/BM0201G1S1")
     public Responses.ListResponse BM0201G1S1(RequestParams<VhcDeviceVO> requestParams) {
     	List<VhcDeviceVO> list = service.BM0201G1S1(requestParams);
-    	System.out.println(list);
     	return Responses.ListResponse.of(list);
     }
     
     @PostMapping("/BM0201F0S1")
     public ApiResponse BM0201F0S1(@RequestBody VhcDeviceVO request) {
-    	System.out.println("파라미터값");
-    	System.out.println(request);
     	boolean duplicateSeq = service.BM0201F0S1(request);
-    	System.out.println("컨트롤러 관리id확인");
-    	System.out.println(Boolean.toString(duplicateSeq));
     	return ok(Boolean.toString(duplicateSeq));
     }
     
     
     @PostMapping("/BM0201F0I0")
     public ApiResponse BM0201F0I0(@RequestBody VhcDeviceVO request) {
-    	System.out.println(request);
         String vhcId = service.BM0201F0I0(request);
         return ok(vhcId);
     }
     
     @PostMapping("/BM0201M0I0")
+    @Transactional
     public ApiResponse BM0201M0I0(@RequestBody VhcDeviceVO request) {
         String dvcId = service.BM0201M0I0(request);
+        service.BM0201G1U1(request);
         return ok(dvcId);
     }
     

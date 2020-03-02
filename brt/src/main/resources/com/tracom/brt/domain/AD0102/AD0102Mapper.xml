@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tracom.brt.domain.AD0102.AD0102Mapper">
+	<select id="AD0102G1S0" parameterType="String" resultType="VhcLocVO">
+		SELECT
+		   DL_CD
+		 , DL_CD_NM
+		 , TXT_VAL1
+		 , B.AD_POS
+		FROM
+			SM_DL_CD_INFO A
+			LEFT JOIN AD_VHC_INFO B
+			ON A.DL_CD = B.AD_POS
+			AND B.VHC_ID = #{value}
+		WHERE
+			A.CO_CD = 'AD_POS'
+		ORDER BY A.SORT_ODR
+	</select>
 	
+	<insert id="AD0102G1I0" parameterType="VhcLocVO">
+		INSERT INTO AD_VHC_INFO(
+				VHC_ID
+			  , AD_POS)
+		VALUES
+		<foreach collection="upList" item="upList" separator=",">
+		(
+				#{upList.vhcId}
+			  , #{upList.dlCd}
+		)
+		</foreach>
+	</insert>
+	
+	<delete id="AD0102G1D0" parameterType="VhcLocVO">
+		DELETE
+		FROM AD_VHC_INFO
+		WHERE VHC_ID = #{vhcId}
+	</delete>
 </mapper>
