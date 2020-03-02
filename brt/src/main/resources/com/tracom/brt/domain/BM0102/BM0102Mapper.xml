@@ -108,7 +108,7 @@
     					, CUST_ID
     					, SEQ)
     			VALUES 
-    			<foreach collection="voList" item="voList" separator=",">
+    			<foreach collection="mngrList" item="voList" separator=",">
 					<choose>
 						<when test="voList.mngrNm != null || voList.phone != null || voList.email != null || voList.fax != null || voList.remark != null">
 		    			( AES_ENCRYPT(#{voList.mngrNm}, HEX(SHA2('TRACOM', 512)))

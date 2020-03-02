@@ -102,7 +102,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
-            		axToast.push(LANG("onadd"));
+            		axToast.push(LANG("onsave"));
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
                     isUpdate = true;
                 })
@@ -127,7 +127,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
-            		axToast.push(LANG("onupdate"));
+            		axToast.push(LANG("onsave"));
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
@@ -404,11 +404,13 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", false);
     	});
+    	this.target.find(".cqc-calendar").parent().show();
     },
     disable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", true);
     	});
+    	this.target.find(".cqc-calendar").parent().hide();
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());

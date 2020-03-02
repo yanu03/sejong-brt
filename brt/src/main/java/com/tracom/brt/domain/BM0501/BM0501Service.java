@@ -30,11 +30,10 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 	public List<DestinationVO> selectSCHFile(DestinationVO vo) throws Exception{
 		
 		String fileNameHeader = DLCDMapper.SM0105G2S1(vo.getDvcKindCd()).getTxtVal2();
-		String updown = DLCDMapper.SM0105G2S2(vo.getUserWayDiv());
+		//String updown = DLCDMapper.SM0105G2S2(vo.getUserWayDiv());
 		String fileNameTail = ".SCH";
-		String fileName =  fileNameHeader + vo.getDvcName() + updown + fileNameTail;
+		String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
 		return ftpHandler.readSCH(fileName);
-		
 	}
 
 	public List<DestinationVO> selectSCHFileLOGO(DestinationVO vo) throws Exception{
@@ -71,9 +70,9 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 	
 	public boolean writeSCHFile(DestinationVO vo) {
 		String fileNameHeader = DLCDMapper.SM0105G2S1(vo.getDvcKindCd()).getTxtVal2();
-		String updown = DLCDMapper.SM0105G2S2(vo.getUserWayDiv());
+		//String updown = DLCDMapper.SM0105G2S2(vo.getUserWayDiv());
 		String fileNameTail = ".SCH";
-		String fileName = fileNameHeader + vo.getDvcName() + updown + fileNameTail;
+		String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
 		return ftpHandler.writeSCH(vo.getVoList(), fileName);
 	}
 	

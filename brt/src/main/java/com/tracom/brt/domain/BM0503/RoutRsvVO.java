@@ -29,11 +29,17 @@ public class RoutRsvVO extends BaseVO {
 	
 	private String vhcNo;
 	
+	private String impId;
+	
 	private String dvcId;
 	
 	private String mngId;
 	
 	/** 예약 **/
+	private String rsvId;
+	private String rsvDate;
+	private String completeYn;
+	
 	private String possible;
 	private String vhcKindNm;
 	private String instLocNm;

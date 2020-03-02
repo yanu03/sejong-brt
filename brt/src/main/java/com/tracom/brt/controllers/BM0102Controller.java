@@ -14,7 +14,6 @@ import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tracom.brt.domain.BM0102.BM0102Service;
 import com.tracom.brt.domain.BM0102.CustInfoVO;
 import com.tracom.brt.domain.BM0102.MngrInfoVO;
@@ -51,7 +50,7 @@ public class BM0102Controller extends BaseController {
     }
     
     @PostMapping("/BM0102G1I0")
-    public ApiResponse BM0102G1I0(@RequestBody List<MngrInfoVO> request) {
+    public ApiResponse BM0102G1I0(@RequestBody CustInfoVO request) {
     	service.BM0102G1I0(request);
     	return ok();
     }

@@ -1,5 +1,6 @@
 package com.tracom.brt.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,10 +43,9 @@ public class BM0503Controller extends BaseController {
     }
     
     @PostMapping("/BM0503G1I0")
-    public ApiResponse BM0503G1I0(@RequestBody RoutRsvVO requestParam) {
-    	System.out.println(requestParam);
-    	System.out.println(requestParam.getVhcList());
-    	System.out.println(requestParam.getRsvList());
-    	return null;
+    public ApiResponse BM0503G1I0(@RequestBody RoutRsvVO requestParam) throws Exception {
+    	String rsvDate = requestParam.getRsvDate();
+    	service.BM0503G1I0(requestParam.getVhcList(), requestParam.getRsvList(), rsvDate);
+    	return ok();
     }
 }

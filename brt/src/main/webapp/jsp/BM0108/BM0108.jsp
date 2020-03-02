@@ -61,20 +61,20 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="800px">
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.eplyId" width="380px" labelClazz="required">
-                    			<input type="text" name="eplyId" data-ax-path="eplyId" data-key="true" class="form-control W70" required="required"/>
+                    			<input type="text" name="eplyId" numberOnly title="<ax:lang id="ax.admin.BM0108F0.eplyId"/>" data-ax-path="eplyId" data-key="true" class="form-control W70" maxlength="6" data-ax-validate="required"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.eplyNm" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
-                    			<input type="text" name="eplyNm" data-ax-path="eplyNm" data-key="true" class="form-control W70" maxlength="4"/>
+                    			<input type="text" name="eplyNm" title="<ax:lang id="ax.admin.BM0108F0.eplyNm"/>" data-ax-path="eplyNm" data-key="true" class="form-control W70" maxlength="4" data-ax-validate="required"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.phone" width="380px" labelClazz="required">
-                    			<input type="text" name="phone" data-ax-path="phone" data-key="true" class="form-control W100" required="required" maxlength="11"/>
+                    			<input type="text" name="phone" numberOnly title="<ax:lang id="ax.admin.BM0108F0.phone"/>" data-ax-path="phone" data-key="true" class="form-control W100" maxlength="11" data-ax-validate="required"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.corpId" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
                     			<div class="input-group">
-	                        		<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="corpId" name="corpId" data-key="true" class="form-control W70" readonly="readonly" required="required"></div>
+	                        		<div style="float:left;padding-right:5px;"><input type="text" title="<ax:lang id="ax.admin.BM0108F0.corpId"/>" data-ax-path="corpId" name="corpId" data-key="true" class="form-control W70" readonly="readonly" data-ax-validate="required"></div>
 	                        		<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="corpNm" name="corpNm" data-key="true" class="form-control W130" readonly="readonly"></div>
                         			<div style="float:left;padding-right:5px;"><button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0101">
 	                                		<ax:lang id="ax.admin.select"/>
@@ -90,7 +90,10 @@
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.eplyDate1" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
 	                            <div class="input-group" data-ax5picker="date" style="width:100px;">
- 	                          		<input  readonly="readonly" type="text" class="form-control" id="eplyDate1" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-path="eplyDate1" name="eplyDate1" />
+ 	                          		<input type="text" class="form-control" id="eplyDate1" data-ax5formatter="date" placeholder="yyyy/mm/dd"
+ 	                          			title="<ax:lang id="ax.admin.BM0108F0.eplyDate1"/>"
+ 	                          			data-ax-path="eplyDate1" name="eplyDate1" readonly="readonly" data-ax-validate="required" />
+ 	                          			
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                     		</ax:td>
@@ -99,11 +102,13 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.licenNo" width="380px" labelClazz="required">
-                    			<input type="text" numberOnly name="licenNo" data-ax-path="licenNo" data-key="true" class="form-control W120" maxlength="15"/>
+                    			<input type="text" numberOnly name="licenNo" title="<ax:lang id="ax.admin.BM0108F0.licenNo"/>" data-ax-path="licenNo" data-key="true" class="form-control W120" maxlength="15" data-ax-validate="required"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.certiDate" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
                     			<div class="input-group" data-ax5picker="date" style="width:100px;">
-	                                <input readonly="readonly" type="text" class="form-control" placeholder="yyyy/mm/dd" data-ax-path="certiDate" name="certiDate"/>
+	                                <input readonly="readonly" type="text" class="form-control" placeholder="yyyy/mm/dd"
+	                                	title="<ax:lang id="ax.admin.BM0108F0.certiDate"/>"
+	                                	data-ax-path="certiDate" name="certiDate" data-ax-validate="required"/>
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                     		</ax:td>

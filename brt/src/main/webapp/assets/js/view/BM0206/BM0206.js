@@ -140,7 +140,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRowG1 != null){   		
-    		caller.gridView2.target.exportExcel(selectedRowG1.dvcId + "data.xls");
+    		caller.gridView2.target.exportExcel("업데이트 이력 목록(" + selectedRowG1.dvcId + ")_.xls");
     	}else {
     		alert("항목을 선택해주세요");
     	}

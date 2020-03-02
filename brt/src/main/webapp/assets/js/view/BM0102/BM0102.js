@@ -41,7 +41,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("거래처 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
@@ -50,7 +50,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.clear();
         caller.formView0.enable();
         caller.formView0.validate(true);
-        caller.gridView1.setData([{}]);
+        caller.gridView1.setData([]);
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -92,7 +92,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
             
-            formData.append("mngrList", fnObj.gridView1.getData());
+            console.log(formData);
+            
+            formData["mngrList"] = fnObj.gridView1.getData();
             
             axboot.promise()
                 .then(function (ok, fail, data) {
@@ -107,10 +109,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 })
                 .then(function (ok, fail, data) {
                 	
-                	var input = fnObj.gridView1.getData();
-                	for(var i=0; i<input.length; i++){
-                		input[i].custId = fnObj.formView0.getData().custId;
-                	}
+                	var input = {};
+                	input["custId"] = data.message;
+                	input["mngrList"] = fnObj.gridView1.getData();
+                	
                 	axboot.promise()
                 		.then(function (ok, fail, data){
                 			axboot.ajax({
@@ -123,7 +125,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 		});
                 	
                 	
-            		axToast.push(LANG("onadd"));
+            		axToast.push(LANG("onsave"));
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
                     isUpdate = true;
                 })
@@ -150,10 +152,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 })
                 .then(function (ok, fail, data) {
                 	
-                	var input = fnObj.gridView1.getData();
-                	for(var i=0; i<input.length; i++){
-                		input[i].custId = fnObj.formView0.getData().custId;
-                	}
+                	var input = {};
+                	input["custId"] = fnObj.formView0.getData().custId;
+                	input["mngrList"] = fnObj.gridView1.getData();
+                	
                 	axboot.promise()
                 		.then(function (ok, fail, data){
                 			axboot.ajax({
@@ -165,7 +167,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 			});
                 		});
                 	
-            		axToast.push(LANG("onupdate"));
+            		axToast.push(LANG("onsave"));
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
