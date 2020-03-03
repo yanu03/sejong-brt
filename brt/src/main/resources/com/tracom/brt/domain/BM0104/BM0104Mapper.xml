@@ -102,7 +102,7 @@
 				
     </select>
     
-	<select id="BM0104G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
+	<select id="BM0104G1S0" parameterType="String" resultType="bmRoutNodeInfoVO">
 		SELECT
 			  NI.STA_ID
 		    , SI.STA_NM

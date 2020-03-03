@@ -63,6 +63,10 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     		return 0;
     	}
     }
+
+    
+    
+    
     @Transactional
     public int BM0107G1I0(List<BmRoutInfoVO> requestParams) {
     	String baseUrl = "http://bis.sejong.go.kr/web/traffic/searchBusRouteDetail.do?busRouteId=";
@@ -84,43 +88,55 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
 
     		
     		
-    		String json = dif.interface_URL("POST", baseUrl + routVO.getRoutId()); 
+    		String json = dif.interface_URL("POST", baseUrl + routVO.getInterRoutId()); 
     		
     		BmRoutNodeInfoVO insertVO = new BmRoutNodeInfoVO();
     		
     		List<BmRoutNodeInfoVO> voList = new ArrayList<>();
     		//1.노드리스트생성
+    		
     		List<BmRoutNodeInfoVO> nodeList = parseJsonRouteNode(json);
+    		for(BmRoutNodeInfoVO v : nodeList) {
+    			v.setRoutId(routVO.getRoutId());
+    		}
+    		
     		//2.정류장리스트생성
     		List<BmRoutNodeInfoVO> staList = mapper_107.BM0107M0S0(routVO);
-
     		//노드리스트+정류장리스트
-    		voList = insertSta(nodeList, staList);
+    		if(staList.size() > 0) {
+    			voList = insertSta(nodeList, staList);    			
+    		}else {
+    			voList = nodeList;
+    		}
+    		
     		insertVO.setVoList(voList);
+    		
     		
     		//인서트쿼리
     		if(mapper_107.BM0107G1I0(insertVO) > 0) {
     			returnCount++;
     		}
+    		
     		//result테이블에 추가
     		Map<String, String> map = new HashMap<>();
     		map.put("routId", routVO.getRoutId());
     		List<BmRoutNodeInfoVO> nodeStaList = mapper_107.BM0107G1S0(map);
     		List<BmRoutNodeInfoVO> audioList = mapper_107.BM0107G4S0(routVO);
-    		List<BmRoutNodeInfoVO> finalList = insertSta(nodeStaList, audioList);
+    		List<BmRoutNodeInfoVO> finalList = new ArrayList<>();
+
     		
+    		if(audioList.size() > 0) {
+    			finalList = insertSta(nodeStaList, audioList);    			
+    		}else {
+    			finalList = nodeStaList;
+    		}
     		//result테이블 삭제
     		mapper_107.BM0107G3D0(routVO);
     		
     		//RESULT테이블에 추가
     		BmRoutNodeInfoVO finalVO = new BmRoutNodeInfoVO();
     		finalVO.setVoList(finalList);
-    		for(BmRoutNodeInfoVO vo : finalList) {
-    			System.out.println(vo);
-    		}
     		mapper_107.BM0107G3I1(finalVO);
-    		
-    		
     	}
     	
     	
@@ -196,34 +212,6 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     		LocationVO resultVO = new LocationVO();
     		LocationVO tmpVO = new LocationVO();
     		resultVO.setDistance(999999999);
-    		
-    		
-    		/*
-    		for(int i = 0; i < nodeList.size()-1; i++) {
-    			//링크마다 거리 계산함. 정류장이 링크에 직교하는점이 있으면 그 점 반환, 없으면 null 반환
-    			tmpVO = insertNode.getDistanceToLine(sta.getLongi(), sta.getLati(),
-    					nodeList.get(i).getLongi(),	nodeList.get(i).getLati(),
-    					nodeList.get(i+1).getLongi(), nodeList.get(i+1).getLati()	);
-    		
-    			
-    			//만약 직교한다면
-    			if(tmpVO != null) {
-    				//가장 짧은값이라면
-    				if(tmpVO.getDistance() < resultVO.getDistance()) {
-    					//바꿔치기함
-    					resultVO = tmpVO;
-    					//시퀀스는 전노드랑 다음노드의 평균으로 함
-    					seq = (nodeList.get(i).getSeq() + nodeList.get(i+1).getSeq())/2;
-    					//forseq는 리스트에 삽입할 순서
-    					forseq = i+1;
-    				}
-    			}
-    		}
-    		sta.setSeq(seq);
-    		
-    		nodeList.add(forseq, sta);
-    		
-    		 * */
     		
     		
     		int shortestNodeSeq = 0;

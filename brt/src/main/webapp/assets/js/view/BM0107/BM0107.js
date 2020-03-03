@@ -109,13 +109,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     ITEM_CLICK_G0: function (caller, act, data) {
     	//data.filter1 = $.extend({}, caller.searchView1.getData());
+    	selectedRow = data;
     	searchGrid1(caller, act, data);
     	removeMarkers();
     	deleteLine();
     },
     
     ITEM_CLICK_G1: function (caller, act, data) {
-    	selectedRow = data;
+    	
         //mapMarker(data.lati, data.longi);
     	moveMap(data.lati, data.longi);
     },

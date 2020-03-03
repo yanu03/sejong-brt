@@ -75,7 +75,7 @@
 	                        </h3>
 	                    </div>
 	                </div>
-	                <div style="height:100%; padding-bottom:50px; overflow:hidden;">
+	                <div style="height:100%; padding-bottom:42px; overflow:hidden;">
 		                 <div id="mapView0" style="overflow:hidden;"></div>				
 	                </div>
 	            </ax:split-panel>

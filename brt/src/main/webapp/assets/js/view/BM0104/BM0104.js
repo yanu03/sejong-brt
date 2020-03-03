@@ -478,7 +478,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     		$('#stStaNm').attr("readonly", true).attr("disabled", true);
     		$('#edStaNm').attr("readonly", true).attr("disabled", true);
     	}
-    	
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());
