@@ -27,9 +27,6 @@ public class BM0205Service extends BaseService<VhcDvcUpdateVO, String>{
     }
 	
 	public String BM0205FileUp(VhcDvcUpdateVO vo) {
-		System.out.println("service 파일");
-		System.out.println(vo.getUpList().get(0).getMngId());
-		System.out.println(vo.getDvcFileUp());
 		handler.uploadBM0205(vo.getUpList().get(0).getMngId(), vo.getDvcFileUp());
 		return vo.getDvcId();
 	}
@@ -37,37 +34,29 @@ public class BM0205Service extends BaseService<VhcDvcUpdateVO, String>{
 	@Transactional
 	public void BM0205Reservation(VhcDvcUpdateVO vo) {
 		Map<String, String> map = new HashMap<>();
-		System.out.println("service 예약");
-		System.out.println(vo);
 		mapper.BM0205Reservation(vo);
 		map.put("rsvDate", vo.getRsvDate());
 		for(int i = 0; i< vo.getUpList().size(); i++) {
 			map.put("mngId", vo.getUpList().get(i).getMngId());
-			System.out.println(map);
 			VhcDvcUpdateVO list = mapper.BM0205S0(map);
-			System.out.println(list);
 			vo.getUpList().get(i).setMngId(list.getMngId());
 			vo.getUpList().get(i).setRsvId(list.getRsvId());
 		}
 		mapper.BM0205I0(vo);
-		System.out.println("rsvId값 return");
 	}
 
 	public boolean BM0205G0S1(VhcDvcUpdateVO vo) {
-		System.out.println("service 기존예약 있는지 체크");
 		boolean mngFCheck = false;
 		boolean mngCheck = true;
 		List<VhcDvcUpdateVO> list = mapper.BM0205G0S1(vo);
-		System.out.println("여긴가 그러면?");
+		if(list != null) {
 		  for(int i = 0; i<list.size(); i++) {
 			  for(int j = 0; j< vo.getUpList().size(); j++) {
 				  if(list.get(i).getMngId().equals(vo.getUpList().get(j).getMngId())) {
-					  System.out.println("false");
 					  mngFCheck = false;
 					  mngCheck = false;
 					  break;
 				  }else {
-					  System.out.println("true");
 					  mngFCheck = true;
 				  }
 			  }
@@ -75,11 +64,13 @@ public class BM0205Service extends BaseService<VhcDvcUpdateVO, String>{
 				  break;
 			  }
 		  }
-		  System.out.println("gogo");
 		  if(mngFCheck == true) {
 			   return true;
 			}else {
 				return false;
 			}
+		}else {
+			return true;
+		}
 	}
 }

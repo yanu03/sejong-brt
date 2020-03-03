@@ -59,6 +59,8 @@ public class QAuthGroupMenu extends EntityPathBase<AuthGroupMenu> {
 
     public final StringPath schAh = createString("schAh");
 
+    public final StringPath swpAh = createString("swpAh");
+
     //inherited
     public final DateTimePath<java.time.Instant> updatedAt = _super.updatedAt;
 
