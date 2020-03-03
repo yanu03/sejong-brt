@@ -65,6 +65,8 @@ public class QProgram extends EntityPathBase<Program> {
 
     public final StringPath schAh = createString("schAh");
 
+    public final StringPath swpAh = createString("swpAh");
+
     public final StringPath target = createString("target");
 
     //inherited

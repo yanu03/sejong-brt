@@ -205,29 +205,36 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    			/*axDialog.prompt({ msg: LANG("ax.script.prompt.password")
 	    				},function(){
 	    					if(this.key == "ok"){*/
-	    						
-	    						if (caller.formView0.validate()) {
-	    							var formData = caller.formView0.getData();    					
-	    							axboot.promise()
-	    							.then(function (ok, fail, data) {
-	    								axboot.ajax({
-	    									type: "POST",
-	    									url: "/api/v1/BM0301F0U1",
-	    									data: JSON.stringify(formData),
-	    									callback: function (res) {
-	    										ok(res);
-	    									}
-	    								});
-	    							})
-	    							.then(function (ok, fail, data) {
-	    								axToast.push(LANG("onupdate"));
-	    								ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-	    								isUpdate = true;
-	    							})
-	    							.catch(function () {   						
-	    							});
-	    						}
-	    						
+	    			
+		    			axboot.modal.open({
+		    	            modalType: "BM0301confirmYn",
+		    	            param: "",
+		    	            callback: function (data) {
+		    	            	
+		    	            	if (caller.formView0.validate()) {
+		    	            		var formData = caller.formView0.getData();    					
+		    	            		axboot.promise()
+		    	            		.then(function (ok, fail, data) {
+		    	            			axboot.ajax({
+		    	            				type: "POST",
+		    	            				url: "/api/v1/BM0301F0U1",
+		    	            				data: JSON.stringify(formData),
+		    	            				callback: function (res) {
+		    	            					ok(res);
+		    	            				}
+		    	            			});
+		    	            		})
+		    	            		.then(function (ok, fail, data) {
+		    	            			axToast.push(LANG("onupdate"));
+		    	            			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+		    	            			isUpdate = true;
+		    	            		})
+		    	            		.catch(function () {   						
+		    	            		});
+		    	            	}
+		    	                this.close();
+		    	            }
+		    	        });
 	    					/*}else{
 	    						axDialog.alert("비밀번호가 틀립니다.");
 	    					}*/
