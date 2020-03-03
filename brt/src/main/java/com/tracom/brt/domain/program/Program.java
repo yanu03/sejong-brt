@@ -100,8 +100,12 @@ public class Program extends BaseJpaModel<String> {
     @ColumnPosition(17)
     private String helpAh = "N";
 
-    @Column(name = "REMARK", length = 200)
+    @Column(name = "SWP_AH", length = 1)
     @ColumnPosition(18)
+    private String swpAh = "N";
+
+    @Column(name = "REMARK", length = 200)
+    @ColumnPosition(19)
     private String remark;
     
 
@@ -117,7 +121,9 @@ public class Program extends BaseJpaModel<String> {
     		String target, 
     		String authCheck, 
     		String schAh, 
-    		String savAh, 
+    		String savAh,
+    		String gexAh,
+    		String iexAh,
     		String exlAh, 
     		String delAh, 
     		String fn1Ah, 
@@ -127,7 +133,8 @@ public class Program extends BaseJpaModel<String> {
     		String fn5Ah, 
     		String fn6Ah, 
     		String fn7Ah, 
-    		String helpAh) {
+    		String helpAh,
+    		String swpAh) {
         Program program = new Program();
         program.setProgCd(progCd);
         program.setProgNm(progNm);
@@ -136,6 +143,8 @@ public class Program extends BaseJpaModel<String> {
         program.setAuthCheck(authCheck);
         program.setSchAh(schAh);
         program.setSavAh(savAh);
+        program.setGexAh(gexAh);
+        program.setIexAh(iexAh);
         program.setExlAh(exlAh);
         program.setDelAh(delAh);
         program.setFn1Ah(fn1Ah);
@@ -146,6 +155,7 @@ public class Program extends BaseJpaModel<String> {
         program.setFn6Ah(fn6Ah);
         program.setFn7Ah(fn7Ah);
         program.setHelpAh(helpAh);
+        program.setSwpAh(swpAh);
         return program;
     }
 }

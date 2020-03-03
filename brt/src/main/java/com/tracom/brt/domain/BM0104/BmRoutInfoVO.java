@@ -53,6 +53,8 @@ public class BmRoutInfoVO extends BaseVO {
 	private String line1Sunstr;
 	private String line2Sunstr;
 	
+	private String count;
+	
 	/** 노선파일 업로드시 사용 **/
 	private String version;
 	private String mngName;

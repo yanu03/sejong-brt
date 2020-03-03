@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0109.BM0109Mapper">
+
+<!-- 좌측상단 그리드 select -->
+	<select id="BM0109G0S0" parameterType="String" resultType="bmRoutInfoVO">
+ 		SELECT
+			  ROUT.ROUT_ID
+			, INTER_ROUT_ID
+		    , ROUT_NM
+		    , SHORT_ROUT_NM
+		    , WAY_INFO
+		    , DIR_INFO
+		    , CD.DL_CD AS WAY_DIV
+		    , CD.DL_CD_NM AS WAY_DIV_NM
+		    , CD2.DL_CD AS USER_WAY_DIV
+		    , CD2.DL_CD_NM AS USER_WAY_DIV_NM
+		    , TURN_DIV
+		    , CD3.DL_CD_NM AS TURN_DIV_NM
+			, ST_STA_NM
+		    , ED_STA_NM
+		    , DVC_NAME
+		    , LINE1_STR
+		    , LINE2_STR
+		    , LINE1_SATSTR
+		    , LINE2_SATSTR
+		    , LINE1_SUNSTR
+		    , LINE2_SUNSTR
+		    , DATE_FORMAT(ROUT.CREATED_AT, '%Y-%m-%d %T') AS CREATED_AT
+		    , ROUT.CREATED_BY
+		    , DATE_FORMAT(ROUT.UPDATED_AT, '%Y-%m-%d %T') AS UPDATED_AT
+		    , ROUT.UPDATED_BY
+            , COUNT(*) AS COUNT
+		FROM
+			BM_ROUT_INFO ROUT
+		    LEFT JOIN SM_DL_CD_INFO CD
+		    ON ROUT.WAY_DIV = CD.TXT_VAL1
+		    AND CD.CO_CD = 'UPDOWN_FLAG'
+		    LEFT JOIN SM_DL_CD_INFO CD2
+		    ON ROUT.USER_WAY_DIV = CD2.TXT_VAL1 
+			AND CD2.CO_CD = 'UPDOWN_FLAG'
+		    LEFT JOIN SM_DL_CD_INFO CD3
+		    ON ROUT.TURN_DIV = CD3.TXT_VAL1
+		    AND CD3.CO_CD = 'WAYDIV_FLAG'
+            LEFT JOIN BM_ROUT_RESULT RESULT
+            ON ROUT.ROUT_ID = RESULT.ROUT_ID
+		GROUP BY ROUT.ROUT_ID
+		<if test="value != null">
+		HAVING
+			ROUT_ID LIKE CONCAT('%', #{value}, '%')
+		    OR
+		    ROUT_NM LIKE CONCAT('%', #{value}, '%')
+   		</if>
+	</select>
+
+<!-- 좌측하단 그리드 select -->
+	<select id="BM0109G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
+		SELECT
+			  NODE_ID
+		    , NODE_NM
+		    , NODE_TYPE
+		    , LATI
+		    , LONGI
+		    , SEQ
+		    , ROUT_ID
+		FROM
+			BM_ROUT_RESULT
+		WHERE
+			ROUT_ID = #{routId}
+			
+			<if test="filter1 != null">
+				AND(
+				NODE_ID LIKE CONCAT('%', #{filter1}, '%')
+				OR
+				NODE_NM LIKE CONCAT('%', #{filter1}, '%')
+				)
+	    	</if>
+	    ORDER BY SEQ
+	</select>
+	
+	<delete id="BM0109G1D0" parameterType="String">
+		DELETE FROM
+			BM_ROUT_RESULT
+		WHERE
+			ROUT_ID = #{routId} 
+	</delete>
+
+	
+	<insert id="BM0109G1I0" parameterType="bmRoutNodeInfoVO">
+    	INSERT INTO
+    		BM_ROUT_RESULT
+    			(
+    				  NODE_ID
+    				, NODE_NM
+    				, NODE_TYPE
+    				, LATI
+    				, LONGI
+    				, SEQ
+    				, ROUT_ID
+    			)
+		VALUES
+			<foreach collection="voList" item="voList" separator=",">
+			(
+				<choose>
+					<when test="voList.nodeId != null">
+						#{voList.nodeId}
+					</when>
+					<otherwise>
+						<choose>
+							<when test="voList.nodeType == 30">
+			  			    	CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_TEMP_NODE_0), 7, '0'))
+							</when>
+							<when test="voList.nodeType == 1">
+								CONCAT('BS', LPAD(NEXTVAL(SEQ_BM_TEMP_STOP_0), 7, '0'))
+							</when>
+						</choose>
+					</otherwise>
+				</choose>
+			  	, #{voList.nodeNm}
+				, #{voList.nodeType}
+				, #{voList.lati}
+				, #{voList.longi} 
+				, #{voList.seq}
+				, #{routId}
+			)
+			</foreach>   
+    
+	</insert>
+	
+	<insert id="BM0109G1I1" parameterType="bmRoutNodeInfoVO">
+    	<selectKey keyProperty="routId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('ROUT', LPAD(NEXTVAL(SEQ_BM_TEMP_ROUT_0), 5, '0'))
+    	</selectKey>
+    	
+    	INSERT INTO
+    		BM_ROUT_RESULT
+    			(
+    				  NODE_ID
+    				, NODE_NM
+    				, NODE_TYPE
+    				, LATI
+    				, LONGI
+    				, SEQ
+    				, ROUT_ID
+    			)
+		VALUES
+			<foreach collection="voList" item="voList" separator=",">
+			(
+				<choose>
+					<when test="voList.nodeId != null">
+						#{voList.nodeId}
+					</when>
+					<otherwise>
+						<choose>
+							<when test="voList.nodeType == 30">
+			  			    	CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_TEMP_NODE_0), 7, '0'))
+							</when>
+							<when test="voList.nodeType == 1">
+								CONCAT('BS', LPAD(NEXTVAL(SEQ_BM_TEMP_STOP_0), 7, '0'))
+							</when>
+						</choose>
+					</otherwise>
+				</choose>
+			  	, #{voList.nodeNm}
+				, #{voList.nodeType}
+				, #{voList.lati}
+				, #{voList.longi} 
+				, #{voList.seq}
+				, #{routId}
+			)
+			</foreach>   
+	</insert>
+	
+	<delete id="BM0109G0D0" parameterType="bmRoutNodeInfoVO">
+		DELETE FROM BM_ROUT_RESULT
+		WHERE ROUT_ID = #{routId}
+	</delete>
+	
+	<delete id="BM0109G1D1" parameterType="String">
+		DELETE FROM BM_ROUT_STA_INFO
+		WHERE ROUT_ID = #{value}
+	</delete>
+	
+	<select id="BM0109G1S1" parameterType="String" resultType="bmRoutNodeInfoVO">
+		SELECT
+			*
+		FROM
+			BM_ROUT_RESULT
+		WHERE
+			NODE_TYPE = 1
+			AND
+			ROUT_ID = #{value}
+		ORDER BY SEQ
+	</select>
+	
+	<insert id="BM0109G1I3" parameterType="bmRoutNodeInfoVO">
+		INSERT INTO
+			BM_ROUT_STA_INFO(
+				  ROUT_ID
+				, SEQ
+				, STA_ID)
+			VALUES
+			<foreach collection="voList" item="voList" separator=",">
+				( #{voList.routId}
+				, #{voList.seq}
+				, #{voList.nodeId}
+				)
+			</foreach>
+			
+	</insert>
+	
+	<insert id="BM0109G1I2" parameterType="bmRoutNodeInfoVO">
+		 INSERT INTO
+			BM_STA_INFO ( STA_ID
+						, STA_NM
+		                , STA_NO
+		                , LATI
+		                , LONGI
+		                , CREATED_AT
+		                , CREATED_BY
+		                , UPDATED_AT
+		                , UPDATED_BY
+		                )
+				VALUES
+				<foreach collection="voList" item="voList" separator=",">
+						( #{voList.nodeId}
+						, #{voList.nodeNm}
+						, NULL
+						, #{voList.lati}
+						, #{voList.longi}
+						, #{voList.createdAt}
+						, #{voList.createdBy}
+						, #{voList.updatedAt}
+						, #{voList.updatedBy}
+						)
+				</foreach>
+		ON DUPLICATE KEY UPDATE
+			  STA_NM		= VALUES(STA_NM)
+		    , STA_NO		= VALUES(STA_NO)
+		    , LATI			= VALUES(LATI)
+		    , LONGI			= VALUES(LONGI)
+		    , UPDATED_AT	= VALUES(UPDATED_AT)
+		    , UPDATED_BY	= VALUES(UPDATED_BY)
+	</insert>
+</mapper>

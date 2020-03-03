@@ -6,6 +6,7 @@
 	<select id="BM0107G0S0" parameterType="String" resultType="bmRoutInfoVO">
 		SELECT
 			  ROUT_ID
+			, INTER_ROUT_ID
 		    , ROUT_NM
 		    , WAY_DIV
 		    , SHORT_ROUT_NM

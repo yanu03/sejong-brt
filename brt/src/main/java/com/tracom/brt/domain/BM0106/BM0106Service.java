@@ -5,9 +5,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
+import com.tracom.brt.domain.BM0105.BmStaInfoVO;
 
 @Service
 public class BM0106Service extends BaseService<BmStaNmInfoVO, String> {
@@ -45,6 +47,23 @@ public class BM0106Service extends BaseService<BmStaNmInfoVO, String> {
     	if(mapper.BM0106G0D0(vo) > 0) {
     		return true;
     	} else {
+    		return false;
+    	}
+    }
+    
+    /** 정류장 정리 **/
+    @Transactional
+    public boolean sweepSta() {
+    	List<BmStaInfoVO> list = mapper.getSwpList();
+    	BmStaInfoVO vo = new BmStaInfoVO();
+    	vo.setVoList(list);
+    	if(mapper.deleteStaNmInfo(vo) > 0) {
+    		if(mapper.deleteStaInfo(vo) > 0) {
+    			return true;
+    		}else {
+    			return false;
+    		}
+    	}else {
     		return false;
     	}
     }

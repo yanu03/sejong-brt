@@ -92,8 +92,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
             
-            console.log(formData);
-            
             formData["mngrList"] = fnObj.gridView1.getData();
             
             axboot.promise()
