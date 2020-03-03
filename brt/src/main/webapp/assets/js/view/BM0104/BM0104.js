@@ -107,11 +107,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                         url: "/api/v1/BM0104F0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
+                        	/*
                         	if(res.message == "error"){
                         		alert("중복된 노선ID가 있습니다. 확인 후 저장하세요.");
                         	}else{
-                        		ok(res);
                         	}
+                        	*/
+                        		ok(res);
                         }
                     });
                 })
@@ -136,11 +138,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                         url: "/api/v1/BM0104F0U0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
+                        	/*
                         	if(res.message == "error"){
                         		alert("중복된 노선ID가 있습니다. 확인 후 업데이트하세요");
                         	}else{
-                        		ok(res);
-                        	}
+                        	}*/
+                        	ok(res);
                         }
                     });
                 })
@@ -469,8 +472,8 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     	}else{
     		this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
 	    		$(element).attr("readonly", true);
+	    		$('#wayDiv').attr("readonly", true).attr("disabled", true);
 	    	});
-    		$('#wayDiv').attr("readonly", true).attr("disabled", true);
     	}
     	
     },

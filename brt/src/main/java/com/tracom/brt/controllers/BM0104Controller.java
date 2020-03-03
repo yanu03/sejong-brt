@@ -55,7 +55,8 @@ public class BM0104Controller extends BaseController {
     /** 갱신할 노선 선택 후 갱신 **/
     @PostMapping("/BM0104G0U0")
     public ApiResponse BM0104G0U0(@RequestBody List<BmRoutInfoVO> requestParams) {
-    	return ok(service.BM0104G0U0(requestParams));
+    	service.interfaceRout(requestParams);
+    	return ok();
     }
     
     /** 상하행구분 수정 **/
@@ -68,6 +69,9 @@ public class BM0104Controller extends BaseController {
     /**폼업데이트**/
     @PostMapping("/BM0104F0U0")
     public ApiResponse BM0104F0U0(@RequestBody BmRoutInfoVO requestParams) {
+    	service.BM0104F0U0(requestParams);
+    	return ok();
+    	/*
     	if(service.BM0104F0S1(requestParams)) {
     		if(service.BM0104F0U0(requestParams) > 0) {
     			return ok();    			
@@ -77,14 +81,14 @@ public class BM0104Controller extends BaseController {
     		}
     	} else {
     		return ok("error");
-    	}
+    	}*/
     }
     
     /**폼인서트**/
     @PostMapping("/BM0104F0I0")
     public ApiResponse BM0104F0I0(@RequestBody BmRoutInfoVO requestParams) {
-    	if(service.BM0104F0S1(requestParams)) {
-    		String routId = service.BM0104F0I0(requestParams);
+    	String routId = service.BM0104F0I0(requestParams);
+    	/*if(service.BM0104F0S1(requestParams)) {
     		if(routId != null) {
     			return ok(routId);    			
     		}
@@ -93,7 +97,8 @@ public class BM0104Controller extends BaseController {
     		}
     	} else {
     		return ok("error");
-    	}
+    	}*/
+    	return ok("");
     }
     
     /** 노선 삭제 **/

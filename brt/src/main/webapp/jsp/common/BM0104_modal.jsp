@@ -44,10 +44,10 @@
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="*" style="padding-right: 0px;">
 
-                <div data-ax5grid="grid-view-01" data-fit-height-content="grid-view-01" style="height: 300px;"></div>
+                <div data-ax5grid="grid-view-01" data-fit-height-content="grid-view-01" style="height: 270px; padding-bottom:20px;"></div>
+				<div style="color:red;float:right;">데이터 출처 : 공공데이터포털, 세종교통정보센터</div>
 
             </ax:split-panel>
         </ax:split-layout>
-
     </jsp:body>
 </ax:layout>

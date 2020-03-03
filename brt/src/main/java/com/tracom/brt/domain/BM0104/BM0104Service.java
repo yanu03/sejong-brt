@@ -76,44 +76,46 @@ public class BM0104Service extends BaseService<BmRoutInfoVO, String> {
     	return voList;
     }
     
+    /** 노선 연계 **/
     @Transactional
-    public String BM0104G0U0(List<BmRoutInfoVO> voList){
-    	
-    	//1. voList를 삽입함
-    	BmRoutInfoVO insertVO = new BmRoutInfoVO();
-    	insertVO.setVoList(voList);
-    	int result1 = mapper.BM0104G0I0(insertVO);
+    public void interfaceRout(List<BmRoutInfoVO> voList){
 
-    	String baseUrl = "http://bis.sejong.go.kr/web/traffic/searchBusRouteDetail.do?busRouteId=";
+    	//volist는 갱신모달에 뜨는 데이터이다
+    	//이전과의 변경점 : 연계노선으로 업데이트하기 때문에 여러개의 데이터가 업데이트될 수 있다.
+    	//갱신순서
+    	//1. 테이블에서  routId와 매칭되는 interRoutId가 있는지 리스트를 받아온다
+    	//1-1 없다면 삽입 후, 교통정보시스템에서 데이터를 받아와 업데이트하고 마무리
+    	//1-2 있다면 해당 interRoutId의 정보를 업데이트하고 마무리
     	
-    	BmRoutInfoVO resultVO = new BmRoutInfoVO();
-    	List<BmRoutInfoVO> resultList = new ArrayList<>();
-    	//2. for(routId : voList) 교통정보시스템에서 가져와서 연계함
-    	int resultCnt = 0;
-    	int update = 0;
-    	String resultString = "";
+    	//갱신할 노선 만큼
     	for(BmRoutInfoVO vo : voList) {
-    		//vo.getRoutId();
-    		//이걸로 교통정보시스템이랑 연계할거임
+    		//기본 설정
+    		String baseUrl = "http://bis.sejong.go.kr/web/traffic/searchBusRouteDetail.do?busRouteId=";
     		String json = di.interface_URL("POST", baseUrl + vo.getRoutId());
-    		String _div = mapper.BM0104G1S2(vo);
-    		System.out.println(_div);
-    		if(_div == null) {
-    			update = mapper.BM0104G0U0(di.parseJson_RouteInfo(json));
-    		}else {
-    			update = mapper.BM0104G0U2(di.parseJson_RouteInfo(json));
+    		
+    		
+    		//1. 매칭되는 interRoutId가 있는지 리스트를 받아온다
+    		List<BmRoutInfoVO> routIdList = mapper.getRoutIdByinterId(vo);
+
+    		//삽입된 노선이 있다면?
+    		if(routIdList.size() > 0 ) {
+    			for(BmRoutInfoVO rout : routIdList) {
+    				//기본정보 업데이트
+    				mapper.updateRout(vo);
+    				//추가정보 업데이트
+    				mapper.BM0104G0U2(di.parseJson_RouteInfo(json));
+    			}
     		}
-    		if(update == 1) {
-    			resultList.add(vo);
-    			
-    			resultString = resultString + vo.getRoutNm() + " (" + vo.getInterRoutId() + ")" + "\n";
-    			resultCnt++;
+    		//삽입된 노선이 없다면?
+    		else {
+    			//인서트
+    			mapper.insertRout(vo);
+    			//첫 삽입이니 유저 정보까지 업데이트필요 
+    			mapper.BM0104G0U0(di.parseJson_RouteInfo(json));
     		}
     	}
-    	String result = "갱신 노선 : " + resultCnt + "개\n" + resultString; 
-    	//return resultList;
-    	return result;
     }
+    
     
     public String BM0104G0U2(List<BmRoutInfoVO> voList) {
     	BmRoutInfoVO updateVO = new BmRoutInfoVO();
