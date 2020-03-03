@@ -54,5 +54,10 @@ public class BM0106Controller extends BaseController {
     	return ok();
     }  
 
+    @PostMapping("/SWPBUSSTOP")
+    public ApiResponse SWPBUSSTOP() {
+    	service.sweepSta();
+    	return ok();
+    }
 
 }

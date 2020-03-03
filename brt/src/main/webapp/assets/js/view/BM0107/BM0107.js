@@ -109,13 +109,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     ITEM_CLICK_G0: function (caller, act, data) {
     	//data.filter1 = $.extend({}, caller.searchView1.getData());
+    	selectedRow = data;
     	searchGrid1(caller, act, data);
     	removeMarkers();
     	deleteLine();
     },
     
     ITEM_CLICK_G1: function (caller, act, data) {
-    	selectedRow = data;
+    	
         //mapMarker(data.lati, data.longi);
     	moveMap(data.lati, data.longi);
     },
@@ -143,6 +144,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 						if(res.status == 0){
 							alert('갱신 성공');
 							ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+							caller.gridView0.selectRow(selectedRow.__index);
 						}else{
 							alert('갱신 실패');
 						}
@@ -307,6 +309,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
                 {key: "routId", label: ADMIN("ax.admin.BM0107G0.routId"), width: 80},
+                {key: "interRoutId", label: "연계노선ID", width: 80},
                 {key: "routNm", label: ADMIN("ax.admin.BM0107G0.routNm"), width: 180},
                 {key: "updatedAt", label: ADMIN("ax.admin.BM0107G0.updatedAt"), width: 160},
             ],
@@ -516,24 +519,25 @@ function drawRoute(list) {
 	
 	if(list != null && list.length != 0) {
 		for(var i = 0; i < list.length; i++) {
-			if(list[i].seq == 0){
-				continue;
-			}
 			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
 			
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
 			if(list[i].nodeType == '1' || list[i].nodeType == '898') {
 				list[i].icon = "/assets/images/tmap/busstop.png";
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				addMarker(list[i]);
+				//addMarker(list[i]);
+				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
 			// 일반 노드인 경우
 			else if(list[i].nodeType == '30'){
 				list[i].icon = "/assets/images/tmap/road_trans.png";
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeId + "</span>";
+				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				//addMarkerInter(list[i], fnObj.gridView1, i);
-				addMarker(list[i]);
-				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
+				//addMarker(list[i]);
+				addMarkerInter(list[i], fnObj.gridView1, i);
+				if(list[i].seq != 0){
+					nodes.push(getDrawingNode(list[i].lati, list[i].longi));					
+				}
 			}
 		}
 		

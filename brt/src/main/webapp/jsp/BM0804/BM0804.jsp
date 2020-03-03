@@ -46,28 +46,27 @@
 	                <ax:split-panel width="350" style="height:250px;float:left;">
 	                	<div data-ax5grid="gridView0"  style="height:250px; width:410px; float:left"></div>
 	                </ax:split-panel>
-	                <ax:split-panel width="350" style="height:250px;float:left;">
-	                	<div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="width:270px; height:250px;float:left;"></div>
-	                </ax:split-panel>
-	                <!-- 
+
+<!-- 
                     <ax:split-panel width="200" style="height:270px;">
                  	   <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style=" float:left"></div>
                     </ax:split-panel>
-	                 -->
-	                <!-- 
-	                <div style="float:left; width:368px;">
-	                	<div id="rowDel" style="float:right;">
+ -->
+
+	                <div style="float:right; width:250px;">
+	                	<div id="refreshBtn" style="float:right;">
 	                    	<button class="btn btn-default" data-grid-control="row-del">적용</button>
 	                    	<p>
 	                    </div>
-	                    <div style="float:right;">
+	                    
+	                    <div style="float:right; width:260px">
 	                   		<ax:form name="formView0">
-			                    <ax:tbl clazz="ax-form-tbl" minWidth="500px">
+			                    <ax:tbl clazz="ax-form-tbl" minWidth="200px">
 			                        <ax:tr>
-			                            <ax:td label="정류소정차시간" width="300px">
+			                            <ax:td label="정류소정차시간(초)" width="260px">
 			                                <input type="text" id="stopTime" data-ax-path="stopTime" class="form-control"/>
 			                            </ax:td>
-			                            <ax:td label="평균이동속도" width="300px">
+			                            <ax:td label="평균이동속도(km/h)" width="260px">
 			                                <input type="text" id="avgSpeed" data-ax-path="avgTime" title="<ax:lang id="ax.admin.BM0102F0.cust.name"/>" class="form-control"/>
 			                            </ax:td>
 			                        </ax:tr>
@@ -75,20 +74,20 @@
 		
 			                    <p>
 			                    
-			                    <ax:tbl clazz="ax-form-tbl" minWidth="500px">
+			                    <ax:tbl clazz="ax-form-tbl" minWidth="230px">
 			                        <ax:tr>
-			                            <ax:td label="노선 길이" width="300px">
+			                            <ax:td label="노선 길이" width="260px">
 			                                <input type="text" id="distance" data-ax-path="distance" data-key="true" class="form-control" readonly="readonly"/>
 			                            </ax:td>
-			                            <ax:td label="이동시간" width="300px">
+			                            <ax:td label="이동시간" width="260px">
 			                                <input type="text" id="duration" data-ax-path="duration" data-key="true" title="<ax:lang id="ax.admin.BM0102F0.cust.name"/>" readonly="readonly" class="form-control"/>
 			                            </ax:td>
 			                        </ax:tr>
 			                    </ax:tbl>
 		                    </ax:form>
 	                    </div>
+	                    
 	                </div>
-	                 -->
 	            </ax:split-panel>
 	             <ax:form name="searchView1" style="padding-right:20px; ">
 	                <ax:tbl clazz="ax-search-tbl" minWidth="500px">

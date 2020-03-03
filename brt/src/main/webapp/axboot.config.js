@@ -58,7 +58,7 @@
             },
             "BM0104": {
             	width: 634,
-            	height: 450,
+            	height: 470,
             	iframe: {
             		url: "/jsp/common/BM0104_modal.jsp"
             	},
@@ -103,7 +103,16 @@
 	           		url: "/jsp/common/BM0301_modal.jsp"
 	           	}
 	          },
-	          "BM0304": {
+	          
+	          "BM0301confirmYn": {
+		           	width: 400,
+		           	height: 150,
+		           	iframe: {
+		           		url: "/jsp/common/BM0301confirmYn_modal.jsp"
+		           	},
+		           	header: false
+		          },
+	          "BM0304": { 
 		           	width: 970,
 		           	height: 500,
 		           	iframe: {

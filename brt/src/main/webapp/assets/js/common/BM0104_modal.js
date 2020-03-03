@@ -20,25 +20,29 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         var list = caller.gridView01.getData("selected");
         
         if (list.length > 0) {
-        	alert(LANG("ax.script.interfaceConfirm"));
-        	axboot.ajax({
-                type: "POST",
-                url: "/api/v1/BM0104G0U0",
-                data: JSON.stringify(list),
-                callback: function (res) {
-                	if(res.message.length > 0){
-                		alert(res.message);
-                		if (parent && parent.axboot && parent.axboot.modal) {
-                            parent.axboot.modal.callback(list[0]);
-                		}
-                	}else{
-                		alert("갱신된 노선이 없습니다.");                		
-                	}
-                }
-            });
-            return false;
-        } else {
-            alert(LANG("ax.script.requireselect"));
+        	var msg = LANG("ax.script.interfaceConfirm");
+        	if(confirm(msg) == true){
+	        	axboot.ajax({
+	                type: "POST",
+	                url: "/api/v1/BM0104G0U0",
+	                data: JSON.stringify(list),
+	                callback: function (res) {
+	                	if(res.message.length > 0){
+	                		alert(res.message);
+	                		if (parent && parent.axboot && parent.axboot.modal) {
+	                            parent.axboot.modal.callback(list[0]);
+	                		}
+	                	}else{
+	                		alert("갱신된 노선이 없습니다.");                		
+	                	}
+	                }
+	            });
+	            return false;
+	        } else {
+	            alert(LANG("ax.script.requireselect"));
+	        }
+        }else{
+        	
         }
     },
     ITEM_CLICK: function (caller, act, data) {

@@ -37,6 +37,10 @@
             <button type="button" class="btn btn-info" data-page-btn="operstatus"><i class="cqc-check"></i> <%=MessageUtils.getMessage(request, "ax.admin.operstatus")%></button>
         </c:if>
         
+        <c:if test="${authGroupMenu.swpAh eq 'Y'}">
+            <button type="button" class="btn btn-info" data-page-btn="swpAh"><i class="cqc-check"></i> <%=MessageUtils.getMessage(request, "ax.admin.swpstop")%></button>
+        </c:if>
+        
         <c:if test="${authGroupMenu.exlAh eq 'Y'}">
             <button type="button" class="btn btn-info" data-page-btn="excel"><i class="cqc-file-excel-o"></i> <%=MessageUtils.getMessage(request, "ax.admin.excel")%></button>
         </c:if>

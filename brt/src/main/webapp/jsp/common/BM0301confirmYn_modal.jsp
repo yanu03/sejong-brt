@@ -2,9 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ax" tagdir="/WEB-INF/tags" %>
-<%
 
-%>
 <ax:set key="pageName" value="File Browser"/>
 <ax:set key="page_auto_height" value="true"/>
 <ax:set key="axbody_class" value="baseStyle"/>
@@ -13,41 +11,41 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
-        <script type="text/javascript" src="<c:url value='/assets/js/common/BM0104_modal.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/common/BM0301confirmYn_modal.js' />"></script>
     </jsp:attribute>
     <jsp:attribute name="header">
         <h3 class="title">
             <i class="cqc-browser"></i>
-            <ax:lang id="ax.admin.BM0104G0.modal.title"/>
+            <ax:lang id="ax.admin.BM0301M0.title"/>
         </h3>
     </jsp:attribute>
     <jsp:body>
         <ax:page-buttons>
-            <button type="button" class="btn btn-info" data-page-btn="search"><ax:lang id="ax.admin.sample.modal.button.search"/></button>
-            <button type="button" class="btn btn-fn1" data-page-btn="choice"><ax:lang id="ax.admin.sample.modal.button.choice"/></button>
             <button type="button" class="btn btn-default" data-page-btn="close"><ax:lang id="ax.admin.sample.modal.button.close"/></button>
         </ax:page-buttons>
 
         <div role="page-header">
-            <ax:form name="searchView0">
-                <ax:tbl clazz="ax-search-tbl" minWidth="500px">
-                    <ax:tr>
-                        <ax:td label='ax.admin.sample.search.condition' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0104G0.modal.search"/>
-                        </ax:td>
-                    </ax:tr>
-                </ax:tbl>
-            </ax:form>
             <div class="H3"></div>
         </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="*" style="padding-right: 0px;">
 
-                <div data-ax5grid="grid-view-01" data-fit-height-content="grid-view-01" style="height: 270px; padding-bottom:20px;"></div>
-				<div style="color:red;float:right;">데이터 출처 : 공공데이터포털, 세종교통정보센터</div>
-
+                <ax:form name="formView0">                 
+                    <ax:tbl clazz="ax-form-tbl" minWidth="500px">                   
+						<ax:tr>
+						  <div class="input-group">
+							<ax:td label="ax.admin.BM0301M0.checkScdPs" width="400px" labelClazz="required">
+	     					 	<div style="float:left;padding-right:5px;"><input type="text" id="updateCycle" name="updateCycle" data-key="true" class="form-control W180" maxlength="50"/></div>
+	     					 	<div style="float:left;padding-right:5px;"><button type="button" id="checkButton" class="btn btn-primary">확인</button></div>
+                    		</ax:td>
+                    	   </div>
+						</ax:tr>                    
+                     	                                                     
+                    </ax:tbl>                    
+                </ax:form>
             </ax:split-panel>
         </ax:split-layout>
+
     </jsp:body>
 </ax:layout>

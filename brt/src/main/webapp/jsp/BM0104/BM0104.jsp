@@ -44,7 +44,7 @@
 
                    	</div>
                 </div>
-                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height:500px;"></div>
+                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height:500px;padding-right:10px;"></div>
 	        </ax:split-panel>
 	            
 	        <ax:splitter></ax:splitter>
@@ -65,16 +65,16 @@
                             </ax:td>
                             
                             <ax:td label="ax.admin.BM0104G0.routNm" width="250px" style="border-left: 1px solid #D8D8D8;" labelClazz="required">
-                                <input type="text" data-ax-path="routNm" title="<ax:lang id="ax.admin.BM0104G0.routNm"/>" class="form-control" maxlength="20" data-ax-validate="required"/>
+                                <input type="text" data-ax-path="routNm" id="routNm" title="<ax:lang id="ax.admin.BM0104G0.routNm"/>" class="form-control" maxlength="20" data-ax-validate="required"/>
                             </ax:td>
 						</ax:tr>
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0104G0.stStaNm" width="250px" labelClazz="required">
-                            	<input type="text" data-ax-path="stStaNm" title="<ax:lang id="ax.admin.BM0104G0.stStaNm"/>" class="form-control" maxlength="20" data-ax-validate="required"/>
+                            	<input type="text" data-ax-path="stStaNm" id="stStaNm" title="<ax:lang id="ax.admin.BM0104G0.stStaNm"/>" class="form-control" maxlength="20" data-ax-validate="required"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0104G0.edStaNm" width="250px" style="border-left: 1px solid #D8D8D8;" labelClazz="required">
-                            	<input type="text" data-ax-path="edStaNm" title="<ax:lang id="ax.admin.BM0104G0.edStaNm"/>" class="form-control" maxlength="20" data-ax-validate="required"/>
+                            	<input type="text" data-ax-path="edStaNm" id="edStaNm" title="<ax:lang id="ax.admin.BM0104G0.edStaNm"/>" class="form-control" maxlength="20" data-ax-validate="required"/>
                             </ax:td>
                        	</ax:tr>
                        	

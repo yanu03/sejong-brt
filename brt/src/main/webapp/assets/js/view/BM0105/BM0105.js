@@ -93,7 +93,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		removeAllPopUp();
 		removeMarkers();
 		searchGrid1(caller, act, data);
-		
+		selectedRow = data;
 	},
 
 	ITEM_CLICK_G1: function (caller, act, data) {
@@ -121,7 +121,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 					data: JSON.stringify(list),
 					callback: function (res) {
 						if(res.list.length > 0){
-							alert('갱신 성공');
+							console.log(selectedRow);
+							searchGrid1(caller, act, selectedRow);
+							axToast.push(LANG("onsave"));
 						}else{
 							alert('갱신 실패');
 						}
@@ -254,7 +256,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 				{key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),		width: 160},
 				{key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),		width: 160},
 				{key: "wayDivNm",			label: ADMIN("ax.admin.BM0104G0.wayDiv"),		width: 140},
-				{key: "userWayDiv",		label: ADMIN("ax.admin.BM0104G0.userWayDiv"),	width: 140},
+				{key: "userWayDivNm",		label: ADMIN("ax.admin.BM0104G0.userWayDiv"),	width: 140},
 				//{key: "turnDiv",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),		width: 100},
 				{key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),	width: 180},
 				],
@@ -445,7 +447,7 @@ function searchGrid1(caller, act, data){
 				caller.gridView1.selectFirstRow();
 				
 				if(selectedRow != null) {
-					caller.gridView1.selectRow(selectedRow.__index);
+					caller.gridView1.selectFirstRow();
 				}
 				else {
 					caller.gridView1.selectFirstRow();

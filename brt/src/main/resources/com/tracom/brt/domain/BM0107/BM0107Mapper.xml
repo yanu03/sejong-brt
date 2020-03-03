@@ -6,27 +6,13 @@
 	<select id="BM0107G0S0" parameterType="String" resultType="bmRoutInfoVO">
 		SELECT
 			  ROUT_ID
+			, INTER_ROUT_ID
 		    , ROUT_NM
 		    , WAY_DIV
 		    , SHORT_ROUT_NM
 		    , DATE_FORMAT(UPDATED_AT, '%Y-%m-%d %T') AS UPDATED_AT
 		FROM
 			BM_ROUT_INFO
-		<!-- 
-		SELECT
-			  ROUT.ROUT_ID
-		    , ROUT_NM
-		    , STA_ID
-		    , WAY_DIV
-		    , SHORT_ROUT_NM
-		    , UPDATED_AT
-		FROM
-			BM_ROUT_INFO ROUT
-            LEFT JOIN BM_ROUT_STA_INFO STA
-            ON ROUT.ROUT_ID = STA.ROUT_ID
-		GROUP BY ROUT_ID
-		HAVING STA_ID IS NOT NULL
-		 -->			
 		<where>
 			<if test="value != null">
 				ROUT_ID LIKE CONCAT('%', #{value}, '%')

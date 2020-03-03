@@ -106,7 +106,12 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
     @ColumnPosition(16)
     private String helpAh = AXBootTypes.Used.NO.getLabel();
     
+    @Column(name = "SWP_AH", length = 1)
+    @Comment(value = "정류장정리권한")
+    @ColumnPosition(17)
+    private String swpAh = AXBootTypes.Used.NO.getLabel();
 
+    
     @Transient
     private AXBootTypes.Used useYn;
 
@@ -125,6 +130,7 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
         this.fn6Ah = positive(this.fn6Ah, authGroupMenu.getFn6Ah());
         this.fn7Ah = positive(this.fn7Ah, authGroupMenu.getFn7Ah());
         this.helpAh = positive(this.helpAh, authGroupMenu.getHelpAh());
+        this.swpAh = positive(this.swpAh, authGroupMenu.getSwpAh());
     }
 
     public void updateAuthorization(Program program) {
@@ -142,6 +148,7 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
         this.fn6Ah = negative(this.fn6Ah, program.getFn6Ah());
         this.fn7Ah = negative(this.fn7Ah, program.getFn7Ah());
         this.helpAh = negative(this.helpAh, program.getHelpAh());
+        this.swpAh = negative(this.swpAh, program.getSwpAh());
     }
 
     public String positive(String originValue, String newValue) {
@@ -195,7 +202,8 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
     		String fn5Ah, 
     		String fn6Ah, 
     		String fn7Ah, 
-    		String helpAh) {
+    		String helpAh,
+    		String swpAh) {
         AuthGroupMenu authGroupMenu = new AuthGroupMenu();
         authGroupMenu.setGrpAuthCd(grpAuthCd);
         authGroupMenu.setMenuId(menuId);
@@ -213,6 +221,7 @@ public class AuthGroupMenu extends BaseJpaModel<AuthGroupMenu.AuthGroupMenuId> {
         authGroupMenu.setFn6Ah(fn6Ah);
         authGroupMenu.setFn7Ah(fn7Ah);
         authGroupMenu.setHelpAh(helpAh);
+        authGroupMenu.setSwpAh(swpAh);
         return authGroupMenu;
     }
 }

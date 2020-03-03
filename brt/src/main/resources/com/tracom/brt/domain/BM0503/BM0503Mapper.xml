@@ -106,12 +106,10 @@
 	    
 		INSERT INTO
 			BM_DESTI_RSV(
-				  ROUT_ID
-				, RSV_ID
+				  RSV_ID
 				, RSV_DATE)
 			VALUES(
-				  NULL
-				, #{rsvId}
+				  #{rsvId}
 				, #{rsvDate}
 				)
 	</insert>

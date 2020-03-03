@@ -125,7 +125,14 @@ public class FTPHandler {
 	
 	//BM0205 펌웨어파일 업로드
 	public void uploadBM0205(String id, MultipartFile file) {
-		String dir = Paths.get(getRootLocalPath() , getFirmwarePath()).toString();
+		String path;
+		//가지고온 관리id값이 통플인지 아닌지 비교
+		if(id.length() > 10) {
+			path = "/vehicle/"+id.substring(0, 10)+"/device/"+id.substring(10, 16)+"/firmware";
+		}else {
+			path = "/vehicle/"+id.substring(0, 10)+"/firmware";
+		}
+		String dir = Paths.get(getRootLocalPath() , path).toString();
 		String ext = FilenameUtils.getExtension(file.getOriginalFilename());
 		String fileName;
 		
@@ -144,11 +151,36 @@ public class FTPHandler {
 		try {
 			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
 			
-			processSynchronize(getRootLocalPath() + getFirmwarePath(), getRootServerPath() + getFirmwarePath());
+			processSynchronize(getRootLocalPath() + path, getRootServerPath() + path);
 		} catch(Exception e){
 			e.printStackTrace();
 		}
 		
+	}
+	
+	//BM0201에서 device 생성시 folder 생성
+	public void deviceFolder(String id) {
+		String path;
+		//가지고온 관리id값이 통플인지 아닌지 비교
+		if(id.length() > 10) {
+			path = "/vehicle/"+id.substring(0, 10)+"/device/"+id.substring(10, 16)+"/firmware";
+		}else {
+			path = "/vehicle/"+id.substring(0, 10)+"/firmware";
+		}
+		String dir = Paths.get(getRootLocalPath() , path).toString();
+		File dirPathConfig = new File(dir +"/config");
+		File dirPathFirmware = new File(dir + "/firmware");
+		File dirPathPlaylist = new File(dir + "/playlist");
+		
+		if(!dirPathConfig.isDirectory()) {
+			dirPathConfig.mkdirs();
+		}
+		if(!dirPathFirmware.isDirectory()) {
+			dirPathFirmware.mkdirs();
+		}
+		if(!dirPathPlaylist.isDirectory()) {
+			dirPathPlaylist.mkdirs();
+		}
 	}
 	
 

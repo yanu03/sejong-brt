@@ -6,7 +6,8 @@
 <!-- 좌측상단 그리드 select -->
 	<select id="BM0804G0S0" parameterType="String" resultType="bmRoutInfoVO">
 		SELECT
-			ROUT_ID
+			  ROUT_ID
+			, MAX(UPDATED_AT) AS UPDATED_AT  
 		FROM
 			BM_ROUT_SIMULATION
 		GROUP BY ROUT_ID
@@ -60,6 +61,7 @@
     				, LONGI
     				, SEQ
     				, ROUT_ID
+    				, UPDATED_AT
     			)
 		VALUES
 			<foreach collection="voList" item="voList" separator=",">
@@ -69,7 +71,14 @@
 						#{voList.nodeId}
 					</when>
 					<otherwise>
-	  			    	CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_TEMP_NODE_0), 7, '0'))
+						<choose>
+							<when test="voList.nodeType == 30">
+			  			    	CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_TEMP_NODE_0), 7, '0'))
+							</when>
+							<when test="voList.nodeType == 1">
+								CONCAT('BS', LPAD(NEXTVAL(SEQ_BM_TEMP_STOP_0), 7, '0'))
+							</when>
+						</choose>
 					</otherwise>
 				</choose>
 			  	, #{voList.nodeNm}
@@ -78,6 +87,7 @@
 				, #{voList.longi} 
 				, #{voList.seq}
 				, #{routId}
+				, #{updatedAt}
 			)
 			</foreach>   
     
@@ -98,6 +108,7 @@
     				, LONGI
     				, SEQ
     				, ROUT_ID
+    				, UPDATED_AT
     			)
 		VALUES
 			<foreach collection="voList" item="voList" separator=",">
@@ -107,7 +118,14 @@
 						#{voList.nodeId}
 					</when>
 					<otherwise>
-	  			    	CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_TEMP_NODE_0), 7, '0'))
+						<choose>
+							<when test="voList.nodeType == 30">
+			  			    	CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_TEMP_NODE_0), 7, '0'))
+							</when>
+							<when test="voList.nodeType == 1">
+								CONCAT('BS', LPAD(NEXTVAL(SEQ_BM_TEMP_STOP_0), 7, '0'))
+							</when>
+						</choose>
 					</otherwise>
 				</choose>
 			  	, #{voList.nodeNm}
@@ -116,6 +134,7 @@
 				, #{voList.longi} 
 				, #{voList.seq}
 				, #{routId}
+				, #{updatedAt}
 			)
 			</foreach>   
 	</insert>

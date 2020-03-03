@@ -34,7 +34,7 @@
 
         <ax:split-layout name="ax1" orientation="vertical">
 	        <ax:split-panel width="700">
-	            <ax:split-panel width="700" style="height:270px; padding-right: 10px;">
+	            <ax:split-panel width="700" style="height:270px; padding-right: 5px;">
 	                <!-- 목록 -->
 	                <div class="ax-button-group" data-fit-height-aside="gridView0">
 	                    <div class="left">
@@ -45,12 +45,12 @@
 	                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
 	            </ax:split-panel>
 	            
-	            <ax:form name="searchView1" style="padding-right:20px">
+	            <ax:form name="searchView1" style="padding-right:10px">
 	                <ax:tbl clazz="ax-search-tbl" minWidth="500px">
 	                    <ax:tr>
 	                        <ax:td label='ax.admin.search' width="400px">
 	                        	<div class="input-group" >
-		                            <ax:input type="text" name="filter1" id="filter1" placeholder="ax.admin.BM0105S1.search" clazz="form-control" style="width:180px; margin-right:20px;"/>
+		                            <ax:input type="text" name="filter1" id="filter1" placeholder="ax.admin.BM0105S1.search" clazz="form-control" style="width:180px; margin-right:0px;"/>
 		                            <button type="button" id="searchSta" class="btn btn-primary" onclick="">
 			                         	<ax:lang id="ax.admin.search"/>
 			                        </button>
@@ -60,7 +60,7 @@
 	                </ax:tbl>
 	            </ax:form>
 	            
-	            <ax:split-panel width="500" style="height:100%; padding-right: 10px; padding-bottom:155px">
+	            <ax:split-panel width="500" style="height:100%; padding-right: 5px; padding-bottom:155px">
 	                <!-- 목록 -->
 	                <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height: 100%;"></div>
 	            </ax:split-panel>
@@ -75,7 +75,7 @@
 	                        </h3>
 	                    </div>
 	                </div>
-	                <div style="height:100%; padding-bottom:50px; overflow:hidden;">
+	                <div style="height:100%; padding-bottom:42px; overflow:hidden;">
 		                 <div id="mapView0" style="overflow:hidden;"></div>				
 	                </div>
 	            </ax:split-panel>

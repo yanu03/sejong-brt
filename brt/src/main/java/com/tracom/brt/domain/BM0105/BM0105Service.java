@@ -16,6 +16,9 @@ import org.w3c.dom.NodeList;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
+import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.domain.BM0107.BM0107Mapper;
+import com.tracom.brt.domain.BM0107.BM0107Service;
 import com.tracom.brt.domain.Interface.DataInterface;
 import com.tracom.brt.domain.SM0105.CommonCodeDetailInfoVO;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
@@ -26,7 +29,13 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
     private BM0105Mapper mapper;
     
     @Inject
+    private BM0107Mapper BM0107Mapper;
+    
+    @Inject
     private SM0105Mapper codeMapper;
+    
+    @Inject
+    private BM0107Service BM0107Service;
     
     @Inject
     private DataInterface di;
@@ -38,9 +47,10 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
         return mapper.BM0105G1S0(map);
     }
 
+    //정류장 연계
     @Transactional
     public List<String> BM0105G0U0(List<BmRoutInfoVO> requestParams) {
-    	List<String> resultList = new ArrayList();
+    	List<String> resultList = new ArrayList<>();
     	
     	CommonCodeDetailInfoVO codeVO = new CommonCodeDetailInfoVO();
     	codeVO.setCoCd(di.INTERFACE_URL);
@@ -58,7 +68,7 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
     	String routId;
     	
     	for(BmRoutInfoVO vo : requestParams) {//노선에 걸리는 for문
-    		routId = "SJB" + vo.getRoutId();
+    		routId = "SJB" + vo.getInterRoutId();
     		url = baseUrl + "serviceKey=" + apiKey + "&cityCode=12&routeId="+ routId;
     		int seq = 1;
     		BmStaInfoVO inputVO = new BmStaInfoVO();
@@ -76,6 +86,7 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
     				tmp.setRoutId(vo.getRoutId()/*routId.substring(3)*/);
     				tmp.setStaId(di.getTagValue("nodeid", eElement).substring(3));
     				tmp.setStaNm(di.getTagValue("nodenm", eElement));
+    				tmp.setStaNm(di.getTagValue("nodenm", eElement));
     				tmp.setStaNo(di.getTagValue("nodeno", eElement));
     				tmp.setLati(Float.valueOf(di.getTagValue("gpslati", eElement)));
     				tmp.setLongi(Float.valueOf(di.getTagValue("gpslong", eElement)));
@@ -87,15 +98,57 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
     		}
     		
     		inputVO.setVoList(staList);
-    		//삽입,업데이트 정류장갯수
-    		mapper.BM0105G1D0(vo.getRoutId());
-    		int RScnt = mapper.BM0105G1I0(inputVO);
-    		int SIcnt = mapper.BM0105G1I1(inputVO);
-    		
-    		resultList.add(vo.getRoutId());
+
+    		if(staList.size() > 0) {
+	    		//삽입,업데이트 정류장갯수
+	    		mapper.BM0105G1D0(vo.getRoutId());
+	    		int RScnt = mapper.BM0105G1I0(inputVO);
+	    		int SIcnt = mapper.BM0105G1I1(inputVO);
+	    		
+	    		resultList.add(vo.getRoutId());
+    		}
     		//staList.clear();
+
+    		//finalfusion
+    		//정류장리스트 바아옴
+    		finalFusion(vo, mapper.getNodeList(vo), mapper.getStaList(vo));
     	}
+    	
+    	
     	return resultList;
+    }
+    
+    //정류장 + 노선경로
+    @Transactional
+    public void finalFusion(BmRoutInfoVO routVO, List<BmRoutNodeInfoVO> nodeList, List<BmRoutNodeInfoVO> staList) {
+		//노드리스트+정류장리스트
+    	List<BmRoutNodeInfoVO> voList = new ArrayList<>();
+    	BmRoutNodeInfoVO insertVO = new BmRoutNodeInfoVO();
+    	int returnCount = 0;
+    	
+		voList = BM0107Service.insertSta(nodeList, staList);
+		insertVO.setVoList(voList);
+		
+		//인서트쿼리
+		if(BM0107Mapper.BM0107G1I0(insertVO) > 0) {
+			returnCount++;
+		}
+		//result테이블에 추가
+		Map<String, String> map = new HashMap<>();
+		map.put("routId", routVO.getRoutId());
+		List<BmRoutNodeInfoVO> nodeStaList = BM0107Mapper.BM0107G1S0(map);
+		List<BmRoutNodeInfoVO> audioList = BM0107Mapper.BM0107G4S0(routVO);
+		List<BmRoutNodeInfoVO> finalList = BM0107Service.insertSta(nodeStaList, audioList);
+		
+		//result테이블 삭제
+		BM0107Mapper.BM0107G3D0(routVO);
+		
+		//RESULT테이블에 추가
+		BmRoutNodeInfoVO finalVO = new BmRoutNodeInfoVO();
+		finalVO.setVoList(finalList);
+		
+		BM0107Mapper.BM0107G3I1(finalVO);
+		
     }
 
 }

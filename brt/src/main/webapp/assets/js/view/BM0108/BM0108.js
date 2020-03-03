@@ -41,7 +41,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("승무사원목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
@@ -460,7 +460,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 //승무사원이미지가 있다면 파일 불러와서 미리보기(추가예정), 없다면 기본 이미지 미리보기
 function preview_Image(id){
 	var path;
-	path = "/assets/images/BM0108/EmployeeDefault.png";//default path
+	path = "/assets/images/BM0108/EmployeeDefault.jpg";//default path
 	document.getElementById(id).src=path;
 }
 

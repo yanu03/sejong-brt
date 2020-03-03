@@ -10,12 +10,16 @@ import org.springframework.stereotype.Service;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
+import com.tracom.brt.handler.FTPHandler;
 
 @Service
 public class BM0201Service extends BaseService<VhcDeviceVO, String>{
 	
 	@Inject
 	private BM0201Mapper mapper;
+	
+	@Inject
+	private FTPHandler handler;
 
 	public List<VhcDeviceVO> BM0201G0S0(RequestParams<VhcDeviceVO> requestParams) {
         return mapper.BM0201G0S0(requestParams.getString("filter"));
@@ -44,6 +48,7 @@ public class BM0201Service extends BaseService<VhcDeviceVO, String>{
 	}
     
     public String BM0201F0I0(VhcDeviceVO vo) {
+    	handler.deviceFolder(vo.getMngId());
     	mapper.BM0201F0I0(vo);
     	return vo.getVhcId();
 		

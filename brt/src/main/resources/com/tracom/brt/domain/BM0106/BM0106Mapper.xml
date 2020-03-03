@@ -71,5 +71,36 @@
     		STA_ID = #{staId}
     </update>
     
+    <select id="getSwpList" resultType="bmStaInfoVO">
+    	SELECT
+    		*
+    	FROM
+    		BM_STA_INFO STA
+			LEFT JOIN BM_ROUT_STA_INFO ROUT
+			ON STA.STA_ID = ROUT.STA_ID
+		WHERE
+			ROUT_ID IS NULL
+    </select>
     
+    <delete id="deleteStaInfo" parameterType="bmStaInfoVO">
+    	DELETE FROM
+    		BM_STA_INFO
+    	WHERE
+    		STA_ID IN (
+    			<foreach collection="voList" item="voList" separator=",">
+    				#{voList.staId}
+    			</foreach>
+    		)
+    </delete>
+    
+    <delete id="deleteStaNmInfo" parameterType="bmStaInfoVO">
+    	DELETE FROM
+    		BM_STA_NM_INFO
+    	WHERE
+    		STA_ID IN (
+    			<foreach collection="voList" item="voList" separator=",">
+    				#{voList.staId}
+    			</foreach>
+    		)
+    </delete>
 </mapper>

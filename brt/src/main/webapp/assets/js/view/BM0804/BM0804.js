@@ -172,9 +172,9 @@ fnObj.pageStart = function () {
     		, onClick: onClickMap	
     		});
     setInitVal();
-    this.gridView2.initView();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
     calcDistance();
+    onClickBtn()
 };
 
 fnObj.pageResize = function () {
@@ -486,114 +486,6 @@ var numEditor = {
 		}
 }
 
-/**********************
- * gridView2
- **********************/
-fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
-    page: {
-        pageNumber: 0,
-        pageSize: 10
-    },
-    
-    initView: function () {
-        var _this = this;
-        
-        this.target = axboot.gridBuilder({
-        	frozenColumnIndex: 0,
-        	lineNumberColumnWidth:40,
-            //sortable: true,
-        	showLineNumber:false,
-            //showRowSelector: true,
-            target: $('[data-ax5grid="gridView2"]'),
-            columns: [
-                {key: "col1", 	label: "비고",	width: 120},
-                {key: "col2",	label: "값",		width: 50,	align: "right", editor: numEditor},
-            ],
-            footSum: [
-		    	[
-		    		{label: "총 노선 길이", colspan: 1, align: "left"},
-		    		{key: "distance", collector: function() {
-		    			var result = calcDistance();
-		    			return result;
-		    		}}
-		    	],
-		    	[
-		    		{label: "예상 이동시간", colspan: 1, align: "left"},
-		    		{key: "duration", collector: function() {
-		    			var result = calcDuration();
-		    			return result;
-		    		}}
-		    	]
-		    ],
-            body: {
-                onClick: function () {
-                    this.self.select(this.dindex);
-                }
-            },
-        });
-        setDefaultData();
-    },
-    getData: function (_type) {
-        var list = [];
-        var _list = this.target.getList(_type);
-
-        if (_type == "modified" || _type == "deleted") {
-            list = ax5.util.filter(_list, function () {
-                delete this.deleted;
-                return this.key;
-            });
-        } else {
-            list = _list;
-        }
-        return list;
-    },
-    addRow: function (data) {
-    	if(typeof data === "undefined") {
-    		this.target.addRow({__created__: true}, "last");
-    	} else {
-    		data["__created__"] = true;
-            this.target.addRow(data, "last");
-    	}
-    },
-    selectFirstRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(0);
-    	} else {
-    	}
-    },
-    selectLastRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(this.target.list.length - 1);
-    	} else {
-    	}
-    },
-    selectRow: function(index) {
-    	var data = this.target.list[index];
-    	
-    	if(typeof data === "undefined") {
-    		this.selectLastRow();
-    	} else {
-    		this.target.select(index);
-    	}
-    },
-    selectIdRow: function(id) {
-    	var i;
-    	var length = this.target.list.length;
-    	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].staId == id) {
-    			this.selectRow(i);
-    			break;
-    		}
-    	}
-    	
-    	if(i == length) {
-    	}
-    },
-    selectAll: function(flag) {
-    	this.target.selectAll({selected: flag});
-    }
-});
-
 
 /*****************************************/
 function searchGrid1(caller, act, data){
@@ -651,7 +543,7 @@ function onClickMap(e) {
 		if(minIndex == null) {
 			axDialog.alert("선택할 수 없는 좌표입니다. 경로를 먼저 입력하세요");
 		} else {
-			var seq = routeData[minIndex].seq + (routeData[minIndex + 1].seq - routeData[minIndex].seq) / 2;
+			var seq = routeData[minIndex].seq + (routeData[minIndex +  1].seq - routeData[minIndex].seq) / 2;
 			var insertIndex = minIndex + 1;
 			
 			routeData.splice(insertIndex, 0, {
@@ -744,13 +636,15 @@ function drawRoute(list) {
 			if(list[i].nodeType == busstopNodeType) {
 				list[i].icon = "/assets/images/tmap/busstop.png";
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				addMarker(list[i]);
+				list[i].draggable = true;
+				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
 			// 아닐 경우(일반 노드) 네모 박스 표시
 			else {
 				list[i].icon = "/assets/images/tmap/road_trans.png";
 				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				addMarker(list[i]);
+				list[i].draggable = true;
+				addMarkerInter(list[i], fnObj.gridView1, i);
 				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
 			}
 		}
@@ -793,7 +687,7 @@ function addStop(){
 		stopAdd = true;
 		isNewData = true;
 		$("#mapView0").addClass("cursor-crosshair");
-		$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add"><i class="cqc-minus"></i>정류장추가 취소</button>');
+		$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add"><i class="cqc-minus"></i>정류장추가 종료</button>');
 	}
 	
 	if(nodeAdd) {
@@ -812,7 +706,7 @@ function addNode(){
 		nodeAdd = true;
 		isNewData = true;
 		$("#mapView0").addClass("cursor-crosshair");
-		$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add"><i class="cqc-minus"></i>경로추가 취소</button>');
+		$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add"><i class="cqc-minus"></i>경로추가 종료</button>');
 	}
 	
 	if(stopAdd) {
@@ -842,66 +736,13 @@ function calcResult(){
 			result += tmp;
 		}
 	}
-	var stopTime = fnObj.gridView2.target.list[0].col2;
-	var avgSpeed = fnObj.gridView2.target.list[1].col2;
-	console.log(stopTime + " , " + avgSpeed);
-	//var stopTime = $('#stopTime').val() / 60;
-	//var avgSpeed = $('#avgSpeed').val();
+	var stopTime = $('#stopTime').val() / 60;
+	var avgSpeed = $('#avgSpeed').val();
 	var distance = (result/1000).toFixed(3);
 	var duration = (distance/avgSpeed * 60) + (stopCnt * stopTime);
 
-	//$('#distance').val(distance + "km");
-	//$('#duration').val("약 " + duration.toFixed(1) + "분");
-}
-function footSumConfig(distance, duration){
-	fnObj.gridView2.target.setConfig(
-			{footSum: [
-		    	[
-		    		{label: "총 노선 길이", colspan: 1, align: "left"},
-		    		{key: "distance", collector: function() {
-		    			return distance;
-		    		}}
-		    	],
-		    	[
-		    		{label: "예상 이동시간", colspan: 1, align: "left"},
-		    		{key: "duration", collector: function() {
-		    			//return calcDuration(this.list[0].col2, this.list[1].col2);
-		    			return duration;
-		    		}}
-		    	]
-		    ]}
-	);
-}
-function calcDuration(){
-	var result = 0;
-	var stopCnt = 0;
-	if(routeData != undefined){
-		for(var i = 0; i < routeData.length - 1; i++) {
-			if(routeData[i].nodeType == '1'){
-				stopCnt++;
-			}
-			if(routeData[i].seq == '0'){
-				continue;
-			}
-			var tmp = getDistanceBetween(
-					routeData[i].lati,
-					routeData[i].longi,
-					routeData[i + 1].lati,
-					routeData[i + 1].longi
-			)
-			result += tmp;
-		}
-	}
-	
-	var stopTime = fnObj.gridView2.target.list[0].col2 / 60;
-	var avgSpeed = fnObj.gridView2.target.list[1].col2;
-	//var stopTime = var1 / 60;
-	//var avgSpeed = var2;
-	var distance = (result/1000).toFixed(3);
-	var duration = (distance/avgSpeed * 60) + (stopCnt * stopTime);
-	
-	return duration;
-	
+	$('#distance').val(distance + "km");
+	$('#duration').val("약 " + duration.toFixed(1) + "분");
 }
 
 function calcDistance(){
@@ -1017,6 +858,9 @@ function onOffMarker(input){
 	}
 }
 
-function setDefaultData(){
-	fnObj.gridView2.setData([{col1 : "정류소정차시간", col2 : "60"}, {col1 : "버스평균속도", col2 : "40"}]);
+
+function onClickBtn(){
+	$('#refreshBtn').on('click', function(){
+		calcResult();
+	});
 }

@@ -4,7 +4,7 @@
 <mapper namespace="com.tracom.brt.domain.BM0104.BM0104Mapper">
 
 	<select id="BM0104G0S0" parameterType="String" resultType="bmRoutInfoVO">
-		
+		<!-- 
 		SELECT
 			  ROUT_ID
 			, INTER_ROUT_ID
@@ -50,9 +50,59 @@
 			    ROUT_NM LIKE CONCAT('%', #{value}, '%')
 	    	</if>
 		</where>
+		 -->
+		 
+		 		SELECT
+					  ROUT.ROUT_ID
+					, INTER_ROUT_ID
+				    , ROUT_NM
+				    , SHORT_ROUT_NM
+				    , WAY_INFO
+				    , DIR_INFO
+				    , CD.DL_CD AS WAY_DIV
+				    , CD.DL_CD_NM AS WAY_DIV_NM
+				    , CD2.DL_CD AS USER_WAY_DIV
+				    , CD2.DL_CD_NM AS USER_WAY_DIV_NM
+				    , TURN_DIV
+				    , CD3.DL_CD_NM AS TURN_DIV_NM
+					, ST_STA_NM
+				    , ED_STA_NM
+				    , DVC_NAME
+				    , LINE1_STR
+				    , LINE2_STR
+				    , LINE1_SATSTR
+				    , LINE2_SATSTR
+				    , LINE1_SUNSTR
+				    , LINE2_SUNSTR
+				    , DATE_FORMAT(ROUT.CREATED_AT, '%Y-%m-%d %T') AS CREATED_AT
+				    , ROUT.CREATED_BY
+				    , DATE_FORMAT(ROUT.UPDATED_AT, '%Y-%m-%d %T') AS UPDATED_AT
+				    , ROUT.UPDATED_BY
+		            , COUNT(*) AS COUNT
+				FROM
+					BM_ROUT_INFO ROUT
+				    LEFT JOIN SM_DL_CD_INFO CD
+				    ON ROUT.WAY_DIV = CD.TXT_VAL1
+				    AND CD.CO_CD = 'UPDOWN_FLAG'
+				    LEFT JOIN SM_DL_CD_INFO CD2
+				    ON ROUT.USER_WAY_DIV = CD2.TXT_VAL1 
+					AND CD2.CO_CD = 'UPDOWN_FLAG'
+				    LEFT JOIN SM_DL_CD_INFO CD3
+				    ON ROUT.TURN_DIV = CD3.TXT_VAL1
+				    AND CD3.CO_CD = 'WAYDIV_FLAG'
+		            LEFT JOIN BM_ROUT_RESULT RESULT
+		            ON ROUT.ROUT_ID = RESULT.ROUT_ID
+				GROUP BY ROUT.ROUT_ID
+				<if test="value != null">
+				HAVING
+					ROUT_ID LIKE CONCAT('%', #{value}, '%')
+				    OR
+				    ROUT_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+				
     </select>
     
-	<select id="BM0104G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
+	<select id="BM0104G1S0" parameterType="String" resultType="bmRoutNodeInfoVO">
 		SELECT
 			  NI.STA_ID
 		    , SI.STA_NM
@@ -269,4 +319,75 @@
 		WHERE
 			INTER_ROUT_ID = #{interRoutId}
 	</delete>
+	
+	<select id="getRoutIdByinterId" parameterType="bmRoutInfoVO" resultType="bmRoutInfoVO">
+		SELECT
+			*
+		FROM
+			BM_ROUT_INFO
+		WHERE
+			INTER_ROUT_ID = #{routId}
+	</select>
+	
+	<select id="getMyRout" parameterType="bmRoutInfoVO" resultType="bmRoutInfoVO">
+		SELECT
+			*
+		FROM
+			BM_ROUT_INFO
+		WHERE
+			INTER_ROUT_ID = #{interRoutId}
+			AND ROUT_ID != INTER_ROUT_ID
+	</select>
+	
+	<insert id="insertRout" parameterType="bmRoutInfoVO">
+    	INSERT INTO
+			BM_ROUT_INFO(
+						  ROUT_ID
+						, INTER_ROUT_ID
+						, ROUT_NM
+						, SHORT_ROUT_NM
+						, DVC_NAME
+						, WAY_INFO
+						, DIR_INFO						
+						, ST_STA_NM
+		                , ED_STA_NM
+		                , CREATED_AT
+		                , CREATED_BY
+		                , UPDATED_AT
+		                , UPDATED_BY
+		                )
+			VALUES 
+					( #{routId}
+					, #{routId}
+					, #{routNm}
+					, #{routNm}<!-- SHORT ROUT NM -->
+					, #{routNm}<!-- DVC NM -->
+					, SUBSTR(#{stStaNm}, 1, 10)<!-- WAY_INFO -->
+			        , SUBSTR(#{edStaNm}, 1, 10)<!-- DIR_INFO --> 
+			        , #{stStaNm}
+			        , #{edStaNm}
+			        , #{createdAt}
+			        , #{createdBy}
+			        , #{updatedAt}
+			        , #{updatedBy}
+			        )
+			ON DUPLICATE KEY UPDATE
+				  ROUT_NM		= VALUES(ROUT_NM)
+				, ST_STA_NM		= VALUES(ST_STA_NM)
+				, ED_STA_NM		= VALUES(ED_STA_NM)
+				, UPDATED_AT	= VALUES(UPDATED_AT)
+				, UPDATED_BY	= VALUES(UPDATED_BY)
+    </insert>
+    
+    <insert id="updateRout" parameterType="bmRoutInfoVO">
+    	UPDATE
+			BM_ROUT_INFO
+		SET
+		      ROUT_NM	= #{routNm}
+		    , ST_STA_NM	= SUBSTR(#{stStaNm}, 1, 10)
+		    , ED_STA_NM	= SUBSTR(#{edStaNm}, 1, 10)
+		WHERE
+			INTER_ROUT_ID = #{routId}
+    </insert>
+    
 </mapper>
