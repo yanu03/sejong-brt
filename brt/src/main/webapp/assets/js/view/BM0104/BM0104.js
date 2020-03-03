@@ -25,6 +25,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 	caller.formView0.enable();
                 	if(dataFlag) {
 	                	caller.gridView0.selectIdRow(data);
+	                	caller.formView0.interRout();
 	                } else {
 		                if(selectedRow != null) {
 		                	caller.gridView0.selectRow(selectedRow.__index);
@@ -49,6 +50,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	caller.gridView0.selectAll(false);
         caller.formView0.clear();
         caller.formView0.enable();
+        caller.formView0.interRout();
 
         caller.formView0.validate(true);
     },
@@ -465,15 +467,16 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     interRout: function() {
     	if(/[a-zA-Z]/.test(selectedRow.routId.substr(0,1))){
-	    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element){
-	    		$('#wayDiv').attr("readonly", false).attr("disabled", false);
-	    		$(element).attr("readonly", false);
-	    	});
+    		$('#wayDiv').attr("readonly", false).attr("disabled", false);
+    		$('#routNm').attr("readonly", false).attr("disabled", false);
+    		$('#stStaNm').attr("readonly", false).attr("disabled", false);
+    		$('#edStaNm').attr("readonly", false).attr("disabled", false);
+    		
     	}else{
-    		this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
-	    		$(element).attr("readonly", true);
-	    		$('#wayDiv').attr("readonly", true).attr("disabled", true);
-	    	});
+    		$('#wayDiv').attr("readonly", true).attr("disabled", true);
+    		$('#routNm').attr("readonly", true).attr("disabled", true);
+    		$('#stStaNm').attr("readonly", true).attr("disabled", true);
+    		$('#edStaNm').attr("readonly", true).attr("disabled", true);
     	}
     	
     },
