@@ -20,4 +20,6 @@ public interface BM0104Mapper extends MyBatisMapper {
 	int BM0104F0D0(BmRoutInfoVO vo);
 
 	String BM0104G1S2(BmRoutInfoVO vo);
+	
+	List<BmRoutInfoVO> getRoutIdByinterId(BmRoutInfoVO vo);
 }

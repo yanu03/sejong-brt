@@ -319,4 +319,13 @@
 		WHERE
 			INTER_ROUT_ID = #{interRoutId}
 	</delete>
+	
+	<select id="getRoutIdByinterId" parameterType="bmRoutInfoVO">
+		SELECT
+			ROUT_ID
+		FROM
+			BM_ROUT_INFO
+		WHERE
+			INTER_ROUT_ID = #{interRoutId}
+	</select>
 </mapper>
