@@ -27,7 +27,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
          	.then(function (ok, fail, data) {
                 axboot.ajax({
                     type: "POST",
-                    url: "/api/v1/BM0202M0S0", //이부분하는중이었다.
+                    url: "/api/v1/BM0202M0S0",
                     data: JSON.stringify({dvcId : formDataCheck , workType : formData["workType"]}),
                     callback: function (res) {
                         ok(res);

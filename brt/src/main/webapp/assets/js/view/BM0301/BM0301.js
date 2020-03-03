@@ -43,7 +43,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView0.target.exportExcel("계약 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
@@ -79,11 +79,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         		    		data:{conId : selectedRow.conId},
         		    		callback: function (res) {
         		    		  if(res.list.length != 0){
-        		    			  if(typeof res.list[0].vocId != "0" && typeof res.list[0].vdoId != "0"){
+        		    			  if(res.list[0].vocId != "0" && res.list[0].vdoId != "0"){
         		    				  for(var i = 0; i<res.list.length; i++){
-        		    					  if(typeof res.list[i].vocId != "0"){
+        		    					  if(res.list[i].vocId != "0"){
         		    						  vocCount++;
-        		    					  }else if(typeof res.list[i].vdoId != "0"){
+        		    					  }else if(res.list[i].vdoId != "0"){
         		    						  vdoCount++;
         		    					  }
         		    				  }
@@ -136,7 +136,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                      });
                  })
                  .then(function (ok, fail, data) {
-             		axToast.push(LANG("onadd"));
+             		axToast.push(LANG("onsave"));
              		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
                      isUpdate = true;
                  })
@@ -167,7 +167,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     					});
     				})
     				.then(function (ok, fail, data) {
-    					axToast.push(LANG("onupdate"));
+    					axToast.push(LANG("onsave"));
     					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
     					isUpdate = true;
     				})

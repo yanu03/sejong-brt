@@ -64,7 +64,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     RELOAD_G1: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
-    	$("#busCheck").remove();
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0203G1S0",

@@ -45,6 +45,20 @@
     <script type="text/javascript" src="<c:url value='/assets/js/axboot/dist/axboot.js' />"></script>
     <script type="text/javascript" src="<c:url value='/axboot.config.js' />"></script>
     <script type="text/javascript" src="<c:url value='/assets/js/common/common.js'/>"></script>
+    
+    <script type="text/javascript">
+	    function openChangePassword() {
+	    	axboot.modal.open({
+	            modalType: "CHANGE_PASSWORD",
+	            param: "",
+	            callback: function (result) {
+	            	this.close();
+	            	axToast.push('<ax:lang id="ax.admin.change.password.message"/>');
+	            }
+	    	});
+	    }
+    </script>
+    
     <jsp:invoke fragment="css"/>
     <jsp:invoke fragment="js"/>
 </head>
@@ -74,9 +88,17 @@
                         <div class="panel-split"></div>-->
                     </c:if>
                     <div class="ax-split-panel">
-                        <a href="#ax" onclick="fcObj.open_user_info();"><ax:lang id="ax.admin.login.status.message" args="${loginUser.userNm}"/></a>
+                        <a href="#ax" onclick=""><ax:lang id="ax.admin.login.status.message" args="${loginUser.userNm}"/></a>
                     </div>
+                    
                     <div class="panel-split"></div>
+                    
+                    <div class="ax-split-panel">
+						<a href="#ax" onclick="openChangePassword();"><ax:lang id="ax.admin.change.password"/></a>
+                    </div>
+                    
+                    <div class="panel-split"></div>
+                    
                     <div class="ax-split-panel">
 
                         <a href="#ax" class="ax-frame-logout" onclick="location.href = '${pageContext.request.contextPath}/api/logout';">
@@ -104,7 +126,7 @@
                 <a href="${pageContext.request.contextPath}/jsp/main.jsp">
                     <!-- <img src="${pageContext.request.contextPath}${config.logo.header}" width="100%"/> -->
                     <div style="float:left;width:40px;height:30px;background-image:url('${pageContext.request.contextPath}${config.logo.header}');background-repeat:no-repeat;border:solid 0px;"></div>
-                    <div style="float:left;height:30px;border:0px solid;padding-top:6px;"><h2>BRT(전기 굴절)관리시스템</h2></div>
+                    <div style="float:left;height:30px;border:0px solid;padding-top:6px;"><h2>BRT(전기·굴절)관리시스템</h2></div>
                 </a>
             </div>
             <div id="ax-top-menu" class="ax-split-panel ax-split-flex"></div>

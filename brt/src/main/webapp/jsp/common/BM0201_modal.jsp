@@ -77,10 +77,11 @@
                             	<input type="text" data-ax-path="workAmt" class="form-control" data-ax5formatter="money" style="text-align: right;" maxlength="30"/>
                             </ax:td>
 						</ax:tr>                                             	
-        
-                       	<ax:td label="ax.admin.BM0301F0.remark" width="100%">
-                       			<textarea data-ax-path="remark" class="form-control" style="height: 100px;" maxlength="200"></textarea>
-                            </ax:td>
+        				<ax:tr>
+	                       	<ax:td label="ax.admin.BM0301F0.remark" width="100%">
+	                       			<textarea data-ax-path="remark" class="form-control" style="height: 100px;" maxlength="200"></textarea>
+	                        </ax:td>
+                        </ax:tr>   
                     </ax:tbl>
                 </ax:form>
             </ax:split-panel>

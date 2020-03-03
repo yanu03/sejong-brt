@@ -229,16 +229,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	selectedRow = data;
     	if(selectedRow.useYn == "N"){
     		caller.formView0.disable();
-    		$("#maker").attr("readonly", true).attr("disabled", true);
-    		$("#dvcKind").attr("readonly", true).attr("disabled", true);
-    		$("#instLoc").attr("readonly", true).attr("disabled", true);
     		isCheck = false;
     	}else{
     		isCheck = true;
     		caller.formView0.enable();
-    		$("#maker").attr("readonly", false).attr("disabled", false);
-    		$("#dvcKind").attr("readonly", false).attr("disabled", false);
-    		$("#instLoc").attr("readonly", false).attr("disabled", false);
     	}
     	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
     },
@@ -639,11 +633,17 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     enable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", false);
+    		$("#maker").attr("readonly", false).attr("disabled", false);
+    		$("#dvcKind").attr("readonly", false).attr("disabled", false);
+    		$("#instLoc").attr("readonly", false).attr("disabled", false);
     	});
     },
     disable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", true);
+    		$("#maker").attr("readonly", true).attr("disabled", true);
+    		$("#dvcKind").attr("readonly", true).attr("disabled", true);
+    		$("#instLoc").attr("readonly", true).attr("disabled", true);
     	});
     },
     clear: function () {

@@ -196,6 +196,15 @@
             	},
             	header: false
             },
+            
+            "CHANGE_PASSWORD": {
+            	width: 400,
+            	height: 200,
+            	iframe: {
+            		url: "/jsp/common/change-password_modal.jsp"
+            	},
+            	header: false
+            }
         };
     }
 

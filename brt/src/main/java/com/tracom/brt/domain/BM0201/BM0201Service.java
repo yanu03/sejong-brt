@@ -77,5 +77,14 @@ public class BM0201Service extends BaseService<VhcDeviceVO, String>{
 		return mapper.BM0201G1S1(requestParams.getString("dvcId"));
 	}
 
+	public boolean BM0201G1U1(VhcDeviceVO vo) {
+		if(mapper.BM0201G1U1(vo) > 0) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+
 
 }

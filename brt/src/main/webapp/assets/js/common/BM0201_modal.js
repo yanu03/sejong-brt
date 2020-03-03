@@ -18,29 +18,32 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     
-    
     PAGE_SAVE: function (caller, act, data) {
         if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
-            axboot.promise()
-                .then(function (ok, fail, data) {
-                    axboot.ajax({
-                        type: "POST",
-                        url: "/api/v1/BM0201M0I0",
-                        data: JSON.stringify(formData),
-                        callback: function (res) {
-                            ok(res);
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
+            if($("#workType").val() == "CD022"){
+            	axboot.promise()
+            	.then(function (ok, fail, data) {
+            		axboot.ajax({
+            			type: "POST",
+            			url: "/api/v1/BM0201M0I0",
+            			data: JSON.stringify(formData),
+            			callback: function (res) {
+            				ok(res);
+            			}
+            		});
+            	})
+            	.then(function (ok, fail, data) {
             		axToast.push(LANG("onadd"));
             		ACTIONS.dispatch(ACTIONS.PAGE_CLOSE, data.message);
-                    isUpdate = true;
-                })
-                .catch(function () {
-
-                });
+            		isUpdate = true;
+            	})
+            	.catch(function () {
+            		
+            	});
+            }else{
+            	axDialog.alert("최초설치 이력만 선택가능합니다.");
+            }
         }
     },
    

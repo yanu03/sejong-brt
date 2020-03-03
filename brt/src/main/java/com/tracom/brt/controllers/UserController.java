@@ -1,5 +1,7 @@
 package com.tracom.brt.controllers;
 
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,5 +55,10 @@ public class UserController extends BaseController {
     @PostMapping("/checkScdPs")
     public ApiResponse checkScdPs(@RequestBody User user) {
     	return ok(userService.checkScdPs(user).toString());
+    }
+    
+    @PostMapping("/changePs")
+    public ApiResponse changePs(@RequestBody Map<String, Object> password) {
+    	return ok(userService.changePs(password).toString());
     }
 }

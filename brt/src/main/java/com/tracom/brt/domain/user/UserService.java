@@ -130,4 +130,18 @@ public class UserService extends BaseService<User, String> {
 		} 
     	return false;
     }
+    
+    public Boolean changePs(Map<String, Object> password) {
+    	User originalUser = userRepository.findOne(SessionUtils.getCurrentLoginUserCd());
+    	
+    	String oldPassword = password.get("oldPassword").toString();
+    	
+    	if(standardPasswordEncoder.matches(oldPassword, originalUser.getUserPs())) {
+    		originalUser.setUserPs(standardPasswordEncoder.encode(password.get("newPassword").toString()));
+    		save(originalUser);
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
 }

@@ -17,4 +17,5 @@ public interface BM0201Mapper extends MyBatisMapper{
 	int BM0201M0I0(VhcDeviceVO vo);
 	int BM0201F0U0(VhcDeviceVO vo);
 	int BM0201G1D0(VhcDeviceVO vo);
+	int BM0201G1U1(VhcDeviceVO vo);
 }
