@@ -99,12 +99,10 @@ public class BM0104Service extends BaseService<BmRoutInfoVO, String> {
 
     		//삽입된 노선이 있다면?
     		if(routIdList.size() > 0 ) {
-    			for(BmRoutInfoVO rout : routIdList) {
-    				//기본정보 업데이트
-    				mapper.updateRout(vo);
-    				//추가정보 업데이트
-    				mapper.BM0104G0U2(di.parseJson_RouteInfo(json));
-    			}
+				//기본정보 업데이트
+				mapper.updateRout(vo);
+				//추가정보 업데이트
+				mapper.BM0104G0U2(di.parseJson_RouteInfo(json));
     		}
     		//삽입된 노선이 없다면?
     		else {
