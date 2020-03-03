@@ -150,7 +150,26 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	selectedRow = data;
         caller.formView0.setData(data);
         mapMarker(data.lati, data.longi);
-    }
+    },
+    
+    PAGE_SWEEP: function(caller, act, data){
+    	if(confirm("노선에 연계되지않은 정류장이 모두 삭제됩니다.") == true){    //확인
+    		axboot.promise().then(function(ok, fail, data){
+    			axboot.ajax({
+    				type: "POST",
+    				url: "/api/v1/SWPBUSSTOP",
+    				callback: function(res){
+    					ok(res);
+    				}
+    			});
+    		}).then(function(ok, fail, data){
+    			axToast.push("삭제되었습니다.");
+    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    		}).catch(function(){
+    			
+    		});
+    	}
+    },
 });
 
 /********************************************************************************************************************/
@@ -200,6 +219,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
+            },
+            "swpAh": function(){
+            	ACTIONS.dispatch(ACTIONS.PAGE_SWEEP);
             }
         });
     }
