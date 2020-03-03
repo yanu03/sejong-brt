@@ -203,10 +203,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         $("#jquery_jplayer_1").jPlayer("setMedia", {
     		mp3: null
     	});
-        
-        if(data.playType == "WAV") {
-        	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
-        }
     },
     
     CHANGE_PLAY_TYPE: function(caller, cat, data) {
@@ -281,7 +277,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        	}).jPlayer("play");
 	    	}
     	} else {
-    		alert(element.attr("title") + "을 선택해주세요");
+    		if(isUpdate && selectedRow != null) {
+    			ACTIONS.dispatch(ACTIONS.SET_AUDIO, selectedRow);
+    		} else {
+    			axDialog.alert(element.attr("title") + "을 선택해주세요");
+    		}
     	}
     },
     
@@ -296,12 +296,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
 		$("#jquery_jplayer_1").jPlayer("setMedia", {
     		mp3: url,
-    	});
-    		
-    	// WAV 미리듣기가 아닐경우 자동 재생
-    	if(typeof data.vocId === "undefined") {
-			$("#jquery_jplayer_1").jPlayer("play");
-		}
+    	}).jPlayer("play");
     },
     
     // 기본 문구 삽입 팝업 표출

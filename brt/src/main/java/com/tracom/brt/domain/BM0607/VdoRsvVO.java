@@ -27,6 +27,8 @@ public class VdoRsvVO extends BaseVO {
 	
 	private String dvcTypeNm;
 	
+	private String dvcKindNm;
+	
 	private String rsvId;
 	
 	private String rsvDate;
@@ -40,6 +42,11 @@ public class VdoRsvVO extends BaseVO {
 	private String orgaNm;
 	
 	private String completeYn;
+	
+	private String makerNm;
+	
+	private String modelNm;
+	
 	
 	/** playlist **/
 	private String videoType;

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.SM0108.SM0108Mapper">
+
+    <select id="SM0108G0S0" resultType="vhcDvcUpdateVO">
+    	SELECT
+			  U.RSV_ID
+			, V.VHC_NO
+			, U.COMPLETE_YN
+			, R.RSV_DATE
+			, U.MNG_ID
+			, DC1.DL_CD_NM		AS DVC_KIND
+			, H.MODEL_NM
+			, DC2.DL_CD_NM		AS MAKER
+			, DC3.DL_CD_NM		AS INST_LOC
+		FROM
+			BM_UPD_LOG U
+			INNER JOIN BM_UPD_RSV R
+			ON U.RSV_ID = R.RSV_ID
+			INNER JOIN BM_DVC_INFO D
+			ON U.MNG_ID = D.MNG_ID
+			INNER JOIN BM_VHC_INFO V
+			ON D.VHC_ID = V.VHC_ID
+			LEFT OUTER JOIN BM_DVC_HIST H
+			ON D.DVC_ID = H.DVC_ID
+			LEFT OUTER JOIN SM_DL_CD_INFO DC1
+			ON D.DVC_KIND = DC1.DL_CD
+			AND DC1.CO_CD = 'DVC_KIND'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC2
+			ON D.MAKER = DC2.DL_CD
+			AND DC2.CO_CD = 'DVC_MAKER'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC3
+			ON D.INST_LOC = DC3.DL_CD
+			AND DC3.CO_CD = 'INST_LOC'
+		WHERE
+			U.COMPLETE_YN = 'N'
+		GROUP BY D.DVC_ID
+    </select>
+    
+    <select id="SM0108G1S0" resultType="vhcInfoVO">
+    	SELECT
+			  V.RSV_ID
+			, R.RSV_DATE
+			, V.COMPLETE_YN
+			, D.MNG_ID
+    		, VHC_INFO.VHC_ID
+    		, VHC_NO
+    		, CHAS_NO
+			, CORP_INFO.CORP_NM AS CORP_NM
+	        , DL_CD6.DL_CD_NM AS AREA_NM
+	        , DL_CD5.DL_CD_NM AS MAKER_NM
+    		, RELS_DATE
+    		, MODEL_NM
+	        , DL_CD.DL_CD_NM AS VHC_KIND_NM
+	        , DL_CD2.DL_CD_NM AS VHC_TYPE_NM
+	        , DL_CD3.DL_CD_NM AS LF_YN_NM
+	        , DL_CD4.DL_CD_NM AS VHC_FUEL_NM
+    		, VHC_INFO.REMARK
+    		, VHC_INFO.USE_YN
+    	FROM
+    		BM_VHC_INFO VHC_INFO
+			LEFT OUTER JOIN BM_CORP_INFO CORP_INFO
+			ON VHC_INFO.CORP_ID = CORP_INFO.CORP_ID
+         	LEFT OUTER JOIN SM_DL_CD_INFO DL_CD
+			ON VHC_INFO.VHC_KIND = DL_CD.DL_CD
+			AND DL_CD.CO_CD = 'VHC_KIND'
+         	LEFT OUTER JOIN SM_DL_CD_INFO DL_CD2
+			ON VHC_INFO.VHC_TYPE = DL_CD2.DL_CD 
+			AND DL_CD2.CO_CD = 'VHC_TYPE'
+			LEFT OUTER JOIN SM_DL_CD_INFO DL_CD3
+			ON VHC_INFO.LF_YN = DL_CD3.DL_CD 
+			AND DL_CD3.CO_CD = 'LF_YN'
+			LEFT OUTER JOIN SM_DL_CD_INFO DL_CD4
+			ON VHC_INFO.VHC_FUEL = DL_CD4.DL_CD 
+			AND DL_CD4.CO_CD = 'VHC_FUEL'
+			LEFT OUTER JOIN SM_DL_CD_INFO DL_CD5
+			ON VHC_INFO.MAKER = DL_CD5.DL_CD 
+			AND DL_CD5.CO_CD = 'VHC_MAKER'
+			LEFT OUTER JOIN SM_DL_CD_INFO DL_CD6
+			ON VHC_INFO.AREA = DL_CD6.DL_CD 
+			AND DL_CD6.CO_CD = 'AREA'
+			LEFT OUTER JOIN BM_DVC_INFO D
+			ON VHC_INFO.VHC_ID = D.VHC_ID
+			AND D.DVC_KIND = 'CD005'
+			INNER JOIN BM_VOC_RSV_RST V
+			ON D.MNG_ID = V.MNG_ID
+			INNER JOIN BM_VOC_RSV R
+			ON V.RSV_ID = R.RSV_ID
+		WHERE
+			VHC_INFO.USE_YN = 'Y'
+	        AND D.MNG_ID IS NOT NULL
+	        AND V.RSV_ID IN (
+	        	SELECT
+					RSV_ID
+				FROM
+					BM_VOC_RSV_RST
+				WHERE
+					COMPLETE_YN = 'N'
+				GROUP BY RSV_ID
+	        )
+		GROUP BY VHC_INFO.VHC_ID, V.RSV_ID
+		ORDER BY VHC_INFO.VHC_ID ASC
+    </select>
+    
+    <select id="SM0108G2S0" resultType="vhcInfoVO">
+    	SELECT
+			  R.RSV_ID
+			, V.VHC_NO
+			, MIN(R.COMPLETE_YN)		AS COMPLETE_YN
+			, DR.RSV_DATE
+			, R.MNG_ID
+			, V.CHAS_NO
+			, C.CORP_NM
+			, DC1.DL_CD_NM				AS AREA_NM
+			, DC2.DL_CD_NM				AS MAKER_NM
+			, V.RELS_DATE
+			, V.MODEL_NM
+			, DC3.DL_CD_NM				AS VHC_KIND_NM
+			, DC4.DL_CD_NM				AS VHC_TYPE_NM
+			, DC5.DL_CD_NM				AS LF_YN_NM
+			, DC6.DL_CD_NM				AS VHC_FUEL_NM
+			, V.USE_YN
+		FROM
+			BM_DESTI_RSV_RST R
+			INNER JOIN BM_DESTI_RSV DR
+			ON R.RSV_ID = DR.RSV_ID
+			LEFT OUTER JOIN BM_DVC_INFO D
+			ON R.MNG_ID = D.MNG_ID
+			LEFT OUTER JOIN BM_VHC_INFO V
+			ON D.VHC_ID = V.VHC_ID
+			LEFT OUTER JOIN BM_CORP_INFO C
+			ON V.CORP_ID = C.CORP_ID
+			LEFT OUTER JOIN SM_DL_CD_INFO DC1
+			ON V.AREA = DC1.DL_CD
+			AND DC1.CO_CD = 'AREA'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC2
+			ON V.MAKER = DC2.DL_CD
+			AND DC2.CO_CD = 'DVC_MAKER'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC3
+			ON V.VHC_KIND = DC3.DL_CD
+			AND DC3.CO_CD = 'VHC_KIND'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC4
+			ON V.VHC_TYPE = DC4.DL_CD
+			AND DC4.CO_CD = 'VHC_TYPE'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC5
+			ON V.LF_YN = DC5.DL_CD
+			AND DC5.CO_CD = 'LF_YN'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC6
+			ON V.VHC_FUEL = DC6.DL_CD
+			AND DC6.CO_CD = 'VHC_FUEL'
+		WHERE
+			V.USE_YN = 'Y'
+			AND D.USE_YN = 'Y'
+			AND R.RSV_ID IN (
+				SELECT
+					RSV_ID
+				FROM
+					BM_DESTI_RSV_RST
+				WHERE
+					COMPLETE_YN = 'N'
+				GROUP BY RSV_ID
+			)
+		GROUP BY V.VHC_ID
+    </select>
+    
+    <select id="SM0108G3S0" resultType="vdoRsvVO">
+    	SELECT
+			  R.RSV_ID
+			, V.VHC_NO
+			, R.COMPLETE_YN
+			, VR.RSV_DATE
+			, R.MNG_ID
+			, DC1.DL_CD_NM		AS MAKER_NM
+			, DC2.DL_CD_NM		AS DVC_KIND_NM
+			, H.MODEL_NM
+			, DC3.DL_CD_NM		AS INST_LOC_NM
+		FROM
+			BM_VDO_RSV_RST R
+			INNER JOIN BM_VDO_RSV VR
+			ON R.RSV_ID = VR.RSV_ID
+			LEFT OUTER JOIN BM_DVC_INFO D
+			ON R.MNG_ID = D.MNG_ID
+			LEFT OUTER JOIN BM_DVC_HIST H
+			ON D.DVC_ID = H.DVC_ID
+			LEFT OUTER JOIN BM_VHC_INFO V
+			ON D.VHC_ID = V.VHC_ID
+			LEFT OUTER JOIN SM_DL_CD_INFO DC1
+			ON D.MAKER = DC1.DL_CD
+			AND DC1.CO_CD = 'DVC_MAKER'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC2
+			ON D.DVC_KIND = DC2.DL_CD
+			AND DC2.CO_CD = 'DVC_KIND'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC3
+			ON D.INST_LOC = DC3.DL_CD
+			AND DC3.CO_CD = 'INST_LOC'
+		WHERE
+			V.USE_YN = 'Y'
+			AND D.USE_YN = 'Y'
+			AND R.COMPLETE_YN = 'N'
+		GROUP BY D.DVC_ID
+    </select>
+    
+    <select id="SM0108G4S0" resultType="scrRsvVO">
+    	SELECT
+			  R.RSV_ID
+			, V.VHC_NO
+			, R.COMPLETE_YN
+			, SR.RSV_DATE
+			, R.MNG_ID
+			, DC1.DL_CD_NM		AS MAKER_NM
+			, DC2.DL_CD_NM		AS DVC_KIND_NM
+			, H.MODEL_NM
+			, DC3.DL_CD_NM		AS INST_LOC_NM
+		FROM
+			BM_SCR_RSV_RST R
+			INNER JOIN BM_SCR_RSV SR
+			ON R.RSV_ID = SR.RSV_ID
+			LEFT OUTER JOIN BM_DVC_INFO D
+			ON R.MNG_ID = D.MNG_ID
+			LEFT OUTER JOIN BM_DVC_HIST H
+			ON D.DVC_ID = H.DVC_ID
+			LEFT OUTER JOIN BM_VHC_INFO V
+			ON D.VHC_ID = V.VHC_ID
+			LEFT OUTER JOIN SM_DL_CD_INFO DC1
+			ON D.MAKER = DC1.DL_CD
+			AND DC1.CO_CD = 'DVC_MAKER'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC2
+			ON D.DVC_KIND = DC2.DL_CD
+			AND DC2.CO_CD = 'DVC_KIND'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC3
+			ON D.INST_LOC = DC3.DL_CD
+			AND DC3.CO_CD = 'INST_LOC'
+		WHERE
+			V.USE_YN = 'Y'
+			AND D.USE_YN = 'Y'
+			AND R.COMPLETE_YN = 'N'
+		GROUP BY D.DVC_ID
+    </select>
+    
+    <update id="SM0108G0U0" parameterType="hashmap">
+    	<foreach collection="list" item="item" separator=";">
+    		UPDATE BM_UPD_LOG
+    		SET
+    			  PROCE_RST = 'CD999'
+    			, SEND_DATE = NOW()
+    			, COMPLETE_YN = 'Y'
+    		WHERE
+    			RSV_ID = #{item.rsvId}
+    			AND MNG_ID = #{item.mngId}
+    	</foreach>;
+    </update>
+    
+    <update id="SM0108G1U0" parameterType="hashmap">
+    	<foreach collection="list" item="item" separator=";">
+    		UPDATE BM_VOC_RSV_RST
+    		SET
+    			  PROCE_RST = 'CD999'
+    			, SEND_DATE = NOW()
+    			, COMPLETE_YN = 'Y'
+    		WHERE
+    			RSV_ID = #{item.rsvId}
+    			AND MNG_ID = #{item.mngId}
+    	</foreach>;
+    </update>
+    
+    <update id="SM0108G2U0" parameterType="hashmap">
+    	<foreach collection="list" item="item" separator=";">
+    		UPDATE BM_DESTI_RSV_RST
+    		SET
+    			  PROCE_RST = 'CD999'
+    			, SEND_DATE = NOW()
+    			, COMPLETE_YN = 'Y'
+    		WHERE
+    			MNG_ID LIKE CONCAT(LEFT(#{item.mngId}, 10), '%')
+    	</foreach>;
+    </update>
+    
+    <update id="SM0108G3U0" parameterType="hashmap">
+    	<foreach collection="list" item="item" separator=";">
+    		UPDATE BM_VDO_RSV_RST
+    		SET
+    			  PROCE_RST = 'CD999'
+    			, SEND_DATE = NOW()
+    			, COMPLETE_YN = 'Y'
+    		WHERE
+    			RSV_ID = #{item.rsvId}
+    			AND MNG_ID = #{item.mngId}
+    	</foreach>;
+    </update>
+    
+    <update id="SM0108G4U0" parameterType="hashmap">
+    	<foreach collection="list" item="item" separator=";">
+    		UPDATE BM_SCR_RSV_RST
+    		SET
+    			  PROCE_RST = 'CD999'
+    			, SEND_DATE = NOW()
+    			, COMPLETE_YN = 'Y'
+    		WHERE
+    			RSV_ID = #{item.rsvId}
+    			AND MNG_ID = #{item.mngId}
+    	</foreach>;
+    </update>
+</mapper>
