@@ -154,20 +154,13 @@ function addMarkerInter(data, grid, idx) {
     	icon: data.icon,
     	draggable: data.draggable,
     });
-	if(data.click) {
 		marker.addListener("click", function(e) {
 			grid.selectRow(idx);
 			ax5.util.search(grid.list, function(){
 				return this["seq"] == data.seq;
 			});
 			
-			data.click({
-				marker: marker,
-				nodeId: data.nodeId,
-				index: data.index
-			});
 		});
-	}
     markers.push(marker);
 }
 /**통통튀는 마커 생성**/

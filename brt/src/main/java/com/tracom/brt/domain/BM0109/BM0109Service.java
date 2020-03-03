@@ -34,38 +34,38 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 	}
 	
 	@Transactional
-	public void BM0109G1I0(List<BmRoutNodeInfoVO> voList) {
-		BmRoutNodeInfoVO vo = new BmRoutNodeInfoVO();
-		List<BmRoutNodeInfoVO> list = new ArrayList<>();
-		String routId = null;
-		boolean uptFlag = false;
-		/*
-		for(BmRoutNodeInfoVO tmp : voList) {
-			if(tmp.getRoutId() != null) {
-				uptFlag = true;
-				routId = tmp.getRoutId();
-			}
-		}*/
-		routId = voList.get(0).getRoutId();
-		vo.setVoList(voList);
-		vo.setRoutId(routId);
+	//public void BM0109G1I0(List<BmRoutNodeInfoVO> voList) {
+	public void BM0109G1I0(BmRoutNodeInfoVO vo) {
+		List<BmRoutNodeInfoVO> voList = vo.getVoList();
+		
+		//BmRoutNodeInfoVO tmp = new BmRoutNodeInfoVO();
+		//String routId = null;
+
+		//routId = voList.get(0).getRoutId();
+		String routId = vo.getRoutId();
+		
+		//vo.setVoList(voList);
+		//vo.setRoutId(routId);
 		
 		//0. result테이블 삭제함
 		mapper.BM0109G1D0(vo.getRoutId());
 		
 		//1. result테이블에 인서트함
-		System.out.println("0--------");
-		System.out.println(voList);
 		mapper.BM0109G1I0(vo);
-		
 		//2. 인서트한거 셀렉트함
-		list = mapper.BM0109G1S1(routId);
+		//
+		List<BmRoutNodeInfoVO >staList = mapper.BM0109G1S1(routId);
+		List<BmRoutNodeInfoVO> list = mapper.BM0109G1S2(routId);
 		
-		System.out.println("1------------");
-		System.out.println(list);
+		vo.setVoList(list);
+		mapper.delNodeInfo(vo.getRoutId());
+		mapper.insertNodeInfo(vo);
+
+		//
+		insertRoutSta(staList, routId);
+		insertStaInfo(staList);
 		
-		insertRoutSta(list, routId);
-		insertStaInfo(list);
+		
 	}
 	
 	public boolean BM0109G0D0(BmRoutNodeInfoVO vo) {

@@ -48,8 +48,9 @@ public class BM0109Controller extends BaseController {
     }
     
     @PostMapping("/BM0109G1I0")
-    public ApiResponse BM0109G1I0(@RequestBody List<BmRoutNodeInfoVO> voList) {
-    	service.BM0109G1I0(voList);
+   // public ApiResponse BM0109G1I0(@RequestBody List<BmRoutNodeInfoVO> voList) {
+    public ApiResponse BM0109G1I0(@RequestBody BmRoutNodeInfoVO vo) {
+    	service.BM0109G1I0(vo);
     	return ok();
     }
     

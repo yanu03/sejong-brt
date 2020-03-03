@@ -36,7 +36,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                	caller.gridView0.selectIdRow(data);
 	                } else {
 		                if(selectedRow != null) {
-		                	caller.gridView0.selectRow(selectedRow.__index);
+		                	caller.gridView0.selectRow(selectedRow0.__index);
 		                } else {
 		                	caller.gridView0.selectFirstRow();
 		                }
@@ -127,19 +127,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	fnObj.gridView0.selectLastRow();
     	fnObj.gridView0.target.focus("END");
     	isNewData = true;
-    	initVal2();
     	addSeq = 1;
     },
     
     PAGE_SAVE: function(caller, act, data){
     	var nodeList = fnObj.gridView1.getData();
-    	
+    	var formData = {};
+    	formData.voList = nodeList;
+    	formData.routId = selectedRow0.routId;
         axboot.promise()
             .then(function (ok, fail, data) {
                 axboot.ajax({
                     type: "POST",
                     url: "/api/v1/BM0109G1I0",
-                    data: JSON.stringify(nodeList),
+                    data: JSON.stringify(formData),
                     callback: function (res) {
                         ok(res);
                     }
@@ -148,6 +149,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             .then(function (ok, fail, data) {
         		axToast.push(LANG("onadd"));
         		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+        		
         		searchGrid1();
                 isUpdate = true;
                 isNewData = false;
@@ -274,7 +276,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
                 {key: "routId",		label: ADMIN("ax.admin.BM0107G0.routId"),		width: 100,	align: "center"},
-                {key: "interRoutId",label: "연계노선ID",		width: 100,	align: "center"},
+                {key: "interRoutId",label: "연계노선ID",								width: 100,	align: "center"},
                 {key: "updatedAt",	label: ADMIN("ax.admin.BM0107G0.updatedAt"),	width: 150,	align: "center"},
             ],
             body: {
@@ -384,13 +386,16 @@ function editSeq(){
 	}
 }
 
-var editName = {
-	type: "text",
-	disabled: function(){
-		ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
-	},
-	attributes:{
-		"maxlength" : 20
+function editName(){
+	return {
+		type: "text",
+		disabled: function(){
+			ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+			return this.item.nodeId != null;
+		},
+		attributes:{
+			"maxlength" : 20
+		}
 	}
 };
 /**
@@ -416,7 +421,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
                 {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq()},
                 {key: "nodeType",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 30},
                 {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
-                {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120, editor: editName},
+                {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120, editor: editName()},
                 {key: "lati",		label: ADMIN("ax.admin.BM0107G1.lati"),			width: 120},
                 {key: "longi",		label: ADMIN("ax.admin.BM0107G1.longi"),		width: 120},
                 {key: "updatedAt",	label: ADMIN("ax.admin.BM0107G1.updatedAt"),	width: 120},
@@ -581,19 +586,42 @@ function onClickMap(e) {
 	}else if(!stopAdd && nodeAdd){
 		var lonlat = e.latLng;
 		
-		routeData.splice(insertIndex, 0, {
-			routId: selectedRow0.routId,
-			lati: lonlat.lat(),
-			longi: lonlat.lng(),
-			seq: addSeq*100,
-			nodeNm: "임시노드" + addSeq,
-			nodeType: '30', 
-			icon: '',
-		});
+		
+		var idx;
+		if(selectedRow.__index != undefined){
+			idx = selectedRow.__index;
+		}else{
+			idx = 0;
+		}
+		
+		var row1 = fnObj.gridView1.getData()[idx];
+		var row2 = fnObj.gridView1.getData()[idx+1];
+
+		if(row1 == undefined){
+			seq = 100;
+		}else{
+			if(row2 != undefined){
+				seq = (row1.seq + row2.seq) / 2;
+			}else{
+				seq = row1.seq + 100;
+			}
+		}
+		
+		var data = {
+				routId: selectedRow0.routId,
+				lati: lonlat.lat(),
+				longi: lonlat.lng(),
+				seq: seq,
+				nodeNm: "임시노드" + seq,
+				nodeType: '30', 
+				icon: '',};
+		
+		routeData.splice(insertIndex, 0, data);
 		
 		routeData.sort(function (a,b){ return a.seq - b.seq });
 		addSeq++;
 		fnObj.gridView1.setData(routeData);
+		fnObj.gridView1.selectRow(idx+1);
 		ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
 	}
 	
@@ -706,14 +734,16 @@ function drawRoute(list) {
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
 			if(list[i].nodeType == busstopNodeType) {
 				list[i].icon = "/assets/images/tmap/busstop.png";
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				list[i].draggable = true;
 				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
 			// 아닐 경우(일반 노드) 네모 박스 표시
 			else {
 				list[i].icon = "/assets/images/tmap/road_trans.png";
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				list[i].draggable = true;
 				addMarkerInter(list[i], fnObj.gridView1, i);
 				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
@@ -838,7 +868,8 @@ function onOffMarker(input){
 		for(var i=0; i<list.length; i++){
 			if(list[i].nodeType == '1'){
 				list[i].icon = "/assets/images/tmap/busstop.png";
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				addMarker(list[i]);
 			}
 		}
@@ -849,7 +880,8 @@ function onOffMarker(input){
 		for(var i=0; i<list.length; i++){
 			if(list[i].nodeType == '30'){
 				list[i].icon = "/assets/images/tmap/road_trans.png";
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				addMarker(list[i]);
 			}
 		}
@@ -863,7 +895,8 @@ function onOffMarker(input){
 			}else{
 				list[i].icon = "/assets/images/tmap/busstop.png";				
 			}
-			list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+			//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+			list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
 			addMarker(list[i]);
 		}
 		break;
