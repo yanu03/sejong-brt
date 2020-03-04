@@ -84,11 +84,24 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
     
     //그리드 삭제
     public boolean BM0605G0D0(VideoInfoVO vo) {
-    	if(mapper.BM0605G0D0(vo) > 0) {
-    		return true;
+    	List<VideoInfoVO> voList = mapper.validationBeforeDelete(vo.getVdoId());
+    	boolean flag = false;
+    	
+    	for(VideoInfoVO v : voList) {
+    		System.out.println(v.getOrgaId());
+    		if(v.getOrgaId() != null) {
+    			flag = true;
+    		}
+    	}
+    	System.out.println(flag);
+    	if(!flag) {
+	    	if(mapper.BM0605G0D0(vo) > 0) {
+	    		return true;
+	    	}else {
+	    		return false;
+	    	}
     	}else {
     		return false;
     	}
     }
-    
 }

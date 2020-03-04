@@ -196,7 +196,7 @@ public class FileService {
 		String fileName = "";
 		
 		fileName = fileNameHeader + fileNameBody + fileNameTail;			
-		return Paths.get(handler.getRootLocalPath(), "/destination/images/", fileName).toString();
+		return Paths.get(handler.getRootLocalPath(), "temp/destination/images/", fileName).toString();
 	}
 	
 	private String bmpPreviewLOGO(RequestParams<?> requestParams, HttpServletResponse response) {
@@ -204,6 +204,6 @@ public class FileService {
 		String fileNameTail = ".BMP";
 		
 		String fileName = requestParams.getString("dvcKindCd") + fileNameBody + fileNameTail;
-		return Paths.get(handler.getRootLocalPath(), "/destination/images/", fileName).toString();
+		return Paths.get(handler.getRootLocalPath(), "temp/destination/images/", fileName).toString();
 	}
 }

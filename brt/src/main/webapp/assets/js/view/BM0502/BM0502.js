@@ -154,7 +154,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
 });
 
-
+function styleEdit(){
+	if(this.item.__index >= uv_height){
+		return "grid-cell-gray";
+	}
+	else{
+		return "grid-cell-black";
+	}
+}
 
 function editCaseFront(input){
 	switch(input){
@@ -286,9 +293,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             	},
             columns: [
             	{key: "frameNo",			label: "프레임번호",			width: 100,																		styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effType",			label: "효과",				width: 100, editor: editCaseFront('effType'),  align:"right",	styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 110, editor: editCaseFront('effSpeed'), align:"right",						styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 110, editor: editCaseFront('showTime'), align:"right",						styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }}
+            	{key: "effType",			label: "효과",				width: 100, editor: editCaseFront('effType'),  align:"right",					styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
+            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 110, editor: editCaseFront('effSpeed'), align:"right",					styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
+                {key: "showTime",			label: "표출시간(1=10ms)",		width: 110, editor: editCaseFront('showTime'), align:"right",					styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }}
             ],
             body: {
                 onClick: function () {
@@ -386,9 +393,9 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	},
             columns: [
             	{key: "frameNo",			label: "프레임번호",			width: 100,																		styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effType",			label: "효과",				width: 100, editor: editCaseSide('effType'), align:"right",	styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 110, editor: editCaseSide('effSpeed'), align:"right",						styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 110, editor: editCaseSide('showTime'), align:"right",						styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }}
+            	{key: "effType",			label: "효과",				width: 100, editor: editCaseSide('effType'), align:"right",						styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
+            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 110, editor: editCaseSide('effSpeed'), align:"right",					styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
+                {key: "showTime",			label: "표출시간(1=10ms)",		width: 110, editor: editCaseSide('showTime'), align:"right",					styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }}
             ],
             body: {
                 onClick: function () {
@@ -487,7 +494,7 @@ $("input[id=bmpFileF]").change(function(){
     
     img.src = _URL.createObjectURL(file);
     img.onload = function() {
-        uv_frontheightz = img.height / uv_frontheight;
+        uv_frontheightz = img.height / uv_frontheight + 1;
         preview_ChangeImage("src", "previewImgF");
     }
 });
@@ -516,7 +523,7 @@ $("input[id=bmpFileS]").change(function(){
     
     img.src = _URL.createObjectURL(file);
     img.onload = function() {
-    	uv_sideheightz = img.height / uv_sideheight;
+    	uv_sideheightz = img.height / uv_sideheight + 1;
         preview_ChangeImage("src", "previewImgS");
         //alert(img.width);
         //alert(img.height);
@@ -774,14 +781,14 @@ function loadBmpF(){
 	var url = "/api/v1/filePreview?type=BMPLOGO&dvcKindCd=F&dvcName=LOGO";
 
 	$("#previewImgF").attr("src", url);
+	fnObj.gridView0.initView();
 	
 	$('#previewImgF').each(function(){
 		$(this).load(function(){
-			uv_frontheightz = this.naturalHeight / uv_frontheight;
+			uv_frontheightz = this.height / uv_frontheight;
 		});
 	});
 	
-	fnObj.gridView0.initView();
 	
 	setTimeValFront(uv_frontheightz);
 }
@@ -790,16 +797,16 @@ function loadBmpS(){
 	var url = "/api/v1/filePreview?type=BMPLOGO&dvcKindCd=S&dvcName=LOGO";
 
 	$("#previewImgS").attr("src", url);
+	fnObj.gridView1.initView();
 	
 	$('#previewImgS').each(function(){
 		$(this).load(function(){
-			uv_sideheightz = this.naturalHeight / uv_sideheight;
+			uv_sideheightz = this.height / uv_sideheight;
+			
+			setTimeValSide(uv_sideheightz);
 		});
 	});
 	
-	fnObj.gridView1.initView();
-	
-	setTimeValSide(uv_sideheightz);
 }
 
 function preview_ChangeImage(input, id) {

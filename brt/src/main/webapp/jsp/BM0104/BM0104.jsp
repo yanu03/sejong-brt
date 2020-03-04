@@ -89,7 +89,7 @@
                     <ax:tbl>
                     	<ax:tr>
 	                    	<ax:td id="interRoutId" label="ax.admin.BM0104G0.interRoutId" width="250px" labelClazz="required">
-	                        	<input type="text" data-ax-path="interRoutId" title="<ax:lang id="ax.admin.BM0104G0.routId"/>" class="form-control" maxlength="9" data-ax-validate="required"/>
+	                        	<input type="text" data-ax-path="interRoutId" title="연계노선ID" class="form-control" maxlength="9" data-ax-validate="required"/>
 	                        </ax:td>
                         </ax:tr>
                         

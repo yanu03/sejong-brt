@@ -6,9 +6,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         }
     },
     
-    PAGE_SEARCH : function (caller, act, data) { 
-    	var user = $("#updateCycle").val();
-    	console.log(user);
+    CHECK_PASSWORD: function(caller, act, data) {
+    	var user = $("#scdPs").val();
+
     	if(user != ""){
     		axboot.promise()
     		.then(function (ok, fail, data) {
@@ -17,27 +17,19 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				url: "/api/v1/users/checkScdPs",
     				data: JSON.stringify({scdPs : user}),
     				callback: function (res) {
-    					console.log(res);
     					if(res.message == "false"){
     						axDialog.alert("비밀번호가 틀렸습니다.");
-    					}else{
-    						axToast.push(LANG("onadd"));
+    					} else {
     						if (parent && parent.axboot && parent.axboot.modal) {
     							parent.axboot.modal.callback();
     						}
-    						ACTIONS.dispatch(ACTIONS.PAGE_CLOSE, res.message);
     					}
     				}
     			});
-    		})
-    		
-	    	}else{
-	    		axDialog.alert("비밀번호를 입력하세요.");
-	    	}
-    		return false;
-    },
-   
-    ITEM_CLICK: function (caller, act, data) {
+    		});
+    	} else {
+    		axDialog.alert("비밀번호를 입력하세요.");
+    	}
     },
 });
 
@@ -59,9 +51,9 @@ fnObj.pageButtonView = axboot.viewExtend({
         axboot.buttonClick(this, "data-page-btn", {         
             "close": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
-            }
-            ,"checkButton" : function(){
-            	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+            },
+            "checkButton" : function(){
+            	ACTIONS.dispatch(ACTIONS.CHECK_PASSWORD);
             }
         });
     }

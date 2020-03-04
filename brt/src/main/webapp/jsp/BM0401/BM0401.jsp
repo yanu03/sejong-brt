@@ -149,13 +149,13 @@
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0401F0.scr.txt" width="100%" labelClazz="required">
-                            	<textarea name="scrTxt" data-ax-path="scrTxt" class="form-control" maxlength="100" title="<ax:lang id="ax.admin.BM0401F0.scr.txt"/>" data-ax-validate="required" rows="3" maxlength="100"></textarea>
+                            	<textarea name="scrTxt" data-ax-path="scrTxt" class="form-control" title="<ax:lang id="ax.admin.BM0401F0.scr.txt"/>" data-ax-validate="required" rows="3" maxlength="100"></textarea>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0401F0.scr.txt.en" width="100%" labelClazz="required">
-                            	<textarea name="scrTxtEn" data-ax-path="scrTxtEn" class="form-control" maxlength="100" title="<ax:lang id="ax.admin.BM0401F0.scr.txt.en"/>" data-ax-validate="required" rows="3" maxlength="200"></textarea>
+                            	<textarea name="scrTxtEn" data-ax-path="scrTxtEn" class="form-control" title="<ax:lang id="ax.admin.BM0401F0.scr.txt.en"/>" data-ax-validate="required" rows="3" maxlength="200"></textarea>
                             </ax:td>
                        	</ax:tr>
                        	

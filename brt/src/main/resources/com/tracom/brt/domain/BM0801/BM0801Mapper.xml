@@ -1,65 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tracom.brt.domain.BM0801.BM0801Mapper">
-	<select id="BM0801G0S0" parameterType="Map" resultType="StatisticsVO">
+	<select id="BM0801G0S0" parameterType="hashmap" resultType="StatisticsVO">
 		SELECT
-		   VOC.VOC_ID
-		 , VOC.VOC_NM
-		 , VOC.PLAY_ST_DATE
-		 , VOC.PLAY_ED_DATE
-		 , VOC.PLAY_TM
-		 , CON.CON_ID
-		 , CON.SUPP_AMT
-		 , CON.VAT_AMT
-		 , CUST.CUST_NM
+			*
 		FROM
-			BM_VOC_INFO VOC
-			LEFT OUTER JOIN BM_CON_INFO CON
-			ON CON.CON_ID = VOC.CON_ID
-			LEFT JOIN BM_CUST_INFO CUST
-			ON CON.CUST_ID = CUST.CUST_ID
-		WHERE
-			VOC.CON_ID != 'NULL'
-	    	<if test="playStDate != null">
-	    	AND
-	    	    VOC.PLAY_ST_DATE &gt;= #{playStDate}
-	    	    AND VOC.PLAY_ED_DATE &lt;= #{playEdDate}
+			(SELECT
+				  H.VHC_NO
+				, DATE_FORMAT(A.PLAY_DATE, '%Y-%m-%d %H:%i:%s') AS PLAY_DATE
+				, A.ID
+				, IFNULL(DC1.DL_CD_NM, DC2.DL_CD_NM) AS AD_TYPE
+				, IFNULL(V.VOC_NM, VD.VDO_NM) AS AD_NM
+			FROM
+				BM_AD_LOG A
+				LEFT OUTER JOIN BM_DVC_INFO D
+				ON A.MNG_ID = D.MNG_ID
+				LEFT OUTER JOIN BM_VHC_INFO H
+				ON D.VHC_ID = H.VHC_ID
+				LEFT OUTER JOIN BM_VOC_INFO V
+				ON A.ID = V.VOC_ID
+				LEFT OUTER JOIN BM_VDO_INFO VD
+				ON A.ID = VD.VDO_ID
+				LEFT OUTER JOIN SM_DL_CD_INFO DC1
+				ON LEFT(A.ID, 2) = DC1.TXT_VAL1
+				AND DC1.CO_CD = 'VOC_DIV'
+				LEFT OUTER JOIN SM_DL_CD_INFO DC2
+				ON LEFT(A.ID, 2) = DC2.TXT_VAL1
+				AND DC2.CO_CD = 'VDO_DIV') R
+		<where>
+	    	<if test="playStDate != null and playEdDate != null">
+	    	    PLAY_DATE &gt;= DATE_FORMAT(#{playStDate}, '%Y-%m-%d %H:%i:%s')
+	    	    AND PLAY_DATE &lt;= CONCAT(#{playEdDate}, ' 23:59:59')
 	    	</if>
 			<if test="filter != null">
-			AND
-				VOC.VOC_NM LIKE CONCAT('%', #{filter}, '%')
-				OR CUST.CUST_NM LIKE CONCAT('%', #{filter}, '%')
+				AND ID LIKE CONCAT('%', #{filter}, '%')
+				OR AD_NM LIKE CONCAT('%', #{filter}, '%')
 	    	</if>
+    	</where>
+    	ORDER BY VHC_NO ASC, PLAY_DATE DESC
 	</select>
 	
-	<select id="BM0801G0S1" parameterType="Map" resultType="StatisticsVO">
-		SELECT
-		   VDO.VDO_ID
-		 , VDO.VDO_NM
-		 , VDO.PLAY_ST_DATE
-		 , VDO.PLAY_ED_DATE
-		 , VDO.PLAY_TM
-		 , CON.CON_ID
-		 , CON.SUPP_AMT
-		 , CON.VAT_AMT
-		 , CUST.CUST_NM
-		FROM
-			BM_VDO_INFO VDO
-			LEFT OUTER JOIN BM_CON_INFO CON
-			ON CON.CON_ID = VDO.CON_ID
-			LEFT JOIN BM_CUST_INFO CUST
-			ON CON.CUST_ID = CUST.CUST_ID
-		WHERE
-			VDO.CON_ID != 'NULL'
-	    	<if test="playStDate != null">
-	    	AND
-	    	    VDO.PLAY_ST_DATE &gt;= #{playStDate}
-	    	    AND VDO.PLAY_ED_DATE &lt;= #{playEdDate}
-	    	</if>
-			<if test="filter != null">
-			AND
-				VDO.VDO_NM LIKE CONCAT('%', #{filter}, '%')
-				OR CUST.CUST_NM LIKE CONCAT('%', #{filter}, '%')
-	    	</if>
-	</select>
+	<insert id="insertAdLog" parameterType="hashmap">
+		INSERT INTO BM_AD_LOG(
+			  PLAY_DATE
+			, MNG_ID
+			, ID
+			, AD_TYPE
+			, AD_NM
+		)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+		(
+			  #{item.playDate}
+			, #{item.mngId}
+			, #{item.id}
+			, #{adType}
+			, #{adNm}
+		)
+		</foreach>
+	</insert>
 </mapper>

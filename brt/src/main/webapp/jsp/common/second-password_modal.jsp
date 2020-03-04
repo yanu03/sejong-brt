@@ -11,12 +11,12 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
-        <script type="text/javascript" src="<c:url value='/assets/js/common/BM0301confirmYn_modal.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/common/second-password_modal.js' />"></script>
     </jsp:attribute>
     <jsp:attribute name="header">
         <h3 class="title">
             <i class="cqc-browser"></i>
-            <ax:lang id="ax.admin.BM0301M0.title"/>
+            <ax:lang id="ax.admin.scd.ps.title"/>
         </h3>
     </jsp:attribute>
     <jsp:body>
@@ -35,9 +35,9 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">                   
 						<ax:tr>
 						  <div class="input-group">
-							<ax:td label="ax.admin.BM0301M0.checkScdPs" width="400px" labelClazz="required">
-	     					 	<div style="float:left;padding-right:5px;"><input type="text" id="updateCycle" name="updateCycle" data-key="true" class="form-control W180" maxlength="50"/></div>
-	     					 	<div style="float:left;padding-right:5px;"><button type="button" id="checkButton" name="checkButton" data-page-btn="checkButton" class="btn btn-primary">확인</button></div>
+							<ax:td label="ax.admin.scd.ps" width="400px" labelClazz="required">
+	     					 	<div style="float:left;padding-right:5px;"><input type="password" id="scdPs" name="scdPs" class="form-control W180" maxlength="50"/></div>
+	     					 	<div style="float:left;padding-right:5px;"><button type="button" id="checkButton" data-page-btn="checkButton" class="btn btn-primary">확인</button></div>
                     		</ax:td>
                     	   </div>
 						</ax:tr>                    

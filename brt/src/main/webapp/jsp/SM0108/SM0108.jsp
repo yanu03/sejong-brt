@@ -15,7 +15,7 @@
     <jsp:body>
 
         <ax:page-buttons>
-        	<button type="button" class="btn btn-info" data-page-btn="reservationComplete">예약완료</button>
+        	<button type="button" class="btn btn-info" data-page-btn="reservationComplete"><ax:lang id="ax.admin.item.reservation.complete"/></button>
         </ax:page-buttons>
 
         <ax:split-layout name="ax1" orientation="vertical">

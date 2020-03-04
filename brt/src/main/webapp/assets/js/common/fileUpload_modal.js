@@ -8,7 +8,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {
     },
     PAGE_CHOICE: function (caller, act, data) {
-    	var excelFile = $('#file').val();
+    	var excelFile = $('#file')[0].files[0];
         if (excelFile) {
             if (parent && parent.axboot && parent.axboot.modal) {
                 parent.axboot.modal.callback(excelFile);

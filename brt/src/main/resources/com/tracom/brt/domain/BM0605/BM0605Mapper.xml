@@ -100,4 +100,16 @@
 		WHERE
 			VDO_ID = #{vdoId}
 	</delete>
+	
+	<select id="validationBeforeDelete" parameterType="String" resultType="videoInfoVO">
+		SELECT
+			  INFO.VDO_ID AS VDO_ID
+			, ORGA_ID
+		FROM
+			BM_VDO_INFO INFO
+		    LEFT JOIN BM_VDO_ORGA_LIST OLIST
+		    ON INFO.VDO_ID = OLIST.VDO_ID
+		WHERE
+			INFO.VDO_ID = #{value}
+	</select>
 </mapper>

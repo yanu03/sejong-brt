@@ -2,6 +2,8 @@ package com.tracom.brt.domain.BM0104;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.tracom.brt.domain.BaseVO;
 
 import lombok.Data;
@@ -65,6 +67,8 @@ public class BmRoutInfoVO extends BaseVO {
 	private String pubDate;
 	private String pubSeq;
 	private String flag;
+	
+	private MultipartFile attFile;
 	
 	private List<BmRoutNodeInfoVO> nodeList;
 }

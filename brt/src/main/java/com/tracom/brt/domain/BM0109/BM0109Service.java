@@ -1,6 +1,6 @@
 package com.tracom.brt.domain.BM0109;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,12 +13,16 @@ import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.utils.ExcelUtils;
 
 @Service
 public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 	
 	@Inject
 	private BM0109Mapper mapper;
+	
+	@Inject
+	private ExcelUtils exUtil;
 	
 	//좌측상단 그리드 select
 	public List<BmRoutInfoVO> BM0109G0S0(RequestParams<BmRoutInfoVO> requestParams){
@@ -34,38 +38,38 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 	}
 	
 	@Transactional
-	public void BM0109G1I0(List<BmRoutNodeInfoVO> voList) {
-		BmRoutNodeInfoVO vo = new BmRoutNodeInfoVO();
-		List<BmRoutNodeInfoVO> list = new ArrayList<>();
-		String routId = null;
-		boolean uptFlag = false;
-		/*
-		for(BmRoutNodeInfoVO tmp : voList) {
-			if(tmp.getRoutId() != null) {
-				uptFlag = true;
-				routId = tmp.getRoutId();
-			}
-		}*/
-		routId = voList.get(0).getRoutId();
-		vo.setVoList(voList);
-		vo.setRoutId(routId);
+	//public void BM0109G1I0(List<BmRoutNodeInfoVO> voList) {
+	public void BM0109G1I0(BmRoutNodeInfoVO vo) {
+		List<BmRoutNodeInfoVO> voList = vo.getVoList();
+		
+		//BmRoutNodeInfoVO tmp = new BmRoutNodeInfoVO();
+		//String routId = null;
+
+		//routId = voList.get(0).getRoutId();
+		String routId = vo.getRoutId();
+		
+		//vo.setVoList(voList);
+		//vo.setRoutId(routId);
 		
 		//0. result테이블 삭제함
 		mapper.BM0109G1D0(vo.getRoutId());
 		
 		//1. result테이블에 인서트함
-		System.out.println("0--------");
-		System.out.println(voList);
 		mapper.BM0109G1I0(vo);
-		
 		//2. 인서트한거 셀렉트함
-		list = mapper.BM0109G1S1(routId);
+		//
+		List<BmRoutNodeInfoVO >staList = mapper.BM0109G1S1(routId);
+		List<BmRoutNodeInfoVO> list = mapper.BM0109G1S2(routId);
 		
-		System.out.println("1------------");
-		System.out.println(list);
+		vo.setVoList(list);
+		mapper.delNodeInfo(vo.getRoutId());
+		mapper.insertNodeInfo(vo);
+
+		//
+		insertRoutSta(staList, routId);
+		insertStaInfo(staList);
 		
-		insertRoutSta(list, routId);
-		insertStaInfo(list);
+		
 	}
 	
 	public boolean BM0109G0D0(BmRoutNodeInfoVO vo) {
@@ -101,5 +105,11 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 		}else {
 			return false;
 		}
+	}
+	
+	//엑셀삽입
+	public void BM0109IMPORT(BmRoutInfoVO vo) throws IOException{
+		exUtil.downExcel(vo.getAttFile());
+		exUtil.readExcel("BM0109");
 	}
 }

@@ -194,6 +194,16 @@
 		ORDER BY SEQ
 	</select>
 	
+	<select id="BM0109G1S2" parameterType="String" resultType="bmRoutNodeInfoVO">
+		SELECT
+			*
+		FROM
+			BM_ROUT_RESULT
+		WHERE
+			ROUT_ID = #{value}
+		ORDER BY SEQ
+	</select>
+	
 	<insert id="BM0109G1I3" parameterType="bmRoutNodeInfoVO">
 		INSERT INTO
 			BM_ROUT_STA_INFO(
@@ -243,4 +253,46 @@
 		    , UPDATED_AT	= VALUES(UPDATED_AT)
 		    , UPDATED_BY	= VALUES(UPDATED_BY)
 	</insert>
+	
+	<insert id="insertNodeInfo" parameterType="bmRoutNodeInfoVO">
+		INSERT INTO
+			BM_ROUT_NODE_INFO(
+				  ROUT_ID
+				, SEQ
+				, NODE_TYPE
+				, NODE_ID
+				, NODE_NM
+				, STA_ID
+				, LATI
+				, LONGI
+				, UPDATED_AT
+				, UPDATED_BY
+				)
+			VALUES
+			<foreach collection="voList" item="voList" separator=",">
+				( #{voList.routId}
+				, #{voList.seq}
+				, #{voList.nodeType}
+				<choose>
+					<when test="voList.nodeId != null">
+						, #{voList.nodeId}
+					</when>
+					<otherwise>
+						, #{voList.staId}
+					</otherwise>
+				</choose>
+				, #{voList.nodeNm}
+				, #{voList.staId}
+				, #{voList.lati}
+				, #{voList.longi}
+				, #{voList.updatedAt}
+				, #{voList.updatedBy})
+			</foreach>
+	</insert>
+	
+	<delete id="delNodeInfo" parameterType="String">
+		DELETE FROM
+			BM_ROUT_NODE_INFO
+		WHERE ROUT_ID = #{value}
+	</delete>
 </mapper>
