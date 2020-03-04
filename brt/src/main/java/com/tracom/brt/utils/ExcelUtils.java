@@ -77,17 +77,26 @@ public class ExcelUtils {
 			}
 			
 			String[] rows = txt.split("\n");
-			for(String s : rows) {
-				String[] c = s.split(",");
-				BmRoutNodeInfoVO tmp = new BmRoutNodeInfoVO();
-				tmp.setRoutId(c[0]);
-				tmp.setSeq(Integer.valueOf(c[1]));
-				tmp.setNodeType(Integer.valueOf(c[2]));
-				tmp.setNodeId(c[3]);
-				tmp.setNodeNm(c[4]);
-				tmp.setLati(Float.valueOf(c[5]));
-				tmp.setLongi(Float.valueOf(c[6]));
+			for(int i=0; i<rows.length; i++) {
+				if(i>0) {
+					String[] c = rows[i].split(",");
+					BmRoutNodeInfoVO tmp = new BmRoutNodeInfoVO();
+					tmp.setNodeId(c[0]);
+					tmp.setNodeNm(c[1]);
+					tmp.setLati(Float.valueOf(c[2]));
+					tmp.setLongi(Float.valueOf(c[3]));
+					tmp.setSeq(Integer.valueOf(c[4]));
+					tmp.setRoutId(c[5]);
+					tmp.setNodeType(Integer.valueOf(c[6]));
+					
+					System.out.println(tmp);
+					voList.add(tmp);
+				}
 			}
+			
+			
+			
+			
 		}
 	}
 	
