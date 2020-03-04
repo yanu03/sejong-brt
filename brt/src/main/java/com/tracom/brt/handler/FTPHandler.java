@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpException;
 import com.tracom.brt.code.GlobalConstants;
@@ -1083,11 +1084,34 @@ public class FTPHandler {
 	/************************************************************************ FTP 공통 모듈 *****************************************************************************************/
 	// 초기 디렉토리 셋팅
 	private void setServerDirectory(String localPath, String serverPath) throws SftpException {
+		// 최상위 폴더 이동
+		sftpChannel.cd("/");
 		try{
 			sftpChannel.cd(serverPath);
 		}catch(Exception e){
 			System.out.println(serverPath + " don't exist on your server!");
-			e.printStackTrace();
+			
+			String[] pathList = serverPath.split("/");
+			
+			for(int i = 1; i < pathList.length; i++) {
+				String path = pathList[i];
+				
+				SftpATTRS attrs = null;
+				
+				try {
+				    attrs = sftpChannel.stat(path);
+				} catch (Exception ee) {
+				    System.out.println(path + " not found");
+				}
+
+				if (attrs != null) {
+				    System.out.println("Directory exists IsDir=" + attrs.isDir());
+				} else {
+				    System.out.println("Creating dir " + path);
+				    sftpChannel.mkdir(path);
+				}
+				sftpChannel.cd(path);
+			}
 		}
 		
 		File localDirectory = new File(localPath);
