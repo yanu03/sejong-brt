@@ -51,6 +51,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	caller.gridView1.target.exportExcel(selectedRow0.routId + "(" + selectedRow0.interRoutId + ")_" + new Date().yyyymmdd() + ".xls");
     	caller.gridView0.target.exportExcel("data.xls");
     },
+    
+    PAGE_EXCELFORM: function(caller, act, data){
+    	location.href = "/api/v1/downloadExcel?type=routResult";
+    },
   
     PAGE_DELETE: function(caller, act, data) {
     	var grid = caller.gridView0.target;
@@ -250,6 +254,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "excelimport": function(){
             	ACTIONS.dispatch(ACTIONS.IMPORT_EXCEL);
+            },
+            "excelform": function(){
+            	ACTIONS.dispatch(ACTIONS.PAGE_EXCELFORM);
             }
             
         });

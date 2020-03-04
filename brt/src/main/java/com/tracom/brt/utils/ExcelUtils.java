@@ -67,6 +67,7 @@ public class ExcelUtils {
 		switch(type) {
 		case "BM0109" :
 			List<BmRoutNodeInfoVO> voList = new ArrayList<>();
+			List<BmRoutNodeInfoVO> staList = new ArrayList<>();
 			
 			String txt = "";
 			for(Row row : sheet) {
@@ -88,11 +89,19 @@ public class ExcelUtils {
 					tmp.setSeq(Integer.valueOf(c[4]));
 					tmp.setRoutId(c[5]);
 					tmp.setNodeType(Integer.valueOf(c[6]));
+					//정류장일때의 처리 필요함
+					if(tmp.getStaId() == null) {
+						voList.add(tmp);						
+					}else {
+						staList.add(tmp);
+					}
 					
-					System.out.println(tmp);
-					voList.add(tmp);
 				}
 			}
+			
+			//인서트 할것이야
+			
+			
 			
 			
 			
@@ -102,11 +111,12 @@ public class ExcelUtils {
 	
 	
 	public void writeExcel(String type, HttpServletResponse response) throws IOException {
-		System.out.println(type);
 		switch(type) {
 		case "routNode" :
 			writeExcelRoutNode(response);
 			break;
+		case "routResult" :
+			writeExcelRoutResult(response);
 		}
 		//리스트만들것임
 	}
@@ -137,7 +147,42 @@ public class ExcelUtils {
 		wb.close();
 	}
 	
-	
+	public void writeExcelRoutResult(HttpServletResponse response) throws IOException {
+		Workbook wb = new XSSFWorkbook();
+		Sheet sheet = wb.createSheet("노선경로 관리");
+		
+		Row row = null;
+		Cell cell = null;
+		int rowNo = 0;
+		
+		row = sheet.createRow(rowNo++);
+		//엑셀양식
+		cell = row.createCell(0);
+		cell.setCellValue("노드아이디(10)");
+		cell = row.createCell(1);
+		cell.setCellValue("노드명(10)");
+		cell = row.createCell(2);
+		cell.setCellValue("위도(11)");
+		cell = row.createCell(3);
+		cell.setCellValue("경도(11)");
+		cell = row.createCell(4);
+		cell.setCellValue("순번");
+		cell = row.createCell(5);
+		cell.setCellValue("노선아이디(9)");
+		cell = row.createCell(6);
+		cell.setCellValue("연계노선아이디(9)");
+		cell = row.createCell(7);
+		cell.setCellValue("정류장아이디(12)");
+		cell = row.createCell(8);
+		cell.setCellValue("노드타입(정류장:1,경로지점:30)");
+		
+		
+		//response에 추가할것임
+		response.setContentType("ms-vnd/excel");
+		response.setHeader("Content-Disposition", "attachment; filename=routeResult.xlsx");
+		wb.write(response.getOutputStream());
+		wb.close();
+	}
 	
 	
 	public String cellValueToString(Cell cell) {
