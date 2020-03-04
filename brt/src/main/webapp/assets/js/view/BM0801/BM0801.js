@@ -29,22 +29,28 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_UPDATE_LOG: function(caller, act, data) {
-    	axboot.promise()
-	        .then(function (ok, fail, data) {
-	        	axboot.ajax({
-	                type: "POST",
-	                url: "/api/v1/insertAdLog",
-	                data: null,
-	                callback: function (res) {
-                		ok(res);	                    		
-	                }
-	            });
-	        })
-	        .then(function (ok) {
-	            ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-	        })
-	        .catch(function () {
-	        });
+    	axDialog.confirm({
+            msg: "갱신하시겠습니까?"
+        }, function() {
+        	if (this.key == "ok") {
+        		axboot.promise()
+	    	        .then(function (ok, fail, data) {
+	    	        	axboot.ajax({
+	    	                type: "POST",
+	    	                url: "/api/v1/insertAdLog",
+	    	                data: null,
+	    	                callback: function (res) {
+	                    		ok(res);	                    		
+	    	                }
+	    	            });
+	    	        })
+	    	        .then(function (ok) {
+	    	            ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	    	        })
+	    	        .catch(function () {
+	    	        });
+        	}
+        });
     },
     
     PAGE_CLOSE: function(caller, act, data) {
@@ -132,7 +138,10 @@ fnObj.searchView1 = axboot.viewExtend(axboot.searchView, {
         this.target.find('[data-ax5picker="date"]').ax5picker({
             direction: "auto",
             content: {
-                type: 'date'
+                type: 'date',
+                formatter: {
+                    pattern: 'date'
+                }
             }
         });
         
