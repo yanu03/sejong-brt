@@ -102,7 +102,9 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
     		if(staList.size() > 0) {
 	    		//삽입,업데이트 정류장갯수
 	    		mapper.BM0105G1D0(vo.getRoutId());
+	    		//route-station
 	    		int RScnt = mapper.BM0105G1I0(inputVO);
+	    		//station info
 	    		int SIcnt = mapper.BM0105G1I1(inputVO);
 	    		
 	    		resultList.add(vo.getRoutId());
@@ -129,13 +131,20 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
 		voList = BM0107Service.insertSta(nodeList, staList);
 		insertVO.setVoList(voList);
 		
+		System.out.println("어디서부터?");
+		BM0107Mapper.BM0107G1D0(routVO);
 		//인서트쿼리
+		
+		System.out.println("제발");
+		System.out.println(voList);
 		if(BM0107Mapper.BM0107G1I0(insertVO) > 0) {
 			returnCount++;
 		}
+		
 		//result테이블에 추가
 		Map<String, String> map = new HashMap<>();
 		map.put("routId", routVO.getRoutId());
+		
 		List<BmRoutNodeInfoVO> nodeStaList = BM0107Mapper.BM0107G1S0(map);
 		List<BmRoutNodeInfoVO> audioList = BM0107Mapper.BM0107G4S0(routVO);
 		List<BmRoutNodeInfoVO> finalList = BM0107Service.insertSta(nodeStaList, audioList);

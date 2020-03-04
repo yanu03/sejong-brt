@@ -50,7 +50,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	caller.gridView0.selectAll(false);
         caller.formView0.clear();
         caller.formView0.enable();
-        caller.formView0.interRout();
+        //caller.formView0.interRout();
 
         caller.formView0.validate(true);
     },
@@ -455,10 +455,10 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         return true;
     },
     enable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element){
-    		$('#wayDiv').attr("readonly", false).attr("disabled", false);
-    		$(element).attr("readonly", false).attr("disabled", false);
-    	});
+		$('#wayDiv').attr("readonly", false).attr("disabled", false);
+		$('#routNm').attr("readonly", false).attr("disabled", false);
+		$('#stStaNm').attr("readonly", false).attr("disabled", false);
+		$('#edStaNm').attr("readonly", false).attr("disabled", false);
     },
     disable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {

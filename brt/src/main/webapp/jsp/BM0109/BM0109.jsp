@@ -35,7 +35,7 @@
 
         <ax:split-layout name="ax1" orientation="vertical">
 	        <ax:split-panel width="450">
-	            <ax:split-panel width="450" style="height:290px; padding-right: 10px;">
+	            <ax:split-panel style="height:290px; padding-right: 10px;">
 	                <!-- 목록 -->
 	                <div class="ax-button-group" data-fit-height-aside="gridView0">
 	                    <div class="left">
@@ -43,8 +43,8 @@
 	                            <ax:lang id="ax.admin.BM0107G0.title"/> </h2>
 	                    </div>
 	                </div>
-	                <ax:split-panel width="450" style="height:250px;float:left;">
-	                	<div data-ax5grid="gridView0"  style="height:250px; width:450px; padding-right:10px;"></div>
+	                <ax:split-panel  style="height:250px;float:left;">
+	                	<div data-ax5grid="gridView0" style="height:250px; width:450px; padding-right:10px;"></div>
 	                </ax:split-panel>
 	                    
 	            </ax:split-panel>

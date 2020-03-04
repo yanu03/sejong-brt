@@ -403,7 +403,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
                 {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80},
-                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq},
+                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60},
                 {key: "nodeType",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 30},
                 {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
                 {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120},
@@ -524,14 +524,16 @@ function drawRoute(list) {
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
 			if(list[i].nodeType == '1' || list[i].nodeType == '898') {
 				list[i].icon = "/assets/images/tmap/busstop.png";
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				//addMarker(list[i]);
 				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
 			// 일반 노드인 경우
 			else if(list[i].nodeType == '30'){
 				list[i].icon = "/assets/images/tmap/road_trans.png";
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				//addMarkerInter(list[i], fnObj.gridView1, i);
 				//addMarker(list[i]);
 				addMarkerInter(list[i], fnObj.gridView1, i);
@@ -596,7 +598,8 @@ function onOffMarker(input){
 		removeMarkers();
 		for(var i=0; i<list.length; i++){
 			if(list[i].nodeType == '1'){
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				addMarker(list[i]);
 			}
 		}
@@ -607,7 +610,8 @@ function onOffMarker(input){
 		for(var i=0; i<list.length; i++){
 			if(list[i].nodeType == '30'){
 				list[i].icon = "/assets/images/tmap/road_trans.png";
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				addMarker(list[i]);
 			}
 		}
@@ -621,7 +625,8 @@ function onOffMarker(input){
 			}else{
 				
 			}
-			list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+			//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+			list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
 			addMarker(list[i]);
 		}
 		break;

@@ -9,6 +9,14 @@
 <ax:layout name="base">
     <jsp:attribute name="script">
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0502/BM0502.js' />"></script>
+        <style>
+			.grid-cell-gray{
+		        color: #F1F3F5;
+		    }
+		    .grid-cell-black{
+		    	color: #000000;
+		    }
+		</style>
     </jsp:attribute>
     <jsp:body>
 

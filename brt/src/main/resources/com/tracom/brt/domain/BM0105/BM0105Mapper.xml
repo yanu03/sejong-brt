@@ -114,6 +114,8 @@
     	FROM
     		BM_ROUT_NODE_INFO
     	WHERE
+    		NODE_TYPE = '30'
+    		AND
     		ROUT_ID = #{routId}
     </select>
     

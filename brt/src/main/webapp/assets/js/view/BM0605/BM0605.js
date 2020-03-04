@@ -488,12 +488,14 @@ function onChangeFile(){
 			if($.inArray(ext,["mp4", "mp4"]) == -1) {
 				alert("mp4 파일만 업로드 가능합니다.");
 				$("input[id=vdoFile]").val("");
+				$('#videoPreview').attr('src', '');
 				return;
 			}		
 		}else{
 			if($.inArray(ext,["jpg", "JPG"]) == -1) {
 				alert("JPG 파일만 업로드 가능합니다.");
 				$("input[id=vdoFile]").val("");
+				$('#imagePreview').attr('src', '');
 				return;
 			}
 		}
