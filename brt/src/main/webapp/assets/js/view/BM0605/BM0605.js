@@ -118,6 +118,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			.then(function (ok, fail, data) {
 				axToast.push(LANG("onupdate"));
 				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+				caller.gridView0.selectLastRow();
 			})
 			.catch(function () {
 
