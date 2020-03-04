@@ -39,14 +39,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     
-    /*excel기능*/
-    /*PAGE_EXCEL: function(caller, act, data) {
-    	if(selectedRow != null){		
-    		caller.gridView1.target.exportExcel(selectedRow.conId + "data.xls");
-    	}else {
-    		alert("항목을 선택해주세요");
-    	}
-    },*/
+
+    PAGE_EXCEL: function(caller, act, data) {
+    	caller.gridView1.target.exportExcel("장치 목록_" + new Date().yyyymmdd() + ".xls");
+    },
     
     PAGE_NEW: function (caller, act, data) {
     	isUpdate = false;
@@ -322,11 +318,10 @@ fnObj.pageButtonView = axboot.viewExtend({
             "search": function () {
             	selectedRow = null;
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-            },
-            /*excel기능*/
-            /*"excel": function () {
+            },   
+            "excel": function () {
             	ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
-            },*/
+            },
             "new": function() {
             	if(isCheck){
             		ACTIONS.dispatch(ACTIONS.PAGE_NEW);

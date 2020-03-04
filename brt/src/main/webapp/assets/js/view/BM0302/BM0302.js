@@ -42,14 +42,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_EXCEL: function(caller, act, data) {
-    	if(selectedRow != null){   		
-    		caller.gridView0.target.exportExcel(selectedRow.conId + "data.xls");
-    	}else if(selectedRowG1 != null){
-    		caller.gridView1.target.exportExcel(selectedRowG1.conId + "data.xls");
-    	}
-    	else {
-    		alert("계약 항목을 선택해주세요");
-    	}
+    	caller.gridView1.target.exportExcel("변경계약 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     PAGE_NEW: function (caller, act, data) {

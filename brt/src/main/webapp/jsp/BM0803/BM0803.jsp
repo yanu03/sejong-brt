@@ -36,8 +36,12 @@
 	                    <ax:tr>
 	                        <ax:td label='ax.admin.search' width="400px">
 	                        	<div class="input-group" >
-	                        		<select>
-	                        			
+	                        		<select name="busRout" id="busRout" style="height: 30px; width: 130px;">
+	                        			<option>노선을선택하세요.</option>
+	                        			<option value="430">430번</option>
+	                        			<option value="550">550번</option>
+	                        			<option value="990">990번</option>
+	                        			<option value="900">900번</option>
 	                        		</select>
 		                        </div>
 	                        </ax:td>

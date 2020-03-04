@@ -14,7 +14,7 @@
 		   , DH.MODEL_NM
 		   , IF(ULOG.COMPLETE_YN IS NULL, '예약가능', IF(ULOG.COMPLETE_YN = 'Y', '예약가능', '예약중')) AS COMPLETE_YN
 		FROM
-		    BM_VHC_INFO V
+		     BM_VHC_INFO V
 			 LEFT OUTER JOIN BM_DVC_INFO D
 			 ON V.VHC_ID = D.VHC_ID
 			 LEFT OUTER JOIN BM_DVC_HIST DH
@@ -37,13 +37,12 @@
 			 LEFT OUTER JOIN BM_UPD_LOG ULOG
 			 ON D.MNG_ID = ULOG.MNG_ID
 	   <where>
+	    	<if test="value != null">
+				V.VHC_NO LIKE CONCAT('%', #{value}, '%')
+	    	AND
+	    	</if>
 	   		D.USE_YN != "N"
 	   		AND D.MNG_ID != "NULL"
-	    	<if test="value != null">
-	    	AND
-				DH.MODEL_NM LIKE CONCAT('%', #{value}, '%')
-				OR V.VHC_NO LIKE CONCAT('%', #{value}, '%')
-	    	</if>
     	</where>
     	GROUP BY D.MNG_ID
 		ORDER BY VHC_NO 
