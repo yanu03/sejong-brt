@@ -35,16 +35,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
    //아직 고쳐야함
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRow != null){   		
-    		caller.gridView0.target.exportExcel("차량목록"+selectedRow.vhcId + "data.xls");
+    		caller.gridView0.target.exportExcel("차량목록"+ new Date().yyyymmdd() + ".xls");
     	}else {
             if(selectedRowG1 != null){
-            	caller.gridView1.target.exportExcel("장치목록"+selectedRowG1.dvcId + "data.xls");
+            	caller.gridView1.target.exportExcel("운행이력"+ new Date().yyyymmdd() + ".xls");
             }else{ 		
     		alert("장치 목록을 선택해주세요");
             }
     	}
     },
-    
     // gridView0항목 클릭 이벤트
     ITEM_CLICK: function (caller, act, data) {
     	selectedRow = data;
@@ -61,42 +60,27 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     RELOAD_G1: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
-    	$("#busCheck").remove();
+    	console.log("vhcId");
+    	console.log(selectedRow.vhcId);
     	axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0203G1S0",
+            url: "/api/v1/BM0802G1S0",
             data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
+            	for(var i =0; i<res.list.length; i++){
+            		if(res.list[i].lati == "0E-8"){
+            			res.list[i].lati = "0";
+            		}
+            		if(res.list[i].longi == "0E-8"){
+            			res.list[i].longi = "0";
+            		}
+            	}
+            	
                 caller.gridView1.setData(res);
               
-             //버스이미지 및 정상 비정상 이미지 넣는곳
-             /*if(res.list[0].txtVal1 != null){
-                for(var i = 0; i < res.list.length; i++){                	
-                	var dvcCond;
-                	if(typeof res.list[i].txtVal1 !== "undefined"){
-                		if(res.list[i].dvcCond == "정상"){
-                			dvcCond = "#00FF00";
-                		}else{
-                			if(typeof res.list[i].dvcCond !== "undefined"){
-                				dvcCond = "#DC143C";            				
-                			}else{
-                				dvcCond = "##00ff0000";
-                			}
-                		}
-                $("#check").append("<div id='busCheck' style='background-color:"+dvcCond+"; width:22px;height:22px; border-radius:11px; position: absolute; left:"+res.list[i].txtVal1+"px; top:"+res.list[i].txtVal2+"px;]'/>");
-                		}else{
-                			alert(LANG("ax.script.requireselect"));
-                		}
-                	}              	
-               }*/
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
 	                } 
-		                if(selectedRowG1 != null) {
-		                	caller.gridView1.selectRow(selectedRowG1.__index);
-		                } else {
-		                	caller.gridView1.selectFirstRow();
-		                }
             }
         });    	
     	
@@ -105,12 +89,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_CLOSE: function(caller, act, data) {
     	window.parent.fnObj.tabView.closeActiveTab();
     },
-    
-    GRID_COLOR : function(caller, act , data){
-    	$("#dvcCond").css({
-    		"background-color" : "red"
-    	});
-    }
 });
 /********************************************************************************************************************/
 
@@ -287,12 +265,11 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "dvcCond", label: ADMIN("ax.admin.BM0802G1.lati"), id:"dvcCond",align:"center", sortable: true, width: 120},
-            	{key: "instLoc", label: ADMIN("ax.admin.BM0802G1.longi"), align:"center", sortable: true, width: 120},
-            	{key: "dvcId", label: ADMIN("ax.admin.BM0802G1.buscond"), align:"center", sortable: true, width: 120},
-            	{key: "maker", label: ADMIN("ax.admin.BM0802G1.driving.time"), align:"center", width: 120},
-                {key: "dvcKind", label: ADMIN("ax.admin.BM0802G1.driving.dc"), align:"center", sortable: true, width: 120},
-                {key: "dvcType", label: ADMIN("ax.admin.BM0802G1.regi.date"), align:"center", sortable: true, width: 120},
+            	{key: "lati", label: ADMIN("ax.admin.BM0802G1.lati"),align:"right", sortable: true, width: 120},
+            	{key: "longi", label: ADMIN("ax.admin.BM0802G1.longi"), align:"right", sortable: true, width: 120},
+            	{key: "spd", label: ADMIN("ax.admin.BM0802G1.spd"), align:"right", sortable: true, width: 120},
+            	{key: "heading", label: ADMIN("ax.admin.BM0802G1.heading"), align:"right", width: 120},
+                {key: "sendDate", label: ADMIN("ax.admin.BM0802G1.regi.date"), align:"center", sortable: true, width: 150},
             ],
             body: {
             	 onClick: function () {

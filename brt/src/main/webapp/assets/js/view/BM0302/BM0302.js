@@ -66,7 +66,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         				msg: LANG("ax.script.alert.altDelete")
         			});
         		}else{
-        			
         			caller.gridView1.selectAll(false);
         			caller.formView0.clear();
         			caller.formView0.enable();
@@ -230,23 +229,31 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    	}, function() {
 	    		if(this.key == "ok"){
 	    			if (caller.formView0.validate()) {
-	    					axboot.promise()
-	    					.then(function (ok, fail, data) {
-	    						axboot.ajax({
-	    							type: "POST",
-	    							url: "/api/v1/BM0302F0U1",
-	    							data: JSON.stringify({seq : selectedRowG1.seq}),
-	    							callback: function (res) {
-	    								ok(res);
-	    							}
-	    						});
-	    					})
-	    					.then(function (ok, fail, data) {
-	    						axToast.push(LANG("onupdate"));
-	    						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-	    						isUpdate = true;
-	    					})
-	    					.catch(function () {   						
+	    				
+	    				//2차비밀번호 modal
+	    				axboot.modal.open({
+		    	            modalType: "BM0301confirmYn",
+		    	            param: "",
+		    	            callback: function (data) {
+		    	            	axboot.promise()
+		    	            	.then(function (ok, fail, data) {
+		    	            		axboot.ajax({
+		    	            			type: "POST",
+		    	            			url: "/api/v1/BM0302F0U1",
+		    	            			data: JSON.stringify({seq : selectedRowG1.seq}),
+		    	            			callback: function (res) {
+		    	            				ok(res);
+		    	            			}
+		    	            		});
+		    	            	})
+		    	            	.then(function (ok, fail, data) {
+		    	            		axToast.push(LANG("onupdate"));
+		    	            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+		    	            		isUpdate = true;
+		    	            	})
+		    	            	.catch(function () {   						
+		    	            	});
+		    	            }
 	    					});
 	    				}	    			
 	    			}
@@ -257,19 +264,34 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    	}, function(){
 	    		if(this.key == "ok"){
 	    			if (caller.formView0.validate()){
-	    				axboot.promise()
-	    				.then(function (ok, fail, data) {
-	    				axboot.ajax({
-							type: "POST",
-							url: "/api/v1/BM0302F0U2",
-							data: JSON.stringify({seq : selectedRowG1.seq}),
-							callback: function (res) {
-								ok(res);
-								ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-								isUpdate = true;
-							}
-						});
-	    				})	
+	    				//2차비밀번호 modal
+	    				axboot.modal.open({
+		    	            modalType: "BM0301confirmYn",
+		    	            param: "",
+		    	            callback: function (data) {
+		    	            	
+		    	            	axboot.promise()
+		    	            	.then(function (ok, fail, data) {
+		    	            		axboot.ajax({
+		    	            			type: "POST",
+		    	            			url: "/api/v1/BM0302F0U2",
+		    	            			data: JSON.stringify({seq : selectedRowG1.seq}),
+		    	            			callback: function (res) {
+		    	            				ok(res);
+		    	            				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+		    	            				isUpdate = true;
+		    	            			}
+		    	            		});
+		    	            	})
+		    	            	.then(function (ok, fail, data) {
+	    	            			axToast.push(LANG("onupdate"));
+	    	            			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	    	            			isUpdate = true;
+	    	            		})
+	    	            		.catch(function () {   						
+	    	            		});
+		    	            }
+	    				});
 	    			}
 	    		}
 	    	}

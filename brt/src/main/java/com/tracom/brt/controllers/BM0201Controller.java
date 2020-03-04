@@ -27,6 +27,7 @@ public class BM0201Controller extends BaseController{
 	@Inject
 	private BM0201Service service;
 	
+	
     @GetMapping("/BM0201G0S0")
     @ApiImplicitParams({
     	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
@@ -83,7 +84,11 @@ public class BM0201Controller extends BaseController{
     @Transactional
     public ApiResponse BM0201M0I0(@RequestBody VhcDeviceVO request) {
         String dvcId = service.BM0201M0I0(request);
-        service.BM0201G1U1(request);
+        if(request.getWorkType().equals("CD025")){
+        	 service.BM0201G1U0(request);
+        }else {
+        	service.BM0201G1U1(request);
+        }
         return ok(dvcId);
     }
     

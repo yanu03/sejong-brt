@@ -15,4 +15,9 @@ public class MapVO extends BaseVO{
 	private String corpId;
 	private String useYn;
 	private String remark;
+	private String corpNm;
+	private String lati;
+	private String longi;
+	private String spd;
+	private String heading;
 }

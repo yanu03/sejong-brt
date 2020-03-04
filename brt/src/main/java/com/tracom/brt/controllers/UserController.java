@@ -54,6 +54,8 @@ public class UserController extends BaseController {
     
     @PostMapping("/checkScdPs")
     public ApiResponse checkScdPs(@RequestBody User user) {
+    	System.out.println("user");
+    	System.out.println(user.getScdPs());
     	return ok(userService.checkScdPs(user).toString());
     }
     

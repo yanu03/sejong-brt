@@ -13,6 +13,12 @@ public class RaceHistoryVO extends BaseVO{
 	private String modelNm;
 	private String vhcKind;
 	private String vhcType;
+	private String vhcId;
+	private String lati;
+	private String longi;
+	private String spd;
+	private String heading;
+	private String sendDate;
 	private String lfYn;
 	private String vhcFuel;
 	private String maker;
@@ -20,5 +26,4 @@ public class RaceHistoryVO extends BaseVO{
 	private String dvcId;
 	private String corpNm;
 	private String remark;
-	
 }

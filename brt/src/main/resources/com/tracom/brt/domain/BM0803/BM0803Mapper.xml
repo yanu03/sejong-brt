@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tracom.brt.domain.BM0803.BM0803Mapper">
-	<select id="BM0803G0S0" resultType="MapVO">
-		SELECT
-		   VHC_ID
-		 , VHC_NO
-		 , CHAS_NO
-		 , MODEL_NM
-		 , CORP_ID
-		 , USE_YN
-		 , REMARK
-		FROM
-		  BM_VHC_INFO
+	<select id="BM0803G0S0" parameterType="String"  resultType="MapVO">
+	SELECT
+		   VHC.VHC_ID
+		 , VHC.VHC_NO
+		 , VHC.CHAS_NO
+		 , VHC.MODEL_NM
+		 , CORP.CORP_NM
+		 , VHC.USE_YN
+		 , LOC.LATI
+		 , LOC.LONGI
+		 , LOC.SPD
+		 , LOC.HEADING
+		 , VHC.REMARK
+	FROM
+		  BM_VHC_INFO VHC
+		  LEFT JOIN BM_CORP_INFO CORP
+		  ON VHC.CORP_ID = CORP.CORP_ID
+		  LEFT JOIN BM_DVC_INFO DVC
+		  ON VHC.VHC_ID = DVC.VHC_ID
+		  LEFT JOIN BM_DVC_LOC LOC
+		  ON DVC.MNG_ID = LOC.MNG_ID
+	WHERE
+		  DVC.DVC_KIND = 'CD005'
+		  AND VHC.MODEL_NM = '전기굴절버스'
 	</select>
 </mapper>

@@ -149,7 +149,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_UPDATE: function(caller, act, data) {
     	isUpdate = false;   	
     	var confirmYn = $('#confirmYn').val();
- 	
     		if(confirmYn == "미확정"){
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
@@ -183,18 +182,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     // 확정
-    
     PAGE_CONFIRMYN : function (caller, act, data) {
     	isUpdate = false; 
     	var confirmYn = $('#confirmYn').val();
-    	
-    	/*
-    	axboot.ajax({
-    		type:"GET",
-    		url:"/api/v1/BM0301F0S2"
-    		data:JSON.stringify()
-    	})
-    	*/
     	
     	if(confirmYn == "미확정"){
 	    	axDialog.confirm({
@@ -202,15 +192,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    	}, function() {
 	    		if(this.key == "ok"){
 	    			
-	    			/*axDialog.prompt({ msg: LANG("ax.script.prompt.password")
-	    				},function(){
-	    					if(this.key == "ok"){*/
-	    			
+	    			//2차비밀번호 modal
 		    			axboot.modal.open({
 		    	            modalType: "BM0301confirmYn",
 		    	            param: "",
 		    	            callback: function (data) {
-		    	            	
 		    	            	if (caller.formView0.validate()) {
 		    	            		var formData = caller.formView0.getData();    					
 		    	            		axboot.promise()
@@ -235,9 +221,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		    	                this.close();
 		    	            }
 		    	        });
-	    					/*}else{
-	    						axDialog.alert("비밀번호가 틀립니다.");
-	    					}*/
 	    		}
 			});
 	    }else{
@@ -247,19 +230,37 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    		if(this.key == "ok"){
 	    			if (caller.formView0.validate()){
 	    				var formData = caller.formView0.getData();
-	    				axboot.promise()
-	    				.then(function (ok, fail, data) {
-	    				axboot.ajax({
-							type: "POST",
-							url: "/api/v1/BM0301F0U2",
-							data: JSON.stringify(formData),
-							callback: function (res) {
-								ok(res);
-								ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-								isUpdate = true;
-							}
-						});
-	    				})	
+	    				//2차비밀번호 modal
+	    				axboot.modal.open({
+		    	            modalType: "BM0301confirmYn",
+		    	            param: "",
+		    	            callback: function (data) {
+		    	            	if (caller.formView0.validate()) {
+		    	            		var formData = caller.formView0.getData();    					
+		    	            		axboot.promise()
+		    	    				.then(function (ok, fail, data) {
+		    	    				axboot.ajax({
+		    							type: "POST",
+		    							url: "/api/v1/BM0301F0U2",
+		    							data: JSON.stringify(formData),
+		    							callback: function (res) {
+		    								ok(res);
+		    								ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+		    								isUpdate = true;
+		    							}
+		    						});
+		    	    				})
+		    	            		.then(function (ok, fail, data) {
+		    	            			axToast.push(LANG("onupdate"));
+		    	            			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+		    	            			isUpdate = true;
+		    	            		})
+		    	            		.catch(function () {   						
+		    	            		});
+		    	            	}
+		    	                this.close();
+		    	            }
+		    	        });
 	    			}
 	    		}
 	    	}
