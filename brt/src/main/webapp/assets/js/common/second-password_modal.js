@@ -6,20 +6,30 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         }
     },
     
-    PAGE_SEARCH: function (caller, act, data) { 
-    	var user = $("#updateCycle").val();
-        axboot.ajax({
-            type: "GET",
-            url: "/api/v1/checkScdPs",
-            data: {user},
-            callback: function (res) {
-            	caller.formView0.setData(res);
-            }
-        });
-        return false;
-    },
-   
-    ITEM_CLICK: function (caller, act, data) {
+    CHECK_PASSWORD: function(caller, act, data) {
+    	var user = $("#scdPs").val();
+
+    	if(user != ""){
+    		axboot.promise()
+    		.then(function (ok, fail, data) {
+    			axboot.ajax({
+    				type: "POST",
+    				url: "/api/v1/users/checkScdPs",
+    				data: JSON.stringify({scdPs : user}),
+    				callback: function (res) {
+    					if(res.message == "false"){
+    						axDialog.alert("비밀번호가 틀렸습니다.");
+    					} else {
+    						if (parent && parent.axboot && parent.axboot.modal) {
+    							parent.axboot.modal.callback();
+    						}
+    					}
+    				}
+    			});
+    		});
+    	} else {
+    		axDialog.alert("비밀번호를 입력하세요.");
+    	}
     },
 });
 
@@ -28,7 +38,6 @@ var CODE = {};
 // fnObj 기본 함수 스타트와 리사이즈
 fnObj.pageStart = function () {
     var _this = this;
-    
     _this.pageButtonView.initView();
     _this.formView0.initView();
 };
@@ -42,9 +51,9 @@ fnObj.pageButtonView = axboot.viewExtend({
         axboot.buttonClick(this, "data-page-btn", {         
             "close": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
-            }
-            ,"checkButton" : function(){
-            	ACTIONS.dispatch(ATCIONS.PAGE_SEARCH);
+            },
+            "checkButton" : function(){
+            	ACTIONS.dispatch(ACTIONS.CHECK_PASSWORD);
             }
         });
     }
@@ -61,6 +70,9 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     initView: function () {
         this.target = $("#formView0");
+        this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
+        this.user = $("#updateCycle");
+        
         this.model = new ax5.ui.binder();
         this.model.setModel(this.getDefaultData(), this.target);
         this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
@@ -77,7 +89,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     initEvent: function () {
     	var _this = this;
     	
-                	
     },
     
     getData: function () {

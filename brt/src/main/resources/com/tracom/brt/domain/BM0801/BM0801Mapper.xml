@@ -62,4 +62,22 @@
 				OR CUST.CUST_NM LIKE CONCAT('%', #{filter}, '%')
 	    	</if>
 	</select>
+	
+	<insert id="insertAdLog" parameterType="hashmap">
+		INSERT INTO BM_AD_LOG(
+			  PLAY_DATE
+			, ID
+			, AD_TYPE
+			, AD_NM
+		)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+		(
+			  #{item.playDate}
+			, #{item.id}
+			, #{adType}
+			, #{adNm}
+		)
+		</foreach>
+	</insert>
 </mapper>

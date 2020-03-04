@@ -16,7 +16,7 @@ public class BM0803Service extends BaseService<MapVO, String>{
 	private BM0803Mapper mapper;
 	
 	public List<MapVO> BM0803G0S0(RequestParams<MapVO> requestParams) {
-		return mapper.BM0803G0S0(requestParams);
+		return mapper.BM0803G0S0(requestParams.getString("filter"));
 	}
 	
 }

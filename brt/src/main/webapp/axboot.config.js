@@ -97,30 +97,22 @@
             	header: false
            },
            "BM0301": {
-	           	width: 400,
-	           	height: 450,
-	           	iframe: {
-	           		url: "/jsp/common/BM0301_modal.jsp"
-	           	}
-	          },
+        	   width: 400,
+        	   height: 450,
+        	   iframe: {
+        		   url: "/jsp/common/BM0301_modal.jsp"
+        	   }
+           },
 	          
-	          "BM0301confirmYn": {
-		           	width: 400,
-		           	height: 150,
-		           	iframe: {
-		           		url: "/jsp/common/BM0301confirmYn_modal.jsp"
-		           	},
-		           	header: false
-		          },
-	          "BM0304": { 
-		           	width: 970,
-		           	height: 500,
-		           	iframe: {
-		           		url: "/jsp/common/BM0304_modal.jsp"
-		           	},
-		           header: false
-		         },
-            "COMMON_SENTENCE": {
+           "BM0304": { 
+        	   width: 970,
+        	   height: 500,
+        	   iframe: {
+        		   url: "/jsp/common/BM0304_modal.jsp"
+        	   },
+        	   header: false
+           },
+           "COMMON_SENTENCE": {
             	width: 600,
             	height: 450,
             	iframe: {
@@ -213,7 +205,16 @@
             		url: "/jsp/common/change-password_modal.jsp"
             	},
             	header: false
-            }
+            },
+            
+            "SECOND_PASSWORD": {
+				width: 400,
+				height: 150,
+				iframe: {
+					url: "/jsp/common/second-password_modal.jsp"
+				},
+				header: false
+			},
         };
     }
 

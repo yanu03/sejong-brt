@@ -119,7 +119,7 @@
                        	<ax:tr>
                             <ax:td id="krTtsLabel" label="ax.admin.BM0402F0.kr.tts" width="100%">
                             	<div style="float:left;width:470px;">
-                            		<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0401F0.kr.tts"/>" rows="4" class="form-control" maxlength="100"></textarea>
+                            		<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0401F0.kr.tts"/>" rows="4" class="form-control" maxlength="200"></textarea>
                             	</div>
                             	<div style="float:left;padding-left:5px;">
 		                            <div>	

@@ -25,11 +25,6 @@ public class BM0801Controller extends BaseController{
 	private BM0801Service service;
 	
 	@GetMapping("/BM0801G0S0")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name ="filter" , value="검색어" , dataType = "String" , paramType = "query"),
-		@ApiImplicitParam(name ="playStDate" , value="검색어" , dataType = "String" , paramType = "query"),
-		@ApiImplicitParam(name ="playEdDate" , value="검색어" , dataType = "String" , paramType = "query")
-	})
 	public Responses.ListResponse BM0801G0S0(RequestParams<StatisticsVO> requestParams){
 		List<StatisticsVO> list = service.BM0801G0S0(requestParams);
 		System.out.println("음성");
@@ -38,11 +33,6 @@ public class BM0801Controller extends BaseController{
 	}
 	
 	@GetMapping("/BM0801G0S1")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name ="filter" , value="검색어" , dataType = "String" , paramType = "query"),
-		@ApiImplicitParam(name ="playStDate" , value="검색어" , dataType = "String" , paramType = "query"),
-		@ApiImplicitParam(name ="playEdDate" , value="검색어" , dataType = "String" , paramType = "query")
-	})
 	public Responses.ListResponse BM0801G0S1(RequestParams<StatisticsVO> requestParams){
 		List<StatisticsVO> list = service.BM0801G0S1(requestParams);
 		System.out.println("영상");

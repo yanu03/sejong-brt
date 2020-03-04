@@ -29,41 +29,51 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		}
     	}
     	
+    	
+    	//2차비밀번호 modal
 		axboot.modal.open({
-            modalType: "RESERVATION",
+            modalType: "SECOND_PASSWORD",
             param: "",
-            callback: function (result) {
-            	this.close();
-            	
-            	var rsvDate = result;
-            	var list = vehicleList.map(function(item) {
-            		return item.mngId;
-            	});
-            	
-            	var data = {
-            		rsvDate: rsvDate,
-            		routeList: routeList,
-            		list: list
-            	}
-            	
-            	axboot.promise()
-	    	        .then(function (ok, fail, _data) {
-	    	            axboot.ajax({
-	    	                type: "POST",
-	    	                url: "/api/v1/BM0406G1I0",
-	    	                data: JSON.stringify(data),
-	    	                callback: function (res) {
-	    	                    ok(res);
-	    	                }
-	    	            });
-	    	        })
-	    	        .then(function (ok, fail, data) {
-	    	        	axToast.push(LANG("ax.script.alert.reservation"));
-	    	        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G1);
-	    	        })
-	    	        .catch(function () {
-	    	
-	    	        });
+            callback: function (data) {
+                this.close();
+                
+                axboot.modal.open({
+                    modalType: "RESERVATION",
+                    param: "",
+                    callback: function (result) {
+                    	this.close();
+                    	
+                    	var rsvDate = result;
+                    	var list = vehicleList.map(function(item) {
+                    		return item.mngId;
+                    	});
+                    	
+                    	var data = {
+                    		rsvDate: rsvDate,
+                    		routeList: routeList,
+                    		list: list
+                    	}
+                    	
+                    	axboot.promise()
+        	    	        .then(function (ok, fail, _data) {
+        	    	            axboot.ajax({
+        	    	                type: "POST",
+        	    	                url: "/api/v1/BM0406G1I0",
+        	    	                data: JSON.stringify(data),
+        	    	                callback: function (res) {
+        	    	                    ok(res);
+        	    	                }
+        	    	            });
+        	    	        })
+        	    	        .then(function (ok, fail, data) {
+        	    	        	axToast.push(LANG("ax.script.alert.reservation"));
+        	    	        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G1);
+        	    	        })
+        	    	        .catch(function () {
+        	    	
+        	    	        });
+                    }
+                });
             }
         });
         //*/
