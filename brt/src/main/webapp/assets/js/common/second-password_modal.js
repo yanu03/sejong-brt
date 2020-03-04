@@ -7,7 +7,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SEARCH: function (caller, act, data) { 
-    	var user = $("#updateCycle").val();
+    	var user = $("#scdPs").val();
         axboot.ajax({
             type: "GET",
             url: "/api/v1/checkScdPs",

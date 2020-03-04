@@ -19,7 +19,7 @@ var busstopNodeType;
 
 // 음성 편성 노드 타입
 var orgaNodeType;
-var orgaIcon = "http://tmapapi.sktelecom.com//resources/images/common/pin_car.png";
+var orgaIcon = "/assets/images/tmap/voice_node.png";
 
 var busstopIcon = "/assets/images/tmap/busstop.png"
 

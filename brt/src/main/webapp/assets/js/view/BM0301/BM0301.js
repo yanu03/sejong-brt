@@ -207,7 +207,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    					if(this.key == "ok"){*/
 	    			
 		    			axboot.modal.open({
-		    	            modalType: "BM0301confirmYn",
+		    	            modalType: "SECOND_PASSWORD",
 		    	            param: "",
 		    	            callback: function (data) {
 		    	            	
