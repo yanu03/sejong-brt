@@ -49,9 +49,7 @@ import com.tracom.brt.domain.BM0607.VdoRsvVO;
 import com.tracom.brt.domain.BM0608.BmScrInfoVO;
 import com.tracom.brt.domain.BM0609.BM0609Service;
 import com.tracom.brt.domain.BM0609.ScrRsvVO;
-
 import com.tracom.brt.domain.BM0801.BM0801Mapper;
-
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
 import com.tracom.brt.domain.routeReservation.RoutListCSVVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
@@ -279,6 +277,7 @@ public class FTPHandler {
 		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/passenger/";
 		
 		String txt = GlobalConstants.CSVForms.VIDEO_PLAY_LIST;
+		
 		
 		List<VdoRsvVO> voList = BM0607Mapper.makePlayList(vo.getOrgaId());
 		for(int i = 0; i < voList.size(); i++) {
