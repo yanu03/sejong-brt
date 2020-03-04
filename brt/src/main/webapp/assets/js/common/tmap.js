@@ -159,7 +159,6 @@ function addMarkerInter(data, grid, idx) {
 			ax5.util.search(grid.list, function(){
 				return this["seq"] == data.seq;
 			});
-			
 		});
     markers.push(marker);
 }

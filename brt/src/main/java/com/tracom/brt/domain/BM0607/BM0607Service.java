@@ -28,7 +28,7 @@ public class BM0607Service extends BaseService<VdoRsvVO, String>{
 	}
 
 	@Transactional
-	public void BM0607G1I0(VdoRsvVO vo) throws IOException {
+	public void BM0607G1I0(VdoRsvVO vo) throws Exception {
 		for(VdoRsvVO v : vo.getVoList()) {
 			v.setRsvDate(vo.getRsvDate());
 			v.setOrgaId(vo.getOrgaId());

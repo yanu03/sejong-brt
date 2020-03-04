@@ -36,8 +36,6 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpException;
 import com.tracom.brt.code.GlobalConstants;
-import com.tracom.brt.domain.BM0609.BM0609Service;
-import com.tracom.brt.domain.BM0609.ScrRsvVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
 import com.tracom.brt.domain.BM0501.DestinationVO;
@@ -46,6 +44,8 @@ import com.tracom.brt.domain.BM0605.VideoInfoVO;
 import com.tracom.brt.domain.BM0607.BM0607Mapper;
 import com.tracom.brt.domain.BM0607.VdoRsvVO;
 import com.tracom.brt.domain.BM0608.BmScrInfoVO;
+import com.tracom.brt.domain.BM0609.BM0609Service;
+import com.tracom.brt.domain.BM0609.ScrRsvVO;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
 import com.tracom.brt.domain.routeReservation.RoutListCSVVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
@@ -259,10 +259,12 @@ public class FTPHandler {
 	}
 	
 	//BM0607 영상예약
-	public void reserveVideo(VdoRsvVO vo) throws IOException {
-		String path = Paths.get(getRootLocalPath(), "/vehicle", "/" , vo.getImpId(), "/device" , "/", vo.getDvcId(), "/playlist").toString();
+	public void reserveVideo(VdoRsvVO vo) throws Exception {
+		String videoPath = "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";
+		String path = Paths.get(getRootLocalPath(), videoPath).toString();
 		String fromPath = Paths.get(getRootLocalPath(), "/video/").toString();
-		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device", "/device/passenger/").toString();
+		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device/passenger/").toString();
+		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/passenger/";
 		
 		String txt = GlobalConstants.CSVForms.VIDEO_PLAY_LIST;
 		
@@ -281,6 +283,8 @@ public class FTPHandler {
 			File tFile = new File(toPath + "/" + voList.get(i).getVideoFile());
 			
 			copyFile(fFile, tFile);
+			
+			processSynchronize(toPath, fPath);
 
 		}
 		
@@ -298,6 +302,7 @@ public class FTPHandler {
 	public void reserveScreen(ScrRsvVO vo) throws IOException {
 		String path = Paths.get(getRootLocalPath(), "/vehicle", "/" , vo.getImpId(), "/device" , "/", vo.getDvcId(), "/config").toString();
 		String fromPath = Paths.get(getRootLocalPath(), "/template/", vo.getSetId()).toString();
+		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/config";
 		
 		String txt = "";
 		
@@ -327,17 +332,41 @@ public class FTPHandler {
 		
 		try {
 			Utils.createCSV(file, txt);
+			processSynchronize(path, fPath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	//BM0503 행선지안내기 예약(파일이동)
-	public void reserveDst(RoutRsvVO vo) throws IOException {
+	public void reserveDst(RoutRsvVO vo) throws Exception {
+		/*
 		String path = Paths.get(getRootLocalPath(), "/destination", "/images").toString();
 		String toPath = Paths.get(getRootLocalPath(), "/vehicle/", vo.getImpId(), "/device/", vo.getDvcId(), "/images").toString();
+		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/images";
+		 * */
+		
+		String path = Paths.get(getRootLocalPath(), "/temp/destination/images").toString();
+		String toPath = Paths.get(getRootLocalPath(), "/destination", "/images").toString();
+		String fPath = getRootServerPath() + "/destination/images";
 		
 		List<RoutRsvVO> voList = vo.getRsvList();
+		File fFileFLOGOBMP = new File(path + "/FLOGO.BMP");
+		File tFileFLOGOBMP = new File(toPath + "/FLOGO.BMP");
+		
+		File fFileFLOGOSCH = new File(path + "/FLOGO.SCH");
+		File tFileFLOGOSCH = new File(toPath + "/FLOGO.SCH");
+		
+		File fFileSLOGOBMP = new File(path + "/SLOGO.BMP");
+		File tFileSLOGOBMP = new File(toPath + "/SLOGO.BMP");
+		
+		File fFileSLOGOSCH = new File(path + "/SLOGO.SCH");
+		File tFileSLOGOSCH = new File(toPath + "/SLOGO.SCH");
+		
+		copyFile(fFileFLOGOBMP, tFileFLOGOBMP);
+		copyFile(fFileFLOGOSCH, tFileFLOGOSCH);
+		copyFile(fFileSLOGOBMP, tFileSLOGOBMP);
+		copyFile(fFileSLOGOSCH, tFileSLOGOSCH);
 		
 		for(RoutRsvVO v : voList) {
 			File fFile1 = new File(path + "/F" + v.getDvcName() + ".SCH");
@@ -354,13 +383,15 @@ public class FTPHandler {
 			copyFile(fFile2, tFile2);
 			copyFile(fFile3, tFile3);
 			copyFile(fFile4, tFile4);
+			
 		}
+		processSynchronize(toPath, fPath);
 		
 		
 	}
 	
 	//BM0503행선지안내기 예약(list 생성)
-	public void makeDstConfig(List<RoutRsvVO> voList, List<RoutRsvVO> rsvVO) throws Exception {
+	public void makeDstConfig(List<RoutRsvVO> rsvVO) throws Exception {
 		String txt = "";
 		txt += "FLOGO.BMP" + GlobalConstants.CSVForms.COMMA + "A" + GlobalConstants.CSVForms.ROW_SEPARATOR + 
 				"FLOGO.SCH" + GlobalConstants.CSVForms.COMMA + "A" + GlobalConstants.CSVForms.ROW_SEPARATOR +
@@ -374,11 +405,18 @@ public class FTPHandler {
 			
 		}
 		
-		for(RoutRsvVO vo : voList) {
+		/*for(RoutRsvVO vo : voList) {
 			String path = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device", "/", vo.getDvcId(), "/list").toString();
+			String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/list";
 			File file = new File(path + "/LIST.CSV");
 			Utils.createCSV(file, txt);
-		}
+			processSynchronize(path, fPath);
+		}*/
+		String path = Paths.get(getRootLocalPath(), "/destination/list").toString();
+		String fPath = getRootServerPath() + "/destination/list";
+		File file = new File(path + "/LIST.CSV");
+		Utils.createCSV(file, txt);
+		processSynchronize(path, fPath);
 	}
 	
 	
@@ -608,7 +646,8 @@ public class FTPHandler {
 	
 	//BMP파일 write
 	public boolean writeBmp(String fileName, MultipartFile file) {
-		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
+		//String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
+		String path = Paths.get(getRootLocalPath(), "/temp/destination/images").toString();
 		
 		File saveFile = Paths.get(path, "/" ,fileName).toFile();
 		try {
@@ -623,7 +662,8 @@ public class FTPHandler {
 	
 	//SCH파일 read
 	public List<DestinationVO> readSCH(String fileName) throws IOException {
-		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
+		//String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
+		String path = Paths.get(getRootLocalPath(), "/temp/destination/images").toString();
 		
 		File file = new File(path + "/" + fileName);
 		FileReader fr = null;
@@ -674,7 +714,8 @@ public class FTPHandler {
 	
 	//SCH파일 write
 	public boolean writeSCH(List<DestinationVO> list, String fileName) {
-		String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
+		//String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
+		String path = Paths.get(getRootLocalPath(), "/temp/destination/images").toString();
 		String txt = "";
 		
 		for(int i = 0; i < list.size(); i++) {

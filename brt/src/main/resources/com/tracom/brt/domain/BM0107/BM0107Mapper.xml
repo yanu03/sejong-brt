@@ -124,12 +124,15 @@
 			<foreach collection="voList" item="voList" separator=",">
 			(
 				<choose>
-					<when test="voList.staId != null">
+					<when test="voList.nodeId != null">
+						#{voList.nodeId}
+					</when>
+					<when test="voList.staId != null and voList.nodeId == null">
 						#{voList.staId}
 					</when>
-					<otherwise>
+					<when test="voList.staId == null and voList.nodeId == null">
 	  			    	CONCAT('ND', LPAD(NEXTVAL(SEQ_BM_ROUT_NODE_INFO_0), 8, '0'))
-					</otherwise>
+					</when>
 				</choose>
 				, #{voList.nodeNm}
 				, #{voList.lati}

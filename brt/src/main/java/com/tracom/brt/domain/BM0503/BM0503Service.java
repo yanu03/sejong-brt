@@ -49,26 +49,31 @@ public class BM0503Service extends BaseService<RoutRsvVO, String> {
     	
     	mapper.BM0503G1I1(vo);
     	
+    	String rsvId = vo.getRsvId();
     	List<RoutRsvVO> voList = new ArrayList<>();
     	
+    	System.out.println(vhcVO);
     	for(int i = 0; i < vhcVO.size(); i++) {
     		List<RoutRsvVO> list = mapper.vhcMngList(vhcVO.get(i).getVhcId());
-
     		for(RoutRsvVO v : list) {
-    			v.setRsvId(vo.getRsvId());
+    			v.setRsvId(rsvId);
     			//파일 복사 ㄱㄱ
-				v.setImpId(v.getMngId().substring(0, 10));
-				v.setDvcId(v.getMngId().substring(10));
+				//v.setImpId(v.getMngId().substring(0, 10));
+				//v.setDvcId(v.getMngId().substring(10));
 				v.setRsvList(rsvVO);
-				handler.reserveDst(v);//파일이동				
+				
+				//System.out.println(v);
 				mapper.BM0503G1I0(v);//결과테이블 삽입
 				voList.add(v);
+				handler.reserveDst(v);//파일이동
     		}
+    		//handler.reserveDst(v);//파일이동				
 		
     	}
     	//LIST.CSV파일생성
     	System.out.println(voList);
-    	handler.makeDstConfig(voList, rsvVO);
+    	//handler.makeDstConfig(voList, rsvVO);
+    	handler.makeDstConfig(rsvVO);
     }		
 		
 		
