@@ -48,7 +48,7 @@
       <ax:split-layout name="ax1" orientation="vertical">
 	        <ax:split-panel width="570" style="height:800px;">
 	            <ax:split-panel width="100%"
-					style="height:400px; padding-right: 10px;">
+					style="height:400px; padding-right: 5px;">
 	                <!-- 목록 -->
 	                <div class="ax-button-group"
 						data-fit-height-aside="gridView0">
@@ -70,7 +70,7 @@
             		</div>
             	</div>
 	            <ax:form name="formView0" id="formView0"
-					style="padding-right:20px">
+					style="padding-right:10px">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0606G0.orgaId"

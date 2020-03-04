@@ -382,7 +382,7 @@ $("input[id=bmpFile]").change(function(){
     			return;
     		}else{
     			uv_height = img.height / uv_sideheight;    			
-    			preview_ChangeImage("src", "previewImg");
+    			preview_ChangeImage($('#bmpFile'), "previewImg");
     		}
     	}else{
     		console.log('error');
