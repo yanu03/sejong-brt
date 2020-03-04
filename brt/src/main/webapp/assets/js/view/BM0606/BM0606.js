@@ -282,21 +282,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     GRID_DBLCLICK: function(caller, act, data){
     	openModal606(data);
     	
-    	axboot.ajax({
-    		type: "POST",
-    		url: "/api/v1/test",
-    		callback: function (res) {
-    		}
-    	});
+
     },
     
 });
 
 function openModal606(input){
+	console.log(input);
 	axboot.modal.open({
         modalType: "BM0606",
         param: "",
-        sendData: function(){
+        sendData: function(input){
         	return input;
         },
         callback: function (data) {
