@@ -154,10 +154,16 @@ function addMarkerInter(data, grid, idx) {
     	icon: data.icon,
     	draggable: data.draggable,
     });
+		
 		marker.addListener("click", function(e) {
 			grid.selectRow(idx);
 			ax5.util.search(grid.list, function(){
 				return this["seq"] == data.seq;
+			});
+			data.click({
+				marker: marker,
+				nodeId: data.nodeId,
+				index: data.index
 			});
 		});
     markers.push(marker);

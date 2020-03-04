@@ -115,8 +115,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
  
     DRAW_ROUTE: function(caller, act, data) {
-    	//drawRoute(routeData);
-    	drawRoute(fnObj.gridView1.getData());
+    	drawRoute(routeData);
+    	// drawRoute(fnObj.gridView1.getData());
     },
     PAGE_NEW: function(caller, act, data){
     	//TODO: GRID0에 새로운로우 추가할거고
@@ -666,7 +666,6 @@ function onClickMap(e) {
 	
 }
 
-
 function returnInsertRouteInfo(lat, lon) {
 	var min = 10000000;
 	var minIndex = null;
@@ -690,7 +689,6 @@ function returnInsertRouteInfo(lat, lon) {
 	}
 	
 	if(minIndex == null) {
-		axDialog.alert("선택할 수 없는 좌표입니다.");
 		return false;
 	} else {
 		var seq = routeData[minIndex].seq + (routeData[minIndex + 1].seq - routeData[minIndex].seq) / 2;
@@ -700,33 +698,6 @@ function returnInsertRouteInfo(lat, lon) {
 			seq: seq,
 			index: insertIndex
 		};
-	}
-}
-
-function dragEvt(e){
-	var point = e.marker.getPosition();
-	var node = $.extend(true, {}, routeData[e.index]);
-	
-	routeData.splice(e.index, 1);
-	
-	var val = returnInsertRouteInfo(point.lat(), point.lng());
-	console.log(e);
-	if(val) {
-		var temp = {
-			orgaId: e.nodeId,
-			lati: point.lat(),
-			longi: point.lng(),
-			seq: val.seq
-		};
-		
-		temp = $.extend(true, node, temp);
-		
-		routeData.splice(val.index, 0, temp);
-		
-		ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
-		ACTIONS.dispatch(ACTIONS.OPEN_BM0405, temp);
-	} else {
-		axDialog.alert("선택할 수 없는 좌표입니다.");
 	}
 }
 
@@ -744,13 +715,17 @@ function drawRoute(list) {
 			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
 			
 			/**드래그이벤트**/
-			list[i].click = function(e){
+			list[i].click = function(e) {
+				console.log(routeData.length);
 				var point = e.marker.getPosition();
 				var node = $.extend(true, {}, routeData[e.index]);
-				
 				routeData.splice(e.index, 1);
 				var val = returnInsertRouteInfo(point.lat(), point.lng());
-				console.log(e);
+				
+				if(e.index == 0 || e.index == routeData.length-1){
+					val = true;
+				}
+				
 				if(val) {
 					var temp = {
 						nodeId: e.nodeId,
@@ -761,32 +736,39 @@ function drawRoute(list) {
 					
 					temp = $.extend(true, node, temp);
 					
+					
 					routeData.splice(val.index, 0, temp);
+					
+					routeData.sort(function (a,b){ return a.seq - b.seq });
+					fnObj.gridView1.setData(routeData);
 					
 					ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
 				} else {
 					axDialog.alert("선택할 수 없는 좌표입니다.");
+					var tmpData = fnObj.gridView1.getData();
+					tmpData.sort(function (a,b){return a.seq - b.seq});
+					fnObj.gridView1.setData(tmpData);
+					drawRoute(fnObj.gridView1.getData());
 				}
-			}
+			};
+			
+			list[i].index = i;
 			/**드래그이벤트**/
+			list[i].draggable = true;
 			
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
 			if(list[i].nodeType == busstopNodeType) {
 				list[i].icon = "/assets/images/tmap/busstop.png";
-				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				list[i].draggable = true;
-				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
 			// 아닐 경우(일반 노드) 네모 박스 표시
 			else {
 				list[i].icon = "/assets/images/tmap/road_trans.png";
-				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				list[i].draggable = true;
-				addMarkerInter(list[i], fnObj.gridView1, i);
 				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
 			}
+			
+			addMarkerInter(list[i], fnObj.gridView1, i);
 		}
 		
 		polyline = new Tmapv2.Polyline({
