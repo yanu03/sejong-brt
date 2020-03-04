@@ -135,7 +135,7 @@
 			DVC.DVC_ID = #{value}
     </select>
     
-    <insert id="BM0201F0I0" parameterType="vhcInfoVo">
+    <insert id="BM0201F0I0" parameterType="VhcDeviceVO">
     	<selectKey keyProperty="dvcId" resultType="String" order="BEFORE">
     		SELECT CONCAT('DV', LPAD(NEXTVAL(SEQ_BM_DVC_INFO_0), 5, '0'))
     	</selectKey>
@@ -171,7 +171,7 @@
    			)
     </insert>
     
-    <insert id="BM0201M0I0" parameterType="vhcInfoVo">
+    <insert id="BM0201M0I0" parameterType="VhcDeviceVO">
     	<selectKey keyProperty="seq" resultType="String" order="BEFORE">
     		SELECT NEXTVAL(SEQ_BM_DVC_HIST_0)
     	</selectKey>
@@ -205,7 +205,7 @@
    			)
     </insert>
     
-    <update id="BM0201G1U1" parameterType="dvcHistoryVO">
+    <update id="BM0201G1U1" parameterType="VhcDeviceVO">
 		UPDATE BM_DVC_INFO
     	SET
     		  USE_YN        =   "Y"
@@ -214,8 +214,19 @@
     	WHERE
     		DVC_ID = #{dvcId}
 	</update>
+	
+	<update id="BM0201G1U0" parameterType="VhcDeviceVO">
+		UPDATE BM_DVC_INFO
+    	SET
+    	      MNG_ID        =   NULL
+    		, USE_YN        =   "N"
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		DVC_ID = #{dvcId}
+	</update>
     
-     <update id="BM0201F0U0" parameterType="vhcInfoVo">
+     <update id="BM0201F0U0" parameterType="VhcDeviceVO">
     	UPDATE BM_DVC_INFO
     	SET
     		  DVC_ID		=	#{dvcId}
@@ -232,7 +243,7 @@
     		DVC_ID = #{dvcId}
     </update>
     
-    <delete id="BM0201G1D0" parameterType="vhcInfoVo">
+    <delete id="BM0201G1D0" parameterType="VhcDeviceVO">
     	DELETE
     		FROM BM_DVC_INFO
     	WHERE

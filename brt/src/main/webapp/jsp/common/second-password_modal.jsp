@@ -36,12 +36,11 @@
 						<ax:tr>
 						  <div class="input-group">
 							<ax:td label="ax.admin.scd.ps" width="400px" labelClazz="required">
-	     					 	<div style="float:left;padding-right:5px;"><input type="text" id="scdPs" name="scdPs" class="form-control W180" maxlength="50"/></div>
-	     					 	<div style="float:left;padding-right:5px;"><button type="button" id="checkButton" class="btn btn-primary">확인</button></div>
+	     					 	<div style="float:left;padding-right:5px;"><input type="password" id="scdPs" name="scdPs" class="form-control W180" maxlength="50"/></div>
+	     					 	<div style="float:left;padding-right:5px;"><button type="button" id="checkButton" data-page-btn="checkButton" class="btn btn-primary">확인</button></div>
                     		</ax:td>
                     	   </div>
 						</ax:tr>                    
-                     	                                                     
                     </ax:tbl>                    
                 </ax:form>
             </ax:split-panel>

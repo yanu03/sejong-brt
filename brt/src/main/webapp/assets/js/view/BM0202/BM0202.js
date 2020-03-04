@@ -3,6 +3,7 @@ var fnObj = {}, CODE = {};
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 isPlus=false;
+useYn=false;
 selectedRow = null;
 selectedRowG1 = null;
 selectedRowG2 = null;
@@ -73,6 +74,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		return false;
     	}
     	
+    	if(selectedRowG2 != null){
     	axDialog.confirm({
             msg: LANG("ax.script.deleteconfirm")
         }, function() {
@@ -98,13 +100,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             }
         });
+    	}else{
+    		axDialog.alert("삭제하실 장치이력이 없습니다.");
+    	}
     },
     
     PAGE_EXCEL: function(caller, act, data) {
     	if(selectedRow != null){   		
     		caller.gridView2.target.exportExcel(selectedRow.conId + "data.xls");
     	}else {
-    		alert("장치 목록을 선택해주세요");
+    		axDialog.alert("장치목록을 선택해주세요.");
     	}
     },
     
@@ -127,6 +132,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK_G2: function(caller, act, data) {
     	isUpdate = true;
     	selectedRowG2 = data;
+    	if(selectedRowG2.workType == "폐기"){
+    		isPlus = true;
+    	}else{
+    		isPlus = false;
+    	}
     },
     
     RELOAD_G1: function(caller, act, data) {
@@ -137,10 +147,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0201G1S0",
             data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
-            	for(var i = 0; i<res.list.length; i++){
-            		
-            	}
-            	
                 caller.gridView1.setData(res);
                  {
                 	if(dataFlag) {
@@ -164,27 +170,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0202G2S0",
             data: {dvcId: selectedRowG1.dvcId},
             callback: function (res) {
-                for(var i = 0; i<res.list.length; i++){
-                	if(res.list[i].workType == "폐기"){
-                		isPlus = true;
-                		axboot.ajax({
-                            type: "POST",
-                            url: "/api/v1/BM0202G1U0",
-                            data: JSON.stringify({dvcId: selectedRowG1.dvcId}),
-                            callback: function (res) {
-                            	}
-                            });
-                		break;
-                	}else{
-                		axboot.ajax({
-                            type: "POST",
-                            url: "/api/v1/BM0202G1U1",
-                            data: JSON.stringify({dvcId: selectedRowG1.dvcId}),
-                            callback: function (res) {
-                            	}
-                            });
-                	}
-                }
+            	
+            	if(res.list.length == 0){
+            		useYn = false;
+            	}else{
+            		for(var i = 0; i < res.list.length; i++){
+            			if(res.list[i].workType == "폐기"){
+            				useYn = true;
+            				console.log("여기");
+            				break;
+            			}else{
+            				useYn = false;
+            			}
+            		}
+            	}
                 
                 	if(dataFlag) {
 	                	caller.gridView2.selectIdRow(data);
@@ -218,7 +217,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     			},
     			callback: function (data) {
     				selectedRowG1.dvcId = formDataDvcId;
-    				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    				ACTIONS.dispatch(ACTIONS.RELOAD_G1 , data);
     			}
     		});   	
     },
@@ -228,6 +227,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var formDataHist = caller.gridView2.getData();
     	formData["dvcId"] = selectedRowG1.dvcId;
     	formData["dvcKind"] = selectedRowG1.dvcKind;
+    	if(selectedRowG2 != null){
     	formDataHist["devSerialNo"] = selectedRowG2.devSerialNo;
     	formDataHist["aplyDate"] = selectedRowG2.aplyDate;
     	formDataHist["modelNm"] = selectedRowG2.modelNm;
@@ -256,11 +256,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				};
     			},
     			callback: function (data) {
-    				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    				ACTIONS.dispatch(ACTIONS.RELOAD_G1 , data);
     			}
     		});
     	}else{
     		axDialog.alert(LANG("ax.script.requireselect"));
+    	}
+    	}else{
+    		axDialog.alert("장치 이력이 없습니다 장치이력을 추가해주세요.");
     	}
     },
     
@@ -304,10 +307,14 @@ fnObj.pageButtonView = axboot.viewExtend({
             	ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "dvcHistDelete": function() {
+            	if(useYn){
+            		axDialog.alert("폐기된 장치는 추가가 불가합니다.");
+            	}else{
             	if(isPlus){
             		axDialog.alert("폐기된 장치는 삭제가 불가합니다.");
             	}else{
             		ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
+            	}
             	}
             },
             "close": function() {
@@ -317,17 +324,25 @@ fnObj.pageButtonView = axboot.viewExtend({
             	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);
             },
             "dvcHistSave" : function(){
-            	if(isPlus){
+            	if(useYn){
             		axDialog.alert("폐기된 장치는 추가가 불가합니다.");
             	}else{
-            	ACTIONS.dispatch(ACTIONS.OPEN_BM0202_MODAL_NEW);
+            		if(isPlus){
+            			axDialog.alert("폐기된 장치는 추가가 불가합니다.");
+            		}else{
+            			ACTIONS.dispatch(ACTIONS.OPEN_BM0202_MODAL_NEW);
+            		}
             	}
             },
             "dvcHistUpdate" : function(){
+            	if(useYn){
+            		axDialog.alert("폐기된 장치는 추가가 불가합니다.");
+            	}else{
             	if(isPlus){
             		axDialog.alert("폐기된 장치는 수정이 불가합니다.");
             	}else{
             		ACTIONS.dispatch(ACTIONS.OPEN_BM0202_MODAL_UPDATE);
+            	}
             	}
             },
         });

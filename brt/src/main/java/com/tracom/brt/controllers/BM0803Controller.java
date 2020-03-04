@@ -14,6 +14,8 @@ import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BM0803.BM0803Service;
 import com.tracom.brt.domain.BM0803.MapVO;
+import com.wordnik.swagger.annotations.ApiImplicitParam;
+import com.wordnik.swagger.annotations.ApiImplicitParams;
 
 @RestController
 @RequestMapping(value = "/api/v1")

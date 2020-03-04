@@ -32,4 +32,11 @@ public class BM0802Controller extends BaseController{
 		System.out.println(list);
 		return Responses.ListResponse.of(list);
 	}
+	
+	@GetMapping("/BM0802G1S0")
+	public Responses.ListResponse BM0802G1S0(RequestParams<RaceHistoryVO> requestParams){
+		List<RaceHistoryVO> list = service.BM0802G1S0(requestParams);
+		System.out.println(list);
+		return Responses.ListResponse.of(list);
+	}
 }

@@ -18,4 +18,8 @@ public class BM0802Service extends BaseService<RaceHistoryVO, String>{
 	public List<RaceHistoryVO> BM0802G0S0(RequestParams<RaceHistoryVO> requestParams) {
 		return mapper.BM0802G0S0(requestParams.getString("filter"));
 	}
+
+	public List<RaceHistoryVO> BM0802G1S0(RequestParams<RaceHistoryVO> requestParams) {
+		return mapper.BM0802G1S0(requestParams.getString("vhcId"));
+	}
 }

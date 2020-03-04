@@ -62,8 +62,8 @@
                      </ax:tr>                       	
                         
                         <ax:tr>
-                        	<ax:td label="ax.admin.BM0201M0.modelnm" width="250px" >
-								<input type="text" id="modelNm" data-ax-path="modelNm" data-key="true" class="form-control" maxlength="30">
+                        	<ax:td label="ax.admin.BM0201M0.modelnm" width="250px" labelClazz="required">
+								<input type="text" id="modelNm" data-ax-path="modelNm" data-key="true" class="form-control" title="<ax:lang id="ax.admin.BM0201M0.modelnm"/>" data-ax-validate="required" maxlength="30">
 						 	</ax:td>                        
                        	</ax:tr>
                        	
