@@ -68,10 +68,11 @@
         <c:if test="${authGroupMenu.savAh eq 'Y'}">
             <button type="button" class="btn btn-info" data-page-btn="save"><i class="cqc-save"></i> <%=MessageUtils.getMessage(request, "ax.admin.save")%></button>
         </c:if>
+        
+        <jsp:doBody/>
 
         <c:if test="${authGroupMenu.fn2Ah eq 'Y'}">
             <button type="button" class="btn btn-info" data-page-btn="close"><i class="cqc-cancel"></i> <%=MessageUtils.getMessage(request, "ax.admin.close")%></button>
         </c:if>
-        <jsp:doBody/>
     </div>
 </div>

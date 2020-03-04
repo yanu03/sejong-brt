@@ -102,7 +102,7 @@
 				
     </select>
     
-	<select id="BM0104G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
+	<select id="BM0104G1S0" parameterType="String" resultType="bmRoutNodeInfoVO">
 		SELECT
 			  NI.STA_ID
 		    , SI.STA_NM
@@ -320,12 +320,74 @@
 			INTER_ROUT_ID = #{interRoutId}
 	</delete>
 	
-	<select id="getRoutIdByinterId" parameterType="bmRoutInfoVO">
+	<select id="getRoutIdByinterId" parameterType="bmRoutInfoVO" resultType="bmRoutInfoVO">
 		SELECT
-			ROUT_ID
+			*
+		FROM
+			BM_ROUT_INFO
+		WHERE
+			INTER_ROUT_ID = #{routId}
+	</select>
+	
+	<select id="getMyRout" parameterType="bmRoutInfoVO" resultType="bmRoutInfoVO">
+		SELECT
+			*
 		FROM
 			BM_ROUT_INFO
 		WHERE
 			INTER_ROUT_ID = #{interRoutId}
+			AND ROUT_ID != INTER_ROUT_ID
 	</select>
+	
+	<insert id="insertRout" parameterType="bmRoutInfoVO">
+    	INSERT INTO
+			BM_ROUT_INFO(
+						  ROUT_ID
+						, INTER_ROUT_ID
+						, ROUT_NM
+						, SHORT_ROUT_NM
+						, DVC_NAME
+						, WAY_INFO
+						, DIR_INFO						
+						, ST_STA_NM
+		                , ED_STA_NM
+		                , CREATED_AT
+		                , CREATED_BY
+		                , UPDATED_AT
+		                , UPDATED_BY
+		                )
+			VALUES 
+					( #{routId}
+					, #{routId}
+					, #{routNm}
+					, #{routNm}<!-- SHORT ROUT NM -->
+					, #{routNm}<!-- DVC NM -->
+					, SUBSTR(#{stStaNm}, 1, 10)<!-- WAY_INFO -->
+			        , SUBSTR(#{edStaNm}, 1, 10)<!-- DIR_INFO --> 
+			        , #{stStaNm}
+			        , #{edStaNm}
+			        , #{createdAt}
+			        , #{createdBy}
+			        , #{updatedAt}
+			        , #{updatedBy}
+			        )
+			ON DUPLICATE KEY UPDATE
+				  ROUT_NM		= VALUES(ROUT_NM)
+				, ST_STA_NM		= VALUES(ST_STA_NM)
+				, ED_STA_NM		= VALUES(ED_STA_NM)
+				, UPDATED_AT	= VALUES(UPDATED_AT)
+				, UPDATED_BY	= VALUES(UPDATED_BY)
+    </insert>
+    
+    <insert id="updateRout" parameterType="bmRoutInfoVO">
+    	UPDATE
+			BM_ROUT_INFO
+		SET
+		      ROUT_NM	= #{routNm}
+		    , ST_STA_NM	= SUBSTR(#{stStaNm}, 1, 10)
+		    , ED_STA_NM	= SUBSTR(#{edStaNm}, 1, 10)
+		WHERE
+			INTER_ROUT_ID = #{routId}
+    </insert>
+    
 </mapper>

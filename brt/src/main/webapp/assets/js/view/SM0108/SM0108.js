@@ -1,130 +1,284 @@
 var fnObj = {}, CODE = {};
 
 /***************************************** 전역 변수 초기화 ******************************************************/
-isUpdate = false;
-selectedRow = null;
-selectedRowG1 = null;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_SEARCH: function (caller, act, data) {
-    	// 새로운 레코드 추가할 시 검색어 삭제
-    	var dataFlag = typeof data !== "undefined";
-    	var filter = $.extend({}, caller.searchView0.getData());
-    	
-    	/** 차내장치 업데이트 **/
-    	axboot.ajax({
-            type: "GET",
-            url: "/api/v1/BM0205G0S0",
-            data: filter,
-            callback: function (res) {
-                caller.gridView0.setData(res);             
-	            	if(dataFlag) {
-	                	caller.gridView0.selectIdRow(data);
-	                } else {
-		                if(selectedRow != null) {
-		                	caller.gridView0.selectRow(selectedRow.__index);
-		                } else {
-		                	//caller.gridView0.selectFirstRow();
-		                }
-	                }
-	            }
-	     });
-    	
-    	/** 음성예약 **/
-    	axboot.ajax({
-            type: "GET",
-            url: "/api/v1/BM0406G1S0",
-            data: filter,
-            callback: function (res) {
-                caller.gridView1.setData(res);
-                
-                if(res.list.length != 0) {
-                	if(dataFlag) {
-	                	caller.gridView1.selectIdRow(data);
-	                } else {
-		                if(selectedRow != null) {
-		                	caller.gridView1.selectRow(selectedRow.__index);
-		                } else {
-		                	//caller.gridView1.selectFirstRow();
-		                }
-	                }
-                }
-            }
-        });
-    	
-    	/** 행선지안내기 **/
-    	axboot.ajax({
-            type: "GET",
-            url: "/api/v1/BM0503G1S0",
-            data: filter,
-            callback: function (res) {
-                caller.gridView2.setData(res);
-                
-                if(res.list.length != 0) {
-                	if(dataFlag) {
-	                	caller.gridView2.selectIdRow(data);
-	                } else {
-		                if(selectedRow != null) {
-		                	caller.gridView2.selectRow(selectedRow.__index);
-		                } else {
-		                	//caller.gridView2.selectFirstRow();
-		                }
-	                }
-                }
-            }
-        });
-    	
-    	/** 편성영상예약 관리 **/
-    	axboot.ajax({
-            type: "GET",
-            url: "/api/v1/BM0607G1S0",
-            data: filter,
-            callback: function (res) {
-                caller.gridView3.setData(res);
-                
-                if(res.list.length != 0) {
-                	if(dataFlag) {
-	                	caller.gridView3.selectIdRow(data);
-	                } else {
-		                if(selectedRow != null) {
-		                	caller.gridView3.selectRow(selectedRow.__index);
-		                } else {
-		                	//caller.gridView3.selectFirstRow();
-		                }
-	                }
-                }
-            }
-        });
-    	
-    	/** 화면설정예약 관리 **/
-    	axboot.ajax({
-            type: "GET",
-            url: "/api/v1/BM0609G1S0",
-            data: filter,
-            callback: function (res) {
-                caller.gridView4.setData(res);
-                
-                if(res.list.length != 0) {
-                	if(dataFlag) {
-	                	caller.gridView4.selectIdRow(data);
-	                } else {
-		                if(selectedRow != null) {
-		                	caller.gridView4.selectRow(selectedRow.__index);
-		                } else {
-		                	//caller.gridView4.selectFirstRow();
-		                }
-	                }
-                }
-            }
-        });
-        
-
+    	ACTIONS.dispatch(ACTIONS.RELOAD_G0);
+    	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
+    	ACTIONS.dispatch(ACTIONS.RELOAD_G2);
+    	ACTIONS.dispatch(ACTIONS.RELOAD_G3);
+    	ACTIONS.dispatch(ACTIONS.RELOAD_G4);
         return false;
     },
     
+    PAGE_CLOSE: function(caller, act, data) {
+    	window.parent.fnObj.tabView.closeActiveTab();
+    },
     
+    RELOAD_G0: function(caller, act, data) {
+    	/** 차내장치 업데이트 **/
+    	axboot.ajax({
+            type: "GET",
+            url: "/api/v1/SM0108G0S0",
+            data: null,
+            callback: function (res) {
+                caller.gridView0.setData(res);
+            }
+    	});
+    },
+    
+    RELOAD_G1: function(caller, act, data) {
+    	/** 음성예약 **/
+    	axboot.ajax({
+            type: "GET",
+            url: "/api/v1/SM0108G1S0",
+            data: null,
+            callback: function (res) {
+                caller.gridView1.setData(res);
+            }
+        });
+    },
+    
+    RELOAD_G2: function(caller, act, data) {
+    	/** 행선지안내기 **/
+    	axboot.ajax({
+            type: "GET",
+            url: "/api/v1/SM0108G2S0",
+            data: null,
+            callback: function (res) {
+                caller.gridView2.setData(res);
+            }
+        });
+    },
+    
+    RELOAD_G3: function(caller, act, data) {
+    	/** 편성영상예약 관리 **/
+    	axboot.ajax({
+            type: "GET",
+            url: "/api/v1/SM0108G3S0",
+            data: null,
+            callback: function (res) {
+                caller.gridView3.setData(res);
+            }
+        });
+    },
+    
+    RELOAD_G4: function(caller, act, data) {
+    	/** 화면설정예약 관리 **/
+    	axboot.ajax({
+            type: "GET",
+            url: "/api/v1/SM0108G4S0",
+            data: null,
+            callback: function (res) {
+                caller.gridView4.setData(res);
+            }
+        });
+    },
+    
+    PAGE_RESERVATION_COMPLETE: function(caller, act, data) {
+    	var tabId = $("[data-tab-active='true']").attr("data-tab-id");
+    	
+    	switch(tabId) {
+    		case "firmwareUpdate":
+    			ACTIONS.dispatch(ACTIONS.FIRMWARE_RSV_COMPLETE);
+    			break;
+    		case "voiceReservation":
+    			ACTIONS.dispatch(ACTIONS.VOICE_RSV_COMPLETE);
+    			break;
+    		case "destiReservation":
+    			ACTIONS.dispatch(ACTIONS.DESTI_RSV_COMPLETE);
+    			break;
+    		case "videoReservation":
+    			ACTIONS.dispatch(ACTIONS.VIDEO_RSV_COMPLETE);
+    			break;
+    		case "screenReservation":
+    			ACTIONS.dispatch(ACTIONS.SCREEN_RSV_COMPLETE);
+    			break;
+    	}
+    },
+    
+    FIRMWARE_RSV_COMPLETE: function(caller, act, data) {
+    	var list = caller.gridView0.getData("selected");
+    	
+    	if(list.length == 0) {
+    		axDialog.alert(LANG("alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("onreservation.complete.confirm")
+        }, function() {
+            if (this.key == "ok") {
+		    	axboot.promise()
+			        .then(function (ok, fail, data) {
+			        	axboot.ajax({
+			            	type: "POST",
+			                url: "/api/v1/SM0108G0U0",
+			                data: JSON.stringify({
+			                	list: list
+			                }),
+			                callback: function (res) {
+			                    ok(res);
+			                }
+			            });
+			        })
+			        .then(function (ok, fail, data) {
+			    		axToast.push(LANG("onreservation.complete"));
+			    		ACTIONS.dispatch(ACTIONS.RELOAD_G0);
+			        })
+			        .catch(function () {
+			
+			        });
+            }
+        });
+    },
+    
+    VOICE_RSV_COMPLETE: function(caller, act, data) {
+    	var list = caller.gridView1.getData("selected");
+    	
+    	if(list.length == 0) {
+    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("onreservation.complete.confirm")
+        }, function() {
+            if (this.key == "ok") {
+		    	axboot.promise()
+			        .then(function (ok, fail, data) {
+			        	axboot.ajax({
+			            	type: "POST",
+			                url: "/api/v1/SM0108G1U0",
+			                data: JSON.stringify({
+			                	list: list
+			                }),
+			                callback: function (res) {
+			                    ok(res);
+			                }
+			            });
+			        })
+			        .then(function (ok, fail, data) {
+			    		axToast.push(LANG("onreservation.complete"));
+			    		ACTIONS.dispatch(ACTIONS.RELOAD_G1);
+			        })
+			        .catch(function () {
+			
+			        });
+            }
+        });
+    },
+    
+    DESTI_RSV_COMPLETE: function(caller, act, data) {
+    	var list = caller.gridView2.getData("selected");
+    	
+    	if(list.length == 0) {
+    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("onreservation.complete.confirm")
+        }, function() {
+            if (this.key == "ok") {
+		    	axboot.promise()
+			        .then(function (ok, fail, data) {
+			        	axboot.ajax({
+			            	type: "POST",
+			                url: "/api/v1/SM0108G2U0",
+			                data: JSON.stringify({
+			                	list: list
+			                }),
+			                callback: function (res) {
+			                    ok(res);
+			                }
+			            });
+			        })
+			        .then(function (ok, fail, data) {
+			    		axToast.push(LANG("onreservation.complete"));
+			    		ACTIONS.dispatch(ACTIONS.RELOAD_G2);
+			        })
+			        .catch(function () {
+			
+			        });
+            }
+        });
+    },
+    
+    VIDEO_RSV_COMPLETE: function(caller, act, data) {
+    	var list = caller.gridView3.getData("selected");
+    	
+    	if(list.length == 0) {
+    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("onreservation.complete.confirm")
+        }, function() {
+            if (this.key == "ok") {
+		    	axboot.promise()
+			        .then(function (ok, fail, data) {
+			        	axboot.ajax({
+			            	type: "POST",
+			                url: "/api/v1/SM0108G3U0",
+			                data: JSON.stringify({
+			                	list: list
+			                }),
+			                callback: function (res) {
+			                    ok(res);
+			                }
+			            });
+			        })
+			        .then(function (ok, fail, data) {
+			    		axToast.push(LANG("onreservation.complete"));
+			    		ACTIONS.dispatch(ACTIONS.RELOAD_G3);
+			        })
+			        .catch(function () {
+			
+			        });
+            }
+        });
+    },
+    
+    SCREEN_RSV_COMPLETE: function(caller, act, data) {
+    	var list = caller.gridView4.getData("selected");
+    	
+    	if(list.length == 0) {
+    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("onreservation.complete.confirm")
+        }, function() {
+            if (this.key == "ok") {
+		    	axboot.promise()
+			        .then(function (ok, fail, data) {
+			        	axboot.ajax({
+			            	type: "POST",
+			                url: "/api/v1/SM0108G4U0",
+			                data: JSON.stringify({
+			                	list: list
+			                }),
+			                callback: function (res) {
+			                    ok(res);
+			                }
+			            });
+			        })
+			        .then(function (ok, fail, data) {
+			    		axToast.push(LANG("onreservation.complete"));
+			    		ACTIONS.dispatch(ACTIONS.RELOAD_G4);
+			        })
+			        .catch(function () {
+			
+			        });
+            }
+        });
+    },
 });
 /********************************************************************************************************************/
 
@@ -133,7 +287,6 @@ fnObj.pageStart = function () {
 	var _this = this;
 	
     this.pageButtonView.initView();
-    this.searchView0.initView();
     this.gridView0.initView();
     this.gridView1.initView();
     this.gridView2.initView();
@@ -154,9 +307,8 @@ fnObj.pageResize = function () {
 fnObj.pageButtonView = axboot.viewExtend({
     initView: function () {
         axboot.buttonClick(this, "data-page-btn", {
-            "search": function () {
-            	selectedRow = null;
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+            "reservationComplete": function() {
+            	ACTIONS.dispatch(ACTIONS.PAGE_RESERVATION_COMPLETE);
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
@@ -167,25 +319,6 @@ fnObj.pageButtonView = axboot.viewExtend({
 /********************************************************************************************************************/
 
 //== view 시작
-/**
- * searchView0
- */
-fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
-    initView: function () {
-        this.target = $(document["searchView0"]);
-        this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
-        this.filter = $("#filter");
-        
-    },
-    getData: function () {
-    	 return {
-             pageNumber: this.pageNumber,
-             pageSize: this.pageSize,
-             filter: this.filter.val()
-         }
-    }
-});
-
 
 /** 차내장치 업데이트 관리 **/
 fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
@@ -201,24 +334,29 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         	showRowSelector: true,
         	multipleSelect : true,
         	lineNumberColumnWidth: 30,
-            frozenColumnIndex: 1,
+            frozenColumnIndex: 3,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [          		 
-            		 {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), sortable: true, width: 100},
-            		 {key: "completeYn", label: ADMIN("ax.admin.BM0205G0.completeyn"), sortable: true, align:"center" ,width: 100},
-            		 {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center" ,width: 150},
-                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center" ,width: 150},
-                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align:"center" , width: 170},
-                     {key: "mngId", label: ADMIN("ax.admin.BM0205G0.mngid"), align:"center" , sortable: true, width: 170},
-                     {key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), align:"center" , width: 170},
-                     {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), align:"center" , sortable: true, width: 170},
-                     {key: "modelNm", label: ADMIN("ax.admin.BM0202G2.modelnm"), align:"center" , sortable: true, width: 170},
-                     {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), align:"center" , width: 170},
+            		 {key: "vhcNo",			label: ADMIN("ax.admin.SM0108.vhc.no"),			width: 100,		align:"center",		sortable: true},
+            		 {key: "completeYn",	label: ADMIN("ax.admin.reservation.status"),	width: 70,		align:"center",		formatter: function() {
+            			 if(this.item.completeYn == "N")
+            					return ADMIN("ax.admin.item.reservation");
+     	       			else if(this.item.completeYn == "Y")
+     	       				return ADMIN("ax.admin.item.reservation.complete")
+     	       			else
+     	       				return "";
+            		 }},
+            		 {key: "rsvDate",		label: ADMIN("ax.admin.reservation.date"),		width: 80,		align:"center"},
+            		 {key: "mngId",			label: ADMIN("ax.admin.SM0108.mng.id"),		width: 150,		align:"center"},
+                     {key: "maker",			label: ADMIN("ax.admin.SM0108.maker"),		width: 90,		align:"center"},
+                     {key: "dvcKind",		label: ADMIN("ax.admin.SM0108.dvc.kind"),		width: 130,		align:"center"},
+                     {key: "modelNm",		label: ADMIN("ax.admin.SM0108.model.nm"),		width: 130,		align:"center"},
+                     {key: "instLoc",		label: ADMIN("ax.admin.SM0108.inst.loc"),		width: 130,		align:"center"},
                  ],
             
             body: {
-            	 mergeCells:["vhcNo"]  
-                ,onClick: function () {
+            	 mergeCells:["vhcNo"],
+            	 onClick: function () {
                     this.self.select(this.dindex);
                 }
             },
@@ -237,55 +375,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         }
         return list;
     },
-    addRow: function (data) {
-    	if(typeof data === "undefined") {
-    		this.target.addRow({__created__: true}, "last");
-    	} else {
-    		data["__created__"] = true;
-            this.target.addRow(data, "last");
-    	}
-    },
-    selectFirstRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(0);
-    	} else {
-    		isUpdate = false;
-    	}
-    },
-    selectLastRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(this.target.list.length - 1);
-    	} else {
-    		isUpdate = false;
-    	}
-    },
-    selectRow: function(index) {
-    	isUpdate = true;
-    	var data = this.target.list[index];
-    	
-    	if(typeof data === "undefined") {
-    		this.selectLastRow();
-    	} else {
-    		this.target.select(index);
-    	}
-    },
-    selectIdRow: function(id) {
-    	var i;
-    	var length = this.target.list.length;
-    	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].vhcId == id) {
-    			this.selectRow(i);
-    			break;
-    		}
-    	}
-    	
-    	if(i == length) {
-    		isUpdate = false;
-    	}
-    },
-    selectAll: function(flag) {
-    	this.target.selectAll({selected: flag});
-    }
 });
 
 /** 음성예약 관리 **/
@@ -300,32 +389,36 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
-        	frozenColumnIndex: 0,
-            sortable: true,
+        	frozenColumnIndex: 3,
             showRowSelector: true,
             multipleSelect : true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "rsvId",		label: ADMIN("ax.admin.BM0406G1.rsvYn"),	width: 70,	align: "center", formatter: function() {
-            		if(this.item.rsvId != null)
-            			return ADMIN("ax.admin.item.reservation");
+            	{key: "vhcNo",		label: ADMIN("ax.admin.SM0108.vhc.no"),			width: 100,		align: "center",	sortable: true},
+            	{key: "completeYn",	label: ADMIN("ax.admin.reservation.status"),	width: 70,		align: "center",	formatter: function() {
+            		if(this.item.completeYn == "N")
+       					return ADMIN("ax.admin.item.reservation");
+	       			else if(this.item.completeYn == "Y")
+	       				return ADMIN("ax.admin.item.reservation.complete")
+	       			else
+	       				return "";
                 }},
-                {key: "vhcId",		label: ADMIN("ax.admin.BM0406G1.vhcId"),	width: 65,	align: "center"},
-                {key: "vhcNo",		label: ADMIN("ax.admin.BM0406G1.vhcNo"),	width: 90,	align: "center"},
+                {key: "rsvDate",	label: ADMIN("ax.admin.reservation.date"),	width: 80,		align:"center"},
                 {key: "chasNo", 	label: ADMIN("ax.admin.BM0406G1.chasNo"),	width: 130},
-                {key: "corpNm",		label: ADMIN("ax.admin.BM0406G1.corpId"),	width: 120,	align: "center"},
-                {key: "areaNm",		label: ADMIN("ax.admin.BM0406G1.area"),		width: 100,	align: "center"},
-                {key: "makerNm",	label: ADMIN("ax.admin.BM0406G1.maker"),	width: 80,	align: "center"},
-                {key: "relsDate",	label: ADMIN("ax.admin.BM0406G1.relsDate"),	width: 80,	align: "center"},
-                {key: "modelNm",	label: ADMIN("ax.admin.BM0406G1.modelNm"),	width: 100,	align: "center"},
-                {key: "vhcKindNm",	label: ADMIN("ax.admin.BM0406G1.vhcKind"),	width: 80,	align: "center"},
-                {key: "vhcTypeNm",	label: ADMIN("ax.admin.BM0406G1.vhcType"),	width: 70,	align: "center"},
-                {key: "lfYnNm",		label: ADMIN("ax.admin.BM0406G1.lfYn"),		width: 70,	align: "center"},
-                {key: "vhcFuelNm",	label: ADMIN("ax.admin.BM0406G1.vhcFuel"),	width: 50,	align: "center"},
-                {key: "useYn",		label: ADMIN("ax.admin.BM0406G1.useYn"),	width: 70,	align: "center"},
-                {key: "remark",		label: ADMIN("ax.admin.BM0406G1.remark"),	width: 100,	align: "center"},
+                {key: "corpNm",		label: ADMIN("ax.admin.BM0406G1.corpId"),	width: 120,		align: "center"},
+                {key: "areaNm",		label: ADMIN("ax.admin.BM0406G1.area"),		width: 100,		align: "center"},
+                {key: "makerNm",	label: ADMIN("ax.admin.BM0406G1.maker"),	width: 80,		align: "center"},
+                {key: "relsDate",	label: ADMIN("ax.admin.BM0406G1.relsDate"),	width: 80,		align: "center"},
+                {key: "modelNm",	label: ADMIN("ax.admin.BM0406G1.modelNm"),	width: 100,		align: "center"},
+                {key: "vhcKindNm",	label: ADMIN("ax.admin.BM0406G1.vhcKind"),	width: 80,		align: "center"},
+                {key: "vhcTypeNm",	label: ADMIN("ax.admin.BM0406G1.vhcType"),	width: 70,		align: "center"},
+                {key: "lfYnNm",		label: ADMIN("ax.admin.BM0406G1.lfYn"),		width: 70,		align: "center"},
+                {key: "vhcFuelNm",	label: ADMIN("ax.admin.BM0406G1.vhcFuel"),	width: 50,		align: "center"},
+                {key: "useYn",		label: ADMIN("ax.admin.BM0406G1.useYn"),	width: 70,		align: "center"},
+                {key: "remark",		label: ADMIN("ax.admin.BM0406G1.remark"),	width: 100,		align: "center"},
             ],
             body: {
+            	mergeCells:["vhcNo"],
                 onClick: function () {
                     this.self.select(this.dindex);
                 }
@@ -346,26 +439,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         }
         return list;
     },
-    addRow: function (data) {
-    	if(typeof data === "undefined") {
-    		this.target.addRow({__created__: true}, "last");
-    	} else {
-    		data["__created__"] = true;
-            this.target.addRow(data, "last");
-    	}
-    },
-    selectRow: function(index) {
-    	var data = this.target.list[index];
-    	
-    	if(typeof data === "undefined") {
-    		this.selectLastRow();
-    	} else {
-    		this.target.select(index);
-    	}
-    },
-    selectAll: function(flag) {
-    	this.target.selectAll({selected: flag});
-    }
 });
 
 /** 표출예약 관리 **/
@@ -378,24 +451,41 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 3,
             showLineNumber: true,
             showRowSelector: true,
             multipleSelect :true,
-            sortable: true,
             target: $('[data-ax5grid="gridView2"]'),
             columns: [
-            	{key: "possible",	label: "예약여부",		width: 100},
-            	{key: "vhcId",		label: "차량ID",		width: 100},
-                {key: "vhcNo",		label: "차량번호",		width: 100},
-                {key: "vhcKindNm",	label: "장치종류",		width: 150},
-                {key: "instLocNm",	label: "장치위치",		width: 100},
-                {key: "mngId",		label: "관리ID",		width: 150},
+            	{key: "vhcNo",			label: ADMIN("ax.admin.SM0108.vhc.no"),			width: 100,		align:"center",		sortable: true},
+	       		{key: "completeYn",		label: ADMIN("ax.admin.reservation.status"),	width: 70,		align:"center",		formatter: function() {
+	       			if(this.item.completeYn == "N")
+	       				return ADMIN("ax.admin.item.reservation");
+	       			else if(this.item.completeYn == "Y")
+	       				return ADMIN("ax.admin.item.reservation.complete")
+	       			else
+	       				return "";
+	       		}},
+	       		{key: "rsvDate",	label: ADMIN("ax.admin.reservation.date"),	width: 80,		align:"center"},
+                {key: "chasNo", 	label: ADMIN("ax.admin.BM0406G1.chasNo"),	width: 130},
+                {key: "corpNm",		label: ADMIN("ax.admin.BM0406G1.corpId"),	width: 120,		align: "center"},
+                {key: "areaNm",		label: ADMIN("ax.admin.BM0406G1.area"),		width: 100,		align: "center"},
+                {key: "makerNm",	label: ADMIN("ax.admin.BM0406G1.maker"),	width: 80,		align: "center"},
+                {key: "relsDate",	label: ADMIN("ax.admin.BM0406G1.relsDate"),	width: 80,		align: "center"},
+                {key: "modelNm",	label: ADMIN("ax.admin.BM0406G1.modelNm"),	width: 100,		align: "center"},
+                {key: "vhcKindNm",	label: ADMIN("ax.admin.BM0406G1.vhcKind"),	width: 80,		align: "center"},
+                {key: "vhcTypeNm",	label: ADMIN("ax.admin.BM0406G1.vhcType"),	width: 70,		align: "center"},
+                {key: "lfYnNm",		label: ADMIN("ax.admin.BM0406G1.lfYn"),		width: 70,		align: "center"},
+                {key: "vhcFuelNm",	label: ADMIN("ax.admin.BM0406G1.vhcFuel"),	width: 50,		align: "center"},
+                {key: "useYn",		label: ADMIN("ax.admin.BM0406G1.useYn"),	width: 70,		align: "center"},
+                {key: "remark",		label: ADMIN("ax.admin.BM0406G1.remark"),	width: 100,		align: "center"},
             ],
             body: {
-            	 onClick: function () {
-                     this.self.select(this.dindex);
-                 }
+            	mergeCells:["vhcNo"],
+            	onClick: function () {
+            		this.self.select(this.dindex);
+                }
             },
         });
     },
@@ -413,55 +503,6 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
         }
         return list;
     },
-    addRow: function (data) {
-    	if(typeof data === "undefined") {
-    		this.target.addRow({__created__: true}, "last");
-    	} else {
-    		data["__created__"] = true;
-            this.target.addRow(data, "last");
-    	}
-    },
-    selectFirstRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(0);
-    	} else {
-    		isUpdate = false;
-    	}
-    },
-    selectLastRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(this.target.list.length - 1);
-    	} else {
-    		isUpdate = false;
-    	}
-    },
-    selectRow: function(index) {
-    	isUpdate = true;
-    	var data = this.target.list[index];
-    	
-    	if(typeof data === "undefined") {
-    		this.selectLastRow();
-    	} else {
-    		this.target.select(index);
-    	}
-    },
-    selectIdRow: function(id) {
-    	var i;
-    	var length = this.target.list.length;
-    	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].dvcId == id) {
-    			this.selectRow(i);
-    			break;
-    		}
-    	}
-    	
-    	if(i == length) {
-    		isUpdate = false;
-    	}
-    },
-    selectAll: function(flag) {
-    	this.target.selectAll({selected: flag});
-    }
 });
 
 /** 편성영상예약 관리 **/
@@ -475,30 +516,36 @@ fnObj.gridView3 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 3,
             showLineNumber: true,
             showRowSelector: true,
             multipleSelect :true,
-            sortable: true,
             target: $('[data-ax5grid="gridView3"]'),
             columns: [
-            	{key: "possible",	label: "예약여부",								width: 100},
-            	{key: "vhcId",		label: "차량ID",								width: 100},
-                {key: "vhcNo",		label: ADMIN("ax.admin.BM0607G1.vhcNo"),	width: 100},
-                {key: "vhcKindNm",	label: "장치종류",								width: 150},
-                {key: "instLocNm",	label: "장치위치",								width: 100},
-                {key: "mngId",		label: "관리ID",								width: 150},
+            	{key: "vhcNo",			label: ADMIN("ax.admin.SM0108.vhc.no"),			width: 100,		align:"center",		sortable: true},
+	       		{key: "completeYn",		label: ADMIN("ax.admin.reservation.status"),	width: 70,		align:"center",		formatter: function() {
+	       			if(this.item.completeYn == "N")
+	       				return ADMIN("ax.admin.item.reservation");
+	       			else if(this.item.completeYn == "Y")
+	       				return ADMIN("ax.admin.item.reservation.complete")
+	       			else
+	       				return "";
+	       		}},
+	       		{key: "rsvDate",		label: ADMIN("ax.admin.reservation.date"),		width: 80,		align:"center"},
+	       		{key: "mngId",			label: ADMIN("ax.admin.SM0108.mng.id"),			width: 150,		align:"center"},
+                {key: "makerNm",		label: ADMIN("ax.admin.SM0108.maker"),			width: 90,		align:"center"},
+                {key: "dvcKindNm",		label: ADMIN("ax.admin.SM0108.dvc.kind"),		width: 130,		align:"center"},
+                {key: "modelNm",		label: ADMIN("ax.admin.SM0108.model.nm"),		width: 130,		align:"center"},
+                {key: "instLocNm",		label: ADMIN("ax.admin.SM0108.inst.loc"),		width: 130,		align:"center"},
             ],
             header:{
             	selector: false,
             },
             body: {
             	mergeCells:["vhcId", "vhcNo"],
-            	
                 onClick: function () {
                     this.self.select(this.dindex);
-
-                    
                 }
             },
         });
@@ -517,53 +564,6 @@ fnObj.gridView3 = axboot.viewExtend(axboot.gridView, {
         }
         return list;
     },
-    addRow: function (data) {
-    	if(typeof data === "undefined") {
-    		this.target.addRow({__created__: true}, "last");
-    	} else {
-    		data["__created__"] = true;
-            this.target.addRow(data, "last");
-    	}
-    },
-    selectFirstRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(0);
-    	} else {
-    	}
-    },
-    selectLastRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(this.target.list.length - 1);
-    	} else {
-    		isUpdate = false;
-    	}
-    },
-    selectRow: function(index) {
-    	isUpdate = true;
-    	var data = this.target.list[index];
-    	
-    	if(typeof data === "undefined") {
-    		this.selectLastRow();
-    	} else {
-    		this.target.select(index);
-    	}
-    },
-    selectIdRow: function(id) {
-    	var i;
-    	var length = this.target.list.length;
-    	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].vdoId == id) {
-    			this.selectRow(i);
-    			break;
-    		}
-    	}
-    	
-    	if(i == length) {
-    	}
-    },
-    selectAll: function(flag) {
-    	this.target.selectAll({selected: flag});
-    }
 });
 
 /** 화면설정예약 관리 **/
@@ -577,30 +577,36 @@ fnObj.gridView4 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         
         this.target = axboot.gridBuilder({
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 3,
             showLineNumber: true,
             showRowSelector: true,
             multipleSelect :true,
-            sortable: true,
             target: $('[data-ax5grid="gridView4"]'),
             columns: [
-            	{key: "possible",	label: "예약여부",		width: 100},
-            	{key: "vhcId",		label: "차량ID",		width: 100},
-                {key: "vhcNo",		label: "차량번호",		width: 100},
-                {key: "vhcKindNm",	label: "장치종류",		width: 150},
-                {key: "instLocNm",	label: "장치위치",		width: 100},
-                {key: "mngId",		label: "관리ID",		width: 150},
+            	{key: "vhcNo",			label: ADMIN("ax.admin.SM0108.vhc.no"),			width: 100,		align:"center",		sortable: true},
+	       		{key: "completeYn",		label: ADMIN("ax.admin.reservation.status"),	width: 70,		align:"center",		formatter: function() {
+	       			if(this.item.completeYn == "N")
+	       				return ADMIN("ax.admin.item.reservation");
+	       			else if(this.item.completeYn == "Y")
+	       				return ADMIN("ax.admin.item.reservation.complete")
+	       			else
+	       				return "";
+	       		}},
+	       		{key: "rsvDate",		label: ADMIN("ax.admin.reservation.date"),		width: 80,		align:"center"},
+	       		{key: "mngId",			label: ADMIN("ax.admin.SM0108.mng.id"),			width: 150,		align:"center"},
+                {key: "makerNm",		label: ADMIN("ax.admin.SM0108.maker"),			width: 90,		align:"center"},
+                {key: "dvcKindNm",		label: ADMIN("ax.admin.SM0108.dvc.kind"),		width: 130,		align:"center"},
+                {key: "modelNm",		label: ADMIN("ax.admin.SM0108.model.nm"),		width: 130,		align:"center"},
+                {key: "instLocNm",		label: ADMIN("ax.admin.SM0108.inst.loc"),		width: 130,		align:"center"},
             ],
             header:{
             	selector: false,
             },
             body: {
             	mergeCells:["vhcId", "vhcNo"],
-            	
                 onClick: function () {
                     this.self.select(this.dindex);
-
-                    
                 }
             },
         });
@@ -619,51 +625,4 @@ fnObj.gridView4 = axboot.viewExtend(axboot.gridView, {
         }
         return list;
     },
-    addRow: function (data) {
-    	if(typeof data === "undefined") {
-    		this.target.addRow({__created__: true}, "last");
-    	} else {
-    		data["__created__"] = true;
-            this.target.addRow(data, "last");
-    	}
-    },
-    selectFirstRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(0);
-    	} else {
-    	}
-    },
-    selectLastRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(this.target.list.length - 1);
-    	} else {
-    		isUpdate = false;
-    	}
-    },
-    selectRow: function(index) {
-    	isUpdate = true;
-    	var data = this.target.list[index];
-    	
-    	if(typeof data === "undefined") {
-    		this.selectLastRow();
-    	} else {
-    		this.target.select(index);
-    	}
-    },
-    selectIdRow: function(id) {
-    	var i;
-    	var length = this.target.list.length;
-    	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].vdoId == id) {
-    			this.selectRow(i);
-    			break;
-    		}
-    	}
-    	
-    	if(i == length) {
-    	}
-    },
-    selectAll: function(flag) {
-    	this.target.selectAll({selected: flag});
-    }
 });

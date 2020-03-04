@@ -9,6 +9,8 @@
 <%@ attribute name="scroll" %>
 <%@ attribute name="label" %>
 <%@ attribute name="active" %>
+<%@ attribute name="tabId" %>
+
 <%
     if(StringUtils.isNotEmpty(label)) {
         String localizedMessage = MessageUtils.getMessage(request, label);
@@ -28,7 +30,7 @@
         style = "padding:10px 0 0 0;";
     }
 %>
-<div data-tab-panel='{label: "<%=label%>", active: <%=active%>}'>
+<div data-tab-panel='{label: "<%=label%>", active: <%=active%>}' data-tab-id="<%=tabId%>">
     <div style="<%=style%>" data-split-panel-wrap="${scroll}">
         <jsp:doBody/>
     </div>

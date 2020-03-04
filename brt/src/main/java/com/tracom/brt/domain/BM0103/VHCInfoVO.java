@@ -12,6 +12,10 @@ public class VHCInfoVO extends BaseVO {
 	
 	private String rsvId;
 	
+	private String rsvDate;
+	
+	private String completeYn;
+	
 	private String mngId;
 	 
 	private String vhcId;

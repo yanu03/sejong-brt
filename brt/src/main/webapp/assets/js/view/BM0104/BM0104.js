@@ -25,6 +25,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 	caller.formView0.enable();
                 	if(dataFlag) {
 	                	caller.gridView0.selectIdRow(data);
+	                	caller.formView0.interRout();
 	                } else {
 		                if(selectedRow != null) {
 		                	caller.gridView0.selectRow(selectedRow.__index);
@@ -49,6 +50,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	caller.gridView0.selectAll(false);
         caller.formView0.clear();
         caller.formView0.enable();
+        caller.formView0.interRout();
 
         caller.formView0.validate(true);
     },
@@ -107,11 +109,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                         url: "/api/v1/BM0104F0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
+                        	/*
                         	if(res.message == "error"){
                         		alert("중복된 노선ID가 있습니다. 확인 후 저장하세요.");
                         	}else{
-                        		ok(res);
                         	}
+                        	*/
+                        		ok(res);
                         }
                     });
                 })
@@ -136,11 +140,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                         url: "/api/v1/BM0104F0U0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
+                        	/*
                         	if(res.message == "error"){
                         		alert("중복된 노선ID가 있습니다. 확인 후 업데이트하세요");
                         	}else{
-                        		ok(res);
-                        	}
+                        	}*/
+                        	ok(res);
                         }
                     });
                 })
@@ -462,17 +467,17 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     interRout: function() {
     	if(/[a-zA-Z]/.test(selectedRow.routId.substr(0,1))){
-	    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element){
-	    		$('#wayDiv').attr("readonly", false).attr("disabled", false);
-	    		$(element).attr("readonly", false);
-	    	});
+    		$('#wayDiv').attr("readonly", false).attr("disabled", false);
+    		$('#routNm').attr("readonly", false).attr("disabled", false);
+    		$('#stStaNm').attr("readonly", false).attr("disabled", false);
+    		$('#edStaNm').attr("readonly", false).attr("disabled", false);
+    		
     	}else{
-    		this.target.find('[data-ax-path][data-key=true]').each(function(index, element){
-	    		$(element).attr("readonly", true);
-	    	});
     		$('#wayDiv').attr("readonly", true).attr("disabled", true);
+    		$('#routNm').attr("readonly", true).attr("disabled", true);
+    		$('#stStaNm').attr("readonly", true).attr("disabled", true);
+    		$('#edStaNm').attr("readonly", true).attr("disabled", true);
     	}
-    	
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());

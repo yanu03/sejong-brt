@@ -476,7 +476,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
             	{key: "nodeId",		label: ADMIN("ax.admin.BM0405G1.node.id"),		width: 90,		align: "center"},
-                {key: "nodeNm",		label: ADMIN("ax.admin.BM0405G1.node.nm"),		width: 100,		align: "center"},
+                {key: "nodeNm",		label: ADMIN("ax.admin.BM0405G1.node.nm"),		width: 120,		align: "center"},
                 {key: "nodeType",	label: ADMIN("ax.admin.BM0405G1.node.type"),	width: 80,		align: "center"},
                 {key: "lati", 		label: ADMIN("ax.admin.BM0405G1.lati"),			width: 80,		align: "center"},
                 {key: "longi",		label: ADMIN("ax.admin.BM0405G1.longi"),		width: 80,		align: "center"},

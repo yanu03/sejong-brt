@@ -27,6 +27,8 @@ public class ScrRsvVO extends BaseVO {
 	
 	private String dvcTypeNm;
 	
+	private String dvcKindNm;
+	
 	private String rsvId;
 	
 	private String setId;
@@ -44,6 +46,10 @@ public class ScrRsvVO extends BaseVO {
 	private String dvcId;
 
 	private String completeYn;
+	
+	private String makerNm;
+	
+	private String modelNm;
 	
 
 	private List<ScrRsvVO> voList;

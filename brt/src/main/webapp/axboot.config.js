@@ -58,7 +58,7 @@
             },
             "BM0104": {
             	width: 634,
-            	height: 450,
+            	height: 470,
             	iframe: {
             		url: "/jsp/common/BM0104_modal.jsp"
             	},

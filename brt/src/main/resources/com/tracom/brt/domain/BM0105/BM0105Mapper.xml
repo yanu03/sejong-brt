@@ -89,4 +89,32 @@
 		    , UPDATED_AT	= VALUES(UPDATED_AT)
 		    , UPDATED_BY	= VALUES(UPDATED_BY)
     </insert>
+    
+    
+    <select id="getStaList" parameterType="bmRoutInfoVO" resultType="bmRoutNodeInfoVO">
+    	SELECT
+			  RS.ROUT_ID	AS ROUT_ID
+		    , RS.SEQ		AS SEQ
+		    , RS.STA_ID		AS STA_ID
+		    , SI.STA_NM		AS STA_NM
+		    , SI.STA_NO		AS STA_NO
+		    , SI.LATI		AS LATI
+		    , SI.LONGI		AS LONGI
+		    , SI.STA_NM		AS NODE_NM
+		FROM
+			BM_ROUT_STA_INFO RS
+		    LEFT JOIN BM_STA_INFO SI
+		    ON RS.STA_ID = SI.STA_ID
+		WHERE ROUT_ID = #{routId}
+    </select>
+    
+    <select id="getNodeList" parameterType="bmRoutInfoVO" resultType="bmRoutNodeInfoVO">
+    	SELECT
+    		*
+    	FROM
+    		BM_ROUT_NODE_INFO
+    	WHERE
+    		ROUT_ID = #{routId}
+    </select>
+    
 </mapper>
