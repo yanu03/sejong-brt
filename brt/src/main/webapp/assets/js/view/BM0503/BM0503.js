@@ -65,47 +65,49 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		}
     	}
     	
+    	//2차비밀번호 modal
 		axboot.modal.open({
-            modalType: "RESERVATION",
+            modalType: "SECOND_PASSWORD",
             param: "",
-            callback: function (result) {
-            	this.close();
-            	
-            	var rsvDate = result;
-            	var routNameList = new Array();
-            	console.log(routList);
-            	for(var i=0; i<routList.length; i++){
-            		routNameList.push({dvcName:routList[i].dvcName});
-            	}
-            	
-            	var dataList = new Array();
-            	
-            	//for(var i=0; i<routList.length; i++){
-            		var data = {
-            				rsvDate: rsvDate,
-            				rsvList: routNameList,
-            				vhcList: vehicleList
-            		//}
-            		
-            	}
-            	axboot.promise()
-	    	        .then(function (ok, fail, _data) {
-	    	            axboot.ajax({
-	    	                type: "POST",
-	    	                url: "/api/v1/BM0503G1I0",
-	    	                data: JSON.stringify(data),
-	    	                callback: function (res) {
-	    	                    ok(res);
-	    	                }
-	    	            });
-	    	        })
-	    	        .then(function (ok, fail, data) {
-	    	        	axToast.push(LANG("ax.script.alert.reservation"));
-	    	        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-	    	        })
-	    	        .catch(function () {
-	    	        	
-	    	        });
+            callback: function (data) {
+                this.close();
+				axboot.modal.open({
+		            modalType: "RESERVATION",
+		            param: "",
+		            callback: function (result) {
+		            	this.close();
+		            	var rsvDate = result;
+		            	var routNameList = new Array();
+		            	for(var i=0; i<routList.length; i++){
+		            		routNameList.push({dvcName:routList[i].dvcName});
+		            	}
+		            	var dataList = new Array();
+		            	
+	            		var data = {
+	            				rsvDate: rsvDate,
+	            				rsvList: routNameList,
+	            				vhcList: vehicleList
+		            	}
+		            	axboot.promise()
+			    	        .then(function (ok, fail, _data) {
+			    	            axboot.ajax({
+			    	                type: "POST",
+			    	                url: "/api/v1/BM0503G1I0",
+			    	                data: JSON.stringify(data),
+			    	                callback: function (res) {
+			    	                    ok(res);
+			    	                }
+			    	            });
+			    	        })
+			    	        .then(function (ok, fail, data) {
+			    	        	axToast.push(LANG("ax.script.alert.reservation"));
+			    	        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+			    	        })
+			    	        .catch(function () {
+			    	        	
+			    	        });
+		            }
+				});
             }
         });
     },

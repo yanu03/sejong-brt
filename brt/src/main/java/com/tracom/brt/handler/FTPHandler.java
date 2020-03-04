@@ -268,6 +268,7 @@ public class FTPHandler {
 		
 		String txt = GlobalConstants.CSVForms.VIDEO_PLAY_LIST;
 		
+		
 		List<VdoRsvVO> voList = BM0607Mapper.makePlayList(vo.getOrgaId());
 		for(int i = 0; i < voList.size(); i++) {
 			String row = GlobalConstants.CSVForms.ROW_SEPARATOR
