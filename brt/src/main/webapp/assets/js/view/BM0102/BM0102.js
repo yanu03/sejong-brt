@@ -61,6 +61,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		return false;
     	}
     	
+    	
     	axDialog.confirm({
             msg: LANG("ax.script.deleteconfirm")
         }, function() {
@@ -73,6 +74,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
+	                    },
+	                    options:{
+	                    	onError: function(err){
+	                    		alert("계약이 존재하는 거래처입니다. 계약을 확인하세요.");
+	                    	}
 	                    }
 	                });
                 })
@@ -82,7 +88,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
-
                 });
             }
         });
@@ -136,7 +141,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_UPDATE: function(caller, act, data) {
         if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
-
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
@@ -153,6 +157,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 	var input = {};
                 	input["custId"] = fnObj.formView0.getData().custId;
                 	input["mngrList"] = fnObj.gridView1.getData();
+                	
+                	console.log(input);
                 	
                 	axboot.promise()
                 		.then(function (ok, fail, data){
