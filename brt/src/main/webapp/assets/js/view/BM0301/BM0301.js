@@ -232,7 +232,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    				var formData = caller.formView0.getData();
 	    				//2차비밀번호 modal
 	    				axboot.modal.open({
-		    	            modalType: "BM0301confirmYn",
+		    	            modalType: "SECOND_PASSWORD",
 		    	            param: "",
 		    	            callback: function (data) {
 		    	            	if (caller.formView0.validate()) {
