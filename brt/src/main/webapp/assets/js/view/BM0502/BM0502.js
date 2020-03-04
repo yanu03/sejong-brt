@@ -780,8 +780,8 @@ function loadSCH(){
 function loadBmpF(){
 	var url = "/api/v1/filePreview?type=BMPLOGO&dvcKindCd=F&dvcName=LOGO";
 
-	$("#previewImgF").attr("src", url);
 	fnObj.gridView0.initView();
+	$("#previewImgF").attr("src", url);
 	
 	$('#previewImgF').each(function(){
 		$(this).load(function(){

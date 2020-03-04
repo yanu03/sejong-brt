@@ -39,8 +39,8 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
     	if(vo.getFileType().equals("AV001")) {
     		type = "video";
     		ext = "mp4";
-    		handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
     		mapper.BM0605F0I0(vo);
+    		handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
     		VideoInfoVO o = handler.parseMp4(vo.getVdoId() + "." + ext);
     		vo.setPlayTm(o.getPlayTm());
     	}else {

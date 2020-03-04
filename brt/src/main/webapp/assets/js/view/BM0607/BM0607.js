@@ -141,41 +141,50 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		}
     	}
     	
+    	//2차비밀번호 modal
 		axboot.modal.open({
-            modalType: "RESERVATION",
+            modalType: "SECOND_PASSWORD",
             param: "",
-            callback: function (result) {
-            	this.close();
-            	
-            	var rsvDate = result;
-            	var orgaId = selectedRow.orgaId;
-            	
-            	
-            	var data = {
-            		rsvDate: rsvDate,
-            		orgaId: orgaId,
-            		voList: vehicleList
-            	}
-            	axboot.promise()
-	    	        .then(function (ok, fail, _data) {
-	    	            axboot.ajax({
-	    	                type: "POST",
-	    	                url: "/api/v1/BM0607G1I0",
-	    	                data: JSON.stringify(data),
-	    	                callback: function (res) {
-	    	                    ok(res);
-	    	                }
-	    	            });
-	    	        })
-	    	        .then(function (ok, fail, data) {
-	    	        	axToast.push(LANG("ax.script.alert.reservation"));
-	    	        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-	    	        })
-	    	        .catch(function () {
-	    	        	
-	    	        });
+            callback: function (data) {
+                this.close();
+    	
+				axboot.modal.open({
+		            modalType: "RESERVATION",
+		            param: "",
+		            callback: function (result) {
+		            	this.close();
+		            	
+		            	var rsvDate = result;
+		            	var orgaId = selectedRow.orgaId;
+		            	
+		            	
+		            	var data = {
+		            		rsvDate: rsvDate,
+		            		orgaId: orgaId,
+		            		voList: vehicleList
+		            	}
+		            	axboot.promise()
+			    	        .then(function (ok, fail, _data) {
+			    	            axboot.ajax({
+			    	                type: "POST",
+			    	                url: "/api/v1/BM0607G1I0",
+			    	                data: JSON.stringify(data),
+			    	                callback: function (res) {
+			    	                    ok(res);
+			    	                }
+			    	            });
+			    	        })
+			    	        .then(function (ok, fail, data) {
+			    	        	axToast.push(LANG("ax.script.alert.reservation"));
+			    	        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+			    	        })
+			    	        .catch(function () {
+			    	        	
+			    	        });
+		            }
+		        });
             }
-        });
+		});
     },
 });
 /********************************************************************************************************************/

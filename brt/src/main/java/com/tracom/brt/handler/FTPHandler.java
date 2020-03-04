@@ -201,7 +201,6 @@ public class FTPHandler {
 		String ext = null;
 		String fileName = null;
 		File saveFile = null;
-		
 		switch(type) {
 		case "video" : 
 			ext = FilenameUtils.getExtension(file.getOriginalFilename());
