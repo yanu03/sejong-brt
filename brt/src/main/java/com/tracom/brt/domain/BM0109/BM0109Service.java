@@ -1,6 +1,6 @@
 package com.tracom.brt.domain.BM0109;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,12 +13,16 @@ import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.utils.ExcelUtils;
 
 @Service
 public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 	
 	@Inject
 	private BM0109Mapper mapper;
+	
+	@Inject
+	private ExcelUtils exUtil;
 	
 	//좌측상단 그리드 select
 	public List<BmRoutInfoVO> BM0109G0S0(RequestParams<BmRoutInfoVO> requestParams){
@@ -101,5 +105,11 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 		}else {
 			return false;
 		}
+	}
+	
+	//엑셀삽입
+	public void BM0109IMPORT(BmRoutInfoVO vo) throws IOException{
+		exUtil.downExcel(vo.getAttFile());
+		exUtil.readExcel("BM0109");
 	}
 }

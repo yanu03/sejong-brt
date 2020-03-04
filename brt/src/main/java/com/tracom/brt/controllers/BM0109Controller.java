@@ -1,10 +1,12 @@
 package com.tracom.brt.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +19,6 @@ import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 import com.tracom.brt.domain.BM0109.BM0109Service;
-import com.tracom.brt.domain.BM0804.BM0804Service;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
 
@@ -27,6 +28,7 @@ public class BM0109Controller extends BaseController {
 
     @Inject
     private BM0109Service service;
+    
 
     @GetMapping("/BM0109G0S0")
     @ApiImplicitParams({
@@ -59,4 +61,11 @@ public class BM0109Controller extends BaseController {
     	boolean result = service.BM0109G0D0(vo);
     	return ok();
     }
+    
+    @PostMapping("/BM0109IMPORT")
+    public ApiResponse BM0109IMPORT(@ModelAttribute BmRoutInfoVO request) throws IOException {
+    	service.BM0109IMPORT(request);
+    	return null;
+    }
+    
 }

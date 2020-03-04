@@ -1,13 +1,17 @@
 package com.tracom.brt.utils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -19,6 +23,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 
 @Component
 public class ExcelUtils {
@@ -32,8 +39,14 @@ public class ExcelUtils {
 	@Value("${sftp.windows.local.directory}")
 	private String ROOT_WINDOWS_LOCAL_PATH;
 	
-	
-	public void readExcel() throws FileNotFoundException, IOException {
+	public void downExcel(MultipartFile file) throws IOException {
+		String path = Paths.get(getRootLocalPath(), "/temp").toString();
+		String fileName = "/temp.xlsx";
+		File saveFile = Paths.get(path, fileName).toFile();
+		FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+	}
+		
+	public void readExcel(String type) throws FileNotFoundException, IOException {
 		String path = Paths.get(getRootLocalPath(), "/temp").toString();
 		String fileName = "/temp.xlsx";
 		String fullPath = path + fileName;
@@ -51,11 +64,30 @@ public class ExcelUtils {
 		
 		Sheet sheet = wb.getSheetAt(0);
 		
-		for(Row row : sheet) {
-			for(Cell cell : row) {
-				System.out.print(cellValueToString(cell) + ",");
+		switch(type) {
+		case "BM0109" :
+			List<BmRoutNodeInfoVO> voList = new ArrayList<>();
+			
+			String txt = "";
+			for(Row row : sheet) {
+				for(Cell cell : row) {
+					txt += cellValueToString(cell)+",";
+				}
+				txt += "\n";
 			}
-			System.out.println();
+			
+			String[] rows = txt.split("\n");
+			for(String s : rows) {
+				String[] c = s.split(",");
+				BmRoutNodeInfoVO tmp = new BmRoutNodeInfoVO();
+				tmp.setRoutId(c[0]);
+				tmp.setSeq(Integer.valueOf(c[1]));
+				tmp.setNodeType(Integer.valueOf(c[2]));
+				tmp.setNodeId(c[3]);
+				tmp.setNodeNm(c[4]);
+				tmp.setLati(Float.valueOf(c[5]));
+				tmp.setLongi(Float.valueOf(c[6]));
+			}
 		}
 	}
 	

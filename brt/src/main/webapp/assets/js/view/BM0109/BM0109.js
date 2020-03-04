@@ -48,6 +48,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     PAGE_EXCEL: function(caller, act, data) {
+    	caller.gridView1.target.exportExcel(selectedRow0.routId + "(" + selectedRow0.interRoutId + ")_" + new Date().yyyymmdd() + ".xls");
     	caller.gridView0.target.exportExcel("data.xls");
     },
   
@@ -158,9 +159,45 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
             });
     },
-    DELETE_ROW: function(caller, act, data){
-    	
-    }
+    
+    IMPORT_EXCEL:function(caller, act, data){
+    	axboot.modal.open({
+            modalType: "FILE_UPLOAD",
+            param: "",
+            callback: function (data) {
+            	
+            	var formData = new FormData();
+            	formData.append("attFile", data);
+            	axboot.promise()
+                .then(function (ok, fail, data) {
+                	axboot.ajax({
+                    	type: "POST",
+                    	enctype: "multipart/form-data",
+                    	processData: false,
+                        url: "/api/v1/BM0109IMPORT",
+                        data: formData,
+                        callback: function (res) {
+                            ok(res);
+                        },
+                        options: {
+                        	contentType:false
+                        }
+                    });
+                })
+                .then(function (ok, fail, data) {
+            		axToast.push(LANG("onsave"));
+            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                })
+                .catch(function () {
+                	
+                });
+                
+            	
+            	this.close();
+                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+            }
+        });
+    },
     
 });
 
@@ -200,8 +237,7 @@ fnObj.pageButtonView = axboot.viewExtend({
             	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
             },
             "excel": function () {
-            	selectedRow = null;
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "delete": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
@@ -211,6 +247,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "save": function(){
             	ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
+            },
+            "excelimport": function(){
+            	ACTIONS.dispatch(ACTIONS.IMPORT_EXCEL);
             }
             
         });
@@ -870,7 +909,8 @@ function onOffMarker(input){
 				list[i].icon = "/assets/images/tmap/busstop.png";
 				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				addMarker(list[i]);
+				list[i].draggable = true;
+				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
 		}
 		break;
@@ -882,7 +922,8 @@ function onOffMarker(input){
 				list[i].icon = "/assets/images/tmap/road_trans.png";
 				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				addMarker(list[i]);
+				list[i].draggable = true;
+				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
 		}
 		break;
@@ -897,7 +938,8 @@ function onOffMarker(input){
 			}
 			//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
 			list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
-			addMarker(list[i]);
+			list[i].draggable = true;
+			addMarkerInter(list[i], fnObj.gridView1, i);
 		}
 		break;
 	}
