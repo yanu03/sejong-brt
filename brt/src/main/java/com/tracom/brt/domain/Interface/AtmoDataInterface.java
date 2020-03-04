@@ -41,7 +41,7 @@ public class AtmoDataInterface {
 	//공공데이터포털 기상검색 URL
 	public String URL_CODE_OPENAPI_ROUT_WEAT = "CD039";
 		
-		//공공데이터포털 기상검색 KEY
+	//공공데이터포털 기상검색 KEY
 	public String KEY_CODE_OPENAPI_ROUT_WEAT = "CD040";
 	
 	public String NEWS_UPDATE_COUNT = "CD043";

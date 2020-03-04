@@ -37,15 +37,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
    //아직 고쳐야함
     PAGE_EXCEL: function(caller, act, data) {
-    	if(selectedRow != null){   		
-    		caller.gridView0.target.exportExcel("차량목록"+selectedRow.vhcId + "data.xls");
-    	}else {
-            if(selectedRowG1 != null){
-            	caller.gridView1.target.exportExcel("장치목록"+selectedRowG1.dvcId + "data.xls");
-            }else{ 		
-    		alert("장치 목록을 선택해주세요");
-            }
-    	}
+    	caller.gridView1.target.exportExcel("차량장치상태 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     // gridView0항목 클릭 이벤트

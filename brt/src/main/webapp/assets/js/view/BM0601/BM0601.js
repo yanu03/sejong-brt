@@ -72,13 +72,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_EXCEL: function(caller, act, data) {
-    	if(selectedRow != null){   		
-    		caller.gridView1.target.exportExcel(selectType + "data.xls");
-    	}else if(selectedRowG1 !=null){
-    		caller.gridView2.target.exportExcel(selectedRowG1.vhcNo + "data.xls");
-    	}else{
-    		axDialog.alert(LANG("ax.script.alert.requireselect"));
-    	}
+    	caller.gridView1.target.exportExcel(selectType + new Date().yyyymmdd() + ".xls");
     },
     
     // gridView0항목 클릭 이벤트

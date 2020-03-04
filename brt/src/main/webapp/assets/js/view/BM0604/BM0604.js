@@ -66,10 +66,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     
-    PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
-    },
-    
     PAGE_UPDATE: function(caller, act, data) {
     			isUpdate = false;  	
     				var list = caller.gridView0.getData();

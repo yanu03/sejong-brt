@@ -52,7 +52,7 @@
                 <div class="ax-button-group" data-fit-height-aside="gridView1">
                     <div class="left">
                         <h3><i class="cqc-list"></i>
-                             <ax:lang id="ax.admin.BM0202G1.title"/>
+                             <ax:lang id="ax.admin.BM0203F0.title"/>
                         </h3>
                     </div>
                 </div>

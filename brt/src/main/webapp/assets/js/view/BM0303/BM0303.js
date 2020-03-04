@@ -38,13 +38,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_EXCEL: function(caller, act, data) {
-    	if(selectedRow != null){   		
-    		caller.gridView0.target.exportExcel(selectedRow.conId + "data.xls");
-    	}else if(selectedRowG1 != null){
-    		caller.gridView1.target.exportExcel(selectedRowG1.conId + "data.xls");
-    	}else{
-    		caller.gridView2.target.exportExcel(selectedRowG2.attFile + "data.xls");
-    	}
+    	caller.gridView2.target.exportExcel("영상 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     // gridView0항목 클릭 이벤트
@@ -98,37 +92,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             }
         });
     	
-    	  /*axboot.ajax({
-    		  type: "GET",
-    		  url: "/api/v1/BM0303G2S0",
-    		  data:{conId: selectedRow.conId},
-    		  callback:function(res){
-    			  if(res.list[0] != null){
-    				  for(var i = 0; i<res.list.length; i++){
-    						res.list[i].vdoType = "영상";
-    				  }
-    				  caller.gridView2.setData(res);
-    			  }else{
-    				  caller.gridView2.clear();
-    			  }
-    		  }
-    	  })
-    	  
-    	  axboot.ajax({
-    		  type: "GET",
-    		  url: "/api/v1/BM0303G2S1",
-    		  data:{conId: selectedRow.conId},
-    		  callback:function(res){
-    			  if(res.list[0] != null){
-    				  for(var i = 0; i<res.list.length; i++){
-    						res.list[i].vocType = "음성";
-    				  }
-    				  caller.gridView3.setData(res);
-    			  }else{
-    				  caller.gridView3.clear();
-    			  }
-    		  }
-    	  })*/
     }
 });
 /********************************************************************************************************************/
