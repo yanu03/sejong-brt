@@ -17,6 +17,7 @@ import com.tracom.brt.domain.BM0803.MapVO;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
 
+
 @RestController
 @RequestMapping(value = "/api/v1")
 public class BM0803Controller extends BaseController{
@@ -28,6 +29,15 @@ public class BM0803Controller extends BaseController{
 	public Responses.ListResponse BM0803G0S0(RequestParams<MapVO> requestParams){
 		List<MapVO> list = service.BM0803G0S0(requestParams);
 		System.out.println(list);
+		return Responses.ListResponse.of(list);
+	}
+	
+	@GetMapping("/BM0803G1S0")
+	@ApiImplicitParams({
+    	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
+    })
+	public Responses.ListResponse BM0803G1S0(RequestParams<MapVO> requestParams){
+		List<MapVO> list = service.BM0803G1S0(requestParams);
 		return Responses.ListResponse.of(list);
 	}
 

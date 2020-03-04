@@ -20,4 +20,6 @@ public class MapVO extends BaseVO{
 	private String longi;
 	private String spd;
 	private String heading;
+	private String nodeId;
+	private String routNm;
 }

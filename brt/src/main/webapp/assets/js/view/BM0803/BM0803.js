@@ -11,11 +11,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			// 새로운 레코드 추가할 시 검색어 삭제
 			var dataFlag = typeof data !== "undefined";
 			var filter = {};
+			var dataList = [];
+			
 			axboot.ajax({
 				type: "GET",
 				url: "/api/v1/BM0803G0S0",
 				data: filter,
 				callback: function (res) {
+					dataList = res.list;
+					makeStnMarker(dataList);
 					caller.gridView0.setData(res);
 					if(res.list.length == 0) {
 					} else {
@@ -29,8 +33,39 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 							}
 						}
 					}
+					axboot.ajax({
+						type: "GET",
+						url: "/api/v1/BM0803G1S0",
+						data: filter,
+						callback: function (resOne) {
+							console.log(resOne);
+							$("#busRout").change(function(){
+								removeMarkers_user();
+								var count = 0;
+								console.log(this.value);
+								if(this.value != "노선을선택하세요."){
+									console.log("들어왔따");
+									for(var i = 0; i<resOne.list.length; i++){
+										if(this.value == resOne.list[i].routNm){
+											resOne.list[count] = resOne.list[i];
+											count++;
+										}
+									}
+									console.log(count);
+									console.log(resOne.list.slice(0 , count));
+									console.log(resOne);
+									makeStnMarker(resOne.list.slice(0 , count));
+									data = resOne.list.slice(0 , count);
+									console.log(data);
+									caller.gridView1.setData(data);
+									console.log(resOne);
+								}
+							})
+						}
+					});
 				}
 			});
+			
 
 			return false;
 		},
@@ -64,50 +99,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	ITEM_CLICK_G1: function (caller, act, data) {
 		moveMap(data.lati, data.longi);
 	},*/
-	
-	INTERFACE: function (caller, act, data){
-		var list = caller.gridView0.getData("selected");
-
-		if(confirm("갱신 후에는 되돌릴수 없습니다. 정말 갱신하시겠습니까?") == true){    //확인
-			//
-			if(list.length > 0) {
-				var msg = "선택 노선 목록\n------------------\n";
-				for(var i=0; i<list.length; i++){
-					msg += list[i].routNm + "(" + list[i].routId + ")\n"
-				}
-				
-				msg += "------------------\n정류장을 갱신합니다. 진행하시겠습니까?";
-				
-				if(confirm(msg) == true){
-					
-				axboot.ajax({
-					type: "POST",
-					url: "/api/v1/BM0105G2U0",
-					data: JSON.stringify(list),
-					callback: function (res) {
-						if(res.list.length > 0){
-							console.log(selectedRow);
-							searchGrid1(caller, act, selectedRow);
-							axToast.push(LANG("onsave"));
-						}else{
-							alert('갱신 실패');
-						}
-					}
-				});
-				return false;
-				}else{
-					alert("취소합니다");
-					return;
-				}
-			} else {
-				alert(LANG("ax.script.requireselect"));
-			}
-		}else{   //취소
-			alert("취소합니다.");
-			return;
-		}
-		//
-	}
+	SELECT_ROUT : function(caller, act, data){
+	},
 });
 
 /********************************************************************************************************************/
@@ -136,12 +129,6 @@ fnObj.pageResize = function () {
 fnObj.pageButtonView = axboot.viewExtend({
 	initView: function () {
 		axboot.buttonClick(this, "data-page-btn", {
-			"search": function () {
-				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-			},
-			"interface": function() {
-				ACTIONS.dispatch(ACTIONS.INTERFACE);
-			},
 			"close": function() {
 				ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
 			}
@@ -157,9 +144,7 @@ fnObj.pageButtonView = axboot.viewExtend({
  */
 fnObj.searchView1 = axboot.viewExtend(axboot.searchView, {
 	initView: function () {
-		this.target = $(document["searchView1"]);
-		this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
-		this.filter = $("#filter1");
+		
 	},
 	getData: function () {
 		return {
@@ -281,8 +266,8 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 			//multipleSelect: true,
 			target: $('[data-ax5grid="gridView1"]'),
 			columns: [
-				{key: "vhcId",			label: ADMIN("ax.admin.BM0103F0.vhcId"),		width: 115,	align: "center"},
-				{key: "vhcNo",			label: ADMIN("ax.admin.BM0103F0.vhcNo"),		width: 115 , align: "center"},
+				{key: "routNm",			label: ADMIN("ax.admin.BM0103F0.vhcId"),		width: 100,	align: "center"},
+				{key: "vhcNo",			label: ADMIN("ax.admin.BM0103F0.vhcNo"),		width: 120 , align: "center"},
 				],
 				body: {
 					onClick: function () {
@@ -387,10 +372,10 @@ function makeStnMarker(data){
 	var staNm	= [];
 	var stnY	= [];
 	var stnX	= [];
-	for(var i = 0; i < data.list.length; i++){
-		stnX.push(data.list[i].longi);
-		stnY.push(data.list[i].lati);
-		staNm.push(i+1 + ". " + data.list[i].staNm);
+	for(var i = 0; i < data.length; i++){
+		stnX.push(data[i].longi);
+		stnY.push(data[i].lati);
+		staNm.push(i+1 + ". " + data[i].vhcNo);
 		//popUp(data.list[i].lati, data.list[i].longi, data.list[i].staNm);
 	}
 	addMarkers(stnY, stnX, staNm);

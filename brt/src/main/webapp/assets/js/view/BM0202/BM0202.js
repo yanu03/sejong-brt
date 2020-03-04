@@ -106,11 +106,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_EXCEL: function(caller, act, data) {
-    	if(selectedRow != null){   		
-    		caller.gridView2.target.exportExcel(selectedRow.conId + "data.xls");
-    	}else {
-    		axDialog.alert("장치목록을 선택해주세요.");
-    	}
+    	caller.gridView2.target.exportExcel("이력 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     // gridView0항목 클릭 이벤트

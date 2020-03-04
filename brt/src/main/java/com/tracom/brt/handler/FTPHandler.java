@@ -15,7 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,7 @@ import org.apache.tika.parser.mp4.MP4Parser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jcraft.jsch.ChannelSftp;
@@ -46,6 +49,7 @@ import com.tracom.brt.domain.BM0607.VdoRsvVO;
 import com.tracom.brt.domain.BM0608.BmScrInfoVO;
 import com.tracom.brt.domain.BM0609.BM0609Service;
 import com.tracom.brt.domain.BM0609.ScrRsvVO;
+import com.tracom.brt.domain.BM0801.BM0801Mapper;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
 import com.tracom.brt.domain.routeReservation.RoutListCSVVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
@@ -90,6 +94,9 @@ public class FTPHandler {
 	@Value("${sftp.deivce.directory}")
 	private String DEVICE_FIRMWARE_PATH;
 	
+	@Value("${sftp.vehicle.directory}")
+	private String VEHICLE_PATH;
+	
 	@Inject
 	private ChannelSftp sftpChannel;
 	
@@ -104,6 +111,9 @@ public class FTPHandler {
 	
 	@Inject
 	private BM0609Service BM0609Service;
+	
+	@Inject
+	private BM0801Mapper BM0801Mapper;
 	
 	private ArrayList<String> serverContentList;
 	private ArrayList<String> pathList;
@@ -1011,6 +1021,59 @@ public class FTPHandler {
     	return true;
 	}
 	
+	// Read FTP 로그파일
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public void processAdLog() throws Exception {
+		String path = getRootServerPath() + getVehiclePath();
+		sftpChannel.cd(path);
+		
+		Vector<LsEntry> vehicleList = sftpChannel.ls(path);
+		
+		for(LsEntry vehicle : vehicleList){
+			if(!vehicle.getFilename().startsWith(".")) {
+				String vehiclePath = path + "/" + vehicle.getFilename() + "/log";
+				String vehicleId = vehicle.getFilename();
+				
+				Vector<LsEntry> logList = sftpChannel.ls(vehiclePath);
+				
+				for(LsEntry log : logList) {
+					if(!log.getFilename().startsWith(".")) {
+						String logFilePath = vehiclePath + "/" + log.getFilename();
+						BufferedReader io = new BufferedReader(new InputStreamReader(sftpChannel.get(logFilePath)));
+						
+						List<Map<String, Object>> dataList = new ArrayList<>();
+						
+						String line;
+						while((line = io.readLine()) != null) {
+							String[] parseStr = line.split(" ");
+							String[] fileName = parseStr[2].split("/");
+							String id = FilenameUtils.removeExtension(fileName[fileName.length - 1]);
+							String playDate = parseStr[0] + " "+ parseStr[1];
+							
+							Map<String, Object> data = new HashMap<String, Object>();
+							data.put("playDate", playDate);
+							data.put("mngId", vehicleId);
+							data.put("id", id);
+							
+							dataList.add(data);
+						}
+						
+						io.close();
+						
+						// 데이터 insert
+						Map<String, Object> param = new HashMap<String, Object>();
+						param.put("list", dataList);
+						BM0801Mapper.insertAdLog(param);
+						
+						// insert 완료 후 파일 삭제
+						sftpChannel.rm(logFilePath);
+					}
+				}
+			}
+		}
+	}
+	
 	// 서버FTP와 Synchronization
 	private void processSynchronize(String localPath, String serverPath) throws Exception {
 		System.out.println("fileSync: " + localPath + ", " + serverPath);
@@ -1281,4 +1344,7 @@ public class FTPHandler {
 		return DEVICE_FIRMWARE_PATH;
 	}
 	
+	public String getVehiclePath() {
+		return VEHICLE_PATH;
+	}
 }
