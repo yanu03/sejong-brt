@@ -40,7 +40,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 						callback: function (resOne) {
 							console.log(resOne);
 							$("#busRout").change(function(){
-								removeMarkers_user();
+								removeMarkers();
 								var count = 0;
 								console.log(this.value);
 								if(this.value != "노선을선택하세요."){
@@ -48,13 +48,21 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 									for(var i = 0; i<resOne.list.length; i++){
 										if(this.value == resOne.list[i].routNm){
 											resOne.list[count] = resOne.list[i];
+											for(var j = 0; j < res.list.length; j++){
+												/*if(resOne.list[count].vhcNo != ){
+													
+												}*/
+											}
 											count++;
 										}
 									}
 									console.log(count);
 									console.log(resOne.list.slice(0 , count));
 									console.log(resOne);
+									
+									makeStnMarker(dataList);
 									makeStnMarker(resOne.list.slice(0 , count));
+									
 									data = resOne.list.slice(0 , count);
 									console.log(data);
 									caller.gridView1.setData(data);

@@ -8,7 +8,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     CHECK_PASSWORD: function(caller, act, data) {
     	var user = $("#scdPs").val();
-
     	if(user != ""){
     		axboot.promise()
     		.then(function (ok, fail, data) {
@@ -30,6 +29,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	} else {
     		axDialog.alert("비밀번호를 입력하세요.");
     	}
+    	return false;
     },
 });
 
@@ -70,8 +70,8 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     initView: function () {
         this.target = $("#formView0");
-        this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
-        this.user = $("#updateCycle");
+        this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.CHECK_PASSWORD);");
+        this.user = $("#scdPs");
         
         this.model = new ax5.ui.binder();
         this.model.setModel(this.getDefaultData(), this.target);

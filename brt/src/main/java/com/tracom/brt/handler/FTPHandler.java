@@ -49,10 +49,9 @@ import com.tracom.brt.domain.BM0607.VdoRsvVO;
 import com.tracom.brt.domain.BM0608.BmScrInfoVO;
 import com.tracom.brt.domain.BM0609.BM0609Service;
 import com.tracom.brt.domain.BM0609.ScrRsvVO;
-<<<<<<< HEAD
+
 import com.tracom.brt.domain.BM0801.BM0801Mapper;
-=======
->>>>>>> b68b1206c34f71a63614d6246633ebc1938142be
+
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
 import com.tracom.brt.domain.routeReservation.RoutListCSVVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
