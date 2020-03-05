@@ -296,12 +296,12 @@ public class FTPHandler {
 	
 	//BM0607 영상예약
 	public void reserveVideo(VdoRsvVO vo) throws Exception {
-		String videoPath = "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist/";
+		String videoPath = "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";
 		String path = Paths.get(getRootLocalPath(), videoPath).toString();
-		String fromPath = Paths.get(getRootLocalPath(), "/video/").toString();
-		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device/passenger/").toString();
-		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/passenger/";
-		String vfPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist/";
+		String fromPath = Paths.get(getRootLocalPath(), "/video").toString();
+		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device/passenger").toString();
+		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/passenger";
+		String vfPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";
 		File dir = new File(toPath);
 
 		if(!dir.isDirectory()) {
@@ -346,7 +346,7 @@ public class FTPHandler {
 	public void reserveScreen(ScrRsvVO vo) throws Exception {
 		String path = Paths.get(getRootLocalPath(), "/vehicle", "/" , vo.getImpId(), "/device" , "/", vo.getDvcId(), "/config").toString();
 		String fromPath = Paths.get(getRootLocalPath(), "/template/", vo.getSetId()).toString();
-		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/config/";
+		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/config";
 		
 		String txt = "";
 		
