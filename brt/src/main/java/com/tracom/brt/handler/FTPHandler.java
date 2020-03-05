@@ -895,8 +895,8 @@ public class FTPHandler {
 			// 재생시간 계산
 			vo.setPlayTm(ttsKrPlayTm + ttsEnPlayTm);
 			
-			// 기존 WAV 업로드 삭제
-			if(file.exists()) {
+			// 노선별 선택음성이 아닐경우 기존 WAV 업로드 삭제
+			if((routId == null || routId.equals("")) && file.exists()) {
 				file.delete();
 			}
 		} catch(Exception e) {

@@ -108,7 +108,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
-            		axToast.push(LANG("onadd"));
+            		axToast.push(LANG("onsave"));
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
                     isUpdate = true;
                 })
@@ -133,7 +133,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
-            		axToast.push(LANG("onupdate"));
+            		axToast.push(LANG("onsave"));
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {

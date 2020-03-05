@@ -122,7 +122,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         		});
         	});
         	
-    		axToast.push(LANG("onupdate"));
+    		axToast.push(LANG("onsave"));
         })
         .catch(function () {
 

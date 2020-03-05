@@ -48,7 +48,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
-            		axToast.push(LANG("onadd"));
+            		axToast.push(LANG("onsave"));
             		if (parent && parent.axboot && parent.axboot.modal) {
 	                    parent.axboot.modal.callback();
 	                }
