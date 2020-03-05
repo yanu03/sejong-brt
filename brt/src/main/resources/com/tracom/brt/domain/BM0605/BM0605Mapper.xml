@@ -86,7 +86,13 @@
     		, IMG_PLAY_TM	=	IFNULL(#{imgPlayTm}, '10')
     		, ATT_FILE		=	#{attFile}
     		, REMARK		=	#{remark}
-    		, PLAY_TM		=	#{playTm}
+    		<choose>
+    			<when test="playTm == -999">
+    			</when>
+    			<otherwise>
+	    		, PLAY_TM		=	#{playTm}    			
+    			</otherwise>
+    		</choose>
     		, PLAY_ED_DATE	=	#{playEdDate}
     		, UPDATED_AT	=	#{updatedAt}
     		, UPDATED_BY	=	#{updatedBy}

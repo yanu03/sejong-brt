@@ -62,6 +62,8 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
     	String type;
     	String ext;
     	VideoInfoVO o = new VideoInfoVO();
+    	System.out.println("------------");
+    	System.out.println(vo);
     	if(!vo.getVdoFile().isEmpty()) {
 	    	if(vo.getFileType().equals("AV001")) {
 	    		type = "video";
@@ -76,6 +78,8 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
 	    		handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);
 	    		vo.setPlayTm(vo.getImgPlayTm());
 	    	}
+    	}else {
+    		vo.setPlayTm(-999);
     	}
     	
     	//handler.uploadBM0605(vo.getVdoId(), vo.getVdoFile(), type);

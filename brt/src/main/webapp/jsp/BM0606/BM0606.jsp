@@ -141,7 +141,7 @@
             	
             	<div style="width:100px; height:100%; float:left; line-height:100px;">
             		<div style="text-align:center; inline-height:100%;">
-		            	<button type="button" id="addlist" class="btn btn-default" style="width: 50px; height:50px; padding-bottom:10px;" data-page-btn="addPlayList">
+		            	<button type="button" id="addlist" class="btn btn-default" style="width: 50px; height:50px; data-page-btn="addPlayList">
 		            		->
 		            	</button>
 		            	
