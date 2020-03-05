@@ -41,6 +41,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 							console.log(resOne);
 							$("#busRout").change(function(){
 								removeMarkers();
+								var list = new Array();
+								var routList = {};
+								routList.page = {};
+								routList.list = list;
 								var count = 0;
 								var countOne = 0;
 								console.log(this.value);
@@ -60,21 +64,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 									
 									for(var i = 0; i<resOne.list.length; i++){
 										if(this.value == resOne.list[i].routNm){
-												resOne.list[count] = resOne.list[i];
+												routList.list[count] = resOne.list[i];
 												count++;
 										}
 									}
 									console.log(count);
-									console.log(resOne.list.slice(0 , count));
-									console.log(resOne);
+									console.log(routList);
+									console.log(routList.list);
 									
-									makeStnMarker(dataList);
-									makeStnMarker(resOne.list.slice(0 , count));
-									
-									data = resOne.list.slice(0 , count);
-									console.log(data);
-									caller.gridView1.setData(data);
-									console.log(resOne);
+									makeStnMarker(routList.list);
+									makeStnMarker(res.list);
+									caller.gridView1.setData(routList);
 								}
 							})
 						}
@@ -393,6 +393,7 @@ function makeStnMarker(data){
 		stnY.push(data[i].lati);
 		staNm.push(i+1 + ". " + data[i].vhcNo);
 		//popUp(data.list[i].lati, data.list[i].longi, data.list[i].staNm);
+		console.log(staNm);
 	}
 	addMarkers(stnY, stnX, staNm);
 	
