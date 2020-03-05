@@ -27,22 +27,21 @@ public class BM0205Service extends BaseService<VhcDvcUpdateVO, String>{
     }
 	
 	public String BM0205FileUp(VhcDvcUpdateVO vo) {
-		handler.uploadBM0205(vo.getUpList().get(0).getMngId(), vo.getDvcFileUp());
+		for(VhcDvcUpdateVO uv : vo.getUpList()) {
+			handler.uploadBM0205(uv.getMngId(), vo.getDvcFileUp());
+		}
+		
 		return vo.getDvcId();
 	}
 	
 	@Transactional
 	public void BM0205Reservation(VhcDvcUpdateVO vo) {
-		Map<String, String> map = new HashMap<>();
-		mapper.BM0205Reservation(vo);
-		map.put("rsvDate", vo.getRsvDate());
-		for(int i = 0; i< vo.getUpList().size(); i++) {
-			map.put("mngId", vo.getUpList().get(i).getMngId());
-			VhcDvcUpdateVO list = mapper.BM0205S0(map);
-			vo.getUpList().get(i).setMngId(list.getMngId());
-			vo.getUpList().get(i).setRsvId(list.getRsvId());
+		for(VhcDvcUpdateVO uv : vo.getUpList()) {
+			uv.setRsvDate(vo.getRsvDate());
+			uv.setVerInfo(vo.getVerInfo());
+			mapper.BM0205Reservation(uv);
+			mapper.BM0205I0(uv);
 		}
-		mapper.BM0205I0(vo);
 	}
 
 	public boolean BM0205G0S1(VhcDvcUpdateVO vo) {

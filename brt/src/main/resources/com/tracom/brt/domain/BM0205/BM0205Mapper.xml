@@ -45,7 +45,7 @@
 	   		AND D.MNG_ID != "NULL"
     	</where>
     	GROUP BY D.MNG_ID
-		ORDER BY VHC_NO 
+		ORDER BY VHC_NO ASC, D.MNG_ID ASC
 	</select>
 	
 	<select id="BM0205G0S1" resultType="vhcDvcUpdateVO">
@@ -71,6 +71,9 @@
 	</select>
 	
 	<insert id="BM0205Reservation" parameterType="vhcDvcUpdateVO" >		
+		<selectKey keyProperty="rsvId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('UR', LPAD(NEXTVAL(SEQ_BM_UPD_RSV_0), 5, '0'))
+    	</selectKey>
 		INSERT INTO BM_UPD_RSV(
 			  RSV_DATE
 			, RSV_ID
@@ -83,43 +86,30 @@
     		, UPDATED_AT
     		, UPDATED_BY
     		, UPDATED_IP)
-		VALUES
-		<foreach collection="upList" item="upList" separator=",">
-			( #{rsvDate}
-		    , CONCAT('UR', LPAD(NEXTVAL(SEQ_BM_UPD_RSV_0), 5, '0'))
+		VALUES(
+			  #{rsvDate}
+		    , #{rsvId}
 		    , #{verInfo}
-		    , #{upList.attFile}
-		    , #{upList.mngId}
-		    , #{upList.createdAt}
-   			, #{upList.createdBy}
-   			, #{upList.createdIp}
-   			, #{upList.updatedAt}
-   			, #{upList.updatedBy}
-   			, #{upList.updatedIp}
+		    , #{attFile}
+		    , #{mngId}
+		    , #{createdAt}
+   			, #{createdBy}
+   			, #{createdIp}
+   			, #{updatedAt}
+   			, #{updatedBy}
+   			, #{updatedIp}
 		)
-		</foreach>
 	</insert>
 	
 	<insert id="BM0205I0" parameterType="vhcDvcUpdateVO" >		
 		INSERT INTO BM_UPD_LOG(
 			  RSV_ID
 			, MNG_ID
-			, PROCE_RST
-			, RST_CONT
-			, SEND_DATE
-			, COMPLETE_YN
-			, REMARK)
-		VALUES
-		<foreach collection="upList" item="upList" separator=",">
-			 
-		    ( #{upList.rsvId}
-		    , #{upList.mngId}
-		    , #{upList.proceRst}
-		    , #{upList.rstCont}
-		    , #{upList.sendDate}
-		    , "N"
-		    , #{upList.remark}
+			, COMPLETE_YN)
+		VALUES(
+			  #{rsvId}
+		    , #{mngId}
+		    , 'N'
 		)
-		</foreach>
 	</insert>		
 </mapper>

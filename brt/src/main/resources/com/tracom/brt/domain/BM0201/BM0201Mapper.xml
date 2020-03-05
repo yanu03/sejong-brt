@@ -86,7 +86,8 @@
     		LEFT OUTER JOIN SM_DL_CD_INFO DL0
     		ON DVC.DVC_KIND = DL0.DL_CD
     		AND DL0.CO_CD = "DVC_KIND"
-    	ORDER BY DVC_ID DESC LIMIT 1
+    	WHERE
+    		DVC.DVC_ID = #{value}
     </select>
     
     <select id="BM0201G1S0" parameterType="String" resultType="vhcDeviceVO">

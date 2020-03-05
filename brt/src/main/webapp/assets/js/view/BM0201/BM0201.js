@@ -76,11 +76,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 		  completeYn = "true";
                 	  }
                   }
-                  console.log("completeYn");
-                  console.log(completeYn);
                   if(completeYn == "true"){
                 	if(res.list.length < 2){
-		                if(res.list.length > 0){               	               	
+		                if(res.list.length > 0){
+		                	console.log(res.list)
 		                    axDialog.confirm({
 		                    	msg: ("관련장치이력:"+res.list.length+"건이 있습니다. 삭제하시겠습니까?")
 		                    }, function() {          	          	
@@ -146,12 +145,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_SAVE: function (caller, act, data) {
     	 if (caller.formView0.validate()) {
-    		
-             var formData = caller.formView0.getData();
-             formData["vhcId"] = selectedRow.vhcId;
+    		 var formData = caller.formView0.getData();
+    		 formData["vhcId"] = selectedRow.vhcId;
              
-             	axboot.promise()
-             	.then(function (ok, fail, data) {
+    		 axboot.promise()
+    		 	.then(function (ok, fail, data) {
 	                axboot.ajax({
 	                    type: "POST",
 	                    url: "/api/v1/BM0201F0S1",
@@ -161,60 +159,58 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    }
 	                });
 	            })
-                 .then(function (ok, fail, data) {
-                	 if(data.message == "true"){
-                	  axboot.promise()
-                	  .then(function(ok, fail , data) {
-                		  axboot.ajax({
-                			  type: "POST",
-                			  url: "/api/v1/BM0201F0I0",
-                			  data: JSON.stringify(formData),
-                			  callback: function (res) {
-                				  ok(res);
-                				  ACTIONS.dispatch(ACTIONS.OPEN_BM0201_MODAL);
-                			  }
-                		  });
-                 })
-                 .then(function (ok, fail, data) {
-             		axToast.push(LANG("onsave"));
-             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-                     isUpdate = true;
-                 })
-                 .catch(function () {
-
-                 	});
+	            .then(function (ok, fail, data) {
+	            	if(data.message == "true"){
+	            		axboot.promise()
+	            			.then(function(ok, fail , data) {
+	            				axboot.ajax({
+	            					type: "POST",
+	            					url: "/api/v1/BM0201F0I0",
+	            					data: JSON.stringify(formData),
+	            					callback: function (res) {
+	            						ok(res);
+	            					}
+	            				});
+	            			})
+	            			.then(function (ok, fail, data) {
+	            				ACTIONS.dispatch(ACTIONS.OPEN_BM0201_MODAL, data.message);
+	            				axToast.push(LANG("onsave"));
+	            				ACTIONS.dispatch(ACTIONS.RELOAD_G1, data.message);
+	            				isUpdate = true;
+	            			})
+	            			.catch(function () {
+	            				
+	            			});
                  }else{
                 	 axDialog.alert("관리ID는 중복으로 저장되지 않습니다.");
                  }
-                 })
+             });
          }
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-    	isUpdate = false;   	
-    		
-    			if (caller.formView0.validate()) {
-    				var formData = caller.formView0.getData();
-    				axboot.promise()
-    				.then(function (ok, fail, data) {
-    					axboot.ajax({
-    						type: "POST",
-    						url: "/api/v1/BM0201F0U0",
-    						data: JSON.stringify(formData),
-    						callback: function (res) {
-    							ok(res);
-    						}
-    					});
-    				})
-    				.then(function (ok, fail, data) {
-    					axToast.push(LANG("onsave"));
-    					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-    					isUpdate = true;
-    				})
-    				.catch(function () {
-    					
-    				});
-    			}
+		if (caller.formView0.validate()) {
+			var formData = caller.formView0.getData();
+			axboot.promise()
+				.then(function (ok, fail, data) {
+					axboot.ajax({
+						type: "POST",
+						url: "/api/v1/BM0201F0U0",
+						data: JSON.stringify(formData),
+						callback: function (res) {
+							ok(res);
+						}
+					});
+				})
+				.then(function (ok, fail, data) {
+					axToast.push(LANG("onsave"));
+					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+					isUpdate = true;
+				})
+				.catch(function () {
+					
+				});
+		}
     },
     
     // 탭닫기
@@ -285,7 +281,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	axboot.modal.open({
             modalType: "BM0201",
             param: "",
+            sendData: function() {
+            	return {
+            		dvcId: data
+            	};
+            },
             callback: function (data) {
+            	this.close();
             	ACTIONS.dispatch(ACTIONS.RELOAD_G1 , data);
             }
         });

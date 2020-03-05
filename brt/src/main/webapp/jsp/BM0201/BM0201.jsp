@@ -52,7 +52,9 @@
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
+            
             <ax:splitter></ax:splitter>
+            
             <ax:split-panel width="600" style="padding-left: 10px;">
                 <!-- 폼 -->
                 <ax:split-panel width="500" style="height:270px;">
@@ -86,7 +88,7 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.BM0201F0.mngid" width="250px" labelClazz="required">
-                            	<input type="text" data-ax-path="mngId" class="form-control" title="<ax:lang id="ax.admin.BM0201F0.mngid"/>" data-ax-validate="required" maxlength="20"/>
+                            	<input type="text" data-ax-path="mngId" class="form-control" title="<ax:lang id="ax.admin.BM0201F0.mngid"/>" data-ax-validate="required" maxlength="16"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0201F0.dvcip" width="250px">
                             	<input type="text" data-ax-path="dvcIp" class="form-control" maxlength="20"/>

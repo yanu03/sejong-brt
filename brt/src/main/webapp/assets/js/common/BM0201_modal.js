@@ -10,7 +10,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0201M0S0",
-            data: caller.searchView0.getData(),
+            data: {dvcId: caller.parentData.dvcId},
             callback: function (res) {
             	caller.formView0.setData(res);
             }
@@ -35,8 +35,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	})
             	.then(function (ok, fail, data) {
             		axToast.push(LANG("onsave"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_CLOSE, data.message);
-            		isUpdate = true;
+            		if (parent && parent.axboot && parent.axboot.modal) {
+                        parent.axboot.modal.callback(data.message);
+                    }
             	})
             	.catch(function () {
             		
@@ -55,6 +56,7 @@ var CODE = {};
 
 // fnObj 기본 함수 스타트와 리사이즈
 fnObj.pageStart = function () {
+	this.parentData = parent.axboot.modal.getData();
     var _this = this;
     
     _this.pageButtonView.initView();
