@@ -111,7 +111,7 @@
 	                       	</ax:tr>
 	                       	
 	                       	<ax:tr>
-	                            <ax:td label="ax.admin.BM0102F0.remark" width="450px">
+	                            <ax:td label="ax.admin.BM0102F0.remark" width="100%">
 	                            	<textarea data-ax-path="remark" class="form-control" maxlength="200"></textarea>
 	                            </ax:td>
 	                       	</ax:tr>

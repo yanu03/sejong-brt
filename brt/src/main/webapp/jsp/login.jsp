@@ -97,12 +97,12 @@
 
                         <div class="form-group">
                             <label for="userCd"><i class="cqc-new-message"></i> <ax:lang id="ax.admin.id"/></label>
-                            <ax:input id="userCd" value="system" clazz="ime-false" />
+                            <ax:input id="userCd" clazz="ime-false" />
                         </div>
 
                         <div class="form-group">
                             <label for="userPs"><i class="cqc-key"></i> <ax:lang id="ax.admin.password"/></label>
-                            <ax:input type="password" id="userPs" value="1234" clazz="ime-false" />
+                            <ax:input type="password" id="userPs" clazz="ime-false" />
                         </div>
 
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

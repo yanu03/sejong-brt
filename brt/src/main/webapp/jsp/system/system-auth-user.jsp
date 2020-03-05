@@ -63,7 +63,7 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                         <ax:tr>
                         	<ax:td label="ax.admin.user.id" width="300px" labelClazz="required">
-                                <input type="text" name="userCd" data-ax-path="userCd" maxlength="50" title="아이디" class="form-control W180" data-ax-validate="required"/>
+                                <input type="text" name="userCd" data-ax-path="userCd" maxlength="50" title="아이디" class="form-control W180" readonly="readonly" data-key="true" data-ax-validate="required"/>
                             </ax:td>
                         </ax:tr>
                         
@@ -75,7 +75,7 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.user.password" width="300px" id="passwordLabel">
-                                <input type="password" name="userPs" data-ax-path="userPs" maxlength="128" title="비밀번호" class="form-control W180"/>
+                                <input type="password" name="userPs" data-ax-path="userPs" maxlength="128" title="비밀번호" class="form-control W180" placeholder="••••••"/>
                             </ax:td>
                         </ax:tr>
                         

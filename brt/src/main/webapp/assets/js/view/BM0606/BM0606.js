@@ -3,7 +3,7 @@ var fnObj = {}, CODE = {};
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
-
+selectedRow2 = null;
 var selVdoId = null;
 /*************************************************************************************************************/
 
@@ -111,7 +111,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		            });
 		        })
 		        .then(function (ok, fail, data) {
-		        	axToast.push(LANG("onadd"));
+		        	axToast.push(LANG("onsave"));
 		        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 		        })
 		        .catch(function () {
@@ -142,7 +142,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		            });
 		        })
 		        .then(function (ok, fail, data) {
-		        	axToast.push(LANG("onupdate"));
+		        	axToast.push(LANG("onsave"));
 		        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 		        })
 		        .catch(function () {
@@ -199,7 +199,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		caller.formView0.model.set("allPlayTm", allPlayTm - row.playTm);
 
     		caller.gridView2.delRow("selected");
-
     	} else {
     		axDialog.alert(LANG("ax.script.alert.requireselect"));
     	}
@@ -282,21 +281,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     GRID_DBLCLICK: function(caller, act, data){
     	openModal606(data);
     	
-    	axboot.ajax({
-    		type: "POST",
-    		url: "/api/v1/test",
-    		callback: function (res) {
-    		}
-    	});
+
     },
     
 });
 
 function openModal606(input){
+	console.log(input);
 	axboot.modal.open({
         modalType: "BM0606",
         param: "",
-        sendData: function(){
+        sendData: function(input){
         	return input;
         },
         callback: function (data) {

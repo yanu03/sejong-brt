@@ -80,7 +80,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         		});
         	});
         	
-    		axToast.push(LANG("onupdate"));
+    		axToast.push(LANG("onsave"));
     		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
         })
         .catch(function () {
@@ -127,7 +127,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         		});
         	});
         	
-    		axToast.push(LANG("onupdate"));
+    		axToast.push(LANG("onsave"));
     		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
         })
         .catch(function () {
@@ -482,9 +482,12 @@ $("input[id=bmpFileF]").change(function(){
     
     var ext = $(this).val().split(".").pop().toLowerCase();
     
-    if($.inArray(ext,["bmp", "BMP"]) == -1) {
+    if($.inArray(ext,["bmp", "BMP", ""]) == -1) {
         alert("bmp 파일만 업로드 가능합니다.");
         $("input[id=bmpFileF]").val("");
+        return;
+    }else if($.inArray(ext,["bmp", "BMP", ""]) == 2) {
+    	$("input[id=bmpFileF]").val("");
         return;
     }
     
@@ -507,6 +510,9 @@ $("input[id=bmpFileS]").change(function(){
     if($.inArray(ext,["bmp", "BMP"]) == -1) {
         alert("bmp 파일만 업로드 가능합니다.");
         $("input[id=bmpFileS]").val("");
+        return;
+    }else if($.inArray(ext,["bmp", "BMP", ""]) == 2) {
+    	$("input[id=bmpFileS]").val("");
         return;
     }
     

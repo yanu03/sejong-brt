@@ -116,7 +116,7 @@
 	   					, AES_ENCRYPT(#{voList.email}, HEX(SHA2('TRACOM', 512)))
 	   					, AES_ENCRYPT(#{voList.fax}, HEX(SHA2('TRACOM', 512)))
 	   					, #{voList.remark}
-	   					, #{voList.custId}
+	   					, #{custId}
 	   					, #{voList.__index})
 						</when>
 						<otherwise>

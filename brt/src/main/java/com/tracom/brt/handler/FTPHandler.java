@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpException;
 import com.tracom.brt.code.GlobalConstants;
@@ -204,7 +205,6 @@ public class FTPHandler {
 		String ext = null;
 		String fileName = null;
 		File saveFile = null;
-		
 		switch(type) {
 		case "video" : 
 			ext = FilenameUtils.getExtension(file.getOriginalFilename());
@@ -717,7 +717,7 @@ public class FTPHandler {
 			DestinationVO vo = new DestinationVO();
 			int seq = i + 1;
 			vo.setFrameNo("FRAME" + seq);
-			vo.setEffType("01");
+			vo.setEffType("화면그대로 표출");
 			vo.setEffSpeed("05");
 			vo.setShowTime("0000");
 			realList.add(vo);
@@ -736,7 +736,6 @@ public class FTPHandler {
 			if(i == 0) {
 				txt += list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + SM0105Mapper.SM0105G3S0(list.get(i).getEffType()) + GlobalConstants.SCH.TAB + String.format("%02d", Integer.valueOf(list.get(i).getEffSpeed())) + GlobalConstants.SCH.TAB + String.format("%04d", Integer.valueOf(list.get(i).getShowTime()));
 			}else {
-				
 				txt += GlobalConstants.CSVForms.ROW_SEPARATOR
 						+ list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + SM0105Mapper.SM0105G3S0(list.get(i).getEffType()) + GlobalConstants.SCH.TAB + String.format("%02d", Integer.valueOf(list.get(i).getEffSpeed())) + GlobalConstants.SCH.TAB + String.format("%04d", Integer.valueOf(list.get(i).getShowTime()));
 			}
@@ -898,8 +897,8 @@ public class FTPHandler {
 			// 재생시간 계산
 			vo.setPlayTm(ttsKrPlayTm + ttsEnPlayTm);
 			
-			// 기존 WAV 업로드 삭제
-			if(file.exists()) {
+			// 노선별 선택음성이 아닐경우 기존 WAV 업로드 삭제
+			if((routId == null || routId.equals("")) && file.exists()) {
 				file.delete();
 			}
 		} catch(Exception e) {
@@ -1087,11 +1086,34 @@ public class FTPHandler {
 	/************************************************************************ FTP 공통 모듈 *****************************************************************************************/
 	// 초기 디렉토리 셋팅
 	private void setServerDirectory(String localPath, String serverPath) throws SftpException {
+		// 최상위 폴더 이동
+		sftpChannel.cd("/");
 		try{
 			sftpChannel.cd(serverPath);
 		}catch(Exception e){
 			System.out.println(serverPath + " don't exist on your server!");
-			e.printStackTrace();
+			
+			String[] pathList = serverPath.split("/");
+			
+			for(int i = 1; i < pathList.length; i++) {
+				String path = pathList[i];
+				
+				SftpATTRS attrs = null;
+				
+				try {
+				    attrs = sftpChannel.stat(path);
+				} catch (Exception ee) {
+				    System.out.println(path + " not found");
+				}
+
+				if (attrs != null) {
+				    System.out.println("Directory exists IsDir=" + attrs.isDir());
+				} else {
+				    System.out.println("Creating dir " + path);
+				    sftpChannel.mkdir(path);
+				}
+				sftpChannel.cd(path);
+			}
 		}
 		
 		File localDirectory = new File(localPath);

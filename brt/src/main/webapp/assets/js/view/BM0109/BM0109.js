@@ -65,29 +65,36 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     	
     	axDialog.confirm({
-            msg: LANG("ax.script.deleteconfirm")
-        }, function() {
-            if (this.key == "ok") {
-            	axboot.promise()
-                .then(function (ok, fail, data) {
-	            	axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/BM0109G0D0",
-	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
-	                    callback: function (res) {
-	                        ok(res);
-	                    }
-	                });
-                })
-                .then(function (ok) {
-                	axToast.push(LANG("ondelete"));
-                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-            }
-        });
+            msg: "해당 노선의 모든 경로정보가 삭제됩니다. 정말 삭제하시겠습니까?"
+        },	function(){
+        	
+		        axDialog.confirm({
+		        	msg: "해당 노선의 모든 경로정보를 삭제합니다."
+		        },
+		        function() {
+		        	if (this.key == "ok") {
+		        		axboot.promise()
+		        		.then(function (ok, fail, data) {
+		        			axboot.ajax({
+		        				type: "POST",
+		        				url: "/api/v1/BM0109G0D0",
+		        				data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+		        				callback: function (res) {
+		        					ok(res);
+		        				}
+		        			});
+		        		})
+		        		.then(function (ok) {
+		        			axToast.push(LANG("ondelete"));
+		        			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+		        		})
+		        		.catch(function () {
+		        			
+		        		});
+		        	}
+		        });
+        	}
+        );
     },
     
     // 탭닫기
@@ -136,6 +143,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SAVE: function(caller, act, data){
+    	isNewData = false;
     	var nodeList = fnObj.gridView1.getData();
     	var formData = {};
     	formData.voList = nodeList;
@@ -152,8 +160,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 });
             })
             .then(function (ok, fail, data) {
-        		axToast.push(LANG("onadd"));
-        		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+        		axToast.push("저장되었습니다");
+        		//ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+        		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
         		
         		searchGrid1();
                 isUpdate = true;
@@ -321,9 +330,32 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             lineNumberColumnWidth:40,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
+            	/*
                 {key: "routId",		label: ADMIN("ax.admin.BM0107G0.routId"),		width: 100,	align: "center"},
                 {key: "interRoutId",label: "연계노선ID",								width: 100,	align: "center"},
+                {key: "routNm",		label: "노선명",		width: 100,	align: "left"},
+                {key: "shortRoutNm",label: "관리노선명",		width: 100,	align: "left"},
                 {key: "updatedAt",	label: ADMIN("ax.admin.BM0107G0.updatedAt"),	width: 150,	align: "center"},
+                */
+            	
+            	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),											width: 80},
+            	{key: "interRoutId",			label: ADMIN("ax.admin.BM0104G0.interRoutId"),											width: 80},
+            	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),											width: 70},
+                {key: "shortRoutNm",	label: ADMIN("ax.admin.BM0104G0.shortRoutNm"),	width: 130},
+                {key: "wayInfo",		label: ADMIN("ax.admin.BM0104G0.wayInfo"),		width: 130},
+                {key: "dirInfo",		label: ADMIN("ax.admin.BM0104G0.dirInfo"),		width: 130},
+                {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),											width: 160},
+                {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),											width: 160},
+                {key: "wayDivNm",		label: ADMIN("ax.admin.BM0104G0.wayDiv"),											width: 60,			align: "center"},
+                {key: "userWayDivNm",	label: ADMIN("ax.admin.BM0104G0.userWayDiv"),	width: 120,		align: "center"},
+                {key: "dvcName",		label: ADMIN("ax.admin.BM0104G0.dvcName"),											width: 90},
+                {key: "line1Str",		label: ADMIN("ax.admin.BM0104G0.line1Str"),											width: 200},
+                {key: "line2Str",		label: ADMIN("ax.admin.BM0104G0.line2Str"),											width: 200},
+                {key: "line1Satstr",	label: ADMIN("ax.admin.BM0104G0.line1Satstr"),										width: 200},
+                {key: "line2Satstr",	label: ADMIN("ax.admin.BM0104G0.line2Satstr"),										width: 200},
+                {key: "line1Sunstr",	label: ADMIN("ax.admin.BM0104G0.line1Sunstr"),										width: 200},
+                {key: "line2Sunstr",	label: ADMIN("ax.admin.BM0104G0.line2Sunstr"),										width: 200},
+                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt")}
             ],
             body: {
                 onClick: function () {
@@ -582,11 +614,12 @@ function searchGrid1(caller, act, data){
 function onClickMap(e) {
 	$("input:checkbox[id='toggleStn']").prop("checked", true);
 	$("input:checkbox[id='toggleNode']").prop("checked", true);
+	var routNm = selectedRow0.routNm;
 	if(stopAdd && !nodeAdd) {
 		var lonlat = e.latLng;
 		var min = 10000000;
 		var minIndex = null;
-		
+		console.log(selectedRow0);
 		for(var i = 0; i < routeData.length - 1; i++) {
 			var result = getDistanceToLine(
 				lonlat.lat(),
@@ -617,7 +650,7 @@ function onClickMap(e) {
 				lati: lonlat.lat(),
 				longi: lonlat.lng(),
 				seq: seq,
-				nodeNm: "임시정류장" + stnSeq,
+				nodeNm: routNm + "_정류장" + stnSeq,
 				nodeType: '1', 
 				icon: '',
 			});
@@ -658,7 +691,7 @@ function onClickMap(e) {
 				lati: lonlat.lat(),
 				longi: lonlat.lng(),
 				seq: seq,
-				nodeNm: "임시노드" + seq,
+				nodeNm: routNm + "_작업노드" + seq,
 				nodeType: '30', 
 				icon: '',};
 		
@@ -723,13 +756,15 @@ function drawRoute(list) {
 			
 			/**드래그이벤트**/
 			list[i].click = function(e) {
-				console.log(routeData.length);
 				var point = e.marker.getPosition();
 				var node = $.extend(true, {}, routeData[e.index]);
 				routeData.splice(e.index, 1);
 				var val = returnInsertRouteInfo(point.lat(), point.lng());
 				
-				if(e.index == 0 || e.index == routeData.length-1){
+				console.log(e.index);
+				console.log(routeData.length);
+				console.log(fnObj.gridView1.getData().length);
+				if(e.index == 0 || e.index == routeData.length){
 					val = true;
 				}
 				
@@ -807,27 +842,40 @@ function btnClick(){
 	});
 	
 	$('#rowDel').on('click', function(){
+		var idx = selectedRow.__index;
 		fnObj.gridView1.delRow("selected");
-		drawRoute(fnObj.gridView1.getData());
+		
+		routeData = fnObj.gridView1.getData();
+		routeData.sort(function (a,b){ return a.seq - b.seq });
+		
+		fnObj.gridView1.setData(routeData);
+		drawRoute(routeData);
+		fnObj.gridView1.selectRow(idx);
 	});
 }
+
+var insertStn = "정류장추가";
+var activeStn = "정류장종료";
+
+var insertNode = "경로추가";
+var activeNode = "경로종료";
 
 function addStop(){
 	if(stopAdd) {
 		stopAdd = false;
 		$("#mapView0").removeClass("cursor-crosshair");
-		$('#stopAdd').html('<button class="btn btn-info" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>');
+		$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add" style="width: 100px;"><i class="cqc-plus"></i>'+ insertStn +'</button>');
 	} else {
 		stopAdd = true;
 		isNewData = true;
 		$("#mapView0").addClass("cursor-crosshair");
-		$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add"><i class="cqc-minus"></i>정류장추가 종료</button>');
+		$('#stopAdd').html('<button class="btn btn-info" data-grid-control="stop-add" style="width: 100px;"><i class="cqc-minus"></i>' + activeStn + '</button>');
 	}
 	
 	if(nodeAdd) {
 		nodeAdd = false;
 		$("#mapView0").removeClass("cursor-crosshair");
-		$('#nodeAdd').html('<button class="btn btn-info" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>');
+		$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add" style="width: 100px;"><i class="cqc-plus"></i>' + insertNode + '</button>');
 	}
 }
 
@@ -835,18 +883,18 @@ function addNode(){
 	if(nodeAdd) {
 		nodeAdd = false;
 		$("#mapView0").removeClass("cursor-crosshair");
-		$('#nodeAdd').html('<button class="btn btn-info" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>');
+		$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add" style="width: 100px;"><i class="cqc-plus"></i>' + insertNode + '</button>');
 	} else {
 		nodeAdd = true;
 		isNewData = true;
 		$("#mapView0").addClass("cursor-crosshair");
-		$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add"><i class="cqc-minus"></i>경로추가 종료</button>');
+		$('#nodeAdd').html('<button class="btn btn-info" data-grid-control="node-add" style="width: 100px;"><i class="cqc-minus"></i>' + activeNode + '</button>');
 	}
 	
 	if(stopAdd) {
 		stopAdd = false;
 		$("#mapView0").removeClass("cursor-crosshair");
-		$('#stopAdd').html('<button class="btn btn-info" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>');
+		$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add" style="width: 100px;"><i class="cqc-plus"></i>' + insertStn + '</button>');
 	}
 }
 

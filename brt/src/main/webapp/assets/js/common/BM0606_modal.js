@@ -23,7 +23,7 @@ var CODE = {};
 // fnObj 기본 함수 스타트와 리사이즈
 fnObj.pageStart = function () {
     var _this = this;
-    
+    console.log(parent);
     _this.pageButtonView.initView();
 	
     preview();

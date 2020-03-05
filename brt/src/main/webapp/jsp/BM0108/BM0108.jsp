@@ -2,6 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ax" tagdir="/WEB-INF/tags" %>
 
+<meta http-equiv="Expires" content=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+
 <ax:set key="title" value="${pageName}"/>
 <ax:set key="page_desc" value="${pageRemark}"/>
 <ax:set key="page_auto_height" value="true"/>
@@ -145,7 +149,7 @@
                     	
                     	<ax:tr>
                       		<ax:td label="ax.admin.BM0108F0.retireYn" width="380px" labelClazz="required">
-                    			<ax:common-code groupCd="RETIRE_YN" name="retireYn" dataPath="retireYn" clazz="form-control" type="radio"/>
+                    			<ax:SM0105 groupCd="RETIRE_YN" id="retireYn" name="retireYn" dataPath="retireYn" clazz="form-control" type="radio"/>
                     		</ax:td>
                     	</ax:tr>
                     	

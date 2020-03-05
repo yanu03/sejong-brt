@@ -118,8 +118,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
-            		axToast.push(LANG("onsave"));
+            		
+                	axToast.push(LANG("onsave"));
+
+            		
+            		localStorage.clear();
+            		sessionStorage.clear();
+            		var cookies = document.cookie; for (var i = 0; i < cookies.split(";").length; ++i) { var myCookie = cookies[i]; var pos = myCookie.indexOf("="); var name = pos > -1 ? myCookie.substr(0, pos) : myCookie; document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT"; }
+            		
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+            		
                 })
                 .catch(function () {
                 	
@@ -157,8 +165,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     });
                 })
                 .then(function (ok, fail, data) {
+            		
             		axToast.push(LANG("onsave"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+
+            		
+        			localStorage.clear();
+        			sessionStorage.clear();
+        			var cookies = document.cookie; for (var i = 0; i < cookies.split(";").length; ++i) { var myCookie = cookies[i]; var pos = myCookie.indexOf("="); var name = pos > -1 ? myCookie.substr(0, pos) : myCookie; document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT"; }
+        			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+        			
+            		//ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
 
@@ -179,8 +195,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         $("#employeeImg").val("");
         $("#certiImg").val("");
         
-    	var url = "/api/v1/filePreview?type=image&eplyId=" + data.eplyId;
-    	var url2 = "/api/v1/filePreview?type=image&eplyId=" + data.eplyId + "_CERTI";
+    	var url = "/api/v1/filePreview?type=image&eplyId=" + data.eplyId + "&" + new Date();
+    	var url2 = "/api/v1/filePreview?type=image&eplyId=" + data.eplyId + "_CERTI&" + new Date();
     	
     	$("#previewImg").attr("src", url);
     	$("#previewImg2").attr("src", url2);

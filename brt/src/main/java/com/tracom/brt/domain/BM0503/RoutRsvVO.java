@@ -43,6 +43,17 @@ public class RoutRsvVO extends BaseVO {
 	private String possible;
 	private String vhcKindNm;
 	private String instLocNm;
+	private String chasNo;
+	private String corpNm;
+	private String areaNm;
+	private String makerNm;
+	private String relsDate;
+	private String modelNm;
+	private String vhcTypeNm;
+	private String lfYnNm;
+	private String vhcFuelNm;
+	private String useYn;
+	private String remark;
 	
 	private List<RoutRsvVO> rsvList;
 	

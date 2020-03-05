@@ -46,7 +46,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var routList = caller.gridView0.getData("selected");
     	
     	if(routList.length == 0) {
-    		axDialog.alert("편성을 선택해주세요");
+    		axDialog.alert("노선을 선택해주세요");
     		return false;
     	}
     	
@@ -54,13 +54,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var allList = caller.gridView1.getData();
     	
     	if(vehicleList.length == 0) {
-    		axDialog.alert("장비를 선택해주세요");
+    		axDialog.alert("차량을 선택해주세요");
     		return false;
     	}
     	
     	for(var i = 0; i < allList.length; i++) {
     		if(allList[i].possible != null) {
-    			axDialog.alert("업데이트가 완료되지 않은 장비가 있습니다. 예약이 불가합니다.")
+    			axDialog.alert("업데이트가 완료되지 않은 차량이 있습니다. 예약이 불가합니다.")
     			return false;
     		}
     	}
@@ -302,12 +302,22 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         	lineNumberColumnWidth: 30,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "possible",	label: "예약여부",		width: 100},
+            	{key: "possible",	label: "예약여부",		width: 70, align: "center"},
             	{key: "vhcId",		label: "차량ID",		width: 100},
-                {key: "vhcNo",		label: "차량번호",		width: 100},
-                {key: "vhcKindNm",	label: "장치종류",		width: 150},
-                {key: "instLocNm",	label: "장치위치",		width: 100},
-                {key: "mngId",		label: "관리ID",		width: 150},
+            	{key: "vhcNo",		label: ADMIN("ax.admin.SM0108.vhc.no"),			width: 100,		align:"center",		sortable: true},
+            	{key: "mngId",		label: "관리ID",		width: 150},
+                {key: "chasNo", 	label: ADMIN("ax.admin.BM0406G1.chasNo"),	width: 130},
+                {key: "corpNm",		label: ADMIN("ax.admin.BM0406G1.corpId"),	width: 120,		align: "center"},
+                {key: "areaNm",		label: ADMIN("ax.admin.BM0406G1.area"),		width: 100,		align: "center"},
+                {key: "makerNm",	label: ADMIN("ax.admin.BM0406G1.maker"),	width: 80,		align: "center"},
+                {key: "relsDate",	label: ADMIN("ax.admin.BM0406G1.relsDate"),	width: 80,		align: "center"},
+                {key: "modelNm",	label: ADMIN("ax.admin.BM0406G1.modelNm"),	width: 100,		align: "center"},
+                {key: "vhcKindNm",	label: ADMIN("ax.admin.BM0406G1.vhcKind"),	width: 80,		align: "center"},
+                {key: "vhcTypeNm",	label: ADMIN("ax.admin.BM0406G1.vhcType"),	width: 70,		align: "center"},
+                {key: "lfYnNm",		label: ADMIN("ax.admin.BM0406G1.lfYn"),		width: 70,		align: "center"},
+                {key: "vhcFuelNm",	label: ADMIN("ax.admin.BM0406G1.vhcFuel"),	width: 50,		align: "center"},
+                {key: "useYn",		label: ADMIN("ax.admin.BM0406G1.useYn"),	width: 70,		align: "center"},
+                {key: "remark",		label: ADMIN("ax.admin.BM0406G1.remark"),	width: 100,		align: "center"},
             ],
             body: {
             	 onClick: function () {

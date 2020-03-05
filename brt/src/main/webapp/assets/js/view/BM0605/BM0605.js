@@ -45,7 +45,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	},
 
 	PAGE_NEW: function (caller, act, data) {
-		togglePreview();
 		isUpdate = false;
 		$("#videoPreview").attr("src", "");
 		$("#imagePreview").attr("src", "");
@@ -53,6 +52,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		caller.formView0.clear();
 		caller.formView0.enable();
 		caller.formView0.validate(true);
+		togglePreview("AV001");
 	},
 
 	PAGE_DELETE: function(caller, act, data) {
@@ -116,8 +116,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 				});
 			})
 			.then(function (ok, fail, data) {
-				axToast.push(LANG("onupdate"));
+				axToast.push(LANG("onsave"));
 				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+				caller.gridView0.selectLastRow();
 			})
 			.catch(function () {
 
@@ -150,7 +151,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 				});
 			})
 			.then(function (ok, fail, data) {
-				axToast.push(LANG("onupdate"));
+				axToast.push(LANG("onsave"));
 				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 			})
 			.catch(function () {

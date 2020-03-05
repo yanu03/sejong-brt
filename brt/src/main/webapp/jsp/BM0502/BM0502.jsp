@@ -36,7 +36,7 @@
         </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
-            <ax:split-panel width="900" style="padding-right: 10px;">
+            <ax:split-panel width="*" style="padding-right: 10px;">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <i class="cqc-news"></i>전면 시정홍보
