@@ -46,7 +46,7 @@
 
 
       <ax:split-layout name="ax1" orientation="vertical">
-	        <ax:split-panel width="570" style="height:800px;">
+	        <ax:split-panel width="*" style="height:800px;">
 	            <ax:split-panel width="100%"
 					style="height:400px; padding-right: 5px;">
 	                <!-- 목록 -->
@@ -121,10 +121,12 @@
 	        
             <ax:splitter></ax:splitter>
             
-            <ax:split-panel width="*" height="100%" style="padding-left: 10px; padding-bottom:40px" scroll="">
             
-	            <ax:split-panel width="500" style="height:300px">
-	            	<div class="ax-button-group">
+            
+            
+            <ax:split-panel width="1010" height="100%" style="padding-left: 10px; padding-bottom:40px" scroll="">
+            	<div style="width:450px; height:100%; float:left;">
+            	   	<div class="ax-button-group">
 		            	<div class="left">
 				            <h3>
 								<i class="cqc-list"></i>
@@ -135,23 +137,23 @@
 		            
 	           		 <div data-ax5grid="gridView1"
 						data-fit-height-content="gridView1" style="height:300px;"></div>
-
-				</ax:split-panel>
-	            
-	            <ax:split-panel width="500" style="height:30px; margin-top:50px;">
-	            	<div style="margin-left: 10px; margin-right: 10px; text-align:center;">
-		            	<button type="button" id="addlist" class="btn btn-default" style="width: 70px;" data-page-btn="addPlayList">
-		            		목록추가↓
+            	</div>
+            	
+            	
+            	<div style="width:100px; height:100%; float:left; line-height:100px;">
+            		<div style="text-align:center; inline-height:100%;">
+		            	<button type="button" id="addlist" class="btn btn-default" style="width: 50px; height:50px; padding-bottom:10px;" data-page-btn="addPlayList">
+		            		->
 		            	</button>
 		            	
-		            	<button type="button" id="rmvlist" class="btn btn-default" style="width: 70px;" data-page-btn="deletePlayList">
-		            		목록제거↑
+		            	<button type="button" id="rmvlist" class="btn btn-default" style="width: 50px; height:50px;" data-page-btn="deletePlayList">
+		            		<-
 		            	</button>
 	            	</div>
-	            </ax:split-panel>
-            
-            	<ax:split-panel width="500" style="padding-bottom:55px;height:300px">
-	            	<div class="ax-button-group">
+            	</div>
+            	
+            	<div style="width:450px; height:100%; float:left;">
+            		<div class="ax-button-group">
 		            	<div class="left">
 				            <h3>
 								<i class="cqc-list"></i>
@@ -171,11 +173,8 @@
 		            
 	            	<div data-ax5grid="gridView2"
 						data-fit-height-content="gridView2" style="height:300px;"></div>
-
-				</ax:split-panel>
-
-            </ax:split-panel>
-			
+            	</div>
+			</ax:split-panel>			
         </ax:split-layout>
 
     </jsp:body>

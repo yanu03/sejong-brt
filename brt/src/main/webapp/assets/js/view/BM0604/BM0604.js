@@ -192,7 +192,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             	{key: "useYn",  label: ADMIN("ax.admin.BM0602G0.useyn"), sortable: true, editor:{type:"checkbox"}, width: 70},
                 {key: "category", label: ADMIN("ax.admin.BM0603G0.category"), align: "center", sortable: true,  width: 120},
                 {key: "provNm", label: ADMIN("ax.admin.BM0604G0.provnm"), align: "center", sortable: true,  width: 120},
-                {key: "newsTitle", label: ADMIN("ax.admin.BM0603G0.newstitle"), width: 500},
+                {key: "newsTitle", label: ADMIN("ax.admin.BM0604G0.newscontents"), width: 500},
                 {key: "pubDt", label: ADMIN("ax.admin.BM0604G0.pubdate"), sortable: true, width: 150},
                 {key: "remark", label: ADMIN("ax.admin.BM0602F0.remark"), width: 300},
             ],

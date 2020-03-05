@@ -63,10 +63,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     RELOAD_G1: function(caller, act, data) {
     	var dataFlag = typeof data !== "undefined";
     	var listLength;
-    	var list = {};
-    	var vocList;
-    	var vdoList;
-    	var etcList;
+    	var list = new Array();
+    	var vocList = {};
+    	var vdoList = {};
+    	vocList.page = {};
+    	vocList.list = list;
+    	vdoList.page = {};
+    	vdoList.list = list;
+    	var count = 0;
+    	var countOne = 0;
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0303G1S0",
@@ -87,8 +92,41 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		                } else {
 		                	caller.gridView1.selectFirstRow();
 		                }
-	                }
                 }
+                }
+            	axboot.ajax({
+            		type: "GET",
+            		url: "/api/v1/BM0303G2S0",
+            		data: {conId: selectedRow.conId},
+            		callback: function (resOne) {
+            			console.log(resOne);
+            			if(resOne.list.length != 0){
+            				for(var i = 0; i< resOne.list.length; i++){
+            					if(resOne.list[i].vocId != null){
+            						resOne.list[i].vocType = "음성";
+            						vocList.list[count] = resOne.list[i];
+            						console.log(vocList);
+            						count++;
+            					}else{
+            						resOne.list[i].vdoType = "영상";
+            						vdoList.list[countOne] = resOne.list[i];
+            						console.log(vdoList);
+            						countOne++;
+            					}
+            				}
+            				console.log(vocList);
+            				console.log(vdoList);
+            				
+            				if(vocList.list.length != 0){
+            					caller.gridView2.setData(vocList);
+            				}
+            				if(vdoList.list.length != 0){
+            					caller.gridView3.setData(vdoList);
+            				}
+            			}
+            			
+            		}
+            	});
             }
         });
     	

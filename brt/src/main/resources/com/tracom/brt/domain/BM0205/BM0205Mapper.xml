@@ -12,7 +12,7 @@
 		   , D.DVC_ID
 		   , D.MNG_ID
 		   , DH.MODEL_NM
-		   , IF(ULOG.COMPLETE_YN IS NULL, '예약가능', IF(ULOG.COMPLETE_YN = 'Y', '예약가능', '예약중')) AS COMPLETE_YN
+		   , MAX(IF(ULOG.COMPLETE_YN IS NULL, '', IF(ULOG.COMPLETE_YN = 'N', '예약중', ''))) AS COMPLETE_YN
 		FROM
 		     BM_VHC_INFO V
 			 LEFT OUTER JOIN BM_DVC_INFO D

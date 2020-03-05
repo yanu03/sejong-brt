@@ -1,6 +1,7 @@
 package com.tracom.brt.domain.BM0109;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,6 +49,8 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 		//routId = voList.get(0).getRoutId();
 		String routId = vo.getRoutId();
 		
+		List<BmRoutNodeInfoVO >staList = new ArrayList<>();
+		List<BmRoutNodeInfoVO> list = new ArrayList<>();
 		//vo.setVoList(voList);
 		//vo.setRoutId(routId);
 		
@@ -55,19 +58,27 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 		mapper.BM0109G1D0(vo.getRoutId());
 		
 		//1. result테이블에 인서트함
-		mapper.BM0109G1I0(vo);
-		//2. 인서트한거 셀렉트함
-		//
-		List<BmRoutNodeInfoVO >staList = mapper.BM0109G1S1(routId);
-		List<BmRoutNodeInfoVO> list = mapper.BM0109G1S2(routId);
-		
-		vo.setVoList(list);
+		if(voList.size() > 0) {
+			mapper.BM0109G1I0(vo);
+			//2. 인서트한거 셀렉트함
+			//
+			staList = mapper.BM0109G1S1(routId);
+			list = mapper.BM0109G1S2(routId);
+			
+			vo.setVoList(list);
+		}
 		mapper.delNodeInfo(vo.getRoutId());
-		mapper.insertNodeInfo(vo);
-
-		//
-		insertRoutSta(staList, routId);
-		insertStaInfo(staList);
+		
+		if(voList.size() > 0) {
+				
+			mapper.insertNodeInfo(vo);
+	
+			//
+			if(staList.size() > 0) {
+				insertRoutSta(staList, routId);
+				insertStaInfo(staList);
+			}
+		}
 		
 		
 	}

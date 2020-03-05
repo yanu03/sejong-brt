@@ -137,7 +137,7 @@
             	header: false
             },           
             "CONTRACT": {
-            	width: 400,
+            	width: 800,
             	height: 450,
             	iframe: {
             		url: "/jsp/common/CONTRACT_modal.jsp"

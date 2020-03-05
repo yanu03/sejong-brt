@@ -45,7 +45,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	},
 
 	PAGE_NEW: function (caller, act, data) {
-		togglePreview();
 		isUpdate = false;
 		$("#videoPreview").attr("src", "");
 		$("#imagePreview").attr("src", "");
@@ -53,6 +52,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		caller.formView0.clear();
 		caller.formView0.enable();
 		caller.formView0.validate(true);
+		togglePreview("AV001");
 	},
 
 	PAGE_DELETE: function(caller, act, data) {
@@ -186,7 +186,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
 	OPEN_BM0301_MODAL: function(caller, act, data) {
 		axboot.modal.open({
-			modalType: "BM0301",
+			modalType: "CONTRACT",
 			param: "",
 			header:false,
 			callback: function (data) {

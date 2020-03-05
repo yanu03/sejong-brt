@@ -48,8 +48,8 @@ public class BM0201Service extends BaseService<VhcDeviceVO, String>{
 	}
     
     public String BM0201F0I0(VhcDeviceVO vo) {
-    	handler.deviceFolder(vo.getMngId());
     	mapper.BM0201F0I0(vo);
+    	handler.deviceFolder(vo.getMngId());
     	return vo.getVhcId();
 		
 	}

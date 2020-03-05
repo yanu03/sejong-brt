@@ -284,7 +284,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             modalType: "BM0201",
             param: "",
             callback: function (data) {
-            	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+            	ACTIONS.dispatch(ACTIONS.RELOAD_G1 , data);
             }
         });
     }

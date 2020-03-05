@@ -27,7 +27,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                      <ax:tr>
                         <ax:td label='ax.admin.BM0601S0.search' width="300px" labelWidth="130px;">
-                        	<input type="text" data-ax5picker="date" data-ax5formatter="date" class="form-control" name="filter" id="filter" width="50px;" placeholder="yyyy/mm(해당월별)" maxlength="7">
+                        	<input type="text" data-ax5picker="date" data-ax5formatter="date" class="form-control" name="filter" id="filter" width="50px;" placeholder="yyyy-mm(해당월별)" maxlength="7">
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -46,64 +46,64 @@
                 <ax:form name="formView0" >                 
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px" style="position:relative;">
                       	<div id="weatImg" style="border: 2px solid #D8D8D8;"></div>
-                      		<ax:tr width="460px;">
-		                      	 <ax:td label="ax.admin.BM0601F0.renewdt" width="230px" style="padding-left:20px;">
-		                    		<input type="text" id="renewDt" data-ax-path="renewDt" class="form-control W130" readonly="readonly"/>
+                      		<ax:tr width="500px;">
+		                      	 <ax:td label="ax.admin.BM0601F0.renewdt" width="250px">
+		                    		<input type="text" id="renewDt" data-ax-path="renewDt" class="form-control" readonly="readonly"/>
 		                    	 </ax:td>
-		                    	 <ax:td label="ax.admin.BM0601F0.skycond" width="230px" style="padding-left:20px;">
+		                    	 <ax:td label="ax.admin.BM0601F0.skycond" width="230px" style="border-left: 1px solid #D8D8D8;">
 		                    		<input type="text" id="skyCond" data-ax-path="skyCond" class="form-control W105" readonly="readonly"/>
 		                    	 </ax:td>
                     		</ax:tr> 
                       	<ax:tr>   
-                      		<ax:td label="ax.admin.BM0601F0.tempc" width="230px" style="padding-left:20px;">                   	           
+                      		<ax:td label="ax.admin.BM0601F0.tempc" width="250px">                   	           
 								<input type="text" id="tempc" data-ax-path="tempc" class="form-control W105" readonly="readonly">
 							</ax:td>
-							<ax:td label="ax.admin.BM0601F0.sdustc" width="230px" style="padding-left:20px;">												
+							<ax:td label="ax.admin.BM0601F0.sdustc" width="230px" style="border-left: 1px solid #D8D8D8;">												
 							    <input type="text" data-ax-path="sdustc" class="form-control W105" readonly="readonly">
 							</ax:td>    													                 		
                       	</ax:tr>
                       
                      	<ax:tr>
-							<ax:td label="ax.admin.BM0601F0.temphigh" width="230px" style="padding-left:20px;">
+							<ax:td label="ax.admin.BM0601F0.temphigh" width="250px">
 								<input type="text" data-ax-path="tempHigh"  class="form-control W105" readonly="readonly">
 							</ax:td>
-							<ax:td label="ax.admin.BM0601F0.dustc" width="230px" style="padding-left:20px;">
+							<ax:td label="ax.admin.BM0601F0.dustc" width="230px" style="border-left: 1px solid #D8D8D8;">
 							    <input type="text" data-ax-path="dustc"  class="form-control W105" readonly="readonly">
 							</ax:td>                    
                     	</ax:tr>
                     
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0601F0.tempmini" width="230px" style="padding-left:20px;">
+                            <ax:td label="ax.admin.BM0601F0.tempmini" width="250px">
                                 <input type="text" data-ax-path="tempMini" class="form-control W105" readonly="readonly"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0601F0.sdc" width="230px" style="padding-left:20px;">
+                            <ax:td label="ax.admin.BM0601F0.sdc" width="230px" style="border-left: 1px solid #D8D8D8;">
                                 <input type="text" data-ax-path="sdc" class="form-control W105" readonly="readonly"/>
                             </ax:td>
                         </ax:tr>                            	
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.BM0601F0.humi" width="230px" style="padding-left:20px;">
+                            <ax:td label="ax.admin.BM0601F0.humi" width="250px">
                             	<input type="text" data-ax-path="humi" class="form-control W105" readonly="readonly"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0601F0.cmc" width="230px" style="padding-left:20px;">
+                            <ax:td label="ax.admin.BM0601F0.cmc" width="230px" style="border-left: 1px solid #D8D8D8;">
                             	<input type="text" data-ax-path="cmc" class="form-control W105" readonly="readonly"/>
                             </ax:td>
                        	</ax:tr>
 
                        	<ax:tr>
-                       		<ax:td label="ax.admin.BM0601F0.rainpro" width="230px" style="padding-left:20px;">
+                       		<ax:td label="ax.admin.BM0601F0.rainpro" width="250px">
                             	<input type="text" data-ax-path="rainPro" class="form-control W105" readonly="readonly"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0601F0.ozonec" width="230px" style="padding-left:20px;">
+                            <ax:td label="ax.admin.BM0601F0.ozonec" width="230px" style="border-left: 1px solid #D8D8D8;">
                             	<input type="text" data-ax-path="ozonec" class="form-control W105" readonly="readonly"/>
                             </ax:td>
                        	</ax:tr>
                        	
                        	<ax:tr>
-                       		<ax:td label="ax.admin.BM0601F0.rainfall" width="230px" style="padding-left:20px;">
+                       		<ax:td label="ax.admin.BM0601F0.rainfall" width="250px">
                             	<input type="text" data-ax-path="rainFall" class="form-control W105" readonly="readonly"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0601F0.ndc" width="230px" style="padding-left:20px;">
+                            <ax:td label="ax.admin.BM0601F0.ndc" width="230px" style="border-left: 1px solid #D8D8D8;">
                             	<input type="text" data-ax-path="ndc" class="form-control W105" readonly="readonly"/>
                             </ax:td>
                        	</ax:tr>

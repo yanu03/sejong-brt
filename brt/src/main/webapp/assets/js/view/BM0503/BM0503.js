@@ -46,7 +46,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var routList = caller.gridView0.getData("selected");
     	
     	if(routList.length == 0) {
-    		axDialog.alert("편성을 선택해주세요");
+    		axDialog.alert("노선을 선택해주세요");
     		return false;
     	}
     	
@@ -54,13 +54,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var allList = caller.gridView1.getData();
     	
     	if(vehicleList.length == 0) {
-    		axDialog.alert("장비를 선택해주세요");
+    		axDialog.alert("차량을 선택해주세요");
     		return false;
     	}
     	
     	for(var i = 0; i < allList.length; i++) {
     		if(allList[i].possible != null) {
-    			axDialog.alert("업데이트가 완료되지 않은 장비가 있습니다. 예약이 불가합니다.")
+    			axDialog.alert("업데이트가 완료되지 않은 차량이 있습니다. 예약이 불가합니다.")
     			return false;
     		}
     	}
