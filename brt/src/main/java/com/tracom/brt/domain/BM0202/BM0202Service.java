@@ -54,16 +54,12 @@ public class BM0202Service extends BaseService<DvcHistoryVO, String>{
 
 	public boolean BM0202M0S0(DvcHistoryVO vo) {
 		if(mapper.BM0202M0S0(vo.getDvcId()) == null && vo.getWorkType().equals("CD022")) {
-			System.out.println("최초설치없습니다.");
     		return true;
     	}else if(mapper.BM0202M0S0(vo.getDvcId()) == null && vo.getWorkType() != "CD022"){
-    		System.out.println("최초설치 없지만 워크타입 최초설치 아닌녀석들");
     		return false;
     	}else if(vo.getWorkType().equals("CD022")) {
-    			System.out.println("최초설치있습니다.");
     			return false;   			
     		}else{
-    			System.out.println("나머지 친구들 인설트");
     			return true;
     		}
     	}

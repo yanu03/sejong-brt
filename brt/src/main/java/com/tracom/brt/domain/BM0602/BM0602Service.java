@@ -67,7 +67,6 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 	            if(child.getNodeType() == Node.ELEMENT_NODE) {
 	            	Element eElement = (Element)child;
 	            	if(eElement.getElementsByTagName("category").item(0) !=null){
-	            		System.out.println("카테고리있음");
 	            		vo.setCategory(ai.getTagValue("category", eElement));	            			
 	            		vo.setProvNm(provUrl);
 	            		vo.setNewsTitle(ai.getTagValue("title", eElement));
@@ -75,7 +74,6 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 	            			vo.setNewsTitle(vo.getNewsTitle().substring(0, 50));
 	            		}
 	            }else {
-	            	   System.out.println("카테고리없음");
 	            	   vo.setCategory("전체");
 	            	   vo.setProvNm(provUrl);
 	            	   vo.setNewsTitle(ai.getTagValue("title", eElement));
@@ -105,7 +103,6 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 		cal.add(Calendar.DATE, -1);
 		
 		String deleteDate = dateFormat.format(cal.getTime());
-		System.out.println(deleteDate);
 		mapper.BM0602D0(deleteDate);
 	}
 

@@ -31,7 +31,6 @@ public class BM0606Service extends BaseService<VdoOrgaVO, String> {
     public boolean BM0606Insert(VdoOrgaVO vo) {
     	int result = 0;
     	mapper.BM0606F0I0(vo);
-    	System.out.println(vo.getOrgaId());
     	if(vo.getPlayList().size() > 0) {
     		result += mapper.BM0606G2I0(vo);    		
     	}

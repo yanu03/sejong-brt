@@ -83,7 +83,6 @@ public class BM0201Service extends BaseService<VhcDeviceVO, String>{
 	}
 
 	public boolean BM0201G1U1(VhcDeviceVO vo) {
-		System.out.println("여기로 오는건가?");
 		if(mapper.BM0201G1U1(vo) > 0) {
 			return true;
 		}else {

@@ -34,8 +34,6 @@ public class BM0201Controller extends BaseController{
     })
     public Responses.ListResponse BM0201G0S0(RequestParams<VhcDeviceVO> requestParams) {
         List<VhcDeviceVO> list = service.BM0201G0S0(requestParams);
-        System.out.println("controller");
-        System.out.println(list);
         return Responses.ListResponse.of(list);
     }
     
@@ -57,7 +55,6 @@ public class BM0201Controller extends BaseController{
     @GetMapping("/BM0201F0S2")
     public Responses.ListResponse BM0201F0S2(RequestParams<VhcDeviceVO> requestParams) {
     	List<VhcDeviceVO> list = service.BM0201F0S2(requestParams);
-    	System.out.println(list);
     	return Responses.ListResponse.of(list);
     }
     

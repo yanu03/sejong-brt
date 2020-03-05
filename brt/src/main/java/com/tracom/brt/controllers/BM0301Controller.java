@@ -37,15 +37,10 @@ public class BM0301Controller extends BaseController {
     public Responses.ListResponse BM0301G0S0(RequestParams<ContractInfoVO> requestParams) {
         List<ContractInfoVO> list = service.BM0301G0S0(requestParams);
         
-        System.out.println(list.size());
         for(int i = 0; i<list.size(); i++) {
         	if(list.get(i).getConfirmYn().equals("Y")) {
-        		System.out.println(list.get(i).getConfirmYn());
-        		System.out.println("확정");
         		list.get(i).setConfirmYn("확정");
         	}else {
-        		System.out.println(list.get(i).getConfirmYn());
-        		System.out.println("미확정");
         		list.get(i).setConfirmYn("미확정");
         	}
         	
@@ -55,8 +50,6 @@ public class BM0301Controller extends BaseController {
     
     @GetMapping("/BM0301G0S1")
     public Responses.ListResponse BM0301G0S1(RequestParams<ContractInfoVO> requestParams) {
-    	System.out.println("list");
-    	System.out.println(requestParams);
         List<ContractInfoVO> list = service.BM0301G0S1(requestParams);
         return Responses.ListResponse.of(list);
     }
@@ -87,7 +80,6 @@ public class BM0301Controller extends BaseController {
     
     @PostMapping("/BM0301G0D0")
     public ApiResponse BM0301G0D0(@RequestBody ContractInfoVO request) {
-    	System.out.println(request);
     	service.BM0301G0D0(request);
     	return ok();
     }

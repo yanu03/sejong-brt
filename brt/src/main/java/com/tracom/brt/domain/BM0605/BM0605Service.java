@@ -88,12 +88,10 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
     	boolean flag = false;
     	
     	for(VideoInfoVO v : voList) {
-    		System.out.println(v.getOrgaId());
     		if(v.getOrgaId() != null) {
     			flag = true;
     		}
     	}
-    	System.out.println(flag);
     	if(!flag) {
 	    	if(mapper.BM0605G0D0(vo) > 0) {
 	    		return true;

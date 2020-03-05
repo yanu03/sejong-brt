@@ -60,7 +60,6 @@ public class BM0609Service extends BaseService<ScrRsvVO, String>{
 			v.setCol2(col2[i]);
 			result.add(v);
 		}
-		System.out.println(result);
 		return result;
 	}
 	
