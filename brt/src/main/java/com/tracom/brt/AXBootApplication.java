@@ -7,6 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @PropertySource(value = {"classpath:axboot-common.properties", "classpath:axboot-${spring.profiles.active:local}.properties"})
+//@PropertySource(value = {"classpath:axboot-common.properties", "classpath:axboot-${spring.profiles.active:production}.properties"})
 @Import(AXBootCoreConfiguration.class)
 public class AXBootApplication {
 }
