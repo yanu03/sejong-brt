@@ -44,7 +44,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             if(selectedRowG1 != null){
             	caller.gridView1.target.exportExcel("장치목록"+selectedRowG1.dvcId + "data.xls");
             }else{ 		
-    		alert("장치 목록을 선택해주세요");
+            	axDialog.alert("장치 목록을 선택해주세요");
             }
     	}
     },

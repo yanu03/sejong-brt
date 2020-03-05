@@ -79,7 +79,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 		}
                 $("#check").append("<div id='busCheck' style='background-color:"+dvcCond+"; width:22px;height:22px; border-radius:11px; position: absolute; left:"+res.list[i].txtVal1+"px; top:"+res.list[i].txtVal2+"px;]'/>");
                 		}else{
-                			alert(LANG("ax.script.requireselect"));
+                			axDialog.alert(LANG("ax.script.requireselect"));
                 		}
                 	}              	
                }*/

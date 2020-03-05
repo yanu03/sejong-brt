@@ -250,7 +250,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var color = $('#fontAll').val();
     	
     	if(color.length != 9 || color.substr(0, 1) != '#'){
-    		alert("ARGB 양식을 맞춰주세요");
+    		axDialog.alert("ARGB 양식을 맞춰주세요");
     		return false;
     	}    	
     	else{
@@ -286,7 +286,7 @@ $("input[id=bmpFile]").change(function(){
     var ext = $(this).val().split(".").pop().toLowerCase();
     
     if($.inArray(ext,["bmp", "BMP"]) == -1) {
-        alert("bmp 파일만 업로드 가능합니다.");
+    	axDialog.alert("bmp 파일만 업로드 가능합니다.");
         $("input[id=bmpFile]").val("");
         return;
     }
@@ -294,7 +294,7 @@ $("input[id=bmpFile]").change(function(){
     /*var fileSize = this.files[0].size;
     var maxSize = 1024 * 1024;
     if(fileSize > maxSize) {
-        alert("파일용량을 초과하였습니다.");
+        axDialog.alert("파일용량을 초과하였습니다.");
         return;
     }*/
     
@@ -304,13 +304,13 @@ $("input[id=bmpFile]").change(function(){
     
     img.src = _URL.createObjectURL(file);
     img.onload = function() {
-        //alert(img.width);
-        //alert(img.height);
+        //axDialog.alert(img.width);
+        //axDialog.alert(img.height);
         
         preview_ChangeImage("src", "previewImg");
     	
         /*if(img.width != 384 || img.height != 64) {
-            alert("이미지 가로 684px, 세로 64px로 맞춰서 올려주세요.");
+            axDialog.alert("이미지 가로 684px, 세로 64px로 맞춰서 올려주세요.");
             $("input[id=bmpFile]").val("");
         } */
     }
@@ -322,7 +322,7 @@ $("input[id=bmpFile]").change(function(){
     var ext = $(this).val().split(".").pop().toLowerCase();
     
     if($.inArray(ext,["bmp", "BMP"]) == -1) {
-        alert("bmp 파일만 업로드 가능합니다.");
+    	axDialog.alert("bmp 파일만 업로드 가능합니다.");
         $("input[id=bmpFile]").val("");
         return;
     }
@@ -330,7 +330,7 @@ $("input[id=bmpFile]").change(function(){
     /*var fileSize = this.files[0].size;
     var maxSize = 1024 * 1024;
     if(fileSize > maxSize) {
-        alert("파일용량을 초과하였습니다.");
+        axDialog.alert("파일용량을 초과하였습니다.");
         return;
     }*/
     
@@ -340,8 +340,8 @@ $("input[id=bmpFile]").change(function(){
     
     img.src = _URL.createObjectURL(file);
     img.onload = function() {
-        //alert(img.width);
-        //alert(img.height);
+        //axDialog.alert(img.width);
+        //axDialog.alert(img.height);
         
         preview_ChangeImage("src", "previewImg");
     	
@@ -577,7 +577,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         var rs = this.model.validate();
         if (rs.error) {
         	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        		axDialog.alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
         	}
             rs.error[0].jquery.focus();
             return false;

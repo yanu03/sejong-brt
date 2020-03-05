@@ -125,20 +125,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 							searchGrid1(caller, act, selectedRow);
 							axToast.push(LANG("onsave"));
 						}else{
-							alert('갱신 실패');
+							axDialog.alert('갱신 실패');
 						}
 					}
 				});
 				return false;
 				}else{
-					alert("취소합니다");
+					axDialog.alert("취소합니다");
 					return;
 				}
 			} else {
-				alert(LANG("ax.script.requireselect"));
+				axDialog.alert(LANG("ax.script.requireselect"));
 			}
 		}else{   //취소
-			alert("취소합니다.");
+			axDialog.alert("취소합니다.");
 			return;
 		}
 		//

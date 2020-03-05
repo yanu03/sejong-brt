@@ -129,7 +129,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	            });
     	return false;
     	}else{
-    		 alert(LANG("ax.script.requireselect"));
+    		axDialog.alert(LANG("ax.script.requireselect"));
     	}
     	
     },
@@ -173,7 +173,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             });
     		
     	}else{
-    		alert(LANG("ax.script.requireselect"));
+    		axDialog.alert(LANG("ax.script.requireselect"));
     	}
     },
       
@@ -181,7 +181,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	if(selectedRow != null){   		
     		caller.gridView0.target.exportExcel("차내장치 업데이트 차량 목록_" + new Date().yyyymmdd() + ".xls");
     	}else {
-    		alert(LANG("ax.script.requireselect"));
+    		axDialog.alert(LANG("ax.script.requireselect"));
     	}
     },
     

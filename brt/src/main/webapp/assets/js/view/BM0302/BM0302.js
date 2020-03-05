@@ -51,7 +51,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         if(formData.length != 0){
         for(var i =0; i< formData.length; i++){
         	if(formData[i].confirmYn == "미확정"){
-        		alert("확정되지 않은 계약이 있으면 추가하실수 없습니다.");
+        		axDialog.alert("확정되지 않은 계약이 있으면 추가하실수 없습니다.");
         		break;
         	}else{
         		if(formData["altDiv"] == "종료"){
@@ -291,7 +291,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    	);
 	    }
     	}else{
-    		alert("지난 변경계약은 확정,확정해제가 되지않습니다.");
+    		axDialog.alert("지난 변경계약은 확정,확정해제가 되지않습니다.");
     	}
     },
     
@@ -693,7 +693,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         var rs = this.model.validate();
         if (rs.error) {
         	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        		axDialog.alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
         	}
             rs.error[0].jquery.focus();
             return false;

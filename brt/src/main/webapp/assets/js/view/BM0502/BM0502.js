@@ -483,7 +483,7 @@ $("input[id=bmpFileF]").change(function(){
     var ext = $(this).val().split(".").pop().toLowerCase();
     
     if($.inArray(ext,["bmp", "BMP", ""]) == -1) {
-        alert("bmp 파일만 업로드 가능합니다.");
+    	axDialog.alert("bmp 파일만 업로드 가능합니다.");
         $("input[id=bmpFileF]").val("");
         return;
     }else if($.inArray(ext,["bmp", "BMP", ""]) == 2) {
@@ -508,7 +508,7 @@ $("input[id=bmpFileS]").change(function(){
     var ext = $(this).val().split(".").pop().toLowerCase();
     
     if($.inArray(ext,["bmp", "BMP"]) == -1) {
-        alert("bmp 파일만 업로드 가능합니다.");
+    	axDialog.alert("bmp 파일만 업로드 가능합니다.");
         $("input[id=bmpFileS]").val("");
         return;
     }else if($.inArray(ext,["bmp", "BMP", ""]) == 2) {
@@ -519,7 +519,7 @@ $("input[id=bmpFileS]").change(function(){
     /*var fileSize = this.files[0].size;
     var maxSize = 1024 * 1024;
     if(fileSize > maxSize) {
-        alert("파일용량을 초과하였습니다.");
+        axDialog.alert("파일용량을 초과하였습니다.");
         return;
     }*/
     
@@ -531,8 +531,8 @@ $("input[id=bmpFileS]").change(function(){
     img.onload = function() {
     	uv_sideheightz = img.height / uv_sideheight + 1;
         preview_ChangeImage("src", "previewImgS");
-        //alert(img.width);
-        //alert(img.height);
+        //axDialog.alert(img.width);
+        //axDialog.alert(img.height);
         
     }
 });
@@ -655,7 +655,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         var rs = this.model.validate();
         if (rs.error) {
         	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        		axDialog.alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
         	}
             rs.error[0].jquery.focus();
             return false;
@@ -728,7 +728,7 @@ fnObj.formView1 = axboot.viewExtend(axboot.formView, {
         var rs = this.model.validate();
         if (rs.error) {
         	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        		axDialog.alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
         	}
             rs.error[0].jquery.focus();
             return false;

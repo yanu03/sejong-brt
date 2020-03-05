@@ -437,7 +437,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 		var rs = this.model.validate();
 		if (rs.error) {
 			if(!flag) {
-				alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+				axDialog.alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
 			}
 			rs.error[0].jquery.focus();
 			return false;
@@ -493,14 +493,14 @@ function onChangeFile(){
     var ext = $(this).val().split(".").pop().toLowerCase();
 		if($('#fileType').val() == 'AV001'){
 			if($.inArray(ext,["mp4", "mp4"]) == -1) {
-				alert("mp4 파일만 업로드 가능합니다.");
+				axDialog.alert("mp4 파일만 업로드 가능합니다.");
 				$("input[id=vdoFile]").val("");
 				$('#videoPreview').attr('src', '');
 				return;
 			}		
 		}else{
 			if($.inArray(ext,["jpg", "JPG"]) == -1) {
-				alert("JPG 파일만 업로드 가능합니다.");
+				axDialog.alert("JPG 파일만 업로드 가능합니다.");
 				$("input[id=vdoFile]").val("");
 				$('#imagePreview').attr('src', '');
 				return;

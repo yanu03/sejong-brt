@@ -23,7 +23,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             doctarget.insertHtml(image_tag);
             window.close();
         } else {
-            alert("선택된 파일이 없습니다.");
+        	axDialog.alert("선택된 파일이 없습니다.");
         }
     },
     PAGE_DEL: function (caller, act, data) {
@@ -193,7 +193,7 @@ fnObj.uploadView = axboot.viewExtend(axboot.commonView, {
     },
     onSubmit: function () {
         if (this.target.upload.value == "") {
-            alert("파일을 선택해주세요.");
+        	axDialog.alert("파일을 선택해주세요.");
             return false;
         }
         this.upload();
@@ -216,7 +216,7 @@ fnObj.uploadView = axboot.viewExtend(axboot.commonView, {
             var res = JSON.parse(result);
 
             if (res.error) {
-                alert(res.error);
+            	axDialog.alert(res.error);
             }
             else {
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);

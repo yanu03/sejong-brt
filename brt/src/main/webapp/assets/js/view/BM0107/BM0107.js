@@ -47,7 +47,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     	
     	if(grid.list[grid.selectedDataIndexs].nodeType == 1){
-    		alert("정류장은 삭제할 수 없습니다");
+    		axDialog.alert("정류장은 삭제할 수 없습니다");
     		return false;
     	}
     	if(confirm("삭제 후에는 되돌릴수 없습니다. 정말 삭제하시겠습니까?") == true){    //확인
@@ -101,7 +101,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 					axToast.push("갱신 성공");
 					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 				}else{
-					alert('갱신 실패');
+					axDialog.alert('갱신 실패');
 				}
 			}
 		});
@@ -142,24 +142,24 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 					data: JSON.stringify(list),
 					callback: function (res) {
 						if(res.status == 0){
-							alert('갱신 성공');
+							axDialog.alert('갱신 성공');
 							ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 							caller.gridView0.selectRow(selectedRow.__index);
 						}else{
-							alert('갱신 실패');
+							axDialog.alert('갱신 실패');
 						}
 					}
 				});
 				return false;
 				}else{
-					alert("취소합니다");
+					axDialog.alert("취소합니다");
 					return;
 				}
 			} else {
-				alert(LANG("ax.script.requireselect"));
+				axDialog.alert(LANG("ax.script.requireselect"));
 			}
 		}else{   //취소
-			alert("취소합니다.");
+			axDialog.alert("취소합니다.");
 			return;
 		}
     },
@@ -177,7 +177,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                     data: JSON.stringify(postData),
                     callback: function (res) {
                     	if(res.message == "error"){
-                    		alert("중복된 노선ID가 있습니다. 확인 후 저장하세요.");
+                    		axDialog.alert("중복된 노선ID가 있습니다. 확인 후 저장하세요.");
                     	}else{
                     		ok(res);
                     	}

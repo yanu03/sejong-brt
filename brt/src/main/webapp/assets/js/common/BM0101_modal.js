@@ -23,7 +23,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 parent.axboot.modal.callback(list[0]);
             }
         } else {
-            alert(LANG("ax.script.requireselect"));
+            axDialog.alert(LANG("ax.script.requireselect"));
         }
     },
     ITEM_CLICK: function (caller, act, data) {

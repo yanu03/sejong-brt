@@ -117,7 +117,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_NEW: function(caller, act, data){
     	//TODO: GRID0에 새로운로우 추가할거고
     	if(isNewData == true){
-    		alert("편집중인 노선을 삭제하거나, 저장해 주세요");
+    		axDialog.alert("편집중인 노선을 삭제하거나, 저장해 주세요");
     		return false;
     	}
     	fnObj.gridView0.addRow({routId: "편집중인 노선"});

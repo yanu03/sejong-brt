@@ -19,7 +19,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_CHOICE: function (caller, act, data) {
         var list = caller.gridView01.getData("selected");
         if (list.length > 0) {
-        	alert(LANG("ax.script.interfaceConfirm"));
+        	axDialog.alert(LANG("ax.script.interfaceConfirm"));
             /*if (parent && parent.axboot && parent.axboot.modal) {
                 parent.axboot.modal.callback(list[0]);
             }*/
@@ -29,17 +29,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 data: JSON.stringify(list),
                 callback: function (res) {
                 	if(res.list.length > 0){
-                		alert("갱신 성공");
+                		axDialog.alert("갱신 성공");
                 		ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
                 	}
                 	else{
-                		alert("갱신 실패");
+                		axDialog.alert("갱신 실패");
                 	}
                 }
             });
             return false;
         } else {
-            alert(LANG("ax.script.requireselect"));
+        	axDialog.alert(LANG("ax.script.requireselect"));
         }
     },
     ITEM_CLICK: function (caller, act, data) {

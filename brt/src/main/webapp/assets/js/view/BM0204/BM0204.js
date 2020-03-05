@@ -35,7 +35,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	if(selectedRow != null){   		
     		caller.gridView0.target.exportExcel(" OBE 목록_" + new Date().yyyymmdd() + ".xls");
     	}else {
-    		alert("장치 목록을 선택해주세요");
+    		axDialog.alert("장치 목록을 선택해주세요");
     	}
     },
     
