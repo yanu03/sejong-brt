@@ -197,6 +197,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		    	            modalType: "SECOND_PASSWORD",
 		    	            param: "",
 		    	            callback: function (data) {
+		    	            	console.log(data);
 		    	            	if (caller.formView0.validate()) {
 		    	            		var formData = caller.formView0.getData();    					
 		    	            		axboot.promise()

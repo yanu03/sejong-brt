@@ -105,16 +105,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		window.parent.fnObj.tabView.closeActiveTab();
 	},
 
-	/*ITEM_CLICK_G0: function (caller, act, data) {
-		removeAllPopUp();
-		removeMarkers();
-		searchGrid1(caller, act, data);
-		selectedRow = data;
+	ITEM_CLICK_G0: function (caller, act, data) {
+		moveMap(data.lati , data.longi);
 	},
 
 	ITEM_CLICK_G1: function (caller, act, data) {
 		moveMap(data.lati, data.longi);
-	},*/
+	},
 	SELECT_ROUT : function(caller, act, data){
 	},
 });
@@ -197,6 +194,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 				body: {
 					onClick: function () {
 						this.self.select(this.dindex);
+						ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G0, this.item);
 					}
 				},
 		});
@@ -226,7 +224,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 	selectFirstRow: function() {
 		if(this.target.list.length != 0) {
 			this.selectRow(0);
-			//ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G0, this.target.list[0]);
+			ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G0, this.target.list[0]);
 		} else {
 		}
 	},
@@ -288,6 +286,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 				body: {
 					onClick: function () {
 						this.self.select(this.dindex);
+						ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
 					}
 				},
 		});
@@ -317,7 +316,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 	selectFirstRow: function() {
 		if(this.target.list.length != 0) {
 			this.selectRow(0);
-			//ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.target.list[0]);
+			ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.target.list[0]);
 		} else {
 		}
 	},
@@ -388,13 +387,23 @@ function makeStnMarker(data){
 	var staNm	= [];
 	var stnY	= [];
 	var stnX	= [];
+	var mainStaNm = [];
+	var mainStnY = [];
+	var mainStnX = [];
 	for(var i = 0; i < data.length; i++){
-		stnX.push(data[i].longi);
-		stnY.push(data[i].lati);
-		staNm.push(i+1 + ". " + data[i].vhcNo);
-		//popUp(data.list[i].lati, data.list[i].longi, data.list[i].staNm);
-		console.log(staNm);
+		if(data[i].modelNm == "전기굴절버스"){
+			mainStnX.push(data[i].longi);
+			mainStnY.push(data[i].lati);
+			mainStaNm.push(data[i].vhcNo);
+		}else{
+			stnX.push(data[i].longi);
+			stnY.push(data[i].lati);
+			staNm.push(i+1 + ". " + data[i].vhcNo);
+		}
+		console.log(data);
 	}
+	console.log(mainStaNm);
+	addMarkerAni(mainStnY , mainStnX , mainStaNm);
 	addMarkers(stnY, stnX, staNm);
 	
 }

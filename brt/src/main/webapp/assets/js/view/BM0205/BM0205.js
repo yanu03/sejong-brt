@@ -65,15 +65,25 @@ var ACTIONS = axboot.actionExtend(fnObj, {
       					if(check == true){
       						if(list != null){
       							axboot.modal.open({
-      								modalType: "RESERVATION",
-      								param: "",
-      								callback: function (result) {
-      									this.close();
-      									ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
-      										date: result
-      									});
-      								}
-      							});
+      			    	            modalType: "SECOND_PASSWORD",
+      			    	            param: "",
+      			    	            callback: function (resOne) {
+      			    	            	this.close();
+      			    	            	console.log(resOne);
+      			    	            	axboot.modal.open({
+      			    	            		modalType: "RESERVATION",
+      			    	            		param: "",
+      			    	            		callback: function (result) {
+      			    	            			this.close();
+      			    	            			ACTIONS.dispatch(ACTIONS.INSERT_RESERVATION, {
+      			    	            				date: result
+      			    	            			});
+      			    	            		}
+      			    	            	});
+      			    	          }
+      							
+      			    	        });
+      							
       						}else{
       							axDialog.alert(LANG("ax.script.requireselect"));
       						}

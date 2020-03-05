@@ -182,18 +182,27 @@ public class FTPHandler {
 		}
 		
 		String dir = Paths.get(getRootLocalPath() , path).toString();
+		String dirFtp = Paths.get(getRootServerPath() , path).toString();
+		
 		File dirPathConfig = new File(dir +"/config");
 		File dirPathFirmware = new File(dir + "/firmware");
 		File dirPathPlaylist = new File(dir + "/playlist");
 		
+		File dirPathConfigFtp = new File(dirFtp + "/config");
+		File dirPathFirmwareFtp = new File(dirFtp + "/firmware");
+		File dirPathPlaylistFtp = new File(dirFtp + "/playlist");
+		
 		if(!dirPathConfig.isDirectory()) {
 			dirPathConfig.mkdirs();
+			dirPathConfigFtp.mkdirs();
 		}
 		if(!dirPathFirmware.isDirectory()) {
 			dirPathFirmware.mkdirs();
+			dirPathFirmwareFtp.mkdirs();
 		}
 		if(!dirPathPlaylist.isDirectory()) {
 			dirPathPlaylist.mkdirs();
+			dirPathPlaylistFtp.mkdirs();
 		}
 	}
 	
