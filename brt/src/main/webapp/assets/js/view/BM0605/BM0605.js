@@ -84,7 +84,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 						caller.formView0.clear();
 						axToast.push(LANG("ondelete"));
 					}else{
-						alert("편성이 있는 영상입니다. 영상편성에서 제거해 주세요.");
+						axDialog.alert("편성이 있는 영상입니다. 영상편성에서 제거해 주세요.");
 					}
 					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);						
 				})
