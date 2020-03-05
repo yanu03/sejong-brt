@@ -46,7 +46,6 @@ public class BM0205Service extends BaseService<VhcDvcUpdateVO, String>{
 	}
 
 	public boolean BM0205G0S1(VhcDvcUpdateVO vo) {
-		boolean mngFCheck = false;
 		boolean mngCheck = true;
 		List<VhcDvcUpdateVO> list = mapper.BM0205G0S1(vo);
 		if(list != null) {

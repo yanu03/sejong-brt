@@ -64,6 +64,12 @@ public class BM0201Controller extends BaseController{
     @GetMapping("/BM0201G1S1")
     public Responses.ListResponse BM0201G1S1(RequestParams<VhcDeviceVO> requestParams) {
     	List<VhcDeviceVO> list = service.BM0201G1S1(requestParams);
+    	VhcDeviceVO vo = new VhcDeviceVO();
+    	System.out.println("controller");
+    	if(list.size() == 0) {
+    		vo.setCompleteYn("Y");
+    		list.add(vo);
+    	}
     	return Responses.ListResponse.of(list);
     }
     

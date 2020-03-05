@@ -76,6 +76,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 		  completeYn = "true";
                 	  }
                   }
+                  console.log("completeYn");
+                  console.log(completeYn);
                   if(completeYn == "true"){
                 	if(res.list.length < 2){
 		                if(res.list.length > 0){               	               	
