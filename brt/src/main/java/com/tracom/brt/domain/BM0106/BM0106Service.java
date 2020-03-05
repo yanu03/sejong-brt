@@ -57,12 +57,11 @@ public class BM0106Service extends BaseService<BmStaNmInfoVO, String> {
     	List<BmStaInfoVO> list = mapper.getSwpList();
     	BmStaInfoVO vo = new BmStaInfoVO();
     	vo.setVoList(list);
-    	if(mapper.deleteStaNmInfo(vo) > 0) {
-    		if(mapper.deleteStaInfo(vo) > 0) {
-    			return true;
-    		}else {
-    			return false;
-    		}
+    	int i = mapper.deleteStaNmInfo(vo);
+    	int j = mapper.deleteStaInfo(vo);
+    	
+    	if(i + j > 0) {
+    		return true;    		
     	}else {
     		return false;
     	}
