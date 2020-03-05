@@ -30,7 +30,7 @@ public class BM0609Service extends BaseService<ScrRsvVO, String>{
 
 	
 	@Transactional
-	public void BM0609G1I0(ScrRsvVO vo) throws IOException {
+	public void BM0609G1I0(ScrRsvVO vo) throws Exception {
 		for(ScrRsvVO v : vo.getVoList()) {
 			v.setRsvDate(vo.getRsvDate());
 			v.setSetId(vo.getSetId());

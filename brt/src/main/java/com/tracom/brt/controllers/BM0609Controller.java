@@ -33,7 +33,7 @@ public class BM0609Controller extends BaseController{
     
     
     @PostMapping("/BM0609G1I0")
-    public ApiResponse BM0607G1I0(@RequestBody ScrRsvVO requestParam) throws IOException {
+    public ApiResponse BM0607G1I0(@RequestBody ScrRsvVO requestParam) throws Exception {
     	service.BM0609G1I0(requestParam);
     	return ok();
     }

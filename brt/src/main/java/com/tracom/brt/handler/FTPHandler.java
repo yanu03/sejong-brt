@@ -282,11 +282,17 @@ public class FTPHandler {
 	
 	//BM0607 영상예약
 	public void reserveVideo(VdoRsvVO vo) throws Exception {
-		String videoPath = "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";
+		String videoPath = "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist/";
 		String path = Paths.get(getRootLocalPath(), videoPath).toString();
 		String fromPath = Paths.get(getRootLocalPath(), "/video/").toString();
 		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device/passenger/").toString();
 		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/passenger/";
+		String vfPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist/";
+		File dir = new File(toPath);
+
+		if(!dir.isDirectory()) {
+			dir.mkdir();
+		}
 		
 		String txt = GlobalConstants.CSVForms.VIDEO_PLAY_LIST;
 		
@@ -308,6 +314,7 @@ public class FTPHandler {
 			copyFile(fFile, tFile);
 			
 			processSynchronize(toPath, fPath);
+			processSynchronize(path, vfPath);
 
 		}
 		
@@ -322,10 +329,10 @@ public class FTPHandler {
 	}
 	
 	//BM0609 화면예약
-	public void reserveScreen(ScrRsvVO vo) throws IOException {
+	public void reserveScreen(ScrRsvVO vo) throws Exception {
 		String path = Paths.get(getRootLocalPath(), "/vehicle", "/" , vo.getImpId(), "/device" , "/", vo.getDvcId(), "/config").toString();
 		String fromPath = Paths.get(getRootLocalPath(), "/template/", vo.getSetId()).toString();
-		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/config";
+		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/config/";
 		
 		String txt = "";
 		
@@ -339,6 +346,8 @@ public class FTPHandler {
 			
 			txt += row;
 		}
+		File file = new File(path + "/config.csv");
+		Utils.createCSV(file, txt);
 		
 		File fFile1 = new File(fromPath + "/background.png");
 		File tFile1 = new File(path + "/background.png");
@@ -351,10 +360,8 @@ public class FTPHandler {
 		copyFile(fFile2, tFile2);
 		copyFile(fFile3, tFile3);
 		
-		File file = new File(fPath + "/config.csv");
 		
 		try {
-			Utils.createCSV(file, txt);
 			processSynchronize(path, fPath);
 		} catch (Exception e) {
 			e.printStackTrace();
