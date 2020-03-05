@@ -300,8 +300,8 @@ public class FTPHandler {
 		String path = Paths.get(getRootLocalPath(), videoPath).toString();
 		String fromPath = Paths.get(getRootLocalPath(), "/video").toString();
 		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device/passenger").toString();
-		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/passenger";
-		String vfPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";
+		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/passenger/";
+		String vfPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist/";
 		File dir = new File(toPath);
 
 		if(!dir.isDirectory()) {
@@ -328,14 +328,14 @@ public class FTPHandler {
 			copyFile(fFile, tFile);
 
 		}
-		
-		processSynchronize(toPath, fPath);
-		processSynchronize(path, vfPath);
-		
 		File file = new File(path + "/playlist.csv");
+		
+		
 		
 		try {
 			Utils.createCSV(file, txt);
+			processSynchronize(toPath, fPath);
+			processSynchronize(path, vfPath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -345,7 +345,7 @@ public class FTPHandler {
 	public void reserveScreen(ScrRsvVO vo) throws Exception {
 		String path = Paths.get(getRootLocalPath(), "/vehicle", "/" , vo.getImpId(), "/device" , "/", vo.getDvcId(), "/config").toString();
 		String fromPath = Paths.get(getRootLocalPath(), "/template/", vo.getSetId()).toString();
-		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/config";
+		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/config/";
 		
 		String txt = "";
 		
@@ -391,7 +391,7 @@ public class FTPHandler {
 		
 		String path = Paths.get(getRootLocalPath(), "/temp/destination/images").toString();
 		String toPath = Paths.get(getRootLocalPath(), "/destination", "/images").toString();
-		String fPath = getRootServerPath() + "/destination/images";
+		String fPath = getRootServerPath() + "/destination/images/";
 		
 		List<RoutRsvVO> voList = vo.getRsvList();
 		File fFileFLOGOBMP = new File(path + "/FLOGO.BMP");
@@ -456,7 +456,7 @@ public class FTPHandler {
 			processSynchronize(path, fPath);
 		}*/
 		String path = Paths.get(getRootLocalPath(), "/destination/list").toString();
-		String fPath = getRootServerPath() + "/destination/list";
+		String fPath = getRootServerPath() + "/destination/list/";
 		File file = new File(path + "/LIST.CSV");
 		Utils.createCSV(file, txt);
 		processSynchronize(path, fPath);
