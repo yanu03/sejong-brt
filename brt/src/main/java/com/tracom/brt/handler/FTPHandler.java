@@ -714,7 +714,7 @@ public class FTPHandler {
 			DestinationVO vo = new DestinationVO();
 			int seq = i + 1;
 			vo.setFrameNo("FRAME" + seq);
-			vo.setEffType("01");
+			vo.setEffType("화면그대로 표출");
 			vo.setEffSpeed("05");
 			vo.setShowTime("0000");
 			realList.add(vo);
@@ -733,7 +733,6 @@ public class FTPHandler {
 			if(i == 0) {
 				txt += list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + SM0105Mapper.SM0105G3S0(list.get(i).getEffType()) + GlobalConstants.SCH.TAB + String.format("%02d", Integer.valueOf(list.get(i).getEffSpeed())) + GlobalConstants.SCH.TAB + String.format("%04d", Integer.valueOf(list.get(i).getShowTime()));
 			}else {
-				
 				txt += GlobalConstants.CSVForms.ROW_SEPARATOR
 						+ list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + SM0105Mapper.SM0105G3S0(list.get(i).getEffType()) + GlobalConstants.SCH.TAB + String.format("%02d", Integer.valueOf(list.get(i).getEffSpeed())) + GlobalConstants.SCH.TAB + String.format("%04d", Integer.valueOf(list.get(i).getShowTime()));
 			}

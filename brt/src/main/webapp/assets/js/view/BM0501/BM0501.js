@@ -344,9 +344,12 @@ $("input[id=bmpFile]").change(function(){
     
     var ext = $(this).val().split(".").pop().toLowerCase();
     
-    if($.inArray(ext,["bmp", "BMP"]) == -1) {
+    if($.inArray(ext,["bmp", "BMP", ""]) == -1) {
         alert("bmp 파일만 업로드 가능합니다.");
         $("input[id=bmpFile]").val("");
+        return;
+    }else if($.inArray(ext,["bmp", "BMP", ""]) == 2) {
+    	$("input[id=bmpFile]").val("");
         return;
     }
     

@@ -34,7 +34,6 @@ public class BM0501Controller extends BaseController {
     @PostMapping("/BM0501F0S0")
     public Responses.ListResponse BM0501F0S0(@RequestBody DestinationVO request) throws Exception{
     	List<DestinationVO> list = service.selectSCHFile(request);
-    	System.out.println(list);
     	return Responses.ListResponse.of(list);
     }
     
