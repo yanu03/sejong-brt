@@ -29,8 +29,9 @@
             LEFT JOIN BM_CORP_INFO CORP
             ON INFO.CORP_ID = CORP.CORP_ID
             
-            LEFT JOIN (SELECT * FROM SM_DL_CD_INFO WHERE CO_CD = 'RETIRE_YN') DLCD2
-            ON INFO.RETIRE_YN = DLCD2.TXT_VAL1
+            LEFT JOIN SM_DL_CD_INFO DLCD2
+            ON INFO.RETIRE_YN = DLCD2.DL_CD AND DLCD2.CO_CD = 'RETIRE_YN'
+            
     	<where>
 	    	<if test="value != null">
 				EPLY_ID LIKE CONCAT('%', #{value}, '%')
