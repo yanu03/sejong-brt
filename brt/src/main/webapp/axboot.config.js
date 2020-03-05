@@ -209,7 +209,7 @@
             
             "SECOND_PASSWORD": {
 				width: 400,
-				height: 150,
+				height: 200,
 				iframe: {
 					url: "/jsp/common/second-password_modal.jsp"
 				},

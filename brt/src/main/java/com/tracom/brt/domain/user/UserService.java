@@ -118,17 +118,29 @@ public class UserService extends BaseService<User, String> {
     	delete(user);
     }
     
-    public Boolean checkScdPs(User user) {
+    public String checkScdPs(User user) {
     	User originalUser = userRepository.findOne(SessionUtils.getCurrentLoginUserCd());
     	
-    	if(isNotEmpty(user.getScdPs())) {
+    	// 1: 2차비밀번호 사용안함
+    	// 2: 2차 비밀번호 없음
+    	// 3: 2차 비밀번호 틀림
+    	
+    	if(originalUser.getScdPsUseYn().equals("N")) {
+    		return "1";
+    	}
+    	
+    	if(isEmpty(originalUser.getScdPs())) {
+    		return "2";
+    	}
+    	
+    	if(isNotEmpty(user.getScdPs()) && isNotEmpty(originalUser.getScdPs())) {
     		if(standardPasswordEncoder.matches(user.getScdPs(), originalUser.getScdPs())) {
-    			return true;
+    			return "0";
     		} else {
-    			return false;
+    			return "3";
     		}
 		} 
-    	return false;
+    	return "3";
     }
     
     public Boolean changePs(Map<String, Object> password) {
