@@ -300,13 +300,24 @@ public class FTPHandler {
 		String path = Paths.get(getRootLocalPath(), videoPath).toString();
 		String fromPath = Paths.get(getRootLocalPath(), "/video").toString();
 		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device/passenger").toString();
-		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/passenger/";
-		String vfPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist/";
+		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/passenger";
+		
+		String vfPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";
 		File dir = new File(toPath);
-
+		File listDir = new File(path);
+		
 		if(!dir.isDirectory()) {
-			dir.mkdir();
+			dir.mkdirs();
 		}
+		
+		if(!listDir.isDirectory()) {
+			listDir.mkdirs();
+		}
+		
+		createFtpDirectory(fPath);
+		createFtpDirectory(vfPath);
+		
+		
 		
 		String txt = GlobalConstants.CSVForms.VIDEO_PLAY_LIST;
 		
@@ -328,9 +339,9 @@ public class FTPHandler {
 			copyFile(fFile, tFile);
 
 		}
+		
 		File file = new File(path + "/playlist.csv");
-		
-		
+
 		
 		try {
 			Utils.createCSV(file, txt);
