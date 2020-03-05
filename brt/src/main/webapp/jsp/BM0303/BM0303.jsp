@@ -71,9 +71,6 @@
 					    <ax:tab-panel label="음성" scroll="scroll" style="height:100%; padding-bottom:270px;">
 					            <div data-ax5grid="gridView3" data-fit-height-content="gridView3" style="height:100%;"></div>
 					    </ax:tab-panel>
-					    <ax:tab-panel label="랩핑" scroll="scroll" style="height:100%; padding-bottom:270px;">
-					            <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height:100%;"></div>
-					    </ax:tab-panel>
 				</ax:tab-layout>
              <%-- <ax:split-panel width="500" style="height:100%; padding-bottom:155px">
                      <div class="ax-button-group">

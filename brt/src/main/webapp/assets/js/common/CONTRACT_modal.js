@@ -96,13 +96,12 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="grid-view-01"]'),
             columns: [
-            	{key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), width: 100},
-                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), width: 100},
+                {key: "conId", label: ADMIN("ax.admin.BM0301F0.conid"), sortable: true, align:"center" ,width: 100},
+                {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), sortable: true, width: 150},              
                 {key: "conStDate", label: ADMIN("ax.admin.BM0301F0.consd"), width: 100},
                 {key: "conEdDate", label: ADMIN("ax.admin.BM0301F0.coned"), width: 100},
-                {key: "conNm", label: ADMIN("ax.admin.BM0301F0.connm"), width: 150},              
-                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), width: 100},
-                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), width: 100},
+                {key: "suppAmt", label: ADMIN("ax.admin.BM0301F0.suppamt"), align:"right" , formatter:"money",width: 100},
+                {key: "vatAmt", label: ADMIN("ax.admin.BM0301F0.vatamt"), align:"right", formatter:"money", width: 100},
                 {key: "remark", label: ADMIN("ax.admin.BM0301F0.remark"), width: 200},
             ],
             body: {

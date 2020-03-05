@@ -68,9 +68,9 @@
                                 <ax:lang id="ax.admin.BM0202G2.title"/>
                                 <ax:form name="searchView1">
 	                            		<!-- <input type="text" class="form-control" data-ax5picker="date" name="filterG2" id="filterG2" data-ax5formatter="date" placeholder="yyyy/mm/dd" width="50px"/>-->
-	                            		<button type="button" class="btn btn-info" data-page-btn="dvcHistSave" style="position: absolute; top:5px;right:116px"><i class="cqc-plus"></i>추가</button>         	                            	                            		
-	                            		<button type="button" class="btn btn-info" data-page-btn="dvcHistUpdate" style="position: absolute; top:5px;right:58px"><i class="cqc-plus"></i>수정</button>
-	                            		<button type="button" class="btn btn-info" data-page-btn="dvcHistDelete" style="position: absolute; top:5px;right:0px"><i class="cqc-minus"></i>삭제</button> 
+	                            		<button type="button" class="btn btn-default" data-page-btn="dvcHistSave" style="position: absolute; top:5px;right:116px"><i class="cqc-plus"></i>추가</button>         	                            	                            		
+	                            		<button type="button" class="btn btn-default" data-page-btn="dvcHistUpdate" style="position: absolute; top:5px;right:58px"><i class="cqc-plus"></i>수정</button>
+	                            		<button type="button" class="btn btn-default" data-page-btn="dvcHistDelete" style="position: absolute; top:5px;right:0px"><i class="cqc-minus"></i>삭제</button> 
             					</ax:form>
                             </h3>
                         </div>

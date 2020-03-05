@@ -16,8 +16,7 @@
 		 <where>
 		    	<if test="value != null">
 					CATEGORY LIKE CONCAT('%', #{value}, '%')
-					OR NEWS_TITLE LIKE CONCAT('%', #{value}, '%')
-					OR PROV_NM LIKE CONCAT('%', #{value}, '%')
+					OR NEWS_CONTENTS LIKE CONCAT('%', #{value}, '%')
 		    	</if>
 	    	</where>
 	</select>
