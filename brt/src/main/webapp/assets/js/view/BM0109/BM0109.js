@@ -723,13 +723,15 @@ function drawRoute(list) {
 			
 			/**드래그이벤트**/
 			list[i].click = function(e) {
-				console.log(routeData.length);
 				var point = e.marker.getPosition();
 				var node = $.extend(true, {}, routeData[e.index]);
 				routeData.splice(e.index, 1);
 				var val = returnInsertRouteInfo(point.lat(), point.lng());
 				
-				if(e.index == 0 || e.index == routeData.length-1){
+				console.log(e.index);
+				console.log(routeData.length);
+				console.log(fnObj.gridView1.getData().length);
+				if(e.index == 0 || e.index == routeData.length){
 					val = true;
 				}
 				
@@ -807,8 +809,15 @@ function btnClick(){
 	});
 	
 	$('#rowDel').on('click', function(){
+		var idx = selectedRow.__index;
 		fnObj.gridView1.delRow("selected");
-		drawRoute(fnObj.gridView1.getData());
+		
+		routeData = fnObj.gridView1.getData();
+		routeData.sort(function (a,b){ return a.seq - b.seq });
+		
+		fnObj.gridView1.setData(routeData);
+		drawRoute(routeData);
+		fnObj.gridView1.selectRow(idx);
 	});
 }
 
