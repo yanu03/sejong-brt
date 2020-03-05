@@ -98,7 +98,7 @@ public class BM0104Controller extends BaseController {
     	} else {
     		return ok("error");
     	}*/
-    	return ok("");
+    	return ok(routId);
     }
     
     /** 노선 삭제 **/

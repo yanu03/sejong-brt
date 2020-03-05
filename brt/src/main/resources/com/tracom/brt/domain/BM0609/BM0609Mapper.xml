@@ -30,6 +30,7 @@
 			AND
 			DVC.USE_YN = 'Y'
 			AND DL.TXT_VAL1 = 'PD'
+			AND DVC.MNG_ID IS NOT NULL
 		ORDER BY VHC.VHC_ID, DVC.MNG_ID
 	</select>
 	

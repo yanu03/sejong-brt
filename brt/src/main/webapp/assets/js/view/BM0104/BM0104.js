@@ -25,7 +25,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 	caller.formView0.enable();
                 	if(dataFlag) {
 	                	caller.gridView0.selectIdRow(data);
-	                	caller.formView0.interRout();
+	                	caller.formView0.interRout(selectedRow);
 	                } else {
 		                if(selectedRow != null) {
 		                	caller.gridView0.selectRow(selectedRow.__index);
@@ -182,7 +182,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
     	selectedRow = data;
-    	caller.formView0.interRout();
+    	caller.formView0.interRout(selectedRow);
         caller.formView0.setData(data);
         
     },
@@ -465,8 +465,8 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     		$(element).attr("readonly", true).attr("disabled", true);
     	});
     },
-    interRout: function() {
-    	if(/[a-zA-Z]/.test(selectedRow.routId.substr(0,1))){
+    interRout: function(data) {
+    	if(/[a-zA-Z]/.test(data.routId.substr(0,1))){
     		$('#wayDiv').attr("readonly", false).attr("disabled", false);
     		$('#routNm').attr("readonly", false).attr("disabled", false);
     		$('#stStaNm').attr("readonly", false).attr("disabled", false);
