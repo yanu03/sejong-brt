@@ -326,12 +326,11 @@ public class FTPHandler {
 			File tFile = new File(toPath + "/" + voList.get(i).getVideoFile());
 			
 			copyFile(fFile, tFile);
-			
-			processSynchronize(toPath, fPath);
-			processSynchronize(path, vfPath);
 
 		}
 		
+		processSynchronize(toPath, fPath);
+		processSynchronize(path, vfPath);
 		
 		File file = new File(path + "/playlist.csv");
 		
