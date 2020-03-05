@@ -16,13 +16,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     				url: "/api/v1/users/checkScdPs",
     				data: JSON.stringify({scdPs : user}),
     				callback: function (res) {
-    					if(res.message == "false"){
-    						axDialog.alert("비밀번호가 틀렸습니다.");
-    					} else {
-    						if (parent && parent.axboot && parent.axboot.modal) {
-    							parent.axboot.modal.callback();
-    						}
-    					}
+    					if(res.message == "1") {
+	    					axDialog.alert("2차 비밀번호를 사용중이지 않아 예약이 불가능합니다.");
+	    				} else if(res.message == "2") {
+	    					axDialog.alert("2차 비밀번호가 없습니다. 설정해주세요");
+	    				} else if(res.message == "3") {
+							axDialog.alert("비밀번호가 틀렸습니다.");
+	    				} else if(res.message == "0") {
+							if (parent && parent.axboot && parent.axboot.modal) {
+								parent.axboot.modal.callback();
+							}
+						}
     				}
     			});
     		});

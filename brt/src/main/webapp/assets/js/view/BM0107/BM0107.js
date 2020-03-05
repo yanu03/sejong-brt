@@ -98,7 +98,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			url: "/api/v1/makeRoute",
 			callback: function (res) {
 				if(res.status == 0){
-					alert('갱신 성공');
+					axToast.push("갱신 성공");
 					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 				}else{
 					alert('갱신 실패');

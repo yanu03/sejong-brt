@@ -351,7 +351,7 @@ public class FTPHandler {
 		copyFile(fFile2, tFile2);
 		copyFile(fFile3, tFile3);
 		
-		File file = new File(path + "/config.csv");
+		File file = new File(fPath + "/config.csv");
 		
 		try {
 			Utils.createCSV(file, txt);
