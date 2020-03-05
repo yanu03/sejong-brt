@@ -153,7 +153,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        })
 	        .then(function (ok) {
 	        	//파일업로드하고 진행
-        		axToast.push(LANG("onupdate"));
+        		axToast.push(LANG("onsave"));
         		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 	        })
 	        .catch(function () {
@@ -212,7 +212,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        })
 	        .then(function (ok) {
 	        	//파일업로드하고 진행
-        		axToast.push(LANG("onupdate"));
+        		axToast.push(LANG("onsave"));
         		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 
 	        })

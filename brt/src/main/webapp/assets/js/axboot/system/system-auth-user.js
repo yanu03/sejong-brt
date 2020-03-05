@@ -374,7 +374,14 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     setData: function (data) {
         if (typeof data === "undefined") data = this.getDefaultData();
+        
         data = $.extend({}, data);
+        
+        if(data.extScdPs == "Y") {
+        	$("[data-ax-path='scdPs']").attr("placeholder", "••••••");
+        } else {
+        	$("[data-ax-path='scdPs']").attr("placeholder", "");
+        }
 
         this.model.setModel(data);
         this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
@@ -392,12 +399,16 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     },
     enable: function() {
     	var _this = this;
-    	this.target.find("[data-btn],[data-ax-path][data-key!=true]").each(function(index, element) {
-    		$(element).attr("readonly", false).attr("disabled", false);
+    	this.target.find("[data-ax-path]").each(function(index, element) {
+    		if($(element).data("key") && isUpdate) {
+    			$(element).attr("readonly", true);
+    		} else {
+    			$(element).attr("readonly", false).attr("disabled", false);
+    		}
     	});
     },
     disable: function() {
-    	this.target.find('[data-btn],[data-ax-path][data-key!=true]').each(function(index, element) {
+    	this.target.find('[data-ax-path]').each(function(index, element) {
     		$(element).attr("readonly", true).attr("disabled", true);
     	});
     },
