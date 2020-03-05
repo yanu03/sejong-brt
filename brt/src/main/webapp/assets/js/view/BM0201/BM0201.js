@@ -76,6 +76,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 		  completeYn = "true";
                 	  }
                   }
+                  console.log("completeYn");
+                  console.log(completeYn);
                   if(completeYn == "true"){
                 	if(res.list.length < 2){
 		                if(res.list.length > 0){               	               	
@@ -284,7 +286,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             modalType: "BM0201",
             param: "",
             callback: function (data) {
-            	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+            	ACTIONS.dispatch(ACTIONS.RELOAD_G1 , data);
             }
         });
     }

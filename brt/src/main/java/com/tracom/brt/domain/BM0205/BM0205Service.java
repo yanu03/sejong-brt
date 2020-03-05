@@ -46,25 +46,29 @@ public class BM0205Service extends BaseService<VhcDvcUpdateVO, String>{
 	}
 
 	public boolean BM0205G0S1(VhcDvcUpdateVO vo) {
-		boolean mngFCheck = false;
 		boolean mngCheck = true;
 		List<VhcDvcUpdateVO> list = mapper.BM0205G0S1(vo);
 		if(list != null) {
 		  for(int i = 0; i<list.size(); i++) {
 			  for(int j = 0; j< vo.getUpList().size(); j++) {
 				  if(list.get(i).getMngId().equals(vo.getUpList().get(j).getMngId())) {
-					  mngFCheck = false;
+					  System.out.println("예약불가능함");
+					  System.out.println(list.get(i).getMngId());
+					  System.out.println(vo.getUpList().get(j).getMngId());
 					  mngCheck = false;
 					  break;
 				  }else {
-					  mngFCheck = true;
+					  System.out.println("예약가능함");
+					  System.out.println(list.get(i).getMngId());
+					  System.out.println(vo.getUpList().get(j).getMngId());
+					  mngCheck = true;
 				  }
 			  }
 			  if(mngCheck == false) {
 				  break;
 			  }
 		  }
-		  if(mngFCheck == true) {
+		  if(mngCheck == true) {
 			   return true;
 			}else {
 				return false;

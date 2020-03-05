@@ -31,8 +31,6 @@ public class AD0102Controller extends BaseController{
 	@GetMapping("/AD0102G1S0")
     public Responses.ListResponse AD0102G1S0(RequestParams<VhcLocVO> requestParams) {
         List<VhcLocVO> list = service.AD0102G1S0(requestParams);
-        System.out.println("controller");
-        System.out.println(list);
         
         //adPos값으로 checkbox값 표현하기
         for(int i = 0; i< list.size(); i++) {
@@ -52,25 +50,17 @@ public class AD0102Controller extends BaseController{
 		VhcLocVO vo = new VhcLocVO();
 		List<VhcLocVO> list = new ArrayList<VhcLocVO>();
 		
-		System.out.println("Ad0102g1i0");
-    	System.out.println(request);
     	service.AD0102G1D0(request);
     	
-    	System.out.println("request");
-    	System.out.println(request.getUpList().size());
     	for(int i = 0; i< request.getUpList().size(); i++) {
     		if(request.getUpList().get(i).getAdPosYn().equals("true")) {
     			request.getUpList().get(i).setVhcId(request.getVhcId()); 
     			list.add(request.getUpList().get(i));
-    			System.out.println("true");
-    			System.out.println(list);
     		}else {
     			System.out.println("adPosYn = false ");
     		}
     	}
     	vo.setUpList(list);
-    	System.out.println("vo");
-    	System.out.println(vo);
         service.AD0102G1I0(vo);
         return ok();
     }

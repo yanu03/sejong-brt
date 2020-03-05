@@ -32,7 +32,6 @@ public class BM0603Service extends BaseService<NewsVO, String>{
 	public boolean BM0603F0U0(NewsVO request) {
 		for(int i = 0; request.getUpList().size() > i; i++) {
 			  NewsVO vo = request.getUpList().get(i);
-			  System.out.println(vo);
 			  mapper.BM0603F0U0(vo);
 		  }
 		  mapper.BM0603F0U0(request);

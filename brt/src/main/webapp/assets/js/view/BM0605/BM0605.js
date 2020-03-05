@@ -186,7 +186,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
 	OPEN_BM0301_MODAL: function(caller, act, data) {
 		axboot.modal.open({
-			modalType: "BM0301",
+			modalType: "CONTRACT",
 			param: "",
 			header:false,
 			callback: function (data) {

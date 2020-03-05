@@ -28,7 +28,6 @@ public class BM0803Controller extends BaseController{
 	@GetMapping("/BM0803G0S0")
 	public Responses.ListResponse BM0803G0S0(RequestParams<MapVO> requestParams){
 		List<MapVO> list = service.BM0803G0S0(requestParams);
-		System.out.println(list);
 		return Responses.ListResponse.of(list);
 	}
 	

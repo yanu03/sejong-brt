@@ -175,9 +175,12 @@ public class FTPHandler {
 		//가지고온 관리id값이 통플인지 아닌지 비교
 		if(id.length() > 10) {
 			path = "/vehicle/"+id.substring(0, 10)+"/device/"+id.substring(10, 16)+"/firmware";
-		}else {
+		}else if(id.length() == 10){
 			path = "/vehicle/"+id.substring(0, 10)+"/firmware";
+		}else {
+			path = "/vehicle/"+id+"/device/firmware";
 		}
+		
 		String dir = Paths.get(getRootLocalPath() , path).toString();
 		File dirPathConfig = new File(dir +"/config");
 		File dirPathFirmware = new File(dir + "/firmware");

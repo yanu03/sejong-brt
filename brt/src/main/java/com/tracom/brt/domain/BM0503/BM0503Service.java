@@ -52,7 +52,6 @@ public class BM0503Service extends BaseService<RoutRsvVO, String> {
     	String rsvId = vo.getRsvId();
     	List<RoutRsvVO> voList = new ArrayList<>();
     	
-    	System.out.println(vhcVO);
     	for(int i = 0; i < vhcVO.size(); i++) {
     		List<RoutRsvVO> list = mapper.vhcMngList(vhcVO.get(i).getVhcId());
     		for(RoutRsvVO v : list) {
@@ -62,7 +61,6 @@ public class BM0503Service extends BaseService<RoutRsvVO, String> {
 				//v.setDvcId(v.getMngId().substring(10));
 				v.setRsvList(rsvVO);
 				
-				//System.out.println(v);
 				mapper.BM0503G1I0(v);//결과테이블 삽입
 				voList.add(v);
 				handler.reserveDst(v);//파일이동
@@ -71,7 +69,6 @@ public class BM0503Service extends BaseService<RoutRsvVO, String> {
 		
     	}
     	//LIST.CSV파일생성
-    	System.out.println(voList);
     	//handler.makeDstConfig(voList, rsvVO);
     	handler.makeDstConfig(rsvVO);
     }		

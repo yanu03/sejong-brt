@@ -42,18 +42,26 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 							$("#busRout").change(function(){
 								removeMarkers();
 								var count = 0;
+								var countOne = 0;
 								console.log(this.value);
+								
 								if(this.value != "노선을선택하세요."){
 									console.log("들어왔따");
+									/*for(var i = 0; i<res.list.length; i++){
+										for(var j = 0; j<resOne.list.length; j++){
+											if(res.list[i].vhcId != resOne.list[j].vhcId){
+												console.log("2번째");
+												resOne.list[countOne] = resOne.list[j];
+												countOne ++;
+											}
+										}
+									}*/
+									console.log(resOne);
+									
 									for(var i = 0; i<resOne.list.length; i++){
 										if(this.value == resOne.list[i].routNm){
-											resOne.list[count] = resOne.list[i];
-											for(var j = 0; j < res.list.length; j++){
-												/*if(resOne.list[count].vhcNo != ){
-													
-												}*/
-											}
-											count++;
+												resOne.list[count] = resOne.list[i];
+												count++;
 										}
 									}
 									console.log(count);

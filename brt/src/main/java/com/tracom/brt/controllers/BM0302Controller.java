@@ -57,12 +57,8 @@ public class BM0302Controller extends BaseController {
         if(list.get(0).getAltDiv() != null) {
         for(int i = 0; i<list.size(); i++) {
         	if(list.get(i).getConfirmYn().equals("Y")) {
-        		System.out.println(list.get(i).getConfirmYn());
-        		System.out.println("확정");
         		list.get(i).setConfirmYn("확정");
         	}else {
-        		System.out.println(list.get(i).getConfirmYn());
-        		System.out.println("미확정");
         		list.get(i).setConfirmYn("미확정");
         	}        	
         }
@@ -96,8 +92,6 @@ public class BM0302Controller extends BaseController {
     
     @PostMapping("/BM0302F0U2")
     public ApiResponse BM0302F0U2(@RequestBody AltContractInfoVO request) {
-    	System.out.println("확정해제");
-    	System.out.println(request.getConfirmYn());
     	service.BM0302F0U2(request);
     	return ok();
     }

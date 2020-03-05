@@ -131,12 +131,9 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
 		voList = BM0107Service.insertSta(nodeList, staList);
 		insertVO.setVoList(voList);
 		
-		System.out.println("어디서부터?");
 		BM0107Mapper.BM0107G1D0(routVO);
 		//인서트쿼리
 		
-		System.out.println("제발");
-		System.out.println(voList);
 		if(BM0107Mapper.BM0107G1I0(insertVO) > 0) {
 			returnCount++;
 		}

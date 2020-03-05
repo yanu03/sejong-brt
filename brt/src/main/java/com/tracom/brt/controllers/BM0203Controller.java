@@ -45,7 +45,6 @@ public class BM0203Controller extends BaseController{
 				}
 			}else {
 				list.get(i).setDlCdNm("비정상");
-				System.out.println("장치상태 값이 없습니다.");
 			}
 			
 		}
@@ -55,7 +54,6 @@ public class BM0203Controller extends BaseController{
 	@GetMapping("/BM0203G1S0")
     public Responses.ListResponse BM0203G1S0(RequestParams<DvcConditionVO> requestParams) {
         List<DvcConditionVO> list = service.BM0203G1S0(requestParams);
-        System.out.println(list);
         return Responses.ListResponse.of(list);
     }
 	

@@ -47,7 +47,6 @@ public class BM0999Controller extends BaseController {
     
     @PostMapping("/BM0999M0I0")
     public ApiResponse BM0999M0I0(@RequestBody BmValMapVO request) {
-    	System.out.println(request);
     	service.BM0999M0I0(request);
      	return ok();
     }

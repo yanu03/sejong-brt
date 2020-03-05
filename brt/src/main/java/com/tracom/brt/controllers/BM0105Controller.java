@@ -33,7 +33,6 @@ public class BM0105Controller extends BaseController {
     	@ApiImplicitParam(name = "routId", value = "노선ID", dataType = "String", paramType = "query")
     })
     public Responses.ListResponse BM010510S0(RequestParams<BmStaInfoVO> requestParams) {
-    	System.out.println(requestParams);
         List<BmStaInfoVO> list = service.BM0105G1S0(requestParams);
         return Responses.ListResponse.of(list);
     }
