@@ -64,7 +64,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     	
     	if(selectedRow.count > 1){
-    		alert("노선경로 데이터가 있습니다. 삭제할 수 없습니다");
+    		axDialog.alert("노선경로 데이터가 있습니다. 삭제할 수 없습니다");
     		return false;
     	}
     	
@@ -80,7 +80,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                    	if(res.message == "error"){
-	                    		alert("삭제 실패");
+	                    		axDialog.alert("삭제 실패");
 	                    	}else{
 	                    		ok(res);	                    		
 	                    	}
@@ -111,7 +111,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                         callback: function (res) {
                         	/*
                         	if(res.message == "error"){
-                        		alert("중복된 노선ID가 있습니다. 확인 후 저장하세요.");
+                        		axDialog.alert("중복된 노선ID가 있습니다. 확인 후 저장하세요.");
                         	}else{
                         	}
                         	*/
@@ -142,7 +142,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                         callback: function (res) {
                         	/*
                         	if(res.message == "error"){
-                        		alert("중복된 노선ID가 있습니다. 확인 후 업데이트하세요");
+                        		axDialog.alert("중복된 노선ID가 있습니다. 확인 후 업데이트하세요");
                         	}else{
                         	}*/
                         	ok(res);
@@ -447,7 +447,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         var rs = this.model.validate();
         if (rs.error) {
         	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        		axDialog.alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
         	}
             rs.error[0].jquery.focus();
             return false;

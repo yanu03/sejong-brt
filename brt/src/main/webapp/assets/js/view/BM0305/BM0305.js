@@ -40,7 +40,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             if(selectedRowG1 != null){
             	caller.gridView1.target.exportExcel("장치목록"+selectedRowG1.dvcId + "data.xls");
             }else{ 		
-    		alert("장치 목록을 선택해주세요");
+            	axDialog.alert("장치 목록을 선택해주세요");
             }
     	}
     },
@@ -85,7 +85,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 		}
                 $("#check").append("<div id='busCheck' style='background-color:"+dvcCond+"; width:22px;height:22px; border-radius:11px; position: absolute; left:"+res.list[i].txtVal1+"px; top:"+res.list[i].txtVal2+"px;]'/>");
                 		}else{
-                			alert(LANG("ax.script.requireselect"));
+                			axDialog.alert(LANG("ax.script.requireselect"));
                 		}
                 	}              	
                }*/

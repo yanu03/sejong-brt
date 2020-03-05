@@ -56,7 +56,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             if(selectedRowG1 != null){
             	caller.gridView1.target.exportExcel("장치목록"+selectedRowG1.dvcId + "data.xls");
             }else{ 		
-    		alert("장치 목록을 선택해주세요");
+            	axDialog.alert("장치 목록을 선택해주세요");
             }
     	}
     },
@@ -139,7 +139,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		                    });
 		                }
                 	}else{
-                		alert("장치이력이"+res.list.length+"건 있어서 삭제가 불가능합니다.");
+                		axDialog.alert("장치이력이"+res.list.length+"건 있어서 삭제가 불가능합니다.");
                 	}
                 }
             });
@@ -545,7 +545,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         var rs = this.model.validate();
         if (rs.error) {
         	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        		axDialog.alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
         	}
             rs.error[0].jquery.focus();
             return false;

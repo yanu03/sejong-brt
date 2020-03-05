@@ -20,18 +20,19 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: filter,
             callback: function (res) {           	
                 caller.gridView0.setData(res);
+                
                 if(res.list.length == 0) {
                 	isUpdate = false;
+                	selectedRow = null;
 	                caller.formView0.clear();
 	                caller.formView0.disable();
-	                caller.gridView1.clear();
                 } else {
                 	caller.formView0.enable();
-                }
-                if(selectedRow != null) {
-                	caller.gridView0.selectRow(selectedRow.__index);
-                } else {
-                	caller.gridView0.selectFirstRow();
+	                if(selectedRow != null) {
+	                	caller.gridView0.selectRow(selectedRow.__index);
+	                } else {
+	                	caller.gridView0.selectFirstRow();
+	                }
                 }
             }
         });
@@ -51,7 +52,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.clear();
         caller.formView0.enable();
         caller.formView0.validate(true);
-        
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -620,7 +620,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         var rs = this.model.validate();
         if (rs.error) {
         	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        		axDialog.alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
         	}
             rs.error[0].jquery.focus();
             return false;

@@ -122,7 +122,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	    	var element = $("#wavFile");
     	    	
     	    	if(!element[0].files[0]){
-    	        	alert(element.attr("title") + "을 선택해주세요");
+    	    		axDialog.alert(element.attr("title") + "을 선택해주세요");
     	        	return false;
     	        }
         	}
@@ -614,7 +614,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         var rs = this.model.validate();
         if (rs.error) {
         	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        		axDialog.alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
         	}
             rs.error[0].jquery.focus();
             return false;

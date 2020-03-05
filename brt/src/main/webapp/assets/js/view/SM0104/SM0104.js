@@ -124,7 +124,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
 	                    });
 	            	} else {
-	            		alert(ADMIN("ax.admin.SM0104F0.duplicate.cd"));
+	            		axDialog.alert(ADMIN("ax.admin.SM0104F0.duplicate.cd"));
 	            	}
 	            })
 	            .catch(function () {
@@ -374,7 +374,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         var rs = this.model.validate();
         if (rs.error) {
         	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        		axDialog.alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
         	}
             rs.error[0].jquery.focus();
             return false;

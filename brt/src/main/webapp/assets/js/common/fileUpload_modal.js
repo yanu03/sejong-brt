@@ -14,7 +14,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 parent.axboot.modal.callback(excelFile);
             }
         } else {
-            alert(LANG("ax.script.requireselect"));
+        	axDialog.alert(LANG("ax.script.requireselect"));
         }
     }
 });

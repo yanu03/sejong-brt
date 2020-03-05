@@ -77,7 +77,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    },
 	                    options:{
 	                    	onError: function(err){
-	                    		alert("계약이 존재하는 거래처입니다. 계약을 확인하세요.");
+	                    		axDialog.alert("계약이 존재하는 거래처입니다. 계약을 확인하세요.");
 	                    	}
 	                    }
 	                });
@@ -508,7 +508,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         var rs = this.model.validate();
         if (rs.error) {
         	if(!flag) {
-        		alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
+        		axDialog.alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
         	}
             rs.error[0].jquery.focus();
             return false;
