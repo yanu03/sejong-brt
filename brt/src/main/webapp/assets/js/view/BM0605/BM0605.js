@@ -74,8 +74,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 						url: "/api/v1/BM0605G0D0",
 						data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 						callback: function (res) {
-							ok(res);
 							msg = res.message;
+							ok(res);
 						}
 					});
 				})

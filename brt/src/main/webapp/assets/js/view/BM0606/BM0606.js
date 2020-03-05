@@ -508,6 +508,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
                 {key: "vdoId",		label: ADMIN("ax.admin.BM0606G1.vdoId"),		width: 100},
+                {key: "vdoNm",		label: "영상명",									width: 100},
                 {key: "conNm",		label: ADMIN("ax.admin.BM0606G1.conNm"),		width: 100},
                 {key: "fileTypeNm",	label: ADMIN("ax.admin.BM0606G1.fileTypeNm"),	width: 100},
                 {key: "playTm",		label: ADMIN("ax.admin.BM0606G1.playTm"),		width: 100,	align:"right"},
@@ -604,6 +605,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView2"]'),
             columns: [
                 {key: "vdoId",		label: ADMIN("ax.admin.BM0606G1.vdoId"),		width: 100},
+                {key: "vdoNm",		label: "영상명",									width: 100},
                 {key: "conNm",		label: ADMIN("ax.admin.BM0606G1.conNm"),		width: 100},
                 {key: "fileTypeNm",	label: ADMIN("ax.admin.BM0606G1.fileTypeNm"),	width: 100},
                 {key: "playTm",		label: ADMIN("ax.admin.BM0606G1.playTm"),		width: 100,	align:"right"},
