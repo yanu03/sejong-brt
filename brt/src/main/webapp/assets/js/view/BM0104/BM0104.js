@@ -319,13 +319,13 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
+            //sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),											width: 80},
-            	{key: "interRoutId",			label: ADMIN("ax.admin.BM0104G0.interRoutId"),											width: 80},
-            	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),											width: 70},
-                {key: "shortRoutNm",	label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.shortRoutNm") + "</font>",	width: 130},
+            	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),											width: 80,	sortable: true},
+            	{key: "interRoutId",			label: ADMIN("ax.admin.BM0104G0.interRoutId"),								width: 80,	sortable: true},
+            	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),											width: 70,	sortable: true},
+                {key: "shortRoutNm",	label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.shortRoutNm") + "</font>",	width: 100,	sortable: true},
                 {key: "wayInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.wayInfo") + "</font>",		width: 130},
                 {key: "dirInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.dirInfo") + "</font>",		width: 130},
                 {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),											width: 160},
@@ -340,7 +340,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "line2Satstr",	label: ADMIN("ax.admin.BM0104G0.line2Satstr"),										width: 200},
                 {key: "line1Sunstr",	label: ADMIN("ax.admin.BM0104G0.line1Sunstr"),										width: 200},
                 {key: "line2Sunstr",	label: ADMIN("ax.admin.BM0104G0.line2Sunstr"),										width: 200},
-                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),										width: 140},
+                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),										width: 140,	sortable: true},
             ],
             body: {
                 onClick: function () {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -14,6 +15,8 @@ import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.domain.BM0107.BM0107Mapper;
+import com.tracom.brt.domain.BM0107.BM0107Service;
 import com.tracom.brt.utils.ExcelUtils;
 
 @Service
@@ -24,6 +27,12 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 	
 	@Inject
 	private ExcelUtils exUtil;
+	
+	@Inject
+	private BM0107Service BM0107Service;
+	
+	@Inject
+	private BM0107Mapper mapper_107;
 	
 	//좌측상단 그리드 select
 	public List<BmRoutInfoVO> BM0109G0S0(RequestParams<BmRoutInfoVO> requestParams){
@@ -51,6 +60,7 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 		
 		List<BmRoutNodeInfoVO >staList = new ArrayList<>();
 		List<BmRoutNodeInfoVO> list = new ArrayList<>();
+		List<BmRoutNodeInfoVO> agList = new ArrayList<>();
 		//vo.setVoList(voList);
 		//vo.setRoutId(routId);
 		
@@ -61,22 +71,43 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 		if(voList.size() > 0) {
 			mapper.BM0109G1I0(vo);
 			//2. 인서트한거 셀렉트함
-			//
+
+			//정류장리스트
 			staList = mapper.BM0109G1S1(routId);
+			//노드리스트
 			list = mapper.BM0109G1S2(routId);
+			//음성리스트
+			agList = mapper.getAgInfo(routId);
 			
 			vo.setVoList(list);
 		}
+		//노드정보삭제
 		mapper.delNodeInfo(vo.getRoutId());
 		
+		//vo 있을경우
 		if(voList.size() > 0) {
 				
+			//노드인포테이블에 인서트함
 			mapper.insertNodeInfo(vo);
 	
-			//
+			//정류장이 있을경우
 			if(staList.size() > 0) {
 				insertRoutSta(staList, routId);
 				insertStaInfo(staList);
+			}
+
+			if(agList.size() > 0) {
+				Map<String, String> map = new HashMap<>();
+				map.put("routId", vo.getRoutId());
+				List<BmRoutNodeInfoVO> nodeList = mapper.BM0109G1S0(map);
+				
+				List<BmRoutNodeInfoVO> finalList = BM0107Service.insertAg(nodeList, agList);
+				BmRoutNodeInfoVO tm = new BmRoutNodeInfoVO();
+				tm.setVoList(finalList);
+				tm.setRoutId(routId);
+				//mapper.delNodeInfo(vo.getRoutId());
+				mapper.BM0109G1D0(vo.getRoutId());
+				mapper.BM0109G1I0(tm);
 			}
 		}
 		

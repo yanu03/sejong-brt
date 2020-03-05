@@ -330,24 +330,17 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             lineNumberColumnWidth:40,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	/*
-                {key: "routId",		label: ADMIN("ax.admin.BM0107G0.routId"),		width: 100,	align: "center"},
-                {key: "interRoutId",label: "연계노선ID",								width: 100,	align: "center"},
-                {key: "routNm",		label: "노선명",		width: 100,	align: "left"},
-                {key: "shortRoutNm",label: "관리노선명",		width: 100,	align: "left"},
-                {key: "updatedAt",	label: ADMIN("ax.admin.BM0107G0.updatedAt"),	width: 150,	align: "center"},
-                */
-            	
-            	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),											width: 80},
-            	{key: "interRoutId",			label: ADMIN("ax.admin.BM0104G0.interRoutId"),											width: 80},
-            	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),											width: 70},
-                {key: "shortRoutNm",	label: ADMIN("ax.admin.BM0104G0.shortRoutNm"),	width: 130},
-                {key: "wayInfo",		label: ADMIN("ax.admin.BM0104G0.wayInfo"),		width: 130},
-                {key: "dirInfo",		label: ADMIN("ax.admin.BM0104G0.dirInfo"),		width: 130},
+            	{key: "routId",			label: ADMIN("ax.admin.BM0104G0.routId"),											width: 80,	sortable: true},
+            	{key: "interRoutId",			label: ADMIN("ax.admin.BM0104G0.interRoutId"),								width: 80,	sortable: true},
+            	{key: "routNm",			label: ADMIN("ax.admin.BM0104G0.routNm"),											width: 70,	sortable: true},
+                {key: "shortRoutNm",	label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.shortRoutNm") + "</font>",	width: 100,	sortable: true},
+                {key: "wayInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.wayInfo") + "</font>",		width: 130},
+                {key: "dirInfo",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.dirInfo") + "</font>",		width: 130},
                 {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),											width: 160},
                 {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),											width: 160},
                 {key: "wayDivNm",		label: ADMIN("ax.admin.BM0104G0.wayDiv"),											width: 60,			align: "center"},
-                {key: "userWayDivNm",	label: ADMIN("ax.admin.BM0104G0.userWayDiv"),	width: 120,		align: "center"},
+                {key: "userWayDivNm",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.userWayDiv") + "</font>",	width: 120,		align: "center"},
+                //{key: "turnDivNm",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),width: 100},
                 {key: "dvcName",		label: ADMIN("ax.admin.BM0104G0.dvcName"),											width: 90},
                 {key: "line1Str",		label: ADMIN("ax.admin.BM0104G0.line1Str"),											width: 200},
                 {key: "line2Str",		label: ADMIN("ax.admin.BM0104G0.line2Str"),											width: 200},
@@ -355,7 +348,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "line2Satstr",	label: ADMIN("ax.admin.BM0104G0.line2Satstr"),										width: 200},
                 {key: "line1Sunstr",	label: ADMIN("ax.admin.BM0104G0.line1Sunstr"),										width: 200},
                 {key: "line2Sunstr",	label: ADMIN("ax.admin.BM0104G0.line2Sunstr"),										width: 200},
-                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt")}
+                {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),										width: 140,	sortable: true},
             ],
             body: {
                 onClick: function () {
@@ -497,7 +490,8 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             columns: [
                 {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80},
                 {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq()},
-                {key: "nodeType",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 30},
+                //{key: "nodeType",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 30},
+                {key: "nodeTypeNm",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 50},
                 {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
                 {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120, editor: editName()},
                 {key: "lati",		label: ADMIN("ax.admin.BM0107G1.lati"),			width: 120},

@@ -263,5 +263,67 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     	
     	return nodeList;
     }
+    
+    public List<BmRoutNodeInfoVO> insertAg(List<BmRoutNodeInfoVO> nodeList, List<BmRoutNodeInfoVO> agList) {
+    	//정류장 갯수만큼 for문 돌릴거임
+    	for(BmRoutNodeInfoVO ag : agList) {
+    		ag.setNodeType(898);
+    		int seq = 0;
+    		int flag = 0;
+    		int forseq = 0;
+    		LocationVO resultVO = new LocationVO();
+    		LocationVO tmpVO = new LocationVO();
+    		resultVO.setDistance(999999999);
+    		
+    		
+    		int shortestNodeSeq = 0;
+    		double shortestNodeDst = 999999999;
+    		for(int i = 0; i < nodeList.size(); i++) {
+    			//노드마다 거리 계산할것임
+    			double tmp = insertNode.getDistanceBetween(ag.getLongi(), ag.getLati(), nodeList.get(i).getLongi(), nodeList.get(i).getLati());
+    			//가장 가까운 노드 순서
+    			if(tmp < shortestNodeDst) {
+    				shortestNodeDst = tmp;
+    				shortestNodeSeq = i;
+    			}
+    			
+    		}
+    		    		
+    		for(int j = -2; j < 2; j++) {
+    			if(shortestNodeSeq + j < 0) {
+    				continue;
+    			}
+    			else if(0 <= shortestNodeSeq + j && shortestNodeSeq + j + 1 < nodeList.size()) {
+    			tmpVO = insertNode.getDistanceToLine(ag.getLongi(), ag.getLati(),
+    					nodeList.get(shortestNodeSeq+j).getLongi(),	nodeList.get(shortestNodeSeq+j).getLati(),
+    					nodeList.get(shortestNodeSeq+j+1).getLongi(), nodeList.get(shortestNodeSeq+j+1).getLati());
+    			
+	    			//만약 직교한다면
+	    			if(tmpVO != null) {
+	    				//가장 짧은값이라면
+	    				if(tmpVO.getDistance() < resultVO.getDistance()) {
+	    					//바꿔치기함
+	    					resultVO = tmpVO;
+	    					//시퀀스는 전노드랑 다음노드의 평균으로 함
+	    					seq = (nodeList.get(shortestNodeSeq+j).getSeq() + nodeList.get(shortestNodeSeq+j+1).getSeq())/2;
+	    					//forseq는 리스트에 삽입할 순서
+	    					forseq = shortestNodeSeq+j+1;
+	    					flag = 1;
+	    				}
+	    			}
+    			}
+    		}
+    		
+	    	if(flag == 0) {
+    			seq = 0;
+    		}
+    		ag.setSeq(seq);
+    		
+    		nodeList.add(forseq, ag);
+    		
+    	}//정류장for end
+    	
+    	return nodeList;
+    }
 
 }
