@@ -50,7 +50,12 @@ public class BM0605Controller extends BaseController {
     
     @PostMapping("/BM0605G0D0")
     public ApiResponse BM0605G0D0(@RequestBody VideoInfoVO request) {
-    	service.BM0605G0D0(request);
-    	return ok();
+    	String flag = "";
+    	if(service.BM0605G0D0(request)) {
+    		flag = "true";
+    	}else {
+    		flag = "false";
+    	}
+    	return ok(flag);
     }
 }

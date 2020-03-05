@@ -74,9 +74,9 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.BM0605G0.conNm" width="500px">
+                    		<ax:td label="ax.admin.BM0605G0.conNm" width="500px" labelClazz="required">
                     			<div class="input-group">
-	                    			<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="conId" name="conId" data-key="true" class="form-control W70" readonly="readonly"></div>
+	                    			<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="conId" name="conId" data-key="true" class="form-control W70" readonly="readonly" title="계약명" data-ax-validate="required"></div>
 	                    			<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="conNm" name="conNm" data-key="true" class="form-control W70" readonly="readonly"></div>
 	                    			<div style="float:left;padding-right:5px;">
 	                    				<button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0301">

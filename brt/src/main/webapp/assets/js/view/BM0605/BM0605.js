@@ -57,7 +57,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
 	PAGE_DELETE: function(caller, act, data) {
 		var grid = caller.gridView0.target;
-
+		var msg = "";
 		if(typeof grid.selectedDataIndexs[0] === "undefined") {
 			axDialog.alert(LANG("ax.script.alert.requireselect"));
 			return false;
@@ -75,13 +75,18 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 						data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 						callback: function (res) {
 							ok(res);
+							msg = res.message;
 						}
 					});
 				})
 				.then(function (ok) {
-					caller.formView0.clear();
-					axToast.push(LANG("ondelete"));
-					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+					if(msg == "true"){
+						caller.formView0.clear();
+						axToast.push(LANG("ondelete"));
+					}else{
+						alert("편성이 있는 영상입니다. 영상편성에서 제거해 주세요.");
+					}
+					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);						
 				})
 				.catch(function () {
 
@@ -98,7 +103,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 				formData.append("vdoFile", $("#vdoFile")[0].files[0].name);
 			}
 
-
+			var msg = "";
 			axboot.promise()
 			.then(function (ok, fail, data) {
 				axboot.ajax({
@@ -108,7 +113,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 					url: "/api/v1/BM0605F0I0",
 					data: formData,
 					callback: function (res) {
-						ok(res);
+						setTimeout(ok(res), 1500);
+						msg = res.message;
 					},
 					options: {
 						contentType:false
@@ -143,7 +149,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 					url: "/api/v1/BM0605F0U0",
 					data: formData,
 					callback: function (res) {
-						ok(res);
+						setTimeout(ok(res), 1500);
 					},
 					options: {
 						contentType:false
@@ -152,7 +158,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			})
 			.then(function (ok, fail, data) {
 				axToast.push(LANG("onsave"));
-				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, res.message);
 			})
 			.catch(function () {
 
