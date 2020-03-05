@@ -121,7 +121,7 @@ public class UserService extends BaseService<User, String> {
     public Boolean checkScdPs(User user) {
     	User originalUser = userRepository.findOne(SessionUtils.getCurrentLoginUserCd());
     	
-    	if(isNotEmpty(user.getScdPs())) {
+    	if(isNotEmpty(user.getScdPs()) && isNotEmpty(originalUser.getScdPs())) {
     		if(standardPasswordEncoder.matches(user.getScdPs(), originalUser.getScdPs())) {
     			return true;
     		} else {
