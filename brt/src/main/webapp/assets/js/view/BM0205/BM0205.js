@@ -69,7 +69,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
       			    	            param: "",
       			    	            callback: function (resOne) {
       			    	            	this.close();
-      			    	            	console.log(resOne);
       			    	            	axboot.modal.open({
       			    	            		modalType: "RESERVATION",
       			    	            		param: "",

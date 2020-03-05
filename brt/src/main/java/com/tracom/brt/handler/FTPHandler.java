@@ -36,8 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
+import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 import com.tracom.brt.code.GlobalConstants;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
@@ -139,9 +139,9 @@ public class FTPHandler {
 		String path;
 		//가지고온 관리id값이 통플인지 아닌지 비교
 		if(id.length() > 10) {
-			path = "/vehicle/"+id.substring(0, 10)+"/device/"+id.substring(10, 16)+"/firmware";
-		}else {
-			path = "/vehicle/"+id.substring(0, 10)+"/firmware";
+			path = "/vehicle/" + id.substring(0, 10) + "/device/" + id.substring(10, 16) + "/firmware";
+		} else {
+			path = "/vehicle/" + id.substring(0, 10) + "/firmware";
 		}
 		String dir = Paths.get(getRootLocalPath() , path).toString();
 		String ext = FilenameUtils.getExtension(file.getOriginalFilename());
@@ -149,10 +149,10 @@ public class FTPHandler {
 		
 		//행선지안내기
 		if(id.substring(10, 12).equals("RD")) {
-			fileName = "SF2016." + ext;
+			fileName = "SF2016." + ext.toUpperCase();
 		//키패드
 		}else if(id.substring(10, 12).equals("RK")){
-			fileName = "MANAGERV3." + ext;
+			fileName = "MANAGERV3." + ext.toUpperCase();
 		//다른장비
 		}else {
 			fileName = "firmware." + ext;
@@ -172,37 +172,51 @@ public class FTPHandler {
 	//BM0201에서 device 생성시 folder 생성
 	public void deviceFolder(String id) {
 		String path;
-		//가지고온 관리id값이 통플인지 아닌지 비교
-		if(id.length() > 10) {
-			path = "/vehicle/"+id.substring(0, 10)+"/device/"+id.substring(10, 16)+"/firmware";
-		}else if(id.length() == 10){
-			path = "/vehicle/"+id.substring(0, 10)+"/firmware";
-		}else {
-			path = "/vehicle/"+id+"/device/firmware";
-		}
+		String configDir = "/config";
+		String firmwareDir = "/firmware";
+		String playlistDir = "/playlist";
 		
-		String dir = Paths.get(getRootLocalPath() , path).toString();
-		String dirFtp = Paths.get(getRootServerPath() , path).toString();
-		
-		File dirPathConfig = new File(dir +"/config");
-		File dirPathFirmware = new File(dir + "/firmware");
-		File dirPathPlaylist = new File(dir + "/playlist");
-		
-		File dirPathConfigFtp = new File(dirFtp + "/config");
-		File dirPathFirmwareFtp = new File(dirFtp + "/firmware");
-		File dirPathPlaylistFtp = new File(dirFtp + "/playlist");
-		
-		if(!dirPathConfig.isDirectory()) {
-			dirPathConfig.mkdirs();
-			dirPathConfigFtp.mkdirs();
-		}
-		if(!dirPathFirmware.isDirectory()) {
-			dirPathFirmware.mkdirs();
-			dirPathFirmwareFtp.mkdirs();
-		}
-		if(!dirPathPlaylist.isDirectory()) {
-			dirPathPlaylist.mkdirs();
-			dirPathPlaylistFtp.mkdirs();
+		try {
+			//가지고온 관리id값이 통플인지 아닌지 비교
+			if(id.length() > 10) {
+				path = "/vehicle/" + id.substring(0, 10) + "/device/" + id.substring(10, 16);
+				
+				String localDir = getRootLocalPath() + path;
+				String serverDir = getRootServerPath() + path;
+				
+				File dirPathConfig = new File(localDir + configDir);
+				File dirPathFirmware = new File(localDir + firmwareDir);
+				File dirPathPlaylist = new File(localDir + playlistDir);
+				
+				if(!dirPathConfig.isDirectory()) {
+					dirPathConfig.mkdirs();
+				}
+				if(!dirPathFirmware.isDirectory()) {
+					dirPathFirmware.mkdirs();
+				}
+				if(!dirPathPlaylist.isDirectory()) {
+					dirPathPlaylist.mkdirs();
+				}	
+				
+				createFtpDirectory(serverDir + configDir);
+				createFtpDirectory(serverDir + firmwareDir);
+				createFtpDirectory(serverDir + playlistDir);
+			}else if(id.length() == 10){
+				path = "/vehicle/" + id.substring(0, 10) + "/firmware";
+				
+				String localDir = getRootLocalPath() + path;
+				String serverDir = getRootServerPath() + path;
+				
+				File dirPath = new File(localDir);
+				
+				if(!dirPath.isDirectory()) {
+					dirPath.mkdirs();
+				}
+				
+				createFtpDirectory(serverDir);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -1093,16 +1107,15 @@ public class FTPHandler {
 	}
 	
 	/************************************************************************ FTP 공통 모듈 *****************************************************************************************/
-	// 초기 디렉토리 셋팅
-	private void setServerDirectory(String localPath, String serverPath) throws SftpException {
+	private void createFtpDirectory(String ftpPath) throws SftpException {
 		// 최상위 폴더 이동
 		sftpChannel.cd("/");
 		try{
-			sftpChannel.cd(serverPath);
+			sftpChannel.cd(ftpPath);
 		}catch(Exception e){
-			System.out.println(serverPath + " don't exist on your server!");
+			System.out.println(ftpPath + " don't exist on your server!");
 			
-			String[] pathList = serverPath.split("/");
+			String[] pathList = ftpPath.split("/");
 			
 			for(int i = 1; i < pathList.length; i++) {
 				String path = pathList[i];
@@ -1124,6 +1137,11 @@ public class FTPHandler {
 				sftpChannel.cd(path);
 			}
 		}
+	}
+	
+	// 초기 디렉토리 셋팅
+	private void setServerDirectory(String localPath, String serverPath) throws SftpException {
+		createFtpDirectory(serverPath);
 		
 		File localDirectory = new File(localPath);
 		String serverFolder = serverPath.substring(serverPath.lastIndexOf('/') + 1, serverPath.length());
