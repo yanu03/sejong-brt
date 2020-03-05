@@ -23,4 +23,6 @@ public interface BM0109Mapper extends MyBatisMapper{
 	List<BmRoutNodeInfoVO> BM0109G1S2(String value);
 	int insertNodeInfo(BmRoutNodeInfoVO vo);
 	int delNodeInfo(String value);
+	
+	List<BmRoutNodeInfoVO> getAgInfo(String value);
 }
