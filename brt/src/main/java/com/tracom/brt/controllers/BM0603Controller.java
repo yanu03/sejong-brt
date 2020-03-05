@@ -35,10 +35,8 @@ public class BM0603Controller extends BaseController{
 		
 		for(int i = 0; list.size() > i; i++) {
 			if(list.get(i).getUseYn().equals("Y")) {
-				System.out.println("true");
 				list.get(i).setUseYn("true");
 			}else {
-				System.out.println("false");
 				list.get(i).setUseYn("false");
 			}
 		}		
@@ -47,16 +45,12 @@ public class BM0603Controller extends BaseController{
 	
 	@PostMapping("/BM0603F0I0")
     public ApiResponse BM0603F0I0(@RequestBody NewsVO request) {
-    	System.out.println(request);
         service.BM0603F0I0(request);
         return ok();
     }
 	
 	@PostMapping("/BM0603F0U0")
     public ApiResponse BM0603F0U0(@RequestBody NewsVO request) {
-        System.out.println("업데이트");
-        System.out.println(request);
-        
         for(int i = 0; request.getUpList().size() > i; i++) {
         	if(request.getUpList().get(i).getUseYn().equals("true")) {
         		request.getUpList().get(i).setUseYn("Y");

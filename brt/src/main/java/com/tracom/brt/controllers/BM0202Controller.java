@@ -65,8 +65,6 @@ public class BM0202Controller extends BaseController{
 	
 	@PostMapping("/BM0202G1U1")
 	public void BM0202G1U1(@RequestBody DvcHistoryVO request) {
-		System.out.println(request);
-		System.out.println("여길 호출해?");
 		service.BM0202G1U1(request);
 	}
 	

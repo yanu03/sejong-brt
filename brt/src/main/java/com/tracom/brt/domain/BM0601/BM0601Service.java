@@ -94,8 +94,6 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
     	String url = baseUrl + "&serviceKey=" + apiKey;
 
     	NodeList nodeList = ai.interface_XML(url);
-    	System.out.println("노드리스트");
-    	System.out.println(nodeList.getLength());
     	
     	WeatAtmoVO vo = new WeatAtmoVO();
     	
@@ -105,7 +103,6 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
             if(child.getNodeType() == Node.ELEMENT_NODE) {
             	Element eElement = (Element)child;           	
             	if(ai.getTagValue("stationName", eElement).equals("아름동")) {
-            		System.out.println("몇번타려나");
             		vo.setMeasDt(ai.getTagValue("dataTime", eElement));
             		vo.setSdc(ai.getTagValue("so2Value", eElement));
             		vo.setCmc(ai.getTagValue("coValue", eElement));
@@ -117,9 +114,7 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
             }
     	}
     	List<WeatAtmoVO> measDtCk = mapper.BM0601F0S0(vo.getMeasDt());
-    	System.out.println(measDtCk.get(0).getMeasDt().substring(0, measDtCk.get(0).getMeasDt().length()-5));
     	if(!measDtCk.get(0).getMeasDt().substring(0, measDtCk.get(0).getMeasDt().length()-5).equals(vo.getMeasDt())) {
-    		System.out.println(vo);
     		mapper.BM0601F0I0(vo);
     	}else {
     		System.out.println("발표시간이 중복되었습니다.");
@@ -143,8 +138,6 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 		 CommonCodeDetailInfoVO weatCodeVO = mapper_0105.SM0105G1S1(codeVO);
 		 codeVO.setCoCd("SKY_COND");
 		 List<CommonCodeDetailInfoVO> skyCheckVO = mapper_0105.SM0105G1S2(codeVO);
-		 System.out.println("sky_cond");
-		 System.out.println(skyCheckVO);
 		 
 		 String waetBaseUrl = weatCodeVO.getRemark();
 		  
@@ -189,14 +182,8 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 					 weatVO.setRainPro(ai.getTagValue("pop", eElement));
 					 weatVO.setRainFall(ai.getTagValue("r12", eElement));
 					 weatVO.setHumi(ai.getTagValue("reh", eElement));				 	
-			 System.out.println("기상vo");
-			 System.out.println(weatVO);
 			 
 			 weatCheckVO = mapper.BM0601F0S2("filter");
-			 System.out.println("기존 노티1");
-			 System.out.println(weatCheckVO.getNotiDt().substring(0, weatCheckVO.getNotiDt().length()-2));
-			 System.out.println("받아온 노티2");
-			 System.out.println(weatVO.getNotiDt());
 			 if(!weatCheckVO.getNotiDt().substring(0, weatCheckVO.getNotiDt().length()-2).equals(weatVO.getNotiDt())) {
 				 mapper.BM0601F0I1(weatVO);				 
 			 }

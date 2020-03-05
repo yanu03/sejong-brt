@@ -33,7 +33,6 @@ public class BM0204Controller extends BaseController{
 		List<ObeConditionVO> list = service.BM0204G0S0(requestParams);
 		Float latiConfirm;
 		Float longiConfirm;
-		System.out.println(list);
 		
 		 //gps 상태확인 코드
 		for(int i = 0;  i <list.size(); i++ ) {

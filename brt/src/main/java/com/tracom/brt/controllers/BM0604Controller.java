@@ -33,9 +33,6 @@ public class BM0604Controller extends BaseController{
 	public Responses.ListResponse BM0604G0S0(RequestParams<NewsVO> requestParams){
 		List<NewsVO> list = service.BM0604G0S0(requestParams);
 		
-		System.out.println("list1");
-		System.out.println(list);
-		
 		for(int i = 0; list.size() > i; i++) {
 			if(list.get(i).getUseYn().equals("Y")) {
 				list.get(i).setUseYn("true");
@@ -52,8 +49,7 @@ public class BM0604Controller extends BaseController{
 	})
 	public Responses.ListResponse BM0604G0S1(RequestParams<NewsVO> requestParams){
 		List<NewsVO> list = service.BM0604G0S1(requestParams);
-		System.out.println("list2");
-		System.out.println(list);
+
 		for(int i = 0; list.size() > i; i++) {
 			if(list.get(i).getUseYn().equals("Y")) {
 				list.get(i).setUseYn("true");
@@ -75,8 +71,6 @@ public class BM0604Controller extends BaseController{
 	
 	@PostMapping("/BM0604F0U0")
 	public ApiResponse BM0604F0U0(@RequestBody NewsVO request) {
-        System.out.println("업데이트");
-        System.out.println(request);
         
         for(int i = 0; request.getUpList().size() > i; i++) {
         	if(request.getUpList().get(i).getUseYn().equals("true")) {

@@ -96,21 +96,18 @@ public class BusDataInterface {
             return nodeList;
          
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return null;
         }
 	}
 	
 	public static String getTagValue(String tag, Element eElement) {
 		if(tag == null) {
-			System.out.println("null");
 			return null;
 		} 
 		NodeList nList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
 		Node node = (Node)nList.item(0);
 		
 		if(node == null) {
-			System.out.println("node = null");
 			return null;
 		}
 		return node.getNodeValue();

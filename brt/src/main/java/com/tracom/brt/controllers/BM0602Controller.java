@@ -33,20 +33,16 @@ public class BM0602Controller extends BaseController{
 	})
 	public Responses.ListResponse BM0602G0S0(RequestParams<NewsVO> requestParams){
 		List<NewsVO> list = service.BM0602G0S0(requestParams);
-		System.out.println("그리드 체크박스");
 		
 		if(list != null) {
 		for(int i = 0; list.size() > i; i++) {
 			if(list.get(i).getUseYn().equals("Y")) {
-				System.out.println("true");
 				list.get(i).setUseYn("true");
 			}else {
-				System.out.println("false");
 				list.get(i).setUseYn("false");
 			}
 		}
 		}else {
-			System.out.println("list가없습니다.");
 		}
 		return Responses.ListResponse.of(list);
 	}
@@ -65,30 +61,24 @@ public class BM0602Controller extends BaseController{
 	}
 	@PostMapping("/BM0602F0I0")
     public ApiResponse BM0602F0I0(@RequestBody NewsVO request) {
-    	System.out.println(request);
         String vhcId = service.BM0602F0I0(request);
         return ok(vhcId);
     }
 	
 	@PostMapping("/BM0602M0I0")
     public ApiResponse BM0602M0I0(@RequestBody NewsVO request) {
-    	System.out.println(request);
         String vhcId = service.BM0602M0I0(request);
         return ok(vhcId);
     }
 	
 	@PostMapping("/BM0602G0D0")
     public ApiResponse BM0602G0D0(@RequestBody NewsVO request) {
-    	System.out.println(request);
         service.BM0602G0D0(request);
         return ok();
     }
 	
 	@PostMapping("/BM0602F0U0")
     public ApiResponse BM0602F0U0(@RequestBody NewsVO request) {
-        System.out.println("업데이트");
-        System.out.println(request);
-        
         for(int i = 0; request.getUpList().size() > i; i++) {
         	if(request.getUpList().get(i).getUseYn().equals("true")) {
         		request.getUpList().get(i).setUseYn("Y");

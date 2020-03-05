@@ -35,7 +35,6 @@ public class BM0803Service extends BaseService<MapVO, String>{
 	//현재 공공데이터포털에서 가져오는 버스위치정보 파싱
 	public List<MapVO> BM0803G1S0(RequestParams<MapVO> requestParams) {
 		
-		System.out.println("service");
 		CommonCodeDetailInfoVO codeVO = new CommonCodeDetailInfoVO();
     	codeVO.setCoCd(bi.INTERFACE_URL);
     	codeVO.setDlCd(bi.KEY_CODE_OPENAPI_ROUT_BUS);

@@ -109,7 +109,6 @@ public class DataInterface {
             return nodeList;
          
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return null;
         }
 	}

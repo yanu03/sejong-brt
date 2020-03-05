@@ -42,7 +42,6 @@ public class BM0206Controller extends BaseController{
 	})
 	public Responses.ListResponse BM0206G2S1(RequestParams<UpdateHistoryVO> requestParams){
 		List<UpdateHistoryVO> list = service.BM0206G2S1(requestParams);
-		System.out.println("컨트롤러"+list);
 		return Responses.ListResponse.of(list);
 	}
 	

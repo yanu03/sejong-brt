@@ -39,18 +39,12 @@ public class BM0205Controller extends BaseController{
     @PostMapping("/BM0205G0S1")
     public ApiResponse BM0205G0S1(@RequestBody VhcDvcUpdateVO vo) {
     	VhcDvcUpdateVO nVo = new VhcDvcUpdateVO();
-    	System.out.println("controller 관리ID체크");
-    	System.out.println(vo);
     	boolean mngIdCheck = service.BM0205G0S1(vo);
-    	System.out.println("갔다왔니?");
-    	System.out.println(mngIdCheck);
     	return ok(Boolean.toString(mngIdCheck));
     }
     
     @PostMapping("/BM0205FileUp")
     public ApiResponse BM0205F0I0(@ModelAttribute VhcDvcUpdateVO vo) {
-    	System.out.println("controller");
-    	System.out.println(vo);
     	service.BM0205FileUp(vo);
     	return ok();
     }
