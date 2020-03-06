@@ -305,7 +305,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	{key: "possible",	label: "예약여부",		width: 70, align: "center"},
             	{key: "vhcId",		label: "차량ID",		width: 100},
             	{key: "vhcNo",		label: ADMIN("ax.admin.SM0108.vhc.no"),			width: 100,		align:"center",		sortable: true},
-            	{key: "mngId",		label: "관리ID",		width: 150},
+            	//{key: "mngId",		label: "관리ID",		width: 150},
                 {key: "chasNo", 	label: ADMIN("ax.admin.BM0406G1.chasNo"),	width: 130},
                 {key: "corpNm",		label: ADMIN("ax.admin.BM0406G1.corpId"),	width: 120,		align: "center"},
                 {key: "areaNm",		label: ADMIN("ax.admin.BM0406G1.area"),		width: 100,		align: "center"},
