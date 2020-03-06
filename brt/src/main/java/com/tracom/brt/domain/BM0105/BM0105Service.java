@@ -97,6 +97,14 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
     			//staList 인서트쿼리 예정
     		}
     		
+    		//첫번째 정류장과 마지막 정류장이 같은 경우 (순환노선)
+    		//첫번째 정류장 삭제
+    		if(staList.size() > 0) {
+	    		if(staList.get(0).getStaId().equals(staList.get(staList.size()-1).getStaId())) {
+	    			staList.remove(0);
+	    		}
+    		}
+    		
     		inputVO.setVoList(staList);
 
     		if(staList.size() > 0) {
@@ -111,7 +119,6 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
     		}
     		//staList.clear();
 
-    		//finalfusion
     		//정류장리스트 바아옴
     		finalFusion(vo, mapper.getNodeList(vo), mapper.getStaList(vo));
     	}

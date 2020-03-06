@@ -99,7 +99,7 @@
 		
 	<!-- routemap_node.csv -->
 	<select id="rsv_nodelist" resultType="bmRoutNodeInfoVO">
-		SELECT
+		SELECT DISTINCT
 			  NODE_ID				AS NODE_ID
 		    , NODE_NM				AS NODE_NAME
 		    , '30'					AS 'RANGE'
@@ -113,7 +113,7 @@
 	
 	<!-- busstop.csv -->
 	<select id="rsv_busstoplist" resultType="bmRoutNodeInfoVO">
-		SELECT
+		SELECT DISTINCT
 			  STA.STA_ID					AS NODE_ID
 		    , IF(NM.KR_NM IS NULL || NM.KR_NM = '', STA.STA_NM, NM.KR_NM) AS NODE_NM
 		    , '1'							AS 'NODE_TYPE'
@@ -128,7 +128,7 @@
 		
 		UNION ALL
 		
-		SELECT
+		SELECT DISTINCT
 			  ORGA_ID				AS NODE_ID
 		    , ORGA_NM				AS NODE_NM
 		    , '898'					AS 'NODE_TYPE'
