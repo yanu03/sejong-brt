@@ -89,7 +89,6 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 				
 			//노드인포테이블에 인서트함
 			mapper.insertNodeInfo(vo);
-	
 			//정류장이 있을경우
 			if(staList.size() > 0) {
 				insertRoutSta(staList, routId);

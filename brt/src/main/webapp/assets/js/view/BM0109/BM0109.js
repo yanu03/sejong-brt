@@ -50,7 +50,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     PAGE_EXCEL: function(caller, act, data) {
     	caller.gridView1.target.exportExcel(selectedRow0.routId + "(" + selectedRow0.interRoutId + ")_" + new Date().yyyymmdd() + ".xls");
-    	caller.gridView0.target.exportExcel("data.xls");
+    	//caller.gridView0.target.exportExcel("data.xls");
     },
     
     PAGE_EXCELFORM: function(caller, act, data){
@@ -185,36 +185,41 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             modalType: "FILE_UPLOAD",
             param: "",
             callback: function (data) {
+            	this.close();
             	
             	var formData = new FormData();
             	formData.append("attFile", data);
-            	axboot.promise()
-                .then(function (ok, fail, data) {
-                	axboot.ajax({
-                    	type: "POST",
-                    	enctype: "multipart/form-data",
-                    	processData: false,
-                        url: "/api/v1/BM0109IMPORT",
-                        data: formData,
-                        callback: function (res) {
-                            ok(res);
-                        },
-                        options: {
-                        	contentType:false
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onsave"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-                	
-                });
-                
             	
-            	this.close();
+            	axDialog.confirm({
+ 		        	msg: "해당 노선에 데이터가 있을경우 새로운 데이터로 덮어쓰게됩니다. 진행하시겠습니까?"
+ 		        }, function(){
+	            	
+	            	axboot.promise()
+	                .then(function (ok, fail, data) {
+	                	axboot.ajax({
+	                    	type: "POST",
+	                    	enctype: "multipart/form-data",
+	                    	processData: false,
+	                        url: "/api/v1/BM0109IMPORT",
+	                        data: formData,
+	                        callback: function (res) {
+	                            ok(res);
+	                        },
+	                        options: {
+	                        	contentType:false
+	                        }
+	                    });
+	                })
+	                .then(function (ok, fail, data) {
+	            		axToast.push(LANG("onsave"));
+	            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	                })
+	                .catch(function () {
+	                	
+	                });
+            	
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+ 		        });
             }
         });
     },

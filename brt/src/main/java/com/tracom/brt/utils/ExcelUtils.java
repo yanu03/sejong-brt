@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.domain.BM0109.BM0109Service;
 
 @Component
 public class ExcelUtils {
@@ -38,6 +40,10 @@ public class ExcelUtils {
 	
 	@Value("${sftp.windows.local.directory}")
 	private String ROOT_WINDOWS_LOCAL_PATH;
+	
+	
+	@Inject
+	BM0109Service BM0109Service;
 	
 	public void downExcel(MultipartFile file) throws IOException {
 		String path = Paths.get(getRootLocalPath(), "/temp").toString();
@@ -82,29 +88,42 @@ public class ExcelUtils {
 				if(i>0) {
 					String[] c = rows[i].split(",");
 					BmRoutNodeInfoVO tmp = new BmRoutNodeInfoVO();
-					tmp.setNodeId(c[0]);
-					tmp.setNodeNm(c[1]);
-					tmp.setLati(Float.valueOf(c[2]));
-					tmp.setLongi(Float.valueOf(c[3]));
-					tmp.setSeq(Integer.valueOf(c[4]));
-					tmp.setRoutId(c[5]);
-					tmp.setNodeType(Integer.valueOf(c[6]));
-					//정류장일때의 처리 필요함
+					tmp.setRoutId(c[0]);
+					tmp.setSeq(Integer.valueOf(c[1]));
+					if(c[2].equals("정류장") || c[2].equals("1")) {
+						tmp.setNodeType(1);						
+					}else if(c[2].equals("지점") || c[2].equals("30")) {
+						tmp.setNodeType(30);
+					}
+					tmp.setNodeId(c[3]);
+					tmp.setNodeNm(c[4]);
+					tmp.setLati(Float.valueOf(c[5]));
+					tmp.setLongi(Float.valueOf(c[6]));
+					
+					
+					//정류장일때의 처리 필요할경우
+					/*
 					if(tmp.getStaId() == null) {
 						voList.add(tmp);						
 					}else {
 						staList.add(tmp);
 					}
+					 * */
 					
+					voList.add(tmp);
+					System.out.println(tmp);
 				}
 			}
 			
-			//인서트 할것이야
-			
-			
-			
-			
-			
+			if(voList.size() > 0) {
+				BmRoutNodeInfoVO ins = new BmRoutNodeInfoVO();
+				
+				ins.setRoutId(voList.get(0).getRoutId());
+				ins.setVoList(voList);
+				//인서트 할것이야
+				
+				BM0109Service.BM0109G1I0(ins);
+			}
 			
 		}
 	}
@@ -158,23 +177,21 @@ public class ExcelUtils {
 		row = sheet.createRow(rowNo++);
 		//엑셀양식
 		cell = row.createCell(0);
-		cell.setCellValue("노드아이디(10)");
-		cell = row.createCell(1);
-		cell.setCellValue("노드명(10)");
-		cell = row.createCell(2);
-		cell.setCellValue("위도(11)");
-		cell = row.createCell(3);
-		cell.setCellValue("경도(11)");
-		cell = row.createCell(4);
-		cell.setCellValue("순번");
-		cell = row.createCell(5);
 		cell.setCellValue("노선아이디(9)");
-		cell = row.createCell(6);
-		cell.setCellValue("연계노선아이디(9)");
-		cell = row.createCell(7);
-		cell.setCellValue("정류장아이디(12)");
-		cell = row.createCell(8);
+		cell = row.createCell(1);
+		cell.setCellValue("순번");
+		cell = row.createCell(2);
 		cell.setCellValue("노드타입(정류장:1,경로지점:30)");
+		cell = row.createCell(3);
+		cell.setCellValue("노드아이디(10)");
+		cell = row.createCell(4);
+		cell.setCellValue("노드명(10)");
+		cell = row.createCell(5);
+		cell.setCellValue("위도(11)");
+		cell = row.createCell(6);
+		cell.setCellValue("경도(11)");
+		//cell = row.createCell(8);
+		//cell.setCellValue("정류장아이디(12)");
 		
 		
 		//response에 추가할것임
