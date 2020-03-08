@@ -394,12 +394,6 @@ public class FTPHandler {
 	
 	//BM0503 행선지안내기 예약(파일이동)
 	public void reserveDst(RoutRsvVO vo) throws Exception {
-		/*
-		String path = Paths.get(getRootLocalPath(), "/destination", "/images").toString();
-		String toPath = Paths.get(getRootLocalPath(), "/vehicle/", vo.getImpId(), "/device/", vo.getDvcId(), "/images").toString();
-		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/images";
-		 * */
-		
 		String path = Paths.get(getRootLocalPath(), "/temp/destination/images").toString();
 		String toPath = Paths.get(getRootLocalPath(), "/destination", "/images").toString();
 		String fPath = getRootServerPath() + "/destination/images/";
@@ -458,17 +452,10 @@ public class FTPHandler {
 					GlobalConstants.CSVForms.ROW_SEPARATOR + "S" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A";
 			
 		}
-		
-		/*for(RoutRsvVO vo : voList) {
-			String path = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device", "/", vo.getDvcId(), "/list").toString();
-			String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/list";
-			File file = new File(path + "/LIST.CSV");
-			Utils.createCSV(file, txt);
-			processSynchronize(path, fPath);
-		}*/
+
 		String path = Paths.get(getRootLocalPath(), "/destination/list").toString();
 		String fPath = getRootServerPath() + "/destination/list/";
-		File file = new File(path + "/LIST.CSV");
+		File file = new File(path + "/list.csv");
 		Utils.createCSV(file, txt);
 		processSynchronize(path, fPath);
 	}
@@ -668,7 +655,6 @@ public class FTPHandler {
 		
 		try {
 			Utils.createCSV(file, txt);
-			//FileUtils.writeStringToFile(file, txt, Charset.forName("CP949"));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -716,7 +702,6 @@ public class FTPHandler {
 	
 	//SCH파일 read
 	public List<DestinationVO> readSCH(String fileName) throws IOException {
-		//String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
 		String path = Paths.get(getRootLocalPath(), "/temp/destination/images").toString();
 		
 		File file = new File(path + "/" + fileName);
@@ -768,7 +753,6 @@ public class FTPHandler {
 	
 	//SCH파일 write
 	public boolean writeSCH(List<DestinationVO> list, String fileName) {
-		//String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
 		String path = Paths.get(getRootLocalPath(), "/temp/destination/images").toString();
 		String txt = "";
 		
