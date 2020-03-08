@@ -73,6 +73,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
+	                    },
+	                    options:{
+	                    	onError: function(err){
+	                    		axDialog.alert("승무사원이 존재하는 운수사입니다. 승무사원 목록을 확인하세요.");
+	                    	}
 	                    }
 	                });
                 })
