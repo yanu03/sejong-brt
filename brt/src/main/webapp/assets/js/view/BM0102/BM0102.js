@@ -77,7 +77,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    },
 	                    options:{
 	                    	onError: function(err){
-	                    		axDialog.alert("계약이 존재하는 거래처입니다. 계약 목록을 확인하세요.");
+	                    		axDialog.alert("삭제 실패. 해당 거래처에 연결된 계약이 있는지 확인하세요.");
 	                    	}
 	                    }
 	                });

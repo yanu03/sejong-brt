@@ -75,7 +75,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    },
 	                    options:{
 	                    	onError: function(err){
-	                    		axDialog.alert("차량에 장착된 장치가 있습니다. 차량별 장치목록을 확인하세요.");
+	                    		axDialog.alert("삭제 실패. 해당 차량에 연결된 장치가 있는지 확안하세요.");
 	                    	}
 	                    }
 	                });

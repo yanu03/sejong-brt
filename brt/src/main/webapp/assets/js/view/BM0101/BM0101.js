@@ -76,7 +76,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    },
 	                    options:{
 	                    	onError: function(err){
-	                    		axDialog.alert("승무사원이 존재하는 운수사입니다. 승무사원 목록을 확인하세요.");
+	                    		axDialog.alert("삭제 실패. 해당 운수사에 연결된 승무사원이 있는지 확인하세요.");
 	                    	}
 	                    }
 	                });

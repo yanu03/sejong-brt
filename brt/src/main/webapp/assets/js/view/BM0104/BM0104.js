@@ -63,14 +63,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		return false;
     	}
     	
-    	if(selectedRow.count > 1){
-    		axDialog.alert("노선경로 데이터가 있습니다. 삭제할 수 없습니다");
-    		return false;
-    	}
-    	
     	axDialog.confirm({
             msg: LANG("ax.script.deleteconfirm")
         }, function() {
+        	if(selectedRow.count > 1){
+        		axDialog.alert("삭제 실패. 노선경로 데이터가 있는지 확인하세요.");
+        		return false;
+        	}
             if (this.key == "ok") {
             	axboot.promise()
                 .then(function (ok, fail, data) {
