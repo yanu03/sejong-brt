@@ -34,7 +34,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		                }
 	                }
                 }
+            },
+            options:{
+            	onError: function(err){
+            		axDialog.alert("먼저 차량에 장착된 장치를 삭제해주세요.");
+            	}
             }
+            
         });
 
         return false;
