@@ -8,6 +8,7 @@ selectedRow0 = null;
 var routeData = null;
 var addSeq = 0;
 var stnSeq = 1;
+var maxNodeCnt = 800;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -63,13 +64,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		axDialog.alert(LANG("ax.script.alert.requireselect"));
     		return false;
     	}
-    	
+    	var msg = "";
     	axDialog.confirm({
-            msg: "해당 노선의 모든 경로정보가 삭제됩니다. 정말 삭제하시겠습니까?"
+            msg: "해당 노선의 경로정보, 정류장 정보가 삭제됩니다. 정말 삭제하시겠습니까?"
         },	function(){
         	
 		        axDialog.confirm({
-		        	msg: "해당 노선의 모든 경로정보를 삭제합니다."
+		        	msg: "이 작업은 되돌릴 수 없습니다."
 		        },
 		        function() {
 		        	if (this.key == "ok") {
@@ -80,12 +81,18 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		        				url: "/api/v1/BM0109G0D0",
 		        				data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 		        				callback: function (res) {
+		        					msg = res.message;
 		        					ok(res);
 		        				}
 		        			});
 		        		})
 		        		.then(function (ok) {
-		        			axToast.push(LANG("ondelete"));
+		        			if(msg == "true"){
+		        				axToast.push(LANG("ondelete"));
+		        			}else{
+		        				axDialog.alert("삭제 실패. 해당 노선에 편성된 음성이 있는지 확인하세요.");
+		        			}
+		        			
 		        			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 		        		})
 		        		.catch(function () {
@@ -609,11 +616,18 @@ function onClickMap(e) {
 	$("input:checkbox[id='toggleStn']").prop("checked", true);
 	$("input:checkbox[id='toggleNode']").prop("checked", true);
 	var routNm = selectedRow0.routNm;
+	
+	
 	if(stopAdd && !nodeAdd) {
+		if(fnObj.gridView1.getData().length >= maxNodeCnt){
+			axDialog.alert("더이상 추가할 수 없습니다.");
+			return false;
+		}
+		
 		var lonlat = e.latLng;
 		var min = 10000000;
 		var minIndex = null;
-		console.log(selectedRow0);
+
 		for(var i = 0; i < routeData.length - 1; i++) {
 			var result = getDistanceToLine(
 				lonlat.lat(),
@@ -657,8 +671,14 @@ function onClickMap(e) {
 			
 		}
 	}else if(!stopAdd && nodeAdd){
-		var lonlat = e.latLng;
+		console.log(fnObj.gridView1.getData());
+		if(fnObj.gridView1.getData().length >= maxNodeCnt){
+			axDialog.alert("더이상 추가할 수 없습니다.");
+			return false;
+		}
 		
+		
+		var lonlat = e.latLng;
 		
 		var idx;
 		if(selectedRow.__index != undefined){

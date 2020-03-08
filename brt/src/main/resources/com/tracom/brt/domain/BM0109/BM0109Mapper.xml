@@ -177,7 +177,13 @@
 	
 	<delete id="BM0109G0D0" parameterType="bmRoutNodeInfoVO">
 		DELETE FROM BM_ROUT_RESULT
-		WHERE ROUT_ID = #{routId}
+		WHERE ROUT_ID = #{routId};
+		
+		DELETE FROM BM_ROUT_STA_INFO
+		WHERE ROUT_ID = #{routId};
+		
+		DELETE FROM BM_ROUT_NODE_INFO
+		WHERE ROUT_ID = #{routId};
 	</delete>
 	
 	<delete id="BM0109G1D1" parameterType="String">
@@ -309,6 +315,15 @@
 		    , '898'		AS NODE_TYPE
 		    , ROUT_ID	AS ROUT_ID
 		FROM BM_VOC_ORGA 
+		WHERE
+			ROUT_ID = #{value}
+	</select>
+	
+	<select id="getAgCnt" parameterType="String" resultType="Integer">
+		SELECT
+			COUNT(*) AS COUNT
+		FROM
+			BM_VOC_ORGA
 		WHERE
 			ROUT_ID = #{value}
 	</select>

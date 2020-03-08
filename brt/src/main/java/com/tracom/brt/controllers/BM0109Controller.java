@@ -59,7 +59,11 @@ public class BM0109Controller extends BaseController {
     @PostMapping("/BM0109G0D0")
     public ApiResponse BM0109G0D0(@RequestBody BmRoutNodeInfoVO vo) {
     	boolean result = service.BM0109G0D0(vo);
-    	return ok();
+    	if(result) {
+    		return ok("true");    		
+    	}else {
+    		return ok("false");
+    	}
     }
     
     @PostMapping("/BM0109IMPORT")

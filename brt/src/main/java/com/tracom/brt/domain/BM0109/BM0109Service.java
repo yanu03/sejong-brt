@@ -115,10 +115,14 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 	}
 	
 	public boolean BM0109G0D0(BmRoutNodeInfoVO vo) {
-		if(mapper.BM0109G0D0(vo) > 0) {
-			return true;
-		}else {
+		if(mapper.getAgCnt(vo.getRoutId()) > 0){
 			return false;
+		}else {
+			if(mapper.BM0109G0D0(vo) > 0) {
+				return true;
+			}else {
+				return false;
+			}
 		}
 	}
 	
