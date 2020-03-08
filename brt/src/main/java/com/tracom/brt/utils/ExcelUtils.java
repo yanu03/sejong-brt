@@ -100,16 +100,6 @@ public class ExcelUtils {
 					tmp.setLati(Float.valueOf(c[5]));
 					tmp.setLongi(Float.valueOf(c[6]));
 					
-					
-					//정류장일때의 처리 필요할경우
-					/*
-					if(tmp.getStaId() == null) {
-						voList.add(tmp);						
-					}else {
-						staList.add(tmp);
-					}
-					 * */
-					
 					voList.add(tmp);
 					System.out.println(tmp);
 				}
@@ -190,8 +180,6 @@ public class ExcelUtils {
 		cell.setCellValue("위도(11)");
 		cell = row.createCell(6);
 		cell.setCellValue("경도(11)");
-		//cell = row.createCell(8);
-		//cell.setCellValue("정류장아이디(12)");
 		
 		
 		//response에 추가할것임

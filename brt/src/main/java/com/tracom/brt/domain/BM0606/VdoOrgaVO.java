@@ -20,7 +20,7 @@ public class VdoOrgaVO extends BaseVO {
 	
 	private int		vdoCnt;
 	
-	private int		ttTime;
+	private String	ttTime;
 	
 	private String routId;
 	
