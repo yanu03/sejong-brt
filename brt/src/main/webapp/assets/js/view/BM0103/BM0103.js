@@ -75,7 +75,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	                    },
 	                    options:{
 	                    	onError: function(err){
-	                    		axDialog.alert("차량에 장착된 장치가 있습니다.");
+	                    		axDialog.alert("차량에 장착된 장치가 있습니다. 차량별 장치목록을 확인하세요.");
 	                    	}
 	                    }
 	                });
