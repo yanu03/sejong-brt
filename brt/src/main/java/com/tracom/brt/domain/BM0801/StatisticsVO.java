@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 public class StatisticsVO extends BaseVO{
 	private String playDate;
 	private String vhcNo;
+	private String conId;
+	private String conNm;
+	private int countTotal;
+	private int countVoice;
+	private int countImage;
+	private int countVideo;
 	private String id;
 	private String adType;
 	private String adNm;

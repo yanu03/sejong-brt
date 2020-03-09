@@ -22,12 +22,18 @@ public class BM0801Service extends BaseService<StatisticsVO, String>{
 	private FTPHandler handler;
 
 	public List<StatisticsVO> BM0801G0S0(RequestParams<StatisticsVO> requestParams) {
-		Map<String, String> hm = new HashMap<>();
-		hm.put("filter", requestParams.getString("filter"));
-		hm.put("playStDate", requestParams.getString("playStDate"));
-		hm.put("playEdDate", requestParams.getString("playEdDate"));
+		Map<String, Object> params = new HashMap<>();
+		params.put("filter", requestParams.getString("filter"));
 		
-		return mapper.BM0801G0S0(hm);
+		return mapper.BM0801G0S0(params);
+	}
+	
+	public List<StatisticsVO> BM0801G1S0(RequestParams<StatisticsVO> requestParams) {
+		String conId = requestParams.getString("conId");
+		Map<String, Object> params = new HashMap<>();
+		params.put("conId", conId);
+		
+		return mapper.BM0801G1S0(params);
 	}
 	
 	public void insertAdLog() {
