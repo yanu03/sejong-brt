@@ -106,8 +106,8 @@
                         </ax:tr>
                         
                         <ax:tr>
-                            <ax:td label="ax.admin.user.auth.group" width="300px">
-                                <ax:common-code groupCd="AUTH_GROUP" dataPath="grpAuthCd" name="grpAuthCd" clazz="W180"/>
+                            <ax:td label="ax.admin.user.auth.group" width="300px" labelClazz="required">
+                                <ax:common-code groupCd="AUTH_GROUP" dataPath="grpAuthCd" name="grpAuthCd" clazz="W180" type="checkbox"/>
                             </ax:td>
                         </ax:tr>
                         

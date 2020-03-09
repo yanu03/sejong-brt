@@ -71,14 +71,18 @@ public class UserService extends BaseService<User, String> {
 		save(user);
 		
 		List<UserRole> roleList = new ArrayList<UserRole>();
-		List<UserAuth> authList = new ArrayList<UserAuth>();
 		
 		roleList.add(new UserRole(null, user.getUserCd(), "SYSTEM_MANAGER"));
 		roleList.add(new UserRole(null, user.getUserCd(), "ASP_ACCESS"));
 		roleList.add(new UserRole(null, user.getUserCd(), "ASP_MANAGER"));
 		roleList.add(new UserRole(null, user.getUserCd(), "API"));
 		
-		authList.add(new UserAuth(null, user.getUserCd(), user.getGrpAuthCd()));
+		
+		// 권한
+		List<UserAuth> authList = user.getAuthList();
+		for(UserAuth auth : authList) {
+			auth.setUserCd(user.getUserCd());
+		}
 		
 		userAuthService.save(authList);
 		userRoleService.save(roleList);
@@ -109,8 +113,11 @@ public class UserService extends BaseService<User, String> {
 		user.setMenuGrpCd(originalUser.getMenuGrpCd());
 		save(user);
 		
-		List<UserAuth> authList = new ArrayList<UserAuth>();
-		authList.add(new UserAuth(null, user.getUserCd(), user.getGrpAuthCd()));
+		// 권한
+		List<UserAuth> authList = user.getAuthList();
+		for(UserAuth auth : authList) {
+			auth.setUserCd(user.getUserCd());
+		}
 		userAuthService.save(authList);
     }
     
