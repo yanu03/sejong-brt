@@ -123,6 +123,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	searchGrid1(caller, act, data);
     	removeMarkers();
     	deleteLine();
+    	document.getElementById("toggleNode").checked = true;
+    	document.getElementById("toggleStn").checked = true;
     },
     
     ITEM_CLICK_G1: function (caller, act, data) {
