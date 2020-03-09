@@ -35,7 +35,7 @@
 
         <ax:split-layout name="ax1" orientation="vertical">
 	        <ax:split-panel width="700">
-	            <ax:split-panel width="500" style="height:290px; padding-right: 10px;">
+	            <ax:split-panel width="500" style="height:290px; padding-right: 5px;">
 	                <!-- 목록 -->
 	                <div class="ax-button-group" data-fit-height-aside="gridView0">
 	                    <div class="left">
@@ -53,15 +53,21 @@
                     </ax:split-panel>
  -->
 
-	                <div style="float:right; width:250px;">
-	                	<div id="refreshBtn" style="float:right;">
-	                    	<button class="btn btn-default" data-grid-control="row-del">적용</button>
-	                    	<p>
-	                    </div>
-	                    
-	                    <div style="float:right; width:260px">
+	                <div style="float:left; width:250px;">
+	              
+	                    <div style="float:left; height:100%; width:280px">
 	                   		<ax:form name="formView0">
 			                    <ax:tbl clazz="ax-form-tbl" minWidth="200px">
+			                    	<ax:tr>
+			                    		<ax:td style="text-align:right; padding-top:20px;">
+			                    		<button class="btn btn-default" data-grid-control="row-del" style="float:right; margin-right:30px;">적용</button>
+			                    		</ax:td>
+			                    	</ax:tr>
+			                    </ax:tbl>
+			                    	
+			                    <p>
+			                    
+			                    <ax:tbl clazz="ax-form-tbl" minWidth="230px">
 			                        <ax:tr>
 			                            <ax:td label="정류소정차시간(초)" width="260px">
 			                                <input type="text" id="stopTime" data-ax-path="stopTime" class="form-control"/>
@@ -71,8 +77,8 @@
 			                            </ax:td>
 			                        </ax:tr>
 			                    </ax:tbl>
-		
-			                    <p>
+								
+								<p>
 			                    
 			                    <ax:tbl clazz="ax-form-tbl" minWidth="230px">
 			                        <ax:tr>
@@ -89,7 +95,7 @@
 	                    
 	                </div>
 	            </ax:split-panel>
-	             <ax:form name="searchView1" style="padding-right:20px; ">
+	             <ax:form name="searchView1" style="padding-right:10px; ">
 	                <ax:tbl clazz="ax-search-tbl" minWidth="500px">
 	                    <ax:tr>
 	                        <ax:td label='ax.admin.search' width="500px">
@@ -105,7 +111,7 @@
 	                </ax:tbl>
 	            </ax:form>
 	            
-	            <ax:split-panel width="*" style="height:100%; padding-right: 10px; padding-bottom:166px">
+	            <ax:split-panel width="*" style="height:100%; padding-right: 5px; padding-bottom:166px">
 	                <!-- 목록 -->
 	                <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height: 100%;"></div>
 	            </ax:split-panel>
