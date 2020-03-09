@@ -7,7 +7,7 @@ import com.chequer.axboot.core.mybatis.MyBatisMapper;
 
 public interface BM0801Mapper extends MyBatisMapper{
 
-	List<StatisticsVO> BM0801G0S0(Map<String, String> hm);
-	List<StatisticsVO> BM0801G0S1(Map<String, String> hm);
+	List<StatisticsVO> BM0801G0S0(Map<String, Object> params);
+	List<StatisticsVO> BM0801G1S0(Map<String, Object> params);
 	int insertAdLog(Map<String, Object> map);
 }

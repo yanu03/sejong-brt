@@ -26,30 +26,18 @@
 
         <div role="page-header">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
-                    <ax:tr>
-            		  <ax:form name="searchView0">
-                        <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0801S0.search" maxLength="20"/>
-                        </ax:td>
+					<ax:tr>
+						<ax:form name="searchView0">
+							<ax:td label='ax.admin.search' width="300px">
+								<ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0801S0.search" maxLength="20"/>
+							</ax:td>
             		  </ax:form>
-            		  <ax:form name="searchView1">
-                        <ax:td label="ax.admin.BM0401F0.play.date" width="400px">
-	                            <div class="input-group" data-ax5picker="date">
-	                                <input type="text" id="playStDate" name="playStDate" data-ax-path="playStDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" data-ax5formatter="date" placeholder="<ax:lang id="ax.admin.date.format"/>">
-	                                <span class="input-group-addon">~</span>
-	                                <input type="text" id="playEdDate" name="playEdDate" data-ax-path="playEdDate" title="<ax:lang id="ax.admin.BM0401F0.play.date"/>" class="form-control" data-ax5formatter="date" placeholder="<ax:lang id="ax.admin.date.format"/>">
-	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
-	                            </div>
-                       </ax:td>
-                       </ax:form>
                     </ax:tr>
                 </ax:tbl>
             <div class="H3"></div>
         </div>
-        <ax:split-layout name="ax1" orientation="horizontal">
-            <ax:split-panel width="*" style="">
-
-                <!-- 목록 -->
+        <ax:split-layout name="ax1" orientation="vertical">
+            <ax:split-panel width="800" style="padding-right: 10px;">
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h3>
@@ -59,7 +47,18 @@
                     </div>
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
-
+            </ax:split-panel>
+            
+            <ax:splitter></ax:splitter>
+            
+            <ax:split-panel width="*" style="padding-left: 10px;" scroll="scroll">
+                <div class="ax-button-group" data-fit-height-aside="gridView1">
+                    <div class="left">
+                        <h3><i class="cqc-list"></i>
+                            <ax:lang id="ax.admin.BM0801G1.title"/> </h3>
+                    </div>
+                </div>
+                <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height: 300px;"></div>
             </ax:split-panel>
         </ax:split-layout>
 
