@@ -104,7 +104,7 @@
 		                            <button type="button" id="searchSta" class="btn btn-primary" onclick="">
 			                         	<ax:lang id="ax.admin.search"/>
 			                        </button>
-			                        <button type="button" id="refresh" class="btn btn-info" style="margin-right:5px;margin-left:50px;">새로고침</button>
+			                        <button type="button" id="refresh" class="btn btn-info" style="margin-left:100px;"><i class="cqc-cw"></i></button>
 		                        </div>
 	                        </ax:td>
 	                    </ax:tr>
@@ -126,14 +126,15 @@
                         </h2>
                     </div>
                     <div class="right">
-	                    <div id="rowDel" style="float:right;">
-	                    	<button class="btn btn-info" data-grid-control="row-del"><i class="cqc-minus"></i>삭제</button>
+	                    <div id="rowDel" style="float:right; padding-left:3px;">
+	                    	<button class="btn btn-default" data-grid-control="row-del" style="width: 100px;"><i class="cqc-minus"></i>선택삭제</button>
+	                    	
 	                    </div>
-	                    <div id="nodeAdd" style="float:right;">
-	                    	<button class="btn btn-info" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>
+	                    <div id="nodeAdd" style="float:right; padding-left:3px;">
+	                    	<button class="btn btn-default" data-grid-control="node-add" style="width:100px;"><i class="cqc-plus"></i>경로추가</button>
 	                    </div>
-	                    <div id="stopAdd" style="float:right;">
-	                    	<button class="btn btn-info" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>
+	                    <div id="stopAdd" style="float:right; padding-left:3px;">
+	                    	<button class="btn btn-default" data-grid-control="stop-add" style="width:100px;"><i class="cqc-plus"></i>정류장추가</button>
 	                    </div>
 	                    <div id="toggleN" style="float:right;">
 	                    	<input type="checkbox" id="toggleNode" checked="checked">경로&nbsp;
