@@ -115,6 +115,11 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
 	    		//station info
 	    		int SIcnt = mapper.BM0105G1I1(inputVO);
 	    		
+	    		//TODO: name 테이블에 넣어줄것임
+	    		BmStaInfoVO tmpVO = new BmStaInfoVO();
+	    		tmpVO.setVoList(staList);
+	    		List<BmStaInfoVO> newStaList = mapper.getNewStaList(tmpVO);
+	    		
 	    		resultList.add(vo.getRoutId());
     		}
     		//staList.clear();

@@ -38,7 +38,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);
-                
                 if(res.list.length == 0) {
                 	isUpdate = false;
 	                caller.formView0.clear();
@@ -59,21 +58,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         //loadSCH();
         return false;
     },
-	PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
-    },
     
-    PAGE_NEW: function (caller, act, data) {
-
-    },
-    
-    PAGE_DELETE: function(caller, act, data) {
-
-    },
-    
-    PAGE_SAVE: function (caller, act, data) {  
-
-    },
     
     PAGE_UPDATE: function(caller, act, data) {
     	uv_dvc_type = $('#selectBox option:selected').val();
@@ -135,8 +120,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK: function (caller, act, data) {
-    	selectBox();
     	uv_height = 0;
+    	selectBox();
     	selectedRow = data;
     	//loadSCH(data);
         caller.formView0.setData(data);
@@ -144,6 +129,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         $("#selectBox option:eq(0)").attr("selected", "selected");
         $('#bmpFile').val("");
         $('#previewImg').attr("src", "");
+        loadBmp();
         loadSCH();
     },
     
@@ -151,9 +137,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var element = document.getElementById("previewImg");
     	var seq = data.__index + 1;
     	if(uv_dvc_type == frontCode){
-    		//var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&dvcName="+selectedRow.dvcName;
-    		//$("#previewImg").attr("src", url);
-    		//element.style.clip = "rect(" + (data.__index * uv_frontheight) + "," + uv_frontwidth + "," + uv_frontwidth + "," + (seq * uv_frontheight) + ")";
     	}
     },
 
@@ -161,21 +144,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
 function getEffType(){
 	var effArr = new Array();
-/*
-	axboot.ajax({
-        type: "GET",
-        url: "/api/v1/SM0105G3S0",
-        callback: function (res) {
-        	var res = res.list;
-        	for(var i=0; i<res.length; i++){
-        		//var tmp = {CD: res[i].txtVal1, NM: res[i].dlCdNm};
-        		var tmp = {CD: res[i].dlCdNm, NM: res[i].dlCdNm};
-        		effArr.push(tmp);
-        	}
-        }
-    });
-	
- * */
 }
 
 function editCase(input){
@@ -183,7 +151,7 @@ function editCase(input){
 		case 'effSpeed' :
 			return {
 				type: "number",
-				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
+				disabled: function () {
 					return this.item.__index >= uv_height;
 				},
 				attributes: {
@@ -193,7 +161,7 @@ function editCase(input){
 		case 'showTime' :
 			return {
 				type: "number",
-				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
+				disabled: function () {
 					return this.item.__index >= uv_height;
 				},
 				attributes: {
@@ -331,7 +299,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 
 var shortRoutNmEdit = {
 		type: "text",
-		disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
+		disabled: function () {
 			if(!updateList.includes(this.item.routId)){
 				updateList.push(this.item.routId);									
 			}
@@ -408,7 +376,6 @@ fnObj.pageStart = function () {
     this.formView0.initView();
 	this.searchView0.initView();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-    
 };
 
 fnObj.pageResize = function () {
@@ -426,9 +393,6 @@ fnObj.pageButtonView = axboot.viewExtend({
         	},
             "search": function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-            },
-            "excel": function () {
-                ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "new": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
@@ -691,7 +655,8 @@ function loadSCH(){
 	foo.dvcKindCd = uv_dvc_type;
 	var input = Object.assign(foo, selectedRow);
 	loadBmp();
-
+	
+		
 	axboot.ajax({
 		type: "POST",
 		data: JSON.stringify(input),
@@ -700,8 +665,8 @@ function loadSCH(){
 			fnObj.gridView1.setData(res);
 		}
 	});	
-}
 
+}
 
 function loadBmp(){
 	uv_dvc_type = $('#selectBox option:selected').val();
@@ -711,9 +676,9 @@ function loadBmp(){
 	$('#previewImg').each(function(){
 		$(this).load(function(){
 			if(uv_dvc_type == "CD001"){
-				uv_height = this.naturalHeight / uv_frontheight;				
+				uv_height = this.height / uv_frontheight;				
 			}else{
-				uv_height = this.naturalHeight / uv_sideheight;
+				uv_height = this.height / uv_sideheight;
 			}
 		});
 	});
@@ -723,6 +688,8 @@ function loadBmp(){
 	fnObj.gridView1.initView();
 	setTimeVal(uv_height);
 }
+
+
 
 function preview_ChangeImage(input, id) {
 	if (input[0].files && input[0].files[0]) {
