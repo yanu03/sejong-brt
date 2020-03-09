@@ -4,9 +4,11 @@ var fnObj = {}, CODE = {};
 isUpdate = false;
 isNewData = false;
 selectedRow = null;
-var routeData;
-var addSeq;
+selectedRow0 = null;
+var routeData = null;
+var addSeq = 0;
 var stnSeq = 1;
+var maxNodeCnt = 800;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -47,7 +49,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         return false;
     },
     PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
+    	caller.gridView1.target.exportExcel(selectedRow0.routId + "_" + new Date().yyyymmdd() + ".xls");
     },
   
     PAGE_DELETE: function(caller, act, data) {
@@ -98,10 +100,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     ITEM_CLICK_G0: function (caller, act, data) {
     	//data.filter1 = $.extend({}, caller.searchView1.getData());
+    	selectedRow0 = data;
     	
     	searchGrid1(caller, act, data);
     	removeMarkers();
     	deleteLine();
+    	document.getElementById("toggleNode").checked = true;
+    	document.getElementById("toggleStn").checked = true;
     },
     
     ITEM_CLICK_G1: function (caller, act, data) {
@@ -194,8 +199,7 @@ fnObj.pageButtonView = axboot.viewExtend({
             	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
             },
             "excel": function () {
-            	selectedRow = null;
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "delete": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_DELETE);
@@ -517,11 +521,19 @@ function searchGrid1(caller, act, data){
 function onClickMap(e) {
 	$("input:checkbox[id='toggleStn']").prop("checked", true);
 	$("input:checkbox[id='toggleNode']").prop("checked", true);
+	var routNm = selectedRow0.routNm;
+	
+	
 	if(stopAdd && !nodeAdd) {
+		if(fnObj.gridView1.getData().length >= maxNodeCnt){
+			axDialog.alert("더이상 추가할 수 없습니다.");
+			return false;
+		}
+		
 		var lonlat = e.latLng;
 		var min = 10000000;
 		var minIndex = null;
-		
+
 		for(var i = 0; i < routeData.length - 1; i++) {
 			var result = getDistanceToLine(
 				lonlat.lat(),
@@ -543,14 +555,16 @@ function onClickMap(e) {
 		if(minIndex == null) {
 			axDialog.alert("선택할 수 없는 좌표입니다. 경로를 먼저 입력하세요");
 		} else {
-			var seq = routeData[minIndex].seq + (routeData[minIndex +  1].seq - routeData[minIndex].seq) / 2;
+			var seq = 0;
+			seq = routeData[minIndex].seq + (routeData[minIndex + 1].seq - routeData[minIndex].seq) / 2;				
 			var insertIndex = minIndex + 1;
 			
 			routeData.splice(insertIndex, 0, {
+				routId: selectedRow0.routId,
 				lati: lonlat.lat(),
 				longi: lonlat.lng(),
 				seq: seq,
-				nodeNm: "임시정류장" + stnSeq,
+				nodeNm: routNm + "_정류장" + stnSeq,
 				nodeType: '1', 
 				icon: '',
 			});
@@ -563,20 +577,49 @@ function onClickMap(e) {
 			
 		}
 	}else if(!stopAdd && nodeAdd){
+		if(fnObj.gridView1.getData().length >= maxNodeCnt){
+			axDialog.alert("더이상 추가할 수 없습니다.");
+			return false;
+		}
+		
+		
 		var lonlat = e.latLng;
 		
-		routeData.splice(insertIndex, 0, {
-			lati: lonlat.lat(),
-			longi: lonlat.lng(),
-			seq: addSeq*100,
-			nodeNm: "임시노드" + addSeq,
-			nodeType: '30', 
-			icon: '',
-		});
+		var idx;
+		if(selectedRow.__index != undefined){
+			idx = selectedRow.__index;
+		}else{
+			idx = 0;
+		}
+		
+		var row1 = fnObj.gridView1.getData()[idx];
+		var row2 = fnObj.gridView1.getData()[idx+1];
+
+		if(row1 == undefined){
+			seq = 100;
+		}else{
+			if(row2 != undefined){
+				seq = (row1.seq + row2.seq) / 2;
+			}else{
+				seq = row1.seq + 100;
+			}
+		}
+		
+		var data = {
+				routId: selectedRow0.routId,
+				lati: lonlat.lat(),
+				longi: lonlat.lng(),
+				seq: seq,
+				nodeNm: selectedRow0.routId + "_작업노드" + seq,
+				nodeType: '30', 
+				icon: '',};
+		
+		routeData.splice(insertIndex, 0, data);
 		
 		routeData.sort(function (a,b){ return a.seq - b.seq });
 		addSeq++;
 		fnObj.gridView1.setData(routeData);
+		fnObj.gridView1.selectRow(idx+1);
 		ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
 	}
 	
@@ -606,7 +649,6 @@ function returnInsertRouteInfo(lat, lon) {
 	}
 	
 	if(minIndex == null) {
-		axDialog.alert("선택할 수 없는 좌표입니다.");
 		return false;
 	} else {
 		var seq = routeData[minIndex].seq + (routeData[minIndex + 1].seq - routeData[minIndex].seq) / 2;
@@ -616,103 +658,6 @@ function returnInsertRouteInfo(lat, lon) {
 			seq: seq,
 			index: insertIndex
 		};
-	}
-}
-
-/**노선 그리기**/
-function drawRoute(list) {
-	var path = [];
-	
-	removeMarkers();
-	deleteLine();
-	deleteCircle();
-	deleteNode();
-	
-	if(list != null && list.length != 0) {
-		for(var i = 0; i < list.length; i++) {
-			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
-			
-			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
-			if(list[i].nodeType == busstopNodeType) {
-				list[i].icon = "/assets/images/tmap/busstop.png";
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				list[i].draggable = true;
-				addMarkerInter(list[i], fnObj.gridView1, i);
-			}
-			// 아닐 경우(일반 노드) 네모 박스 표시
-			else {
-				list[i].icon = "/assets/images/tmap/road_trans.png";
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				list[i].draggable = true;
-				addMarkerInter(list[i], fnObj.gridView1, i);
-				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
-			}
-		}
-		
-		polyline = new Tmapv2.Polyline({
-			path: path,
-			strokeColor: "#FF005E",
-			strokeWeight: 2,
-			map: map,
-			zIndex: -1
-		}); 
-	}
-}
-
-function btnClick(){
-	stopAdd = false;
-	nodeAdd = false;
-	
-	$('#stopAdd').on('click', function(){
-		addStop();
-	});
-	$('#nodeAdd').on('click', function(){
-		addNode();
-	});
-	
-	$('#refresh').on('click', function(){
-		var tmpData = fnObj.gridView1.getData();
-		tmpData.sort(function (a,b){return a.seq - b.seq});
-		fnObj.gridView1.setData(tmpData);
-		drawRoute(fnObj.gridView1.getData());
-	})
-}
-
-function addStop(){
-	if(stopAdd) {
-		stopAdd = false;
-		$("#mapView0").removeClass("cursor-crosshair");
-		$('#stopAdd').html('<button class="btn btn-info" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>');
-	} else {
-		stopAdd = true;
-		isNewData = true;
-		$("#mapView0").addClass("cursor-crosshair");
-		$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add"><i class="cqc-minus"></i>정류장추가 종료</button>');
-	}
-	
-	if(nodeAdd) {
-		nodeAdd = false;
-		$("#mapView0").removeClass("cursor-crosshair");
-		$('#nodeAdd').html('<button class="btn btn-info" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>');
-	}
-}
-
-function addNode(){
-	if(nodeAdd) {
-		nodeAdd = false;
-		$("#mapView0").removeClass("cursor-crosshair");
-		$('#nodeAdd').html('<button class="btn btn-info" data-grid-control="node-add"><i class="cqc-plus"></i>경로추가</button>');
-	} else {
-		nodeAdd = true;
-		isNewData = true;
-		$("#mapView0").addClass("cursor-crosshair");
-		$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add"><i class="cqc-minus"></i>경로추가 종료</button>');
-	}
-	
-	if(stopAdd) {
-		stopAdd = false;
-		$("#mapView0").removeClass("cursor-crosshair");
-		$('#stopAdd').html('<button class="btn btn-info" data-grid-control="stop-add"><i class="cqc-plus"></i>정류장추가</button>');
 	}
 }
 
@@ -780,6 +725,166 @@ function initVal2(){
 	$('#duration').val('');
 }
 
+function onClickBtn(){
+	$('#refreshBtn').on('click', function(){
+		calcResult();
+	});
+}
+
+/**노선 그리기**/
+function drawRoute(list) {
+	var path = [];
+	
+	removeMarkers();
+	deleteLine();
+	deleteCircle();
+	deleteNode();
+	
+	if(list != null && list.length != 0) {
+		for(var i = 0; i < list.length; i++) {
+			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
+			
+			/**드래그이벤트**/
+			list[i].click = function(e) {
+				var point = e.marker.getPosition();
+				var node = $.extend(true, {}, routeData[e.index]);
+				routeData.splice(e.index, 1);
+				var val = returnInsertRouteInfo(point.lat(), point.lng());
+				
+				if(e.index == 0 || e.index == routeData.length){
+					val = true;
+				}
+				
+				if(val) {
+					var temp = {
+						nodeId: e.nodeId,
+						lati: point.lat(),
+						longi: point.lng(),
+						seq: val.seq
+					};
+					
+					temp = $.extend(true, node, temp);
+					
+					
+					routeData.splice(val.index, 0, temp);
+					
+					routeData.sort(function (a,b){ return a.seq - b.seq });
+					fnObj.gridView1.setData(routeData);
+					
+					ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+				} else {
+					axDialog.alert("선택할 수 없는 좌표입니다.");
+					var tmpData = fnObj.gridView1.getData();
+					tmpData.sort(function (a,b){return a.seq - b.seq});
+					fnObj.gridView1.setData(tmpData);
+					drawRoute(fnObj.gridView1.getData());
+				}
+			};
+			
+			list[i].index = i;
+			/**드래그이벤트**/
+			list[i].draggable = true;
+			
+			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
+			if(list[i].nodeType == busstopNodeType) {
+				list[i].icon = "/assets/images/tmap/busstop.png";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
+			}
+			// 아닐 경우(일반 노드) 네모 박스 표시
+			else {
+				list[i].icon = "/assets/images/tmap/road_trans.png";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
+				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
+			}
+			
+			addMarkerInter(list[i], fnObj.gridView1, i);
+		}
+		
+		polyline = new Tmapv2.Polyline({
+			path: path,
+			strokeColor: "#FF005E",
+			strokeWeight: 2,
+			map: map,
+			zIndex: -1
+		}); 
+	}
+}
+
+function btnClick(){
+	stopAdd = false;
+	nodeAdd = false;
+	
+	$('#stopAdd').on('click', function(){
+		addStop();
+	});
+	$('#nodeAdd').on('click', function(){
+		addNode();
+	});
+	
+	$('#refresh').on('click', function(){
+		var tmpData = fnObj.gridView1.getData();
+		tmpData.sort(function (a,b){return a.seq - b.seq});
+		fnObj.gridView1.setData(tmpData);
+		drawRoute(fnObj.gridView1.getData());
+	});
+	
+	$('#rowDel').on('click', function(){
+		var idx = selectedRow.__index;
+		fnObj.gridView1.delRow("selected");
+		
+		routeData = fnObj.gridView1.getData();
+		routeData.sort(function (a,b){ return a.seq - b.seq });
+		
+		fnObj.gridView1.setData(routeData);
+		drawRoute(routeData);
+		fnObj.gridView1.selectRow(idx);
+	});
+}
+
+var insertStn = "정류장추가";
+var activeStn = "정류장종료";
+
+var insertNode = "경로추가";
+var activeNode = "경로종료";
+
+function addStop(){
+	if(stopAdd) {
+		stopAdd = false;
+		$("#mapView0").removeClass("cursor-crosshair");
+		$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add" style="width: 100px;"><i class="cqc-plus"></i>'+ insertStn +'</button>');
+	} else {
+		stopAdd = true;
+		isNewData = true;
+		$("#mapView0").addClass("cursor-crosshair");
+		$('#stopAdd').html('<button class="btn btn-info" data-grid-control="stop-add" style="width: 100px;"><i class="cqc-minus"></i>' + activeStn + '</button>');
+	}
+	
+	if(nodeAdd) {
+		nodeAdd = false;
+		$("#mapView0").removeClass("cursor-crosshair");
+		$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add" style="width: 100px;"><i class="cqc-plus"></i>' + insertNode + '</button>');
+	}
+}
+
+function addNode(){
+	if(nodeAdd) {
+		nodeAdd = false;
+		$("#mapView0").removeClass("cursor-crosshair");
+		$('#nodeAdd').html('<button class="btn btn-default" data-grid-control="node-add" style="width: 100px;"><i class="cqc-plus"></i>' + insertNode + '</button>');
+	} else {
+		nodeAdd = true;
+		isNewData = true;
+		$("#mapView0").addClass("cursor-crosshair");
+		$('#nodeAdd').html('<button class="btn btn-info" data-grid-control="node-add" style="width: 100px;"><i class="cqc-minus"></i>' + activeNode + '</button>');
+	}
+	
+	if(stopAdd) {
+		stopAdd = false;
+		$("#mapView0").removeClass("cursor-crosshair");
+		$('#stopAdd').html('<button class="btn btn-default" data-grid-control="stop-add" style="width: 100px;"><i class="cqc-plus"></i>' + insertStn + '</button>');
+	}
+}
+
 function chked(){
 	$('#toggleStn').on('change', function(){
 		if($('#toggleStn').is(":checked")){
@@ -826,8 +931,10 @@ function onOffMarker(input){
 		for(var i=0; i<list.length; i++){
 			if(list[i].nodeType == '1'){
 				list[i].icon = "/assets/images/tmap/busstop.png";
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				addMarker(list[i]);
+				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
+				list[i].draggable = true;
+				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
 		}
 		break;
@@ -837,8 +944,10 @@ function onOffMarker(input){
 		for(var i=0; i<list.length; i++){
 			if(list[i].nodeType == '30'){
 				list[i].icon = "/assets/images/tmap/road_trans.png";
-				list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				addMarker(list[i]);
+				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
+				list[i].draggable = true;
+				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
 		}
 		break;
@@ -851,16 +960,11 @@ function onOffMarker(input){
 			}else{
 				list[i].icon = "/assets/images/tmap/busstop.png";				
 			}
-			list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-			addMarker(list[i]);
+			//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+			list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
+			list[i].draggable = true;
+			addMarkerInter(list[i], fnObj.gridView1, i);
 		}
 		break;
 	}
-}
-
-
-function onClickBtn(){
-	$('#refreshBtn').on('click', function(){
-		calcResult();
-	});
 }
