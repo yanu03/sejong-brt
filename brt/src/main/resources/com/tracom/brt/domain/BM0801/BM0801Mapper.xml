@@ -12,7 +12,8 @@
 			, SUM(IF(R.AD_TYPE = 'VD' AND R.IMG_PLAY_TM != 0, 1, 0)) AS COUNT_VIDEO
 		FROM
 			(SELECT
-				  H.VHC_NO
+				  A.MNG_ID
+				, H.VHC_NO
 				, IFNULL(V.CON_ID, VD.CON_ID) AS CON_ID
 				, IFNULL(DC1.TXT_VAL1, DC2.TXT_VAL1) AS AD_TYPE
 				, VD.IMG_PLAY_TM
@@ -41,7 +42,7 @@
 				AND R.VHC_NO LIKE CONCAT('%', #{filter}, '%')
 				OR C.CON_NM LIKE CONCAT('%', #{filter}, '%')
 			</if>
-		GROUP BY CON_ID
+		GROUP BY MNG_ID, CON_ID
 		ORDER BY VHC_NO ASC
 	</select>
 	
