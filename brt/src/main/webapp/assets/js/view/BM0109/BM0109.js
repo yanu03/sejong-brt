@@ -585,7 +585,6 @@ var numEditor = {
 		disabled: function(){
 			var duration = calcDuration();
 			var distance = calcDistance();
-			console.log(duration + " , " + distance);
 			footSumConfig(distance, duration);
 		}
 }
@@ -676,7 +675,6 @@ function onClickMap(e) {
 			
 		}
 	}else if(!stopAdd && nodeAdd){
-		console.log(fnObj.gridView1.getData());
 		if(fnObj.gridView1.getData().length >= maxNodeCnt){
 			axDialog.alert("더이상 추가할 수 없습니다.");
 			return false;
@@ -780,9 +778,6 @@ function drawRoute(list) {
 				routeData.splice(e.index, 1);
 				var val = returnInsertRouteInfo(point.lat(), point.lng());
 				
-				console.log(e.index);
-				console.log(routeData.length);
-				console.log(fnObj.gridView1.getData().length);
 				if(e.index == 0 || e.index == routeData.length){
 					val = true;
 				}
@@ -820,12 +815,12 @@ function drawRoute(list) {
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
 			if(list[i].nodeType == busstopNodeType) {
 				list[i].icon = "/assets/images/tmap/busstop.png";
-				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
 			}
 			// 아닐 경우(일반 노드) 네모 박스 표시
 			else {
 				list[i].icon = "/assets/images/tmap/road_trans.png";
-				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
 				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
 			}
 			
@@ -964,7 +959,7 @@ function onOffMarker(input){
 			if(list[i].nodeType == '1'){
 				list[i].icon = "/assets/images/tmap/busstop.png";
 				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
 				list[i].draggable = true;
 				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
@@ -977,7 +972,7 @@ function onOffMarker(input){
 			if(list[i].nodeType == '30'){
 				list[i].icon = "/assets/images/tmap/road_trans.png";
 				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
 				list[i].draggable = true;
 				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
@@ -993,7 +988,7 @@ function onOffMarker(input){
 				list[i].icon = "/assets/images/tmap/busstop.png";				
 			}
 			//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-			list[i].label = "<span style='background-color: white; color:black; padding: 3px;'>" + list[i].nodeNm + "</span>";
+			list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
 			list[i].draggable = true;
 			addMarkerInter(list[i], fnObj.gridView1, i);
 		}

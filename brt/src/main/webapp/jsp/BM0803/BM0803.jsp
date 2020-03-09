@@ -43,7 +43,7 @@
 	                </ax:tbl>
 	            </ax:form>
 	            
-	            <ax:split-panel width="300" style="height:100%; padding-right: 5px; padding-bottom:155px">
+	            <ax:split-panel width="300" style="height:100%; padding-right: 5px; padding-bottom:140px">
 	                <!-- 목록 -->
 	                <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height: 100%;"></div>
 	            </ax:split-panel>
