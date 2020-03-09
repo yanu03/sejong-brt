@@ -92,11 +92,29 @@ public class FTPHandler {
 	@Value("${sftp.routeori.directory}")
 	private String ROUTE_ORI;
 	
-	@Value("${sftp.deivce.directory}")
+	@Value("${sftp.device.firmware.directory}")
 	private String DEVICE_FIRMWARE_PATH;
 	
 	@Value("${sftp.vehicle.directory}")
 	private String VEHICLE_PATH;
+	
+	@Value("${sftp.device.directory}")
+	private String DEVICE_PATH;
+	
+	@Value("${sftp.device.config.directory}")
+	private String DEVICE_CONFIG_PATH;
+	
+	@Value("${sftp.device.passenger.directory}")
+	private String DEVICE_PASSENGER_PATH;
+	
+	@Value("${sftp.device.elecrouter.directory}")
+	private String DEVICE_ELECROUTER_PATH;
+	
+	@Value("${sftp.device.log.directory}")
+	private String DEVICE_LOG_PATH;
+	
+	@Value("${sftp.playlist.directory}")
+	private String PLAYLIST_PATH;
 	
 	@Inject
 	private ChannelSftp sftpChannel;
@@ -172,14 +190,19 @@ public class FTPHandler {
 	//BM0201에서 device 생성시 folder 생성
 	public void deviceFolder(String id) {
 		String path;
-		String configDir = "/config";
-		String firmwareDir = "/firmware";
-		String playlistDir = "/playlist";
+		String configDir = getDeviceConfigPath();
+		String firmwareDir = getFirmwarePath();
+		String playlistDir = getPlayListPath();
+		String logDir = getDeviceLogPath();
+		String deviceDir = getDevicePath();
+		String passengerDir = getDevicePassengerPath();
+		String elecrouterDir = getDeviceElecRouterPath();
+		String vehicleDir = getVehiclePath();
 		
 		try {
 			//가지고온 관리id값이 통플인지 아닌지 비교
 			if(id.length() > 10) {
-				path = "/vehicle/" + id.substring(0, 10) + "/device/" + id.substring(10, 16);
+				path = vehicleDir + "/" + id.substring(0, 10) + getDevicePath() + "/" + id.substring(10, 16);
 				
 				String localDir = getRootLocalPath() + path;
 				String serverDir = getRootServerPath() + path;
@@ -202,18 +225,33 @@ public class FTPHandler {
 				createFtpDirectory(serverDir + firmwareDir);
 				createFtpDirectory(serverDir + playlistDir);
 			}else if(id.length() == 10){
-				path = "/vehicle/" + id.substring(0, 10) + "/firmware";
+				path = vehicleDir + "/" + id.substring(0, 10);
 				
 				String localDir = getRootLocalPath() + path;
 				String serverDir = getRootServerPath() + path;
 				
-				File dirPath = new File(localDir);
+				File dirObeFirmware = new File(localDir + firmwareDir);
+				File dirObeLog = new File(localDir + logDir);
+				File dirPassenger = new File(localDir + deviceDir + passengerDir);
+				File dirElecrouter = new File(localDir + deviceDir + elecrouterDir);
 				
-				if(!dirPath.isDirectory()) {
-					dirPath.mkdirs();
+				if(!dirObeFirmware.isDirectory()) {
+					dirObeFirmware.mkdirs();
+				}
+				if(!dirObeLog.isDirectory()) {
+					dirObeLog.mkdirs();
+				}
+				if(!dirPassenger.isDirectory()) {
+					dirPassenger.mkdirs();
+				}
+				if(!dirElecrouter.isDirectory()) {
+					dirElecrouter.mkdirs();
 				}
 				
-				createFtpDirectory(serverDir);
+				createFtpDirectory(serverDir + firmwareDir);
+				createFtpDirectory(serverDir + logDir);
+				createFtpDirectory(serverDir + deviceDir + passengerDir);
+				createFtpDirectory(serverDir + deviceDir + elecrouterDir);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -1399,5 +1437,29 @@ public class FTPHandler {
 	
 	public String getVehiclePath() {
 		return VEHICLE_PATH;
+	}
+	
+	public String getDevicePath() {
+		return DEVICE_PATH;
+	}
+	
+	public String getDeviceConfigPath() {
+		return DEVICE_CONFIG_PATH;
+	}
+	
+	public String getDevicePassengerPath() {
+		return DEVICE_PASSENGER_PATH;
+	}
+	
+	public String getDeviceElecRouterPath() {
+		return DEVICE_ELECROUTER_PATH;
+	}
+	
+	public String getDeviceLogPath() {
+		return DEVICE_LOG_PATH;
+	}
+	
+	public String getPlayListPath() {
+		return PLAYLIST_PATH;
 	}
 }
