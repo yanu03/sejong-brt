@@ -57,19 +57,14 @@
 	              
 	                    <div style="float:left; height:100%; width:280px">
 	                   		<ax:form name="formView0">
-			                    <ax:tbl clazz="ax-form-tbl" minWidth="200px">
-			                    	<ax:tr>
-			                    		<ax:td style="text-align:right; padding-top:20px;">
-			                    		<button class="btn btn-default" data-grid-control="row-del" style="float:right; margin-right:30px;">적용</button>
-			                    		</ax:td>
-			                    	</ax:tr>
-			                    </ax:tbl>
+	                   		<p>
+			                 	<button class="btn btn-default" data-grid-control="row-del" id="gogo" style="float:right; margin-right:0px;">적용</button>
 			                    	
-			                    <p>
+			                    <p style="padding-top:30px;">
 			                    
 			                    <ax:tbl clazz="ax-form-tbl" minWidth="230px">
 			                        <ax:tr>
-			                            <ax:td label="정류소정차시간(초)" width="260px">
+			                            <ax:td label="정류장정차시간(초)" width="260px">
 			                                <input type="text" id="stopTime" data-ax-path="stopTime" class="form-control"/>
 			                            </ax:td>
 			                            <ax:td label="평균이동속도(km/h)" width="260px">
@@ -98,13 +93,15 @@
 	             <ax:form name="searchView1" style="padding-right:10px; ">
 	                <ax:tbl clazz="ax-search-tbl" minWidth="500px">
 	                    <ax:tr>
-	                        <ax:td label='ax.admin.search' width="500px">
+	                        <ax:td label='ax.admin.search' width="700px">
 	                        	<div class="input-group" >
 		                            <ax:input type="text" name="filter1" id="filter1" placeholder="ax.admin.BM0107S1.search" clazz="inline-block" style="width:180px; margin-right:20px;"/>
-		                            <button type="button" id="searchSta" class="btn btn-primary" onclick="">
+		                            <button type="button" id="searchSta" class="btn btn-primary" onclick="" style="float:left;">
 			                         	<ax:lang id="ax.admin.search"/>
 			                        </button>
-			                        <button type="button" id="refresh" class="btn btn-info" style="margin-left:100px;"><i class="cqc-cw"></i></button>
+			                        <span style="float:right;padding-left:190px;">
+			                        	<button type="button" id="refresh" class="btn btn-info" style="float:right; margin-left:110px;"><i class="cqc-cw"></i></button>
+			                        </span>
 		                        </div>
 	                        </ax:td>
 	                    </ax:tr>
