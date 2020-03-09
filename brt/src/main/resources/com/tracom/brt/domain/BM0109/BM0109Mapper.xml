@@ -120,7 +120,7 @@
 						</choose>
 					</otherwise>
 				</choose>
-			  	, #{voList.nodeNm}
+			  	, REPLACE(#{voList.nodeNm}, ',', '.')
 				, #{voList.nodeType}
 				, #{voList.lati}
 				, #{voList.longi} 
@@ -165,7 +165,7 @@
 						</choose>
 					</otherwise>
 				</choose>
-			  	, #{voList.nodeNm}
+			  	, REPLACE(#{voList.nodeNm}, ',', '.')
 				, #{voList.nodeType}
 				, #{voList.lati}
 				, #{voList.longi} 
@@ -244,7 +244,7 @@
 				VALUES
 				<foreach collection="voList" item="voList" separator=",">
 						( #{voList.nodeId}
-						, #{voList.nodeNm}
+						, REPLACE(#{voList.nodeNm}, ',', '.')
 						, NULL
 						, #{voList.lati}
 						, #{voList.longi}
@@ -290,7 +290,7 @@
 						, #{voList.staId}
 					</otherwise>
 				</choose>
-				, #{voList.nodeNm}
+				, REPLACE(#{voList.nodeNm}, ',', '.')
 				, #{voList.staId}
 				, #{voList.lati}
 				, #{voList.longi}

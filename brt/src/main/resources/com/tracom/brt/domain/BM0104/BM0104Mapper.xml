@@ -153,13 +153,13 @@
 			<foreach collection="voList" item="voList" separator=",">
 					( #{voList.routId}
 					, #{voList.routId}
-					, #{voList.routNm}
-					, #{voList.routNm}<!-- SHORT ROUT NM -->
+					, REPLACE(#{voList.routNm}, ',', '.')
+					, REPLACE(#{voList.routNm}, ',', '.')<!-- SHORT ROUT NM -->
 					, #{voList.routNm}<!-- DVC NM -->
-					, SUBSTR(#{voList.stStaNm}, 1, 10)<!-- WAY_INFO -->
-			        , SUBSTR(#{voList.edStaNm}, 1, 10)<!-- DIR_INFO --> 
-			        , #{voList.stStaNm}
-			        , #{voList.edStaNm}
+					, REPLACE(SUBSTR(#{voList.stStaNm}, 1, 10), ',', '.')<!-- WAY_INFO -->
+			        , REPLACE(SUBSTR(#{voList.edStaNm}, 1, 10), ',', '.')<!-- DIR_INFO --> 
+			        , REPLACE(#{voList.stStaNm}, ',', '.')
+			        , REPLACE(#{voList.edStaNm}, ',', '.')
 			        , #{voList.createdAt}
 			        , #{voList.createdBy}
 			        , #{voList.updatedAt}
@@ -272,14 +272,14 @@
 			VALUES(
 				    #{routId}
 				  , #{interRoutId}
-				  , #{routNm}
-				  , #{shortRoutNm}
-				  , #{wayInfo}
-				  , #{dirInfo}
+				  , REPLACE(#{routNm}, ',', '.')
+				  , REPLACE(#{shortRoutNm}, ',', '.')
+				  , REPLACE(#{wayInfo}, ',', '.')
+				  , REPLACE(#{dirInfo}, ',', '.')
   				  , (SELECT TXT_VAL1 FROM SM_DL_CD_INFO WHERE CO_CD = 'UPDOWN_FLAG' AND DL_CD = #{wayDiv})
 				  , (SELECT TXT_VAL1 FROM SM_DL_CD_INFO WHERE CO_CD = 'UPDOWN_FLAG' AND DL_CD = #{userWayDiv})
-				  , #{stStaNm}
-				  , #{edStaNm}
+				  , REPLACE(#{stStaNm}, ',', '.')
+				  , REPLACE(#{edStaNm}, ',', '.')
 				  , #{dvcName}
 				  , #{line1Str}
 				  , #{line2Str}
@@ -296,12 +296,12 @@
 			  INTER_ROUT_ID	= #{interRoutId}
 		    , ROUT_NM 		= #{routNm}
 		    , SHORT_ROUT_NM	= #{shortRoutNm}
-		    , WAY_INFO		= #{wayInfo}
-		   	, DIR_INFO		= #{dirInfo}
+		    , WAY_INFO		= REPLACE(#{wayInfo}, ',', '.')
+		   	, DIR_INFO		= REPLACE(#{dirInfo}, ',', '.')
 		   	, WAY_DIV		= (SELECT TXT_VAL1 FROM SM_DL_CD_INFO WHERE CO_CD = 'UPDOWN_FLAG' AND DL_CD = #{wayDiv})
 		    , USER_WAY_DIV	= (SELECT TXT_VAL1 FROM SM_DL_CD_INFO WHERE CO_CD = 'UPDOWN_FLAG' AND DL_CD = #{userWayDiv})
-		    , ST_STA_NM		= #{stStaNm}
-		    , ED_STA_NM		= #{edStaNm}
+		    , ST_STA_NM		= REPLACE(#{stStaNm}, ',', '.')
+		    , ED_STA_NM		= REPLACE(#{edStaNm}, ',', '.')
 		    , DVC_NAME		= #{dvcName}
 		    , LINE1_STR		= #{line1Str}
 		    , LINE2_STR		= #{line2Str}
@@ -359,13 +359,13 @@
 			VALUES 
 					( #{routId}
 					, #{routId}
-					, #{routNm}
-					, #{routNm}<!-- SHORT ROUT NM -->
+					, REPLACE(#{routNm}, ',', '.')
+					, REPLACE(#{routNm}, ',', '.')<!-- SHORT ROUT NM -->
 					, #{routNm}<!-- DVC NM -->
-					, SUBSTR(#{stStaNm}, 1, 10)<!-- WAY_INFO -->
-			        , SUBSTR(#{edStaNm}, 1, 10)<!-- DIR_INFO --> 
-			        , #{stStaNm}
-			        , #{edStaNm}
+					, REPLACE(SUBSTR(#{stStaNm}, 1, 10), ',', '.')<!-- WAY_INFO -->
+			        , REPLACE(SUBSTR(#{edStaNm}, 1, 10), ',', '.')<!-- DIR_INFO --> 
+			        , REPLACE(#{stStaNm}, ',', '.')
+			        , REPLACE(#{edStaNm}, ',', '.')
 			        , #{createdAt}
 			        , #{createdBy}
 			        , #{updatedAt}
@@ -383,9 +383,9 @@
     	UPDATE
 			BM_ROUT_INFO
 		SET
-		      ROUT_NM	= #{routNm}
-		    , ST_STA_NM	= SUBSTR(#{stStaNm}, 1, 10)
-		    , ED_STA_NM	= SUBSTR(#{edStaNm}, 1, 10)
+		      ROUT_NM	= REPLACE(#{routNm}, ',', '.')
+		    , ST_STA_NM	= REPLACE(SUBSTR(#{stStaNm}, 1, 10), ',', '.')
+		    , ED_STA_NM	= REPLACE(SUBSTR(#{edStaNm}, 1, 10), ',', '.')
 		WHERE
 			INTER_ROUT_ID = #{routId}
     </insert>

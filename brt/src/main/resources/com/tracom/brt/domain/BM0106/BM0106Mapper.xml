@@ -51,10 +51,10 @@
     		)
    		VALUES(
    			  #{staId}
-   			, #{krNm}
-   			, #{enNm}
-   			, #{cnNm}
-   			, #{jpNm}
+   			, REPLACE(#{krNm}, ',', '.')
+   			, REPLACE(#{enNm}, ',', '.')
+   			, REPLACE(#{cnNm}, ',', '.')
+   			, REPLACE(#{jpNm}, ',', '.')
    			, #{remark}
    		)
     </insert>
@@ -62,10 +62,10 @@
     <update id="BM0106F0U0" parameterType="bmStaNmInfoVo">
     	UPDATE BM_STA_NM_INFO
     	SET
-    		  KR_NM		=	#{krNm}
-    		, EN_NM		=	#{enNm}
-    		, CN_NM		=	#{cnNm}
-    		, JP_NM		=	#{jpNm}
+    		  KR_NM		=	REPLACE(#{krNm}, ',', '.')
+    		, EN_NM		=	REPLACE(#{enNm}, ',', '.')
+    		, CN_NM		=	REPLACE(#{cnNm}, ',', '.')
+    		, JP_NM		=	REPLACE(#{jpNm}, ',', '.')
     		, REMARK	=	#{remark}
     	WHERE
     		STA_ID = #{staId}

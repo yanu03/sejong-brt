@@ -71,7 +71,7 @@
 				VALUES
 				<foreach collection="voList" item="voList" separator=",">
 						( #{voList.staId}
-						, #{voList.staNm}
+						, REPLACE(#{voList.staNm}, ',', '.')
 						, #{voList.staNo}
 						, #{voList.lati}
 						, #{voList.longi}
@@ -119,4 +119,16 @@
     		ROUT_ID = #{routId}
     </select>
     
+    <select id="getNewStaList" parameterType="bmStaInfoVO" resultType="bmStaInfoVO">
+    	SELECT
+			*
+		FROM
+			BM_STA_NM_INFO
+		WHERE
+			STA_ID NOT IN (
+				<foreach collection="voList" item="voList" separator=",">
+					#{voList.staId}
+				</foreach>
+			)
+    </select>
 </mapper>

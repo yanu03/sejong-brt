@@ -167,7 +167,7 @@
 	  			    	CONCAT('ND', LPAD(NEXTVAL(SEQ_BM_ROUT_NODE_INFO_0), 8, '0'))
 					</when>
 				</choose>
-				, #{voList.nodeNm}
+				, REPLACE(#{voList.nodeNm}, ',', '.')
 				, #{voList.lati}
 				, #{voList.longi} 
 				, #{voList.seq}
@@ -199,7 +199,7 @@
 			<foreach collection="voList" item="voList" separator=",">
 			(
 			  	  #{voList.nodeId}
-			  	, #{voList.nodeNm}
+			  	, REPLACE(#{voList.nodeNm}, ',', '.')
 				, #{voList.nodeType}
 				, #{voList.lati}
 				, #{voList.longi} 
