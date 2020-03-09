@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class MapVO extends BaseVO{
+	
 	private String vhcId;
 	private String vhcNo;
 	private String chasNo;
@@ -22,4 +23,5 @@ public class MapVO extends BaseVO{
 	private String heading;
 	private String nodeId;
 	private String routNm;
+	private String routId;
 }

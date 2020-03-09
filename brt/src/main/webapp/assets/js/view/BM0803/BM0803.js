@@ -38,7 +38,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 						url: "/api/v1/BM0803G1S0",
 						data: filter,
 						callback: function (resOne) {
-							console.log(resOne);
 							$("#busRout").change(function(){
 								removeMarkers();
 								var list = new Array();
@@ -47,10 +46,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 								routList.list = list;
 								var count = 0;
 								var countOne = 0;
-								console.log(this.value);
 								
 								if(this.value != "노선을선택하세요."){
-									console.log("들어왔따");
 									/*for(var i = 0; i<res.list.length; i++){
 										for(var j = 0; j<resOne.list.length; j++){
 											if(res.list[i].vhcId != resOne.list[j].vhcId){
@@ -60,7 +57,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 											}
 										}
 									}*/
-									console.log(resOne);
 									
 									for(var i = 0; i<resOne.list.length; i++){
 										if(this.value == resOne.list[i].routNm){
@@ -68,9 +64,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 												count++;
 										}
 									}
-									console.log(count);
-									console.log(routList);
-									console.log(routList.list);
 									
 									makeStnMarker(routList.list);
 									makeStnMarker(res.list);
@@ -121,7 +114,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
 fnObj.pageStart = function () {
 	var _this = this;
-
+	makeSelBox();
 	this.pageButtonView.initView();
 	this.searchView1.initView();
 	this.gridView0.initView();
@@ -400,10 +393,55 @@ function makeStnMarker(data){
 			stnY.push(data[i].lati);
 			staNm.push(i+1 + ". " + data[i].vhcNo);
 		}
-		console.log(data);
 	}
-	console.log(mainStaNm);
 	addMarkerAni(mainStnY , mainStnX , mainStaNm);
 	addMarkers(stnY, stnX, staNm);
 	
+}
+
+function makeSelBox(){
+	var options = [];
+
+	axboot.ajax({
+		type: "GET",
+		url:"/api/v1/BM0104G0S0",
+		callback: function(res){
+			for(var i=0; i<res.list.length; i++){
+				var v = res.list[i].interRoutId;
+				var t = res.list[i].shortRoutNm + "_" + res.list[i].userWayDivNm + "(" + res.list[i].interRoutId + ")";
+				options.push({value: v, text: t});
+			}
+			
+			$('[data-ax5select]').ax5select({
+				options: options,
+				onChange: function(){
+			    	var input = $(this)[0].value[0].value;
+					//노선별 차량목록 검색할것임
+			    	
+			    	axboot.ajax({
+			    		type: "GET",
+			    		url: "/api/v1/BM0803G1S0",
+			    		data: JSON.stringify(input),
+			    		callback: function (res) {
+			    			console.log(res);
+			    			fnObj.gridView1.setData(res);
+			    			makeStnMarker(res);
+			    			if(res.list.length == 0) {
+			    			}
+			    			else {
+			    				fnObj.gridView1.selectFirstRow();
+			    				
+			    				if(selectedRow != null) {
+			    					fnObj.gridView1.selectRow(selectedRow.__index);
+			    				}
+			    				else {
+			    					fnObj.gridView1.selectFirstRow();
+			    				}
+			    			}
+			    		}
+			    	});
+				}
+			});
+		}
+	});
 }

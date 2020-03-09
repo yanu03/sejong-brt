@@ -55,8 +55,10 @@ public class BM0803Service extends BaseService<MapVO, String>{
     	
     	List<MapVO> list = new ArrayList<MapVO>();
     	
-    	for(int i = 0; i<listCode.size(); i++) {
-    		String url = baseUrl +"&routeId="+ listCode.get(i).getTxtVal1() +"&serviceKey=" + apiKey;
+    	//for(int i = 0; i<listCode.size(); i++) {
+    		String url = baseUrl +"&routeId="+ "SJB" + requestParams.getString("routId") + "&serviceKey=" + apiKey;
+    		System.out.println(url);
+    		//String url = baseUrl +"&routeId="+ listCode.get(i).getTxtVal1() +"&serviceKey=" + apiKey;
     		NodeList nodeList = bi.busInterface_XML(url);
     		
     		//파싱 tag값 가져오는 for문
@@ -74,7 +76,7 @@ public class BM0803Service extends BaseService<MapVO, String>{
     				list.add(vo);
     			}
     		}
-    	}
+    	//}
 		return list;
 	}
 }

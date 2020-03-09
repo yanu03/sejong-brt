@@ -20,7 +20,7 @@
 
         <ax:split-layout name="ax1" orientation="vertical">
 	        <ax:split-panel width="300">
-	            <ax:split-panel width="300" style="height:230px; padding-right: 10px;">
+	            <ax:split-panel width="300" style="height:230px; padding-right: 5px;">
 	                <!-- 목록 -->
 	                <div class="ax-button-group" data-fit-height-aside="gridView0">
 	                    <div class="left">
@@ -31,25 +31,19 @@
 	                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 220px;"></div>
 	            </ax:split-panel>
 	            
-	            <ax:form name="searchView1" style="padding-right:20px">
+	            <ax:form name="searchView1" style="padding-right:10px">
 	                <ax:tbl clazz="ax-search-tbl" minWidth="500px">
 	                    <ax:tr>
-	                        <ax:td label='ax.admin.search' width="400px">
+	                        <ax:td label='ax.admin.search' width="405px">
 	                        	<div class="input-group" >
-	                        		<select name="busRout" id="busRout" style="height: 30px; width: 130px;">
-	                        			<option>노선을선택하세요.</option>
-	                        			<option value="430">430번</option>
-	                        			<option value="550">550번</option>
-	                        			<option value="990">990번</option>
-	                        			<option value="900">900번</option>
-	                        		</select>
+	                        		<div data-ax5select="selectType" id="selectBox" style="width:180px"></div>
 		                        </div>
 	                        </ax:td>
 	                    </ax:tr>
 	                </ax:tbl>
 	            </ax:form>
 	            
-	            <ax:split-panel width="300" style="height:100%; padding-right: 10px; padding-bottom:155px">
+	            <ax:split-panel width="300" style="height:100%; padding-right: 5px; padding-bottom:155px">
 	                <!-- 목록 -->
 	                <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height: 100%;"></div>
 	            </ax:split-panel>
