@@ -21,7 +21,7 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
                         <ax:td label='ax.admin.search' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0607S0.search"/>
+                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="템플릿ID 또는 템플릿명"/>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>
@@ -36,7 +36,7 @@
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h3><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.BM0607G0.title"/>
+                           	 템플릿 목록
                         </h3>
                     </div>
                 </div>

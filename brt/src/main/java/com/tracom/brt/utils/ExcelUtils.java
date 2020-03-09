@@ -167,19 +167,19 @@ public class ExcelUtils {
 		row = sheet.createRow(rowNo++);
 		//엑셀양식
 		cell = row.createCell(0);
-		cell.setCellValue("노선아이디(9)");
+		cell.setCellValue("노선아이디(9고정)");
 		cell = row.createCell(1);
-		cell.setCellValue("순번");
+		cell.setCellValue("순번(최대11)");
 		cell = row.createCell(2);
-		cell.setCellValue("노드타입(정류장:1,경로지점:30)");
+		cell.setCellValue("노드타입(정류장:1,지점:30)");
 		cell = row.createCell(3);
-		cell.setCellValue("노드아이디(10)");
+		cell.setCellValue("노드아이디(10고정)");
 		cell = row.createCell(4);
-		cell.setCellValue("노드명(10)");
+		cell.setCellValue("노드명(최대10)");
 		cell = row.createCell(5);
-		cell.setCellValue("위도(11)");
+		cell.setCellValue("위도(최대11)");
 		cell = row.createCell(6);
-		cell.setCellValue("경도(11)");
+		cell.setCellValue("경도(최대11)");
 		
 		
 		//response에 추가할것임

@@ -839,6 +839,10 @@ function btnClick(){
 		drawRoute(routeData);
 		fnObj.gridView1.selectRow(idx);
 	});
+	
+	$('#gogo').on('click', function(){
+		calcResult();
+	});
 }
 
 var insertStn = "정류장추가";
