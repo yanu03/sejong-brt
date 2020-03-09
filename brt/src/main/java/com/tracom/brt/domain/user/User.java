@@ -1,13 +1,11 @@
 package com.tracom.brt.domain.user;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -109,9 +107,6 @@ public class User extends BaseJpaModel<String> {
     @Comment(value = "삭제여부")
     @Type(type = "labelEnum")
     private AXBootTypes.Deleted delYn = AXBootTypes.Deleted.NO;
-    
-    @Transient
-    private String grpAuthCd;
     
     @Transient
     private List<UserRole> roleList;

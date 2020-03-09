@@ -97,6 +97,21 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     			}
     		}
     		
+    		var authList = [];
+    		
+    		$("[data-ax-path='grpAuthCd']:checked").each(function(index, item) {
+    			authList.push({
+    				grpAuthCd: item.value
+    			});
+    		});
+    		
+    		if(authList.length == 0) {
+    			axDialog.alert(COL("user.select.auth"));
+    			return false;
+    		}
+    		
+    		formData["authList"] = authList;
+    		
     		axboot.promise()
 	            .then(function (ok, fail, data) {
 	            	axboot.ajax({
@@ -129,6 +144,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         		}
         	}
         	
+        	var authList = [];
+    		
+    		$("[data-ax-path='grpAuthCd']:checked").each(function(index, item) {
+    			authList.push({
+    				grpAuthCd: item.value
+    			});
+    		});
+    		
+    		if(authList.length == 0) {
+    			axDialog.alert(COL("user.select.auth"));
+    			return false;
+    		}
+    		
+    		formData["authList"] = authList;
         	
         	axboot.promise()
 	            .then(function (ok, fail, data) {
@@ -178,6 +207,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.setData(data);
         caller.formView0.target.find("[data-ax-td-label='passwordLabel']").removeClass("required");
         caller.formView0.target.find("[data-ax-path='userPs']").attr("data-ax-validate", null);
+        
+        // 권한 셋팅
+        $.each(data.authList, function(index, item) {
+        	$("[data-ax-path='grpAuthCd'][value='" + item.grpAuthCd + "']").prop("checked", true);
+        });
     },
 });
 
@@ -415,5 +449,6 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     clear: function () {
         this.model.setModel(this.getDefaultData());
         this.target.find('[data-ax-path="key"]').removeAttr("readonly");
+        $("[data-ax-path='scdPs']").attr("placeholder", "");
     }
 });

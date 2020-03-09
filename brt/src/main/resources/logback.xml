@@ -2,4 +2,5 @@
 <configuration>
     <include resource="logback-common.xml"/>
     <include resource="logback-local.xml"/>
+    <!-- <include resource="logback-production.xml"/> -->
 </configuration>
