@@ -33,8 +33,10 @@ public class BM0803Service extends BaseService<MapVO, String>{
 	}
 	
 	//현재 공공데이터포털에서 가져오는 버스위치정보 파싱
-	public List<MapVO> BM0803G1S0(RequestParams<MapVO> requestParams) {
+	public List<MapVO> BM0803G1S0(MapVO requestParams) {
 		
+		System.out.println("803");
+		System.out.println(requestParams);
 		CommonCodeDetailInfoVO codeVO = new CommonCodeDetailInfoVO();
     	codeVO.setCoCd(bi.INTERFACE_URL);
     	codeVO.setDlCd(bi.KEY_CODE_OPENAPI_ROUT_BUS);
@@ -48,35 +50,31 @@ public class BM0803Service extends BaseService<MapVO, String>{
     	
     	String apiKey = codeVO2.getRemark();
     	
-    	List<CommonCodeDetailInfoVO> listCode = new ArrayList<CommonCodeDetailInfoVO>();
-    	
     	codeVO.setCoCd(bi.INTER_ROUT_ID);
-    	listCode = mapper_0105.SM0105G1S3(codeVO);
+    	
     	
     	List<MapVO> list = new ArrayList<MapVO>();
     	
-    	//for(int i = 0; i<listCode.size(); i++) {
-    		String url = baseUrl +"&routeId="+ "SJB" + requestParams.getString("routId") + "&serviceKey=" + apiKey;
-    		System.out.println(url);
-    		//String url = baseUrl +"&routeId="+ listCode.get(i).getTxtVal1() +"&serviceKey=" + apiKey;
-    		NodeList nodeList = bi.busInterface_XML(url);
-    		
-    		//파싱 tag값 가져오는 for문
-    		for(int j = 0; j<nodeList.getLength(); j++) {
-    			MapVO vo = new MapVO();
-    			Node child = nodeList.item(j);
-    			if(child.getNodeType() == Node.ELEMENT_NODE) {
-    				Element eElement = (Element)child;           	
-    				vo.setLati(bi.getTagValue("gpslati", eElement));
-    				vo.setLongi(bi.getTagValue("gpslong", eElement));
-    				vo.setNodeId(bi.getTagValue("nodeid", eElement));
-    				vo.setRoutNm(bi.getTagValue("routenm", eElement));
-    				vo.setVhcNo(bi.getTagValue("vehicleno", eElement));
-    				
-    				list.add(vo);
-    			}
-    		}
-    	//}
+		String url = baseUrl +"&routeId=SJB" + requestParams.getRoutId() + "&serviceKey=" + apiKey;
+		System.out.println(url);
+		//String url = baseUrl +"&routeId="+ listCode.get(i).getTxtVal1() +"&serviceKey=" + apiKey;
+		NodeList nodeList = bi.busInterface_XML(url);
+		
+		//파싱 tag값 가져오는 for문
+		for(int j = 0; j<nodeList.getLength(); j++) {
+			MapVO vo = new MapVO();
+			Node child = nodeList.item(j);
+			if(child.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element)child;           	
+				vo.setLati(bi.getTagValue("gpslati", eElement));
+				vo.setLongi(bi.getTagValue("gpslong", eElement));
+				vo.setNodeId(bi.getTagValue("nodeid", eElement));
+				vo.setRoutNm(bi.getTagValue("routenm", eElement));
+				vo.setVhcNo(bi.getTagValue("vehicleno", eElement));
+				
+				list.add(vo);
+			}
+		}
 		return list;
 	}
 }
