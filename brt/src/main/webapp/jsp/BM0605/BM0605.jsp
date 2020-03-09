@@ -104,7 +104,7 @@
                     		</ax:td>
 
                     		<ax:td label="ax.admin.BM0605G0.imgPlayTm" width="240px">
-								<input type="text" name="imgPlayTm" title="이미지재생(초)" id="imgPlayTm" data-ax-path="imgPlayTm" class="form-control" />
+								<input type="number" name="imgPlayTm" title="이미지재생(초)" id="imgPlayTm" data-ax-path="imgPlayTm" class="form-control" min="1"/>
                     		</ax:td>
                     	</ax:tr>
                     	

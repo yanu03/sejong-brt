@@ -539,7 +539,9 @@ function drawRoute(list) {
 	if(list != null && list.length != 0) {
 		for(var i = 0; i < list.length; i++) {
 			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
-			
+			list[i].click = function(e){
+				
+			};
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
 			if(list[i].nodeType == '1' || list[i].nodeType == '898') {
 				list[i].icon = "/assets/images/tmap/busstop.png";

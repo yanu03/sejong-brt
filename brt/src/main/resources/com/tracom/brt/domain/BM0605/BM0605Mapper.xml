@@ -87,7 +87,17 @@
     		, ATT_FILE		=	#{attFile}
     		, REMARK		=	#{remark}
     		<choose>
-    			<when test="playTm == -999">
+    			<when test="playTm == -999 and fileType == 'AV001'">
+    			, PLAY_TM		=	PLAY_TM
+    			</when>
+    			<when test="playTm == -999 and fileType == 'AV002'">
+    			, PLAY_TM		= 	#{imgPlayTm}
+    			</when>
+    			<when test="playTm != -999 and fileType == 'AV001'">
+    			, PLAY_TM		=	#{playTm}
+    			</when>
+    			<when test="playTm != -999 and fileType == 'AV002'">
+    			, PLAY_TM		= 	#{imgPlayTm}
     			</when>
     			<otherwise>
 	    		, PLAY_TM		=	#{playTm}    			

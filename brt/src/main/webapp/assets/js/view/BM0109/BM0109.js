@@ -15,6 +15,7 @@ var maxNodeCnt = 800;
 var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
+    	
     	if(isNewData == true){
 			if(!confirm("편집 후 저장하지 않은 데이터가 유실됩니다. 계속 진행하시겠습니까?")){
 				return false;
@@ -593,6 +594,7 @@ var numEditor = {
 
 
 /*****************************************/
+
 function searchGrid1(caller, act, data){
 	var dataFlag = typeof data !== "undefined";
 	data.filter1 = $('#filter1').val();
@@ -601,12 +603,12 @@ function searchGrid1(caller, act, data){
         url: "/api/v1/BM0109G1S0",
         data: data,
         callback: function (res) {
-        	caller.gridView1.setData(res);
+        	fnObj.gridView1.setData(res);
         	removeAllPopUp();
         	/**추가한거**/
             if(res.list != null && res.list.length != 0) {
             	routeData = res.list.slice();
-            	caller.gridView1.selectRow(0);
+            	fnObj.gridView1.selectRow(0);
             } else {
             	routeData = [];
             }
@@ -867,6 +869,10 @@ function btnClick(){
 		fnObj.gridView1.setData(routeData);
 		drawRoute(routeData);
 		fnObj.gridView1.selectRow(idx);
+	});
+	
+	$('#searchSta').on('click', function(){
+		searchGrid1(fnObj,null,selectedRow0);
 	});
 }
 

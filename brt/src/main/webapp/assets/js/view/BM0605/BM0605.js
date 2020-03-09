@@ -98,11 +98,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_SAVE: function (caller, act, data) {
 
 		if (caller.formView0.validate()) {
+			if($('#fileType').val() == "AV002" && $('#imgPlayTm').val() < 1){
+				axDialog.alert("이미지재생시간은 1초이상 입력해주세요.");
+				return false;
+			}
 			var formData = new FormData(caller.formView0.target[0]);
 			if($("#vdoFile")[0].files[0]){
 				formData.append("vdoFile", $("#vdoFile")[0].files[0].name);
 			}
-
+			
 			var msg = "";
 			axboot.promise()
 			.then(function (ok, fail, data) {
@@ -135,6 +139,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_UPDATE: function(caller, act, data) {
 		if (caller.formView0.validate()) {
 			var formData = new FormData(caller.formView0.target[0]);
+			
+			if($('#fileType').val() == "AV002" && $('#imgPlayTm').val() < 1){
+				axDialog.alert("이미지재생시간은 1초이상 입력해주세요.");
+				return false;
+			}
+			
 			if($("#vdoFile")[0].files[0]){
 				formData.append("vdoFile", $("#vdoFile")[0].files[0].name);
 			}
@@ -158,7 +168,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			})
 			.then(function (ok, fail, data) {
 				axToast.push(LANG("onsave"));
-				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, res.message);
+				ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+				caller.gridView0.selectRow(selectedRow.__index);
 			})
 			.catch(function () {
 
