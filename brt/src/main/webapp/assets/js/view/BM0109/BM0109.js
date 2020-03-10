@@ -189,12 +189,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             param: "",
             callback: function (data) {
             	this.close();
-            	
             	var formData = new FormData();
             	formData.append("attFile", data);
-            	
+            	formData.append("routId", selectedRow0.routId);
             	axDialog.confirm({
- 		        	msg: "해당 노선에 데이터가 있을경우 새로운 데이터로 덮어쓰게됩니다. 진행하시겠습니까?"
+ 		        	msg: "해당 노선에 데이터가 있을경우 새로운 데이터로 덮어쓰게됩니다. 이 작업은 자동으로 저장됩니다. 진행하시겠습니까?"
  		        }, function(){
 	            	
 	            	axboot.promise()

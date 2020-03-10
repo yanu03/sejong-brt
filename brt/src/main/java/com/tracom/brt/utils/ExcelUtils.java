@@ -52,7 +52,7 @@ public class ExcelUtils {
 		FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
 	}
 		
-	public void readExcel(String type) throws FileNotFoundException, IOException {
+	public void readExcel(String type, String routId) throws FileNotFoundException, IOException {
 		String path = Paths.get(getRootLocalPath(), "/temp").toString();
 		String fileName = "/temp.xlsx";
 		String fullPath = path + fileName;
@@ -88,7 +88,8 @@ public class ExcelUtils {
 				if(i>0) {
 					String[] c = rows[i].split(",");
 					BmRoutNodeInfoVO tmp = new BmRoutNodeInfoVO();
-					tmp.setRoutId(c[0]);
+					//tmp.setRoutId(c[0]);
+					tmp.setRoutId(routId);
 					tmp.setSeq(Integer.valueOf(c[1]));
 					if(c[2].equals("정류장") || c[2].equals("1")) {
 						tmp.setNodeType(1);						

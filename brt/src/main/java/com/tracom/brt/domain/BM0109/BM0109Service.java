@@ -155,6 +155,6 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 	//엑셀삽입
 	public void BM0109IMPORT(BmRoutInfoVO vo) throws IOException{
 		exUtil.downExcel(vo.getAttFile());
-		exUtil.readExcel("BM0109");
+		exUtil.readExcel("BM0109", vo.getRoutId());
 	}
 }
