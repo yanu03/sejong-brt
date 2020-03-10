@@ -50,6 +50,7 @@
 			CO_CD = #{coCd}
 			AND DL_CD = #{dlCd}
 		    AND USE_YN = 'Y'
+		ORDER BY SORT_ODR ASC
     </select>
     
     <select id="SM0105G1S2" parameterType="commonCodeDetailInfoVO" resultType="commonCodeDetailInfoVO">
@@ -76,6 +77,7 @@
 		WHERE
 			CO_CD = #{coCd}
 		    AND USE_YN = 'Y'
+		ORDER BY SORT_ODR ASC
     </select>
     
     <select id="SM0105G1S3" parameterType="String" resultType="commonCodeDetailInfoVO">
@@ -102,6 +104,7 @@
 		WHERE
 			CO_CD = #{coCd}
 		    AND USE_YN = 'Y'
+		ORDER BY SORT_ODR ASC
     </select>
     
     <select id="SM0105F0S0" parameterType="String" resultType="commonCodeDetailInfoVO">
@@ -193,6 +196,7 @@
     		TXT_VAL1 = 'RD'
     		AND
     		USE_YN = 'Y'
+    	ORDER BY SORT_ODR ASC
     </select>
     
     <select id="SM0105G2S1" parameterType="String" resultType="commonCodedetailInfoVO">
@@ -208,6 +212,7 @@
 		    DL_CD = #{value}
 		    AND
 		    USE_YN = 'Y'
+		ORDER BY SORT_ODR ASC
     </select>
     
     <select id="SM0105G2S2" parameterType="String" resultType="String">
@@ -221,6 +226,7 @@
 		    DL_CD = #{value}
 		    AND
 		    USE_YN = 'Y'
+		ORDER BY SORT_ODR ASC
     </select>
     
     <select id="SM0105G3S0" parameterType="String" resultType="String">
@@ -234,6 +240,7 @@
 		    DL_CD_NM = #{value}
 		    AND
 		    USE_YN = 'Y'
+		ORDER BY SORT_ODR ASC
     </select>
     
     <select id="SM0105G3S1" parameterType="String" resultType="String">
@@ -247,5 +254,6 @@
 		    TXT_VAL1 = #{value}
 		    AND
 		   	USE_YN = 'Y'
+		ORDER BY SORT_ODR ASC
     </select>
 </mapper>
