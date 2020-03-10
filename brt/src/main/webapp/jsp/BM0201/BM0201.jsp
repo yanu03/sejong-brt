@@ -55,7 +55,7 @@
             
             <ax:splitter></ax:splitter>
             
-            <ax:split-panel width="600" style="padding-left: 10px;">
+            <ax:split-panel width="700" style="padding-left: 10px;">
                 <!-- 폼 -->
                 <ax:split-panel width="500" style="height:270px;">
                 <div class="ax-button-group" role="panel-header">
@@ -77,12 +77,12 @@
                     	</ax:tr>
 						 <ax:tr>
 							<ax:td label="ax.admin.BM0201F0.dvckind" width="250px" labelClazz="required">
-                            	<ax:SM0105 groupCd="DVC_KIND" id="dvcKind" name="dvcKind" dataPath="dvcKind" clazz="form-control W150"/>
+                            	<ax:SM0105 groupCd="DVC_KIND" id="dvcKind" name="dvcKind" dataPath="dvcKind" clazz="form-control"/>
                             </ax:td>                 		
 						</ax:tr>                   
                         <ax:tr>
                             <ax:td label="ax.admin.BM0201F0.instloc" width="250px" labelClazz="required">
-                            	<ax:SM0105 groupCd="INST_LOC" id="instLoc" name="instLoc" dataPath="instLoc" clazz="form-control W90"/>
+                            	<ax:SM0105 groupCd="INST_LOC" id="instLoc" name="instLoc" dataPath="instLoc" clazz="form-control"/>
                            </ax:td>                           
                         </ax:tr>                    	
                         

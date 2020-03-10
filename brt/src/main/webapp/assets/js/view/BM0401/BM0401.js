@@ -222,6 +222,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         
         if(data.playType == "WAV") {
         	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
+        	$("#wavFilename").text(data.vocId + "U.wav");
+        } else {
+        	$("#wavFilename").text("");
         }
     },
     

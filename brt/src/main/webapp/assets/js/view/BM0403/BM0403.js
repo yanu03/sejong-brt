@@ -203,6 +203,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         $("#jquery_jplayer_1").jPlayer("setMedia", {
     		mp3: null
     	});
+        
+        if(data.playType == "WAV") {
+        	ACTIONS.dispatch(ACTIONS.SET_AUDIO, data);
+        	$("#wavFilename").text(data.vocId + "U.wav");
+        } else {
+        	$("#wavFilename").text("");
+        }
     },
     
     CHANGE_PLAY_TYPE: function(caller, cat, data) {

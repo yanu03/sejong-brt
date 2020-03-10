@@ -62,6 +62,7 @@ public class BM0201Service extends BaseService<VhcDeviceVO, String>{
     
     public boolean BM0201F0U0(VhcDeviceVO vo) {
     	if(mapper.BM0201F0U0(vo) > 0 ) {
+    		handler.deviceFolder(vo.getMngId());
     		return true;
     	}else {   		
     		return false;
@@ -80,6 +81,10 @@ public class BM0201Service extends BaseService<VhcDeviceVO, String>{
 
 	public List<VhcDeviceVO> BM0201G1S1(RequestParams<VhcDeviceVO> requestParams) {
 		return mapper.BM0201G1S1(requestParams.getString("dvcId"));
+	}
+	
+	public List<VhcDeviceVO> BM0201G1S2(RequestParams<VhcDeviceVO> requestParams) {
+		return mapper.BM0201G1S2(requestParams.getString("dvcId"));
 	}
 
 	public boolean BM0201G1U1(VhcDeviceVO vo) {

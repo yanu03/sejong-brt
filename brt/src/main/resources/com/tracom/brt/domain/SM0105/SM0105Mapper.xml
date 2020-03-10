@@ -76,6 +76,7 @@
 		WHERE
 			CO_CD = #{coCd}
 		    AND USE_YN = 'Y'
+		ORDER BY SORT_ODR ASC
     </select>
     
     <select id="SM0105G1S3" parameterType="String" resultType="commonCodeDetailInfoVO">
@@ -102,6 +103,7 @@
 		WHERE
 			CO_CD = #{coCd}
 		    AND USE_YN = 'Y'
+		ORDER BY SORT_ODR ASC
     </select>
     
     <select id="SM0105F0S0" parameterType="String" resultType="commonCodeDetailInfoVO">

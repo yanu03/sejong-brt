@@ -49,7 +49,7 @@
                         <ax:tr>
                           	<ax:td label='ax.admin.BM0201M0.aplydate' width="300px" labelClazz="required">
 	                            <div class="input-group" data-ax5picker="date">
-	                                <input type="text" class="form-control" data-ax-path="aplyDate" data-ax5formatter="date" title="<ax:lang id="ax.admin.BM0201M0.aplydate"/>" placeholder="yyyy/mm/dd" data-ax-validate="required" />
+	                                <input type="text" class="form-control" data-ax-path="aplyDate" data-ax5formatter="date" title="<ax:lang id="ax.admin.BM0201M0.aplydate"/>" placeholder="<ax:lang id="ax.admin.date.format"/>" data-ax-validate="required" />
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
                         	</ax:td>
@@ -61,8 +61,8 @@
 							</ax:td>                    
                      </ax:tr>                       	                       
                      <ax:tr>
-                         <ax:td label="ax.admin.BM0201M0.modelnm" width="300px" labelClazz="required">
-								<input type="text" id="modelNm" data-ax-path="modelNm" data-key="true" class="form-control" title="<ax:lang id="ax.admin.BM0201M0.modelnm"/>" data-ax-validate="required" maxlength="30">
+                         <ax:td label="ax.admin.BM0201M0.modelnm" width="300px">
+								<input type="text" id="modelNm" data-ax-path="modelNm" data-key="true" class="form-control" title="<ax:lang id="ax.admin.BM0201M0.modelnm"/>" maxlength="30">
 						 </ax:td>                     	                            
                      </ax:tr>
                        	
