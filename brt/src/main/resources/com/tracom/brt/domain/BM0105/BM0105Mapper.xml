@@ -119,16 +119,18 @@
     		ROUT_ID = #{routId}
     </select>
     
-    <select id="getNewStaList" parameterType="bmStaInfoVO" resultType="bmStaInfoVO">
-    	SELECT
-			*
-		FROM
-			BM_STA_NM_INFO
+    
+    <insert id="setNewStaNm" parameterType="bmStaInfoVO">
+    	INSERT INTO BM_STA_NM_INFO (
+			  	STA_ID
+		      , KR_NM) 
+		      
+		SELECT
+			  #{staId}
+			, REPLACE(#{staNm}, ",", ".")
+		FROM DUAL
 		WHERE
-			STA_ID NOT IN (
-				<foreach collection="voList" item="voList" separator=",">
-					#{voList.staId}
-				</foreach>
-			)
-    </select>
+			NOT EXISTS (SELECT * FROM BM_STA_NM_INFO WHERE STA_ID=#{staId})
+    </insert>
+
 </mapper>

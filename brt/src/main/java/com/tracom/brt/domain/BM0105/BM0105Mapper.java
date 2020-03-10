@@ -16,6 +16,5 @@ public interface BM0105Mapper extends MyBatisMapper {
 	List<BmRoutNodeInfoVO> getStaList(BmRoutInfoVO vo);
 	List<BmRoutNodeInfoVO> getNodeList(BmRoutInfoVO vo);
 	
-	List<BmStaInfoVO> getNewStaList(BmStaInfoVO vo);
-
+	int setNewStaNm(BmStaInfoVO vo);
 }
