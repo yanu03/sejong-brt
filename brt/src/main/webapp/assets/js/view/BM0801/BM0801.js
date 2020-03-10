@@ -165,8 +165,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [
             		 {key: "vhcNo", label: ADMIN("ax.admin.BM0801G0.vhc.no"), sortable: true, width: 100, align: "center"},
-            		 {key: "conId", label: ADMIN("ax.admin.BM0801G0.con.id"), sortable: true , width: 80, align: "center"},
-                     {key: "conNm", label: ADMIN("ax.admin.BM0801G0.con.nm"), align:"left", width: 140},
+            		 {key: "conId", label: ADMIN("ax.admin.BM0801G0.con.id"), sortable: true, width: 80, align: "center"},
+                     {key: "conNm", label: ADMIN("ax.admin.BM0801G0.con.nm"), sortable: true, align:"left", width: 140},
                      {key: "countTotal", label: ADMIN("ax.admin.BM0801G0.count.total"), width: 100, align: "center"},
                      {key: "countVoice", label: ADMIN("ax.admin.BM0801G0.count.voice"),width: 100, align: "center"},
                      {key: "countImage", label: ADMIN("ax.admin.BM0801G0.count.image"),width: 100, align: "center"},
@@ -255,7 +255,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView1"]'),
             	 columns: [
             		 {key: "playDate", label: ADMIN("ax.admin.BM0801G1.play.date"), sortable: true, width: 140, align: "center"},
-            		 {key: "id", label: ADMIN("ax.admin.BM0801G1.id"), sortable: true , width: 80, align: "center"},
+            		 {key: "id", label: ADMIN("ax.admin.BM0801G1.id"), width: 80, align: "center"},
                      {key: "adType", label: ADMIN("ax.admin.BM0801G1.ad.type"), width: 80, align: "center"},
                      {key: "adNm", label: ADMIN("ax.admin.BM0801G1.ad.nm"), width: 120},
                  ],

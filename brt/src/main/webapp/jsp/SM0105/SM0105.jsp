@@ -37,96 +37,98 @@
                         <h3><i class="cqc-list"></i>
                             <ax:lang id="ax.admin.SM0104G0.title"/> </h3>
                     </div>
-                    <div class="right">
-
-                    </div>
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
+            
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="700" style="padding-left: 10px;" scroll="scroll">
-                <!-- 폼 -->
-                <div class="ax-button-group" role="panel-header">
+            
+            <ax:split-panel width="700" style="padding-left: 10px;">
+            	<div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h3><i class="cqc-news"></i>
                             <ax:lang id="ax.admin.SM0105F0.title"/>
                         </h3>
                     </div>
                 </div>
-                <ax:form name="formView0">
-                    <ax:tbl clazz="ax-form-tbl" minWidth="500px">
-                        <ax:tr>
-                            <ax:td label="ax.admin.SM0105F0.dl.cd" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="dlCd" maxlength="5" title="<ax:lang id="ax.admin.SM0105F0.dl.cd"/>" data-key="true" data-ax-validate="required" class="form-control"/>
-                            </ax:td>
-                            
-                            <ax:td label="ax.admin.SM0105F0.dl.cd.nm" width="300px" labelClazz="required">
-                                <input type="text" data-ax-path="dlCdNm" title="<ax:lang id="ax.admin.SM0105F0.dl.cd.nm"/>" data-ax-validate="required" class="form-control" />
-                            </ax:td>
-                        </ax:tr>
-                        
-                        <ax:tr>
-                            <ax:td label="ax.admin.SM0105F0.dl.cd.enm" width="300px">
-                                <input type="text" data-ax-path="coCdEnm" class="form-control"  />
-                            </ax:td>
-                            
-                            <ax:td label="ax.admin.SM0105F0.sort.odr" width="300px">
-                                <input type="number" data-ax-path="sortOdr" min="0" class="form-control"/>
-                            </ax:td>
-                        </ax:tr>
-                        
-                       	<ax:tr>
-                            <ax:td label="ax.admin.SM0105F0.txt.val1" width="300px">
-                            	<input type="text" data-ax-path="txtVal1" class="form-control"/>
-                            </ax:td>
-                            
-                            <ax:td label="ax.admin.SM0105F0.num.val4" width="300px">
-                            	<input type="text" data-ax-path="numVal4" class="form-control"/>
-                            </ax:td>
-                       	</ax:tr>
-                       	
-                       	<ax:tr>
-                            <ax:td label="ax.admin.SM0105F0.txt.val2" width="300px">
-                            	<input type="text" data-ax-path="txtVal2" class="form-control"/>
-                            </ax:td>
-                            
-                            <ax:td label="ax.admin.SM0105F0.num.val5" width="300px">
-                            	<input type="text" data-ax-path="numVal5" class="form-control"/>
-                            </ax:td>
-                       	</ax:tr>
-                       	
-                       	<ax:tr>
-                            <ax:td label="ax.admin.SM0105F0.txt.val3" width="300px">
-                            	<input type="text" data-ax-path="txtVal3" class="form-control"/>
-                            </ax:td>
-                            
-                            <ax:td label="ax.admin.SM0105F0.num.val6" width="300px">
-                            	<input type="text" data-ax-path="numVal6" class="form-control"/>
-                            </ax:td>
-                       	</ax:tr>
-                       	
-                       	<ax:tr>
-                            <ax:td label="ax.admin.SM0105F0.useyn" width="300px">
-                            	<ax:common-code groupCd="USE_YN" dataPath="useYn" clazz="form-control"/>
-                            </ax:td>
-                            
-                            <ax:td label="ax.admin.SM0105F0.remark" width="300px">
-                            	<input type="text" data-ax-path="remark" class="form-control"/>
-                            </ax:td>
-                       	</ax:tr>
-                    </ax:tbl>
-                    
-                    <div class="ax-button-group">
-                        <div class="left">
-                            <h3>
-                                <i class="cqc-list"></i>
-                                <ax:lang id="ax.admin.SM0105G1.title"/>
-                            </h3>
-                        </div>
-                    </div>
-
-                    <div data-ax5grid="gridView1" style="height: 300px;"></div>
-                </ax:form>
+                <ax:split-panel width="700" style="height: 270px;">
+	                <ax:form name="formView0">
+	                    <ax:tbl clazz="ax-form-tbl" minWidth="500px">
+	                        <ax:tr>
+	                            <ax:td label="ax.admin.SM0105F0.dl.cd" width="300px" labelClazz="required">
+	                                <input type="text" data-ax-path="dlCd" maxlength="5" title="<ax:lang id="ax.admin.SM0105F0.dl.cd"/>" data-key="true" data-ax-validate="required" class="form-control"/>
+	                            </ax:td>
+	                            
+	                            <ax:td label="ax.admin.SM0105F0.dl.cd.nm" width="300px" labelClazz="required">
+	                                <input type="text" data-ax-path="dlCdNm" title="<ax:lang id="ax.admin.SM0105F0.dl.cd.nm"/>" data-ax-validate="required" class="form-control" />
+	                            </ax:td>
+	                        </ax:tr>
+	                        
+	                        <ax:tr>
+	                            <ax:td label="ax.admin.SM0105F0.dl.cd.enm" width="300px">
+	                                <input type="text" data-ax-path="coCdEnm" class="form-control"  />
+	                            </ax:td>
+	                            
+	                            <ax:td label="ax.admin.SM0105F0.sort.odr" width="300px">
+	                                <input type="number" data-ax-path="sortOdr" min="0" class="form-control"/>
+	                            </ax:td>
+	                        </ax:tr>
+	                        
+	                       	<ax:tr>
+	                            <ax:td label="ax.admin.SM0105F0.txt.val1" width="300px">
+	                            	<input type="text" data-ax-path="txtVal1" class="form-control"/>
+	                            </ax:td>
+	                            
+	                            <ax:td label="ax.admin.SM0105F0.num.val4" width="300px">
+	                            	<input type="text" data-ax-path="numVal4" class="form-control"/>
+	                            </ax:td>
+	                       	</ax:tr>
+	                       	
+	                       	<ax:tr>
+	                            <ax:td label="ax.admin.SM0105F0.txt.val2" width="300px">
+	                            	<input type="text" data-ax-path="txtVal2" class="form-control"/>
+	                            </ax:td>
+	                            
+	                            <ax:td label="ax.admin.SM0105F0.num.val5" width="300px">
+	                            	<input type="text" data-ax-path="numVal5" class="form-control"/>
+	                            </ax:td>
+	                       	</ax:tr>
+	                       	
+	                       	<ax:tr>
+	                            <ax:td label="ax.admin.SM0105F0.txt.val3" width="300px">
+	                            	<input type="text" data-ax-path="txtVal3" class="form-control"/>
+	                            </ax:td>
+	                            
+	                            <ax:td label="ax.admin.SM0105F0.num.val6" width="300px">
+	                            	<input type="text" data-ax-path="numVal6" class="form-control"/>
+	                            </ax:td>
+	                       	</ax:tr>
+	                       	
+	                       	<ax:tr>
+	                            <ax:td label="ax.admin.SM0105F0.useyn" width="300px">
+	                            	<ax:common-code groupCd="USE_YN" dataPath="useYn" clazz="form-control"/>
+	                            </ax:td>
+	                            
+	                            <ax:td label="ax.admin.SM0105F0.remark" width="300px">
+	                            	<input type="text" data-ax-path="remark" class="form-control"/>
+	                            </ax:td>
+	                       	</ax:tr>
+	                    </ax:tbl>
+	                </ax:form>
+                </ax:split-panel>
+                
+                <ax:split-panel width="700" style="height:100%; padding-bottom:155px;">
+	                <div class="ax-button-group"  data-fit-height-aside="gridView1">
+	                    <div class="left">
+	                        <h3>
+	                            <i class="cqc-list"></i>
+	                            <ax:lang id="ax.admin.SM0105G1.title"/>
+	                        </h3>
+	                    </div>
+	                </div>
+	
+	                <div data-ax5grid="gridView1" data-fit-height-content="gridView1" style="height:100%;"></div>
+	           </ax:split-panel>
             </ax:split-panel>
         </ax:split-layout>
 
