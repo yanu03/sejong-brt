@@ -65,7 +65,7 @@
    			, #{retireYn}
    			, #{eplyDate1}
    			, #{eplyDate2}
-   			, #{licenNo}
+   			, REPLACE(#{licenNo}, "-", "")
    			, #{certiDate}
    			, #{attFile}
    			, #{remark} 
@@ -82,7 +82,7 @@
     		, RETIRE_YN		=	#{retireYn}
     		, EPLY_DATE1	=	#{eplyDate1}
     		, EPLY_DATE2	=	#{eplyDate2}
-    		, LICEN_NO		=	#{licenNo}
+    		, LICEN_NO		=	REPLACE(#{licenNo}, "-", "")
     		, CERTI_DATE	=	#{certiDate}
     		, ATT_FILE		=	#{attFile}
     		, REMARK		=	#{remark}

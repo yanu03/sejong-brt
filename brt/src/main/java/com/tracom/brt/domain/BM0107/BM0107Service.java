@@ -75,19 +75,9 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     	int count;
     	int delCnt;
     	count = requestParams.size();
+    	
     	for(BmRoutInfoVO routVO : requestParams) {
-    		//0. 이전 경로 삭제->이전경로 trash 테이블로 이동
-    		//delCnt = mapper_107.BM0107G1D0(routVO);
-    		
-    		//trash 삭제
-    		mapper_107.BM0107G2D0(routVO);
-    		//trash로 옮기고
-    		mapper_107.BM0107G2I0(routVO);
-    		//삭제
-    		mapper_107.BM0107G1D0(routVO);
 
-    		
-    		
     		String json = dif.interface_URL("POST", baseUrl + routVO.getInterRoutId()); 
     		
     		BmRoutNodeInfoVO insertVO = new BmRoutNodeInfoVO();
@@ -96,47 +86,61 @@ public class BM0107Service extends BaseService<BmRoutInfoVO, String> {
     		//1.노드리스트생성
     		
     		List<BmRoutNodeInfoVO> nodeList = parseJsonRouteNode(json);
-    		for(BmRoutNodeInfoVO v : nodeList) {
-    			v.setRoutId(routVO.getRoutId());
+    		if(nodeList.size() > 0) {
+	    		//0. 이전 경로 삭제->이전경로 trash 테이블로 이동
+	    		//delCnt = mapper_107.BM0107G1D0(routVO);
+	    		
+	    		//trash 삭제
+	    		mapper_107.BM0107G2D0(routVO);
+	    		//trash로 옮기고
+	    		mapper_107.BM0107G2I0(routVO);
+	    		//삭제
+	    		mapper_107.BM0107G1D0(routVO);
+	
+	    		
+	    		
+	    		for(BmRoutNodeInfoVO v : nodeList) {
+	    			v.setRoutId(routVO.getRoutId());
+	    		}
+	    		
+	    		//2.정류장리스트생성
+	    		List<BmRoutNodeInfoVO> staList = mapper_107.BM0107M0S0(routVO);
+	    		//노드리스트+정류장리스트
+	    		if(staList.size() > 0) {
+	    			voList = insertSta(nodeList, staList);    			
+	    		}else {
+	    			voList = nodeList;
+	    		}
+	    		
+	    		insertVO.setVoList(voList);
+	    		
+	    		
+	    		//인서트쿼리
+	    		if(mapper_107.BM0107G1I0(insertVO) > 0) {
+	    			returnCount++;
+	    		}
+	    		
+	    		//result테이블에 추가
+	    		Map<String, String> map = new HashMap<>();
+	    		map.put("routId", routVO.getRoutId());
+	    		List<BmRoutNodeInfoVO> nodeStaList = mapper_107.BM0107G1S0(map);
+	    		List<BmRoutNodeInfoVO> audioList = mapper_107.BM0107G4S0(routVO);
+	    		List<BmRoutNodeInfoVO> finalList = new ArrayList<>();
+	
+	    		
+	    		if(audioList.size() > 0) {
+	    			finalList = insertSta(nodeStaList, audioList);    			
+	    		}else {
+	    			finalList = nodeStaList;
+	    		}
+	    		//result테이블 삭제
+	    		mapper_107.BM0107G3D0(routVO);
+	    		
+	    		//RESULT테이블에 추가
+	    		BmRoutNodeInfoVO finalVO = new BmRoutNodeInfoVO();
+	    		finalVO.setVoList(finalList);
+	    		mapper_107.BM0107G3I1(finalVO);
     		}
-    		
-    		//2.정류장리스트생성
-    		List<BmRoutNodeInfoVO> staList = mapper_107.BM0107M0S0(routVO);
-    		//노드리스트+정류장리스트
-    		if(staList.size() > 0) {
-    			voList = insertSta(nodeList, staList);    			
-    		}else {
-    			voList = nodeList;
-    		}
-    		
-    		insertVO.setVoList(voList);
-    		
-    		
-    		//인서트쿼리
-    		if(mapper_107.BM0107G1I0(insertVO) > 0) {
-    			returnCount++;
-    		}
-    		
-    		//result테이블에 추가
-    		Map<String, String> map = new HashMap<>();
-    		map.put("routId", routVO.getRoutId());
-    		List<BmRoutNodeInfoVO> nodeStaList = mapper_107.BM0107G1S0(map);
-    		List<BmRoutNodeInfoVO> audioList = mapper_107.BM0107G4S0(routVO);
-    		List<BmRoutNodeInfoVO> finalList = new ArrayList<>();
-
-    		
-    		if(audioList.size() > 0) {
-    			finalList = insertSta(nodeStaList, audioList);    			
-    		}else {
-    			finalList = nodeStaList;
-    		}
-    		//result테이블 삭제
-    		mapper_107.BM0107G3D0(routVO);
-    		
-    		//RESULT테이블에 추가
-    		BmRoutNodeInfoVO finalVO = new BmRoutNodeInfoVO();
-    		finalVO.setVoList(finalList);
-    		mapper_107.BM0107G3I1(finalVO);
     	}
     	
     	
