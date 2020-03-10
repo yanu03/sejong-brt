@@ -274,12 +274,11 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "coCd", label: ADMIN("ax.admin.SM0104F0.co.cd"), width: 150},
-                {key: "coCdNm", label: ADMIN("ax.admin.SM0104F0.co.cd.nm"), width: 150},
-                {key: "coCdEnm", label: ADMIN("ax.admin.SM0104F0.co.cd.enm"), width: 150},
+                {key: "coCd", label: ADMIN("ax.admin.SM0104F0.co.cd"), sortable: true, width: 150},
+                {key: "coCdNm", label: ADMIN("ax.admin.SM0104F0.co.cd.nm"), sortable: true, width: 150},
+                {key: "coCdEnm", label: ADMIN("ax.admin.SM0104F0.co.cd.enm"), sortable: true, width: 150},
                 {key: "useYn", label: ADMIN("ax.admin.SM0104F0.useyn"), width: 80},
                 {key: "remark", label: ADMIN("ax.admin.SM0104F0.remark"), width: 200},
             ],
@@ -372,13 +371,12 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	frozenColumnIndex: 0,
-            sortable: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-                {key: "dlCd", label: ADMIN("ax.admin.SM0105F0.dl.cd"), width: 150},
-                {key: "dlCdNm", label: ADMIN("ax.admin.SM0105F0.dl.cd.nm"), width: 150},
-                {key: "dlCdEnm", label: ADMIN("ax.admin.SM0105F0.dl.cd.enm"), width: 150},
-                {key: "sortOdr", label: ADMIN("ax.admin.SM0105F0.sort.odr"), width: 80},
+                {key: "dlCd", label: ADMIN("ax.admin.SM0105F0.dl.cd"), sortable: true, width: 150},
+                {key: "dlCdNm", label: ADMIN("ax.admin.SM0105F0.dl.cd.nm"), sortable: true, width: 150},
+                {key: "dlCdEnm", label: ADMIN("ax.admin.SM0105F0.dl.cd.enm"), sortable: true, width: 150},
+                {key: "sortOdr", label: ADMIN("ax.admin.SM0105F0.sort.odr"), sortable: true, width: 80},
                 {key: "txtVal1", label: ADMIN("ax.admin.SM0105F0.txt.val1"), width: 150},
                 {key: "txtVal2", label: ADMIN("ax.admin.SM0105F0.txt.val2"), width: 150},
                 {key: "txtVal3", label: ADMIN("ax.admin.SM0105F0.txt.val3"), width: 150},
