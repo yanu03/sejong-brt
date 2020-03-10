@@ -67,42 +67,43 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	}
     	var msg = "";
     	axDialog.confirm({
-            msg: "해당 노선의 경로정보, 정류장 정보가 삭제됩니다. 정말 삭제하시겠습니까?"
-        },	function(){
-        	
-		        axDialog.confirm({
-		        	msg: "이 작업은 되돌릴 수 없습니다."
-		        },
-		        function() {
-		        	if (this.key == "ok") {
-		        		axboot.promise()
-		        		.then(function (ok, fail, data) {
-		        			axboot.ajax({
-		        				type: "POST",
-		        				url: "/api/v1/BM0109G0D0",
-		        				data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
-		        				callback: function (res) {
-		        					msg = res.message;
-		        					ok(res);
-		        				}
-		        			});
-		        		})
-		        		.then(function (ok) {
-		        			if(msg == "true"){
-		        				axToast.push(LANG("ondelete"));
-		        			}else{
-		        				axDialog.alert("삭제 실패. 해당 노선에 편성된 음성이 있는지 확인하세요.");
-		        			}
-		        			
-		        			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-		        		})
-		        		.catch(function () {
-		        			
-		        		});
-		        	}
-		        });
-        	}
-        );
+    		msg: "해당 노선의 경로정보, 정류장 정보가 삭제됩니다. 정말 삭제하시겠습니까?"
+    	},	function(){
+    		if(this.key == "ok"){
+    			axDialog.confirm({
+    				msg: "이 작업은 되돌릴 수 없습니다."
+    			},
+    			function() {
+    				if (this.key == "ok") {
+    					axboot.promise()
+    					.then(function (ok, fail, data) {
+    						axboot.ajax({
+    							type: "POST",
+    							url: "/api/v1/BM0109G0D0",
+    							data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+    							callback: function (res) {
+    								msg = res.message;
+    								ok(res);
+    							}
+    						});
+    					})
+    					.then(function (ok) {
+    						if(msg == "true"){
+    							axToast.push(LANG("ondelete"));
+    						}else{
+    							axDialog.alert("삭제 실패. 해당 노선에 편성된 음성이 있는지 확인하세요.");
+    						}
+
+    						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    					})
+    					.catch(function () {
+
+    					});
+    				}
+    			});
+    		}
+    	}
+    	);
     },
     
     // 탭닫기
