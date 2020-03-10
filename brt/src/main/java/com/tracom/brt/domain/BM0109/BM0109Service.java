@@ -52,17 +52,11 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 	public void BM0109G1I0(BmRoutNodeInfoVO vo) {
 		List<BmRoutNodeInfoVO> voList = vo.getVoList();
 		
-		//BmRoutNodeInfoVO tmp = new BmRoutNodeInfoVO();
-		//String routId = null;
-
-		//routId = voList.get(0).getRoutId();
 		String routId = vo.getRoutId();
 		
 		List<BmRoutNodeInfoVO >staList = new ArrayList<>();
 		List<BmRoutNodeInfoVO> list = new ArrayList<>();
 		List<BmRoutNodeInfoVO> agList = new ArrayList<>();
-		//vo.setVoList(voList);
-		//vo.setRoutId(routId);
 		
 		//0. result테이블 삭제함
 		mapper.BM0109G1D0(vo.getRoutId());
@@ -70,8 +64,8 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 		//1. result테이블에 인서트함
 		if(voList.size() > 0) {
 			mapper.BM0109G1I0(vo);
-			//2. 인서트한거 셀렉트함
 
+			//2. 인서트한거 셀렉트함
 			//정류장리스트
 			staList = mapper.BM0109G1S1(routId);
 			//노드리스트
