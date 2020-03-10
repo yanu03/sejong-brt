@@ -95,10 +95,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             var formData = new FormData(caller.formView0.target[0]);
             if($("#employeeImg")[0].files[0]){
             	formData.append("employeeImg", $("#employeeImg")[0].files[0]);
+            }else{
+            	axDialog.alert("사원이미지 파일을 등록해주세요.");
+            	return false;
             }
+            
             
             if($("#certiImg")[0].files[0]){
             	formData.append("certiImg", $("#certiImg")[0].files[0]);
+            }else{
+            	axDialog.alert("실명제판이미지 파일을 등록해주세요.");
+            	return false;
             }
                       
             axboot.promise()
@@ -228,7 +235,8 @@ fnObj.pageStart = function () {
     this.gridView0.initView();
     this.formView0.initView();
     numberOnly();
-    licenNoMask();
+    //licenNoMask();
+    formatter();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -492,7 +500,6 @@ function preview_ChangeImage(input, id) {
     	reader.readAsDataURL(input.files[0]);
     }
     
-    reader
 }
 
 function numberOnly(){
@@ -501,6 +508,34 @@ function numberOnly(){
     });
 }
 
-function licenNoMask(){
-	$('input[name="licenNo"]').mask('00-00-000000-00', {'translation': {0: {pattern: /[0-9*]/}}});
+
+function licenseMask(){
+	ax5.ui.formatter.formatter["license"] = {
+	        getEnterableKeyCodes: function (_opts) {
+	            var enterableKeyCodes = {
+	                '189': '-' // eventKeyCode
+	            };
+	            return jQuery.extend(
+	                enterableKeyCodes,
+	                ax5.ui.formatter.formatter.ctrlKeys,
+	                ax5.ui.formatter.formatter.numKeys
+	            );
+	        },
+	        getPatternValue: function (_opts, optIdx, e, val, eType) {
+	            val = val.replace(/\D/g, "");
+	            var regExpPattern = /^([0-9]{2})\-?([0-9]{2})?\-?([0-9]{6})?\-?([0-9]{2})?/;
+	            return val.replace(regExpPattern, function (a, b) {
+	                var nval = [arguments[1]];
+	                if (arguments[2]) nval.push(arguments[2]);
+	                if (arguments[3]) nval.push(arguments[3]);
+	                if (arguments[4]) nval.push(arguments[4]);
+	                return nval.join("-");
+	            });
+	        }
+	    };
+	$('[data-ax5formatter]').ax5formatter();
+}
+
+function formatter(){
+	licenseMask();
 }

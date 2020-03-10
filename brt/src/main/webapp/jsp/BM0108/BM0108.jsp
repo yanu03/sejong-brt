@@ -109,7 +109,7 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.licenNo" width="380px" labelClazz="required">
-                    			<input type="text" numberOnly name="licenNo" title="<ax:lang id="ax.admin.BM0108F0.licenNo"/>" data-ax-path="licenNo" data-key="true" class="form-control W120" maxlength="15" data-ax-validate="required"/>
+                    			<input type="text"  data-ax5formatter="license" name="licenNo" title="<ax:lang id="ax.admin.BM0108F0.licenNo"/>" data-ax-path="licenNo" data-key="true" class="form-control W120" maxlength="15" data-ax-validate="required"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.certiDate" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
                     			<div class="input-group" data-ax5picker="date" style="width:100px;">
@@ -121,7 +121,7 @@
                     		</ax:td>
                     	</ax:tr>
                     	<ax:tr>
-                    		<ax:td labelStyle="height:360px;" label="ax.admin.BM0108F0.attFile" width="380px">
+                    		<ax:td labelStyle="height:360px;" label="ax.admin.BM0108F0.attFile" width="380px" labelClazz="required">
 
 								<div style="float:left;width:260px;border: 0px solid #D8D8D8;">
 									<input type="file" id="employeeImg" name="employeeImg" accept="image/jpeg"
@@ -135,7 +135,7 @@
 								 </div>
 
                     		</ax:td>
-                    		<ax:td labelStyle="height:360px;" label="실명제판이미지" width="380px" style="border-left: 1px solid #D8D8D8;">
+                    		<ax:td labelStyle="height:360px;" label="실명제판이미지" width="380px" style="border-left: 1px solid #D8D8D8;" labelClazz="required">
 
 								<div style="float:left;width:260px;border:0px solid #D8D8D8;">
 									<input type="file" id="certiImg" name="certiImg" accept="image/jpeg"
@@ -152,13 +152,13 @@
                     	
                     	<ax:tr>
                       		<ax:td label="ax.admin.BM0108F0.retireYn" width="380px" labelClazz="required">
-                    			<ax:SM0105 groupCd="RETIRE_YN" id="retireYn" name="retireYn" dataPath="retireYn" clazz="form-control" type="radio"/>
+                    			<ax:SM0105 groupCd="RETIRE_YN" id="retireYn" name="retireYn" dataPath="retireYn" clazz="form-control" type="select"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.remark" width="100%">
-                    			<textarea maxlength="200" name="remark" data-ax-path="remark" data-key="true" class="form-control"></textarea>
+                    			<textarea maxlength="200" name="remark" data-ax-path="remark" data-key="true" class="form-control" ></textarea>
                     		</ax:td>
                     	</ax:tr>
                     	 
