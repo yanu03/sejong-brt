@@ -22,7 +22,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	/** 차내장치 업데이트 **/
     	axboot.ajax({
             type: "GET",
-            url: "/api/v1/SM0108G0S0",
+            url: "/api/v1/SM0107G0S0",
             data: null,
             callback: function (res) {
                 caller.gridView0.setData(res);
@@ -34,7 +34,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	/** 음성예약 **/
     	axboot.ajax({
             type: "GET",
-            url: "/api/v1/SM0108G1S0",
+            url: "/api/v1/SM0107G1S0",
             data: null,
             callback: function (res) {
                 caller.gridView1.setData(res);
@@ -46,7 +46,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	/** 행선지안내기 **/
     	axboot.ajax({
             type: "GET",
-            url: "/api/v1/SM0108G2S0",
+            url: "/api/v1/SM0107G2S0",
             data: null,
             callback: function (res) {
                 caller.gridView2.setData(res);
@@ -58,7 +58,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	/** 편성영상예약 관리 **/
     	axboot.ajax({
             type: "GET",
-            url: "/api/v1/SM0108G3S0",
+            url: "/api/v1/SM0107G3S0",
             data: null,
             callback: function (res) {
                 caller.gridView3.setData(res);
@@ -70,7 +70,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	/** 화면설정예약 관리 **/
     	axboot.ajax({
             type: "GET",
-            url: "/api/v1/SM0108G4S0",
+            url: "/api/v1/SM0107G4S0",
             data: null,
             callback: function (res) {
                 caller.gridView4.setData(res);
@@ -116,7 +116,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			        .then(function (ok, fail, data) {
 			        	axboot.ajax({
 			            	type: "POST",
-			                url: "/api/v1/SM0108G0U0",
+			                url: "/api/v1/SM0107G0U0",
 			                data: JSON.stringify({
 			                	list: list
 			                }),
@@ -152,7 +152,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			        .then(function (ok, fail, data) {
 			        	axboot.ajax({
 			            	type: "POST",
-			                url: "/api/v1/SM0108G1U0",
+			                url: "/api/v1/SM0107G1U0",
 			                data: JSON.stringify({
 			                	list: list
 			                }),
@@ -188,7 +188,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			        .then(function (ok, fail, data) {
 			        	axboot.ajax({
 			            	type: "POST",
-			                url: "/api/v1/SM0108G2U0",
+			                url: "/api/v1/SM0107G2U0",
 			                data: JSON.stringify({
 			                	list: list
 			                }),
@@ -224,7 +224,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			        .then(function (ok, fail, data) {
 			        	axboot.ajax({
 			            	type: "POST",
-			                url: "/api/v1/SM0108G3U0",
+			                url: "/api/v1/SM0107G3U0",
 			                data: JSON.stringify({
 			                	list: list
 			                }),
@@ -260,7 +260,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			        .then(function (ok, fail, data) {
 			        	axboot.ajax({
 			            	type: "POST",
-			                url: "/api/v1/SM0108G4U0",
+			                url: "/api/v1/SM0107G4U0",
 			                data: JSON.stringify({
 			                	list: list
 			                }),
@@ -337,7 +337,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 3,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [          		 
-            		 {key: "vhcNo",			label: ADMIN("ax.admin.SM0108.vhc.no"),			width: 100,		align:"center",		sortable: true},
+            		 {key: "vhcNo",			label: ADMIN("ax.admin.SM0107.vhc.no"),			width: 100,		align:"center",		sortable: true},
             		 {key: "completeYn",	label: ADMIN("ax.admin.reservation.status"),	width: 70,		align:"center",		formatter: function() {
             			 if(this.item.completeYn == "N")
             					return ADMIN("ax.admin.item.reservation");
@@ -347,11 +347,11 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
      	       				return "";
             		 }},
             		 {key: "rsvDate",		label: ADMIN("ax.admin.reservation.date"),		width: 80,		align:"center",		sortable: true},
-            		 {key: "mngId",			label: ADMIN("ax.admin.SM0108.mng.id"),		width: 150,		align:"center"},
-                     {key: "maker",			label: ADMIN("ax.admin.SM0108.maker"),		width: 90,		align:"center"},
-                     {key: "dvcKind",		label: ADMIN("ax.admin.SM0108.dvc.kind"),		width: 130,		align:"center"},
-                     {key: "modelNm",		label: ADMIN("ax.admin.SM0108.model.nm"),		width: 130,		align:"center"},
-                     {key: "instLoc",		label: ADMIN("ax.admin.SM0108.inst.loc"),		width: 130,		align:"center"},
+            		 {key: "mngId",			label: ADMIN("ax.admin.SM0107.mng.id"),		width: 150,		align:"center"},
+                     {key: "maker",			label: ADMIN("ax.admin.SM0107.maker"),		width: 90,		align:"center"},
+                     {key: "dvcKind",		label: ADMIN("ax.admin.SM0107.dvc.kind"),		width: 130,		align:"center"},
+                     {key: "modelNm",		label: ADMIN("ax.admin.SM0107.model.nm"),		width: 130,		align:"center"},
+                     {key: "instLoc",		label: ADMIN("ax.admin.SM0107.inst.loc"),		width: 130,		align:"center"},
                  ],
             
             body: {
@@ -397,7 +397,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             multipleSelect : true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "vhcNo",		label: ADMIN("ax.admin.SM0108.vhc.no"),			width: 100,		align: "center",	sortable: true},
+            	{key: "vhcNo",		label: ADMIN("ax.admin.SM0107.vhc.no"),			width: 100,		align: "center",	sortable: true},
             	{key: "completeYn",	label: ADMIN("ax.admin.reservation.status"),	width: 70,		align: "center",	formatter: function() {
             		if(this.item.completeYn == "N")
        					return ADMIN("ax.admin.item.reservation");
@@ -461,7 +461,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
             multipleSelect :true,
             target: $('[data-ax5grid="gridView2"]'),
             columns: [
-            	{key: "vhcNo",			label: ADMIN("ax.admin.SM0108.vhc.no"),			width: 100,		align:"center",		sortable: true},
+            	{key: "vhcNo",			label: ADMIN("ax.admin.SM0107.vhc.no"),			width: 100,		align:"center",		sortable: true},
 	       		{key: "completeYn",		label: ADMIN("ax.admin.reservation.status"),	width: 70,		align:"center",		formatter: function() {
 	       			if(this.item.completeYn == "N")
 	       				return ADMIN("ax.admin.item.reservation");
@@ -526,7 +526,7 @@ fnObj.gridView3 = axboot.viewExtend(axboot.gridView, {
             multipleSelect :true,
             target: $('[data-ax5grid="gridView3"]'),
             columns: [
-            	{key: "vhcNo",			label: ADMIN("ax.admin.SM0108.vhc.no"),			width: 100,		align:"center",		sortable: true},
+            	{key: "vhcNo",			label: ADMIN("ax.admin.SM0107.vhc.no"),			width: 100,		align:"center",		sortable: true},
 	       		{key: "completeYn",		label: ADMIN("ax.admin.reservation.status"),	width: 70,		align:"center",		formatter: function() {
 	       			if(this.item.completeYn == "N")
 	       				return ADMIN("ax.admin.item.reservation");
@@ -536,11 +536,11 @@ fnObj.gridView3 = axboot.viewExtend(axboot.gridView, {
 	       				return "";
 	       		}},
 	       		{key: "rsvDate",		label: ADMIN("ax.admin.reservation.date"),		width: 80,		align:"center",		sortable: true},
-	       		{key: "mngId",			label: ADMIN("ax.admin.SM0108.mng.id"),			width: 150,		align:"center"},
-                {key: "makerNm",		label: ADMIN("ax.admin.SM0108.maker"),			width: 90,		align:"center"},
-                {key: "dvcKindNm",		label: ADMIN("ax.admin.SM0108.dvc.kind"),		width: 130,		align:"center"},
-                {key: "modelNm",		label: ADMIN("ax.admin.SM0108.model.nm"),		width: 130,		align:"center"},
-                {key: "instLocNm",		label: ADMIN("ax.admin.SM0108.inst.loc"),		width: 130,		align:"center"},
+	       		{key: "mngId",			label: ADMIN("ax.admin.SM0107.mng.id"),			width: 150,		align:"center"},
+                {key: "makerNm",		label: ADMIN("ax.admin.SM0107.maker"),			width: 90,		align:"center"},
+                {key: "dvcKindNm",		label: ADMIN("ax.admin.SM0107.dvc.kind"),		width: 130,		align:"center"},
+                {key: "modelNm",		label: ADMIN("ax.admin.SM0107.model.nm"),		width: 130,		align:"center"},
+                {key: "instLocNm",		label: ADMIN("ax.admin.SM0107.inst.loc"),		width: 130,		align:"center"},
             ],
             header:{
             	selector: false,
@@ -587,7 +587,7 @@ fnObj.gridView4 = axboot.viewExtend(axboot.gridView, {
             multipleSelect :true,
             target: $('[data-ax5grid="gridView4"]'),
             columns: [
-            	{key: "vhcNo",			label: ADMIN("ax.admin.SM0108.vhc.no"),			width: 100,		align:"center",		sortable: true},
+            	{key: "vhcNo",			label: ADMIN("ax.admin.SM0107.vhc.no"),			width: 100,		align:"center",		sortable: true},
 	       		{key: "completeYn",		label: ADMIN("ax.admin.reservation.status"),	width: 70,		align:"center",		formatter: function() {
 	       			if(this.item.completeYn == "N")
 	       				return ADMIN("ax.admin.item.reservation");
@@ -597,11 +597,11 @@ fnObj.gridView4 = axboot.viewExtend(axboot.gridView, {
 	       				return "";
 	       		}},
 	       		{key: "rsvDate",		label: ADMIN("ax.admin.reservation.date"),		width: 80,		align:"center",		sortable: true},
-	       		{key: "mngId",			label: ADMIN("ax.admin.SM0108.mng.id"),			width: 150,		align:"center"},
-                {key: "makerNm",		label: ADMIN("ax.admin.SM0108.maker"),			width: 90,		align:"center"},
-                {key: "dvcKindNm",		label: ADMIN("ax.admin.SM0108.dvc.kind"),		width: 130,		align:"center"},
-                {key: "modelNm",		label: ADMIN("ax.admin.SM0108.model.nm"),		width: 130,		align:"center"},
-                {key: "instLocNm",		label: ADMIN("ax.admin.SM0108.inst.loc"),		width: 130,		align:"center"},
+	       		{key: "mngId",			label: ADMIN("ax.admin.SM0107.mng.id"),			width: 150,		align:"center"},
+                {key: "makerNm",		label: ADMIN("ax.admin.SM0107.maker"),			width: 90,		align:"center"},
+                {key: "dvcKindNm",		label: ADMIN("ax.admin.SM0107.dvc.kind"),		width: 130,		align:"center"},
+                {key: "modelNm",		label: ADMIN("ax.admin.SM0107.model.nm"),		width: 130,		align:"center"},
+                {key: "instLocNm",		label: ADMIN("ax.admin.SM0107.inst.loc"),		width: 130,		align:"center"},
             ],
             header:{
             	selector: false,

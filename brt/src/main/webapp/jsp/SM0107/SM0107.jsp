@@ -10,7 +10,7 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
-        <script type="text/javascript" src="<c:url value='/assets/js/view/SM0108/SM0108.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/view/SM0107/SM0107.js' />"></script>
     </jsp:attribute>
     <jsp:body>
 
