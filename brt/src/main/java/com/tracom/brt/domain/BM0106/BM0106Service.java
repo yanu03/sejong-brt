@@ -28,6 +28,7 @@ public class BM0106Service extends BaseService<BmStaNmInfoVO, String> {
     
     public boolean BM0106F0U0(BmStaNmInfoVO vo) {
     	if(mapper.BM0106G0S1(vo.getStaId()) > 0) {
+    		mapper.uptLineCnt(vo);
     		if(mapper.BM0106F0U0(vo) > 0 ) {
     			return true;
     		}else {
@@ -35,6 +36,7 @@ public class BM0106Service extends BaseService<BmStaNmInfoVO, String> {
     		}
     	}
     	else {
+    		mapper.uptLineCnt(vo);
     		if(mapper.BM0106F0I0(vo) > 0) {
     			return true;
     		}else {

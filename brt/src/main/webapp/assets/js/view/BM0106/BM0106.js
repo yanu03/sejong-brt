@@ -119,6 +119,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_UPDATE: function(caller, act, data) {
     	if (caller.formView0.validate()) {
+    		if($('#lineCnt').val() < 1){
+    			axDialog.alert("1이상을 입력해주세요");
+    			return false;
+    		}else if(!$('#lineCnt').isNumeric){
+    			axDialog.alert("숫자만 입력해주세요");
+    			return false;
+    		}
             var formData = caller.formView0.getData();
             axboot.promise()
                 .then(function (ok, fail, data) {
@@ -149,7 +156,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = true;
     	selectedRow = data;
         caller.formView0.setData(data);
-        mapMarker(data.lati, data.longi);
     },
     
     PAGE_SWEEP: function(caller, act, data){
@@ -183,7 +189,6 @@ fnObj.pageStart = function () {
     this.gridView0.initView();
     this.formView0.initView();
     
-    initTmap("100%", "100%");
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -273,6 +278,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "enNm",	label: ADMIN("ax.admin.BM0106F0.enNm"),		width: 120},
                 {key: "cnNm",	label: ADMIN("ax.admin.BM0106F0.cnNm"),		width: 120},
                 {key: "jpNm",	label: ADMIN("ax.admin.BM0106F0.jpNm"),		width: 120},
+                {key: "lineCnt",label: "운영노선 수",							width: 80, align: "right"},
                 {key: "remark",	label: ADMIN("ax.admin.BM0106F0.remark"),	width: 100}
             ],
             body: {
@@ -422,3 +428,10 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 /********************************************************************************************************************/
 /** 정류장관리 전용 **/
 /********************************************************************************************************************/
+
+
+function maxLengthCheck(object){
+    if (object.value.length > object.maxLength){
+        object.value = object.value.slice(0, object.maxLength);
+    }    
+}

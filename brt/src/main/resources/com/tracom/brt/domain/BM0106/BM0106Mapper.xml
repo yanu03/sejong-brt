@@ -5,14 +5,15 @@
 
     <select id="BM0106G0S0" parameterType="String" resultType="bmStaNmInfoVO">
     	SELECT
-			  STA.STA_ID
-		    , STA.STA_NM
-		    , STA.LATI
-		    , STA.LONGI
-		    , NM.KR_NM
-		    , NM.EN_NM
-		    , NM.CN_NM
-		    , NM.JP_NM
+			  STA.STA_ID	AS STA_ID
+		    , STA.STA_NM	AS STA_NM
+		    , STA.LATI		AS LATI
+		    , STA.LONGI		AS LONGI
+		    , NM.KR_NM		AS KR_NM
+		    , NM.EN_NM		AS EN_NM
+		    , NM.CN_NM		AS CN_NM
+		    , NM.JP_NM		AS JP_NM
+		    , STA.LINE_CNT	AS LINE_CNT
 		    , REMARK
 		FROM
 			BM_STA_INFO STA
@@ -103,4 +104,12 @@
     			</foreach>
     		)
     </delete>
+    
+    	
+	<update id="uptLineCnt" parameterType="BmStaNmInfoVO">
+		UPDATE BM_STA_INFO SET
+			LINE_CNT = #{lineCnt}
+		WHERE
+			STA_ID = #{staId}
+	</update>
 </mapper>

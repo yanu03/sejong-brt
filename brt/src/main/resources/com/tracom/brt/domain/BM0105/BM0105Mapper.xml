@@ -123,14 +123,47 @@
     <insert id="setNewStaNm" parameterType="bmStaInfoVO">
     	INSERT INTO BM_STA_NM_INFO (
 			  	STA_ID
-		      , KR_NM) 
+		      , KR_NM
+		      , EN_NM) 
 		      
 		SELECT
 			  #{staId}
-			, REPLACE(#{staNm}, ",", ".")
+			, REPLACE(#{staNm}, ',', '.')
+			, REPLACE(#{staNm}, ',', '.')
 		FROM DUAL
 		WHERE
 			NOT EXISTS (SELECT * FROM BM_STA_NM_INFO WHERE STA_ID=#{staId})
     </insert>
+
+	
+	<select id="getNoNamed" resultType="bmstaInfoVO">
+		SELECT
+			  STA.STA_ID AS STA_ID
+		    , STA.STA_NM AS STA_NM
+		    , NM.KR_NM	AS KR_NM
+		FROM
+			BM_STA_INFO STA
+		    LEFT JOIN BM_STA_NM_INFO NM
+		    ON STA.STA_ID = NM.STA_ID
+		WHERE KR_NM IS NULL || KR_NM = '';
+	</select>
+	
+	<update id="setNoNamed" parameterType="bmStaInfoVO">
+		UPDATE BM_STA_NM_INFO
+		SET
+			KR_NM = #{staNm}
+			KR_EN = #{staNm}
+		WHERE
+			STA_ID = #{staId}
+	</update>
+	
+	<select id="getStaNm" parameterType="bmStaInfoVO" resultType="bmStaInfoVO">
+		SELECT
+			*
+		FROM
+			BM_STA_NM_INFO
+		WHERE
+			STA_ID = #{staId}
+	</select>
 
 </mapper>

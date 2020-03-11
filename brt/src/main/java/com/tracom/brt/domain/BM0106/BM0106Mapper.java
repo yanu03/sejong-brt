@@ -14,4 +14,6 @@ public interface BM0106Mapper extends MyBatisMapper {
 	List<BmStaInfoVO> getSwpList();
 	int deleteStaInfo(BmStaInfoVO vo);
 	int deleteStaNmInfo(BmStaInfoVO vo);
+	
+	int uptLineCnt(BmStaNmInfoVO vo);
 }
