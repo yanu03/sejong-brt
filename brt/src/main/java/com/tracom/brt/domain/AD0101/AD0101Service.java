@@ -26,6 +26,9 @@ public class AD0101Service extends BaseService<BmRoutInfoVO, String>{
 	@Transactional
 	public void AD0101G1I0(Map<String, Object> params) {
 		mapper.AD0101G1D0(params);
-		mapper.AD0101G1I0(params);
+		
+		if(((List<Map<String, Object>>) params.get("posList")).size() != 0) {
+			mapper.AD0101G1I0(params);
+		}
 	}
 }

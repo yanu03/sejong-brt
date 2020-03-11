@@ -277,7 +277,6 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             body: {
                 onClick: function () {
                     this.self.select(this.dindex);
-                    ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
                 }
             },
         });
