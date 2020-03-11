@@ -330,8 +330,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "stStaNm",		label: ADMIN("ax.admin.BM0104G0.stStaNm"),											width: 160},
                 {key: "edStaNm",		label: ADMIN("ax.admin.BM0104G0.edStaNm"),											width: 160},
                 {key: "wayDivNm",		label: ADMIN("ax.admin.BM0104G0.wayDiv"),											width: 60,			align: "center"},
-                {key: "userWayDivNm",		label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.userWayDiv") + "</font>",	width: 120,		align: "center"},
-                //{key: "turnDivNm",		label: ADMIN("ax.admin.BM0104G0.turnDiv"),width: 100},
+                {key: "userWayDivNm",	label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.userWayDiv") + "</font>",	width: 120,		align: "center"},
+                //{key: "turnDivNm",	label: ADMIN("ax.admin.BM0104G0.turnDiv"),width: 100},
                 {key: "dvcName",		label: ADMIN("ax.admin.BM0104G0.dvcName"),											width: 90},
                 {key: "line1Str",		label: ADMIN("ax.admin.BM0104G0.line1Str"),											width: 200},
                 {key: "line2Str",		label: ADMIN("ax.admin.BM0104G0.line2Str"),											width: 200},
@@ -339,6 +339,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "line2Satstr",	label: ADMIN("ax.admin.BM0104G0.line2Satstr"),										width: 200},
                 {key: "line1Sunstr",	label: ADMIN("ax.admin.BM0104G0.line1Sunstr"),										width: 200},
                 {key: "line2Sunstr",	label: ADMIN("ax.admin.BM0104G0.line2Sunstr"),										width: 200},
+                {key: "routShapeNm",	label: "노선 모양",																	width: 70, align: "center"},
                 {key: "updatedAt",		label: ADMIN("ax.admin.BM0104G0.updatedAt"),										width: 140,	sortable: true},
             ],
             body: {

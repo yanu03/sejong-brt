@@ -70,5 +70,9 @@ public class BmRoutInfoVO extends BaseVO {
 	
 	private MultipartFile attFile;
 	
+	/** 노선 모양 **/
+	private String routShape;
+	private String routShapeNm;
+	
 	private List<BmRoutNodeInfoVO> nodeList;
 }
