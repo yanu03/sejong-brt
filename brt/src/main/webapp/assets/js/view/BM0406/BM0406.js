@@ -196,7 +196,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
-        	lineNumberColumnWidth: 30,
         	multipleSelect : true,
         	showRowSelector: true,
         	sortable: true,
