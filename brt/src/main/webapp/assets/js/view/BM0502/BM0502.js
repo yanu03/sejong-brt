@@ -762,12 +762,13 @@ function loadSCH(){
 	loadBmpF();
 	loadBmpS();
 	
-
+	
 	axboot.ajax({
 		type: "POST",
 		data: JSON.stringify(inputF),
 		url: "/api/v1/BM0502F0S0",
 		callback: function (res) {
+			setTimeout("", 100);
 			fnObj.gridView0.setData(res);
 		}
 	});
@@ -777,6 +778,7 @@ function loadSCH(){
 		data: JSON.stringify(inputS),
 		url: "/api/v1/BM0502F0S0",
 		callback: function (res) {
+			setTimeout("", 100);
 			fnObj.gridView1.setData(res);
 		}
 	});	
