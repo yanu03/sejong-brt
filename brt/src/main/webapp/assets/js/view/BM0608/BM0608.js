@@ -64,6 +64,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         clearFiles();
         var list = makeData();
         caller.gridView1.setData(list);
+        
+        $("#bgFilename").text("");
+        $("#landFilename").text("");
+        $("#nextBgFilename").text("");
     },
     
     PAGE_DELETE: function(caller, act, data) {
@@ -115,6 +119,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        	formData.append("nextstopbg", $("#nextstopbg")[0].files[0]);
 	        }
 	    	
+	    	if($("#background")[0].files[0] == undefined){
+	    		axDialog.alert("전체배경 파일을 업로드하세요");
+	    		return false;
+	    	}
+	    	
+	    	if($("#land")[0].files[0] == undefined){
+	    		axDialog.alert("정류장안내 파일을 업로드하세요");
+	    		return false;
+	    	}
+	    	
+	    	if($("#nextstopbg")[0].files[0] == undefined){
+	    		axDialog.alert("이번정류장 파일을 업로드하세요");
+	    		return false;
+	    	}
 	    	var d = fnObj.gridView1.getData();
 
 	    	var fontColor = "";
@@ -243,6 +261,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
         caller.gridView1.setData(frame);
         
+        $("#bgFilename").text("background.png");
+        $("#landFilename").text("land.png");
+        $("#nextBgFilename").text("nextstopbg.png");
+        
     },
     
     CHANGE_ALL: function (caller, act, data) {
@@ -276,77 +298,46 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
 });
 
-
-
-
-
-/*이미지확인*/
-$("input[id=bmpFile]").change(function(){
-    
-    var ext = $(this).val().split(".").pop().toLowerCase();
-    
-    if($.inArray(ext,["bmp", "BMP"]) == -1) {
-    	axDialog.alert("bmp 파일만 업로드 가능합니다.");
-        $("input[id=bmpFile]").val("");
-        return;
-    }
-    
-    /*var fileSize = this.files[0].size;
-    var maxSize = 1024 * 1024;
-    if(fileSize > maxSize) {
-        axDialog.alert("파일용량을 초과하였습니다.");
-        return;
-    }*/
-    
-    var file  = this.files[0];
-    var _URL = window.URL || window.webkitURL;
-    var img = new Image();
-    
-    img.src = _URL.createObjectURL(file);
-    img.onload = function() {
-        //axDialog.alert(img.width);
-        //axDialog.alert(img.height);
-        
-        preview_ChangeImage("src", "previewImg");
-    	
-        /*if(img.width != 384 || img.height != 64) {
-            axDialog.alert("이미지 가로 684px, 세로 64px로 맞춰서 올려주세요.");
-            $("input[id=bmpFile]").val("");
-        } */
-    }
-});
-
-
-$("input[id=bmpFile]").change(function(){
-    
-    var ext = $(this).val().split(".").pop().toLowerCase();
-    
-    if($.inArray(ext,["bmp", "BMP"]) == -1) {
-    	axDialog.alert("bmp 파일만 업로드 가능합니다.");
-        $("input[id=bmpFile]").val("");
-        return;
-    }
-    
-    /*var fileSize = this.files[0].size;
-    var maxSize = 1024 * 1024;
-    if(fileSize > maxSize) {
-        axDialog.alert("파일용량을 초과하였습니다.");
-        return;
-    }*/
-    
-    var file  = this.files[0];
-    var _URL = window.URL || window.webkitURL;
-    var img = new Image();
-    
-    img.src = _URL.createObjectURL(file);
-    img.onload = function() {
-        //axDialog.alert(img.width);
-        //axDialog.alert(img.height);
-        
-        preview_ChangeImage("src", "previewImg");
-    	
-    }
-});
+function fileVal(){	
+	$("input[id=background]").change(function(){
+	    var ext = $(this).val().split(".").pop().toLowerCase();
+	    
+	    if($.inArray(ext,["png", "PNG", ""]) == -1) {
+	    	axDialog.alert("png 파일만 업로드 가능합니다.");
+	        $("input[id=background]").val("");
+	        return;
+	    }else if($.inArray(ext,["png", "PNG", ""]) == 2) {
+	    	$("input[id=background]").val("");
+	        return;
+	    }
+	});
+	
+	$("input[id=land]").change(function(){
+	    var ext = $(this).val().split(".").pop().toLowerCase();
+	    
+	    if($.inArray(ext,["png", "PNG", ""]) == -1) {
+	    	axDialog.alert("png 파일만 업로드 가능합니다.");
+	        $("input[id=land]").val("");
+	        return;
+	    }else if($.inArray(ext,["png", "PNG", ""]) == 2) {
+	    	$("input[id=land]").val("");
+	        return;
+	    }
+	});
+	
+	$("input[id=nextstopbg]").change(function(){
+	    var ext = $(this).val().split(".").pop().toLowerCase();
+	    
+	    if($.inArray(ext,["png", "PNG", ""]) == -1) {
+	    	axDialog.alert("png 파일만 업로드 가능합니다.");
+	        $("input[id=nextstopbg]").val("");
+	        return;
+	    }else if($.inArray(ext,["png", "PNG", ""]) == 2) {
+	    	$("input[id=nextstopbg]").val("");
+	        return;
+	    }
+	});
+}
 /********************************************************************************************************************/
 
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
@@ -356,6 +347,7 @@ fnObj.pageStart = function () {
     this.formView0.initView();
     this.gridView1.initView();
 	this.searchView0.initView();
+	fileVal();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
     clickUserBtn();
 };
