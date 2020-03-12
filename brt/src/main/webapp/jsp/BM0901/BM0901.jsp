@@ -66,11 +66,11 @@
                         <ax:tr>
                             <ax:td label="ax.admin.BM0901G0.timeKo" width="50%" labelClazz="required">
 								<input name="timeKo" id="timeKo" title="<ax:lang id="ax.admin.BM0901G0.timeKo"/>"
-									 data-ax-path="timeKo" data-key="true" class="form-control" min="0" maxlength="3" oninput="maxLengthCheck(this)" type="number" style="width:50px;" data-ax-validate="required"/>
+									 data-ax-path="timeKo" class="form-control" min="0" maxlength="3" oninput="maxLengthCheck(this)" type="number" style="width:50px;" data-ax-validate="required"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0901G0.timeEn" width="50%" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
                             <input name="timeEn" id="timeEn" title="<ax:lang id="ax.admin.BM0901G0.timeEn"/>"
-									 data-ax-path="timeEn" data-key="true" class="form-control" min="0" maxlength="3" oninput="maxLengthCheck(this)" type="number" style="width:50px;" data-ax-validate="required"/>
+									 data-ax-path="timeEn" class="form-control" min="0" maxlength="3" oninput="maxLengthCheck(this)" type="number" style="width:50px;" data-ax-validate="required"/>
                             </ax:td>
                         </ax:tr>
                         
@@ -89,7 +89,7 @@
                             	<div style="float:left;width:50%;text-align:center"">
                             		<img alt="전자노선도 좌측" src="/assets/images/BM0901/1.jpg" style="width:100px;">
                             	</div>
-                            	<div style="padding-left:5px;">
+                            	<div style="padding-left:5px;" id="frameDiv">
 	                            	<ax:SM0105 groupCd="FRAME_LOC" id="frame" name="frame" dataPath="frame" type="radio"/>
                             	</div>
                             </ax:td>

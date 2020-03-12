@@ -387,11 +387,13 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", false);
     	});
+    	$('#frameDiv').show();
     },
     disable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", true);
     	});
+    	$('#frameDiv').hide();
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());
