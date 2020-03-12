@@ -51,6 +51,9 @@ import com.tracom.brt.domain.BM0608.BmScrInfoVO;
 import com.tracom.brt.domain.BM0609.BM0609Service;
 import com.tracom.brt.domain.BM0609.ScrRsvVO;
 import com.tracom.brt.domain.BM0801.BM0801Mapper;
+import com.tracom.brt.domain.BM0901.ElecRouterVO;
+import com.tracom.brt.domain.BM0902.BM0902Mapper;
+import com.tracom.brt.domain.BM0902.EdRsvVO;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
 import com.tracom.brt.domain.routeReservation.RoutListCSVVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
@@ -133,6 +136,9 @@ public class FTPHandler {
 	
 	@Inject
 	private BM0801Mapper BM0801Mapper;
+	
+	@Inject
+	private BM0902Mapper BM0902Mapper;
 	
 	private ArrayList<String> serverContentList;
 	private ArrayList<String> pathList;
@@ -476,6 +482,8 @@ public class FTPHandler {
 		
 	}
 	
+	
+	
 	//BM0503행선지안내기 예약(list 생성)
 	public void makeDstConfig(List<RoutRsvVO> rsvVO) throws Exception {
 		String txt = "";
@@ -497,6 +505,43 @@ public class FTPHandler {
 		Utils.createCSV(file, txt);
 		processSynchronize(path, fPath);
 	}
+	
+	//BM0902 전자노선도예약
+		public void reserveED(EdRsvVO vo) throws Exception {
+			String lPath = Paths.get(getRootLocalPath(), "/vehicle/", vo.getImpId(), "/device/" + vo.getDvcId(), "/config").toString();
+			String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/config";
+			
+			File dir = new File(lPath);
+			
+			if(!dir.isDirectory()) {
+				dir.mkdirs();
+			}
+
+			createFtpDirectory(fPath);
+			
+			
+			String txt = GlobalConstants.CSVForms.ELEC_ROUTER;
+			
+			ElecRouterVO config = BM0902Mapper.getEdConfig(vo);
+			String row = GlobalConstants.CSVForms.ROW_SEPARATOR
+					+ config.getTimeKo() + GlobalConstants.CSVForms.COMMA
+					+ config.getTimeEn() + GlobalConstants.CSVForms.COMMA
+					+ config.getCategory() + GlobalConstants.CSVForms.COMMA
+					+ config.getFrame() + GlobalConstants.CSVForms.COMMA
+					+ config.getFont();
+			
+			txt += row;
+
+			File file = new File(lPath + "/config.csv");
+
+			
+			try {
+				Utils.createCSV(file, txt);
+				processSynchronize(lPath, fPath);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	
 	
 	//템플릿 배경 파일 업로드
