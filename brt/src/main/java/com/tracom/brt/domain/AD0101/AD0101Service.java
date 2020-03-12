@@ -14,7 +14,7 @@ import com.tracom.brt.domain.BM0103.VHCInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 
 @Service
-public class AD0101Service extends BaseService<BmRoutInfoVO, String>{
+public class AD0101Service extends BaseService<AdVhcInfoVO, String>{
 	
 	@Inject
 	private AD0101Mapper mapper;

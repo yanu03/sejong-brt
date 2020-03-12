@@ -28,6 +28,7 @@
     		, VHC_INFO.USE_YN		AS USE_YN
     		, VHC_INFO.AD_ROUT		AS AD_ROUT
     		, VHC_INFO.AD_LVL		AS AD_LVL
+    		, DL_CD7.DL_CD_NM		AS AD_LVL_NM
     	FROM
     		BM_VHC_INFO VHC_INFO
             LEFT JOIN
@@ -51,6 +52,9 @@
             LEFT JOIN
             SM_DL_CD_INFO DL_CD6
             ON VHC_INFO.AREA = DL_CD6.DL_CD AND DL_CD6.CO_CD = 'AREA'
+            LEFT JOIN
+            SM_DL_CD_INFO DL_CD7
+            ON VHC_INFO.AD_LVL = DL_CD7.DL_CD AND DL_CD7.CO_CD = 'AD_LVL'
     	<where>
 	    	<if test="value != null">
 				VHC_NO LIKE CONCAT('%', #{value}, '%')

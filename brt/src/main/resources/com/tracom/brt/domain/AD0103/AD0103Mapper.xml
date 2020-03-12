@@ -3,147 +3,153 @@
 
 <mapper namespace="com.tracom.brt.domain.AD0103.AD0103Mapper">
 
-<!-- 좌측상단 그리드 select -->
-	<select id="BM0804G0S0" parameterType="String" resultType="bmRoutInfoVO">
+	<select id="AD0103G0S0" parameterType="String" resultType="adInstDlVO">
 		SELECT
-			  ROUT_ID
-			, MAX(UPDATED_AT) AS UPDATED_AT  
+			  AV.VHC_ID
+			, DC2.DL_CD AS AD_LVL
+			, AV.AD_POS
+			, V.AD_ROUT
+			, DC2.DL_CD_NM AS AD_LVL_NM
+			, V.VHC_NO
+			, DC.TXT_VAL1 AS AD_POS_TYPE_NM
+			, DC.DL_CD_NM AS AD_POS_NM
+			, S.UNIT_AMT
 		FROM
-			BM_ROUT_SIMULATION
-		GROUP BY ROUT_ID
-		
-		<if test="value != null">
-			HAVING ROUT_ID LIKE CONCAT('%', #{value}, '%')
-    	</if>
+			AD_VHC_INFO AS AV
+			LEFT OUTER JOIN SM_DL_CD_INFO DC
+			ON AV.AD_POS = DC.DL_CD
+			AND DC.CO_CD = 'AD_POS'
+			LEFT OUTER JOIN BM_VHC_INFO V
+			ON AV.VHC_ID = V.VHC_ID
+			LEFT OUTER JOIN SM_DL_CD_INFO DC2
+			ON V.AD_LVL = DC2.DL_CD
+			AND DC2.CO_CD = 'AD_LVL'
+			LEFT OUTER JOIN AD_STD_PRICE S
+			ON S.PRICE_TYPE = #{value}
+			AND S.AD_LVL = DC2.DL_CD
+			AND S.AD_POS = DC.DL_CD
+
 	</select>
 
-<!-- 좌측하단 그리드 select -->
-	<select id="BM0804G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
+	<select id="AD0103G0S1" parameterType="hashmap" resultType="adInstDlVO">
 		SELECT
-			  SIMUL.NODE_ID		AS NODE_ID
-		    , SIMUL.NODE_NM		AS NODE_NM
-		    , SIMUL.NODE_TYPE	AS NODE_TYPE
-		    , DLCD.DL_CD_NM 	AS NODE_TYPE_NM
-		    , SIMUL.LATI		AS LATI
-		    , SIMUL.LONGI		AS LONGI
-		    , SIMUL.SEQ			AS SEQ
-		    , SIMUL.ROUT_ID		AS ROUT_ID
+			  II.PRICE_TYPE
+			, V.AD_LVL
+			, I.AD_POS
+			, I.INST_ID
+			, I.VHC_ID
 		FROM
-			BM_ROUT_SIMULATION SIMUL
-			LEFT JOIN SM_DL_CD_INFO DLCD
-			ON DLCD.CO_CD = 'NODE_TYPE' AND SIMUL.NODE_TYPE = DLCD.TXT_VAL1
+			AD_INST_DL I
+			LEFT OUTER JOIN BM_VHC_INFO V
+			ON I.VHC_ID = V.VHC_ID
+			LEFT OUTER JOIN AD_INST_INFO II
+			ON I.INST_ID = II.INST_ID
+			AND II.PRICE_TYPE = #{priceType}
 		WHERE
-			ROUT_ID = #{routId}
-			
-			<if test="filter1 != null">
-				AND(
-				NODE_ID LIKE CONCAT('%', #{filter1}, '%')
-				OR
-				NODE_NM LIKE CONCAT('%', #{filter1}, '%')
-				)
-	    	</if>
-	    ORDER BY SEQ
+			I.INST_ID = #{instId} 
 	</select>
 	
-	<delete id="BM0804G1D0" parameterType="String">
-		DELETE FROM
-			BM_ROUT_SIMULATION
+	<select id="AD0103G1S0" parameterType="String" resultType="adInstInfoVO">
+		SELECT
+			  I.INST_ID
+			, I.INST_NM
+			, I.CUST_ID
+			, C.CUST_NM
+			, I.AD_ST_DATE
+			, I.AD_ED_DATE
+			, I.AD_AMT
+			, I.REMARK
+			, I.CONFIRM_YN
+			, I.PRICE_TYPE
+			, I.CONFIRM_YN
+		FROM
+			AD_INST_INFO I
+			LEFT OUTER JOIN BM_CUST_INFO C
+			ON I.CUST_ID = C.CUST_ID
 		WHERE
-			ROUT_ID = #{routId} 
-	</delete>
-
+			I.PRICE_TYPE = #{value}
+	</select>
 	
-	<insert id="BM0804G1I0" parameterType="bmRoutNodeInfoVO">
-    	INSERT INTO
-    		BM_ROUT_SIMULATION
-    			(
-    				  NODE_ID
-    				, NODE_NM
-    				, NODE_TYPE
-    				, LATI
-    				, LONGI
-    				, SEQ
-    				, ROUT_ID
-    				, UPDATED_AT
-    			)
-		VALUES
-			<foreach collection="voList" item="voList" separator=",">
-			(
-				<choose>
-					<when test="voList.nodeId != null">
-						#{voList.nodeId}
-					</when>
-					<otherwise>
-						<choose>
-							<when test="voList.nodeType == 30">
-			  			    	CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_TEMP_NODE_0), 7, '0'))
-							</when>
-							<when test="voList.nodeType == 1">
-								CONCAT('BS', LPAD(NEXTVAL(SEQ_BM_TEMP_STOP_0), 7, '0'))
-							</when>
-						</choose>
-					</otherwise>
-				</choose>
-			  	, #{voList.nodeNm}
-				, #{voList.nodeType}
-				, #{voList.lati}
-				, #{voList.longi} 
-				, #{voList.seq}
-				, #{routId}
-				, #{updatedAt}
-			)
-			</foreach>   
-    
-	</insert>
-	
-	<insert id="BM0804G1I1" parameterType="bmRoutNodeInfoVO">
-    	<selectKey keyProperty="routId" resultType="String" order="BEFORE">
-    		SELECT CONCAT('ROUT', LPAD(NEXTVAL(SEQ_BM_TEMP_ROUT_0), 5, '0'))
+	<insert id="AD0103F0I0" parameterType="adInstInfoVO">
+		<selectKey keyProperty="instId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('IN', LPAD(NEXTVAL(SEQ_AD_INST_INFO_0), 5, '0'))
     	</selectKey>
     	
-    	INSERT INTO
-    		BM_ROUT_SIMULATION
-    			(
-    				  NODE_ID
-    				, NODE_NM
-    				, NODE_TYPE
-    				, LATI
-    				, LONGI
-    				, SEQ
-    				, ROUT_ID
-    				, UPDATED_AT
-    			)
-		VALUES
-			<foreach collection="voList" item="voList" separator=",">
-			(
-				<choose>
-					<when test="voList.nodeId != null">
-						#{voList.nodeId}
-					</when>
-					<otherwise>
-						<choose>
-							<when test="voList.nodeType == 30">
-			  			    	CONCAT('VND', LPAD(NEXTVAL(SEQ_BM_TEMP_NODE_0), 7, '0'))
-							</when>
-							<when test="voList.nodeType == 1">
-								CONCAT('BS', LPAD(NEXTVAL(SEQ_BM_TEMP_STOP_0), 7, '0'))
-							</when>
-						</choose>
-					</otherwise>
-				</choose>
-			  	, #{voList.nodeNm}
-				, #{voList.nodeType}
-				, #{voList.lati}
-				, #{voList.longi} 
-				, #{voList.seq}
-				, #{routId}
-				, #{updatedAt}
-			)
-			</foreach>   
+    	INSERT INTO AD_INST_INFO(
+    		  INST_ID
+    		, INST_NM
+    		, CUST_ID
+    		, AD_ST_DATE
+    		, AD_ED_DATE
+    		, AD_AMT
+    		, REMARK
+    		, CONFIRM_YN
+    		, PRICE_TYPE
+    	)
+    	VALUES(
+    		  #{instId}
+    		, #{instNm}
+    		, #{custId}
+    		, #{adStDate}
+    		, #{adEdDate}
+    		, #{adAmt}
+    		, #{remark}
+    		, 'N'
+    		, #{priceType}
+    	)
 	</insert>
 	
-	<delete id="BM0804G0D0" parameterType="bmRoutNodeInfoVO">
-		DELETE FROM BM_ROUT_SIMULATION
-		WHERE ROUT_ID = #{routId}
+	<update id="AD0103F0U0" parameterType="adInstInfoVO">
+		UPDATE AD_INST_INFO
+		SET
+			  INST_NM = #{instNm}
+			, CUST_ID = #{custId}
+			, AD_ST_DATE = #{adStDate}
+			, AD_ED_DATE = #{adEdDate}
+			, AD_AMT = #{adAmt}
+			, REMARK = #{remark}
+		WHERE
+			INST_ID = #{instId}
+	</update>
+	
+	<insert id="AD0103G0I0" parameterType="adInstInfoVO">
+    	INSERT INTO AD_INST_DL(
+    		  INST_ID
+    		, VHC_ID
+    		, AD_POS
+    		, PRICE_TYPE
+    	)
+    	VALUES
+    	<foreach collection="list" item="item" separator=",">
+    	(
+    		  #{instId}
+    		, #{item.vhcId}
+    		, #{item.adPos}
+    		, #{priceType}
+    	)
+    	</foreach>
+	</insert>
+	
+	<delete id="AD0103G0D0" parameterType="adInstInfoVO">
+		 DELETE ID FROM AD_INST_DL ID
+			 LEFT OUTER JOIN AD_INST_INFO I
+			 ON ID.INST_ID = I.INST_ID
+			 AND I.PRICE_TYPE = #{priceType}
+		 WHERE
+		 	ID.INST_ID = #{instId}
+	</delete>
+	
+	<update id="AD0103G1U0" parameterType="adInstInfoVO">
+		UPDATE AD_INST_INFO
+		SET
+			CONFIRM_YN = #{confirmYn}
+		WHERE
+			INST_ID = #{instId}
+	</update>
+	
+	<delete id="AD0103G1D0" parameterType="adInstInfoVO">
+		DLEETE FROM AD_INST_INFO
+		WHERE
+			INST_ID = #{instId}
 	</delete>
 </mapper>

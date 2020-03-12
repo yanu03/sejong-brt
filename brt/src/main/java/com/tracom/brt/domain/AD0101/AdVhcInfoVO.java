@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class AdVhcInfoVO extends BaseVO {
-	String vhcId;
-	String adPos;
-	String adPosType;
-	String adPosNm;
-	String isPos;
+	private String vhcId;
+	private String adPos;
+	private String adPosType;
+	private String adPosNm;
+	private String isPos;
 }
