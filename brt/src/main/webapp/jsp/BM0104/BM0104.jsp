@@ -145,7 +145,7 @@
                             </ax:td>
                        	</ax:tr>
                        	<ax:tr>
-                       		<ax:td label="전자노선도 형태" width="500px">
+                       		<ax:td label="노선도 모양" width="500px">
                        			<ax:SM0105 groupCd="ROUT_SHAPE" id="routShape" name="routShape" dataPath="routShape" style="width:100px;"/>
                        		</ax:td>
                        	</ax:tr>

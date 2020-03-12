@@ -39,8 +39,6 @@
     </delete>
     
     <insert id="BM0105G1I0" parameterType="bmStaInfoVO">
-    <!-- 삭제후삽입으로 수정할것! -->
-    
     	INSERT INTO
 			BM_ROUT_STA_INFO(
 							  ROUT_ID

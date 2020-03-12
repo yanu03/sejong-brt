@@ -503,11 +503,23 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             //showRowSelector: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-                {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80},
-                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq()},
-                //{key: "nodeType",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 30},
-                {key: "nodeTypeNm",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 50},
-                {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
+            	/*
+                {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80,	align: "center"},
+                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq(),	align: "right"},
+                {key: "nodeTypeNm",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 50,	align: "center"},
+                {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 80,	align: "center"},
+                {key: "staNo", 		label: "정류장번호",								width: 80,	align: "center", editor: editSeq()},
+                {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120, editor: editName()},
+                {key: "krNm", 		label: "국문표출명",								width: 120, editor: editName()},
+                {key: "enNm", 		label: "영문표출명",								width: 120, editor: editName()},
+                {key: "lati",		label: ADMIN("ax.admin.BM0107G1.lati"),			width: 120},
+                {key: "longi",		label: ADMIN("ax.admin.BM0107G1.longi"),		width: 120},
+                {key: "updatedAt",	label: ADMIN("ax.admin.BM0107G1.updatedAt"),	width: 120},
+                */
+            	{key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80,	align: "center"},
+                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq(),	align: "right"},
+                {key: "nodeTypeNm",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 50,	align: "center"},
+                {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 80,	align: "center"},
                 {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120, editor: editName()},
                 {key: "lati",		label: ADMIN("ax.admin.BM0107G1.lati"),			width: 120},
                 {key: "longi",		label: ADMIN("ax.admin.BM0107G1.longi"),		width: 120},
@@ -667,7 +679,8 @@ function onClickMap(e) {
 				longi: lonlat.lng(),
 				seq: seq,
 				nodeNm: routNm + "_정류장" + stnSeq,
-				nodeType: '1', 
+				nodeType: '1',
+				nodeTypeNm: '정류장',
 				icon: '',
 			});
 
@@ -714,6 +727,7 @@ function onClickMap(e) {
 				seq: seq,
 				nodeNm: routNm + "_작업노드" + seq,
 				nodeType: '30', 
+				nodeTypeNm: '지점',
 				icon: '',};
 		
 		routeData.splice(insertIndex, 0, data);

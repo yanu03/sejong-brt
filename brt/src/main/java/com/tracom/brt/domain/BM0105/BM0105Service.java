@@ -106,7 +106,7 @@ public class BM0105Service extends BaseService<BmStaInfoVO, String> {
     		}
     		
     		inputVO.setVoList(staList);
-
+    		
     		if(staList.size() > 0) {
 	    		//삽입,업데이트 정류장갯수
 	    		mapper.BM0105G1D0(vo.getRoutId());

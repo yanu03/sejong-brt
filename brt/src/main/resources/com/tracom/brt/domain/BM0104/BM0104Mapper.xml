@@ -96,6 +96,7 @@
 		            ON ROUT.ROUT_ID = RESULT.ROUT_ID
                     LEFT JOIN SM_DL_CD_INFO CD4
                     ON ROUT.ROUT_SHAPE = CD4.DL_CD
+                    AND CD4.CO_CD = 'FONT'
                     
 				GROUP BY ROUT.ROUT_ID
 				<if test="value != null">

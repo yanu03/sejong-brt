@@ -24,6 +24,9 @@ public class BmRoutNodeInfoVO extends BaseVO {
 	private String staNm;
 	private String staNo;
 	private int allPlayTm;
+
+	private String krNm;
+	private String enNm;
 	
 	/** 엑셀용 **/
 	private String x;
