@@ -23,10 +23,10 @@ var CODE = {};
 // fnObj 기본 함수 스타트와 리사이즈
 fnObj.pageStart = function () {
     var _this = this;
-    console.log(parent);
     _this.pageButtonView.initView();
+    this.parentData = parent.axboot.modal.getData();
 	
-    preview();
+    preview(this.parentData);
 };
 
 fnObj.pageResize = function () {
@@ -43,6 +43,22 @@ fnObj.pageButtonView = axboot.viewExtend({
     }
 });
 
-function preview(){
+function preview(data){
+
+	$("#videoPreview").val("");
+	$("#imagePreview").val("");
+	var url = "/api/v1/filePreview?type=video&vdoId=" + data.vdoId + "&fileType=" + data.fileType;
 	
+	//영상
+	if(data.fileType == "AV001"){
+		$('#imagePreview').hide();
+		$('#videoPreview').show();
+		$('#videoPreview').attr("src", url);
+	}
+	//이미지
+	else if(data.fileType == "AV002"){
+		$('#videoPreview').hide();
+		$('#imagePreview').show();
+		$('#imagePreview').attr("src", url);
+	}
 }
