@@ -1,7 +1,5 @@
 package com.tracom.brt.controllers;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,38 +12,51 @@ import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
-import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
-import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
-import com.tracom.brt.domain.BM0804.BM0804Service;
+import com.tracom.brt.domain.AD0103.AD0103Service;
+import com.tracom.brt.domain.AD0103.AdInstInfoVO;
 
 @RestController
 @RequestMapping(value = "/api/v1")
 public class AD0103Controller extends BaseController {
 
     @Inject
-    private BM0804Service service;
+    private AD0103Service service;
 
-    @GetMapping("/BM0903G0S0")
-    public Responses.ListResponse BM0902G0S0(RequestParams<BmRoutInfoVO> requestParams) {
-        List<BmRoutInfoVO> list = service.BM0804G0S0(requestParams);
-        return Responses.ListResponse.of(list);
+    @GetMapping("/AD0103G0S0")
+    public Responses.ListResponse AD0103G0S0(RequestParams<AdInstInfoVO> requestParams) {
+        return Responses.ListResponse.of(service.AD0103G0S0(requestParams));
     }
     
+    @GetMapping("/AD0103G0S1")
+    public Responses.ListResponse AD0103G0S1(RequestParams<AdInstInfoVO> requestParams) {
+        return Responses.ListResponse.of(service.AD0103G0S1(requestParams));
+    }
     
-    @PostMapping("/BM0903F0I0")
-    public ApiResponse BM0902F0I0(@RequestBody List<BmRoutNodeInfoVO> voList) {
-    	service.BM0804G1I0(voList);
+    @GetMapping("/AD0103G1S0")
+    public Responses.ListResponse AD0103G1S0(RequestParams<AdInstInfoVO> requestParams) {
+    	return Responses.ListResponse.of(service.AD0103G1S0(requestParams));
+    }
+    
+    @PostMapping("/AD0103F0I0")
+    public ApiResponse AD0103F0I0(@RequestBody AdInstInfoVO params) {
+    	return ok(service.AD0103F0I0(params));
+    }
+    
+    @PostMapping("/AD0103F0U0")
+    public ApiResponse AD0103F0U0(@RequestBody AdInstInfoVO params) {
+    	service.AD0103F0U0(params);
     	return ok();
     }
     
-    @PostMapping("/BM0903F0U0")
-    public ApiResponse BM0902F0U0(@RequestBody List<BmRoutNodeInfoVO> voList) {
-    	service.BM0804G1I0(voList);
+    @PostMapping("/AD0103G1U0")
+    public ApiResponse AD0103G1U0(@RequestBody AdInstInfoVO params) {
+    	service.AD0103G1U0(params);
     	return ok();
     }
     
-    @PostMapping("/BM0903G0D0")
-    public ApiResponse BM0903G0D0(@RequestBody List<BmRoutNodeInfoVO> voList) {
+    @PostMapping("/AD0103G1D0")
+    public ApiResponse AD0103G1D0(@RequestBody AdInstInfoVO params) {
+    	service.AD0103G1D0(params);
     	return ok();
     }
 }

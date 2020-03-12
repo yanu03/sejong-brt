@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class AdStdPriceVO extends BaseVO {
-	String priceId;
-	String priceType;
-	String priceTypeNm;
-	String adLvl;
-	String adLvlNm;
-	String adPos;
-	String adPosNm;
-	String adPosType;
-	int unitAmt;
-	int instAmt;
-	String remark;
+	private String priceId;
+	private String priceType;
+	private String priceTypeNm;
+	private String adLvl;
+	private String adLvlNm;
+	private String adPos;
+	private String adPosNm;
+	private String adPosType;
+	private int unitAmt;
+	private int instAmt;
+	private String remark;
 }

@@ -4,15 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.chequer.axboot.core.mybatis.MyBatisMapper;
-import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
-import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 
 public interface AD0103Mapper extends MyBatisMapper{
 	
-	List<BmRoutInfoVO> BM0804G0S0(String filter);
-	List<BmRoutNodeInfoVO> BM0804G1S0(Map map);
-	int BM0804G1I0(BmRoutNodeInfoVO vo);
-	int BM0804G1I1(BmRoutNodeInfoVO vo);
-	int BM0804G1D0(String value);
-	int BM0804G0D0(BmRoutNodeInfoVO vo);
+	List<AdInstDlVO> AD0103G0S0(String filter);
+	List<AdInstDlVO> AD0103G0S1(Map<String, Object> params);
+	List<AdInstInfoVO> AD0103G1S0(String filter);
+	int AD0103F0I0(AdInstInfoVO params);
+	int AD0103F0U0(AdInstInfoVO params);
+	int AD0103G0I0(AdInstInfoVO params);
+	int AD0103G0D0(AdInstInfoVO params);
+	int AD0103G1U0(AdInstInfoVO params);
+	int AD0103G1D0(AdInstInfoVO params);
 }

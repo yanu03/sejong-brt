@@ -37,6 +37,7 @@
 		<selectKey keyProperty="priceId" resultType="String" order="BEFORE">
     		SELECT CONCAT('PR', LPAD(NEXTVAL(SEQ_AD_STD_PRICE_0), 5, '0'))
     	</selectKey>
+    	
 		INSERT INTO AD_STD_PRICE(
 			  PRICE_TYPE
 			, AD_LVL

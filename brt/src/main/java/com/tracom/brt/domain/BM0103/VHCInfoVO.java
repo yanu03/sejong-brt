@@ -64,4 +64,6 @@ public class VHCInfoVO extends BaseVO {
 	
 	private String adLvl;
 	
+	private String adLvlNm;
+	
 }
