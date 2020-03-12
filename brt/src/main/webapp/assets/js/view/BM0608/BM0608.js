@@ -60,7 +60,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.clear();
         caller.formView0.enable();
         caller.formView0.validate(true);
-
+        selectedRow = null;
         clearFiles();
         var list = makeData();
         caller.gridView1.setData(list);
@@ -285,9 +285,26 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PREVIEW: function (caller, act, data){
+    	var input = selectedRow;
+    	//var formData = new FormData(caller.formView0.target[0]);
+    	var formData = {};
+    	formData.input = input;
+    	formData.file1 = $("#background")[0];
+    	formData.file2 = $("#land")[0];
+    	formData.file3 = $("#nextstopbg")[0];
+    	
+    	//formData.append("input", input);
+    	
+    	//formData.append("file1", $("#background")[0].files[0]);
+    	//formData.append("file2", $("#land")[0].files[0]);
+    	//formData.append("file3", $("#nextstopbg")[0].files[0]);
+    	
     	axboot.modal.open({
             modalType: "BM0608",
             param: "",
+            sendData: function(){
+            	return formData;
+            },
             callback: function (data) {
             	// 운수사, 거래처 등을 선택한 후 이벤트 ex) input에 값을 넣어 주는 등의 로직을 작성하면됨
                 this.close();

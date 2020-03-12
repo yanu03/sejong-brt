@@ -11,7 +11,7 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
-        <script type="text/javascript" src="<c:url value='/assets/js/common/BM0606_modal.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/common/BM0608_modal.js' />"></script>
     </jsp:attribute>
     <jsp:attribute name="header">
         <h3 class="title">
@@ -30,9 +30,13 @@
 
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="*" style="padding-right: 0px;">
-				<div style="width:100%; height:100%; border: solid 1px black;">
+				<div style="width:100%; border: solid 1px black; background:white;">
+					<img id="background" src="" style="position:absolute; width:100%; z-index:3"></img>
+					
+					<img id="nextstopbg" src="" style="position:absolute; width:100%; z-index:2"></img>
+
+					<img id="land" style="position:absolute; width:100%; z-index:1;"></img>
 				</div>
-				
             </ax:split-panel>
         </ax:split-layout>
 

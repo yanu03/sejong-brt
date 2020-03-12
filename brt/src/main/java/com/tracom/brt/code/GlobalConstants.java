@@ -21,6 +21,7 @@ public class GlobalConstants {
     	public static final String IMAGE		= "image";		// 이미지
     	public static final String BMP			= "BMP";		// 행선지안내기 이미지
     	public static final String BMPLOGO		= "BMPLOGO";	// 행선지안내기 시정홍보
+    	public static final String PNG			= "png";		// 승객용안내기 배경 미리보기
     }
     
     public static class VoiceTypes {
