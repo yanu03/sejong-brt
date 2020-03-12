@@ -611,7 +611,8 @@ public class FTPHandler {
 					checkNull(vo.getRange())	+ GlobalConstants.CSVForms.COMMA +
 					checkNull(vo.getX()) 		+ GlobalConstants.CSVForms.COMMA +
 					checkNull(vo.getY()) 		+ GlobalConstants.CSVForms.COMMA +
-					checkNull(vo.getNodeEname());
+					checkNull(vo.getNodeEname())+ GlobalConstants.CSVForms.COMMA +
+					checkNull(vo.getTransitCode());
 		}
 		
 		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();
@@ -717,6 +718,7 @@ public class FTPHandler {
 				list.get(seq).setRoutNo(newRow.getRoutNo());
 				list.get(seq).setRoutNmKo(newRow.getRoutNmKo());
 				list.get(seq).setRoutNmEn(newRow.getRoutNmEn());
+				list.get(seq).setRoutShape(newRow.getRoutShape());
 			}else {
 				list.add(newRow);
 			}
@@ -735,7 +737,8 @@ public class FTPHandler {
 					+ GlobalConstants.CSVForms.COMMA + vo.getRoutVersion() 
 					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNo() 
 					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNmKo()
-					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNmEn();
+					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNmEn()
+					+ GlobalConstants.CSVForms.COMMA + vo.getRoutShape();
 		}
 		
 		try {

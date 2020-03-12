@@ -87,6 +87,7 @@
 		    , DVC_NAME 					AS ROUT_NO
 		    , CONCAT(ROUT_NM, "_" , DLCD.DL_CD_NM, "_", WAY_INFO, "_", DIR_INFO) AS ROUT_NM_KO
 		    , CONCAT(ROUT_NM, "_" , DLCD.DL_CD_NM, "_", WAY_INFO, "_", DIR_INFO) AS ROUT_NM_EN
+		    , IFNULL(ROUT_SHAPE, 0) AS ROUT_SHAPE
 		FROM
 			BM_ROUT_INFO ROUT
 		    LEFT JOIN
@@ -121,6 +122,7 @@
 		    , TRUNCATE(LONGI, 6)			AS X
 		    , TRUNCATE(LATI, 6)				AS Y
 		    , NM.EN_NM						AS NODE_ENAME
+		    , IFNULL(IF(LINE_CNT >= 3, 2, LINE_CNT - 1), 0) AS TRANSIT_CODE
 		FROM
 			BM_STA_INFO STA
 		    LEFT JOIN BM_STA_NM_INFO NM
@@ -136,6 +138,7 @@
 		    , TRUNCATE(LONGI, 6)	AS X
 		    , TRUNCATE(LATI, 6)		AS Y
 		    , NULL					AS NODE_ENAME
+		    , NULL					AS TRANSIT_CODE
 		FROM
 			BM_VOC_ORGA
 	</select>
