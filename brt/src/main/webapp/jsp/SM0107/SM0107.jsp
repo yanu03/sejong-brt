@@ -40,6 +40,10 @@
 				    <ax:tab-panel label="승객용안내기 화면설정예약 관리" tabId="screenReservation" scroll="scroll" style="padding-bottom:5px;">
 			            <div data-ax5grid="gridView4" data-fit-height-content="gridView4"></div>
 				    </ax:tab-panel>
+				    
+				    <ax:tab-panel label="전자노선도 화면설정예약 관리" tabId="routerReservation" scroll="scroll" style="padding-bottom:5px;">
+			            <div data-ax5grid="gridView5" data-fit-height-content="gridView5"></div>
+				    </ax:tab-panel>
 				</ax:tab-layout>
             </ax:split-panel>
         </ax:split-layout>

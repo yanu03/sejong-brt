@@ -11,6 +11,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	ACTIONS.dispatch(ACTIONS.RELOAD_G2);
     	ACTIONS.dispatch(ACTIONS.RELOAD_G3);
     	ACTIONS.dispatch(ACTIONS.RELOAD_G4);
+    	ACTIONS.dispatch(ACTIONS.RELOAD_G5);
         return false;
     },
     
@@ -78,6 +79,18 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     },
     
+    RELOAD_G5: function(caller, act, data) {
+    	/** 화면설정예약 관리 **/
+    	axboot.ajax({
+            type: "GET",
+            url: "/api/v1/SM0107G5S0",
+            data: null,
+            callback: function (res) {
+                caller.gridView5.setData(res);
+            }
+        });
+    },
+    
     PAGE_RESERVATION_COMPLETE: function(caller, act, data) {
     	var tabId = $("[data-tab-active='true']").attr("data-tab-id");
     	
@@ -96,6 +109,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     			break;
     		case "screenReservation":
     			ACTIONS.dispatch(ACTIONS.SCREEN_RSV_COMPLETE);
+    			break;
+    		case "routerReservation":
+    			ACTIONS.dispatch(ACTIONS.ROUTER_RSV_COMPLETE);
     			break;
     	}
     },
@@ -279,6 +295,43 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             }
         });
     },
+    
+
+    ROUTER_RSV_COMPLETE: function(caller, act, data) {
+    	var list = caller.gridView5.getData("selected");
+    	
+    	if(list.length == 0) {
+    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("onreservation.complete.confirm")
+        }, function() {
+            if (this.key == "ok") {
+		    	axboot.promise()
+			        .then(function (ok, fail, data) {
+			        	axboot.ajax({
+			            	type: "POST",
+			                url: "/api/v1/SM0107G5U0",
+			                data: JSON.stringify({
+			                	list: list
+			                }),
+			                callback: function (res) {
+			                    ok(res);
+			                }
+			            });
+			        })
+			        .then(function (ok, fail, data) {
+			    		axToast.push(LANG("onreservation.complete"));
+			    		ACTIONS.dispatch(ACTIONS.RELOAD_G5);
+			        })
+			        .catch(function () {
+			
+			        });
+            }
+        });
+    },
 });
 /********************************************************************************************************************/
 
@@ -292,6 +345,7 @@ fnObj.pageStart = function () {
     this.gridView2.initView();
     this.gridView3.initView();
     this.gridView4.initView();
+    this.gridView5.initView();
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -628,4 +682,65 @@ fnObj.gridView4 = axboot.viewExtend(axboot.gridView, {
         }
         return list;
     },
+    
+});
+
+/** 차내장치 업데이트 관리 **/
+fnObj.gridView5 = axboot.viewExtend(axboot.gridView, {
+    page: {
+        pageNumber: 0,
+        pageSize: 10
+    },
+    initView: function () {
+        var _this = this;
+
+        this.target = axboot.gridBuilder({
+        	showLineNumber: true,
+            showRowSelector: true,
+            multipleSelect: true,
+        	lineNumberColumnWidth: 30,
+            frozenColumnIndex: 3,
+            target: $('[data-ax5grid="gridView5"]'),
+            	 columns: [          		 
+            		 {key: "vhcNo",			label: ADMIN("ax.admin.SM0107.vhc.no"),			width: 100,		align:"center",		sortable: true},
+            		 {key: "completeYn",	label: ADMIN("ax.admin.reservation.status"),	width: 70,		align:"center",		formatter: function() {
+            			 if(this.item.completeYn == "N")
+            					return ADMIN("ax.admin.item.reservation");
+     	       			else if(this.item.completeYn == "Y")
+     	       				return ADMIN("ax.admin.item.reservation.complete")
+     	       			else
+     	       				return "";
+            		 }},
+            		 {key: "rsvDate",		label: ADMIN("ax.admin.reservation.date"),		width: 80,		align:"center",		sortable: true},
+            		 {key: "mngId",			label: ADMIN("ax.admin.SM0107.mng.id"),		width: 150,		align:"center"},
+                     {key: "makerNm",			label: ADMIN("ax.admin.SM0107.maker"),		width: 90,		align:"center"},
+                     {key: "dvcKindNm",		label: ADMIN("ax.admin.SM0107.dvc.kind"),		width: 130,		align:"center"},
+                     {key: "modelNm",		label: ADMIN("ax.admin.SM0107.model.nm"),		width: 130,		align:"center"},
+                     {key: "instLocNm",		label: ADMIN("ax.admin.SM0107.inst.loc"),		width: 130,		align:"center"},
+                 ],
+            
+            body: {
+            	 mergeCells:["vhcNo"],
+            	 onClick: function () {
+                    this.self.select(this.dindex);
+                }
+            },
+        });
+    },
+    getData: function (_type) {
+        var list = [];
+        var _list = this.target.getList(_type);
+
+        if (_type == "modified" || _type == "deleted") {
+            list = ax5.util.filter(_list, function () {
+                return this.key;
+            });
+        } else {
+            list = _list;
+        }
+        return list;
+    },
+    selectAll: function(flag) {
+    	this.target.selectAll({selected: flag});
+    }
 });

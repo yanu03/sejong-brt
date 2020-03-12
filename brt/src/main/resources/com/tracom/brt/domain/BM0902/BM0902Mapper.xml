@@ -31,7 +31,7 @@
 			DVC.USE_YN = 'Y'
 			AND DL.TXT_VAL1 = 'ED'
 			AND DVC.MNG_ID IS NOT NULL
-		ORDER BY VHC.VHC_ID, DVC.MNG_ID;
+		ORDER BY VHC.VHC_ID, DVC.MNG_ID
 	</select>
 	
 	<select id="getEdConfig" parameterType="edRsvVO" resultType="elecRouterVO">

@@ -238,6 +238,44 @@
 		GROUP BY D.DVC_ID
     </select>
     
+    <select id="SM0107G5S0" resultType="edRsvVO">
+		SELECT
+			  R.RSV_ID
+			, V.VHC_NO
+			, R.COMPLETE_YN
+			, SR.RSV_DATE
+			, R.MNG_ID
+			, DC1.DL_CD_NM		AS MAKER_NM
+			, DC2.DL_CD_NM		AS DVC_KIND_NM
+			, H.MODEL_NM
+			, DC3.DL_CD_NM		AS INST_LOC_NM
+		FROM
+			BM_ED_RSV_RST R
+			INNER JOIN BM_ED_RSV SR
+			ON R.RSV_ID = SR.RSV_ID
+			LEFT OUTER JOIN BM_DVC_INFO D
+			ON R.MNG_ID = D.MNG_ID
+			LEFT OUTER JOIN BM_DVC_HIST H
+			ON D.DVC_ID = H.DVC_ID
+			LEFT OUTER JOIN BM_VHC_INFO V
+			ON D.VHC_ID = V.VHC_ID
+			LEFT OUTER JOIN SM_DL_CD_INFO DC1
+			ON D.MAKER = DC1.DL_CD
+			AND DC1.CO_CD = 'DVC_MAKER'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC2
+			ON D.DVC_KIND = DC2.DL_CD
+			AND DC2.CO_CD = 'DVC_KIND'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC3
+			ON D.INST_LOC = DC3.DL_CD
+			AND DC3.CO_CD = 'INST_LOC'
+		WHERE
+			V.USE_YN = 'Y'
+			AND D.USE_YN = 'Y'
+			AND R.COMPLETE_YN = 'N'
+		GROUP BY D.DVC_ID
+    </select>
+    
+    
     <update id="SM0107G0U0" parameterType="hashmap">
     	<foreach collection="list" item="item" separator=";">
     		UPDATE BM_UPD_LOG
@@ -292,6 +330,19 @@
     <update id="SM0107G4U0" parameterType="hashmap">
     	<foreach collection="list" item="item" separator=";">
     		UPDATE BM_SCR_RSV_RST
+    		SET
+    			  PROCE_RST = 'CD999'
+    			, SEND_DATE = NOW()
+    			, COMPLETE_YN = 'Y'
+    		WHERE
+    			RSV_ID = #{item.rsvId}
+    			AND MNG_ID = #{item.mngId}
+    	</foreach>;
+    </update>
+    
+    <update id="SM0107G5U0" parameterType="hashmap">
+    	<foreach collection="list" item="item" separator=";">
+    		UPDATE BM_ED_RSV_RST
     		SET
     			  PROCE_RST = 'CD999'
     			, SEND_DATE = NOW()

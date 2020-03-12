@@ -13,6 +13,7 @@ import com.tracom.brt.domain.BM0103.VHCInfoVO;
 import com.tracom.brt.domain.BM0205.VhcDvcUpdateVO;
 import com.tracom.brt.domain.BM0607.VdoRsvVO;
 import com.tracom.brt.domain.BM0609.ScrRsvVO;
+import com.tracom.brt.domain.BM0902.EdRsvVO;
 
 @Service
 public class SM0107Service extends BaseService<ReservationVO, String> {
@@ -39,6 +40,10 @@ public class SM0107Service extends BaseService<ReservationVO, String> {
         return mapper.SM0107G4S0();
     }
     
+    public List<EdRsvVO> SM0107G5S0(RequestParams<ReservationVO> requestParams) {
+        return mapper.SM0107G5S0();
+    }
+    
     public void SM0107G0U0(Map<String, Object> request) {
     	mapper.SM0107G0U0(request);
     }
@@ -57,5 +62,9 @@ public class SM0107Service extends BaseService<ReservationVO, String> {
     
     public void SM0107G4U0(Map<String, Object> request) {
     	mapper.SM0107G4U0(request);
+    }
+    
+    public void SM0107G5U0(Map<String, Object> request) {
+    	mapper.SM0107G5U0(request);
     }
 }
