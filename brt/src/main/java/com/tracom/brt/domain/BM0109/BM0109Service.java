@@ -15,6 +15,8 @@ import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.domain.BM0105.BM0105Mapper;
+import com.tracom.brt.domain.BM0105.BmStaInfoVO;
 import com.tracom.brt.domain.BM0107.BM0107Mapper;
 import com.tracom.brt.domain.BM0107.BM0107Service;
 import com.tracom.brt.utils.ExcelUtils;
@@ -33,6 +35,9 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 	
 	@Inject
 	private BM0107Mapper mapper_107;
+	
+	@Inject
+	private BM0105Mapper mapper_105;
 	
 	//좌측상단 그리드 select
 	public List<BmRoutInfoVO> BM0109G0S0(RequestParams<BmRoutInfoVO> requestParams){
@@ -87,6 +92,22 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 			if(staList.size() > 0) {
 				insertRoutSta(staList, routId);
 				insertStaInfo(staList);
+				
+				/**뭘 하려던 거였지??
+				for(BmRoutNodeInfoVO _o : staList) {
+					BmStaInfoVO _staVO = new BmStaInfoVO();
+					
+				}
+				 * **/
+				List<BmStaInfoVO> _voList = mapper_105.getNoNamed();
+				for(BmStaInfoVO _o : _voList) {
+					if(mapper_105.getStaNm(_o) != null) {
+						mapper_105.setNoNamed(_o);
+					}else {
+						mapper_105.setNewStaNm(_o);						
+					}
+				}
+				
 			}
 
 			if(agList.size() > 0) {

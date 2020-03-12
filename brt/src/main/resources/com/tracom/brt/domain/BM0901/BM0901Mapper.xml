@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0901.BM0901Mapper">
+
+	<select id="BM0901G0S0" parameterType="String" resultType="elecRouterVO">
+		SELECT
+			  INFO.SET_ID		AS SET_ID
+		    , INFO.SET_NM		AS SET_NM
+		    , INFO.TIME_KO		AS TIME_KO
+		    , INFO.TIME_EN		AS TIME_EN
+		    , INFO.CATEGORY		AS CATEGORY
+            , DLCD1.DL_CD_NM	AS CATEGORY_NM
+		    , INFO.FRAME		AS FRAME
+            , DLCD2.DL_CD_NM	AS FRAME_NM
+		    , INFO.FONT			AS FONT
+            , DLCD3.DL_CD_NM	AS FONT_NM
+		    , INFO.REMARK
+		    , INFO.UPDATED_AT
+		    , INFO.UPDATED_BY
+		FROM
+			BM_ED_INFO INFO
+            LEFT JOIN SM_DL_CD_INFO DLCD1
+            ON DLCD1.CO_CD = 'CATEGORY_LOC' AND INFO.CATEGORY = DLCD1.DL_CD
+            
+            LEFT JOIN SM_DL_CD_INFO DLCD2
+            ON DLCD2.CO_CD = 'FRAME_LOC' AND INFO.FRAME = DLCD2.DL_CD
+            
+            LEFT JOIN SM_DL_CD_INFO DLCD3
+            ON DLCD3.CO_CD = 'FONT' AND INFO.FONT = DLCD3.DL_CD
+		<where>
+	    	<if test="value != null">
+				SET_ID LIKE CONCAT('%', #{value}, '%')
+				OR SET_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+	</select>
+	
+	<insert id="BM0901G0I0" parameterType="elecRouterVO">
+		<selectKey keyProperty="setId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('RP', LPAD(NEXTVAL(SEQ_BM_ED_INFO_0), 5, '0'))
+    	</selectKey>
+    	
+		INSERT INTO 
+			BM_ED_INFO(
+				  SET_ID
+				, SET_NM
+				, TIME_KO
+				, TIME_EN
+				, CATEGORY
+				, FRAME
+				, FONT
+				, REMARK
+				, CREATED_AT
+				, CREATED_BY
+				, UPDATED_AT
+				, UPDATED_BY
+				)
+			VALUES(
+				  #{setId}
+				, #{setNm}
+				, #{timeKo}
+				, #{timeEn}
+				, #{category}
+				, #{frame}
+				, #{font}
+				, #{remark}
+				, #{createdAt}
+				, #{createdBy}
+				, #{updatedAt}
+				, #{updatedBy}
+				)
+	</insert>
+	
+	<update id="BM0901G0U0" parameterType="elecRouterVO">
+		UPDATE BM_ED_INFO SET
+			  SET_NM	= #{setNm}
+			, TIME_KO	= #{timeKo}
+			, TIME_EN	= #{timeEn}
+			, CATEGORY	= #{category}
+			, FRAME		= #{frame}
+			, FONT		= #{font}
+			, REMARK	= #{remark}
+			, UPDATED_AT= #{updatedAt}
+			, UPDATED_BY= #{updatedBy}
+		WHERE
+			SET_ID = #{setId}
+	</update>
+	
+	<delete id="BM0901G0D0" parameterType="elecRouterVO">
+		DELETE FROM
+			BM_ED_INFO
+		WHERE
+			SET_ID = #{setId}
+	</delete>
+</mapper>
