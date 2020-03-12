@@ -26,6 +26,11 @@ public class BmStaInfoVO extends BaseVO {
 	
 	private int seq;
 	
+	private String krNm;
+
+	private String lineCnt;
+	
 	private List<BmStaInfoVO> voList;
+	
 	
 }

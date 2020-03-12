@@ -31,6 +31,9 @@ public class BmRoutNodeInfoVO extends BaseVO {
 	private String range;
 	private String nodeEname;
 	private String nodeName;
+	private String lineCnt;
+	private String transitCode;
+	
 	private List<BmRoutNodeInfoVO> voList;
 	
 }

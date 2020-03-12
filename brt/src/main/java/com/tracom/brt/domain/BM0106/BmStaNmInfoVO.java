@@ -24,4 +24,6 @@ public class BmStaNmInfoVO extends BmStaInfoVO {
  
 	private String remark;
 	
+	private String lineCnt;
+	
 }

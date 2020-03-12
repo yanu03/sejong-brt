@@ -74,6 +74,8 @@
 				    , LINE2_SATSTR
 				    , LINE1_SUNSTR
 				    , LINE2_SUNSTR
+				    , ROUT.ROUT_SHAPE AS ROUT_SHAPE
+                    , CD4.DL_CD_NM AS ROUT_SHAPE_NM
 				    , DATE_FORMAT(ROUT.CREATED_AT, '%Y-%m-%d %T') AS CREATED_AT
 				    , ROUT.CREATED_BY
 				    , DATE_FORMAT(ROUT.UPDATED_AT, '%Y-%m-%d %T') AS UPDATED_AT
@@ -92,6 +94,9 @@
 				    AND CD3.CO_CD = 'WAYDIV_FLAG'
 		            LEFT JOIN BM_ROUT_RESULT RESULT
 		            ON ROUT.ROUT_ID = RESULT.ROUT_ID
+                    LEFT JOIN SM_DL_CD_INFO CD4
+                    ON ROUT.ROUT_SHAPE = CD4.DL_CD
+                    
 				GROUP BY ROUT.ROUT_ID
 				<if test="value != null">
 				HAVING
@@ -268,6 +273,11 @@
 		        , LINE2_SATSTR
 		        , LINE1_SUNSTR
 		        , LINE2_SUNSTR
+		        , ROUT_SHAPE
+		        , CREATED_AT
+		        , CREATED_BY
+		        , UPDATED_AT
+		        , UPDATED_BY
 		        )
 			VALUES(
 				    #{routId}
@@ -287,6 +297,11 @@
 				  , #{line2Satstr}
 				  , #{line1Sunstr}
 				  , #{line2Sunstr}
+				  , #{routShape}
+				  , #{createdAt}
+				  , #{createdBy}
+				  , #{updatedAt}
+				  , #{updatedBy}
 				  )
 	</insert>
 	
@@ -309,6 +324,9 @@
 		    , LINE2_SATSTR	= #{line2Satstr}
 		    , LINE1_SUNSTR	= #{line1Sunstr}
 		    , LINE2_SUNSTR	= #{line2Sunstr}
+		    , ROUT_SHAPE	= #{routShape}
+		    , UPDATED_AT	= #{updatedAt}
+		    , UPDATED_BY	= #{updatedBy}
 		 WHERE
 		 	ROUT_ID = #{routId}
 	</update>

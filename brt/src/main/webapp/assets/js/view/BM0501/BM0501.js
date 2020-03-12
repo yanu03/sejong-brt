@@ -1,5 +1,6 @@
 var fnObj = {}, CODE = {};
 var updateList = [];
+var fflag = 0;
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
@@ -120,17 +121,41 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK: function (caller, act, data) {
-    	uv_height = 0;
-    	selectBox();
-    	selectedRow = data;
-    	//loadSCH(data);
-        caller.formView0.setData(data);
-        caller.formView0.enable();
-        $("#selectBox option:eq(0)").attr("selected", "selected");
-        $('#bmpFile').val("");
-        $('#previewImg').attr("src", "");
-        loadBmp();
-        loadSCH();
+    	if(($('#previewImg').attr("src") == "" || $('#previewImg').attr("src") == null) && fflag != 0 && selectedRow != data){
+    		axDialog.confirm({
+        		msg: "이미지파일을 등록하지 않으셨습니다. 이동하시겠습니까?"
+        	},	function(){
+        		if(this.key == "ok"){
+        			uv_height = 0;
+        			selectBox();
+        			selectedRow = data;
+        			//loadSCH(data);
+        			caller.formView0.setData(data);
+        			caller.formView0.enable();
+        			$("#selectBox option:eq(0)").attr("selected", "selected");
+        			$('#bmpFile').val("");
+        			$('#previewImg').attr("src", "");
+        			loadBmp();
+        			loadSCH();
+        		}else{
+        			fnObj.gridView0.selectRow(selectedRow.__index);
+        			return false;
+        		}
+        	});
+    	}else{
+	    	uv_height = 0;
+	    	selectBox();
+	    	selectedRow = data;
+	    	//loadSCH(data);
+	        caller.formView0.setData(data);
+	        caller.formView0.enable();
+	        $("#selectBox option:eq(0)").attr("selected", "selected");
+	        $('#bmpFile').val("");
+	        $('#previewImg').attr("src", "");
+	        loadBmp();
+	        loadSCH();
+    	}
+    	fflag++;
     },
     
     ITEM_CLICK2: function (caller, act, data) {
@@ -718,4 +743,11 @@ function setTimeVal(uv_height){
 		}
 		fnObj.gridView1.setData(list);
 	}
+}
+
+function preview_Image(id){
+	var path;
+	//path = "/assets/images/BM0108/default.jpg";//default path
+	//document.getElementById(id).src=path;
+	document.getElementById(id).src="";
 }

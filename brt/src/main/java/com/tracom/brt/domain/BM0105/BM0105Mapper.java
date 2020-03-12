@@ -6,6 +6,7 @@ import java.util.Map;
 import com.chequer.axboot.core.mybatis.MyBatisMapper;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.domain.BM0106.BmStaNmInfoVO;
 
 public interface BM0105Mapper extends MyBatisMapper {
 	List<BmStaInfoVO> BM0105G1S0(Map<String, String> map);
@@ -17,4 +18,11 @@ public interface BM0105Mapper extends MyBatisMapper {
 	List<BmRoutNodeInfoVO> getNodeList(BmRoutInfoVO vo);
 	
 	int setNewStaNm(BmStaInfoVO vo);
+	
+	List<BmStaInfoVO> getNoNamed();
+	
+	int setNoNamed(BmStaInfoVO vo);
+	
+	BmStaInfoVO getStaNm(BmStaInfoVO vo);
+	
 }

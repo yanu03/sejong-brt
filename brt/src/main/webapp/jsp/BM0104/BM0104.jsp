@@ -113,7 +113,7 @@
                        	</ax:tr>
                        	
                        	<ax:tr>
-                       		<ax:td label="ax.admin.BM0104G0.userWayDiv" width="250px" style="border-left: 1px solid #D8D8D8;" labelClazz="required">
+                       		<ax:td label="ax.admin.BM0104G0.userWayDiv" width="250px" labelClazz="required">
                       			<ax:SM0105 groupCd="UPDOWN_FLAG" id="userWayDiv" name="userWayDiv" dataPath="userWayDiv"/>
                             </ax:td>
                        	</ax:tr>
@@ -122,7 +122,7 @@
                             <ax:td label="ax.admin.BM0104G0.line1Str" width="250px">
                             	<input type="text" data-ax-path="line1Str" title="<ax:lang id="ax.admin.BM0104G0.line1Str"/>" class="form-control" maxlength="20"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0104G0.line2Str" width="250px">
+                            <ax:td label="ax.admin.BM0104G0.line2Str" width="250px" style="border-left: 1px solid #D8D8D8;">
                             	<input type="text" data-ax-path="line2Str" title="<ax:lang id="ax.admin.BM0104G0.line2Str"/>" class="form-control" maxlength="20"/>
                             </ax:td>
 						</ax:tr>
@@ -131,7 +131,7 @@
                             <ax:td label="ax.admin.BM0104G0.line1Satstr" width="250px">
                             	<input type="text" data-ax-path="line1Satstr" title="<ax:lang id="ax.admin.BM0104G0.line1Satstr"/>" class="form-control" maxlength="20"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0104G0.line2Satstr" width="250px">
+                            <ax:td label="ax.admin.BM0104G0.line2Satstr" width="250px" style="border-left: 1px solid #D8D8D8;">
                             	<input type="text" data-ax-path="line2Satstr" title="<ax:lang id="ax.admin.BM0104G0.line2Satstr"/>" class="form-control" maxlength="20"/>
                             </ax:td>
                        	</ax:tr>
@@ -140,9 +140,14 @@
                             <ax:td label="ax.admin.BM0104G0.line1Sunstr" width="250px">
                             	<input type="text" data-ax-path="line1Sunstr" title="<ax:lang id="ax.admin.BM0104G0.line1Sunstr"/>" class="form-control" maxlength="20"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0104G0.line2Sunstr" width="250px">
+                            <ax:td label="ax.admin.BM0104G0.line2Sunstr" width="250px" style="border-left: 1px solid #D8D8D8;">
                             	<input type="text" data-ax-path="line2Sunstr" title="<ax:lang id="ax.admin.BM0104G0.line2Sunstr"/>" class="form-control" maxlength="20"/>
                             </ax:td>
+                       	</ax:tr>
+                       	<ax:tr>
+                       		<ax:td label="전자노선도 형태" width="500px">
+                       			<ax:SM0105 groupCd="ROUT_SHAPE" id="routShape" name="routShape" dataPath="routShape" style="width:100px;"/>
+                       		</ax:td>
                        	</ax:tr>
                     </ax:tbl>
 	        	</ax:form>

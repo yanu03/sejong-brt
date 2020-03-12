@@ -49,6 +49,11 @@ public class SM0107Controller extends BaseController {
         return Responses.ListResponse.of(service.SM0107G4S0(requestParams));
     }
     
+    @GetMapping("/SM0107G5S0")
+    public Responses.ListResponse SM0107G5S0(RequestParams<ReservationVO> requestParams) {
+        return Responses.ListResponse.of(service.SM0107G5S0(requestParams));
+    }
+    
     @PostMapping("/SM0107G0U0")
     public ApiResponse SM0107G0U0(@RequestBody Map<String, Object> request) {
     	service.SM0107G0U0(request);
@@ -76,6 +81,12 @@ public class SM0107Controller extends BaseController {
     @PostMapping("/SM0107G4U0")
     public ApiResponse SM0107G4U0(@RequestBody Map<String, Object> request) {
     	service.SM0107G4U0(request);
+    	return ok();
+    }
+    
+    @PostMapping("/SM0107G5U0")
+    public ApiResponse SM0107G5U0(@RequestBody Map<String, Object> request) {
+    	service.SM0107G5U0(request);
     	return ok();
     }
 }

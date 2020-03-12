@@ -1,3 +1,4 @@
+
 var fnObj = {}, CODE = {};
 
 /***************************************** 전역 변수 초기화 ******************************************************/
@@ -7,17 +8,17 @@ selectedRow = null;
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
-    PAGE_SEARCH: function (caller, act, data) {
+	PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
     	
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0106G0S0",
+            url: "/api/v1/BM0901G0S0",
             data: filter,
             callback: function (res) {
-            	caller.gridView0.setData(res);
+                caller.gridView0.setData(res);
                 
                 if(res.list.length == 0) {
                 	isUpdate = false;
@@ -39,9 +40,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
 
         return false;
-    },
-    PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("data.xls");
     },
     
     PAGE_NEW: function (caller, act, data) {
@@ -68,10 +66,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0106G0D0",
+	                    url: "/api/v1/BM0901G0D0",
 	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
 	                    callback: function (res) {
 	                        ok(res);
+	                    },
+	                    options:{
+	                    	onError: function(err){
+	                    		axDialog.alert("삭제 실패. 해당 운수사에 연결된 승무사원이 있는지 확인하세요.");
+	                    	}
 	                    }
 	                });
                 })
@@ -87,19 +90,23 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     },
     
-    PAGE_EXCEL: function(caller, act, data) {
-    	caller.gridView0.target.exportExcel("정류장목록_" + new Date().yyyymmdd() + ".xls");
-    },
-    
-    PAGE_SAVE: function (caller, act, data) {
-    	if (caller.formView0.validate()) {
+    PAGE_SAVE: function (caller, act, data) {  
+        if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
-
+            if(formData.frame == undefined || formData.frame == null){
+            	axDialog.alert("프레임표출설정을 선택하세요.");
+            	return false;
+            }
+            
+            if($('#timeKo').val() >= 255 || $('#timeEn').val() >= 255){
+            	axDialog.alert("표출시간은 255미만의 값을 입력해주세요");
+            	return false;
+            }
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
                         type: "POST",
-                        url: "/api/v1/BM0106F0I0",
+                        url: "/api/v1/BM0901G0I0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -118,20 +125,25 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-    	if (caller.formView0.validate()) {
-    		if($('#lineCnt').val() < 1){
-    			axDialog.alert("1이상을 입력해주세요");
-    			return false;
-    		}else if(!$('#lineCnt').isNumeric){
-    			axDialog.alert("숫자만 입력해주세요");
-    			return false;
-    		}
+        if (caller.formView0.validate()) {
             var formData = caller.formView0.getData();
+            
+            if(formData.frame == undefined || formData.frame == null){
+            	axDialog.alert("프레임표출설정을 선택하세요.");
+            	return false;
+            }
+            
+            if($('#timeKo').val() >= 255 || $('#timeEn').val() >= 255){
+            	axDialog.alert("표출시간은 255미만의 값을 입력해주세요");
+            	return false;
+            }
+            
+            
             axboot.promise()
                 .then(function (ok, fail, data) {
-                	axboot.ajax({
+                    axboot.ajax({
                     	type: "POST",
-                        url: "/api/v1/BM0106F0U0",
+                        url: "/api/v1/BM0901G0U0",
                         data: JSON.stringify(formData),
                         callback: function (res) {
                             ok(res);
@@ -143,6 +155,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
                 })
                 .catch(function () {
+
                 });
         }
     },
@@ -157,38 +170,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	selectedRow = data;
         caller.formView0.setData(data);
     },
-    
-    PAGE_SWEEP: function(caller, act, data){
-    	if(confirm("노선에 연계되지않은 정류장이 모두 삭제됩니다.") == true){    //확인
-    		axboot.promise().then(function(ok, fail, data){
-    			axboot.ajax({
-    				type: "POST",
-    				url: "/api/v1/SWPBUSSTOP",
-    				callback: function(res){
-    					ok(res);
-    				}
-    			});
-    		}).then(function(ok, fail, data){
-    			axToast.push("삭제되었습니다.");
-    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-    		}).catch(function(){
-    			
-    		});
-    	}
-    },
 });
 
 /********************************************************************************************************************/
 
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
 fnObj.pageStart = function () {
-	var _this = this;
-	
     this.pageButtonView.initView();
     this.searchView0.initView();
     this.gridView0.initView();
     this.formView0.initView();
-    
+    numberOnly();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -206,7 +198,6 @@ fnObj.pageButtonView = axboot.viewExtend({
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
             "excel": function () {
-            	selectedRow = null;
                 ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "new": function() {
@@ -224,9 +215,6 @@ fnObj.pageButtonView = axboot.viewExtend({
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
-            },
-            "swpAh": function(){
-            	ACTIONS.dispatch(ACTIONS.PAGE_SWEEP);
             }
         });
     }
@@ -262,24 +250,23 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         pageNumber: 0,
         pageSize: 10
     },
-    
     initView: function () {
         var _this = this;
-        
+
         this.target = axboot.gridBuilder({
-        	lineNumberColumnWidth: 40,
+        	lineNumberColumnWidth: 30,
         	frozenColumnIndex: 0,
-            //sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-                {key: "staId",	label: ADMIN("ax.admin.BM0106F0.staId"),	width: 80,	sortable: true,	align: "center"},
-                {key: "staNm",	label: ADMIN("ax.admin.BM0106F0.staNm"),	width: 120},
-                {key: "krNm",	label: ADMIN("ax.admin.BM0106F0.krNm"),		width: 120},
-                {key: "enNm",	label: ADMIN("ax.admin.BM0106F0.enNm"),		width: 120},
-                {key: "cnNm",	label: ADMIN("ax.admin.BM0106F0.cnNm"),		width: 120},
-                {key: "jpNm",	label: ADMIN("ax.admin.BM0106F0.jpNm"),		width: 120},
-                {key: "lineCnt",label: "운영노선 수",							width: 80, align: "right"},
-                {key: "remark",	label: ADMIN("ax.admin.BM0106F0.remark"),	width: 100}
+                {key: "setId",		label: ADMIN("ax.admin.BM0901G0.setId"),		width: 80,	align: "center",	sortable: true},
+                {key: "setNm",		label: ADMIN("ax.admin.BM0901G0.setNm"),		width: 120,	align: "left",		sortable: true},
+                {key: "timeKo", 	label: ADMIN("ax.admin.BM0901G0.timeKo"),		width: 120,	align: "right"},
+                {key: "timeEn",		label: ADMIN("ax.admin.BM0901G0.timeEn"),		width: 120, align: "right"},
+                {key: "categoryNm",	label: ADMIN("ax.admin.BM0901G0.category"),		width: 100,	align: "center"},
+                {key: "frameNm",	label: ADMIN("ax.admin.BM0901G0.frame"),		width: 180,	align: "center"},
+                {key: "fontNm",		label: ADMIN("ax.admin.BM0901G0.font"),			width: 100,	align: "center"},
+                {key: "remark",		label: ADMIN("ax.admin.BM0901G0.remark"),		width: 450,	align: "left"},
+                {key: "updatedAt",	label: ADMIN("ax.admin.BM0901G0.updatedAt"),	width: 120, sortable: true},
             ],
             body: {
                 onClick: function () {
@@ -340,7 +327,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].staId == id) {
+    		if(this.target.list[i].setId == id) {
     			this.selectRow(i);
     			break;
     		}
@@ -370,28 +357,15 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.model.setModel(this.getDefaultData(), this.target);
         this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
         this.initEvent();
-
-        axboot.buttonClick(this, "data-form-view-01-btn", {
-            "form-clear": function () {
-                ACTIONS.dispatch(ACTIONS.FORM_CLEAR);
-            }
-        });
-        
-        axboot.buttonClick(this, "data-form-view-0-btn", {
-            "selectBM0101": function() {
-            	ACTIONS.dispatch(ACTIONS.OPEN_BM0101_MODAL);
-            }
-        });
-
     },
     initEvent: function () {
+        var _this = this;
     },
     getData: function () {
         var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
         return $.extend({}, data);
     },
     setData: function (data) {
-
         if (typeof data === "undefined") data = this.getDefaultData();
         data = $.extend({}, data);
 
@@ -425,10 +399,11 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     }
 });
 
-/********************************************************************************************************************/
-/** 정류장관리 전용 **/
-/********************************************************************************************************************/
-
+var numberOnly = function(){
+    $("input:text[numberOnly]").on("keyup", function() {
+        $(this).val($(this).val().replace(/[^0-9]/g,""));
+    });
+}
 
 function maxLengthCheck(object){
     if (object.value.length > object.maxLength){

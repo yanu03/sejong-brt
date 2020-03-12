@@ -10,9 +10,7 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN"/>
-        <script type="text/javascript" src="<c:url value='/assets/js/common/tmap.js' />"></script>
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0106/BM0106.js' />"></script>
-        <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appkey=bbaeca8d-24d4-425d-9bd2-946552e4e2a7"></script>
     </jsp:attribute>
     <jsp:body>
         <ax:page-buttons></ax:page-buttons>
@@ -63,7 +61,7 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0106F0.staNm" width="300px" labelClazz="required">
-                    			<input type="text" name="staNm" data-ax-path="staNm" data-key="true" class="form-control" readonly="readonly"/>
+                    			<input type="text" name="staNm" data-ax-path="staNm" data-key="true" class="form-control" readonly="readonly" data-ax-validate="required"/>
                     		</ax:td>
                     	</ax:tr>
                     	
@@ -88,6 +86,12 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
+                    		<ax:td label="운영노선 수" width="100%" labelClazz="required"> 
+                    			<input name="lineCnt" id="lineCnt" title="운영노선 수" data-ax-path="lineCnt" data-key="true" class="form-control" min="1" maxlength="2" oninput="maxLengthCheck(this)" type="number" style="width:50px;" data-ax-validate="required"/>
+                    		</ax:td>
+                    	</ax:tr>
+                    	
+                    	<ax:tr>
                     		<ax:td label="ax.admin.BM0106F0.remark" width="100%">
                     			<textarea name="remark" data-ax-path="remark" data-key="true" class="form-control" maxlength="200"></textarea>
                     		</ax:td>
@@ -95,9 +99,6 @@
                     </ax:tbl>
                	</ax:form>       
 
-				<div style="height:100%; padding-bottom:200px; overflow:hidden;">
-		             <div id="mapView0" style="overflow:hidden;"></div>				
-	            </div>
             </ax:split-panel>
         </ax:split-layout>
 

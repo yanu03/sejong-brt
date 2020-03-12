@@ -18,4 +18,6 @@ public class RoutListCSVVO extends BaseVO {
 	private String routNmKo;
 	
 	private String routNmEn;
+	
+	private String routShape;
 }

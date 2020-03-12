@@ -149,7 +149,7 @@
                     	
                     	<ax:tr>
                        		<ax:td label="광고등급" width="180px">
-                       			<input type="text" title="광고등급" name="adLvl" data-ax-path="adLvl" class="form-control" maxlength="5"/>
+                       			<ax:SM0105 groupCd="AD_LVL" id="adLvl" name="adLvl" dataPath="adLvl"/>
                     		</ax:td>
                     	</ax:tr>
                     	

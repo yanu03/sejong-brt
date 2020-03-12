@@ -64,25 +64,28 @@
                         
                         <ax:tr>
                             <ax:td label="템플릿명" width="300px" labelClazz="required">
-                                <input type="text" id="setNm" data-ax-path="setNm" title="<ax:lang id="ax.admin.BM0608F0.tplNm"/>" class="form-control" data-ax-validate="required"/>
+                                <input type="text" id="setNm" data-ax-path="setNm" title="템플릿명" class="form-control" data-ax-validate="required"/>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
                             <ax:td label="전체배경" width="100%" labelClazz="required">
-								<input type="file" data-ax-path="background" id="background" name="background" class="pngFile" accept="image/png"/>
+								<input type="file" data-ax-path="background" id="background" name="background" class="pngFile" accept="image/png" style="display: inline-block;"/>
+	                            <span id="bgFilename" style="color: red; display: inline-block;"></span>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
                             <ax:td label="정류장안내" width="100%" labelClazz="required">
-								<input type="file" data-ax-path="land" id="land" name="land" accept="image/png" class="pngFile"/>
+								<input type="file" data-ax-path="land" id="land" name="land" accept="image/png" class="pngFile" style="display: inline-block;"/>
+								<span id="landFilename" style="color: red; display: inline-block;"></span>
                             </ax:td>
                         </ax:tr>
                         
                         <ax:tr>
                             <ax:td label="이번정류장" width="100%" labelClazz="required">
-								<input type="file" data-ax-path="nextstopbg" id="nextstopbg" name="nextstopbg" accept="image/png" class="pngFile"/>
+								<input type="file" data-ax-path="nextstopbg" id="nextstopbg" name="nextstopbg" accept="image/png" class="pngFile" style="display: inline-block;"/>
+								<span id="nextBgFilename" style="color: red; display: inline-block;"></span>
                             </ax:td>
                         </ax:tr>
                         
