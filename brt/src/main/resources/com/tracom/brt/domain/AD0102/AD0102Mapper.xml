@@ -1,38 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tracom.brt.domain.AD0102.AD0102Mapper">
-	<select id="AD0102G1S0" parameterType="String" resultType="VhcLocVO">
+	<select id="AD0102G0S0" parameterType="String" resultType="adStdPriceVO">
 		SELECT
-		   DL_CD
-		 , DL_CD_NM
-		 , TXT_VAL1
-		 , B.AD_POS
+			  A.PRICE_ID
+			, A.PRICE_TYPE
+			, B.DL_CD_NM AS PRICE_TYPE_NM
+			, A.AD_LVL
+			, C.DL_CD_NM AS AD_LVL_NM
+			, A.AD_POS
+			, D.TXT_VAL1 AS AD_POS_TYPE
+			, D.DL_CD_NM AS AD_POS_NM
+			, A.UNIT_AMT
+			, A.INST_AMT
+			, A.REMARK
 		FROM
-			SM_DL_CD_INFO A
-			LEFT JOIN AD_VHC_INFO B
-			ON A.DL_CD = B.AD_POS
-			AND B.VHC_ID = #{value}
-		WHERE
-			A.CO_CD = 'AD_POS'
-		ORDER BY A.SORT_ODR
+			AD_STD_PRICE A
+			LEFT JOIN SM_DL_CD_INFO B
+			ON A.PRICE_TYPE = B.DL_CD
+			AND B.CO_CD = 'PRICE_TYPE'
+			LEFT JOIN SM_DL_CD_INFO C
+			ON A.AD_LVL = C.DL_CD
+			AND C.CO_CD = 'AD_LVL'
+			LEFT JOIN SM_DL_CD_INFO D
+			ON A.AD_POS = D.DL_CD
+			AND D.CO_CD = 'AD_POS'
+		<where>
+			<if test="value != null">
+				B.DL_CD_NM LIKE CONCAT('%', #{value}, '%')
+			</if>
+		</where>
+		ORDER BY PRICE_TYPE ASC
 	</select>
 	
-	<insert id="AD0102G1I0" parameterType="VhcLocVO">
-		INSERT INTO AD_VHC_INFO(
-				VHC_ID
-			  , AD_POS)
-		VALUES
-		<foreach collection="upList" item="upList" separator=",">
-		(
-				#{upList.vhcId}
-			  , #{upList.dlCd}
+	<insert id="AD0102F0I0" parameterType="adStdPriceVO">
+		<selectKey keyProperty="priceId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('PR', LPAD(NEXTVAL(SEQ_AD_STD_PRICE_0), 5, '0'))
+    	</selectKey>
+		INSERT INTO AD_STD_PRICE(
+			  PRICE_TYPE
+			, AD_LVL
+			, AD_POS
+			, PRICE_ID
+			, UNIT_AMT
+			, INST_AMT
+			, REMARK
 		)
-		</foreach>
+		VALUES(
+			#{priceType}
+		  , #{adLvl}
+		  , #{adPos}
+		  , #{priceId}
+		  , #{unitAmt}
+		  , #{instAmt}
+		  , #{remark}
+		)
 	</insert>
 	
-	<delete id="AD0102G1D0" parameterType="VhcLocVO">
-		DELETE
-		FROM AD_VHC_INFO
-		WHERE VHC_ID = #{vhcId}
+	<update id="AD0102F0U0" parameterType="adStdPriceVO">
+		UPDATE AD_STD_PRICE
+		SET
+			  PRICE_TYPE = #{priceType}
+			, AD_LVL = #{adLvl}
+			, AD_POS = #{adPos}
+			, UNIT_AMT = #{unitAmt}
+			, INST_AMT = #{instAmt}
+			, REMARK = #{remark}
+		WHERE
+			PRICE_ID = #{priceId}
+	</update>
+	
+	<delete id="AD0102G0D0" parameterType="adStdPriceVO">
+		DELETE FROM AD_STD_PRICE
+		WHERE
+			PRICE_ID = #{priceId}
 	</delete>
 </mapper>

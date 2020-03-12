@@ -1,4 +1,4 @@
-package com.tracom.brt.domain.SM0108;
+package com.tracom.brt.domain.SM0107;
 
 import com.tracom.brt.domain.BaseVO;
 

@@ -57,7 +57,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_DELETE: function(caller, act, data) {
     	var grid = caller.gridView0.target;
     	var count;
-    	var completeYn;
     	
     	if(typeof grid.selectedDataIndexs[0] === "undefined") {
     		axDialog.alert(LANG("ax.script.alert.requireselect"));
@@ -68,73 +67,44 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 url: "/api/v1/BM0201G1S1",
                 data:{dvcId : selectedRowG1.dvcId},
                 callback: function (res) {
-                  for(var i = 0; i<res.list.length; i++){
-                	  if(res.list[i].completeYn == "N"){
-                		  completeYn = "false";
-                		  break;
-                	  }else{
-                		  completeYn = "true";
-                	  }
-                  }
-                  if(completeYn == "true"){
-                	if(res.list.length < 2){
-		                if(res.list.length > 0){
-		                	console.log(res.list)
-		                    axDialog.confirm({
-		                    	msg: ("관련장치이력:"+res.list.length+"건이 있습니다. 삭제하시겠습니까?")
-		                    }, function() {          	          	
-		                    	if (this.key == "ok"){      	
-		                    		axboot.promise()
-		                    		.then(function (ok, fail, data){
-		                    			axboot.ajax({
-		                    				type: "POST",
-		                    				url: "/api/v1/BM0201G1D0",
-		                    				data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
-		                    				callback: function (res){
-		                    					ok(res);
-		                    				}
-		                    			});
-		                    		})
-		                    		.then(function (ok) {
-		                    			caller.formView0.clear();
-		                    			axToast.push(LANG("ondelete"));
-		                    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-		                    		})
-		                    		.catch(function () {
-		                    			
-		                    		});
-		                    	}   	
-		                    });
-		                }else{
-		                	axDialog.confirm({
-		                    	msg: LANG("ax.script.deleteconfirm")
-		                    }, function() {          	          	
-		                    	if (this.key == "ok") {      	
-		                    		axboot.promise()
-		                    		.then(function (ok, fail, data) {
-		                    			axboot.ajax({
-		                    				type: "POST",
-		                    				url: "/api/v1/BM0201G1D0",
-		                    				data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
-		                    				callback: function (res) {
-		                    					ok(res);
-		                    				}
-		                    			});
-		                    		})
-		                    		.then(function (ok) {
-		                    			caller.formView0.clear();
-		                    			axToast.push(LANG("ondelete"));
-		                    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-		                    		})
-		                    		.catch(function () {
-		                    			
-		                    		});
-		                    	}   	
-		                    });
-		                }
-                	}else{
-                		axDialog.alert("장치이력이"+res.list.length+"건 있어서 삭제가 불가능합니다.");
-                	}
+
+                	if(res.list.length == 0) {
+                		axboot.ajax({
+                            type: "GET",
+                            url: "/api/v1/BM0201G1S2",
+                            data:{dvcId : selectedRowG1.dvcId},
+                            callback: function (res) {
+                            	if(res.list.length == 0){
+    			                	axDialog.confirm({
+    			                    	msg: LANG("ax.script.deleteconfirm")
+    			                    }, function() {          	          	
+    			                    	if (this.key == "ok") {      	
+    			                    		axboot.promise()
+    			                    		.then(function (ok, fail, data) {
+    			                    			axboot.ajax({
+    			                    				type: "POST",
+    			                    				url: "/api/v1/BM0201G1D0",
+    			                    				data: JSON.stringify({dvcId : selectedRowG1.dvcId}),
+    			                    				callback: function (res) {
+    			                    					ok(res);
+    			                    				}
+    			                    			});
+    			                    		})
+    			                    		.then(function (ok) {
+    			                    			caller.formView0.clear();
+    			                    			axToast.push(LANG("ondelete"));
+    			                    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    			                    		})
+    			                    		.catch(function () {
+    			                    			
+    			                    		});
+    			                    	}   	
+    			                    });
+        	                	}else{
+        	                		axDialog.alert("장치이력이"+res.list.length+"건 있어서 삭제가 불가능합니다.");
+        	                	}
+                            }
+                		});
                   }else{
                 	  axDialog.alert("업데이트 예약이 걸려있는 장치는 삭제하실 수 없습니다.");
                   }
@@ -396,16 +366,16 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             columns: [      		
             		 {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), sortable: true, align:"center", styleClass:function(){return (this.item.useYn === "Y") ? "grid-cell-red": "grid-cell-blue" } , width: 80},
-            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 70},
-                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center", width: 120},
-                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 150},
-                     {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), width: 120},
+            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 70, align:"center"},
+                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center", width: 100},
+                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 130, align:"center"},
+                     {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), width: 120, align:"center"},
                      {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), align:"center", width: 120},
                      {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align:"center", width: 120},
-                     {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), sortable: true, width: 120},
-                     {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), align:"center", width: 120},
-                     {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center", width: 100},
-                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center", width: 100},
+                     {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), sortable: true, width: 100, align:"center"},
+                     {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), align:"center", width: 100},
+                     {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center", width: 90},
+                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center", width: 80},
                      {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), align:"center", width: 70},
                      {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), align:"center", width: 70},
                      {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 200},
@@ -504,11 +474,11 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             columns: [
             	{key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), sortable: true, align:"center", styleClass:function(){return (this.item.useYn === "Y") ? "grid-cell-red": "grid-cell-blue" } , width: 80},
             	{key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), align: "center", sortable: true, width: 80},
-            	{key: "makerCd", label: ADMIN("ax.admin.BM0201F0.maker"), width: 120},
-                {key: "dvcKindCd", label: ADMIN("ax.admin.BM0201F0.dvckind"), sortable: true, width: 120},
-                {key: "instLocCd", label: ADMIN("ax.admin.BM0201F0.instloc"), width: 100},
+            	{key: "makerCd", label: ADMIN("ax.admin.BM0201F0.maker"), width: 100},
+                {key: "dvcKindCd", label: ADMIN("ax.admin.BM0201F0.dvckind"), align: "center", sortable: true, width: 140},
+                {key: "instLocCd", label: ADMIN("ax.admin.BM0201F0.instloc"), align: "center", width: 120},
                 {key: "mngId", label: ADMIN("ax.admin.BM0201F0.mngid"), align: "center", width: 130},
-                {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), align: "right" , width: 110},
+                {key: "dvcIp", label: ADMIN("ax.admin.BM0201F0.dvcip"), align: "center" , width: 110},
                 {key: "remark", label: ADMIN("ax.admin.BM0201F0.remark"), width: 200},
             ],
             body: {

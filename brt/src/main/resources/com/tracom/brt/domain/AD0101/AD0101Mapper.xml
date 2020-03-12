@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.AD0101.AD0101Mapper">
+	<select id="AD0101G1S0" parameterType="String" resultType="adVhcInfoVO">
+		SELECT
+		  	  DC.DL_CD AS AD_POS
+			, DC.TXT_VAL1 AS AD_POS_TYPE
+			, DC.DL_CD_NM AS AD_POS_NM
+			, IF(V.AD_POS IS NOT NULL, 'Y', 'N') AS IS_POS
+		FROM
+			SM_DL_CD_INFO DC
+			LEFT JOIN AD_VHC_INFO V
+			ON DC.DL_CD = V.AD_POS
+			AND V.VHC_ID = #{vhcId}
+		WHERE
+			DC.CO_CD = 'AD_POS'
+		ORDER BY DC.SORT_ODR ASC
+	</select>
+	
+	<insert id="AD0101G1I0" parameterType="hashmap">
+    	INSERT INTO AD_VHC_INFO (
+			  VHC_ID
+			, AD_POS
+		)
+		VALUES
+		<foreach collection="posList" item="item" separator=",">
+		(
+			  #{vhcId}
+			, #{item.adPos}
+		)
+		</foreach>   
+	</insert>
+	
+	<delete id="AD0101G1D0" parameterType="hashmap">
+		DELETE FROM AD_VHC_INFO
+		WHERE
+			VHC_ID = #{vhcId} 
+	</delete>
+</mapper>

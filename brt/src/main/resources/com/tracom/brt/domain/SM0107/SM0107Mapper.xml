@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.tracom.brt.domain.SM0108.SM0108Mapper">
+<mapper namespace="com.tracom.brt.domain.SM0107.SM0107Mapper">
 
-    <select id="SM0108G0S0" resultType="vhcDvcUpdateVO">
+    <select id="SM0107G0S0" resultType="vhcDvcUpdateVO">
     	SELECT
 			  U.RSV_ID
 			, V.VHC_NO
@@ -38,7 +38,7 @@
 		GROUP BY D.DVC_ID
     </select>
     
-    <select id="SM0108G1S0" resultType="vhcInfoVO">
+    <select id="SM0107G1S0" resultType="vhcInfoVO">
     	SELECT
 			  V.RSV_ID
 			, R.RSV_DATE
@@ -103,7 +103,7 @@
 		ORDER BY VHC_INFO.VHC_ID ASC
     </select>
     
-    <select id="SM0108G2S0" resultType="vhcInfoVO">
+    <select id="SM0107G2S0" resultType="vhcInfoVO">
     	SELECT
 			  R.RSV_ID
 			, V.VHC_NO
@@ -164,7 +164,7 @@
 		GROUP BY V.VHC_ID
     </select>
     
-    <select id="SM0108G3S0" resultType="vdoRsvVO">
+    <select id="SM0107G3S0" resultType="vdoRsvVO">
     	SELECT
 			  R.RSV_ID
 			, V.VHC_NO
@@ -201,7 +201,7 @@
 		GROUP BY D.DVC_ID
     </select>
     
-    <select id="SM0108G4S0" resultType="scrRsvVO">
+    <select id="SM0107G4S0" resultType="scrRsvVO">
     	SELECT
 			  R.RSV_ID
 			, V.VHC_NO
@@ -238,7 +238,7 @@
 		GROUP BY D.DVC_ID
     </select>
     
-    <update id="SM0108G0U0" parameterType="hashmap">
+    <update id="SM0107G0U0" parameterType="hashmap">
     	<foreach collection="list" item="item" separator=";">
     		UPDATE BM_UPD_LOG
     		SET
@@ -251,7 +251,7 @@
     	</foreach>;
     </update>
     
-    <update id="SM0108G1U0" parameterType="hashmap">
+    <update id="SM0107G1U0" parameterType="hashmap">
     	<foreach collection="list" item="item" separator=";">
     		UPDATE BM_VOC_RSV_RST
     		SET
@@ -264,7 +264,7 @@
     	</foreach>;
     </update>
     
-    <update id="SM0108G2U0" parameterType="hashmap">
+    <update id="SM0107G2U0" parameterType="hashmap">
     	<foreach collection="list" item="item" separator=";">
     		UPDATE BM_DESTI_RSV_RST
     		SET
@@ -276,7 +276,7 @@
     	</foreach>;
     </update>
     
-    <update id="SM0108G3U0" parameterType="hashmap">
+    <update id="SM0107G3U0" parameterType="hashmap">
     	<foreach collection="list" item="item" separator=";">
     		UPDATE BM_VDO_RSV_RST
     		SET
@@ -289,7 +289,7 @@
     	</foreach>;
     </update>
     
-    <update id="SM0108G4U0" parameterType="hashmap">
+    <update id="SM0107G4U0" parameterType="hashmap">
     	<foreach collection="list" item="item" separator=";">
     		UPDATE BM_SCR_RSV_RST
     		SET

@@ -10,25 +10,30 @@ import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
 
 @Service
-public class AD0102Service extends BaseService<VhcLocVO, String>{
+public class AD0102Service extends BaseService<AdStdPriceVO, String>{
 	
 	@Inject
 	private AD0102Mapper mapper;
 
-	public List<VhcLocVO> AD0102G1S0(RequestParams<VhcLocVO> requestParams) {
-		return mapper.AD0102G1S0(requestParams.getString("vhcId"));
+	public List<AdStdPriceVO> AD0102G0S0(RequestParams<AdStdPriceVO> requestParams) {
+		return mapper.AD0102G0S0(requestParams.getString("priceId"));
 	}
 
-	public boolean AD0102G1I0(VhcLocVO request) {
-		if(mapper.AD0102G1I0(request) > 0) {
+	public String AD0102F0I0(AdStdPriceVO request) {
+		mapper.AD0102F0I0(request);
+		return request.getPriceId();
+	}
+	
+	public boolean AD0102F0U0(AdStdPriceVO request) {
+		if(mapper.AD0102F0U0(request) > 0) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
 
-	public boolean AD0102G1D0(VhcLocVO request) {
-		if(mapper.AD0102G1D0(request) > 0) {
+	public boolean AD0102G0D0(AdStdPriceVO request) {
+		if(mapper.AD0102G0D0(request) > 0) {
 			return true;
 		}else {
 			return false;

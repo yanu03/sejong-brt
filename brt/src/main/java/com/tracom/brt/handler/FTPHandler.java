@@ -204,11 +204,13 @@ public class FTPHandler {
 		String passengerDir = getDevicePassengerPath();
 		String elecrouterDir = getDeviceElecRouterPath();
 		String vehicleDir = getVehiclePath();
+		String impId = id.substring(0, 10).toUpperCase();
 		
 		try {
 			//가지고온 관리id값이 통플인지 아닌지 비교
 			if(id.length() > 10) {
-				path = vehicleDir + "/" + id.substring(0, 10) + getDevicePath() + "/" + id.substring(10, 16);
+				String deviceId = id.substring(10, 16).toUpperCase();
+				path = vehicleDir + "/" + impId + getDevicePath() + "/" + deviceId;
 				
 				String localDir = getRootLocalPath() + path;
 				String serverDir = getRootServerPath() + path;
@@ -231,7 +233,7 @@ public class FTPHandler {
 				createFtpDirectory(serverDir + firmwareDir);
 				createFtpDirectory(serverDir + playlistDir);
 			}else if(id.length() == 10){
-				path = vehicleDir + "/" + id.substring(0, 10);
+				path = vehicleDir + "/" + impId;
 				
 				String localDir = getRootLocalPath() + path;
 				String serverDir = getRootServerPath() + path;
