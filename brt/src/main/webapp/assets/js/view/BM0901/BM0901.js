@@ -97,6 +97,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	axDialog.alert("프레임표출설정을 선택하세요.");
             	return false;
             }
+            
+            if($('#timeKo').val() >= 255 || $('#timeEn').val() >= 255){
+            	axDialog.alert("표출시간은 255미만의 값을 입력해주세요");
+            	return false;
+            }
             axboot.promise()
                 .then(function (ok, fail, data) {
                     axboot.ajax({
@@ -127,6 +132,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	axDialog.alert("프레임표출설정을 선택하세요.");
             	return false;
             }
+            
+            if($('#timeKo').val() >= 255 || $('#timeEn').val() >= 255){
+            	axDialog.alert("표출시간은 255미만의 값을 입력해주세요");
+            	return false;
+            }
+            
             
             axboot.promise()
                 .then(function (ok, fail, data) {
