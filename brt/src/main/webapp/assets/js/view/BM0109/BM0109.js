@@ -9,6 +9,8 @@ var routeData = null;
 var addSeq = 0;
 var stnSeq = 1;
 var maxNodeCnt = 800;
+var stopAdd;
+var nodeAdd;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -133,7 +135,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	selectedRow = data;
     	stnSeq = 1;
         //mapMarker(data.lati, data.longi);
-    	moveMap(data.lati, data.longi);
+    	if(stopAdd == false && nodeAdd == false){
+    		moveMap(data.lati, data.longi);    		
+    	}
     },
  
     DRAW_ROUTE: function(caller, act, data) {
