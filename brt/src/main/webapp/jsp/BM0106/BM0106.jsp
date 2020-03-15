@@ -66,11 +66,11 @@
                     	</ax:tr>
                     	
                        	<ax:tr>
-                    		<ax:td label="ax.admin.BM0106F0.krNm" width="300px">
+                    		<ax:td label="ax.admin.BM0106F0.krNm" width="300px" labelClazz="required">
                     			<input type="text" name="krNm" data-ax-path="krNm" data-key="true" class="form-control" maxlength="20"/>
                     		</ax:td>
                     	
-                    		<ax:td label="ax.admin.BM0106F0.enNm" width="300px">
+                    		<ax:td label="ax.admin.BM0106F0.enNm" width="300px" labelClazz="required">
                     			<input type="text" name="enNm" data-ax-path="enNm" data-key="true" class="form-control" maxlength="20"/>
                     		</ax:td>
                     	</ax:tr>
