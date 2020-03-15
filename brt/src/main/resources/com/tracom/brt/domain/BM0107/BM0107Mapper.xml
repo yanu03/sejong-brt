@@ -55,6 +55,7 @@
     </select>
     
 	<select id="BM0107G1S0" parameterType="Map" resultType="bmRoutNodeInfoVO">
+	<!-- 
 		SELECT
 			  NODE_ID
 		    , NODE_NM
@@ -68,6 +69,34 @@
 			BM_ROUT_NODE_INFO INFO
             LEFT JOIN SM_DL_CD_INFO DLCD
             ON DLCD.CO_CD = 'NODE_TYPE' AND INFO.NODE_TYPE = DLCD.TXT_VAL1
+		WHERE
+			ROUT_ID = #{routId}
+	 -->
+	 
+	 	SELECT
+			  NODE_ID		AS NODE_ID
+			, STA.STA_NO	AS STA_NO
+		    , NODE_NM		AS NODE_NM
+            , NM.KR_NM		AS KR_NM
+            , NM.EN_NM		AS EN_NM
+		    , NODE_TYPE		AS NODE_TYPE
+            , DLCD.DL_CD_NM AS NODE_TYPE_NM
+		    , INFO.LATI		AS LATI
+		    , INFO.LONGI	AS LONGI
+		    , SEQ			AS SEQ
+		    , INFO.ROUT_ID	AS ROUT_ID
+		    
+		FROM
+			BM_ROUT_NODE_INFO INFO
+            LEFT JOIN SM_DL_CD_INFO DLCD
+            ON DLCD.CO_CD = 'NODE_TYPE' AND INFO.NODE_TYPE = DLCD.TXT_VAL1
+            
+            LEFT JOIN BM_STA_INFO STA
+            ON INFO.NODE_ID = STA.STA_ID
+            
+            LEFT JOIN BM_STA_NM_INFO NM
+            ON STA.STA_ID = NM.STA_ID
+            
 		WHERE
 			ROUT_ID = #{routId}
 
@@ -90,6 +119,7 @@
 		    , NULL AS SEQ
 		    , ROUT_ID
 		    , ROUT_STA.STA_ID AS STA_ID
+		    , STA.STA_NO AS STA_NO
 		    , CREATED_AT
 		    , CREATED_BY
 		    , UPDATED_AT
@@ -147,6 +177,7 @@
     				, SEQ
     				, ROUT_ID
     				, STA_ID
+    				, STA_NO
     				, NODE_TYPE
     				, CREATED_AT
     				, CREATED_BY
@@ -173,6 +204,7 @@
 				, #{voList.seq}
 				, #{voList.routId}
 				, #{voList.staId}
+				, #{voList.staNo}
 				, #{voList.nodeType}
 				, #{voList.createdAt}
 				, #{voList.createdBy}
@@ -189,6 +221,7 @@
     			(
     				  NODE_ID
     				, NODE_NM
+    				, STA_NO
     				, NODE_TYPE
     				, LATI
     				, LONGI
@@ -200,6 +233,7 @@
 			(
 			  	  #{voList.nodeId}
 			  	, REPLACE(#{voList.nodeNm}, ',', '.')
+			  	, #{voList.staNo}
 				, #{voList.nodeType}
 				, #{voList.lati}
 				, #{voList.longi} 

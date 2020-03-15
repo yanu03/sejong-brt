@@ -112,6 +112,7 @@
     				, LONGI
     				, SEQ
     				, ROUT_ID
+    				, STA_NO
     			)
 		VALUES
 			<foreach collection="voList" item="voList" separator=",">
@@ -137,6 +138,7 @@
 				, #{voList.longi} 
 				, #{voList.seq}
 				, #{routId}
+				, #{voList.staNo}
 			)
 			</foreach>   
     
@@ -157,6 +159,7 @@
     				, LONGI
     				, SEQ
     				, ROUT_ID
+    				, STA_NO
     			)
 		VALUES
 			<foreach collection="voList" item="voList" separator=",">
@@ -182,6 +185,7 @@
 				, #{voList.longi} 
 				, #{voList.seq}
 				, #{routId}
+				, #{voList.staNo}
 			)
 			</foreach>   
 	</insert>
@@ -256,7 +260,7 @@
 				<foreach collection="voList" item="voList" separator=",">
 						( #{voList.nodeId}
 						, REPLACE(#{voList.nodeNm}, ',', '.')
-						, NULL
+						, #{voList.staNo}
 						, #{voList.lati}
 						, #{voList.longi}
 						, #{voList.createdAt}
@@ -283,6 +287,7 @@
 				, NODE_ID
 				, NODE_NM
 				, STA_ID
+				, STA_NO
 				, LATI
 				, LONGI
 				, UPDATED_AT
@@ -303,6 +308,7 @@
 				</choose>
 				, REPLACE(#{voList.nodeNm}, ',', '.')
 				, #{voList.staId}
+				, #{voList.staNo}
 				, #{voList.lati}
 				, #{voList.longi}
 				, #{voList.updatedAt}
