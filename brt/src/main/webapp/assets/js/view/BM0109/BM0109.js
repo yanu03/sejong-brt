@@ -231,6 +231,21 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     },
     
+    ADD_STOP: function(caller, act, data){
+    	axboot.modal.open({
+            modalType: "BM0109",
+            param: "",
+            callback: function (data) {
+            	// 운수사, 거래처 등을 선택한 후 이벤트 ex) input에 값을 넣어 주는 등의 로직을 작성하면됨
+            	console.log(data);
+            	addStopSelected(data);
+        		moveMap(data.lati, data.longi);
+                this.close();
+            }
+        });
+    },
+    
+    
 });
 
 /********************************************************************************************************************/
@@ -468,6 +483,7 @@ function editSeq(){
 		type: "money",
 		disabled: function(){
 			ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+			return this.item.nodeTypeNm != '정류장';
 		},
 		attributes:{
 			"maxlength" : 11
@@ -481,7 +497,7 @@ function editName(){
 		type: "text",
 		disabled: function(){
 			ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
-			return this.item.nodeId != null;
+			return this.item.nodeTypeNm != 정류장;
 		},
 		attributes:{
 			"maxlength" : 20
@@ -507,19 +523,18 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             //showRowSelector: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	/*
                 {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80,	align: "center"},
                 {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq(),	align: "right"},
                 {key: "nodeTypeNm",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 50,	align: "center"},
                 {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 80,	align: "center"},
-                {key: "staNo", 		label: "정류장번호",								width: 80,	align: "center", editor: editSeq()},
+                {key: "staNo", 		label: "정류장번호",								width: 80,	align: "center", editor: editName()},
                 {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120, editor: editName()},
-                {key: "krNm", 		label: "국문표출명",								width: 120, editor: editName()},
-                {key: "enNm", 		label: "영문표출명",								width: 120, editor: editName()},
+                {key: "krNm", 		label: "국문표출명",								width: 120},
+                {key: "enNm", 		label: "영문표출명",								width: 120},
                 {key: "lati",		label: ADMIN("ax.admin.BM0107G1.lati"),			width: 120},
                 {key: "longi",		label: ADMIN("ax.admin.BM0107G1.longi"),		width: 120},
                 {key: "updatedAt",	label: ADMIN("ax.admin.BM0107G1.updatedAt"),	width: 120},
-                */
+                /*
             	{key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80,	align: "center"},
                 {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq(),	align: "right"},
                 {key: "nodeTypeNm",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 50,	align: "center"},
@@ -528,6 +543,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
                 {key: "lati",		label: ADMIN("ax.admin.BM0107G1.lati"),			width: 120},
                 {key: "longi",		label: ADMIN("ax.admin.BM0107G1.longi"),		width: 120},
                 {key: "updatedAt",	label: ADMIN("ax.admin.BM0107G1.updatedAt"),	width: 120},
+                */
             ],
             body: {
                 onClick: function () {
@@ -745,6 +761,75 @@ function onClickMap(e) {
 	
 }
 
+//0315 기존정류장 선택
+function addStopSelected(data) {
+	$("input:checkbox[id='toggleStn']").prop("checked", true);
+	$("input:checkbox[id='toggleNode']").prop("checked", true);
+	var routNm = selectedRow0.routNm;
+	
+	if(fnObj.gridView1.getData().length >= maxNodeCnt){
+		axDialog.alert("더이상 추가할 수 없습니다.");
+		return false;
+	}
+	
+	
+	var min = 10000000;
+	var minIndex = null;
+
+	for(var i = 0; i < routeData.length - 1; i++) {
+		var result = getDistanceToLine(
+			data.lati,
+			data.longi,
+			routeData[i].lati,
+			routeData[i].longi,
+			routeData[i + 1].lati,
+			routeData[i + 1].longi
+		)
+		
+		if(result.distance) {
+			if(min > result.distance) {
+				min = result.distance;
+				minIndex = i;
+			}
+		}
+	}
+	
+	if(minIndex == null) {
+		axDialog.alert("선택할 수 없는 좌표입니다. 경로를 먼저 입력하세요");
+	} else {
+		isNewData = true;
+		var seq = 0;
+		seq = routeData[minIndex].seq + (routeData[minIndex + 1].seq - routeData[minIndex].seq) / 2;				
+		var insertIndex = minIndex + 1;
+		
+		routeData.splice(insertIndex, 0, {
+			routId: selectedRow0.routId,
+			lati: data.lati,
+			longi: data.longi,
+			seq: seq,
+			nodeNm: data.staNm,
+			krNm: data.krNm,
+			enNm: data.enNm,
+			staNo: data.staNo,
+			nodeType: '1',
+			nodeId: data.staId,
+			nodeTypeNm: '정류장',
+			updatedAt: data.updatedAt,
+			icon: '',
+		});
+
+		routeData.sort(function (a,b){ return a.seq - b.seq });
+		stnSeq++;
+		
+		fnObj.gridView1.setData(routeData);
+		ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+		
+	}
+	
+}
+//
+
+
 function returnInsertRouteInfo(lat, lon) {
 	var min = 10000000;
 	var minIndex = null;
@@ -837,7 +922,7 @@ function drawRoute(list) {
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
 			if(list[i].nodeType == busstopNodeType) {
 				list[i].icon = "/assets/images/tmap/busstop.png";
-				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].krNm + "</span>";
 			}
 			// 아닐 경우(일반 노드) 네모 박스 표시
 			else {
@@ -868,6 +953,11 @@ function btnClick(){
 	});
 	$('#nodeAdd').on('click', function(){
 		addNode();
+	});
+	
+	//0315추가
+	$('#stopAdd2').on('click', function(){
+		ACTIONS.dispatch(ACTIONS.ADD_STOP);
 	});
 	
 	$('#refresh').on('click', function(){
@@ -985,7 +1075,7 @@ function onOffMarker(input){
 			if(list[i].nodeType == '1'){
 				list[i].icon = "/assets/images/tmap/busstop.png";
 				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].krNm + "</span>";
 				list[i].draggable = true;
 				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
@@ -1010,11 +1100,11 @@ function onOffMarker(input){
 		for(var i=0; i<list.length; i++){
 			if(list[i].nodeType=="30"){
 				list[i].icon = "/assets/images/tmap/road_trans.png";
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
 			}else{
 				list[i].icon = "/assets/images/tmap/busstop.png";				
+				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].krNm + "</span>";
 			}
-			//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
-			list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
 			list[i].draggable = true;
 			addMarkerInter(list[i], fnObj.gridView1, i);
 		}

@@ -133,6 +133,9 @@
 	                    <div id="stopAdd" style="float:right; padding-left:3px;">
 	                    	<button class="btn btn-default" data-grid-control="stop-add" style="width:100px;"><i class="cqc-plus"></i>정류장추가</button>
 	                    </div>
+	                    <div id="stopAdd2" style="float:right; padding-left:3px;">
+	                    	<button class="btn btn-default" data-grid-control="stop-add2" style="width:100px;"><i class="cqc-plus"></i>기존정류장</button>
+	                    </div>
 	                    <div id="toggleN" style="float:right;">
 	                    	<input type="checkbox" id="toggleNode" checked="checked">경로&nbsp;
 	                    </div>

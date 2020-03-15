@@ -53,7 +53,6 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 	}
 	
 	@Transactional
-	//public void BM0109G1I0(List<BmRoutNodeInfoVO> voList) {
 	public void BM0109G1I0(BmRoutNodeInfoVO vo) {
 		List<BmRoutNodeInfoVO> voList = vo.getVoList();
 		
@@ -85,7 +84,6 @@ public class BM0109Service extends BaseService<BmRoutInfoVO, String>{
 		
 		//vo 있을경우
 		if(voList.size() > 0) {
-				
 			//노드인포테이블에 인서트함
 			mapper.insertNodeInfo(vo);
 			//정류장이 있을경우

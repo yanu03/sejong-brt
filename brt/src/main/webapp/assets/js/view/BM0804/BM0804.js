@@ -160,7 +160,21 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             .catch(function () {
 
             });
-    }
+    },
+    
+    ADD_STOP: function(caller, act, data){
+    	axboot.modal.open({
+            modalType: "BM0109",
+            param: "",
+            callback: function (data) {
+            	// 운수사, 거래처 등을 선택한 후 이벤트 ex) input에 값을 넣어 주는 등의 로직을 작성하면됨
+            	console.log(data);
+            	addStopSelected(data);
+        		moveMap(data.lati, data.longi);
+                this.close();
+            }
+        });
+    },
     
 });
 
@@ -386,6 +400,34 @@ function editSeq(){
 			
 	}
 }
+
+function editSeq(){
+	return {
+		type: "money",
+		disabled: function(){
+			ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+			return this.item.nodeTypeNm != '정류장';
+		},
+		attributes:{
+			"maxlength" : 11
+		}
+			
+	}
+}
+
+function editName(){
+	return {
+		type: "text",
+		disabled: function(){
+			ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+			return this.item.nodeId != null;
+		},
+		attributes:{
+			"maxlength" : 20
+		}
+	}
+};
+
 /**
  * gridView1
  */
@@ -405,11 +447,14 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             //showRowSelector: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-                {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80},
-                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq()},
-                {key: "nodeType",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 30},
-                {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 120},
-                {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120},
+                {key: "routId", 	label: ADMIN("ax.admin.BM0107G1.routId"),		width: 80,	align: "center"},
+                {key: "seq",		label: ADMIN("ax.admin.BM0107G1.seq"),			width: 60,	editor: editSeq(),	align: "right"},
+                {key: "nodeTypeNm",	label: ADMIN("ax.admin.BM0107G1.nodeType"),		width: 50,	align: "center"},
+                {key: "nodeId", 	label: ADMIN("ax.admin.BM0107G1.nodeId"),		width: 80,	align: "center"},
+                {key: "staNo", 		label: "정류장번호",								width: 80,	align: "center", editor: editName()},
+                {key: "nodeNm", 	label: ADMIN("ax.admin.BM0107G1.nodeNm"),		width: 120, editor: editName()},
+                {key: "krNm", 		label: "국문표출명",								width: 120, editor: editName()},
+                {key: "enNm", 		label: "영문표출명",								width: 120, editor: editName()},
                 {key: "lati",		label: ADMIN("ax.admin.BM0107G1.lati"),			width: 120},
                 {key: "longi",		label: ADMIN("ax.admin.BM0107G1.longi"),		width: 120},
                 {key: "updatedAt",	label: ADMIN("ax.admin.BM0107G1.updatedAt"),	width: 120},
@@ -568,8 +613,9 @@ function onClickMap(e) {
 				lati: lonlat.lat(),
 				longi: lonlat.lng(),
 				seq: seq,
-				nodeNm: routNm + "_정류장" + stnSeq,
-				nodeType: '1', 
+				nodeNm: "정류장" + stnSeq,
+				nodeType: '1',
+				nodeTypeNm : '정류장',
 				icon: '',
 			});
 
@@ -616,6 +662,7 @@ function onClickMap(e) {
 				seq: seq,
 				nodeNm: selectedRow0.routId + "_작업노드" + seq,
 				nodeType: '30', 
+				nodeTypeNm: '지점',
 				icon: '',};
 		
 		routeData.splice(insertIndex, 0, data);
@@ -825,6 +872,11 @@ function btnClick(){
 		addNode();
 	});
 	
+	//0315추가
+	$('#stopAdd2').on('click', function(){
+		ACTIONS.dispatch(ACTIONS.ADD_STOP);
+	});
+	
 	$('#refresh').on('click', function(){
 		var tmpData = fnObj.gridView1.getData();
 		tmpData.sort(function (a,b){return a.seq - b.seq});
@@ -976,3 +1028,68 @@ function onOffMarker(input){
 		break;
 	}
 }
+
+//0315 기존정류장 선택
+function addStopSelected(data) {
+	$("input:checkbox[id='toggleStn']").prop("checked", true);
+	$("input:checkbox[id='toggleNode']").prop("checked", true);
+	var routNm = selectedRow0.routNm;
+	
+	if(fnObj.gridView1.getData().length >= maxNodeCnt){
+		axDialog.alert("더이상 추가할 수 없습니다.");
+		return false;
+	}
+	
+	
+	var min = 10000000;
+	var minIndex = null;
+
+	for(var i = 0; i < routeData.length - 1; i++) {
+		var result = getDistanceToLine(
+			data.lati,
+			data.longi,
+			routeData[i].lati,
+			routeData[i].longi,
+			routeData[i + 1].lati,
+			routeData[i + 1].longi
+		)
+		
+		if(result.distance) {
+			if(min > result.distance) {
+				min = result.distance;
+				minIndex = i;
+			}
+		}
+	}
+	
+	if(minIndex == null) {
+		axDialog.alert("선택할 수 없는 좌표입니다. 경로를 먼저 입력하세요");
+	} else {
+		isNewData = true;
+		var seq = 0;
+		seq = routeData[minIndex].seq + (routeData[minIndex + 1].seq - routeData[minIndex].seq) / 2;				
+		var insertIndex = minIndex + 1;
+		
+		routeData.splice(insertIndex, 0, {
+			routId: selectedRow0.routId,
+			lati: data.lati,
+			longi: data.longi,
+			seq: seq,
+			nodeNm: data.staNm,
+			nodeType: '1',
+			nodeId: data.staId,
+			nodeTypeNm: '정류장',
+			updatedAt: data.updatedAt,
+			icon: '',
+		});
+
+		routeData.sort(function (a,b){ return a.seq - b.seq });
+		stnSeq++;
+		
+		fnObj.gridView1.setData(routeData);
+		ACTIONS.dispatch(ACTIONS.DRAW_ROUTE);
+		
+	}
+	
+}
+//

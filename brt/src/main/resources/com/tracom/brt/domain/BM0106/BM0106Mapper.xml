@@ -7,6 +7,7 @@
     	SELECT
 			  STA.STA_ID	AS STA_ID
 		    , STA.STA_NM	AS STA_NM
+		    , STA.STA_NO	AS STA_NO
 		    , STA.LATI		AS LATI
 		    , STA.LONGI		AS LONGI
 		    , NM.KR_NM		AS KR_NM
