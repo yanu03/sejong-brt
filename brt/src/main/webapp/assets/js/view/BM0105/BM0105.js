@@ -90,8 +90,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	},
 
 	ITEM_CLICK_G0: function (caller, act, data) {
-		removeAllPopUp();
-		removeMarkers();
+		//removeAllPopUp();
+		//removeMarkers();
 		searchGrid1(caller, act, data);
 		selectedRow = data;
 	},
@@ -359,6 +359,8 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 				body: {
 					onClick: function () {
 						this.self.select(this.dindex);
+						console.log(this.dindex);
+						clickNode(fnObj.gridView1.getData(), this.dindex);
 						ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
 					}
 				},
@@ -440,7 +442,8 @@ function searchGrid1(caller, act, data){
 		data: input,
 		callback: function (res) {
 			caller.gridView1.setData(res);
-			makeStnMarker(res);
+			//makeStnMarker(res);
+			drawRoute(res.list);
 			if(res.list.length == 0) {
 			}
 			else {
@@ -469,4 +472,54 @@ function makeStnMarker(data){
 	}
 	addMarkers(stnY, stnX, staNm);
 	
+}
+
+function drawRoute(list) {
+	var path = [];
+	
+	removeMarkers();
+	
+	if(list != null && list.length != 0) {
+		for(var i = 0; i < list.length; i++) {
+			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
+			
+			list[i].click = function(e) {
+			};
+			
+			list[i].index = i;
+			
+			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
+			list[i].icon = "/assets/images/tmap/busstop.png";
+			list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].staNm + "</span>";
+			
+			addMarkerInter(list[i], fnObj.gridView1, i);
+		}
+	}
+}
+
+function clickNode(list, idx){
+	var path = [];
+	
+	removeMarkers();
+	
+	if(list != null && list.length != 0) {
+		for(var i = 0; i < list.length; i++) {
+			path.push(new Tmapv2.LatLng(list[i].lati, list[i].longi));
+			
+			list[i].click = function(e) {
+			};
+			
+			list[i].index = i;
+			
+			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
+			if(i == idx){
+				list[i].icon = "/assets/images/tmap/busstop_selected.png";				
+			}else{
+				list[i].icon = "/assets/images/tmap/busstop.png";				
+			}
+			list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].staNm + "</span>";
+			
+			addMarkerInter(list[i], fnObj.gridView1, i);
+		}
+	}
 }
