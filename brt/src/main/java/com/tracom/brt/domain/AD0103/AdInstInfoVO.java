@@ -23,5 +23,6 @@ public class AdInstInfoVO extends BaseVO {
 	private String comfirmYn;
 	private String priceType;
 	private String confirmYn;
+	private int countVehicle;
 	private List<AdInstDlVO> list;
 }

@@ -1150,7 +1150,14 @@ public class FTPHandler {
 				String vehiclePath = path + "/" + vehicle.getFilename() + "/log";
 				String vehicleId = vehicle.getFilename();
 				
-				Vector<LsEntry> logList = sftpChannel.ls(vehiclePath);
+				Vector<LsEntry> logList = null;
+				
+				try {
+					logList = sftpChannel.ls(vehiclePath);
+				} catch(Exception fn) {
+					System.out.println(vehiclePath + " don't exist on your server!");
+					continue;
+				}
 				
 				for(LsEntry log : logList) {
 					if(!log.getFilename().startsWith(".")) {
