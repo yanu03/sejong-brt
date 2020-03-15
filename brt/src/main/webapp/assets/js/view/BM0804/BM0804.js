@@ -117,7 +117,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	if(stopAdd == false && nodeAdd == false){
     		moveMap(data.lati, data.longi);    		
     	}
-    	//moveMap(data.lati, data.longi);
     },
  
     DRAW_ROUTE: function(caller, act, data) {
