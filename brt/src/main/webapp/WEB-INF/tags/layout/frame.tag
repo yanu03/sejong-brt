@@ -122,7 +122,7 @@
             <c:if test="${config.layout.leftSideMenu ne 'visible'}">
                 <div class="ax-split-panel">&nbsp;</div>
             </c:if>
-            <div class="ax-split-panel cell-logo" style="width:360px;">
+            <div class="ax-split-panel cell-logo" style="width:300px;">
                     <!-- <img src="${pageContext.request.contextPath}${config.logo.header}" width="100%"/> -->
                     <div style="float:left;width:40px;height:30px;background-image:url('${pageContext.request.contextPath}${config.logo.header}');background-repeat:no-repeat;border:solid 0px;"></div>
                     <div style="float:left;height:30px;border:0px solid;padding-top:6px;"><h2>BRT(전기·굴절)관리시스템</h2></div>
@@ -132,10 +132,10 @@
                      -->
             </div>
             <div id="ax-top-menu" class="ax-split-panel ax-split-flex"></div>
-            <div class="ax-split-panel cell-aside-handle" id="ax-fullscreen-handel">
+   <!--          <div class="ax-split-panel cell-aside-handle" id="ax-fullscreen-handel">
                 <i class="cqc-expand icon-closed"></i>
                 <i class="cqc-collapse icon-opened"></i>
-            </div>
+            </div> -->
         </div>
     </div>
 
