@@ -26,73 +26,20 @@
 
 <ax:layout name="empty">
     <jsp:attribute name="css">
-<style>
-    *{margin:0; padding:0; box-sizing:border-box !important;}
-	.ir_wa {display:block;overflow:hidden;position:relative;z-index:-10;width:100%;height:100%} 
-	.ir_pm {display:block;overflow:hidden; text-indent:200%; white-space:nowrap }
-	.blind {display:block;overflow:hidden;position:absolute;top:-1000em;left:0}
-	
-	  
-	html {
-	    width: 100%;
-	    height: 100%;
-	    display: table;
-	}
-	body {
-	    display: table-cell;
-	    vertical-align: middle;
-	    background: url("/assets/images/login/login-bg.jpg") no-repeat center;
-	    background-size: cover;
-	}
-	
-	.login-wrap {
-	    width: 360px;
-	    margin: 0 auto;
-	}
-	.login-wrap h1{
-	    width: 246px;
-	    height: 115px;
-	    background: url("/assets/images/login/h1-logo.png") no-repeat;
-	    margin: 0 auto;
-	    margin-bottom: 20px;
-	}
-	.login-wrap input, .login-wrap button {
-	    width: 360px;
-	    height: 50px;
-	    border: none;
-	    border-radius: 5px;
-	    vertical-align:middle;
-	    margin-top: 10px;
-	    font-size: 16px;
-	}
-	input#userCd {
-	    padding-left: 50px;
-	    background: #ffffff url("/assets/images/login/ico-id.png") no-repeat 20px 50%;
-	}
-	input#userPs {
-	    padding-left: 50px;
-	    background: #ffffff url("/assets/images/login/ico-pass.png") no-repeat 18px 50%;
-	}
-	button.btn-login {
-	    background: #0055bb;
-	    color: #ffffff;
-	    height: 60px;
-	    font-size: 20px;
-	    font-weight: 600;
-	    margin-top: 20px;
-	    cursor: pointer;
-	}
-	.copyright {
-	    margin-top: 10px;
-	    color: #ffffff;
-	    text-align: center;
-}
-</style>
+        <style>
+            .ax-body.login {
+                background: url(${config.background.login}) center center;
+                background-size: cover;
+                color: #ccc;
+            }
+
+        </style>
     </jsp:attribute>
     <jsp:attribute name="js">
         <script>
             axboot.requireSession('${config.sessionCookie}');
         </script>
+        <script type="text/javascript" src="<c:url value='/assets/js/axboot/dist/good-words.js' />"></script>
     </jsp:attribute>
 
     <jsp:attribute name="script">
@@ -100,6 +47,7 @@
             var fnObj = {
                 pageStart: function () {
 
+                    //$("#good_words").html(goodWords.get());
                 },
                 login: function () {
                     axboot.ajax({
@@ -136,20 +84,6 @@
 
     <jsp:body>
 
-	<div class="login-wrap">
-		<h1 class="ir_pm">세종도시교통공사</h1>
-		<form name="login-form" method="post" action="/api/login" onsubmit="return fnObj.login();" autocomplete="off">
-            <label for="userCd" class="blind">아이디</label>
-            <input type="text" id="userCd" style="color:black;" placeholder="아이디를 입력해 주세요"images/>
-            <label for="userPs" class="blind">패스워드</label>
-            <input type="password" id="userPs" style="color:black;" placeholder="비밀번호를 입력해 주세요"images/>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button type="submit" class="btn-login">Log in</button>
-        </form>
-    </div>
-    
-    <p class="copyright">Copyright © 세종도시교통공사 | <strong>BRT(전기.굴절) 관리 시스템</strong></p>
-<!-- 
         <ax:flex-layout valign="middle" align="center" style="width:100%;height:100%;">
             <div>
                 <img src="${pageContext.request.contextPath}${config.logo.login}" class="img-logo" />
@@ -179,15 +113,17 @@
 
                     </form>
                 </div>
-                
                 <ul class="list-group">
                     <li class="list-group-item">
                         ${config.copyrights}
                     </li>
                 </ul>
             </div>
+
+            <div class="txt-good-words" id="good_words">
+
+            </div>
         </ax:flex-layout>
- -->
     </jsp:body>
 
 </ax:layout>
