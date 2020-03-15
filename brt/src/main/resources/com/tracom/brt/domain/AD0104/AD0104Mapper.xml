@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.AD0104.AD0104Mapper">
+	<select id="AD0104G0S0" parameterType="hashmap" resultType="adInstInfoVO">
+		SELECT
+			  CUST_ID
+			, CUST_NM
+			, INST_NM
+			, AD_ST_DATE
+			, AD_ED_DATE
+			, COUNT(VHC_ID) COUNT_VEHICLE
+			, AD_AMT
+		FROM
+			(SELECT
+				  I.INST_ID
+				, C.CUST_ID
+				, C.CUST_NM
+				, I.INST_NM
+				, I.AD_ST_DATE
+				, I.AD_ED_DATE
+				, I.AD_AMT
+				, D.VHC_ID
+			FROM
+				AD_INST_INFO I
+				LEFT OUTER JOIN BM_CUST_INFO C
+				ON I.CUST_ID = C.CUST_ID
+				LEFT OUTER JOIN AD_INST_DL D
+				ON I.INST_ID = D.INST_ID
+			<where>
+				<if test="filter != null">
+					(C.CUST_ID LIKE CONCAT('%', #{filter}, '%')
+					OR C.CUST_NM LIKE CONCAT('%', #{filter}, '%'))
+				</if>
+				<if test="stDate != null and edDate != null">
+					AND
+					(DATE_FORMAT(#{stDate}, '%Y-%m-%d') &lt;= I.AD_ST_DATE AND DATE_FORMAT(#{edDate}, '%Y-%m-%d') >= I.AD_ST_DATE)
+					OR
+					(DATE_FORMAT(#{stDate}, '%Y-%m-%d') &lt;= I.AD_ED_DATE AND DATE_FORMAT(#{edDate}, '%Y-%m-%d') >= I.AD_ED_DATE)
+				</if>
+			</where>
+			GROUP BY I.INST_ID, D.VHC_ID) R
+		GROUP BY INST_ID
+		ORDER BY INST_ID
+	</select>
+</mapper>
