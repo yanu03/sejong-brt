@@ -36,7 +36,7 @@
         </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
-            <ax:split-panel width="*" style="padding-right: 10px;">
+            <ax:split-panel width="*" style="padding-right: 10px;" scroll="scroll">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <i class="cqc-news"></i>전면 시정홍보
@@ -69,7 +69,7 @@
                 </ax:form>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="*" style="padding-left:10px; height:100%;">
+            <ax:split-panel width="*" style="padding-left:10px; height:100%;" scroll="scroll">
             	                <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <i class="cqc-news"></i>측면 시정홍보

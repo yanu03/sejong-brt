@@ -30,7 +30,7 @@
 
 
         <ax:split-layout name="ax1" orientation="vertical" height="100%">
-            <ax:split-panel width="*" style="padding-right: 10px;">
+            <ax:split-panel width="*" style="padding-right: 10px;" scroll="scroll">
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
