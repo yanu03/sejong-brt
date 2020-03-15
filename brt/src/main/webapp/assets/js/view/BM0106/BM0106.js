@@ -122,9 +122,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		if($('#lineCnt').val() < 1){
     			axDialog.alert("1이상을 입력해주세요");
     			return false;
-    		}else if(!$('#lineCnt').isNumeric){
-    			axDialog.alert("숫자만 입력해주세요");
-    			return false;
     		}
             var formData = caller.formView0.getData();
             axboot.promise()

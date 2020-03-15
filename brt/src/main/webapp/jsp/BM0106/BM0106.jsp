@@ -30,7 +30,7 @@
 
 
         <ax:split-layout name="ax1" orientation="vertical" height="100%">
-            <ax:split-panel width="*" style="padding-right: 10px;">
+            <ax:split-panel width="*" style="padding-right: 10px;" scroll="scroll">
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
@@ -66,11 +66,11 @@
                     	</ax:tr>
                     	
                        	<ax:tr>
-                    		<ax:td label="ax.admin.BM0106F0.krNm" width="300px">
+                    		<ax:td label="ax.admin.BM0106F0.krNm" width="300px" labelClazz="required">
                     			<input type="text" name="krNm" data-ax-path="krNm" data-key="true" class="form-control" maxlength="20"/>
                     		</ax:td>
                     	
-                    		<ax:td label="ax.admin.BM0106F0.enNm" width="300px">
+                    		<ax:td label="ax.admin.BM0106F0.enNm" width="300px" labelClazz="required">
                     			<input type="text" name="enNm" data-ax-path="enNm" data-key="true" class="form-control" maxlength="20"/>
                     		</ax:td>
                     	</ax:tr>

@@ -678,6 +678,7 @@ public class FTPHandler {
         	vo.setRoutNo(tmp[2]);
         	vo.setRoutNmKo(tmp[3]);
         	vo.setRoutNmEn(tmp[4]);
+        	vo.setRoutShape(tmp[5]);
         	
         	list.add(vo);
         	}

@@ -46,7 +46,7 @@
             </ax:split-panel>
             <ax:splitter></ax:splitter>
             
-            <ax:split-panel width="550" style="padding-left: 10px; height:100%; padding-bottom:490px;">
+            <ax:split-panel width="550" style="padding-left: 10px; height:100%; padding-bottom:490px;" scroll="scroll">
 	            <ax:split-panel width="500" style="height:450px;" scroll="scroll">
 	                <!-- 폼 -->
 	                <div class="ax-button-group" role="panel-header">
@@ -119,7 +119,7 @@
 	                </ax:form>
 	            </ax:split-panel>
 	            
-	            <ax:split-panel width="500" style="height:100%;">
+	            <ax:split-panel width="500" style="height:250px;">
 	                <div class="ax-button-group" role="panel-header">
 	                    <div class="left">
 	                        <h3><i class="cqc-list"></i>
