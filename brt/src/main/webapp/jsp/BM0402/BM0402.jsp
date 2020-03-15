@@ -105,11 +105,11 @@
                        	
                        	<ax:tr>
                             <ax:td id="wavLabel" label="ax.admin.BM0402F0.wav" width="100%">
-                            	<div style="float:left;width:475px;">
+                            	<div style="float:left;width:450px;">
                             		<input type="file" id="wavFile" name="wavFile" accept="audio/wav" title="<ax:lang id="ax.admin.BM0401F0.wav"/>" style="display: inline-block;" class="W160"/>
                             		<span id="wavFilename" style="color: red; display: inline-block;"></span>
                             	</div>
-                            	<div style="float:left;">
+                            	<div style="float:left;padding-left:5px;">
                             		<button type="button" class="btn btn-default" data-btn data-btn-test="wav">
                                 		<ax:lang id="ax.admin.test"/>
                             		</button>
@@ -119,7 +119,7 @@
                        	
                        	<ax:tr>
                             <ax:td id="krTtsLabel" label="ax.admin.BM0402F0.kr.tts" width="100%">
-                            	<div style="float:left;width:470px;">
+                            	<div style="float:left;width:450px;">
                             		<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0401F0.kr.tts"/>" rows="4" class="form-control" maxlength="200"></textarea>
                             	</div>
                             	<div style="float:left;padding-left:5px;">
