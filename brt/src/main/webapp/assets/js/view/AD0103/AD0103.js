@@ -450,14 +450,15 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         	showRowSelector: true,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [
-            	{key: "vhcNo",			label: ADMIN("ax.admin.AD0103G0.vhc.no"),		sortable: true, width: 100,	align: "center"},
-            	{key: "adRout",			label: ADMIN("ax.admin.AD0103G0.route"),		sortable: true, width: 80,	align: "center"},
-                {key: "adLvlNm",		label: ADMIN("ax.admin.AD0103G0.ad.lvl"),		sortable: true, width: 80,	align: "center"},
-                {key: "adPosTypeNm",	label: ADMIN("ax.admin.AD0103G0.ad.pos.type"),	sortable: true, width: 80,	align: "center"},
-                {key: "adPosNm",		label: ADMIN("ax.admin.AD0103G0.ad.pos"),						width: 115},
-                {key: "unitAmt",		label: ADMIN("ax.admin.AD0103G0.unit.amt"),						width: 100,	align: "right",	formatter: "money"},
+            	{key: "vhcNo",			label: ADMIN("ax.admin.AD0103G0.vhc.no"),			width: 100,	align: "center"},
+            	{key: "adRout",			label: ADMIN("ax.admin.AD0103G0.route"),			width: 80,	align: "center"},
+                {key: "adLvlNm",		label: ADMIN("ax.admin.AD0103G0.ad.lvl"),			width: 80,	align: "center"},
+                {key: "adPosTypeNm",	label: ADMIN("ax.admin.AD0103G0.ad.pos.type"),		width: 80,	align: "center"},
+                {key: "adPosNm",		label: ADMIN("ax.admin.AD0103G0.ad.pos"),			width: 115},
+                {key: "unitAmt",		label: ADMIN("ax.admin.AD0103G0.unit.amt"),			width: 100,	align: "right",	formatter: "money"},
             ],
             body: {
+            	mergeCells: ["vhcNo", "adRout", "adLvlNm", "adPosTypeNm"],
                 onClick: function () {
                     this.self.select(this.dindex);
                 }
