@@ -12,7 +12,7 @@
         <ax:script-lang key="ax.admin" var="ADMIN"/>
         <script type="text/javascript" src="<c:url value='/assets/js/common/tmap.js' />"></script>
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0107/BM0107.js' />"></script>
-        <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appkey=bbaeca8d-24d4-425d-9bd2-946552e4e2a7"></script>
+        <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appkey=l7xx6099b61644bf40d78594611b250c9694"></script>
     </jsp:attribute>
     <jsp:body>
 
