@@ -762,6 +762,6 @@ function makeData(){
 	list.push({col1: ADMIN("ax.admin.BM0608G1.c6"), col2: ADMIN("ax.admin.BM0608G1.c6r6"), color: black});
 	list.push({col1: ADMIN("ax.admin.BM0608G1.c7"), col2: ADMIN("ax.admin.BM0608G1.c7r1"), color: black});
 	list.push({col1: ADMIN("ax.admin.BM0608G1.c7"), col2: ADMIN("ax.admin.BM0608G1.c7r2"), color: black});
-	
+	list.push({col1: ADMIN("ax.admin.BM0608G1.c7"), col2: ADMIN("ax.admin.BM0608G1.c7r3"), color: black});
 	return list;
 }

@@ -106,7 +106,7 @@
                         
                         <ax:tr>
                             <ax:td label="구역별 글씨 색" width="100%" labelClazz="required">
-	                             <div data-ax5grid="gridView1" style="min-height:280px;height:790px;"></div>
+	                             <div data-ax5grid="gridView1" style="min-height:280px;height:810px;"></div>
                             </ax:td>
                         </ax:tr>
                         

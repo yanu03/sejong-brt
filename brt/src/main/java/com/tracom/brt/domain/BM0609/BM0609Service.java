@@ -64,7 +64,7 @@ public class BM0609Service extends BaseService<ScrRsvVO, String>{
 	}
 	
 	public String[] makeCol1() {
-		String col1[] = new String[26];
+		String col1[] = new String[27];
 		col1[0] = "1001";
 		col1[1] = "1002";
 		col1[2] = "1003";
@@ -91,6 +91,7 @@ public class BM0609Service extends BaseService<ScrRsvVO, String>{
 		col1[23] = "3306";
 		col1[24] = "3401";
 		col1[25] = "3402";
+		col1[26] = "3403";
 		
 		return col1;
 	}

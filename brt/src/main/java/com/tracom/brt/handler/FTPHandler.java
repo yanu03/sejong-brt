@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -340,6 +341,23 @@ public class FTPHandler {
 		fos.close();
 	}
 	
+	//배열 두개 확장자빼고 비교해서 지울거 뱉어내는 함수 0316
+	public void getForDel(File[] ftpList, List<VdoRsvVO> voList, VdoRsvVO vo) throws SftpException {
+		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device/passenger").toString();
+		List<String> list = new ArrayList<>();
+		
+		for(VdoRsvVO o : voList) {
+			list.add(o.getVideoFile());
+		}
+		
+		for(File f : ftpList) {
+			if(!Arrays.asList(list).contains(f.getName())) {
+				File delFile = new File(toPath + "/" + f.getName());
+				delFile.delete();				
+			}
+		}
+	}
+	
 	//BM0607 영상예약
 	public void reserveVideo(VdoRsvVO vo) throws Exception {
 		String videoPath = "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";
@@ -369,6 +387,13 @@ public class FTPHandler {
 		
 		
 		List<VdoRsvVO> voList = BM0607Mapper.makePlayList(vo.getOrgaId());
+		
+		File _toPath = new File(toPath);
+		File[] fileList = _toPath.listFiles();
+		
+		//없는거 다 삭제함
+		getForDel(fileList, voList, vo);
+		
 		for(int i = 0; i < voList.size(); i++) {
 			String row = GlobalConstants.CSVForms.ROW_SEPARATOR
 					+ (i+1) + GlobalConstants.CSVForms.COMMA
@@ -509,41 +534,41 @@ public class FTPHandler {
 	}
 	
 	//BM0902 전자노선도예약
-		public void reserveED(EdRsvVO vo) throws Exception {
-			String lPath = Paths.get(getRootLocalPath(), "/vehicle/", vo.getImpId(), "/device/" + vo.getDvcId(), "/config").toString();
-			String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/config";
-			
-			File dir = new File(lPath);
-			
-			if(!dir.isDirectory()) {
-				dir.mkdirs();
-			}
-
-			createFtpDirectory(fPath);
-			
-			
-			String txt = GlobalConstants.CSVForms.ELEC_ROUTER;
-			
-			ElecRouterVO config = BM0902Mapper.getEdConfig(vo);
-			String row = GlobalConstants.CSVForms.ROW_SEPARATOR
-					+ config.getTimeKo() + GlobalConstants.CSVForms.COMMA
-					+ config.getTimeEn() + GlobalConstants.CSVForms.COMMA
-					+ config.getCategory() + GlobalConstants.CSVForms.COMMA
-					+ config.getFrame() + GlobalConstants.CSVForms.COMMA
-					+ config.getFont();
-			
-			txt += row;
-
-			File file = new File(lPath + "/config.csv");
-
-			
-			try {
-				Utils.createCSV(file, txt);
-				processSynchronize(lPath, fPath);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+	public void reserveED(EdRsvVO vo) throws Exception {
+		String lPath = Paths.get(getRootLocalPath(), "/vehicle/", vo.getImpId(), "/device/" + vo.getDvcId(), "/config").toString();
+		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/config";
+		
+		File dir = new File(lPath);
+		
+		if(!dir.isDirectory()) {
+			dir.mkdirs();
 		}
+
+		createFtpDirectory(fPath);
+		
+		
+		String txt = GlobalConstants.CSVForms.ELEC_ROUTER;
+		
+		ElecRouterVO config = BM0902Mapper.getEdConfig(vo);
+		String row = GlobalConstants.CSVForms.ROW_SEPARATOR
+				+ config.getTimeKo() + GlobalConstants.CSVForms.COMMA
+				+ config.getTimeEn() + GlobalConstants.CSVForms.COMMA
+				+ config.getCategory() + GlobalConstants.CSVForms.COMMA
+				+ config.getFrame() + GlobalConstants.CSVForms.COMMA
+				+ config.getFont();
+		
+		txt += row;
+
+		File file = new File(lPath + "/config.csv");
+
+		
+		try {
+			Utils.createCSV(file, txt);
+			processSynchronize(lPath, fPath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	//템플릿 배경 파일 업로드
