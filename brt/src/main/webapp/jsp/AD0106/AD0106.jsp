@@ -10,7 +10,7 @@
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN"/>
-        <script type="text/javascript" src="<c:url value='/assets/js/view/AD0105/AD0105.js' />"></script>
+        <script type="text/javascript" src="<c:url value='/assets/js/view/AD0106/AD0106.js' />"></script>
     </jsp:attribute>
     <jsp:body>
 
@@ -20,9 +20,9 @@
             <ax:form name="searchView0">
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
                     <ax:tr>
-                        <ax:td label="ax.admin.AD0105S0.search.date" width="300px">
+                        <ax:td label="ax.admin.AD0106S0.search.date" width="300px">
                         	<div class="input-group" data-ax5picker="date">
-                                <input type="text" id="date" class="form-control" data-ax5formatter="date" placeholder="<ax:lang id="ax.admin.date.format"/>">
+                                <input type="text" id="date" class="form-control" data-ax5formatter="date" placeholder="<ax:lang id="ax.admin.date.format.month"/>">
                                 <span class="input-group-addon"><i class="cqc-calendar"></i></span>
                             </div>
                         </ax:td>
@@ -37,7 +37,7 @@
                 <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h3><i class="cqc-list"></i>
-                            <ax:lang id="ax.admin.AD0105G0.title"/> 
+                            <ax:lang id="ax.admin.AD0106G0.title"/> 
                         </h3>
                     </div>
                     <div class="right">

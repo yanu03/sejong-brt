@@ -20,9 +20,10 @@
                 <ax:tbl clazz="ax-search-tbl" minWidth="500px">
 					<ax:tr>
 						<ax:form name="searchView0">
-							<ax:td label='ax.admin.search' width="300px">
+							<ax:td label='ax.admin.search' width="320px">
 								<ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0801S0.search" maxLength="20"/>
 							</ax:td>
+						</ax:form>
 							
 							<ax:td label="ax.admin.date" width="350px">
 	                        	<div class="input-group" data-ax5picker="date">
@@ -32,7 +33,6 @@
 	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 	                            </div>
 	                        </ax:td>
-            		  </ax:form>
                     </ax:tr>
                 </ax:tbl>
             <div class="H3"></div>
