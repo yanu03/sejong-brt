@@ -248,12 +248,12 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "corpNo", label: ADMIN("ax.admin.BM0101F0.corp.no"),											width: 120,	align: "right"},
                 {key: "email",	label: ADMIN("ax.admin.BM0101F0.email"),											width: 120},
                 {key: "phone",	label: ADMIN("ax.admin.BM0101F0.phone"),											width: 80,	align: "right"},
-                {key: "addr1",	label: ADMIN("ax.admin.BM0101F0.addr1"),											width: 120,	sortable: true},
+                {key: "addr1",	label: ADMIN("ax.admin.BM0101F0.addr1"),											width: 150,	sortable: true},
                 {key: "fax",	label: ADMIN("ax.admin.BM0101F0.fax"),												width: 80,	align: "right"},
                 {key: "zipNo",	label: ADMIN("ax.admin.BM0101F0.zip.no"),											width: 70,	align: "right"},
                 {key: "addr2",	label: ADMIN("ax.admin.BM0101F0.addr2"),											width: 120, sortable: true},
-                {key: "garage",	label: ADMIN("ax.admin.BM0101F0.garage"),											width: 70,	sortable: true},
-                {key: "remark",	label: ADMIN("ax.admin.BM0101F0.remark"),											width: 160},
+                {key: "garage",	label: ADMIN("ax.admin.BM0101F0.garage"),											width: 150,	sortable: true},
+                {key: "remark",	label: ADMIN("ax.admin.BM0101F0.remark"),											width: 250},
             ],
             body: {
                 onClick: function () {
