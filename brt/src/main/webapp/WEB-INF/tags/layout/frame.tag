@@ -126,6 +126,7 @@
                     <!-- <img src="${pageContext.request.contextPath}${config.logo.header}" width="100%"/> -->
                     <div style="float:left;width:40px;height:30px;background-image:url('${pageContext.request.contextPath}${config.logo.header}');background-repeat:no-repeat;border:solid 0px;"></div>
                     <div style="float:left;height:30px;border:0px solid;padding-top:6px;"><h2>BRT(전기·굴절)관리시스템</h2></div>
+                    <!-- <div style="float:left;height:30px;border:0px solid;padding-top:6px;"><h2>교육</h2></div> -->
                     <!-- 
                 <a href="${pageContext.request.contextPath}/jsp/main.jsp">
                 </a>
