@@ -24,7 +24,12 @@
         <p class="desc">${page_desc}</p>
     </jsp:attribute>
     <jsp:body>
-    <div style="background-color: white;"></div>
+    <div style="background-color: white; display:table; width:100%; height:100%">
+    	<div style="position:absolute; text-align: center; width:100%; height: 100%; top: 0; left: 0; font-size:50px;">
+		    <img src="/assets/images/home-logo.png" style="display:inline-block; vertical-align:middle;">
+		    <span style="display:inline-block; width:0; height:100%; vertical-align:middle"></span>
+    	</div>    
+    </div>
     <!-- 
         <ax:split-layout name="ax1" orientation="vertical">
     		<ax:split-panel width="*" style="padding:0px;" scroll="scroll">
