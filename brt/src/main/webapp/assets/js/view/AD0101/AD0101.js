@@ -271,8 +271,8 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         	showRowSelector: true,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-                {key: "adPosType",		label: ADMIN("ax.admin.AD0101G1.ad.type"),		width: 65,	align: "center",		sortable: true},
-                {key: "adPosNm",		label: ADMIN("ax.admin.AD0101G1.ad.loc"),		width: 120,							sortable: true},
+                {key: "adPosType",		label: ADMIN("ax.admin.AD0101G1.ad.type"),		width: 65,	align: "center"},
+                {key: "adPosNm",		label: ADMIN("ax.admin.AD0101G1.ad.loc"),		width: 120,	},
             ],
             body: {
                 onClick: function () {

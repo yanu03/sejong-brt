@@ -28,7 +28,7 @@
 			ON S.PRICE_TYPE = #{value}
 			AND S.AD_LVL = DC2.DL_CD
 			AND S.AD_POS = DC.DL_CD
-
+		ORDER BY AV.VHC_ID ASC, AD_POS_TYPE_NM DESC, DC.SORT_ODR ASC
 	</select>
 
 	<select id="AD0103G0S1" parameterType="hashmap" resultType="adInstDlVO">

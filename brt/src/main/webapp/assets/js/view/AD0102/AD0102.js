@@ -234,15 +234,16 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
             columns: [      		
-            		 {key: "priceTypeNm",	label: ADMIN("ax.admin.AD0102G0.price.type"),	width: 80,		sortable: true, align:"center"},
+            		 {key: "priceTypeNm",	label: ADMIN("ax.admin.AD0102G0.price.type"),	width: 80,		align:"center"},
             		 {key: "adLvlNm",		label: ADMIN("ax.admin.AD0102G0.ad.lvl"),		width: 70,		align:"center"},
-            		 {key: "adPosType",		label: ADMIN("ax.admin.AD0102G0.ad.pos"),		width: 100,		align:"center"},
-                     {key: "adPosNm",		label: ADMIN("ax.admin.AD0102G0.ad.pos.type"),	width: 120,		align:"center"},
+            		 {key: "adPosType",		label: ADMIN("ax.admin.AD0102G0.ad.pos.type"),	width: 100,		align:"center"},
+                     {key: "adPosNm",		label: ADMIN("ax.admin.AD0102G0.ad.pos"),		width: 120,		align:"center"},
                      {key: "unitAmt",		label: ADMIN("ax.admin.AD0102G0.unit.amt"),		formatter: "money",		width: 120,		align:"right"},
                      {key: "instAmt",		label: ADMIN("ax.admin.AD0102G0.inst.amt"),		formatter: "money",		width: 120,		align:"right"},
-                     {key: "remark",		label: ADMIN("ax.admin.AD0102G0.remark"),		width: 120,	},
+                     {key: "remark",		label: ADMIN("ax.admin.AD0102G0.remark"),		width: 250,	},
                  ],
             body: {
+            	mergeCells: ["priceTypeNm", "adLvlNm", "adPosType"],
                 onClick: function () {
                     this.self.select(this.dindex);
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);

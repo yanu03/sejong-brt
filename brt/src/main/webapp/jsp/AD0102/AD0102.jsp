@@ -54,13 +54,13 @@
                 <ax:form name="formView0" id="formView0">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                     	<ax:tr> 
-                    		<ax:td label="ax.admin.AD0102G0.price.type" width="210px" labelClazz="required">
+                    		<ax:td label="ax.admin.AD0102G0.price.type" width="190px" labelClazz="required">
                     			<ax:SM0105 groupCd="PRICE_TYPE" dataPath="priceType"/>
                     		</ax:td>
                     	</ax:tr>
 
                     	<ax:tr> 
-                    		<ax:td label="ax.admin.AD0102G0.ad.lvl" width="210px" labelClazz="required">
+                    		<ax:td label="ax.admin.AD0102G0.ad.lvl" width="170px" labelClazz="required">
                     			<ax:SM0105 groupCd="AD_LVL" dataPath="adLvl"/>
                     		</ax:td>
                     	</ax:tr>
@@ -72,14 +72,14 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.AD0102G0.unit.amt" width="250px" labelClazz="required">
-                    			<input type="text" title="<ax:lang id="ax.admin.AD0102G0.unit.amt"/>" data-ax-path="unitAmt" class="form-control" data-ax5formatter="money" data-ax-validate="required"/>
+                    		<ax:td label="ax.admin.AD0102G0.unit.amt" width="190px" labelClazz="required">
+                    			<input type="text" title="<ax:lang id="ax.admin.AD0102G0.unit.amt"/>" data-ax-path="unitAmt" class="form-control" data-ax5formatter="money" data-ax-validate="required" maxlength="8"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
-                    		<ax:td label="ax.admin.AD0102G0.inst.amt" width="250px" labelClazz="required">
-                    			<input type="text" title="<ax:lang id="ax.admin.AD0102G0.inst.amt"/>" data-ax-path="instAmt" class="form-control" data-ax5formatter="money" data-ax-validate="required"/>
+                    		<ax:td label="ax.admin.AD0102G0.inst.amt" width="190px" labelClazz="required">
+                    			<input type="text" title="<ax:lang id="ax.admin.AD0102G0.inst.amt"/>" data-ax-path="instAmt" class="form-control" data-ax5formatter="money" data-ax-validate="required" maxlength="7"/>
                     		</ax:td>
                     	</ax:tr>
                     	
