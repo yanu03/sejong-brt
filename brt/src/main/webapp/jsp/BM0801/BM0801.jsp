@@ -11,14 +11,6 @@
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0801/BM0801.js' />"></script>
-        <style>
-			.grid-cell-red{
-		        background: #A9F5A9;
-		    }
-		    .grid-cell-blue{
-		        background: #F78181;
-		    }
-		</style>
     </jsp:attribute>
     <jsp:body>
 
@@ -31,6 +23,15 @@
 							<ax:td label='ax.admin.search' width="300px">
 								<ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0801S0.search" maxLength="20"/>
 							</ax:td>
+							
+							<ax:td label="ax.admin.date" width="350px">
+	                        	<div class="input-group" data-ax5picker="date">
+	                                <input type="text" id="stDate" class="form-control" data-ax5formatter="date" placeholder="<ax:lang id="ax.admin.date.format"/>">
+	                                <span class="input-group-addon">~</span>
+	                                <input type="text" id="edDate" class="form-control" data-ax5formatter="date" placeholder="<ax:lang id="ax.admin.date.format"/>">
+	                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
+	                            </div>
+	                        </ax:td>
             		  </ax:form>
                     </ax:tr>
                 </ax:tbl>

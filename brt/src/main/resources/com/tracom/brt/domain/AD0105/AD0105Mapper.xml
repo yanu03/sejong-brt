@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.AD0105.AD0105Mapper">
+	<select id="AD0105G0S0" parameterType="hashmap" resultType="adInstDlVO">
+		SELECT
+			  V.AD_ROUT
+			, DC.DL_CD_NM AS AD_LVL_NM
+			, DC2.TXT_VAL1 AS AD_POS_TYPE_NM
+			, DC2.DL_CD_NM AS AD_POS_NM
+			, AV.VHC_ID
+			, AV.AD_POS
+			, COUNT(AV.VHC_ID) AS COUNT_ALL_VEHICLE
+			, COUNT(II.INST_ID) AS COUNT_INST_VEHICLE
+			, II.AD_ST_DATE
+			, II.AD_ED_DATE
+			, II.CONFIRM_YN
+		FROM
+			AD_VHC_INFO AV
+			LEFT OUTER JOIN BM_VHC_INFO V
+			ON AV.VHC_ID = V.VHC_ID
+			LEFT OUTER JOIN SM_DL_CD_INFO DC
+			ON V.AD_LVL = DC.DL_CD
+			AND DC.CO_CD = 'AD_LVL'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC2
+			ON AV.AD_POS = DC2.DL_CD
+			AND DC2.CO_CD = 'AD_POS'
+			LEFT OUTER JOIN AD_INST_DL ID
+			ON AV.VHC_ID = ID.VHC_ID
+			AND ID.AD_POS = AV.AD_POS
+			LEFT OUTER JOIN AD_INST_INFO II
+			ON ID.INST_ID = II.INST_ID
+			AND II.CONFIRM_YN = 'Y'
+			<if test="date != null">
+				AND #{date} BETWEEN II.AD_ST_DATE AND II.AD_ED_DATE
+			</if>
+		GROUP BY AD_ROUT, AD_LVL, AD_POS
+		ORDER BY AD_ROUT, AD_LVL, AD_POS_TYPE_NM, AD_POS
+	</select>
+</mapper>

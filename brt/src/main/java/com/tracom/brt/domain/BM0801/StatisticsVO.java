@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StatisticsVO extends BaseVO{
 	private String playDate;
+	private String vhcId;
 	private String vhcNo;
 	private String conId;
 	private String conNm;

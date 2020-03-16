@@ -20,4 +20,8 @@ public class AdInstDlVO extends BaseVO {
 	private int adAmt;
 	private int unitAmt;
 	private String priceType;
+	private int countAllVehicle;
+	private int countInstVehicle;
+	private String adStDate;
+	private String adEdDate;
 }

@@ -9,6 +9,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_SEARCH: function (caller, act, data) {
 		var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
+    	filter["stDate"] = $("#stDate").val();
+    	filter["edDate"] = $("#edDate").val();
 
         axboot.ajax({
             type: "GET",
@@ -40,7 +42,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0801G1S0",
-            data: {conId: data},
+            data: {
+            		vhcId: selectedRow.vhcId,
+            		conId: selectedRow.conId
+            	},
             callback: function (res) {
                 caller.gridView1.setData(res);
             }
@@ -83,7 +88,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     // gridView0항목 클릭 이벤트
     ITEM_CLICK: function (caller, act, data) {
     	selectedRow = data;
-    	ACTIONS.dispatch(ACTIONS.RELOAD_G1, data.conId);
+    	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
     },
     
 });
@@ -139,6 +144,13 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
         this.target = $(document["searchView0"]);
         this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
         this.filter = $("#filter");
+        
+        this.target.find('[data-ax5picker="date"]').ax5picker({
+            direction: "auto",
+            content: {
+                type: 'date'
+            }
+        });
     },
     getData: function () {
     	 return {

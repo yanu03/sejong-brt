@@ -3,7 +3,8 @@
 <mapper namespace="com.tracom.brt.domain.BM0801.BM0801Mapper">
 	<select id="BM0801G0S0" parameterType="hashmap" resultType="StatisticsVO">
 		SELECT
-			  R.VHC_NO
+			  R.VHC_ID
+			, R.VHC_NO
 			, R.CON_ID
 			, C.CON_NM
 			, COUNT(*) AS COUNT_TOTAL
@@ -12,7 +13,9 @@
 			, SUM(IF(R.AD_TYPE = 'VD' AND R.IMG_PLAY_TM != 0, 1, 0)) AS COUNT_VIDEO
 		FROM
 			(SELECT
-				  A.MNG_ID
+				  A.PLAY_DATE
+				, A.MNG_ID
+				, H.VHC_ID
 				, H.VHC_NO
 				, IFNULL(V.CON_ID, VD.CON_ID) AS CON_ID
 				, IFNULL(DC1.TXT_VAL1, DC2.TXT_VAL1) AS AD_TYPE
@@ -32,8 +35,7 @@
 				AND DC1.CO_CD = 'VOC_DIV'
 				LEFT OUTER JOIN SM_DL_CD_INFO DC2
 				ON LEFT(A.ID, 2) = DC2.TXT_VAL1
-				AND DC2.CO_CD = 'VDO_DIV'
-			) R
+				AND DC2.CO_CD = 'VDO_DIV') R
 			LEFT OUTER JOIN BM_CON_INFO C
 			ON R.CON_ID = C.CON_ID
 		WHERE
@@ -41,6 +43,9 @@
 			<if test="filter != null">
 				AND R.VHC_NO LIKE CONCAT('%', #{filter}, '%')
 				OR C.CON_NM LIKE CONCAT('%', #{filter}, '%')
+			</if>
+			<if test="stDate != null and edDate != null">
+				AND R.PLAY_DATE BETWEEN DATE_FORMAT(#{stDate}, '%Y-%m-%d 00:00:00') AND DATE_FORMAT(#{edDate}, '%Y-%m-%d 23:59:59')
 			</if>
 		GROUP BY MNG_ID, CON_ID
 		ORDER BY VHC_NO ASC
@@ -52,6 +57,7 @@
 		FROM
 			(SELECT
 				  DATE_FORMAT(A.PLAY_DATE, '%Y-%m-%d %H:%i:%s') AS PLAY_DATE
+				, H.VHC_ID
 				, A.ID
 				, IFNULL(V.CON_ID, VD.CON_ID) AS CON_ID
 				, IFNULL(DC1.DL_CD_NM, DC2.DL_CD_NM) AS AD_TYPE
@@ -74,7 +80,11 @@
 				AND DC2.CO_CD = 'VDO_DIV') R
 		WHERE
 			CON_ID IS NOT NULL
+			AND VHC_ID = #{vhcId}
 			AND CON_ID = #{conId}
+			<if test="stDate != null and edDate != null">
+				AND PLAY_DATE BETWEEN DATE_FORMAT(#{stDate}, '%Y-%m-%d 00:00:00') AND DATE_FORMAT(#{edDate}, '%Y-%m-%d 23:59:59')
+			</if>
     	ORDER BY PLAY_DATE DESC
 	</select>
 	
