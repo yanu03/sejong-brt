@@ -41,8 +41,9 @@
 		WHERE
 			R.CON_ID IS NOT NULL
 			<if test="filter != null">
-				AND R.VHC_NO LIKE CONCAT('%', #{filter}, '%')
-				OR C.CON_NM LIKE CONCAT('%', #{filter}, '%')
+				AND (R.VHC_NO LIKE CONCAT('%', #{filter}, '%')
+				OR C.CON_ID LIKE CONCAT('%', #{filter}, '%')
+				OR C.CON_NM LIKE CONCAT('%', #{filter}, '%'))
 			</if>
 			<if test="stDate != null and edDate != null">
 				AND R.PLAY_DATE BETWEEN DATE_FORMAT(#{stDate}, '%Y-%m-%d 00:00:00') AND DATE_FORMAT(#{edDate}, '%Y-%m-%d 23:59:59')
