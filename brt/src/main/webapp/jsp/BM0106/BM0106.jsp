@@ -71,17 +71,17 @@
                     		</ax:td>
                     	
                     		<ax:td label="ax.admin.BM0106F0.enNm" width="300px" labelClazz="required">
-                    			<input type="text" name="enNm" data-ax-path="enNm" data-key="true" class="form-control" maxlength="20"/>
+                    			<input type="text" name="enNm" data-ax-path="enNm" data-key="true" class="form-control" maxlength="50"/>
                     		</ax:td>
                     	</ax:tr>
                     	        
       	            	<ax:tr>
                     		<ax:td label="ax.admin.BM0106F0.cnNm" width="300px">
-                    			<input type="text" name="cnNm" data-ax-path="cnNm" data-key="true" class="form-control" maxlength="20"/>
+                    			<input type="text" name="cnNm" data-ax-path="cnNm" data-key="true" class="form-control" maxlength="50"/>
                     		</ax:td>
 
                     		<ax:td label="ax.admin.BM0106F0.jpNm" width="300px">
-                    			<input type="text" name="jpNm" data-ax-path="jpNm" data-key="true" class="form-control" maxlength="20"/>
+                    			<input type="text" name="jpNm" data-ax-path="jpNm" data-key="true" class="form-control" maxlength="50"/>
                     		</ax:td>
                     	</ax:tr>
                     	

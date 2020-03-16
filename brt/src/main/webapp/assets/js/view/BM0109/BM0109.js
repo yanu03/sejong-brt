@@ -237,7 +237,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             param: "",
             callback: function (data) {
             	// 운수사, 거래처 등을 선택한 후 이벤트 ex) input에 값을 넣어 주는 등의 로직을 작성하면됨
-            	console.log(data);
             	addStopSelected(data);
         		moveMap(data.lati, data.longi);
                 this.close();
@@ -549,6 +548,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
                 onClick: function () {
                     this.self.select(this.dindex);
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
+                    drawRoute(fnObj.gridView1.getData(), this.dindex);
                 }
             },
         });
@@ -866,7 +866,7 @@ function returnInsertRouteInfo(lat, lon) {
 }
 
 /**노선 그리기**/
-function drawRoute(list) {
+function drawRoute(list, idx) {
 	var path = [];
 	
 	removeMarkers();
@@ -918,15 +918,22 @@ function drawRoute(list) {
 			list[i].index = i;
 			/**드래그이벤트**/
 			list[i].draggable = true;
-			
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
 			if(list[i].nodeType == busstopNodeType) {
-				list[i].icon = "/assets/images/tmap/busstop.png";
+				if(i == idx){
+					list[i].icon = "/assets/images/tmap/busstop_selected.png";
+				}else{
+					list[i].icon = "/assets/images/tmap/busstop.png";					
+				}
 				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].krNm + "</span>";
 			}
 			// 아닐 경우(일반 노드) 네모 박스 표시
 			else {
-				list[i].icon = "/assets/images/tmap/road_trans.png";
+				if(i == idx){
+					list[i].icon = "/assets/images/tmap/road_selected.png";
+				}else{
+					list[i].icon = "/assets/images/tmap/road_trans.png";										
+				}
 				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
 				nodes.push(getDrawingNode(list[i].lati, list[i].longi));
 			}

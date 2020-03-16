@@ -436,6 +436,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
                 onClick: function () {
                     this.self.select(this.dindex);
                     ACTIONS.dispatch(ACTIONS.ITEM_CLICK_G1, this.item);
+                    drawRoute(fnObj.gridView1.getData(), this.dindex);
                 }
             },
         });
@@ -530,7 +531,7 @@ function searchGrid1(caller, act, data){
 
 /*****************************************/
 
-function drawRoute(list) {
+function drawRoute(list, idx) {
 	var path = [];
 	
 	removeMarkers();
@@ -545,20 +546,23 @@ function drawRoute(list) {
 				
 			};
 			// 노드 타입이 버스 정류장 또는 음성편성 노드일 경우 마커 표시
-			if(list[i].nodeType == '1' || list[i].nodeType == '898') {
-				list[i].icon = "/assets/images/tmap/busstop.png";
-				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+			if(list[i].nodeType == '1') {
+				if(i == idx){
+					list[i].icon = "/assets/images/tmap/busstop_selected.png";
+				}else{
+					list[i].icon = "/assets/images/tmap/busstop.png";					
+				}
 				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
-				//addMarker(list[i]);
 				addMarkerInter(list[i], fnObj.gridView1, i);
 			}
 			// 일반 노드인 경우
 			else if(list[i].nodeType == '30'){
-				list[i].icon = "/assets/images/tmap/road_trans.png";
-				//list[i].label = "<span style='background-color: #46414E; color:white; padding: 3px;'>" + list[i].nodeNm + "</span>";
+				if(i == idx){
+					list[i].icon = "/assets/images/tmap/road_selected.png";
+				}else{
+					list[i].icon = "/assets/images/tmap/road_trans.png";
+				}
 				list[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black;'>" + list[i].nodeNm + "</span>";
-				//addMarkerInter(list[i], fnObj.gridView1, i);
-				//addMarker(list[i]);
 				addMarkerInter(list[i], fnObj.gridView1, i);
 				if(list[i].seq != 0){
 					nodes.push(getDrawingNode(list[i].lati, list[i].longi));					
