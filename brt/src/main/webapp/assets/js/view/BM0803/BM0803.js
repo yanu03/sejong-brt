@@ -365,7 +365,8 @@ function drawNormalBus(busList){
 			if(busList[i].vhcNo == grid0[j].vhcNo){
 				delete resultList[i];
 			}
-		}*/
+		}
+		*/
 		busList[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black'>" + seq + "." + busList[i].vhcNo + "</span>";
 		busList[i].icon = "/assets/images/tmap/bus_Normal.png";
 		
