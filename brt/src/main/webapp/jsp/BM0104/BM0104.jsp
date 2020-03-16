@@ -105,10 +105,10 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.BM0104G0.wayInfo" width="250px" labelClazz="required">
-                            	<input type="text" data-ax-path="wayInfo" title="<ax:lang id="ax.admin.BM0104G0.wayInfo"/>" class="form-control" maxlength="11" data-ax-validate="required"/>
+                            	<input type="text" data-ax-path="wayInfo" title="<ax:lang id="ax.admin.BM0104G0.wayInfo"/>" class="form-control" maxlength="10" data-ax-validate="required"/>
                             </ax:td>
                             <ax:td label="ax.admin.BM0104G0.dirInfo" width="250px" style="border-left: 1px solid #D8D8D8;" labelClazz="required">
-                            	<input type="text" data-ax-path="dirInfo" title="<ax:lang id="ax.admin.BM0104G0.dirInfo"/>" class="form-control" maxlength="11" data-ax-validate="required"/>
+                            	<input type="text" data-ax-path="dirInfo" title="<ax:lang id="ax.admin.BM0104G0.dirInfo"/>" class="form-control" maxlength="10" data-ax-validate="required"/>
                             </ax:td>
                        	</ax:tr>
                        	
