@@ -26,6 +26,9 @@ public class TimsAuthHandler {
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@Value("${spring.profiles.active}")
+	private String profile;
+	
 	@Value("${tims.server.address}")
 	private String timsServerAddress;
 	
@@ -36,23 +39,25 @@ public class TimsAuthHandler {
 	private String timsServerNewsUrl;
 	
 	public void sendNews() {
-		CommonCodeDetailInfoVO param = new CommonCodeDetailInfoVO();
-		param.setCoCd("TIMS_AUTH");
-		param.setDlCd("CD001");
-		CommonCodeDetailInfoVO codeVO = mapper_0105.SM0105G1S1(param);
-		String timsAuth = codeVO.getDlCdNm();
-		try {
-			String authEncode  = new String(Base64.getEncoder().encode(timsAuth.getBytes("UTF-8")));
-			
-			HttpHeaders headers = new HttpHeaders();
-			headers.add("authorization", "Basic " + authEncode);
-			
-			HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(headers);
-			Map<String, Object> params = new HashMap<>();
-			
-			restTemplate.exchange("http://" + timsServerAddress + ":" + timsServerHttpPort + timsServerNewsUrl, HttpMethod.GET, httpEntity, String.class, params);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		if(!profile.equals("edu")) {
+			CommonCodeDetailInfoVO param = new CommonCodeDetailInfoVO();
+			param.setCoCd("TIMS_AUTH");
+			param.setDlCd("CD001");
+			CommonCodeDetailInfoVO codeVO = mapper_0105.SM0105G1S1(param);
+			String timsAuth = codeVO.getDlCdNm();
+			try {
+				String authEncode  = new String(Base64.getEncoder().encode(timsAuth.getBytes("UTF-8")));
+				
+				HttpHeaders headers = new HttpHeaders();
+				headers.add("authorization", "Basic " + authEncode);
+				
+				HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(headers);
+				Map<String, Object> params = new HashMap<>();
+				
+				restTemplate.exchange("http://" + timsServerAddress + ":" + timsServerHttpPort + timsServerNewsUrl, HttpMethod.GET, httpEntity, String.class, params);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
