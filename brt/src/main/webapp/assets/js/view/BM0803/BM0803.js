@@ -354,12 +354,25 @@ function makeSelBox(){
 }
 
 function drawNormalBus(busList){
-	for(var i=0; i<busList.length; i++){
+	var grid0 = fnObj.gridView0.getData();
+	var resultList = busList;
+	for(var i = 0; i < busList.length; i++){
 		var seq = i + 1;
+		
+		/*
+		for(var j = 0; j < grid0.length; j++){
+			
+			if(busList[i].vhcNo == grid0[j].vhcNo){
+				delete resultList[i];
+			}
+		}*/
 		busList[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black'>" + seq + "." + busList[i].vhcNo + "</span>";
 		busList[i].icon = "/assets/images/tmap/bus_Normal.png";
-		addMarker(busList[i]);
-	}
+		
+		//if(busList[i] != null && busList[i] != undefined){
+			addMarker(busList[i]);							
+		//}
+	}	
 }
 
 function drawArticulatedBus(busList){
@@ -372,3 +385,10 @@ function drawArticulatedBus(busList){
 		}
 	}
 }
+
+function returnNoArt(grid0, grid1){
+	var grid0 = fnObj.gridView0.getData();
+	var grid1 = fnObj.gridView1.getData();
+	var gridResult = [];
+}
+
