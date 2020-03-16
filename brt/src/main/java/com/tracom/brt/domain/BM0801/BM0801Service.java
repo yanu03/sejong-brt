@@ -24,14 +24,18 @@ public class BM0801Service extends BaseService<StatisticsVO, String>{
 	public List<StatisticsVO> BM0801G0S0(RequestParams<StatisticsVO> requestParams) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("filter", requestParams.getString("filter"));
+		params.put("stDate", requestParams.getString("stDate"));
+		params.put("edDate", requestParams.getString("edDate"));
 		
 		return mapper.BM0801G0S0(params);
 	}
 	
 	public List<StatisticsVO> BM0801G1S0(RequestParams<StatisticsVO> requestParams) {
-		String conId = requestParams.getString("conId");
 		Map<String, Object> params = new HashMap<>();
-		params.put("conId", conId);
+		params.put("vhcId", requestParams.getString("vhcId"));
+		params.put("conId", requestParams.getString("conId"));
+		params.put("stDate", requestParams.getString("stDate"));
+		params.put("edDate", requestParams.getString("edDate"));
 		
 		return mapper.BM0801G1S0(params);
 	}
