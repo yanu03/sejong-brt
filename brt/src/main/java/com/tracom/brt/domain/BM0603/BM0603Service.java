@@ -20,27 +20,31 @@ public class BM0603Service extends BaseService<NewsVO, String>{
 		return mapper.BM0603G0S0(requestParams.getString("filter"));
 	}
 
-	public boolean BM0603F0I0(NewsVO request) {		
-		if(mapper.BM0603F0I0(request) > 0) {
-			return true;
-		}else {
-			
-			return false;
-		}		
+	public String BM0603F0I0(NewsVO request) {		
+		mapper.BM0603F0I0(request);
+		return request.getUserNewsId(); 	
 	}
 
 	public boolean BM0603F0U0(NewsVO request) {
+		mapper.BM0603F0U0(request);
+
 		for(int i = 0; request.getUpList().size() > i; i++) {
-			  NewsVO vo = request.getUpList().get(i);
-			  mapper.BM0603F0U0(vo);
-		  }
-		  mapper.BM0603F0U0(request);
+			NewsVO vo = request.getUpList().get(i);
+			mapper.useYn(vo);
+		}
 		  
-		   if(request.getUpList().size() > 0 ) {
-			   return true; 
-		  }else {
-			  return false;
-		  }
+		if(request.getUpList().size() > 0 ) {
+			return true; 
+		}else {
+			return false;
+		}
 	}
 	
+	public boolean BM0603G0D0(NewsVO vo) {
+		if(mapper.BM0603G0D0(vo) > 0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 }

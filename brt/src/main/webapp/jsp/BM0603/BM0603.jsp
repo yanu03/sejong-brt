@@ -62,6 +62,12 @@
                     	</ax:tr>
                     	
                     	<ax:tr>
+							<ax:td label="ax.admin.BM0603G0.provNm" width="200px" labelClazz="required" labelWidth="120px">
+								<input type="text" data-ax-path="provNm" data-key="true" class="form-control W150" data-ax-validate="required" maxlength="10">
+							</ax:td>						                
+                    	</ax:tr>                                          	
+						
+                    	<ax:tr>
 							<ax:td label="ax.admin.BM0603G0.category" width="200px" labelClazz="required" labelWidth="120px">
 								<input type="text" data-ax-path="category" data-key="true" class="form-control W150" data-ax-validate="required" maxlength="20">
 							</ax:td>						                

@@ -47,7 +47,7 @@
 				  , #{newsContents}
 				  , "N"
 				  , #{category}
-				  , "세종도시교통공사"
+				  , #{provNm}
 				  , CURRENT_TIMESTAMP
 				  , #{createdAt}
    			  	  , #{createdBy}
@@ -60,8 +60,7 @@
 	<update id="BM0603F0U0" parameterType="newsVO">
 		UPDATE BM_NEWS_USER_SET
 		SET		
-			USER_NEWS_ID     =   #{userNewsId}
-		  , NEWS_TITLE    	 =   #{newsTitle}
+			NEWS_TITLE    	 =   #{newsTitle}
 		  , REMARK     	  	 =   #{remark}
 		  , NEWS_CONTENTS    =   #{newsContents}
 		  , USE_YN      	 =   #{useYn}
@@ -74,4 +73,20 @@
 		WHERE
 			USER_NEWS_ID     =   #{userNewsId}
 	</update>
+	
+	<update id="useYn" parameterType="newsVO">
+		UPDATE BM_NEWS_USER_SET
+		SET
+			USE_YN	=	#{useYn}
+		WHERE
+			USER_NEWS_ID	=	#{userNewsId}
+	</update>
+	
+	<delete id="BM0603G0D0" parameterType="newsVO">
+		DELETE
+		FROM
+			BM_NEWS_USER_SET
+		WHERE
+			USER_NEWS_ID = #{userNewsId}
+	</delete>
 </mapper>
