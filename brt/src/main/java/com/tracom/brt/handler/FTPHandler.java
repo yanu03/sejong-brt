@@ -398,16 +398,7 @@ public class FTPHandler {
 		        br.close();
 			}
 		}
-		
-		//해당 imp에서 사용하는 영상 목록
-		HashSet<String> distinctList = new HashSet<String>(vdoList);
-		fileList = new ArrayList<String>(distinctList);
-		
-		System.out.println("----fileList-----");
-		for(String d : vdoList) {
-			System.out.println(d);
-		}
-		//return fileList;
+
 		return vdoList;
 		
 	}
