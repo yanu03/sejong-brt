@@ -84,4 +84,14 @@
 			ORGA_ID = #{value}
 		ORDER BY SEQ
 	</select>
+	
+	<select id="getScreenId" parameterType="String"  resultType="String">
+		SELECT
+			MNG_ID
+		FROM
+			BM_DVC_INFO
+		WHERE
+			MNG_ID LIKE CONCAT(#{value}, 'PD%')
+			AND USE_YN = 'Y'
+	</select>
 </mapper>

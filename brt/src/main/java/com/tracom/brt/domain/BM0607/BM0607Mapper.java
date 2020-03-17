@@ -12,4 +12,5 @@ public interface BM0607Mapper extends MyBatisMapper{
 	int	BM0607G1I0(VdoRsvVO vo);
 	int	BM0607G1I1(VdoRsvVO vo);
 	List<VdoRsvVO> makePlayList(String value);
+	List<String> getScreenId(String value);
 }

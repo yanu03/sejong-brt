@@ -5,7 +5,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -329,6 +329,7 @@ public class FTPHandler {
 	}
 
 	public void copyFile(File fFile, File tFile) throws IOException {
+		/*
 		FileInputStream fis = new FileInputStream(fFile);
 		FileOutputStream fos = new FileOutputStream(tFile);
 		
@@ -339,23 +340,76 @@ public class FTPHandler {
 		
 		fis.close();
 		fos.close();
+		*/
+		
+		FileUtils.copyFile(fFile, tFile);
+		
 	}
 	
 	//배열 두개 확장자빼고 비교해서 지울거 뱉어내는 함수 0316
-	public void getForDel(File[] ftpList, List<VdoRsvVO> voList, VdoRsvVO vo) throws SftpException {
-		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device/passenger").toString();
-		List<String> list = new ArrayList<>();
-		
-		for(VdoRsvVO o : voList) {
-			list.add(o.getVideoFile());
-		}
-		
-		for(File f : ftpList) {
-			if(!Arrays.asList(list).contains(f.getName())) {
+	public void getForDel(File[] localList, List<String> fileList, String impId) throws SftpException {
+		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", impId, "/device/passenger").toString();
+		for(File f : localList) {
+			int cnt = 0;
+			for(String n : fileList) {
+				if(n.equals(f.getName())){
+					cnt++;
+				}
+			}
+			if(cnt == 0) {
 				File delFile = new File(toPath + "/" + f.getName());
 				delFile.delete();				
+				System.out.println("지운파일:" + f.getName());
 			}
 		}
+	}
+	
+	/**
+	 * 영상예약시
+	 * 싱크걸기전에 미리
+	 * impId와 그 밑에 붙어있는 PD들의 리스트를 받아서
+	 * 파일을 삭제할것임
+	 * @throws IOException 
+	 * **/
+	public List<String> impVdoFiles(String impId, List<String> dvcList) throws IOException {
+		String vehiclePath = Paths.get(getRootLocalPath(), "/vehicle/", impId, "/device/").toString();
+		List<String> fileList = new ArrayList<>();
+		List<String> vdoList = new ArrayList<>();
+		
+		for(String dvcId : dvcList) {
+			String dvcPath = Paths.get(vehiclePath, dvcId.substring(10), "/playlist").toString();
+			File playList = new File(dvcPath + "/playlist.csv");
+			
+			if(playList.exists()) {
+				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(playList), "CP949"));
+		        String line = "";
+		        String[] tmp = null;
+		        
+		        int lineNum = 0;
+		        while((line = br.readLine()) != null){
+		        	lineNum++;
+		        	if(lineNum < 2) {
+		        		continue;
+		        	}else {        		
+		        	tmp = line.split(",");
+		        	vdoList.add(tmp[2]);
+		        	}
+		        }
+		        br.close();
+			}
+		}
+		
+		//해당 imp에서 사용하는 영상 목록
+		HashSet<String> distinctList = new HashSet<String>(vdoList);
+		fileList = new ArrayList<String>(distinctList);
+		
+		System.out.println("----fileList-----");
+		for(String d : vdoList) {
+			System.out.println(d);
+		}
+		//return fileList;
+		return vdoList;
+		
 	}
 	
 	//BM0607 영상예약
@@ -388,11 +442,6 @@ public class FTPHandler {
 		
 		List<VdoRsvVO> voList = BM0607Mapper.makePlayList(vo.getOrgaId());
 		
-		File _toPath = new File(toPath);
-		File[] fileList = _toPath.listFiles();
-		
-		//없는거 다 삭제함
-		getForDel(fileList, voList, vo);
 		
 		for(int i = 0; i < voList.size(); i++) {
 			String row = GlobalConstants.CSVForms.ROW_SEPARATOR
@@ -416,11 +465,22 @@ public class FTPHandler {
 		
 		try {
 			Utils.createCSV(file, txt);
-			processSynchronize(toPath, fPath);
-			processSynchronize(path, vfPath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	//영상 예약 싱크
+	public void syncVdoFile(VdoRsvVO vo) throws Exception {
+		String videoPath = "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";
+		String path = Paths.get(getRootLocalPath(), videoPath).toString();
+		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device/passenger").toString();
+		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/passenger";
+		
+		String vfPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";
+
+		processSynchronize(toPath, fPath);
+		processSynchronize(path, vfPath);
 	}
 	
 	//BM0609 화면예약
