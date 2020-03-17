@@ -679,19 +679,21 @@ function loadSCH(){
 	var foo = {};
 	foo.dvcKindCd = uv_dvc_type;
 	var input = Object.assign(foo, selectedRow);
-	loadBmp();
 	
-		
-	axboot.ajax({
-		type: "POST",
-		data: JSON.stringify(input),
-		url: "/api/v1/BM0501F0S0",
-		callback: function (res) {
-			fnObj.gridView1.setData(res);
-		}
-	});	
+	
+	$.when(loadBmp()).done(function(){
+		axboot.ajax({
+			type: "POST",
+			data: JSON.stringify(input),
+			url: "/api/v1/BM0501F0S0",
+			callback: function (res) {
+				fnObj.gridView1.setData(res);
+			}
+		});			
+	});
 
 }
+
 
 function loadBmp(){
 	uv_dvc_type = $('#selectBox option:selected').val();
