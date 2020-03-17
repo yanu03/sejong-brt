@@ -116,9 +116,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     		isUpdate = false;  	
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
-    				
     				var list = caller.gridView0.getData();
-    				
     				formData["upList"] = list;
     				
     				axboot.promise()

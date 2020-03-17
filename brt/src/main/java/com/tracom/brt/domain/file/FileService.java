@@ -70,8 +70,10 @@ public class FileService {
 			    	break;
 			    case GlobalConstants.Types.BMPLOGO:
 			    	path = bmpPreviewLOGO(requestParams, response);
+			    	break;
 			    case GlobalConstants.Types.PNG:
 			    	path = pngPreview(requestParams, response);
+			    	break;
 			}
 			
 			file = new File(path);
