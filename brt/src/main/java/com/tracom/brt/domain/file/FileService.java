@@ -3,6 +3,7 @@ package com.tracom.brt.domain.file;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.nio.file.Paths;
@@ -11,6 +12,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
@@ -25,6 +28,8 @@ import com.tracom.brt.utils.Utils;
 
 @Service
 public class FileService {
+	
+	private Logger logger = LoggerFactory.getLogger(FileService.class);
 	
 	@Inject
 	private FTPHandler handler;
@@ -86,7 +91,13 @@ public class FileService {
 				is.close();
 			}
         } catch(Exception e) {
-        	e.printStackTrace();
+        	Throwable cause = e.getCause();
+        	
+        	if(cause instanceof IOException) {
+        		logger.info("FileService Error!!");
+        	} else {
+        		e.printStackTrace();
+        	}
         }
 	}
 	
