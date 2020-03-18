@@ -97,9 +97,12 @@ public class ExcelUtils {
 						tmp.setNodeType(30);
 					}
 					tmp.setNodeId(c[3]);
-					tmp.setNodeNm(c[4]);
-					tmp.setLati(Float.valueOf(c[5]));
-					tmp.setLongi(Float.valueOf(c[6]));
+					tmp.setStaNo(c[4]);
+					tmp.setNodeNm(c[5]);
+					tmp.setKrNm(c[6]);
+					tmp.setEnNm(c[7]);
+					tmp.setLati(Float.valueOf(c[8]));
+					tmp.setLongi(Float.valueOf(c[9]));
 					
 					voList.add(tmp);
 					System.out.println(tmp);
