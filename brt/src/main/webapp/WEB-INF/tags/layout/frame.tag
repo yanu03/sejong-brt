@@ -128,7 +128,7 @@
                     <div style="float:left;width:40px;height:30px;background-image:url('${pageContext.request.contextPath}${config.logo.header}');background-repeat:no-repeat;border:solid 0px;"></div>
                     <c:set var="URL" value="${pageContext.request.requestURL}" />
 		    		<c:choose>
-		    			<c:when test="${fn : contains(URL, 'brt.sctc.kr')}">
+		    			<c:when test="${fn:contains(URL, 'brt.sctc.kr') or fn:contains(URL, 'localhost')}">
 					    	<div style="float:left;height:30px;border:0px solid;padding-top:6px;"><h2>BRT(전기·굴절)관리시스템</h2></div>
 					    </c:when>
 					    <c:otherwise>

@@ -1249,6 +1249,13 @@ public class FTPHandler {
 							String id = FilenameUtils.removeExtension(fileName[fileName.length - 1]);
 							String playDate = parseStr[0] + " "+ parseStr[1];
 							
+							id = id.substring(0, id.length() - 2);
+							
+							// 홍보 음성이 아닐경우 DB저장하지 않음
+							if(!id.substring(0, 2).equals("AV")) {
+								continue;
+							}
+							
 							Map<String, Object> data = new HashMap<String, Object>();
 							data.put("playDate", playDate);
 							data.put("mngId", vehicleId);

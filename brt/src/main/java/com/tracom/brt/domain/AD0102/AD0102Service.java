@@ -16,7 +16,7 @@ public class AD0102Service extends BaseService<AdStdPriceVO, String>{
 	private AD0102Mapper mapper;
 
 	public List<AdStdPriceVO> AD0102G0S0(RequestParams<AdStdPriceVO> requestParams) {
-		return mapper.AD0102G0S0(requestParams.getString("priceId"));
+		return mapper.AD0102G0S0(requestParams.getString("filter"));
 	}
 
 	public String AD0102F0I0(AdStdPriceVO request) {

@@ -124,12 +124,12 @@
                      </ax:tr>   
                         <ax:tr>
                             <ax:td label="ax.admin.BM0301F0.suppamt" width="230px">
-                            	<input type="text" data-ax-path="suppAmt" class="form-control W90" data-ax5formatter="money" style="text-align: right" maxlength="30"/>
+                            	<input type="text" data-ax-path="suppAmt" class="form-control W90" data-ax5formatter="money" style="text-align: right" maxlength="11"/>
                             </ax:td>
                        	</ax:tr>
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0301F0.vatamt" width="230px">
-                            	<input type="text" data-ax-path="vatAmt" class="form-control W90" data-ax5formatter="money" style="text-align: right" maxlength="30"/>
+                            	<input type="text" data-ax-path="vatAmt" class="form-control W90" data-ax5formatter="money" style="text-align: right" maxlength="11"/>
                             </ax:td>
 						</ax:tr>
                        	<ax:tr>
