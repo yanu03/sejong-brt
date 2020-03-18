@@ -292,15 +292,15 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             	columnHeight: 28
             	},
             columns: [
-            	{key: "frameNo",			label: "프레임번호",			width: 100,																		styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effType",			label: "효과",				width: 100, editor: editCaseFront('effType'),  align:"right",					styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 110, editor: editCaseFront('effSpeed'), align:"right",					styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 110, editor: editCaseFront('showTime'), align:"right",					styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }}
+            	{key: "frameNo",			label: "프레임번호",			width: 100,																	styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
+            	{key: "effType",			label: "효과",				width: 140, editor: editCaseFront('effType'),  align:"center",					styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
+            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 160, editor: editCaseFront('effSpeed'), align:"right",					styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
+                {key: "showTime",			label: "표출시간(1=10ms)",		width: 160, editor: editCaseFront('showTime'), align:"right",					styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }}
             ],
             body: {
                 onClick: function () {
                     this.self.select(this.dindex);
-            		ACTIONS.dispatch(ACTIONS.ITEM_CLICK2, this.item);
+            		ACTIONS.dispatch(ACTIONS.ITEM_CLICK, this.item);
                 }
             },
         });
@@ -393,9 +393,9 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	},
             columns: [
             	{key: "frameNo",			label: "프레임번호",			width: 100,																		styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effType",			label: "효과",				width: 100, editor: editCaseSide('effType'), align:"right",						styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 110, editor: editCaseSide('effSpeed'), align:"right",					styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 110, editor: editCaseSide('showTime'), align:"right",					styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }}
+            	{key: "effType",			label: "효과",				width: 140, editor: editCaseSide('effType'), align:"center",						styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
+            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 160, editor: editCaseSide('effSpeed'), align:"right",					styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
+                {key: "showTime",			label: "표출시간(1=10ms)",		width: 160, editor: editCaseSide('showTime'), align:"right",					styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }}
             ],
             body: {
                 onClick: function () {
@@ -669,7 +669,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     	});
     },
     disable: function() {
-    	this.target.find('#wavFile,[data-btn],[data-ax-path][data-key!=true]').each(function(index, element) {
+    	this.target.find('[data-btn],[data-ax-path][data-key!=true]').each(function(index, element) {
     		$(element).attr("readonly", true).attr("disabled", true);
     	});
     },
@@ -766,7 +766,6 @@ function loadSCH(){
 			data: JSON.stringify(inputF),
 			url: "/api/v1/BM0502F0S0",
 			callback: function (res) {
-				setTimeout("", 100);
 				fnObj.gridView0.setData(res);
 			}
 		});		
@@ -778,7 +777,6 @@ function loadSCH(){
 			data: JSON.stringify(inputS),
 			url: "/api/v1/BM0502F0S0",
 			callback: function (res) {
-				setTimeout("", 100);
 				fnObj.gridView1.setData(res);
 			}
 		});			
@@ -788,18 +786,23 @@ function loadSCH(){
 
 function loadBmpF(){
 	var url = "/api/v1/filePreview?type=BMPLOGO&dvcKindCd=F&dvcName=LOGO";
-
 	$("#previewImgF").attr("src", url);
 	fnObj.gridView0.initView();
 	
-	$('#previewImgF').each(function(){
-		$(this).load(function(){
-			uv_frontheightz = this.height / uv_frontheight;
-		});
+	$.when(
+		$('#previewImgF').each(function(){
+			$.when(
+				$(this).load(function(){
+				})
+				).done(function(){
+					uv_frontheightz = this.height / uv_frontheight;
+				});
+			})
+		).done(function(){
+			setTimeValFront(uv_frontheightz);
+		
 	});
 	
-	
-	setTimeValFront(uv_frontheightz);
 }
 
 function loadBmpS(){
