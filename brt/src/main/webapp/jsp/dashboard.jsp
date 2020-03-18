@@ -29,7 +29,7 @@
     	<div style="position:absolute; text-align: center; width:100%; height: 100%; top: 0; left: 0; font-size:50px;">
     	<c:set var="URL" value="${pageContext.request.requestURL}" />
     		<c:choose>
-    			<c:when test="${fn : contains(URL, 'brt.sctc.kr')}">
+    			<c:when test="${fn:contains(URL, 'brt.sctc.kr') or fn:contains(URL, 'localhost')}">
 			    	<img src="/assets/images/home-logo.png"	style="display:inline-block; vertical-align:middle;">
 			    </c:when>
 			    <c:otherwise>
