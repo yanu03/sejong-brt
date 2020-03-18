@@ -15,6 +15,7 @@
     <jsp:body>
 
         <ax:page-buttons>
+        	<button type="button" class="btn btn-info" data-page-btn="gridRefresh"><ax:lang id="ax.admin.reservation.grid.refresh"/></button>
         	<button type="button" class="btn btn-info" data-page-btn="reservationComplete"><ax:lang id="ax.admin.item.reservation.complete"/></button>
         </ax:page-buttons>
 
