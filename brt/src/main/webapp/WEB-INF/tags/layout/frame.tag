@@ -1,6 +1,7 @@
 <%@ tag import="com.tracom.brt.utils.CommonCodeUtils" %>
 <%@ tag import="com.chequer.axboot.core.utils.ContextUtil" %>
 <%@ tag import="com.chequer.axboot.core.utils.PhaseUtils" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="ax" tagdir="/WEB-INF/tags" %>
 <%@ tag language="java" pageEncoding="UTF-8" body-content="scriptless" %>
 <%
@@ -125,8 +126,15 @@
             <div class="ax-split-panel cell-logo" style="width:300px;">
                     <!-- <img src="${pageContext.request.contextPath}${config.logo.header}" width="100%"/> -->
                     <div style="float:left;width:40px;height:30px;background-image:url('${pageContext.request.contextPath}${config.logo.header}');background-repeat:no-repeat;border:solid 0px;"></div>
-                    <div style="float:left;height:30px;border:0px solid;padding-top:6px;"><h2>BRT(전기·굴절)관리시스템</h2></div>
-                    <!-- <div style="float:left;height:30px;border:0px solid;padding-top:6px;"><h2>교육</h2></div> -->
+                    <c:set var="URL" value="${pageContext.request.requestURL}" />
+		    		<c:choose>
+		    			<c:when test="${fn : contains(URL, 'brt.sctc.kr')}">
+					    	<div style="float:left;height:30px;border:0px solid;padding-top:6px;"><h2>BRT(전기·굴절)관리시스템</h2></div>
+					    </c:when>
+					    <c:otherwise>
+					    	<div style="float:left;height:30px;border:0px solid;padding-top:6px;"><h2>교육</h2></div>
+					    </c:otherwise>
+		    		</c:choose> 
                     <!-- 
                 <a href="${pageContext.request.contextPath}/jsp/main.jsp">
                 </a>
