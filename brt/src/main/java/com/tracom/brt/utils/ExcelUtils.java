@@ -176,10 +176,16 @@ public class ExcelUtils {
 		cell = row.createCell(3);
 		cell.setCellValue("노드아이디(10고정)");
 		cell = row.createCell(4);
-		cell.setCellValue("노드명(최대10)");
+		cell.setCellValue("정류장번호(5고정)");
 		cell = row.createCell(5);
-		cell.setCellValue("위도(최대11)");
+		cell.setCellValue("노드명(최대10)");
 		cell = row.createCell(6);
+		cell.setCellValue("국문표출명(최대10)");
+		cell = row.createCell(7);
+		cell.setCellValue("영문표출명(최대50)");
+		cell = row.createCell(8);
+		cell.setCellValue("위도(최대11)");
+		cell = row.createCell(9);
 		cell.setCellValue("경도(최대11)");
 		
 		

@@ -45,8 +45,8 @@ public class BM0603Controller extends BaseController{
 	
 	@PostMapping("/BM0603F0I0")
     public ApiResponse BM0603F0I0(@RequestBody NewsVO request) {
-        service.BM0603F0I0(request);
-        return ok();
+        String result = service.BM0603F0I0(request);
+        return ok(result);
     }
 	
 	@PostMapping("/BM0603F0U0")
@@ -67,4 +67,9 @@ public class BM0603Controller extends BaseController{
         return ok();
     }
 
+	@PostMapping("/BM0603G0D0")
+	public ApiResponse BM0603G0D0(@RequestBody NewsVO request) {
+		service.BM0603G0D0(request);
+		return ok();
+	}
 }

@@ -63,14 +63,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
       	
     	axDialog.confirm({
             msg: LANG("ax.script.deleteconfirm")
-        }, function() {          	          	
+        }, function() {          	         
                 if (this.key == "ok") {      	
             	axboot.promise()
                 .then(function (ok, fail, data) {
 	            	axboot.ajax({
 	                    type: "POST",
-	                    url: "/api/v1/BM0602G0D0",
-	                    data: JSON.stringify({provId : selectedRow.provId}),
+	                    url: "/api/v1/BM0603G0D0",
+	                    data: JSON.stringify({userNewsId : selectedRow.userNewsId}),
 	                    callback: function (res) {
 	                        ok(res);
 	                    }
@@ -117,19 +117,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     			if (caller.formView0.validate()) {
     				var formData = caller.formView0.getData();
     				var list = caller.gridView0.getData();
-    				var checkData = {};
-    				checkData.upList = list;
-    				checkData.provId = formData["userNewsId"];
-    				checkData.provUrl = formData["newsTitle"];
-    				checkData.provNm = formData["newsContents"];
-    				checkData.remark = formData["remark"];
-    				checkData.useYn = selectedRow.useYn;
+    				formData["upList"] = list;
+    				
     				axboot.promise()
     				.then(function (ok, fail, data) {
     					axboot.ajax({
     						type: "POST",
     						url: "/api/v1/BM0603F0U0",
-    						data: JSON.stringify(checkData),
+    						data: JSON.stringify(formData),
     						callback: function (res) {
     							ok(res);
     						}
@@ -153,6 +148,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
     	selectedRow = data;
+    	console.log(selectedRow);
     	caller.formView0.enable();
         caller.formView0.setData(data);
     }
@@ -312,7 +308,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].conId == id) {
+    		if(this.target.list[i].userNewsId == id) {
     			this.selectRow(i);
     			break;
     		}

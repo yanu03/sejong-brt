@@ -759,29 +759,30 @@ function loadSCH(){
 	inputF.dvcKind = "F";
 	inputS.dvcKind = "S";
 	
-	loadBmpF();
-	loadBmpS();
 	
-	
-	axboot.ajax({
-		type: "POST",
-		data: JSON.stringify(inputF),
-		url: "/api/v1/BM0502F0S0",
-		callback: function (res) {
-			setTimeout("", 100);
-			fnObj.gridView0.setData(res);
-		}
+	$.when(loadBmpF()).done(function(){
+		axboot.ajax({
+			type: "POST",
+			data: JSON.stringify(inputF),
+			url: "/api/v1/BM0502F0S0",
+			callback: function (res) {
+				setTimeout("", 100);
+				fnObj.gridView0.setData(res);
+			}
+		});		
 	});
 	
-	axboot.ajax({
-		type: "POST",
-		data: JSON.stringify(inputS),
-		url: "/api/v1/BM0502F0S0",
-		callback: function (res) {
-			setTimeout("", 100);
-			fnObj.gridView1.setData(res);
-		}
-	});	
+	$.when(loadBmpS()).done(function(){
+		axboot.ajax({
+			type: "POST",
+			data: JSON.stringify(inputS),
+			url: "/api/v1/BM0502F0S0",
+			callback: function (res) {
+				setTimeout("", 100);
+				fnObj.gridView1.setData(res);
+			}
+		});			
+	});
 }
 
 

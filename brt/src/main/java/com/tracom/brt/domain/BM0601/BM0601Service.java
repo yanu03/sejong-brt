@@ -75,7 +75,7 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 		return request.getDvcId();
 	}
 	
-	@Scheduled(cron="0 5 * * * *")
+	@Scheduled(cron="0 5 5-23,0 * * *")
 	public void NewAtmoScheduler() {
 		/* 대기 */	
 		CommonCodeDetailInfoVO codeVO = new CommonCodeDetailInfoVO();
@@ -122,7 +122,7 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 		/* 대기 */  	   	
 	}
 	
-	@Scheduled(cron="0 5 * * * *")
+	@Scheduled(cron="0 5 5-23,0 * * *")
 	public void NewWeatScheduler() {
 		
 		/* 기상 */
