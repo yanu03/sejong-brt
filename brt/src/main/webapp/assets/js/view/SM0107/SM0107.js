@@ -156,7 +156,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var list = caller.gridView1.getData("selected");
     	
     	if(list.length == 0) {
-    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
+    		axDialog.alert(LANG("alert.requireselect"));
     		return false;
     	}
     	
@@ -192,7 +192,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var list = caller.gridView2.getData("selected");
     	
     	if(list.length == 0) {
-    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
+    		axDialog.alert(LANG("alert.requireselect"));
     		return false;
     	}
     	
@@ -228,7 +228,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var list = caller.gridView3.getData("selected");
     	
     	if(list.length == 0) {
-    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
+    		axDialog.alert(LANG("alert.requireselect"));
     		return false;
     	}
     	
@@ -264,7 +264,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var list = caller.gridView4.getData("selected");
     	
     	if(list.length == 0) {
-    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
+    		axDialog.alert(LANG("alert.requireselect"));
     		return false;
     	}
     	
@@ -301,7 +301,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var list = caller.gridView5.getData("selected");
     	
     	if(list.length == 0) {
-    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
+    		axDialog.alert(LANG("alert.requireselect"));
     		return false;
     	}
     	
