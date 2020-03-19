@@ -111,16 +111,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         	data.upList[i].attFile = attFile;
         }
     	if(list.length > 0){
-	            axboot.ajax({
-	                type: "POST",
-	                url: "/api/v1/BM0205Reservation",
-	                data: JSON.stringify(data),
-	                callback: function (res) {
-	                	ACTIONS.dispatch(ACTIONS.UPDATE_FILE);
-	                }
-	            });
-    	return false;
-    	}else{
+            axboot.ajax({
+                type: "POST",
+                url: "/api/v1/BM0205Reservation",
+                data: JSON.stringify(data),
+                callback: function (res) {
+                	ACTIONS.dispatch(ACTIONS.UPDATE_FILE);
+                }
+            });
+            return false;
+    	} else {
     		axDialog.alert(LANG("ax.script.requireselect"));
     	}
     	
