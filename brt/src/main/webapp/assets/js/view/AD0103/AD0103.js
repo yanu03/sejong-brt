@@ -354,6 +354,29 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	caller.formView0.model.set("adAmt", amt);
             }
         });
+    },
+    
+    CALCULATE_ED_DATE: function(caller, act, data) {
+    	if(data.adStDate) {
+    		var adStDate = new Date(data.adStDate);
+    		var inputMonth = parseInt(caller.formView0.model.get("inputMonth"));
+    		
+    		if(!isNaN(inputMonth) && inputMonth != 0) {
+    			adStDate = new Date(adStDate.setMonth(adStDate.getMonth() + inputMonth));
+    			
+    			caller.formView0.model.set("adEdDate", adStDate.yyyymmdd());
+    		}
+    	} else if(data.inputMonth) {
+    		var adStDate = caller.formView0.model.get("adStDate");
+    		var inputMonth = parseInt(data.inputMonth);
+    		
+    		if(adStDate != null && adStDate != "") {
+    			adStDate = new Date(adStDate);
+    			adStDate = new Date(adStDate.setMonth(adStDate.getMonth() + inputMonth));
+    			
+    			caller.formView0.model.set("adEdDate", adStDate.yyyymmdd());
+    		}
+    	}
     }
 });
 
@@ -514,10 +537,10 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             columns: [
             	{key: "comfirmYn",		label: "상태",								sortable: true,	width: 80,	align: "center",
             		styleClass: function(){
-        				return (this.item.comfirmYn == "Y") ? "grid-cell-blue" :  "grid-cell-red";
+        				return this.item.confirmYn == "Y" ? "grid-cell-red" :  "grid-cell-blue";
     				},
     				formatter: function() {
-    					return (this.item.confirmYn == "Y") ? "확정" :  "미확정";
+    					return this.item.confirmYn == "Y" ? "확정" :  "미확정";
     				}
             	},
                 {key: "instId",		label: ADMIN("ax.admin.AD0103G1.inst.id"),		sortable: true, width: 100,		align: "center"},
@@ -616,6 +639,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.model = new ax5.ui.binder();
         this.model.setModel(this.getDefaultData(), this.target);
         this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
+        
         $('[data-ax5formatter]').ax5formatter();
         this.initEvent();
     },
@@ -634,6 +658,25 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
             "btnCalAmt": function() {
             	ACTIONS.dispatch(ACTIONS.CALCULATE_AMT);
             }
+        });
+        
+        this.target.find("[data-ax-path='adStDate']").on("change", function() {
+        	ACTIONS.dispatch(ACTIONS.CALCULATE_ED_DATE, {
+        		adStDate: $(this).val()
+        	});
+        });
+        
+        this.target.find("#inputMonth").on("keyup", function() {
+        	if($(this).val() > 12) {
+        		$(this).val(12);
+        	}
+        	
+        	if($(this).val() < 1) {
+        		$(this).val(1);
+        	}
+        	ACTIONS.dispatch(ACTIONS.CALCULATE_ED_DATE, {
+        		inputMonth: $(this).val()
+        	});
         });
     },
     getData: function () {

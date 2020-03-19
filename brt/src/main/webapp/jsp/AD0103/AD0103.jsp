@@ -17,7 +17,7 @@
 			.grid-cell-red {
 		        background: #A9F5A9;
 		    }
-		    .grid-cell-blue{
+		    .grid-cell-blue {
 		        background: #F78181;
 		    }
 		</style>
@@ -66,8 +66,8 @@
 	                <ax:form name="formView0">
 	                    <ax:tbl clazz="ax-form-tbl" minWidth="500px">
 	                        <ax:tr>
-	                            <ax:td label="ax.admin.AD0103G1.inst.id" width="200px" labelClazz="required">
-	                                <input type="text" data-ax-path="instId" maxlength="5" data-key="true" class="form-control" readonly="readonly"/>
+	                            <ax:td label="ax.admin.AD0103G1.inst.id" width="300px" labelClazz="required">
+	                                <input type="text" data-ax-path="instId" data-key="true" class="form-control W80" readonly="readonly"/>
 	                            </ax:td>
 	                            
 	                            <ax:td label="ax.admin.AD0103G1.inst.nm" width="250px" labelClazz="required">
@@ -94,11 +94,22 @@
 	                        </ax:tr>
 	                        
 	                        <ax:tr>
-	                        	<ax:td label="ax.admin.AD0103G1.ad.date" width="350px" labelClazz="required">
+	                        	<ax:td label="ax.admin.AD0103G1.ad.st.date" width="300px" labelClazz="required">
+	                        		<div style="float:left;padding-right:5px;">
+		                        		<div class="input-group" data-ax5picker="date">
+			                                <input type="text" name="adStDate" data-ax-path="adStDate" title="<ax:lang id="ax.admin.AD0103G1.ad.st.date"/>" class="form-control W80" data-ax5formatter="date" data-ax-validate="required">
+			                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
+			                            </div>
+	                        		</div>
+		                        	
+		                        	<div style="float:left;padding-right:5px;">
+		                        		<input type="text" class="form-control W70" data-ax-path="inputMonth" id="inputMonth" placeholder="기간(개월)" maxlength="2" data-ax5formatter="number">
+		                        	</div>
+	                            </ax:td>
+	                            
+	                            <ax:td label="ax.admin.AD0103G1.ad.ed.date" width="200px" labelClazz="required">
 	                                <div class="input-group" data-ax5picker="date">
-		                                <input type="text" name="adStDate" data-ax-path="adStDate" title="<ax:lang id="ax.admin.AD0103G1.ad.st.date"/>" class="form-control" data-ax5formatter="date" data-ax-validate="required">
-		                                <span class="input-group-addon">~</span>
-		                                <input type="text" name="adEdDate" data-ax-path="adEdDate" title="<ax:lang id="ax.admin.AD0103G1.ad.ed.date"/>" class="form-control" data-ax5formatter="date" data-ax-validate="required">
+		                                <input type="text" name="adEdDate" data-ax-path="adEdDate" title="<ax:lang id="ax.admin.AD0103G1.ad.ed.date"/>" class="form-control W80" data-ax5formatter="date" data-ax-validate="required">
 		                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
 		                            </div>
 	                            </ax:td>
