@@ -63,19 +63,19 @@
                     	
                     	<ax:tr>
 							<ax:td label="ax.admin.BM0603G0.provNm" width="200px" labelClazz="required" labelWidth="120px">
-								<input type="text" data-ax-path="provNm" data-key="true" class="form-control W150" data-ax-validate="required" maxlength="10">
+								<input type="text" data-ax-path="provNm" data-key="true" title="<ax:lang id="ax.admin.BM0603G0.provNm"/>" class="form-control W150" data-ax-validate="required" maxlength="10">
 							</ax:td>						                
                     	</ax:tr>                                          	
 						
                     	<ax:tr>
 							<ax:td label="ax.admin.BM0603G0.category" width="200px" labelClazz="required" labelWidth="120px">
-								<input type="text" data-ax-path="category" data-key="true" class="form-control W150" data-ax-validate="required" maxlength="20">
+								<input type="text" data-ax-path="category" data-key="true" title="<ax:lang id="ax.admin.BM0603G0.category"/>" class="form-control W150" data-ax-validate="required" maxlength="20">
 							</ax:td>						                
                     	</ax:tr>                                          	
 						
 						<ax:tr>
                        		<ax:td label="ax.admin.BM0603G0.newscontents" width="100%" labelClazz="required" labelWidth="120px">
-                            	<textarea data-ax-path="newsContents" class="form-control" title="<ax:lang id="ax.admin.BM0301F0.newscontents"/>" data-ax-validate="required" maxlength="255" style="height: 60px;"></textarea>
+                            	<textarea data-ax-path="newsContents" class="form-control" title="<ax:lang id="ax.admin.BM0603G0.newscontents"/>" data-ax-validate="required" maxlength="255" style="height: 60px;"></textarea>
                             </ax:td>
                        	</ax:tr>
 						

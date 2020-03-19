@@ -59,13 +59,13 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="600px">
                      	<ax:tr>
 							<ax:td label="ax.admin.BM0602G0.provid" width="250px" labelClazz="required" labelWidth="120px">
-								<input type="text" data-ax-path="provId" data-key="true" class="form-control W90" readonly="readonly">
+								<input type="text" data-ax-path="provId" title="쿠키뉴스제공처Id" data-key="true" class="form-control W90" readonly="readonly">
 							</ax:td>						                
                     	</ax:tr>
                     
                         <ax:tr>
                             <ax:td label="ax.admin.BM0602G0.provnm" width="230px" labelClazz="required" labelWidth="120px">
-                                <input type="text" data-ax-path="provNm" class="form-control" title="<ax:lang id="ax.admin.BM0301F0.provnm"/>" data-ax-validate="required" maxlength="20"/>
+                                <input type="text" data-ax-path="provNm" class="form-control" title="<ax:lang id="ax.admin.BM0602G0.provnm"/>" data-ax-validate="required" maxlength="20"/>
                             </ax:td>
                             <div style="position:absolute; top: 60px; right:50px;">
                             	<ax:td>*제공처명(신문사명)을 정확하게 작성해주세요.</ax:td>                        	                            
@@ -74,7 +74,7 @@
                         
                         <ax:tr>
                             <ax:td label="ax.admin.BM0602F0.provurl" style="position:relation;" width="500px" labelClazz="required" labelWidth="120px">
-                            	<input type="text" data-ax-path="provUrl" class="form-control W250" title="<ax:lang id="ax.admin.BM0301F0.provurl"/>" data-ax-validate="required" maxlength="200"/>
+                            	<input type="text" data-ax-path="provUrl" class="form-control W250" title="<ax:lang id="ax.admin.BM0602G0.provurl"/>" data-ax-validate="required" maxlength="200"/>
                             </ax:td>
                             <div style="position:absolute; top: 100px; left:390px;">
                             	<ax:td>*Rss형식만 지원합니다.</ax:td>                        	                            

@@ -26,11 +26,14 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 } else {
                 	caller.formView0.enable();
                 	if(dataFlag) {
+                		isUpdate = true;
 	                	caller.gridView0.selectIdRow(data);
 	                } else {
 		                if(selectedRow != null) {
+		                	isUpdate = true;
 		                	caller.gridView0.selectRow(selectedRow.__index);
 		                } else {
+		                	isUpdate = true;
 		                	caller.gridView0.selectFirstRow();
 		                }
 	                }
@@ -89,6 +92,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_SAVE: function (caller, act, data) {
     	 if (caller.formView0.validate()) {
+    		if(!listSize()){
+    			axDialog.alert("선택 뉴스를 20개 이하로 해주세요.");
+    			return false;
+    		}
              var formData = caller.formView0.getData();
              axboot.promise()
                  .then(function (ok, fail, data) {
@@ -115,6 +122,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     PAGE_UPDATE: function(caller, act, data) {
     		isUpdate = false;  	
     			if (caller.formView0.validate()) {
+    	    		if(!listSize()){
+    	    			axDialog.alert("선택 뉴스를 20개 이하로 해주세요.");
+    	    			return false;
+    	    		}
     				var formData = caller.formView0.getData();
     				var list = caller.gridView0.getData();
     				formData["upList"] = list;
@@ -148,7 +159,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     ITEM_CLICK: function (caller, act, data) {
     	isUpdate = true;
     	selectedRow = data;
-    	console.log(selectedRow);
     	caller.formView0.enable();
         caller.formView0.setData(data);
     }
@@ -309,6 +319,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
     		if(this.target.list[i].userNewsId == id) {
+    			isUpdate = true;
     			this.selectRow(i);
     			break;
     		}
@@ -394,3 +405,20 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.target.find('[data-ax-path="key"]').removeAttr("readonly");
     }
 });
+
+
+function listSize(){
+	var list = fnObj.gridView0.getData();
+	var useYnCount = 0;
+	
+	for(var i = 0; i<list.length; i++){
+		if(list[i].useYn == "true"){
+			useYnCount++;
+		}
+	}
+	if(useYnCount <= 20){
+		return true;
+	}else{
+		return false;
+	}
+}

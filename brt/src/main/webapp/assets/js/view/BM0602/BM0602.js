@@ -88,28 +88,29 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SAVE: function (caller, act, data) {
-    	 if (caller.formView0.validate()) {
-             var formData = caller.formView0.getData();
-             axboot.promise()
-                 .then(function (ok, fail, data) {
-                     axboot.ajax({
-                         type: "POST",
-                         url: "/api/v1/BM0602F0I0",
-                         data: JSON.stringify(formData),
-                         callback: function (res) {
-                             ok(res);
-                         }
-                     });
-                 })
-                 .then(function (ok, fail, data) {
-             		axToast.push(LANG("onsave"));
-             		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-                     isUpdate = true;
-                 })
-                 .catch(function () {
+    	if (caller.formView0.validate()) {
 
-                 });
-         }
+    		var formData = caller.formView0.getData();
+    		axboot.promise()
+    		.then(function (ok, fail, data) {
+    			axboot.ajax({
+    				type: "POST",
+    				url: "/api/v1/BM0602F0I0",
+    				data: JSON.stringify(formData),
+    				callback: function (res) {
+    					ok(res);
+    				}
+    			});
+    		})
+    		.then(function (ok, fail, data) {
+    			axToast.push(LANG("onsave"));
+    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+    			isUpdate = true;
+    		})
+    		.catch(function () {
+
+    		});
+    	}
     },
     
     PAGE_UPDATE: function(caller, act, data) {
@@ -325,7 +326,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     	var i;
     	var length = this.target.list.length;
     	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].conId == id) {
+    		if(this.target.list[i].provId == id) {
     			this.selectRow(i);
     			break;
     		}
@@ -411,3 +412,4 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.target.find('[data-ax-path="key"]').removeAttr("readonly");
     }
 });
+
