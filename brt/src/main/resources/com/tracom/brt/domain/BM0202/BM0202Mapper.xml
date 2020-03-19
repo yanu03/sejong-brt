@@ -98,10 +98,11 @@
     		AND SEQ = #{seq}		
 	</update>
 	
-	<delete id="BM0202G2D0" parameterType="String">
+	<delete id="BM0202G2D0" parameterType="dvcHistoryVO">
 		DELETE
 			FROM BM_DVC_HIST
 		WHERE
-			SEQ = #{seq}
+			DVC_ID = #{dvcId}
+			AND SEQ = #{seq}
 	</delete>
 </mapper>
