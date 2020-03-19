@@ -148,7 +148,7 @@
 	</update>
 	
 	<delete id="AD0103G1D0" parameterType="adInstInfoVO">
-		DLEETE FROM AD_INST_INFO
+		DELETE FROM AD_INST_INFO
 		WHERE
 			INST_ID = #{instId}
 	</delete>
