@@ -46,7 +46,10 @@
 		FROM
 			BM_NEWS_SET
 		WHERE
+		<!-- 
 			PROV_URL = #{value}
+		 -->
+		 	PROV_ID = #{value}
 	</select>
 	
 	<insert id="BM0602F0I0" parameterType="newsVO">
@@ -70,7 +73,7 @@
 			  , #{provUrl}
 			  , #{provNm}
 			  , #{remark}
-			  , "N"
+			  , #{useYn}
 			  , #{createdAt}
    			  , #{createdBy}
    			  , #{createdIp}
@@ -98,7 +101,7 @@
     		  	  , #{provNm}
     		  	  , #{newsTitle}
     		  	  , #{pubDt}
-    		  	  , "Y"
+    		  	  , #{useYn}
     		  	  , CURRENT_TIMESTAMP
     		  	  , #{createdAt}
    			  	  , #{createdBy}
@@ -140,10 +143,48 @@
 		WHERE PROV_ID = #{provId}
 	</delete>
 	
-	<delete id="BM0602D0" parameterType="String">
+	<delete id="BM0602D0">
+	<!-- 
 		DELETE
 		FROM BM_NEWS
 		WHERE 
-		 SUBSTRING_INDEX(PUB_DT," ",1) &lt;= #{deletDate}
+		SUBSTRING_INDEX(PUB_DT," ",1) &lt;= #{deletDate}
+	 -->
+		 DELETE
+		 FROM BM_NEWS
 	</delete>
+	
+	<!-- 유저 뉴스 쿼리 -->
+	<insert id="insertUserNews">
+		INSERT INTO BM_NEWS(
+			            CATEGORY
+			          , PROV_NM
+			          , NEWS_TITLE
+			          , PUB_DT
+			          , USE_YN
+			          , RENEW_DATE
+			          , CREATED_AT
+	    		  	  , CREATED_BY
+	    		  	  , CREATED_IP
+	    		  	  , UPDATED_AT
+	    		  	  , UPDATED_BY
+	    		  	  , UPDATED_IP)
+		SELECT 
+			  CATEGORY		AS CATEGORY
+			, PROV_NM		AS PROV_NM
+			, SUBSTRING(NEWS_CONTENTS, 1, 49)	AS NEWS_TITLE
+			, PUB_DT		AS PUB_DT
+			, 'Y'			AS USE_YN
+			, CURRENT_TIMESTAMP
+			, #{createdAt}
+			, #{createdBy}
+			, #{createdIp}
+			, #{updatedAt}
+  			, #{updatedBy}
+  			, #{updatedIp}
+		FROM
+			BM_NEWS_USER_SET
+		WHERE
+			USE_YN = 'Y'
+	</insert>
 </mapper>

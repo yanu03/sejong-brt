@@ -16,6 +16,8 @@ public interface BM0602Mapper extends MyBatisMapper{
 	int BM0602F0U0(NewsVO vo);
 	int BM0602M0I0(NewsVO vo);
 	int BM0602G0I0(NewsVO vo);
-	String BM0602D0(String deleteDate);
+	//String BM0602D0(String deleteDate);
+	int BM0602D0();
 	String BM0602G0S2(String string);
+	int insertUserNews();
 }
