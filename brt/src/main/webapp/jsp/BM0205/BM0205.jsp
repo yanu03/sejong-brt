@@ -36,10 +36,10 @@
         </div>
 
         <ax:split-layout name="ax1" orientation="horizontal">
-            <ax:split-panel width="*" style="height:100%; padding-right: 10px; padding-bottom:25px">
+            <ax:split-panel width="*" style="height:100%;">
 
                 <!-- 목록 -->
-                <div class="ax-button-group" data-fit-height-aside="gridview0">
+                <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h3>
                             <i class="cqc-list"></i>

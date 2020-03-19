@@ -302,7 +302,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         	lineNumberColumnWidth: 30,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
-            	{key: "possible",	label: "예약여부",		width: 70, align: "center"},
+            	{key: "possible",	label: ADMIN("ax.admin.reservation.status"),		width: 70, align: "center"},
             	{key: "vhcId",		label: "차량ID",		width: 100},
             	{key: "vhcNo",		label: ADMIN("ax.admin.SM0107.vhc.no"),			width: 100,		align:"center",		sortable: true},
             	//{key: "mngId",		label: "관리ID",		width: 150},

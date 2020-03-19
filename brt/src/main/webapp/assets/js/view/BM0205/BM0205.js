@@ -170,11 +170,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
       
     PAGE_EXCEL: function(caller, act, data) {
-    	if(selectedRow != null){   		
-    		caller.gridView0.target.exportExcel("차내장치 업데이트 차량 목록_" + new Date().yyyymmdd() + ".xls");
-    	}else {
-    		axDialog.alert(LANG("ax.script.requireselect"));
-    	}
+		caller.gridView0.target.exportExcel("차내장치 업데이트 차량 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     PAGE_CLOSE: function(caller, act, data) {
