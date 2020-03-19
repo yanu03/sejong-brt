@@ -44,6 +44,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     // gridView0항목 클릭 이벤트
     ITEM_CLICK: function (caller, act, data) {
     	selectedRow = data;
+    	fnObj.gridView2.clear();
+    	fnObj.gridView3.clear();
     	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
     },
     
@@ -137,7 +139,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
 fnObj.pageStart = function () {
 	var _this = this;
-	
     this.pageButtonView.initView();
     this.searchView0.initView();
     this.gridView0.initView();

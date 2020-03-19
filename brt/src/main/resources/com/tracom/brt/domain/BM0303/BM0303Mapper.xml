@@ -33,7 +33,7 @@
     <select id="BM0303G2S0" parameterType="String" resultType="contractViewVO">
 		SELECT
 		    VDO.VDO_ID
-		  , VDO.ATT_FILE
+		  , VDO.VDO_NM AS ATT_FILE
 		  , VDO.PLAY_ST_DATE
 		  , VDO.PLAY_ED_DATE
 		  , VDO.PLAY_TM
