@@ -117,69 +117,82 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	 if (caller.formView0.validate()) {
     		 var formData = caller.formView0.getData();
     		 formData["vhcId"] = selectedRow.vhcId;
-             
-    		 axboot.promise()
-    		 	.then(function (ok, fail, data) {
-	                axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/BM0201F0S1",
-	                    data: JSON.stringify(formData),
-	                    callback: function (res) {
-	                        ok(res);
-	                    }
-	                });
-	            })
-	            .then(function (ok, fail, data) {
-	            	if(data.message == "true"){
-	            		axboot.promise()
-	            			.then(function(ok, fail , data) {
-	            				axboot.ajax({
-	            					type: "POST",
-	            					url: "/api/v1/BM0201F0I0",
-	            					data: JSON.stringify(formData),
-	            					callback: function (res) {
-	            						ok(res);
-	            					}
-	            				});
-	            			})
-	            			.then(function (ok, fail, data) {
-	            				ACTIONS.dispatch(ACTIONS.OPEN_BM0201_MODAL, data.message);
-	            				axToast.push(LANG("onsave"));
-	            				ACTIONS.dispatch(ACTIONS.RELOAD_G1, data.message);
-	            				isUpdate = true;
-	            			})
-	            			.catch(function () {
-	            				
-	            			});
-                 }else{
-                	 axDialog.alert("관리ID는 중복으로 저장되지 않습니다.");
-                 }
-             });
+    		 
+    		 var mngId = formData.mngId;
+    		 if(mngId.length == 10 || mngId.length == 16) {
+	    		 axboot.promise()
+	    		 	.then(function (ok, fail, data) {
+		                axboot.ajax({
+		                    type: "POST",
+		                    url: "/api/v1/BM0201F0S1",
+		                    data: JSON.stringify(formData),
+		                    callback: function (res) {
+		                        ok(res);
+		                    }
+		                });
+		            })
+		            .then(function (ok, fail, data) {
+		            	if(data.message == "true"){
+		            		axboot.promise()
+		            			.then(function(ok, fail , data) {
+		            				axboot.ajax({
+		            					type: "POST",
+		            					url: "/api/v1/BM0201F0I0",
+		            					data: JSON.stringify(formData),
+		            					callback: function (res) {
+		            						ok(res);
+		            					}
+		            				});
+		            			})
+		            			.then(function (ok, fail, data) {
+		            				ACTIONS.dispatch(ACTIONS.OPEN_BM0201_MODAL, data.message);
+		            				axToast.push(LANG("onsave"));
+		            				ACTIONS.dispatch(ACTIONS.RELOAD_G1, data.message);
+		            				isUpdate = true;
+		            			})
+		            			.catch(function () {
+		            				
+		            			});
+	                 } else {
+	                	 axDialog.alert("관리ID는 중복으로 저장되지 않습니다.");
+	                 }
+	             });
+    		 } else {
+    			 axDialog.alert(ADMIN("ax.admin.BM0201F0.mng.id.alert"));
+    			 return false;
+    		 }
          }
     },
     
     PAGE_UPDATE: function(caller, act, data) {
 		if (caller.formView0.validate()) {
 			var formData = caller.formView0.getData();
-			axboot.promise()
-				.then(function (ok, fail, data) {
-					axboot.ajax({
-						type: "POST",
-						url: "/api/v1/BM0201F0U0",
-						data: JSON.stringify(formData),
-						callback: function (res) {
-							ok(res);
-						}
+			
+			var mngId = formData.mngId;
+			if(mngId.length == 10 || mngId.length == 16) {
+				axboot.promise()
+					.then(function (ok, fail, data) {
+						axboot.ajax({
+							type: "POST",
+							url: "/api/v1/BM0201F0U0",
+							data: JSON.stringify(formData),
+							callback: function (res) {
+								ok(res);
+							}
+						});
+					})
+					.then(function (ok, fail, data) {
+						axToast.push(LANG("onsave"));
+						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+						isUpdate = true;
+					})
+					.catch(function () {
+						
 					});
-				})
-				.then(function (ok, fail, data) {
-					axToast.push(LANG("onsave"));
-					ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-					isUpdate = true;
-				})
-				.catch(function () {
-					
-				});
+			} else {
+				 axDialog.alert(ADMIN("ax.admin.BM0201F0.mng.id.alert"));
+				 return false;
+			}
 		}
     },
     

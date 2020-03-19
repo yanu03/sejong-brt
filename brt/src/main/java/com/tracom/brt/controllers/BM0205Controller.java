@@ -38,7 +38,6 @@ public class BM0205Controller extends BaseController{
     
     @PostMapping("/BM0205G0S1")
     public ApiResponse BM0205G0S1(@RequestBody VhcDvcUpdateVO vo) {
-    	VhcDvcUpdateVO nVo = new VhcDvcUpdateVO();
     	boolean mngIdCheck = service.BM0205G0S1(vo);
     	return ok(Boolean.toString(mngIdCheck));
     }
