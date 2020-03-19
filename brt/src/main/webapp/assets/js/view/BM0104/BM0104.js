@@ -69,32 +69,38 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         	if(selectedRow.count > 1){
         		axDialog.alert("삭제 실패. 노선경로 데이터가 있는지 확인하세요.");
         		return false;
-        	}
-            if (this.key == "ok") {
-            	axboot.promise()
-                .then(function (ok, fail, data) {
-	            	axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/BM0104F0D0",
-	                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
-	                    callback: function (res) {
-	                    	if(res.message == "error"){
-	                    		axDialog.alert("삭제 실패");
-	                    	}else{
-	                    		ok(res);	                    		
-	                    	}
-	                    }
+        	}else{
+	            if (this.key == "ok") {
+	            	axboot.promise()
+	                .then(function (ok, fail, data) {
+		            	axboot.ajax({
+		                    type: "POST",
+		                    url: "/api/v1/BM0104F0D0",
+		                    data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+		                    callback: function (res) {
+		                    	if(res.message == "error"){
+		                    		axDialog.alert("삭제 실패");
+		                    	}else{
+		                    		ok(res);	                    		
+		                    	}
+		                    },
+		                    options:{
+		                    	onError: function(err){
+		                    		axDialog.alert("삭제 실패. 노선경로 데이터가 있는지 확인하세요.");
+		                    	}
+		                    }
+		                });
+	                })
+	                .then(function (ok) {
+	                	caller.formView0.clear();
+	                	axToast.push(LANG("ondelete"));
+	                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	                })
+	                .catch(function () {
+	
 	                });
-                })
-                .then(function (ok) {
-                	caller.formView0.clear();
-                	axToast.push(LANG("ondelete"));
-                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-            }
+	            }
+        	}
         });
     },
     

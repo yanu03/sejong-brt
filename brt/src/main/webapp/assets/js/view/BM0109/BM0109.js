@@ -35,6 +35,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             callback: function (res) {
             	caller.gridView0.setData(res);
                 if(res.list.length == 0) {
+                	fnObj.gridView1.clear();
                 } else {
                 	if(dataFlag) {
 	                	caller.gridView0.selectIdRow(data);
@@ -48,7 +49,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 }
             }
         });
-
         return false;
     },
     PAGE_EXCEL: function(caller, act, data) {
@@ -699,6 +699,8 @@ function onClickMap(e) {
 				longi: lonlat.lng(),
 				seq: seq,
 				nodeNm: routNm + "_정류장" + stnSeq,
+				krNm : routNm + "_정류장" + stnSeq,
+				enNm : routNm + "_stn" + stnSeq,
 				nodeType: '1',
 				nodeTypeNm: '정류장',
 				icon: '',
