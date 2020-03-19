@@ -38,7 +38,7 @@
 					OR PROV_NM LIKE CONCAT('%', #{value}, '%')
 		    	</if>
 	    </where>
-	    GROUP BY NEWS_TITLE
+	    <!-- GROUP BY NEWS_TITLE -->
 	</select>
 	<select id="BM0604G1S0" resultType="newsVO" parameterType="String">
 		SELECT

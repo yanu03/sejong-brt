@@ -32,14 +32,14 @@ public class BM0604Controller extends BaseController{
 	})
 	public Responses.ListResponse BM0604G0S0(RequestParams<NewsVO> requestParams){
 		List<NewsVO> list = service.BM0604G0S0(requestParams);
-		
+		/*
 		for(int i = 0; list.size() > i; i++) {
 			if(list.get(i).getUseYn().equals("Y")) {
 				list.get(i).setUseYn("true");
 			}else {
 				list.get(i).setUseYn("false");
 			}
-		}		
+		}*/		
 		return Responses.ListResponse.of(list);
 	}
 	

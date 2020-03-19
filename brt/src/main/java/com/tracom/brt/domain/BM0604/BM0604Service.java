@@ -35,11 +35,7 @@ public class BM0604Service extends BaseService<NewsVO, String>{
 	public boolean BM0604F0U0(NewsVO request) {
 		for(int i = 0; request.getUpList().size() > i; i++) {
 			NewsVO vo = request.getUpList().get(i);
-			if(vo.getCategory().equals("세종도시교통공사")) {
-				mapper.BM0604F0U1(vo);
-			}else {
-				mapper.BM0604F0U0(vo);
-			}
+			mapper.BM0604F0U0(vo);
 		}
 		
 		if(request.getUpList().size() > 0 ) {

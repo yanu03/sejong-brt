@@ -14,93 +14,77 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var filter = $.extend({}, caller.searchView0.getData());
     	var plusRes;
     	
-        axboot.ajax({
-            type: "GET",
-            url: "/api/v1/BM0604G0S0",
-            data: filter,
-            callback: function (res) {               	        	
+    	axboot.ajax({
+        	type: "GET",
+        	url : "/api/v1/BM0604G0S1",
+        	data : filter,
+        	callback : function(res){
+        		caller.gridView0.setData(res);
+        		if(res.list.length == 0) {
+	                caller.gridView1.clear();
+                }else{
                 	axboot.ajax({
                     	type: "GET",
-                    	url : "/api/v1/BM0604G0S1",
+                    	url : "/api/v1/BM0604G1S0",
                     	data : filter,
-                    	callback : function(resOne){
-                    		if(res.list[0] != null || typeof res.list[0] != "undefined"){
-                    			for(var i = 0; i<res.list.length; i++){
-                    				res.list[i].newsTitle = res.list[i].newsContents;
-                    			}
-                    			plusRes = res.list.length;
-                    			for(var i = res.list.length; i<resOne.list.length+plusRes; i++){
-                    			res.list[i] = resOne.list[i-plusRes];
-                    			}
-                    		caller.gridView0.setData(res);
-                    		}else{
-                    			caller.gridView0.setData(resOne);
-                    		}
-                    		if(res.list.length == 0) {
-            	                caller.gridView1.clear();
-                            }else{
-                            	axboot.ajax({
-                                	type: "GET",
-                                	url : "/api/v1/BM0604G1S0",
-                                	data : filter,
-                                	callback : function(res){
-                                		caller.gridView1.setData(res);
-                                	}
-                                })
-                            	if(dataFlag) {
-            	                	caller.gridView0.selectIdRow(data);
-            	                } else {
-            		                if(selectedRowG1 != null) {
-            		                	caller.gridView1.selectRow(selectedRow.__index);
-            		                } else {
-            		                	caller.gridView1.selectFirstRow();
-            		                }
-            	                }
-                            }
+                    	callback : function(res){
+                    		caller.gridView1.setData(res);
                     	}
-                    })              
+                    })
+                	if(dataFlag) {
+	                	caller.gridView0.selectIdRow(data);
+	                } else {
+		                if(selectedRowG1 != null) {
+		                	caller.gridView1.selectRow(selectedRow.__index);
+		                } else {
+		                	caller.gridView1.selectFirstRow();
+		                }
+	                }
+                }
+        	}
+        });     
                 
-            }
-        });
 
         return false;
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-    			isUpdate = false;  	
-    				var list = caller.gridView0.getData();
-    				var checkData = {};
-    				var useYnCount = 0;
-    				
-    				for(var i = 0; i<list.length; i++){
-    					if(list[i].useYn == "true"){
-    						useYnCount++;
-    					}
+    	isUpdate = false;  	
+    	var list = caller.gridView0.getData();
+    	var checkData = {};
+    	var useYnCount = 0;
+    	
+    	for(var i = 0; i<list.length; i++){
+    		if(list[i].useYn == "true"){
+    			useYnCount++;
+    		}
+    	}
+    	
+    	checkData.upList = list;
+    	
+    	if(useYnCount <= 20){
+    		axboot.promise()
+    		.then(function (ok, fail, data) {
+    			axboot.ajax({
+    				type: "POST",
+    				url: "/api/v1/BM0604F0U0",
+    				data: JSON.stringify(checkData),
+    				callback: function (res) {
+    					ok(res);
     				}
-    				checkData.upList = list;
-    				if(useYnCount < 20){
-    					axboot.promise()
-    					.then(function (ok, fail, data) {
-    						axboot.ajax({
-    							type: "POST",
-    							url: "/api/v1/BM0604F0U0",
-    							data: JSON.stringify(checkData),
-    							callback: function (res) {
-    								ok(res);
-    							}
-    						});
-    					})
-    					.then(function (ok, fail, data) {
-    						axToast.push(LANG("onsave"));
-    						ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-    						isUpdate = true;
-    					})
-    					.catch(function () {
-    						
-    					});   					
-    				}else{
-    					axDialog.alert(LANG("ax.script.alert.usecheck"));
-    				}
+    			});
+    		})
+    		.then(function (ok, fail, data) {
+    			axToast.push(LANG("onsave"));
+    			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    			isUpdate = true;
+    		})
+    		.catch(function () {
+
+    		});   					
+    	}else{
+    		axDialog.alert(LANG("ax.script.alert.usecheck"));
+    	}
     },    
     // 탭닫기
     PAGE_CLOSE: function(caller, act, data) {
