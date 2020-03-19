@@ -12,6 +12,17 @@
         <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/AD0103/AD0103.js' />"></script>
     </jsp:attribute>
+    <jsp:attribute name="css">
+    	<style>
+			.grid-cell-red {
+		        background: #A9F5A9;
+		    }
+		    .grid-cell-blue{
+		        background: #F78181;
+		    }
+		</style>
+    </jsp:attribute>
+    
     <jsp:body>
 
         <ax:page-buttons></ax:page-buttons>

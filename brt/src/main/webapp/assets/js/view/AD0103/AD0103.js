@@ -512,6 +512,14 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
+            	{key: "comfirmYn",		label: "상태",								sortable: true,	width: 80,	align: "center",
+            		styleClass: function(){
+        				return (this.item.comfirmYn == "Y") ? "grid-cell-blue" :  "grid-cell-red";
+    				},
+    				formatter: function() {
+    					return (this.item.confirmYn == "Y") ? "확정" :  "미확정";
+    				}
+            	},
                 {key: "instId",		label: ADMIN("ax.admin.AD0103G1.inst.id"),		sortable: true, width: 100,		align: "center"},
                 {key: "instNm",		label: ADMIN("ax.admin.AD0103G1.inst.nm"),		sortable: true, width: 150},
                 {key: "custNm",		label: ADMIN("ax.admin.AD0103G1.cust.id"),		sortable: true, width: 100,		align: "center"},
