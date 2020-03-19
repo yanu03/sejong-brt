@@ -24,6 +24,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 caller.gridView0.setData(res);
                 
                 if(res.list.length == 0) {
+                	selectedRow = null;
 	                caller.gridView1.clear();
 	                caller.gridView2.clear();
                 } else {
@@ -33,76 +34,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 		caller.gridView0.selectFirstRow();
                 	}	                
                 }
-                }
-	        });
-        return false;
-    },
-    
-    PAGE_SEARCH_G2: function (caller, act, data) {
-
-    	var dataFlag = typeof data !== "undefined";
-    	var gridData = caller.gridView1.getData();
-    	gridData["dvcId"] = selectedRowG1.dvcId;
-    	var gridDvcId = gridData["dvcId"];
-    	var filterG2 = $.extend({}, caller.searchView1.getData());
-    	filterG2.gridDvcId = gridDvcId;
-    	
-        axboot.ajax({
-            type: "GET",
-            url: "/api/v1/BM0202G2S1",
-            data: filterG2,
-            callback: function (res) {
-                caller.gridView2.setData(res);         
-	               
-	                if(selectedRow != null) {
-		                	caller.gridView2.selectRow(selectedRow.__index);
-		                } else {
-		                	caller.gridView2.selectFirstRow();
-		                }
-	                
-	            }
-	        });
-
-        return false;
-    },
-    
-    PAGE_DELETE: function(caller, act, data) {
-    	var grid = caller.gridView1.target;
-    	
-    	if(typeof grid.selectedDataIndexs[0] === "undefined") {
-    		axDialog.alert(LANG("ax.script.alert.requireselect"));
-    		return false;
-    	}
-    	
-    	if(selectedRowG2 != null){
-    	axDialog.confirm({
-            msg: LANG("ax.script.deleteconfirm")
-        }, function() {
-      	
-            if (this.key == "ok") {
-            	axboot.promise()
-                .then(function (ok, fail, data) {
-	            	axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/BM0202G2D0",
-	                    data: JSON.stringify({seq : selectedRowG2.seq}),
-	                    callback: function (res) {
-	                        ok(res);
-	                    }
-	                });
-                })
-                .then(function (ok) {
-                	axToast.push(LANG("ondelete"));
-                })
-               .catch(function () {
-
-                });
-            	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             }
         });
-    	}else{
-    		axDialog.alert("삭제하실 장치이력이 없습니다.");
-    	}
+        return false;
     },
     
     PAGE_EXCEL: function(caller, act, data) {
@@ -121,6 +55,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	isUpdate = true;
     	isPlus = false;
     	selectedRowG1 = data;
+    	selectedRowG2 = null;
     	ACTIONS.dispatch(ACTIONS.RELOAD_G2);
     },
     
@@ -144,15 +79,21 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: {vhcId: selectedRow.vhcId},
             callback: function (res) {
                 caller.gridView1.setData(res);
-                 {
+                if(res.list.length == 0) {
+                	selectedRowG1 = null;
+                	caller.gridView1.clear();
+                	caller.gridView2.clear();
+                }
+                else {
                 	if(dataFlag) {
 	                	caller.gridView1.selectIdRow(data);
-	                } 
+	                } else {
 		                if(selectedRowG1 != null) {
 		                	caller.gridView1.selectRow(selectedRowG1.__index);
 		                } else {
 		                	caller.gridView1.selectFirstRow();
 		                }
+	                }
 	                
                 }
             }
@@ -166,101 +107,119 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0202G2S0",
             data: {dvcId: selectedRowG1.dvcId},
             callback: function (res) {
-            	
             	if(res.list.length == 0){
+            		selectedRowG2 = null;
             		useYn = false;
-            	}else{
+            	} else {
             		for(var i = 0; i < res.list.length; i++){
             			if(res.list[i].workType == "폐기"){
             				useYn = true;
-            				console.log("여기");
             				break;
             			}else{
             				useYn = false;
             			}
             		}
             	}
-                
-                	if(dataFlag) {
-	                	caller.gridView2.selectIdRow(data);
-	                	
-	                }if(selectedRowG2 != null) {
-	                	caller.gridView2.selectRow(selectedRowG2.__index);
-	                } else {
-	                	caller.gridView2.selectFirstRow();
-	                }	                
-	                caller.gridView2.setData(res);
+                caller.gridView2.setData(res);
             }
         });
     },
+    
     OPEN_BM0202_MODAL_NEW: function(caller, act, data) {
-    	var formData = caller.gridView1.getData();
-    	formData["dvcId"] = selectedRowG1.dvcId;
-    	formData["dvcKind"] = selectedRowG1.dvcKind;
-
-    	var formDataDvcId = formData["dvcId"];
-    	var formDataDvcKind = formData["dvcKind"];
+    	if(selectedRowG1 == null) {
+    		axDialog.alert(ADMIN("ax.admin.BM0202G2.alert"));
+    		return false;
+    	}
     	
-    		axboot.modal.open({
-    			modalType: "BM0202",
-    			param: "",
-    			header:false,
-    			sendData : function (){
-    				return {
-    					"dvcId" : formDataDvcId,
-    					"dvcKind" : formDataDvcKind,
-    				};
-    			},
-    			callback: function (data) {
-    				selectedRowG1.dvcId = formDataDvcId;
-    				ACTIONS.dispatch(ACTIONS.RELOAD_G1 , data);
-    			}
-    		});   	
+		axboot.modal.open({
+			modalType: "BM0202",
+			param: "",
+			header:false,
+			sendData : function (){
+				return {
+					"dvcId" : selectedRowG1.dvcId,
+					"dvcKind" : selectedRowG1.dvcKind,
+				};
+			},
+			callback: function (data) {
+				ACTIONS.dispatch(ACTIONS.RELOAD_G1 , data);
+			}
+		});   	
     },
     
     OPEN_BM0202_MODAL_UPDATE: function(caller, act, data) {
-    	var formData = caller.gridView1.getData();
-    	var formDataHist = caller.gridView2.getData();
-    	formData["dvcId"] = selectedRowG1.dvcId;
-    	formData["dvcKind"] = selectedRowG1.dvcKind;
-    	if(selectedRowG2 != null){
-    	formDataHist["devSerialNo"] = selectedRowG2.devSerialNo;
-    	formDataHist["aplyDate"] = selectedRowG2.aplyDate;
-    	formDataHist["modelNm"] = selectedRowG2.modelNm;
-    	//dl_cd_nm 값 -> code값으로 변경 (modal의 select box값을 변환시켜주기 위해)
-    	formDataHist["workType"] = selectedRowG2.workTypeCd;
-    	formDataHist["workAmt"] = selectedRowG2.workAmt;
-    	formDataHist["remark"] = selectedRowG2.remark;
-    	formDataHist["seq"] = selectedRowG2.seq;
+    	if(selectedRowG1 == null) {
+    		axDialog.alert(ADMIN("ax.admin.BM0202G2.alert"));
+    		return false;
+    	}
     	
-    	if(selectedRowG2 != null){
-    		axboot.modal.open({
-    			modalType: "BM0202",
-    			param: "",
-    			header:false,
-    			sendData : function (){
-    				return {
-    					"dvcId" : formData["dvcId"],
-    					"dvcKind" : formData["dvcKind"],
-    					"devSerialNo" : formDataHist["devSerialNo"],
-    					"aplyDate" : formDataHist["aplyDate"],
-    					"modelNm" : formDataHist["modelNm"],
-    					"workType" : formDataHist["workType"],
-    					"workAmt" : formDataHist["workAmt"],
-    					"remark" : formDataHist["remark"],
-    					"seq"    : formDataHist["seq"]
-    				};
-    			},
-    			callback: function (data) {
-    				ACTIONS.dispatch(ACTIONS.RELOAD_G1 , data);
-    			}
-    		});
-    	}else{
-    		axDialog.alert(LANG("ax.script.requireselect"));
+    	if(selectedRowG2 == null) {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    		return false;
     	}
-    	}else{
-    		axDialog.alert("장치 이력이 없습니다 장치이력을 추가해주세요.");
+    	
+		axboot.modal.open({
+			modalType: "BM0202",
+			param: "",
+			header:false,
+			sendData : function (){
+				return {
+					"dvcId" : selectedRowG1.dvcId,
+					"dvcKind" : selectedRowG1.dvcKind,
+					"devSerialNo" : selectedRowG2.devSerialNo,
+					"aplyDate" : selectedRowG2.aplyDate,
+					"modelNm" : selectedRowG2.modelNm,
+					"workType" : selectedRowG2.workTypeCd,
+					"workAmt" : selectedRowG2.workAmt,
+					"remark" : selectedRowG2.remark,
+					"seq"    : selectedRowG2.seq
+				};
+			},
+			callback: function (data) {
+				ACTIONS.dispatch(ACTIONS.RELOAD_G1 , data);
+			}
+		});
+    },
+    
+    PAGE_DELETE: function(caller, act, data) {
+    	if(selectedRowG1 == null) {
+    		axDialog.alert(ADMIN("ax.admin.BM0202G2.alert"));
+    		return false;
     	}
+    	
+    	if(selectedRowG2 == null) {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("ax.script.deleteconfirm")
+        }, function() {
+      	
+            if (this.key == "ok") {
+            	axboot.promise()
+	                .then(function (ok, fail, data) {
+		            	axboot.ajax({
+		                    type: "POST",
+		                    url: "/api/v1/BM0202G2D0",
+		                    data: JSON.stringify({
+		                    	dvcId: selectedRowG1.dvcId,
+		                    	seq: selectedRowG2.seq
+		                    }),
+		                    callback: function (res) {
+		                        ok(res);
+		                    }
+		                });
+	                })
+	                .then(function (ok) {
+	                	axToast.push(LANG("ondelete"));
+	                	ACTIONS.dispatch(ACTIONS.RELOAD_G2);
+	                })
+	               .catch(function () {
+	
+	                });
+            }
+        });
     },
     
     PAGE_CLOSE: function(caller, act, data) {
@@ -316,9 +275,6 @@ fnObj.pageButtonView = axboot.viewExtend({
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);
             },
-            "searchDate" : function(){
-            	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);
-            },
             "dvcHistSave" : function(){
             	if(useYn){
             		axDialog.alert("폐기된 장치는 추가가 불가합니다.");
@@ -372,7 +328,7 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
 fnObj.searchView1 = axboot.viewExtend(axboot.searchView, {
     initView: function () {
         this.target = $(document["searchView1"]);
-        this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH_G2);");
+        this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.RELOAD_G2);");
         this.filter = $("#filterG2");
         
         this.target.find('[data-ax5picker="date"]').ax5picker({
@@ -415,16 +371,16 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [        		
             		 {key: "useYn", label: ADMIN("ax.admin.BM0103F0.useYn"), align: "center", sortable: true, styleClass:function(){return (this.item.useYn === "Y") ? "grid-cell-red": "grid-cell-blue" } , width: 80},
-            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), sortable: true, width: 70},
-                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align: "center", width: 120},
-                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), width: 150},
-                     {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), width: 120},
+            		 {key: "vhcId", label: ADMIN("ax.admin.BM0103F0.vhcId"), align: "center", sortable: true, width: 70},
+                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align: "center", sortable: true, width: 100},
+                     {key: "chasNo", label: ADMIN("ax.admin.BM0103F0.chasNo"), align: "center", width: 150},
+                     {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), align: "center", width: 120},
                      {key: "area", label: ADMIN("ax.admin.BM0103F0.area"), align: "center", width: 120},
-                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align: "center", width: 120},
-                     {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), sortable: true, width: 120},
-                     {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), align: "center", width: 120},
+                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align: "center", width: 100},
+                     {key: "relsDate", label: ADMIN("ax.admin.BM0103F0.relsDate"), align: "center", width: 100},
+                     {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), align: "center", width: 100},
                      {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align: "center", width: 100},
-                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align: "center", width: 100},
+                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align: "center", width: 90},
                      {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), align: "center", width: 70},
                      {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), align: "center", width: 70},
                      {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 200},
@@ -618,9 +574,9 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView2"]'),
             columns: [
             	{key: "aplyDate", label: ADMIN("ax.admin.BM0202G2.aplydate"), sortable: true, width: 80},
-            	{key: "devSerialNo", label: ADMIN("ax.admin.BM0202G2.devserialno"), align: "center", sortable: true, width: 100},
+            	{key: "workType", label: ADMIN("ax.admin.BM0202G2.worktype"), align: "center" ,sortable: true, width: 80},
+            	{key: "devSerialNo", label: ADMIN("ax.admin.BM0202G2.devserialno"), align: "center", width: 100},
             	{key: "modelNm", label: ADMIN("ax.admin.BM0202G2.modelnm"), align: "center", width: 80},
-                {key: "workType", label: ADMIN("ax.admin.BM0202G2.worktype"), align: "center" ,sortable: true, width: 80},
                 {key: "workAmt", label: ADMIN("ax.admin.BM0202G2.workamt"), align: "right", formatter:"money" ,width: 80},
                 {key: "remark", label: ADMIN("ax.admin.BM0202G2.remark"), width: 200},
             ],

@@ -357,8 +357,6 @@ function drawNormalBus(busList){
 	var grid0 = fnObj.gridView0.getData();
 	var resultList = busList;
 	for(var i = 0; i < busList.length; i++){
-		var seq = i + 1;
-		
 		/*
 		for(var j = 0; j < grid0.length; j++){
 			
@@ -367,7 +365,7 @@ function drawNormalBus(busList){
 			}
 		}
 		*/
-		busList[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black'>" + seq + "." + busList[i].vhcNo + "</span>";
+		busList[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black'>" + busList[i].vhcNo + "</span>";
 		busList[i].icon = "/assets/images/tmap/bus_Normal.png";
 		
 		//if(busList[i] != null && busList[i] != undefined){
@@ -379,8 +377,7 @@ function drawNormalBus(busList){
 function drawArticulatedBus(busList){
 	for(var i=0; i<busList.length; i++){
 		if(busList[i].lati != null && busList[i].longi != null){
-			var seq = i + 1;
-			busList[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black'>" + seq + "." + busList[i].vhcNo + "</span>";
+			busList[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black'>" + busList[i].vhcNo + "</span>";
 			busList[i].icon = "/assets/images/tmap/bus_Articulated.png";
 			addMarker(busList[i]);
 		}

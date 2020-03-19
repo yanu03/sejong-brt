@@ -51,15 +51,9 @@ public class BM0205Service extends BaseService<VhcDvcUpdateVO, String>{
 		  for(int i = 0; i<list.size(); i++) {
 			  for(int j = 0; j< vo.getUpList().size(); j++) {
 				  if(list.get(i).getMngId().equals(vo.getUpList().get(j).getMngId())) {
-					  System.out.println("예약불가능함");
-					  System.out.println(list.get(i).getMngId());
-					  System.out.println(vo.getUpList().get(j).getMngId());
 					  mngCheck = false;
 					  break;
-				  }else {
-					  System.out.println("예약가능함");
-					  System.out.println(list.get(i).getMngId());
-					  System.out.println(vo.getUpList().get(j).getMngId());
+				  } else {
 					  mngCheck = true;
 				  }
 			  }

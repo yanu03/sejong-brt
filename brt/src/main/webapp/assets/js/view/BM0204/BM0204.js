@@ -8,8 +8,6 @@ selectedRow = null;
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_SEARCH: function (caller, act, data) {
-    	// 새로운 레코드 추가할 시 검색어 삭제
-    	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
     	
         axboot.ajax({
@@ -17,14 +15,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0204G0S0",
             data: filter,
             callback: function (res) {
-                caller.gridView0.setData(res);             
-	               
-	                if(selectedRow != null) {
-		                	caller.gridView0.selectRow(selectedRow.__index);
-		                } else {
-		                	caller.gridView0.selectFirstRow();
-		                }
-	                
+                	caller.gridView0.setData(res);             
 	            }
 	        });
 
@@ -32,11 +23,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
    
     PAGE_EXCEL: function(caller, act, data) {
-    	if(selectedRow != null){   		
-    		caller.gridView0.target.exportExcel(" OBE 목록_" + new Date().yyyymmdd() + ".xls");
-    	}else {
-    		axDialog.alert("장치 목록을 선택해주세요");
-    	}
+		caller.gridView0.target.exportExcel("OBE 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     PAGE_CLOSE: function(caller, act, data) {
@@ -125,9 +112,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [
             		 {key: "mngId", label: ADMIN("ax.admin.BM0204G0.obeid"), align:"center" , sortable: true, width: 100},
-                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center" , sortable: true, width: 150},
+                     {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center" , sortable: true, width: 100},
                      {key: "corpNm", label: ADMIN("ax.admin.BM0101F0.corp.name"), align:"center" , width: 150},
-                     {key: "gps", label: ADMIN("ax.admin.BM0204G0.gps"), align:"center" , width: 150 , styleClass:function(){return (this.item.gps === "정상") ?  "grid-cell-red":"grid-cell-blue" }},
+                     {key: "gps", label: ADMIN("ax.admin.BM0204G0.gps"), align:"center" , width: 100 , styleClass:function(){return (this.item.gps === "정상") ?  "grid-cell-red":"grid-cell-blue" }},
                      {key: "lati", label: ADMIN("ax.admin.BM0204G0.lati"), align:"right", width: 100},
                      {key: "longi", label: ADMIN("ax.admin.BM0204G0.longi"), align:"right", width: 100},
                      {key: "spd", label: ADMIN("ax.admin.BM0204G0.spd"), align:"right", width: 100},

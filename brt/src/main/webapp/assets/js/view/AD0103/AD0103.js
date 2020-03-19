@@ -178,27 +178,27 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	axDialog.confirm({
             msg: LANG("ax.script.deleteconfirm")
         }, function() {
-            if (this.key == "ok") {
+            if(this.key == "ok") {
             	axboot.promise()
-                .then(function (ok, fail, data) {
-	            	axboot.ajax({
-	                    type: "POST",
-	                    url: "/api/v1/SM0105G1D0",
-	                    data: JSON.stringify({coCd: selectedRow.coCd, dlCd: selectedRowG1.dlCd}),
-	                    callback: function (res) {
-	                        ok(res);
-	                    }
+	                .then(function (ok, fail, data) {
+		            	axboot.ajax({
+		                    type: "POST",
+		                    url: "/api/v1/AD0103G1D0",
+		                    data: JSON.stringify({instId: selectedRow.instId}),
+		                    callback: function (res) {
+		                        ok(res);
+		                    }
+		                });
+	                })
+	                .then(function (ok) {
+	                	caller.formView0.clear();
+	                	axToast.push(LANG("ondelete"));
+	                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	                })
+	                .catch(function () {
+	
 	                });
-                })
-                .then(function (ok) {
-                	caller.formView0.clear();
-                	axToast.push(LANG("ondelete"));
-                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-            }
+	            }
         });
     },
     
@@ -310,7 +310,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	
             	for(var i = 0; i < list.length; i++) {
             		for(var j = 0; j < gridList.length; j++) {
-            			if(list[i].adLvl == gridList[j].adLvl && list[i].adPos == gridList[j].adPos) {
+            			if(list[i].vhcId == gridList[j].vhcId && list[i].adLvl == gridList[j].adLvl && list[i].adPos == gridList[j].adPos) {
             				caller.gridView0.target.select(j);
             			}
             		}
@@ -334,6 +334,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     CALCULATE_AMT: function(caller, act, data) {
+    	if(caller.gridView0.getData("selected").length == 0) {
+    		axDialog.alert("차량부착위치를 선택해주세요");
+    		return false;
+    	}
+    	
     	axDialog.confirm({
     		msg: "기존에 입력한 내용이 초기화 됩니다. 계속하시겠습니까?"
         }, function() {
@@ -507,6 +512,14 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         	frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView1"]'),
             columns: [
+            	{key: "comfirmYn",		label: "상태",								sortable: true,	width: 80,	align: "center",
+            		styleClass: function(){
+        				return (this.item.comfirmYn == "Y") ? "grid-cell-blue" :  "grid-cell-red";
+    				},
+    				formatter: function() {
+    					return (this.item.confirmYn == "Y") ? "확정" :  "미확정";
+    				}
+            	},
                 {key: "instId",		label: ADMIN("ax.admin.AD0103G1.inst.id"),		sortable: true, width: 100,		align: "center"},
                 {key: "instNm",		label: ADMIN("ax.admin.AD0103G1.inst.nm"),		sortable: true, width: 150},
                 {key: "custNm",		label: ADMIN("ax.admin.AD0103G1.cust.id"),		sortable: true, width: 100,		align: "center"},

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.tracom.brt.domain.BaseService;
-import com.tracom.brt.domain.SM0105.SM0105Mapper;
 
 
 @Service
@@ -18,9 +17,6 @@ public class BM0202Service extends BaseService<DvcHistoryVO, String>{
 
 	@Inject
 	private BM0202Mapper mapper;
-	
-	@Inject
-	private SM0105Mapper mapper_0105;
 	
 	public List<DvcHistoryVO> BM0202G2S0(RequestParams<DvcHistoryVO> requestParams){
 		return mapper.BM0202G2S0(requestParams.getString("dvcId"));

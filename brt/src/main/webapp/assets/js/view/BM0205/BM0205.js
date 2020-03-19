@@ -19,15 +19,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);             
-	               
-	                if(selectedRow != null) {
-		                	caller.gridView0.selectRow(selectedRow.__index);
-		                } else {		                	
-		                	//caller.gridView0.selectFirstRow();
-		                }
-	                
-	            }
-	        });
+            }
+        });
 
         return false;
     },
@@ -118,16 +111,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         	data.upList[i].attFile = attFile;
         }
     	if(list.length > 0){
-	            axboot.ajax({
-	                type: "POST",
-	                url: "/api/v1/BM0205Reservation",
-	                data: JSON.stringify(data),
-	                callback: function (res) {
-	                	ACTIONS.dispatch(ACTIONS.UPDATE_FILE);
-	                }
-	            });
-    	return false;
-    	}else{
+            axboot.ajax({
+                type: "POST",
+                url: "/api/v1/BM0205Reservation",
+                data: JSON.stringify(data),
+                callback: function (res) {
+                	ACTIONS.dispatch(ACTIONS.UPDATE_FILE);
+                }
+            });
+            return false;
+    	} else {
     		axDialog.alert(LANG("ax.script.requireselect"));
     	}
     	
@@ -177,11 +170,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
       
     PAGE_EXCEL: function(caller, act, data) {
-    	if(selectedRow != null){   		
-    		caller.gridView0.target.exportExcel("차내장치 업데이트 차량 목록_" + new Date().yyyymmdd() + ".xls");
-    	}else {
-    		axDialog.alert(LANG("ax.script.requireselect"));
-    	}
+		caller.gridView0.target.exportExcel("차내장치 업데이트 차량 목록_" + new Date().yyyymmdd() + ".xls");
     },
     
     PAGE_CLOSE: function(caller, act, data) {
@@ -273,19 +262,19 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
         	showRowSelector: true,
         	multipleSelect : true,
         	lineNumberColumnWidth: 30,
-            frozenColumnIndex: 1,
+            frozenColumnIndex: 0,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [          		 
-            		 {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), sortable: true, width: 100},
+            		 {key: "vhcNo", label: ADMIN("ax.admin.BM0103F0.vhcNo"), align:"center", sortable: true, width: 110},
             		 {key: "completeYn", label: ADMIN("ax.admin.BM0205G0.completeyn"), align:"center" ,width: 100},
             		 {key: "modelNm", label: ADMIN("ax.admin.BM0202G2.modelnm"), align:"center" , width: 170},
-            		 {key: "mngId", label: ADMIN("ax.admin.BM0205G0.mngid"), align:"center" , width: 170},
-            		 {key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), align:"center" , width: 170},
+            		 {key: "mngId", label: ADMIN("ax.admin.BM0205G0.mngid"), align:"center" , width: 150},
+            		 {key: "dvcId", label: ADMIN("ax.admin.BM0201F0.dvcid"), align:"center" , width: 90},
             		 {key: "dvcKind", label: ADMIN("ax.admin.BM0201F0.dvckind"), align:"center" , width: 170},
-            		 {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center" ,width: 150},
-                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center" ,width: 150},
-                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align:"center" , width: 170},
-                     {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), align:"center" , width: 170},
+            		 {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center" ,width: 120},
+                     {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center" ,width: 90},
+                     {key: "maker", label: ADMIN("ax.admin.BM0103F0.maker"), align:"center" , width: 120},
+                     {key: "instLoc", label: ADMIN("ax.admin.BM0201F0.instloc"), align:"center" , width: 150},
                  ],
             
             body: {

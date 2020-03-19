@@ -11,15 +11,6 @@
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0205/BM0205.js' />"></script>
-        
-        <style>
-			.grid-cell-red{
-		        background: #A9F5A9;
-		    }
-		    .grid-cell-blue{
-		        background: #F78181;
-		    }
-		</style>
     </jsp:attribute>
     <jsp:body>
 
@@ -45,10 +36,10 @@
         </div>
 
         <ax:split-layout name="ax1" orientation="horizontal">
-            <ax:split-panel width="*" style="height:100%; padding-right: 10px; padding-bottom:25px">
+            <ax:split-panel width="*" style="height:100%;">
 
                 <!-- 목록 -->
-                <div class="ax-button-group" data-fit-height-aside="gridview0">
+                <div class="ax-button-group" data-fit-height-aside="gridView0">
                     <div class="left">
                         <h3>
                             <i class="cqc-list"></i>
