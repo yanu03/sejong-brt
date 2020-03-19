@@ -1,10 +1,46 @@
 var fnObj = {}, CODE = {};
 
 /***************************************** 전역 변수 초기화 ******************************************************/
+var buttonEvent = null;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
+	PAGE_INIT: function(caller, act, data) {
+		buttonEvent =  {
+			firmwareUpdate: {
+				grid: caller.gridView0,
+				refresh: ACTIONS.RELOAD_G0,
+				reservationComplete: ACTIONS.FIRMWARE_RSV_COMPLETE
+			},
+			voiceReservation: {
+				grid: caller.gridView1,
+				refresh: ACTIONS.RELOAD_G1,
+				reservationComplete: ACTIONS.VOICE_RSV_COMPLETE
+			},
+			destiReservation: {
+				grid: caller.gridView2,
+				refresh: ACTIONS.RELOAD_G2,
+				reservationComplete: ACTIONS.DESTI_RSV_COMPLETE
+			},
+			videoReservation: {
+				grid: caller.gridView3,
+				refresh: ACTIONS.RELOAD_G3,
+				reservationComplete: ACTIONS.VIDEO_RSV_COMPLETE
+			},
+			screenReservation: {
+				grid: caller.gridView4,
+				refresh: ACTIONS.RELOAD_G4,
+				reservationComplete: ACTIONS.SCREEN_RSV_COMPLETE
+			},
+			routerReservation: {
+				grid: caller.gridView5,
+				refresh: ACTIONS.RELOAD_G5,
+				reservationComplete: ACTIONS.ROUTER_RSV_COMPLETE
+			}
+		}
+	},
+	
 	PAGE_SEARCH: function (caller, act, data) {
     	ACTIONS.dispatch(ACTIONS.RELOAD_G0);
     	ACTIONS.dispatch(ACTIONS.RELOAD_G1);
@@ -17,6 +53,36 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_CLOSE: function(caller, act, data) {
     	window.parent.fnObj.tabView.closeActiveTab();
+    },
+    
+    GRID_REFRESH: function(caller, act, data) {
+    	var tabId = $("[data-tab-active='true']").attr("data-tab-id");
+    	ACTIONS.dispatch(buttonEvent[tabId].refresh);
+    },
+    
+    PAGE_RESERVATION_COMPLETE: function(caller, act, data) {
+    	var tabId = $("[data-tab-active='true']").attr("data-tab-id");
+    	var list = buttonEvent[tabId].grid.getData("selected");
+    	
+    	if(list.length == 0) {
+    		axDialog.alert(LANG("alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("onreservation.complete.confirm")
+        }, function() {
+            if (this.key == "ok") {
+            	axboot.modal.open({
+                    modalType: "SECOND_PASSWORD",
+                    param: "",
+                    callback: function (data) {
+                        this.close();
+                        ACTIONS.dispatch(buttonEvent[tabId].reservationComplete);
+                    }
+            	});
+            }
+        });
     },
     
     RELOAD_G0: function(caller, act, data) {
@@ -80,7 +146,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     RELOAD_G5: function(caller, act, data) {
-    	/** 화면설정예약 관리 **/
+    	/** 전자노선도예약 관리 **/
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/SM0107G5S0",
@@ -91,246 +157,155 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     },
     
-    PAGE_RESERVATION_COMPLETE: function(caller, act, data) {
-    	var tabId = $("[data-tab-active='true']").attr("data-tab-id");
-    	
-    	switch(tabId) {
-    		case "firmwareUpdate":
-    			ACTIONS.dispatch(ACTIONS.FIRMWARE_RSV_COMPLETE);
-    			break;
-    		case "voiceReservation":
-    			ACTIONS.dispatch(ACTIONS.VOICE_RSV_COMPLETE);
-    			break;
-    		case "destiReservation":
-    			ACTIONS.dispatch(ACTIONS.DESTI_RSV_COMPLETE);
-    			break;
-    		case "videoReservation":
-    			ACTIONS.dispatch(ACTIONS.VIDEO_RSV_COMPLETE);
-    			break;
-    		case "screenReservation":
-    			ACTIONS.dispatch(ACTIONS.SCREEN_RSV_COMPLETE);
-    			break;
-    		case "routerReservation":
-    			ACTIONS.dispatch(ACTIONS.ROUTER_RSV_COMPLETE);
-    			break;
-    	}
-    },
-    
     FIRMWARE_RSV_COMPLETE: function(caller, act, data) {
     	var list = caller.gridView0.getData("selected");
     	
-    	if(list.length == 0) {
-    		axDialog.alert(LANG("alert.requireselect"));
-    		return false;
-    	}
-    	
-    	axDialog.confirm({
-            msg: LANG("onreservation.complete.confirm")
-        }, function() {
-            if (this.key == "ok") {
-		    	axboot.promise()
-			        .then(function (ok, fail, data) {
-			        	axboot.ajax({
-			            	type: "POST",
-			                url: "/api/v1/SM0107G0U0",
-			                data: JSON.stringify({
-			                	list: list
-			                }),
-			                callback: function (res) {
-			                    ok(res);
-			                }
-			            });
-			        })
-			        .then(function (ok, fail, data) {
-			    		axToast.push(LANG("onreservation.complete"));
-			    		ACTIONS.dispatch(ACTIONS.RELOAD_G0);
-			        })
-			        .catch(function () {
-			
-			        });
-            }
-        });
+    	axboot.promise()
+	        .then(function (ok, fail, data) {
+	        	axboot.ajax({
+	            	type: "POST",
+	                url: "/api/v1/SM0107G0U0",
+	                data: JSON.stringify({
+	                	list: list
+	                }),
+	                callback: function (res) {
+	                    ok(res);
+	                }
+	            });
+	        })
+	        .then(function (ok, fail, data) {
+	    		axToast.push(LANG("onreservation.complete"));
+	    		ACTIONS.dispatch(ACTIONS.RELOAD_G0);
+	        })
+	        .catch(function () {
+	
+	        });
     },
     
     VOICE_RSV_COMPLETE: function(caller, act, data) {
     	var list = caller.gridView1.getData("selected");
     	
-    	if(list.length == 0) {
-    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
-    		return false;
-    	}
-    	
-    	axDialog.confirm({
-            msg: LANG("onreservation.complete.confirm")
-        }, function() {
-            if (this.key == "ok") {
-		    	axboot.promise()
-			        .then(function (ok, fail, data) {
-			        	axboot.ajax({
-			            	type: "POST",
-			                url: "/api/v1/SM0107G1U0",
-			                data: JSON.stringify({
-			                	list: list
-			                }),
-			                callback: function (res) {
-			                    ok(res);
-			                }
-			            });
-			        })
-			        .then(function (ok, fail, data) {
-			    		axToast.push(LANG("onreservation.complete"));
-			    		ACTIONS.dispatch(ACTIONS.RELOAD_G1);
-			        })
-			        .catch(function () {
-			
-			        });
-            }
-        });
+    	axboot.promise()
+	        .then(function (ok, fail, data) {
+	        	axboot.ajax({
+	            	type: "POST",
+	                url: "/api/v1/SM0107G1U0",
+	                data: JSON.stringify({
+	                	list: list
+	                }),
+	                callback: function (res) {
+	                    ok(res);
+	                }
+	            });
+	        })
+	        .then(function (ok, fail, data) {
+	    		axToast.push(LANG("onreservation.complete"));
+	    		ACTIONS.dispatch(ACTIONS.RELOAD_G1);
+	        })
+	        .catch(function () {
+	
+	        });
     },
     
     DESTI_RSV_COMPLETE: function(caller, act, data) {
     	var list = caller.gridView2.getData("selected");
-    	
-    	if(list.length == 0) {
-    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
-    		return false;
-    	}
-    	
-    	axDialog.confirm({
-            msg: LANG("onreservation.complete.confirm")
-        }, function() {
-            if (this.key == "ok") {
-		    	axboot.promise()
-			        .then(function (ok, fail, data) {
-			        	axboot.ajax({
-			            	type: "POST",
-			                url: "/api/v1/SM0107G2U0",
-			                data: JSON.stringify({
-			                	list: list
-			                }),
-			                callback: function (res) {
-			                    ok(res);
-			                }
-			            });
-			        })
-			        .then(function (ok, fail, data) {
-			    		axToast.push(LANG("onreservation.complete"));
-			    		ACTIONS.dispatch(ACTIONS.RELOAD_G2);
-			        })
-			        .catch(function () {
-			
-			        });
-            }
-        });
+
+    	axboot.promise()
+	        .then(function (ok, fail, data) {
+	        	axboot.ajax({
+	            	type: "POST",
+	                url: "/api/v1/SM0107G2U0",
+	                data: JSON.stringify({
+	                	list: list
+	                }),
+	                callback: function (res) {
+	                    ok(res);
+	                }
+	            });
+	        })
+	        .then(function (ok, fail, data) {
+	    		axToast.push(LANG("onreservation.complete"));
+	    		ACTIONS.dispatch(ACTIONS.RELOAD_G2);
+	        })
+	        .catch(function () {
+	
+	        });
     },
     
     VIDEO_RSV_COMPLETE: function(caller, act, data) {
     	var list = caller.gridView3.getData("selected");
     	
-    	if(list.length == 0) {
-    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
-    		return false;
-    	}
-    	
-    	axDialog.confirm({
-            msg: LANG("onreservation.complete.confirm")
-        }, function() {
-            if (this.key == "ok") {
-		    	axboot.promise()
-			        .then(function (ok, fail, data) {
-			        	axboot.ajax({
-			            	type: "POST",
-			                url: "/api/v1/SM0107G3U0",
-			                data: JSON.stringify({
-			                	list: list
-			                }),
-			                callback: function (res) {
-			                    ok(res);
-			                }
-			            });
-			        })
-			        .then(function (ok, fail, data) {
-			    		axToast.push(LANG("onreservation.complete"));
-			    		ACTIONS.dispatch(ACTIONS.RELOAD_G3);
-			        })
-			        .catch(function () {
-			
-			        });
-            }
-        });
+    	axboot.promise()
+	        .then(function (ok, fail, data) {
+	        	axboot.ajax({
+	            	type: "POST",
+	                url: "/api/v1/SM0107G3U0",
+	                data: JSON.stringify({
+	                	list: list
+	                }),
+	                callback: function (res) {
+	                    ok(res);
+	                }
+	            });
+	        })
+	        .then(function (ok, fail, data) {
+	    		axToast.push(LANG("onreservation.complete"));
+	    		ACTIONS.dispatch(ACTIONS.RELOAD_G3);
+	        })
+	        .catch(function () {
+	
+	        });
     },
     
     SCREEN_RSV_COMPLETE: function(caller, act, data) {
     	var list = caller.gridView4.getData("selected");
     	
-    	if(list.length == 0) {
-    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
-    		return false;
-    	}
-    	
-    	axDialog.confirm({
-            msg: LANG("onreservation.complete.confirm")
-        }, function() {
-            if (this.key == "ok") {
-		    	axboot.promise()
-			        .then(function (ok, fail, data) {
-			        	axboot.ajax({
-			            	type: "POST",
-			                url: "/api/v1/SM0107G4U0",
-			                data: JSON.stringify({
-			                	list: list
-			                }),
-			                callback: function (res) {
-			                    ok(res);
-			                }
-			            });
-			        })
-			        .then(function (ok, fail, data) {
-			    		axToast.push(LANG("onreservation.complete"));
-			    		ACTIONS.dispatch(ACTIONS.RELOAD_G4);
-			        })
-			        .catch(function () {
-			
-			        });
-            }
-        });
+    	axboot.promise()
+	        .then(function (ok, fail, data) {
+	        	axboot.ajax({
+	            	type: "POST",
+	                url: "/api/v1/SM0107G4U0",
+	                data: JSON.stringify({
+	                	list: list
+	                }),
+	                callback: function (res) {
+	                    ok(res);
+	                }
+	            });
+	        })
+	        .then(function (ok, fail, data) {
+	    		axToast.push(LANG("onreservation.complete"));
+	    		ACTIONS.dispatch(ACTIONS.RELOAD_G4);
+	        })
+	        .catch(function () {
+	
+	        });
     },
     
 
     ROUTER_RSV_COMPLETE: function(caller, act, data) {
     	var list = caller.gridView5.getData("selected");
     	
-    	if(list.length == 0) {
-    		axDialog.alert(ADMIN("ax.script.alert.requireselect"));
-    		return false;
-    	}
-    	
-    	axDialog.confirm({
-            msg: LANG("onreservation.complete.confirm")
-        }, function() {
-            if (this.key == "ok") {
-		    	axboot.promise()
-			        .then(function (ok, fail, data) {
-			        	axboot.ajax({
-			            	type: "POST",
-			                url: "/api/v1/SM0107G5U0",
-			                data: JSON.stringify({
-			                	list: list
-			                }),
-			                callback: function (res) {
-			                    ok(res);
-			                }
-			            });
-			        })
-			        .then(function (ok, fail, data) {
-			    		axToast.push(LANG("onreservation.complete"));
-			    		ACTIONS.dispatch(ACTIONS.RELOAD_G5);
-			        })
-			        .catch(function () {
-			
-			        });
-            }
-        });
+    	axboot.promise()
+	        .then(function (ok, fail, data) {
+	        	axboot.ajax({
+	            	type: "POST",
+	                url: "/api/v1/SM0107G5U0",
+	                data: JSON.stringify({
+	                	list: list
+	                }),
+	                callback: function (res) {
+	                    ok(res);
+	                }
+	            });
+	        })
+	        .then(function (ok, fail, data) {
+	    		axToast.push(LANG("onreservation.complete"));
+	    		ACTIONS.dispatch(ACTIONS.RELOAD_G5);
+	        })
+	        .catch(function () {
+	
+	        });
     },
 });
 /********************************************************************************************************************/
@@ -347,6 +322,7 @@ fnObj.pageStart = function () {
     this.gridView4.initView();
     this.gridView5.initView();
     
+    ACTIONS.dispatch(ACTIONS.PAGE_INIT);
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -363,6 +339,9 @@ fnObj.pageButtonView = axboot.viewExtend({
         axboot.buttonClick(this, "data-page-btn", {
             "reservationComplete": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_RESERVATION_COMPLETE);
+            },
+            "gridRefresh": function() {
+            	ACTIONS.dispatch(ACTIONS.GRID_REFRESH);
             },
             "close": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_CLOSE);

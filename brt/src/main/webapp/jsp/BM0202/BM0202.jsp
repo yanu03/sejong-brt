@@ -34,7 +34,7 @@
                     </ax:tr>
                 </ax:tbl>
             </ax:form>
-            <div class="H3"></div>
+			<div class="H3"></div>
         </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
@@ -48,19 +48,23 @@
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
-         <ax:splitter></ax:splitter>
-           <ax:split-panel width="600" style="padding-left: 10px;">
-           	<ax:split-panel width="500" style="height:270px;"> 
-                <div class="ax-button-group" role="panel-header">
-                    <div class="left">
-                        <h3><i class="cqc-list"></i>
-                             <ax:lang id="ax.admin.BM0202G1.title"/>
-                        </h3>
-                    </div>
-                </div>
-                    <div data-ax5grid="gridView1" style="height: 225px;"></div>
-            </ax:split-panel>
-            <ax:split-panel width="500" style="height:100%; padding-bottom:155px">
+            
+			<ax:splitter></ax:splitter>
+			
+			<ax:split-panel width="700" style="padding-left: 10px;">
+           
+	           	<ax:split-panel style="height:270px;"> 
+	                <div class="ax-button-group" role="panel-header">
+	                    <div class="left">
+	                        <h3><i class="cqc-list"></i>
+	                             <ax:lang id="ax.admin.BM0202G1.title"/>
+	                        </h3>
+	                    </div>
+	                </div>
+					<div data-ax5grid="gridView1" style="height: 225px;"></div>
+	            </ax:split-panel>
+            
+				<ax:split-panel style="height:100%; padding-bottom:155px">
                      <div class="ax-button-group" >
                         <div class="left">
                             <h3>
@@ -75,10 +79,9 @@
                             </h3>
                         </div>
                     </div>
-                   <div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height: 100%;"></div>
-               </ax:split-panel>
-           </ax:split-panel>     
-        </ax:split-layout>
-
-    </jsp:body>
-   </ax:layout>
+					<div data-ax5grid="gridView2" data-fit-height-content="gridView2" style="height: 100%;"></div>
+				</ax:split-panel>
+			</ax:split-panel>     
+		</ax:split-layout>
+	</jsp:body>
+</ax:layout>

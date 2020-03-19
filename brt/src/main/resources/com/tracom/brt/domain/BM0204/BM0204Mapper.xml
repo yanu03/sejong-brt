@@ -29,8 +29,8 @@
 				AND
 	    	</if>
     			DI.DVC_KIND = "CD005"
-    	ORDER BY DVC_ID
     	</where>
+    	ORDER BY DI.MNG_ID
 </select>
 
 </mapper>
