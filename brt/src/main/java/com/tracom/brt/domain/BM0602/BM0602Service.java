@@ -45,7 +45,6 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 	}
 	
 	@Scheduled(cron="0 0 4,16 * * *")
-	//@Scheduled(cron="0 55 20 * * *")
 	@Transactional
 	public void NewsScheduler() throws ParseException, ParserConfigurationException {
 		//덮어쓰기전 삭제
