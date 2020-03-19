@@ -44,7 +44,7 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 	}
 	
 	@Scheduled(cron="0 0 4,16 * * *")
-	//@Scheduled(cron="0 22 12 * * *")
+	//@Scheduled(cron="0 35 15 * * *")
 	@Transactional
 	public void NewsScheduler() throws ParseException {
 		mapper.BM0602D0();
@@ -80,6 +80,7 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 			//String provUrl = mapper.BM0602G0S2(voList.get(i).getProvUrl().toString());
 			String provUrl = mapper.BM0602G0S2(voList.get(i).getProvId());
 			for (int j = 0; j < newsCount; j++) {
+				System.out.println(nodeList);
 	    		Node child = nodeList.item(j);
 	            if(child.getNodeType() == Node.ELEMENT_NODE) {
 	            	Element eElement = (Element)child;

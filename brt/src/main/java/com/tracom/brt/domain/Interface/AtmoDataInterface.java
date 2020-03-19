@@ -178,8 +178,9 @@ public class AtmoDataInterface {
             String result_utf = "";
             String line_utf;
             int idx = result.indexOf(">");
-            String resultSet = result.substring(0, idx);
-            if(resultSet.contains("utf-8")) {
+            String resultSet = result.substring(0, idx+1);
+            System.out.println(resultSet);
+            if(resultSet.contains("utf-8") || resultSet.contains("UTF-8")) {
             	URL urlUtf = new URL(inputUrl);
                 HttpURLConnection urlconnectionUtf = (HttpURLConnection) urlUtf.openConnection();
             	brr = new BufferedReader(new InputStreamReader(urlconnectionUtf.getInputStream(), "UTF-8"));
@@ -199,7 +200,6 @@ public class AtmoDataInterface {
             	
             	return nodeList;
             }else {           	
-            	
             	InputSource is = new InputSource(new StringReader(result));
             	builder = factory.newDocumentBuilder();
             	doc = builder.parse(is);

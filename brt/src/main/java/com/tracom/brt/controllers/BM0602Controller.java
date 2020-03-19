@@ -33,15 +33,16 @@ public class BM0602Controller extends BaseController{
 	})
 	public Responses.ListResponse BM0602G0S0(RequestParams<NewsVO> requestParams){
 		List<NewsVO> list = service.BM0602G0S0(requestParams);
-		
-		if(list != null) {
-		for(int i = 0; list.size() > i; i++) {
-			if(list.get(i).getUseYn().equals("Y")) {
-				list.get(i).setUseYn("true");
-			}else {
-				list.get(i).setUseYn("false");
+		System.out.println(list);
+		System.out.println(list.size());
+		if(list.size() > 0) {
+			for(int i = 0; i < list.size(); i++) {
+				if(list.get(i).getUseYn().equals("Y")) {
+					list.get(i).setUseYn("true");
+				}else {
+					list.get(i).setUseYn("false");
+				}
 			}
-		}
 		}else {
 		}
 		return Responses.ListResponse.of(list);
@@ -61,8 +62,8 @@ public class BM0602Controller extends BaseController{
 	}
 	@PostMapping("/BM0602F0I0")
     public ApiResponse BM0602F0I0(@RequestBody NewsVO request) {
-        String vhcId = service.BM0602F0I0(request);
-        return ok(vhcId);
+        String provId = service.BM0602F0I0(request);
+        return ok(provId);
     }
 	
 	@PostMapping("/BM0602M0I0")
