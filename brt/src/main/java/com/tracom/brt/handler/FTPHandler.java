@@ -12,11 +12,9 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -373,7 +371,6 @@ public class FTPHandler {
 	 * **/
 	public List<String> impVdoFiles(String impId, List<String> dvcList) throws IOException {
 		String vehiclePath = Paths.get(getRootLocalPath(), "/vehicle/", impId, "/device/").toString();
-		List<String> fileList = new ArrayList<>();
 		List<String> vdoList = new ArrayList<>();
 		
 		for(String dvcId : dvcList) {
