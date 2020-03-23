@@ -5,9 +5,11 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -151,17 +153,26 @@ public class AtmoDataInterface {
 	}
 	
 	//뉴스 파싱
-	public NodeList newsInterface_XML(String inputUrl) {
+	public NodeList newsInterface_XML(String inputUrl) throws ParserConfigurationException {
 		BufferedReader br = null;
 		BufferedReader brr = null;
 		//DocumentBuilderFactory 생성
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
-		DocumentBuilder builder;
+		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = null;
         try {
-            //OpenApi호출
+        	doc = builder.parse(inputUrl);
+        	XPathFactory xpathFactory = XPathFactory.newInstance();
+        	XPath xpath = xpathFactory.newXPath();
+        	XPathExpression expr = xpath.compile("//channel/item");
+        	NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+        	return nodeList;
             
+        	
+        	//OpenApi호출
+        	
+            /*필요없는코든데...왜이렇게??
             URL url = new URL(inputUrl);
             HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
             
@@ -180,28 +191,28 @@ public class AtmoDataInterface {
             int idx = result.indexOf(">");
             String resultSet = result.substring(0, idx+1);
             System.out.println(resultSet);
+            
             if(resultSet.contains("utf-8") || resultSet.contains("UTF-8")) {
             	URL urlUtf = new URL(inputUrl);
                 HttpURLConnection urlconnectionUtf = (HttpURLConnection) urlUtf.openConnection();
-            	brr = new BufferedReader(new InputStreamReader(urlconnectionUtf.getInputStream(), "UTF-8"));
+//            	brr = new BufferedReader(new InputStreamReader(urlconnectionUtf.getInputStream(), "UTF-8"));
+            	brr = new BufferedReader(new InputStreamReader(urlUtf.openStream(), StandardCharsets.UTF_8));
+            	
             	while ((line_utf = brr.readLine()) != null) {
             		result_utf = result_utf + line_utf.trim();// result = URL로 XML을 읽은 값
                 }
             	
             	
             	InputSource is = new InputSource(new StringReader(result_utf));
-            	builder = factory.newDocumentBuilder();
-            	doc = builder.parse(is);
+            	doc = builder.parse(inputUrl);
             	XPathFactory xpathFactory = XPathFactory.newInstance();
             	XPath xpath = xpathFactory.newXPath();
-            	
             	XPathExpression expr = xpath.compile("//channel/item");
+            	System.out.println(expr.toString());
             	NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-            	
             	return nodeList;
             }else {           	
             	InputSource is = new InputSource(new StringReader(result));
-            	builder = factory.newDocumentBuilder();
             	doc = builder.parse(is);
             	XPathFactory xpathFactory = XPathFactory.newInstance();
             	XPath xpath = xpathFactory.newXPath();
@@ -210,7 +221,7 @@ public class AtmoDataInterface {
             	NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
             	return nodeList;
             }
-
+		*/
          
         } catch (Exception e) {
             return null;

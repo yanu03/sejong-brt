@@ -11,6 +11,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.jdo.annotations.Transactional;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -44,9 +45,9 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 	}
 	
 	@Scheduled(cron="0 0 4,16 * * *")
-	//@Scheduled(cron="0 35 15 * * *")
 	@Transactional
-	public void NewsScheduler() throws ParseException {
+	public void NewsScheduler() throws ParseException, ParserConfigurationException {
+		//덮어쓰기전 삭제
 		mapper.BM0602D0();
 		
 		NewsVO vo = new NewsVO();
@@ -80,7 +81,6 @@ public class BM0602Service extends BaseService<NewsVO, String>{
 			//String provUrl = mapper.BM0602G0S2(voList.get(i).getProvUrl().toString());
 			String provUrl = mapper.BM0602G0S2(voList.get(i).getProvId());
 			for (int j = 0; j < newsCount; j++) {
-				System.out.println(nodeList);
 	    		Node child = nodeList.item(j);
 	            if(child.getNodeType() == Node.ELEMENT_NODE) {
 	            	Element eElement = (Element)child;
