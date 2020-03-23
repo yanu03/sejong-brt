@@ -2,100 +2,101 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tracom.brt.domain.BM0203.BM0203Mapper">
 
-<select id="BM0203G0S0" parameterType="String" resultType="dvcConditionVO">
-		SELECT
-    		  DI.DVC_ID
-    		, DI.MNG_ID
-    		, MAX(DC.DVC_COND) AS DVC_COND
-    		, V.VHC_ID
-    		, V.VHC_NO
-    		, V.CHAS_NO
-    		, CP.CORP_NM AS CORP_NM
-    		, V.RELS_DATE
-    		, V.MODEL_NM
-    		, DL1.DL_CD_NM AS VHC_KIND
-    		, DL2.DL_CD_NM AS VHC_TYPE
-    		, DL3.DL_CD_NM AS LF_YN
-    		, DL4.DL_CD_NM AS VHC_FUEL
-    		, DL5.DL_CD_NM AS MAKER
-    		, DL6.DL_CD_NM AS AREA
-    		, V.REMARK
-    		, V.USE_YN
-    		, MAX(CHAR_LENGTH(DL0.DL_CD_NM)) AS DL_CD_NM
-    	FROM
-    		BM_DVC_INFO DI
-    		LEFT JOIN BM_DVC_COND DC
-    		ON DI.MNG_ID = DC.MNG_ID
-    		LEFT JOIN BM_VHC_INFO V
-    		ON DI.VHC_ID = V.VHC_ID
-    		LEFT JOIN SM_DL_CD_INFO DL0
-    		ON DVC_COND = DL0.DL_CD
-    		AND DL0.CO_CD = 'DVC_COND' 
-    		LEFT JOIN SM_DL_CD_INFO DL1
-    		ON V.VHC_KIND = DL1.DL_CD
-    		AND DL1.CO_CD = 'VHC_KIND'
-    		LEFT JOIN SM_DL_CD_INFO DL2
-    		ON V.VHC_TYPE = DL2.DL_CD
-    		AND DL2.CO_CD = 'VHC_TYPE'
-    		LEFT JOIN SM_DL_CD_INFO DL3
-    		ON V.LF_YN = DL3.DL_CD
-    		AND DL3.CO_CD = 'LF_YN'
-    		LEFT JOIN SM_DL_CD_INFO DL4
-    		ON V.VHC_FUEL = DL4.DL_CD
-    		AND DL4.CO_CD = 'VHC_FUEL'
-    		LEFT JOIN SM_DL_CD_INFO DL5
-    		ON V.MAKER = DL5.DL_CD
-    		AND DL5.CO_CD = 'DVC_MAKER'
-    		LEFT JOIN SM_DL_CD_INFO DL6
-    		ON V.AREA = DL6.DL_CD
-    		AND DL6.CO_CD = 'AREA'
-			LEFT OUTER JOIN BM_CORP_INFO CP
-			ON V.CORP_ID = CP.CORP_ID
-    	<where>
-    		DI.MNG_ID != 'NULL'
-	    	<if test="value != null">
-	    		AND
-				V.VHC_ID LIKE CONCAT('%', #{value}, '%')
-				OR V.VHC_NO LIKE CONCAT('%', #{value}, '%')
-	    	</if>
-    	</where>
-    	GROUP BY VHC_ID
-</select>
-
-<select id="BM0203G1S0" parameterType="String" resultType="dvcConditionVO">
+	<select id="BM0203G0S0" parameterType="String" resultType="dvcConditionVO">
 			SELECT
-    		  DI.DVC_ID
-    		, DL0.DL_CD_NM AS DVC_KIND 
-    		, DL1.DL_CD_NM AS MAKER
-			, DL2.DL_CD_NM AS INST_LOC
-			, DL3.DL_CD_NM AS DVC_COND
-			, DI.MNG_ID
-			, DI.DVC_IP
-			, DI.REMARK    		
-    		, V.VHC_ID
-    	FROM
-    		BM_DVC_INFO DI
-    		LEFT OUTER JOIN BM_DVC_COND DC
-    		ON DI.MNG_ID = DC.MNG_ID
-    		LEFT OUTER JOIN BM_VHC_INFO V
-    		ON DI.VHC_ID = V.VHC_ID
-    		LEFT JOIN SM_DL_CD_INFO DL0
-			ON DI.DVC_KIND = DL0.DL_CD
-			AND DL0.CO_CD = 'DVC_KIND'
-			LEFT JOIN SM_DL_CD_INFO DL1
-			ON DI.MAKER = DL1.DL_CD
-			AND DL1.CO_CD = 'DVC_MAKER'
-			LEFT JOIN SM_DL_CD_INFO DL2
-			ON DI.INST_LOC = DL2.DL_CD
-			AND DL2.CO_CD = 'INST_LOC'
-			LEFT JOIN SM_DL_CD_INFO DL3
-			ON DC.DVC_COND = DL3.DL_CD
-			AND DL3.CO_CD = 'DVC_COND'
-		WHERE
-			DI.VHC_ID = #{value}
-			AND DVC_KIND != "CD005"
-			AND DVC_COND != 'NULL'
-			AND DI.MNG_ID != 'NULL'
-</select>
+	    		  DI.DVC_ID
+	    		, DI.MNG_ID
+	    		, MAX(DC.DVC_COND) AS DVC_COND
+	    		, V.VHC_ID
+	    		, V.VHC_NO
+	    		, V.CHAS_NO
+	    		, CP.CORP_NM AS CORP_NM
+	    		, V.RELS_DATE
+	    		, V.MODEL_NM
+	    		, DL1.DL_CD_NM AS VHC_KIND
+	    		, DL2.DL_CD_NM AS VHC_TYPE
+	    		, DL3.DL_CD_NM AS LF_YN
+	    		, DL4.DL_CD_NM AS VHC_FUEL
+	    		, DL5.DL_CD_NM AS MAKER
+	    		, DL6.DL_CD_NM AS AREA
+	    		, V.REMARK
+	    		, V.USE_YN
+	    		, MAX(CHAR_LENGTH(DL0.DL_CD_NM)) AS DL_CD_NM
+	    	FROM
+	    		BM_DVC_INFO DI
+	    		LEFT JOIN BM_DVC_COND DC
+	    		ON DI.MNG_ID = DC.MNG_ID
+	    		LEFT JOIN BM_VHC_INFO V
+	    		ON DI.VHC_ID = V.VHC_ID
+	    		LEFT JOIN SM_DL_CD_INFO DL0
+	    		ON DVC_COND = DL0.DL_CD
+	    		AND DL0.CO_CD = 'DVC_COND' 
+	    		LEFT JOIN SM_DL_CD_INFO DL1
+	    		ON V.VHC_KIND = DL1.DL_CD
+	    		AND DL1.CO_CD = 'VHC_KIND'
+	    		LEFT JOIN SM_DL_CD_INFO DL2
+	    		ON V.VHC_TYPE = DL2.DL_CD
+	    		AND DL2.CO_CD = 'VHC_TYPE'
+	    		LEFT JOIN SM_DL_CD_INFO DL3
+	    		ON V.LF_YN = DL3.DL_CD
+	    		AND DL3.CO_CD = 'LF_YN'
+	    		LEFT JOIN SM_DL_CD_INFO DL4
+	    		ON V.VHC_FUEL = DL4.DL_CD
+	    		AND DL4.CO_CD = 'VHC_FUEL'
+	    		LEFT JOIN SM_DL_CD_INFO DL5
+	    		ON V.MAKER = DL5.DL_CD
+	    		AND DL5.CO_CD = 'DVC_MAKER'
+	    		LEFT JOIN SM_DL_CD_INFO DL6
+	    		ON V.AREA = DL6.DL_CD
+	    		AND DL6.CO_CD = 'AREA'
+				LEFT OUTER JOIN BM_CORP_INFO CP
+				ON V.CORP_ID = CP.CORP_ID
+	    	<where>
+	    		DI.MNG_ID != 'NULL'
+		    	<if test="value != null">
+		    		AND
+					V.VHC_ID LIKE CONCAT('%', #{value}, '%')
+					OR V.VHC_NO LIKE CONCAT('%', #{value}, '%')
+		    	</if>
+	    	</where>
+	    	GROUP BY VHC_ID
+	</select>
+	
+	<select id="BM0203G1S0" parameterType="String" resultType="dvcConditionVO">
+			SELECT
+	    		  DI.DVC_ID
+	    		, DL0.DL_CD_NM AS DVC_KIND 
+	    		, DL1.DL_CD_NM AS MAKER
+				, DL2.DL_CD_NM AS INST_LOC
+				, DL3.DL_CD_NM AS DVC_COND
+				, DI.MNG_ID
+				, DATE_FORMAT(DC.SEND_DATE, '%Y-%m-%d %H:%i:%s') AS SEND_DATE
+				, DI.DVC_IP
+				, DI.REMARK    		
+	    		, V.VHC_ID
+	    	FROM
+	    		BM_DVC_INFO DI
+	    		LEFT OUTER JOIN BM_DVC_COND DC
+	    		ON DI.MNG_ID = DC.MNG_ID
+	    		LEFT OUTER JOIN BM_VHC_INFO V
+	    		ON DI.VHC_ID = V.VHC_ID
+	    		LEFT JOIN SM_DL_CD_INFO DL0
+				ON DI.DVC_KIND = DL0.DL_CD
+				AND DL0.CO_CD = 'DVC_KIND'
+				LEFT JOIN SM_DL_CD_INFO DL1
+				ON DI.MAKER = DL1.DL_CD
+				AND DL1.CO_CD = 'DVC_MAKER'
+				LEFT JOIN SM_DL_CD_INFO DL2
+				ON DI.INST_LOC = DL2.DL_CD
+				AND DL2.CO_CD = 'INST_LOC'
+				LEFT JOIN SM_DL_CD_INFO DL3
+				ON DC.DVC_COND = DL3.DL_CD
+				AND DL3.CO_CD = 'DVC_COND'
+			WHERE
+				DI.VHC_ID = #{value}
+				AND DVC_KIND != 'CD005'
+				AND DVC_COND IS NOT NULL
+				AND DI.MNG_ID IS NOT NULL
+	</select>
 
 </mapper>

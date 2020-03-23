@@ -119,7 +119,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                      {key: "longi", label: ADMIN("ax.admin.BM0204G0.longi"), align:"right", width: 100},
                      {key: "spd", label: ADMIN("ax.admin.BM0204G0.spd"), align:"right", width: 100},
                      {key: "heading", label: ADMIN("ax.admin.BM0204G0.heading"), align:"right", width: 100},
-                     {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 500},
+                     {key: "sendDate", label: ADMIN("ax.admin.BM0204G0.send.date"), align:"center", width: 150},
+                     {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 400},
                  ],
             
             body: {
