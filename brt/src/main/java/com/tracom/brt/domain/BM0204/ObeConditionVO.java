@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-
 public class ObeConditionVO extends BaseVO{
 	
 	private String vhcId;
@@ -33,4 +32,5 @@ public class ObeConditionVO extends BaseVO{
 	private String spd;
 	private String heading;
 	private String gps;
+	private String sendDate;
 }

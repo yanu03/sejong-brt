@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,7 +18,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -32,6 +33,7 @@ import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.mp4.MP4Parser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +44,7 @@ import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 import com.tracom.brt.code.GlobalConstants;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.domain.BM0201.VhcDeviceVO;
 import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
 import com.tracom.brt.domain.BM0501.DestinationVO;
 import com.tracom.brt.domain.BM0503.RoutRsvVO;
@@ -56,6 +59,7 @@ import com.tracom.brt.domain.BM0901.ElecRouterVO;
 import com.tracom.brt.domain.BM0902.BM0902Mapper;
 import com.tracom.brt.domain.BM0902.EdRsvVO;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
+import com.tracom.brt.domain.file.FileMapper;
 import com.tracom.brt.domain.routeReservation.RoutListCSVVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
@@ -120,6 +124,9 @@ public class FTPHandler {
 	@Value("${sftp.playlist.directory}")
 	private String PLAYLIST_PATH;
 	
+	@Value("${sftp.video.directory}")
+	private String VIDEO_PATH;
+	
 	@Inject
 	private ChannelSftp sftpChannel;
 	
@@ -141,9 +148,144 @@ public class FTPHandler {
 	@Inject
 	private BM0902Mapper BM0902Mapper;
 	
+	@Inject
+	private FileMapper fileMapper;
+	
 	private ArrayList<String> serverContentList;
 	private ArrayList<String> pathList;
-	private ArrayList<String> ignoreList;
+	private final List<String> ignoreList = Arrays.asList("temp", "chime", "video");
+	
+	// DB 데이터는 삭제됐지만 파일이 삭제 안된경우 삭제 스케쥴러
+	@Scheduled(cron="0 0 2 * * *")
+	public void deleteTrashFiles() {
+		try {
+			Path audioRootPath = Paths.get(getRootLocalPath(), getCommonAudioPath());
+			Path routeAudioRootPath = Paths.get(getRootLocalPath(), getRouteAudioPath());
+			Path videoRootPath = Paths.get(getRootLocalPath(), getVideoPath());
+			Path deviceRootPath = Paths.get(getRootLocalPath(), getVehiclePath());
+			
+			List<VoiceInfoVO> list = fileMapper.selectVoiceList();
+			List<VoiceInfoVO> voiceList = list.parallelStream().filter(vo -> {
+				return !vo.getVocId().substring(0, 2).equals("RV");
+			}).collect(Collectors.toList());
+			List<VoiceInfoVO> routeVoiceList = list.parallelStream().filter(vo -> {
+				return vo.getVocId().substring(0, 2).equals("RV");
+			}).collect(Collectors.toList());
+			List<VideoInfoVO> videoList = fileMapper.selectVideoList();
+			List<VhcDeviceVO> deviceList = fileMapper.selectDeviceList();
+			
+			// audio 파일 비교 후 삭제
+			if(Files.exists(audioRootPath)) {
+				Files.list(audioRootPath).forEach(p -> {
+					try {
+						String fileName = FilenameUtils.removeExtension(p.getFileName().toString());
+						String id = fileName.substring(0, fileName.length() - 1);
+						
+						if(checkIgnoreFile(fileName)) {
+							return;
+						}
+						
+						int count = 0;
+						
+						for(VoiceInfoVO vo : voiceList) {
+							if(vo.getVocId().equals(id)) {
+								count++;
+							}
+						}
+						
+						if(count < 1) {
+							Files.deleteIfExists(p);
+						}
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+				});
+			}
+			
+			// route_audio 파일 비교 후 삭제
+			if(Files.exists(routeAudioRootPath)) {
+				Files.list(routeAudioRootPath).forEach(p -> {
+					try {
+						String id = FilenameUtils.removeExtension(p.getFileName().toString());
+						
+						if(checkIgnoreFile(id)) {
+							return;
+						}
+						
+						int count = 0;
+						
+						for(VoiceInfoVO vo : routeVoiceList) {
+							if(vo.getRoutId().equals(id)) {
+								count++;
+							}
+						}
+						
+						if(count < 1) {
+							Files.deleteIfExists(p);
+						}
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+				});
+			}
+			
+			// video 파일 비교 후 삭제
+			if(Files.exists(videoRootPath)) {
+				Files.list(videoRootPath).forEach(p -> {
+					try {
+						String id = FilenameUtils.removeExtension(p.getFileName().toString());
+						
+						if(checkIgnoreFile(id)) {
+							return;
+						}
+						
+						int count = 0;
+						
+						for(VideoInfoVO vo : videoList) {
+							if(vo.getVdoId().equals(id)) {
+								count++;
+							}
+						}
+						
+						if(count < 1) {
+							Files.deleteIfExists(p);
+						}
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+				});
+			}
+			
+			// device 파일 비교 후 삭제
+			if(Files.exists(deviceRootPath)) {
+				Files.list(deviceRootPath).forEach(p -> {
+					try {
+						String id = p.getFileName().toString();
+						
+						if(checkIgnoreFile(id)) {
+							return;
+						}
+						
+						int count = 0;
+						
+						for(VhcDeviceVO vo : deviceList) {
+							if(vo.getMngId().equals(id)) {
+								count++;
+							}
+						}
+						
+						if(count < 1) {
+							FileUtils.deleteDirectory(p.toFile());
+						}
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+				});
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	// 승무사원 관리 승무사원 사진 업로드
 	public void uploadBM0108(String fileName, MultipartFile file) {
@@ -373,7 +515,6 @@ public class FTPHandler {
 	 * **/
 	public List<String> impVdoFiles(String impId, List<String> dvcList) throws IOException {
 		String vehiclePath = Paths.get(getRootLocalPath(), "/vehicle/", impId, "/device/").toString();
-		List<String> fileList = new ArrayList<>();
 		List<String> vdoList = new ArrayList<>();
 		
 		for(String dvcId : dvcList) {
@@ -1350,11 +1491,6 @@ public class FTPHandler {
 		
 		serverContentList = new ArrayList<String>();
 		pathList = new ArrayList<String>();
-		ignoreList = new ArrayList<String>();
-		
-		ignoreList.add("temp");
-		ignoreList.add("chime");
-		ignoreList.add("video");
 	}
 	
 	// 서버 폴더 내 목록 가져오기
@@ -1427,18 +1563,8 @@ public class FTPHandler {
 		/*******************************************************************************************************/
 		
 		for(int i = 0; i < localList.length; i++) {
-			// 동기화 체크용 플래그
-			boolean check = false;
-			
-			for(String ignoreFile : ignoreList) {
-				if(localList[i].getName().contains(ignoreFile)) {
-					check = true;
-					break;
-				}
-			}
-			
 			// 동기화하지 않을 파일일 경우 continue
-			if(check) {
+			if(checkIgnoreFile(localList[i].getName())) {
 				continue;
 			}
 			
@@ -1536,6 +1662,23 @@ public class FTPHandler {
 			return false;
 		}
 	}
+	
+	private boolean checkIgnoreFile(String fileName) {
+		boolean check = false;
+		try {
+			for(String ignoreFile : ignoreList) {
+				if(fileName.contains(ignoreFile)) {
+					check = true;
+					break;
+				}
+			}
+			
+			return check;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return check;
+	}
 	/*************************************************************************************************************************************************************************************/
 	
 	
@@ -1615,5 +1758,9 @@ public class FTPHandler {
 	
 	public String getPlayListPath() {
 		return PLAYLIST_PATH;
+	}
+	
+	public String getVideoPath() {
+		return VIDEO_PATH;
 	}
 }

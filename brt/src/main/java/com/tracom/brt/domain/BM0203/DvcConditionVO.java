@@ -35,4 +35,5 @@ public class DvcConditionVO extends BaseVO{
 	private String txtVal2;
 	private String dvcCond;
 	private String dlCdNm;
+	private String sendDate;
 }
