@@ -356,22 +356,25 @@ function makeSelBox(){
 function drawNormalBus(busList){
 	var grid0 = fnObj.gridView0.getData();
 	var resultList = busList;
+	var tmp = new Array();
 	for(var i = 0; i < busList.length; i++){
-		/*
-		for(var j = 0; j < grid0.length; j++){
-			
-			if(busList[i].vhcNo == grid0[j].vhcNo){
-				delete resultList[i];
+		for(var j=0; j<grid0.length; j++){
+			if(resultList[i].vhcNo == grid0[j].vhcNo){
+				tmp.push(i);
+				break;
 			}
 		}
-		*/
-		busList[i].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black'>" + busList[i].vhcNo + "</span>";
-		busList[i].icon = "/assets/images/tmap/bus_Normal.png";
 		
-		//if(busList[i] != null && busList[i] != undefined){
-			addMarker(busList[i]);							
-		//}
-	}	
+	}
+	
+	for(var k=0; k<busList.length; k++){
+		if(tmp.indexOf(k) < 0){
+			busList[k].label = "<span style='background-color: white; color:black; padding: 3px; border: 0.5px solid black'>" + busList[k].vhcNo + "</span>";
+			busList[k].icon = "/assets/images/tmap/bus_Normal.png";
+			addMarker(busList[k]);										
+		}
+		
+	}
 }
 
 function drawArticulatedBus(busList){
