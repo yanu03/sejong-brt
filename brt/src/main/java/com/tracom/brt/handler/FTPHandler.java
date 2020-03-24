@@ -44,6 +44,7 @@ import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 import com.tracom.brt.code.GlobalConstants;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
+import com.tracom.brt.domain.BM0108.EplyInfoVO;
 import com.tracom.brt.domain.BM0201.VhcDeviceVO;
 import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
 import com.tracom.brt.domain.BM0501.DestinationVO;
@@ -299,6 +300,21 @@ public class FTPHandler {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void deleteBM0108(EplyInfoVO vo) throws Exception {
+		String dir1 = Paths.get(getRootLocalPath(), getCommonEmployeePath()).toString();
+		String fileDir1 = Paths.get("/" + vo.getEplyId() + ".jpg").toString();
+		String fileDir2 = Paths.get("/" + vo.getEplyId() + "_CERTI.jpg").toString();
+		File file = new File(dir1 + fileDir1);
+		File file_certi = new File(dir1 + fileDir2);
+		if(file.exists()) {
+			file.delete();
+		}
+		if(file_certi.exists()) {
+			file_certi.delete();
+		}
+		processSynchronize(getRootLocalPath() + getCommonEmployeePath(), getRootServerPath() + getCommonEmployeePath());
 	}
 	
 	//BM0205 펌웨어파일 업로드
