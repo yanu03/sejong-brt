@@ -314,15 +314,19 @@ public class FTPHandler {
 		String ext = FilenameUtils.getExtension(file.getOriginalFilename());
 		String fileName;
 		
-		//행선지안내기
-		if(id.substring(10, 12).equals("RD")) {
-			fileName = "SF2016." + ext.toUpperCase();
-		//키패드
-		}else if(id.substring(10, 12).equals("RK")){
-			fileName = "MANAGERV3." + ext.toUpperCase();
-		//다른장비
-		}else {
+		if(id.length() == 10) {
 			fileName = "firmware." + ext;
+		}else {
+			//행선지안내기
+			if(id.substring(10, 12).equals("RD")) {
+				fileName = "SF2016." + ext.toUpperCase();
+				//키패드
+			}else if(id.substring(10, 12).equals("RK")){
+				fileName = "MANAGERV3." + ext.toUpperCase();
+				//다른장비
+			}else {
+				fileName = "firmware." + ext;
+			}			
 		}
 		
 		File saveFile = Paths.get(dir, fileName).toFile();
