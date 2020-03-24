@@ -290,7 +290,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	
     	if(selectedRow.confirmYn == "Y"){
     		caller.formView0.disable();
-
     	} else {
     		caller.formView0.enable();
     	}
@@ -307,6 +306,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             callback: function (res) {
             	var gridList = caller.gridView0.getData();
             	var list = res.list;
+            	
+            	if(selectedRow.confirmYn == "Y"){
+	            	for(var i = 0; i < gridList.length; i++) {
+	            		gridList[i].__disable_selection__ = true;
+	            	}
+	            	
+	            	caller.gridView0.setData(gridList);
+            	} else {
+	            	for(var i = 0; i < gridList.length; i++) {
+	            		gridList[i].__disable_selection__ = false;
+	            	}
+	            	
+	            	caller.gridView0.setData(gridList);
+            	}
             	
             	for(var i = 0; i < list.length; i++) {
             		for(var j = 0; j < gridList.length; j++) {
