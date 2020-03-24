@@ -35,19 +35,6 @@
             <button type="button" class="btn btn-default" data-page-btn="close"><ax:lang id="ax.admin.close"/></button>
         </ax:page-buttons>
 
-      <%--   <div role="page-header">
-            <ax:form name="searchView0">
-                <ax:tbl clazz="ax-search-tbl" minWidth="500px">
-                    <ax:tr>
-                        <ax:td label='ax.admin.sample.search.condition' width="300px">
-                            <ax:input type="text" name="filter" id="filter" clazz="form-control" placeholder="ax.admin.BM0102S0.search"/>
-                        </ax:td>
-                    </ax:tr>
-                </ax:tbl>
-            </ax:form>
-            <div class="H10"></div>
-        </div>
- --%>
  		<div role="page-header" style="margin-bottom: 5px;">
  			<ax:form id="formView0" name="formView0">
  				<ax:tbl clazz="ax-form-tbl" minWidth="500px">
@@ -63,81 +50,91 @@
  			</ax:form>
  		</div>
  		
-        <ax:split-layout name="ax1" orientation="vertical">
-        	<ax:SM0105 groupCd="VOC_DIV" id="selectVoice" dataPath="vocDiv" width="200px"/>
-        	
-            <ax:split-panel width="200" style="margin-right: 30px;">
-            	<div class="ax-button-group">
-	            	<div class="left">
-			            <h3><i class="cqc-list"></i>
-			                <ax:lang id="ax.admin.BM0405F0.voice.list"/>
-			            </h3>
-		            </div>
-	            </div>
-	            
-                <div data-ax5grid="gridView3" style="height: 300px;"></div>
-            </ax:split-panel>
-            
-            <ax:split-panel width="70" style="top: 30%;">
-            	<div style="width: 50px; margin-left: 10px;">
-	            	<button type="button" class="btn btn-default" style="width: 100%; margin-bottom: 10px;" data-page-btn="addPlayList">
-	            		→
-	            	</button>
-	            	
-	            	<button type="button" class="btn btn-default" style="width: 100%;" data-page-btn="deletePlayList">
-	            		←
-	            	</button>
-            	</div>
-            </ax:split-panel>
-            
-            <ax:split-panel width="200">
-           		<div class="ax-button-group">
-                    <div class="left">
-			            <h3><i class="cqc-list"></i>
-			                <ax:lang id="ax.admin.BM0405F0.play.list"/>
-			            </h3>
-		            </div>
-		            <div class="right">
-			            <button type="button" class="btn btn-default" data-page-btn="upItem">
-		            		↑
-		            	</button>
+        <ax:split-layout name="ax1" orientation="horizontal">
+        	<ax:split-panel height="*">
+        		<ax:split-panel width="*">
+	        		<ax:SM0105 groupCd="VOC_DIV" id="selectVoice" dataPath="vocDiv" width="200px"/>
+	        	</ax:split-panel>
+		        	
+        		<ax:split-layout orientation="vertical">
+		            <ax:split-panel width="200" style="margin-right: 30px;">
+		            	<div class="ax-button-group">
+			            	<div class="left">
+					            <h3><i class="cqc-list"></i>
+					                <ax:lang id="ax.admin.BM0405F0.voice.list"/>
+					            </h3>
+				            </div>
+			            </div>
+			            
+		                <div data-ax5grid="gridView3" style="height: 300px;"></div>
+		            </ax:split-panel>
+		            
+		            <ax:split-panel width="70">
+		            	<div style="width: 50px; margin-top: 130px; margin-left: 10px;">
+			            	<button type="button" class="btn btn-default" style="width: 100%; margin-bottom: 10px;" data-page-btn="addPlayList">
+			            		→
+			            	</button>
+			            	
+			            	<button type="button" class="btn btn-default" style="width: 100%;" data-page-btn="deletePlayList">
+			            		←
+			            	</button>
+		            	</div>
+		            </ax:split-panel>
+		            
+		            <ax:split-panel width="200">
+		           		<div class="ax-button-group">
+		                    <div class="left">
+					            <h3><i class="cqc-list"></i>
+					                <ax:lang id="ax.admin.BM0405F0.play.list"/>
+					            </h3>
+				            </div>
+				            <div class="right">
+					            <button type="button" class="btn btn-default" data-page-btn="upItem">
+				            		↑
+				            	</button>
+				            	
+				            	<button type="button" class="btn btn-default" data-page-btn="downItem">
+				            		↓
+				            	</button>
+				            	<button type="button" class="btn btn-default" data-page-btn="test"><ax:lang id="ax.admin.test"/></button>
+				            </div>
+		                </div>
 		            	
-		            	<button type="button" class="btn btn-default" data-page-btn="downItem">
-		            		↓
-		            	</button>
-		            	<button type="button" class="btn btn-default" data-page-btn="test"><ax:lang id="ax.admin.test"/></button>
-		            </div>
-                </div>
-            	
-                <div data-ax5grid="gridView4" style="height: 300px;"></div>
+		                <div data-ax5grid="gridView4" style="height: 300px;"></div>
+		            </ax:split-panel>
+        		</ax:split-layout>
             </ax:split-panel>
             
-            <div id="jquery_jplayer_0" class="jp-jplayer"></div>
-			<div id="jp_container_0" class="jp-audio" role="application" aria-label="media player" style="margin-top: 350px; margin-left: 105px; z-index: 1000;">
-				<div class="jp-type-single">
-					<div class="jp-gui jp-interface">
-						<div class="jp-controls">
-							<button class="jp-stop" role="button" tabindex="0">stop</button>
-						</div>
-						<div class="jp-progress">
-							<div class="jp-seek-bar">
-								<div class="jp-play-bar"></div>
+            <ax:split-panel  height="100" style="width: 100%; text-align: center; line-height: 100px;">
+            	<div style="display:inline-block; vertical-align: middle;">
+		            <div id="jquery_jplayer_0" class="jp-jplayer"></div>
+					<div id="jp_container_0" class="jp-audio" role="application" aria-label="media player">
+						<div class="jp-type-single">
+							<div class="jp-gui jp-interface">
+								<div class="jp-controls">
+									<button class="jp-stop" role="button" tabindex="0">stop</button>
+								</div>
+								<div class="jp-progress">
+									<div class="jp-seek-bar">
+										<div class="jp-play-bar"></div>
+									</div>
+								</div>
+								<div class="jp-volume-controls">
+									<button class="jp-mute" role="button" tabindex="0">mute</button>
+									<button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+									<div class="jp-volume-bar">
+										<div class="jp-volume-bar-value"></div>
+									</div>
+								</div>
+								<div class="jp-time-holder">
+									<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+									<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+								</div>
 							</div>
-						</div>
-						<div class="jp-volume-controls">
-							<button class="jp-mute" role="button" tabindex="0">mute</button>
-							<button class="jp-volume-max" role="button" tabindex="0">max volume</button>
-							<div class="jp-volume-bar">
-								<div class="jp-volume-bar-value"></div>
-							</div>
-						</div>
-						<div class="jp-time-holder">
-							<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
-							<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</ax:split-panel>
         </ax:split-layout>
     </jsp:body>
 </ax:layout>
