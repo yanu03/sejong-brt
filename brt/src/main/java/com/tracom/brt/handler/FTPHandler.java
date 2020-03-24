@@ -403,6 +403,19 @@ public class FTPHandler {
 		
 	}
 	
+	//BM0605 영상삭제
+	
+	public void deleteVideo(VideoInfoVO vo) throws Exception {
+		String path = Paths.get(getRootLocalPath(), "/video").toString();
+		String filePath = Paths.get("/" + vo.getFileName()).toString();
+		File file = new File(path + filePath);
+		if(file.exists()) {
+			file.delete();
+		}
+		
+		processSynchronize(getRootLocalPath() + "/video", getRootServerPath() + "/video");
+	}
+	
 	//BM0607 영상예약
 	public void reserveVideo(VdoRsvVO vo) throws Exception {
 		String videoPath = "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";

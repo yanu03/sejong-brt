@@ -49,7 +49,7 @@ public class BM0605Controller extends BaseController {
     }
     
     @PostMapping("/BM0605G0D0")
-    public ApiResponse BM0605G0D0(@RequestBody VideoInfoVO request) {
+    public ApiResponse BM0605G0D0(@RequestBody VideoInfoVO request) throws Exception {
     	String flag = "";
     	if(service.BM0605G0D0(request)) {
     		flag = "true";

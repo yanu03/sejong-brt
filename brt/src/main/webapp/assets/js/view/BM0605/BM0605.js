@@ -314,7 +314,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 			columns: [
 				{key: "vdoId",		label: ADMIN("ax.admin.BM0605G0.vdoId"),		width: 80,	align: "center"},
 				{key: "conNm",		label: ADMIN("ax.admin.BM0605G0.conNm"),		width: 120,	align: "left"},
-				{key: "vdoNm",		label: ADMIN("ax.admin.BM0605G0.vdoNm"),		width: 80,	align: "left"},
+				{key: "vdoNm",		label: ADMIN("ax.admin.BM0605G0.vdoNm"),		width: 250,	align: "left"},
 				{key: "fileTypeNm",	label: ADMIN("ax.admin.BM0605G0.fileType"),		width: 80,	align: "center"},
 				//{key: "attFile",	label: ADMIN("ax.admin.BM0605F0.attFile"),		width: 80},
 				{key: "playStDate",	label: ADMIN("ax.admin.BM0605G0.playStDate"),	width: 100,	align: "center"},
@@ -322,7 +322,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
 				{key: "playTm",		label: ADMIN("ax.admin.BM0605G0.playTm"),		width: 120, align: "right"},
 				{key: "imgPlayTm",	label: ADMIN("ax.admin.BM0605G0.imgPlayTm"),	width: 100, align: "right"},
 				{key: "remark",		label: ADMIN("ax.admin.BM0605G0.remark"),		width: 150, align: "left"},
-				{key: "updatedAt",	label: ADMIN("ax.admin.BM0605G0.updatedAt"),	width: 120},
+				{key: "updatedAt",	label: ADMIN("ax.admin.BM0605G0.updatedAt"),	width: 130},
 				],
 				body: {
 					onClick: function () {
