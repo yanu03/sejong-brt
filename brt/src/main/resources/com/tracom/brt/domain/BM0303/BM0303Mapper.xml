@@ -48,7 +48,7 @@
     <select id="BM0303G2S1" parameterType="String" resultType="contractViewVO">
 		SELECT
 		   VOC.VOC_ID
-		 , VOC.VOC_NM
+		 , VOC.VOC_NM AS ATT_FILE
 		 , VOC.PLAY_ST_DATE
 		 , VOC.PLAY_ED_DATE
 		 , VOC.PLAY_TM
