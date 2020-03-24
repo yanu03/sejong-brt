@@ -89,7 +89,7 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
     }
     
     //그리드 삭제
-    public boolean BM0605G0D0(VideoInfoVO vo) {
+    public boolean BM0605G0D0(VideoInfoVO vo) throws Exception {
     	List<VideoInfoVO> voList = mapper.validationBeforeDelete(vo.getVdoId());
     	boolean flag = false;
     	
@@ -100,6 +100,8 @@ public class BM0605Service extends BaseService<VideoInfoVO, String> {
     	}
     	if(!flag) {
 	    	if(mapper.BM0605G0D0(vo) > 0) {
+	    		handler.deleteVideo(vo);
+	    		//ftp 삭제
 	    		return true;
 	    	}else {
 	    		return false;

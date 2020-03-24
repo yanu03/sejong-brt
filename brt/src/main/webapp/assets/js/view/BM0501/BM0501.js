@@ -560,14 +560,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     selectIdRow: function(id) {
     	var i;
     	var length = this.target.list.length;
-    	for(i = 0; i < length; i++) {
-    		/*
-    		if(this.target.list[i].vocId == id) {
-    			this.selectRow(i);
-    			break;
-    		}
-    		*/
-    	}
     	
     	if(i == length) {
     		isUpdate = false;
@@ -699,21 +691,25 @@ function loadBmp(){
 	uv_dvc_type = $('#selectBox option:selected').val();
 	var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&userWayDiv=" + selectedRow.userWayDiv + "&dvcName="+selectedRow.dvcName;
 
+	$.when(
+		$('#previewImg').each(function(){
+			$(this).load(function(){
+				if(uv_dvc_type == "CD001"){
+					uv_height = this.height / uv_frontheight;				
+				}else{
+					uv_height = this.height / uv_sideheight;
+				}
+			});
+		})
+	).done(
+		$.when($("#previewImg").attr("src", url)).done(
+			$.when(fnObj.gridView1.initView()).done(
+				setTimeVal(uv_height)					
+			)
+		)
+	);
 	
-	$('#previewImg').each(function(){
-		$(this).load(function(){
-			if(uv_dvc_type == "CD001"){
-				uv_height = this.height / uv_frontheight;				
-			}else{
-				uv_height = this.height / uv_sideheight;
-			}
-		});
-	});
 	
-	$("#previewImg").attr("src", url);
-	
-	fnObj.gridView1.initView();
-	setTimeVal(uv_height);
 }
 
 

@@ -68,7 +68,7 @@
                     		<ax:td label="ax.admin.BM0605G0.vdoId" width="240px" labelClazz="required">
                     			<input type="text" name="vdoId" data-ax-path="vdoId" data-key="true" class="form-control" readonly="readonly"/>
                     		</ax:td>
-                    		<ax:td label="ax.admin.BM0605G0.vdoNm" width="240px" labelClazz="required">
+                    		<ax:td label="ax.admin.BM0605G0.vdoNm" width="240px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
                     			<input type="text" name="vdoNm" data-ax-path="vdoNm" title="영상명" maxlength="20" class="form-control" data-ax-validate="required"/>
                     		</ax:td>
                     	</ax:tr>

@@ -68,12 +68,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	var list = new Array();
     	var vocList = {};
     	var vdoList = {};
+    	
     	vocList.page = {};
-    	vocList.list = list;
+    	vocList.list = new Array();
+    	
     	vdoList.page = {};
-    	vdoList.list = list;
+    	vdoList.list = new Array();
+    	
     	var count = 0;
     	var countOne = 0;
+    	
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0303G1S0",
@@ -94,36 +98,31 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		                } else {
 		                	caller.gridView1.selectFirstRow();
 		                }
-                }
+	                }
                 }
             	axboot.ajax({
             		type: "GET",
             		url: "/api/v1/BM0303G2S0",
             		data: {conId: selectedRow.conId},
             		callback: function (resOne) {
-            			console.log(resOne);
             			if(resOne.list.length != 0){
             				for(var i = 0; i< resOne.list.length; i++){
             					if(resOne.list[i].vocId != null){
             						resOne.list[i].vocType = "음성";
             						vocList.list[count] = resOne.list[i];
-            						console.log(vocList);
             						count++;
             					}else{
             						resOne.list[i].vdoType = "영상";
             						vdoList.list[countOne] = resOne.list[i];
-            						console.log(vdoList);
             						countOne++;
             					}
             				}
-            				console.log(vocList);
-            				console.log(vdoList);
             				
             				if(vocList.list.length != 0){
-            					caller.gridView2.setData(vocList);
+            					caller.gridView3.setData(vocList);
             				}
             				if(vdoList.list.length != 0){
-            					caller.gridView3.setData(vdoList);
+            					caller.gridView2.setData(vdoList);
             				}
             			}
             			
@@ -417,7 +416,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
         		target: $('[data-ax5grid="gridView2"]'),
         		columns: [
         			{key: "vdoType", label: ADMIN("ax.admin.BM0303G2.type"), sortable: true, align:"center" ,width: 80},
-        			{key: "attFile", label: ADMIN("ax.admin.BM0303G2.filename"), align:"center" , width: 100},
+        			{key: "attFile", label: ADMIN("ax.admin.BM0303G2.vdoname"), align:"left" , width: 250},
         			{key: "playStDate", label: ADMIN("ax.admin.BM0303G2.playstdate"), sortable: true, align:"center" , width: 120},
         			{key: "playEdDate", label: ADMIN("ax.admin.BM0303G2.playeddate"), sortable: true, align:"center" , width: 120},
         			{key: "playTm", label: ADMIN("ax.admin.BM0303G2.playtm"), sortable: true, align:"right" , width: 80},
@@ -509,7 +508,7 @@ fnObj.gridView3 = axboot.viewExtend(axboot.gridView, {
         		target: $('[data-ax5grid="gridView3"]'),
         		columns: [
         			{key: "vocType", label: ADMIN("ax.admin.BM0303G2.type"), sortable: true, align:"center" ,width: 80},
-        			{key: "attFile", label: ADMIN("ax.admin.BM0303G2.filename"), align:"center" , width: 100},
+        			{key: "attFile", label: ADMIN("ax.admin.BM0303G2.vocname"), align:"left" , width: 250},
         			{key: "playStDate", label: ADMIN("ax.admin.BM0303G2.playstdate"), sortable: true, align:"center" , width: 120},
         			{key: "playEdDate", label: ADMIN("ax.admin.BM0303G2.playeddate"), sortable: true, align:"center" , width: 120},
         			{key: "playTm", label: ADMIN("ax.admin.BM0303G2.playtm"), sortable: true, align:"right" , width: 80},
