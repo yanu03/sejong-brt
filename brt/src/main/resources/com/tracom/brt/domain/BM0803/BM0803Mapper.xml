@@ -24,6 +24,6 @@
 		  ON DVC.MNG_ID = LOC.MNG_ID
 	WHERE
 		  DVC.DVC_KIND = 'CD005'
-		  AND VHC.MODEL_NM = '전기굴절버스'
+		  AND VHC.VHC_NO IN (SELECT DL_CD_NM FROM SM_DL_CD_INFO WHERE CO_CD = 'DIGITAL_MAP')
 	</select>
 </mapper>
