@@ -135,8 +135,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         			$("#selectBox option:eq(0)").attr("selected", "selected");
         			$('#bmpFile').val("");
         			$('#previewImg').attr("src", "");
-        			loadBmp();
-        			loadSCH();
+        			//loadBmp();
+        			//loadSCH();
+        			callbackLoad(loadSCH);
         		}else{
         			fnObj.gridView0.selectRow(selectedRow.__index);
         			return false;
@@ -152,8 +153,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        $("#selectBox option:eq(0)").attr("selected", "selected");
 	        $('#bmpFile').val("");
 	        $('#previewImg').attr("src", "");
-	        loadBmp();
-	        loadSCH();
+	        //loadBmp();
+        	//loadSCH();
+        	callbackLoad(loadSCH);
     	}
     	fflag++;
     },
@@ -166,6 +168,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
 
 });
+
+function callbackLoad(callback){
+	loadBmp();
+	callback();
+}
 
 function getEffType(){
 	var effArr = new Array();
@@ -691,7 +698,6 @@ function loadBmp(){
 	uv_dvc_type = $('#selectBox option:selected').val();
 	var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&userWayDiv=" + selectedRow.userWayDiv + "&dvcName="+selectedRow.dvcName;
 
-	$.when(
 		$('#previewImg').each(function(){
 			$(this).load(function(){
 				if(uv_dvc_type == "CD001"){
@@ -700,20 +706,11 @@ function loadBmp(){
 					uv_height = this.height / uv_sideheight;
 				}
 			});
-		})
-	).done(
-		function(){
-			$.when($("#previewImg").attr("src", url)).done(
-				$.when(fnObj.gridView1.initView()).done(
-					function(){
-						setTimeVal(uv_height);
-					}
-				)
-			);
-		}
-	);
-	
-	
+		});
+		
+		$("#previewImg").attr("src", url);
+		fnObj.gridView1.initView();
+		setTimeVal(uv_height);
 }
 
 
