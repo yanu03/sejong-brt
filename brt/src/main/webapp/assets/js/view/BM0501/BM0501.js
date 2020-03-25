@@ -702,11 +702,15 @@ function loadBmp(){
 			});
 		})
 	).done(
-		$.when($("#previewImg").attr("src", url)).done(
-			$.when(fnObj.gridView1.initView()).done(
-				setTimeVal(uv_height)					
-			)
-		)
+		function(){
+			$.when($("#previewImg").attr("src", url)).done(
+				$.when(fnObj.gridView1.initView()).done(
+					function(){
+						setTimeVal(uv_height);
+					}
+				)
+			);
+		}
 	);
 	
 	

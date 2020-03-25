@@ -59,8 +59,9 @@ public class BM0108Service extends BaseService<EplyInfoVO, String> {
     }
     
     //Delete
-    public boolean BM0108G0D0(EplyInfoVO vo) {
+    public boolean BM0108G0D0(EplyInfoVO vo) throws Exception {
     	if(mapper.BM0108G0D0(vo) > 0) {
+    		handler.deleteBM0108(vo);
     		return true;
     	} else {
     		return false;

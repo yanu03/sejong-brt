@@ -51,7 +51,7 @@ public class BM0108Controller extends BaseController {
     }
     
     @PostMapping("/BM0108G0D0")
-    public ApiResponse BM0108G0D0(@RequestBody EplyInfoVO request) {
+    public ApiResponse BM0108G0D0(@RequestBody EplyInfoVO request) throws Exception {
     	service.BM0108G0D0(request);
     	return ok();
     } 
