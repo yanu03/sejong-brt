@@ -65,20 +65,20 @@
                     <ax:tbl clazz="ax-form-tbl" minWidth="800px">
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.eplyId" width="380px" labelClazz="required">
-                    			<input type="text" name="eplyId" numberOnly title="<ax:lang id="ax.admin.BM0108F0.eplyId"/>" data-ax-path="eplyId" data-key="true" class="form-control W70" maxlength="6" data-ax-validate="required"/>
+                    			<input type="text" name="eplyId" id="eplyId" numberOnly title="<ax:lang id="ax.admin.BM0108F0.eplyId"/>" data-ax-path="eplyId" data-key="true" class="form-control W70" maxlength="6" data-ax-validate="required"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.eplyNm" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
-                    			<input type="text" name="eplyNm" title="<ax:lang id="ax.admin.BM0108F0.eplyNm"/>" data-ax-path="eplyNm" data-key="true" class="form-control W70" maxlength="4" data-ax-validate="required"/>
+                    			<input type="text" name="eplyNm" title="<ax:lang id="ax.admin.BM0108F0.eplyNm"/>" data-ax-path="eplyNm" class="form-control W70" maxlength="4" data-ax-validate="required"/>
                     		</ax:td>
                     	</ax:tr>
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.phone" width="380px" labelClazz="required">
-                    			<input type="text" name="phone" numberOnly title="<ax:lang id="ax.admin.BM0108F0.phone"/>" data-ax-path="phone" data-key="true" class="form-control W100" maxlength="11" data-ax-validate="required"/>
+                    			<input type="text" name="phone" numberOnly title="<ax:lang id="ax.admin.BM0108F0.phone"/>" data-ax-path="phone" class="form-control W100" maxlength="11" data-ax-validate="required"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.corpId" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
                     			<div class="input-group">
-	                        		<div style="float:left;padding-right:5px;"><input type="text" title="<ax:lang id="ax.admin.BM0108F0.corpId"/>" data-ax-path="corpId" name="corpId" data-key="true" class="form-control W70" readonly="readonly" data-ax-validate="required"></div>
+	                        		<div style="float:left;padding-right:5px;"><input type="text" title="<ax:lang id="ax.admin.BM0108F0.corpId"/>" data-ax-path="corpId" name="corpId" class="form-control W70" readonly="readonly" data-ax-validate="required"></div>
 	                        		<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="corpNm" name="corpNm" data-key="true" class="form-control W130" readonly="readonly"></div>
                         			<div style="float:left;padding-right:5px;"><button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0101">
 	                                		<ax:lang id="ax.admin.select"/>
@@ -109,7 +109,7 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.licenNo" width="380px" labelClazz="required">
-                    			<input type="text"  data-ax5formatter="license" name="licenNo" title="<ax:lang id="ax.admin.BM0108F0.licenNo"/>" data-ax-path="licenNo" data-key="true" class="form-control W120" maxlength="15" data-ax-validate="required"/>
+                    			<input type="text"  data-ax5formatter="license" name="licenNo" title="<ax:lang id="ax.admin.BM0108F0.licenNo"/>" data-ax-path="licenNo" class="form-control W120" maxlength="15" data-ax-validate="required"/>
                     		</ax:td>
                     		<ax:td label="ax.admin.BM0108F0.certiDate" width="380px" labelClazz="required" style="border-left: 1px solid #D8D8D8;">
                     			<div class="input-group" data-ax5picker="date" style="width:100px;">
@@ -158,7 +158,7 @@
                     	
                     	<ax:tr>
                     		<ax:td label="ax.admin.BM0108F0.remark" width="100%">
-                    			<textarea maxlength="200" name="remark" data-ax-path="remark" data-key="true" class="form-control" ></textarea>
+                    			<textarea maxlength="200" name="remark" data-ax-path="remark" class="form-control" ></textarea>
                     		</ax:td>
                     	</ax:tr>
                     	 

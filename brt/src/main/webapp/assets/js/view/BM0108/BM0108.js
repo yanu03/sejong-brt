@@ -208,6 +208,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	$("#previewImg").attr("src", url);
     	$("#previewImg2").attr("src", url2);
     	
+    	caller.formView0.disable();
+    	
     },
     
     OPEN_BM0101_MODAL: function(caller, act, data) {
@@ -461,16 +463,16 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         return true;
     },
     enable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    	this.target.find('[data-ax-path][data-key=true]').each(function(index, element) {
     		$(element).attr("readonly", false);
     	});
     	this.target.find(".cqc-calendar").parent().show();
     },
     disable: function() {
-    	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
+    	this.target.find('[data-ax-path][data-key=true]').each(function(index, element) {
     		$(element).attr("readonly", true);
     	});
-    	this.target.find(".cqc-calendar").parent().hide();
+    	//this.target.find(".cqc-calendar").parent().hide();
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());
