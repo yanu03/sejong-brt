@@ -340,7 +340,10 @@ public class FTPHandler {
 			}else if(id.substring(10, 12).equals("RK")){
 				fileName = "MANAGERV3." + ext.toUpperCase();
 				//다른장비
-			}else {
+			}else if(id.substring(10, 12).equals("ED")) {
+				fileName = "firmware.dat";
+			}
+			else {
 				fileName = "firmware." + ext;
 			}			
 		}
