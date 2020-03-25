@@ -256,8 +256,7 @@ fnObj.pageButtonView = axboot.viewExtend({
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
             },
             "excel": function () {
-            	selectedRow = null;
-                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                ACTIONS.dispatch(ACTIONS.PAGE_EXCEL);
             },
             "new": function() {
             	ACTIONS.dispatch(ACTIONS.PAGE_NEW);
