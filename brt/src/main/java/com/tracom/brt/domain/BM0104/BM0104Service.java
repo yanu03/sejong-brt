@@ -1,7 +1,7 @@
 package com.tracom.brt.domain.BM0104;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,6 +17,7 @@ import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.domain.Interface.DataInterface;
 import com.tracom.brt.domain.SM0105.CommonCodeDetailInfoVO;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
+import com.tracom.brt.domain.routeReservation.RouteReservationService;
 
 @Service
 public class BM0104Service extends BaseService<BmRoutInfoVO, String> {
@@ -140,7 +141,9 @@ public class BM0104Service extends BaseService<BmRoutInfoVO, String> {
     	return mapper.BM0104F0U0(vo);
     }
     
-    public int BM0104F0D0(BmRoutInfoVO vo) {
+    public int BM0104F0D0(BmRoutInfoVO vo) throws IOException {
+    	RouteReservationService service = new RouteReservationService();
+    	//service.deleteRoute(vo);
     	return mapper.BM0104F0D0(vo);
     }
 }

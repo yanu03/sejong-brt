@@ -75,7 +75,7 @@
 	<!-- getMaxVersion -->
 	<select id="rsv_getMaxVersion" resultType="String">
 		SELECT
-			MAX(CONCAT(SUBSTR(DATE_FORMAT(PUB_DATE, '%Y%m%d'), 3), PUB_SEQ))
+			MAX(CONCAT(SUBSTR(DATE_FORMAT(PUB_DATE, '%Y%m%d'), 3), PUB_SEQ)) AS MAX_VER
 		FROM
 			BM_ROUT_INFO
 	</select>

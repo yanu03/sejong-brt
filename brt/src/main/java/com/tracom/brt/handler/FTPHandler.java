@@ -491,21 +491,7 @@ public class FTPHandler {
 	}
 
 	public void copyFile(File fFile, File tFile) throws IOException {
-		/*
-		FileInputStream fis = new FileInputStream(fFile);
-		FileOutputStream fos = new FileOutputStream(tFile);
-		
-		int fileByte = 0;
-		while((fileByte = fis.read()) != -1){
-			fos.write(fileByte);
-		}
-		
-		fis.close();
-		fos.close();
-		*/
-		
 		FileUtils.copyFile(fFile, tFile);
-		
 	}
 	
 	//배열 두개 확장자빼고 비교해서 지울거 뱉어내는 함수 0316
@@ -938,6 +924,70 @@ public class FTPHandler {
         return list;
 	}
 
+	//routelist.csv 내 row 삭제
+	public void deleteRouteList(String routIdDel, String maxVer) throws IOException {
+		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();
+		String fileName = "routelist.csv";
+		File file = new File(path + "/" + fileName);
+		List<RoutListCSVVO> list = new ArrayList<>();
+		
+		if(file.exists()) {
+			list = readRouteList("routelist.csv");
+		}
+		
+		for(RoutListCSVVO vo : list) {
+			if(routIdDel.equals(vo.getFileName().split(".")[0])) {
+				list.remove(vo);
+				break;
+			}
+		}
+
+		String txt = "";
+		txt += GlobalConstants.CSVForms.ROUTE_VERSION + maxVer + GlobalConstants.CSVForms.ROW_SEPARATOR;
+		txt += GlobalConstants.CSVForms.ROUTE_LIST;
+		
+		for(RoutListCSVVO vo : list) {
+			txt += GlobalConstants.CSVForms.ROW_SEPARATOR;
+			txt += vo.getFileName() 
+					+ GlobalConstants.CSVForms.COMMA + vo.getRoutVersion() 
+					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNo() 
+					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNmKo()
+					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNmEn()
+					+ GlobalConstants.CSVForms.COMMA + vo.getRoutShape();
+		}
+		
+		try {
+			Utils.createCSV(file, txt);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//routemap/폴더 삭제...
+	public void deleteRoutemap(String routId) {
+		String routeOriPath = Paths.get(getRootLocalPath(), getRouteOriPath()).toString();
+		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();
+		
+		File routeCsv = new File(path + "/" + routId + ".csv");
+		File routePlayList = new File(routeOriPath + "/" + routId);
+		
+		if(routeCsv.exists()) {
+			routeCsv.delete();
+		}
+		
+		if(routePlayList.exists()) {
+			File[] deleteFileList = routePlayList.listFiles();
+			if(deleteFileList != null && deleteFileList.length > 0) {
+				for(File f : deleteFileList) {
+					f.delete();
+				}				
+			}
+			routePlayList.delete();
+		}
+		
+		
+	}
+	
 	//routelist.csv 생성
 	public void uploadRouteList(String routeListRow, String fileName, String routVer, String maxVer, RoutListCSVVO newRow) throws IOException{
 		String path = Paths.get(getRootLocalPath(), getRoutePath()).toString();

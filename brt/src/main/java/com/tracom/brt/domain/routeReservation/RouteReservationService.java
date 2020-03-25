@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.domain.BM0104.BmRoutInfoVO;
@@ -25,7 +26,7 @@ public class RouteReservationService extends BaseService<RouteReservationVO, Str
 	/** 노선 예약 **/
 	public void makeRouteFile(String routId) {
 		
-		/**TODO:
+		/**
 		 * 
 		 * 00. route/routeId/playlist 빈폴더 생성/
 		 * 0. 노선ID를 이용, ROUT_INFO 테이블의 PUBDATE,PUBSEQ를 조회 후 
@@ -87,8 +88,22 @@ public class RouteReservationService extends BaseService<RouteReservationVO, Str
 			e.printStackTrace();
 		}
 		
+	}
+	
+	/**노선 삭제 시 route폴더 내 노선 삭제
+	 * @throws IOException **/
+	@Transactional
+	public void deleteRoute(BmRoutInfoVO vo) throws IOException {
+		//01. route/routemap/routelist.csv 내 row 삭제
+		String maxVer = mapper.rsv_getMaxVersion();
 		
-		
+		if(maxVer == null) {
+			maxVer = "00000000";
+		}
+		ftpHandler.deleteRouteList(vo.getRoutId(), maxVer);
+		//02. route/routemap/노선명.csv 삭제
+		//03. route/노선명 폴더 삭제
+		ftpHandler.deleteRoutemap(vo.getRoutId());
 	}
 	
 	/** 노선 리스트, 노선별 파일명쿼리 (routelist.csv) **/
@@ -116,6 +131,7 @@ public class RouteReservationService extends BaseService<RouteReservationVO, Str
 		return mapper.rsv_routInfo(routId);
 	}
 	
+
 	/** 버전정보를 구해보자 **/
 	public String newVersion(BmRoutInfoVO vo) {
 		String routId = vo.getRoutId();

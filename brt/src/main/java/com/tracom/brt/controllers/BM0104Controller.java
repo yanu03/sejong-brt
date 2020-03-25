@@ -101,9 +101,10 @@ public class BM0104Controller extends BaseController {
     	return ok(routId);
     }
     
-    /** 노선 삭제 **/
+    /** 노선 삭제 
+     * @throws IOException **/
     @PostMapping("/BM0104F0D0")
-    public ApiResponse BM0104F0D0(@RequestBody BmRoutInfoVO requestParams) {
+    public ApiResponse BM0104F0D0(@RequestBody BmRoutInfoVO requestParams) throws IOException {
     	if(service.BM0104F0D0(requestParams) > 0) {
     		return ok();
     	}else {
