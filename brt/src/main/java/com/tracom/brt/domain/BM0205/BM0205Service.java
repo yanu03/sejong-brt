@@ -23,7 +23,11 @@ public class BM0205Service extends BaseService<VhcDvcUpdateVO, String>{
 	private FTPHandler handler;
 	
 	public List<VhcDvcUpdateVO> BM0205G0S0(RequestParams<VhcDvcUpdateVO> requestParams) {
-        return mapper.BM0205G0S0(requestParams.getString("filter"));
+		Map<String, String> map = new HashMap<>();
+		map.put("filter", requestParams.getString("filter"));
+		map.put("dvcKind", requestParams.getString("dvcKind"));
+        //return mapper.BM0205G0S0(requestParams.getString("filter"));
+		return mapper.BM0205G0S0(map);
     }
 	
 	public String BM0205FileUp(VhcDvcUpdateVO vo) {

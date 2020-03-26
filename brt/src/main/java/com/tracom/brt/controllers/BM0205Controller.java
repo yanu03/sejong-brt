@@ -29,7 +29,8 @@ public class BM0205Controller extends BaseController{
 	
     @GetMapping("/BM0205G0S0")
     @ApiImplicitParams({
-    	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
+    	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query"),
+    	@ApiImplicitParam(name = "dvcKind", value = "장치종류", dataType = "String", paramType = "query")
     })
     public Responses.ListResponse BM0205G0S0(RequestParams<VhcDvcUpdateVO> requestParams) {
         List<VhcDvcUpdateVO> list = service.BM0205G0S0(requestParams);

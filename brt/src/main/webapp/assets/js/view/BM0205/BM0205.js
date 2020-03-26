@@ -11,12 +11,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
-    	var filter = $.extend({}, caller.searchView0.getData());
-    	
+    	//var filter = $.extend({}, caller.searchView0.getData());
+    	var filter = caller.searchView0.getData().filter;
+    	var dvcKind = $('#dvcKind option:selected').val();
         axboot.ajax({
             type: "GET",
-            url: "/api/v1/BM0205G0S0",
-            data: filter,
+            url: "/api/v1/BM0205G0S0" + "?filter=" + filter + "&dvcKind=" + dvcKind,
+            //data: filter,
             callback: function (res) {
                 caller.gridView0.setData(res);             
             }
@@ -194,6 +195,7 @@ fnObj.pageStart = function () {
     this.gridView0.initView();
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    changeBox();
 };
 
 fnObj.pageResize = function () {
@@ -201,7 +203,11 @@ fnObj.pageResize = function () {
 };
 
 /********************************************************************************************************************/
-
+function changeBox(){
+	$('#dvcKind').on('change', function(){
+		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	});
+}
 
 /******************************************** 공통 버튼 클릭 이벤트 ******************************************************/
 fnObj.pageButtonView = axboot.viewExtend({

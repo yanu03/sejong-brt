@@ -46,6 +46,10 @@
                             <ax:lang id="ax.admin.BM0103G0.title"/>
                         </h3>
                     </div>
+                    <div class="right">
+                    	<span style="line-height:30px;">장치종류 :&nbsp;</span>
+                    	<ax:SM0105 groupCd="DVC_KIND" name="dvcKind" id="dvcKind" dataPath="dvcKind" style="width:130px; float:right;"/>
+                    </div>
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 100%;"></div>
             </ax:split-panel>

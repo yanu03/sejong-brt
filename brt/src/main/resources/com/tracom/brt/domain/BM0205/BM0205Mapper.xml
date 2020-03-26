@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tracom.brt.domain.BM0205.BM0205Mapper">
-	<select id="BM0205G0S0" parameterType="String" resultType="vhcDvcUpdateVO">
+	<select id="BM0205G0S0" parameterType="hashmap" resultType="vhcDvcUpdateVO">
 		SELECT
 			 V.VHC_NO
 		   , DL0.DL_CD_NM AS MAKER
@@ -37,15 +37,20 @@
 			 LEFT OUTER JOIN BM_UPD_LOG ULOG
 			 ON D.MNG_ID = ULOG.MNG_ID
 	   <where>
-	    	<if test="value != null">
-				V.VHC_NO LIKE CONCAT('%', #{value}, '%')
+	    	<if test="filter != null">
+				V.VHC_NO LIKE CONCAT('%', #{filter}, '%')
 	    	AND
+	    	</if>
+	    	
+	    	<if test="dvcKind != null">
+			DVC_KIND = #{dvcKind}
+			AND
 	    	</if>
 	   		D.USE_YN != "N"
 	   		AND D.MNG_ID != "NULL"
     	</where>
     	GROUP BY D.MNG_ID
-		ORDER BY VHC_NO ASC, D.MNG_ID ASC
+		ORDER BY V.VHC_ID ASC, D.MNG_ID ASC
 	</select>
 	
 	<select id="BM0205G0S1" resultType="vhcDvcUpdateVO">
