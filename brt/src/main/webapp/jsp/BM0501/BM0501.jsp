@@ -13,7 +13,7 @@
         <script type="text/javascript" src="<c:url value='/assets/js/view/BM0501/BM0501.js' />"></script>
         <style>
 			.grid-cell-gray{
-		        color: #F1F3F5;
+		        color: #818385;
 		    }
 		    .grid-cell-black{
 		    	color: #000000;
@@ -51,7 +51,7 @@
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
             </ax:split-panel>
             <ax:splitter></ax:splitter>
-            <ax:split-panel width="720" style="padding-left: 10px;" scroll="scroll">
+            <ax:split-panel width="720" style="padding-left: 10px;" scroll="scroll" id="panel2">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
                         <h3><i class="cqc-news"></i>표출정보</h3>

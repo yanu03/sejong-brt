@@ -135,9 +135,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         			$("#selectBox option:eq(0)").attr("selected", "selected");
         			$('#bmpFile').val("");
         			$('#previewImg').attr("src", "");
-        			//loadBmp();
-        			//loadSCH();
-        			callbackLoad(loadSCH);
+        			loadBmp();
+        			loadSCH();        	
         		}else{
         			fnObj.gridView0.selectRow(selectedRow.__index);
         			return false;
@@ -153,9 +152,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        $("#selectBox option:eq(0)").attr("selected", "selected");
 	        $('#bmpFile').val("");
 	        $('#previewImg').attr("src", "");
-	        //loadBmp();
-        	//loadSCH();
-        	callbackLoad(loadSCH);
+	        loadBmp();
+	        loadSCH();
     	}
     	fflag++;
     },
@@ -168,11 +166,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
 
 });
-
-function callbackLoad(callback){
-	loadBmp();
-	callback();
-}
 
 function getEffType(){
 	var effArr = new Array();
@@ -680,16 +673,15 @@ function loadSCH(){
 	var input = Object.assign(foo, selectedRow);
 	
 	
-	$.when(loadBmp()).done(function(){
-		axboot.ajax({
-			type: "POST",
-			data: JSON.stringify(input),
-			url: "/api/v1/BM0501F0S0",
-			callback: function (res) {
-				fnObj.gridView1.setData(res);
-			}
-		});			
-	});
+	loadBmp();
+	axboot.ajax({
+		type: "POST",
+		data: JSON.stringify(input),
+		url: "/api/v1/BM0501F0S0",
+		callback: function (res) {
+			fnObj.gridView1.setData(res);
+		}
+	});			
 
 }
 
@@ -698,19 +690,19 @@ function loadBmp(){
 	uv_dvc_type = $('#selectBox option:selected').val();
 	var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&userWayDiv=" + selectedRow.userWayDiv + "&dvcName="+selectedRow.dvcName;
 
-		$('#previewImg').each(function(){
-			$(this).load(function(){
-				if(uv_dvc_type == "CD001"){
-					uv_height = this.height / uv_frontheight;				
-				}else{
-					uv_height = this.height / uv_sideheight;
-				}
-			});
+	$('#previewImg').each(function(){
+		$(this).load(function(){
+			if(uv_dvc_type == "CD001"){
+				uv_height = this.height / uv_frontheight;				
+			}else{
+				uv_height = this.height / uv_sideheight;
+			}
 		});
-		
-		$("#previewImg").attr("src", url);
-		fnObj.gridView1.initView();
-		setTimeVal(uv_height);
+	});
+	$("#previewImg").attr("src", url);
+	fnObj.gridView1.initView();
+	setTimeVal(uv_height);
+	
 }
 
 
