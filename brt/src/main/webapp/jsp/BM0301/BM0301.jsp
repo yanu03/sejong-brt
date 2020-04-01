@@ -46,7 +46,7 @@
                         </h3>
                     </div>
                     <div class="right">
-
+                    	<ax:SM0105 groupCd="CON_STAT" name="conStat" id="conStat" dataPath="conStat" style="width:80px; float:right;"/>
                     </div>
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
@@ -87,7 +87,7 @@
                             <ax:td label="ax.admin.BM0301F0.custnm" width="500px"  labelClazz="findmodal">
                            		<div class="input-group">
 	                        		<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="custId" data-key="true" class="form-control W70" title="<ax:lang id="ax.admin.BM0301F0.custnm"/>" readonly="readonly" data-ax-validate="required"></div>
-	                        		<div style="float:left;padding-right:5px;"><input type="text" data-ax-path="custNm" data-key="true" class="form-control W70" title="<ax:lang id="ax.admin.BM0301F0.custnm"/>" readonly="readonly" data-ax-validate="required"></div>
+	                        		<div style="float:left;padding-right:5px;"><input type="text" style="width:100px;" data-ax-path="custNm" data-key="true" class="form-control W70" title="<ax:lang id="ax.admin.BM0301F0.custnm"/>" readonly="readonly" data-ax-validate="required"></div>
                         			<div style="float:left;padding-right:5px;"><button type="button" id="selectButton" class="btn btn-primary" data-form-view-0-btn="selectBM0102">
 	                                	<ax:lang id="ax.admin.select"/>
 	                            		</button>

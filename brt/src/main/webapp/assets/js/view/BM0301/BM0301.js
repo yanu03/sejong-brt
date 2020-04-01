@@ -12,11 +12,15 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
     	var filter = $.extend({}, caller.searchView0.getData());
+    	var conStat = $('#conStat').val();
+    	
+    	var data = {filter : filter
+    			, conStat : conStat};
     	
         axboot.ajax({
             type: "GET",
             url: "/api/v1/BM0301G0S0",
-            data: filter,
+            data: data,
             callback: function (res) {
                 caller.gridView0.setData(res);
                 
@@ -54,6 +58,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.validate(true);
     },
     
+    /*
     PAGE_DELETE: function(caller, act, data) {
     	var grid = caller.gridView0.target;
     	var confirmYn = $('#confirmYn').val();
@@ -78,27 +83,27 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         		    		url: "/api/v1/BM0301G0S1",
         		    		data:{conId : selectedRow.conId},
         		    		callback: function (res) {
-        		    		  if(res.list.length != 0){
-        		    			  if(res.list[0].vocId != "0" && res.list[0].vdoId != "0"){
-        		    				  for(var i = 0; i<res.list.length; i++){
-        		    					  if(res.list[i].vocId != "0"){
-        		    						  vocCount++;
-        		    					  }else if(res.list[i].vdoId != "0"){
-        		    						  vdoCount++;
-        		    					  }
-        		    				  }
-        		    				  axDialog.alert("음성광고:"+vocCount+"건, 영상광고:"+vdoCount+"건 이 계약되 있어서 삭제가 불가능합니다.");
-        		    			  }
-        		    		  else{
-        		    			  axboot.ajax({
-        		    				  type: "POST",
-        		    				  url: "/api/v1/BM0301G0D0",
-        		    				  data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
-        		    				  callback: function (res) {
-        		    					  ok(res);
-        		    				  }
-        		    			  });
-        		    		  }
+        		    			if(res.list.length != 0){
+        		    				if(res.list[0].vocId != "0" && res.list[0].vdoId != "0"){
+        		    					for(var i = 0; i<res.list.length; i++){
+        		    						if(res.list[i].vocId != "0"){
+        		    							vocCount++;
+        		    						}else if(res.list[i].vdoId != "0"){
+        		    							vdoCount++;
+        		    						}
+        		    					}
+        		    					axDialog.alert("음성광고:"+vocCount+"건, 영상광고:"+vdoCount+"건이 계약되어있어 삭제가 불가능합니다.");
+        		    				}
+        		    				else{
+        		    					axboot.ajax({
+        		    						type: "POST",
+        		    						url: "/api/v1/BM0301G0D0",
+        		    						data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+        		    						callback: function (res) {
+        		    							ok(res);
+        		    						}
+        		    					});
+        		    				}
         		    		  }
         		    		}
         		    	});
@@ -120,6 +125,79 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         });
     	
     },
+    */
+    /**delete 변경**/
+    //TODO: 삭제 전 확인해서 count가 있으면 안지울거고, count가 0이면 지울것임
+    //지금은 좀 뭔가 이상해
+    PAGE_DELETE: function(caller, act, data) {
+    	var grid = caller.gridView0.target;
+    	var confirmYn = $('#confirmYn').val();
+    	var vocCount = 0;
+    	var vdoCount = 0;
+
+    	
+    	if(typeof grid.selectedDataIndexs[0] === "undefined") {
+    		axDialog.alert(LANG("ax.script.alert.requireselect"));
+    		return false;
+    	}
+    	
+    	axDialog.confirm({
+            msg: LANG("ax.script.deleteconfirm")
+        }, function() {
+        	if(confirmYn == "미확정") {  		
+        	  if (this.key == "ok") {
+        		  axboot.promise()
+        		  .then(function (ok, fail, data) {
+        			 axboot.ajax({
+        		    		type: "GET",
+        		    		url: "/api/v1/BM0301G0S1",
+        		    		data:{conId : selectedRow.conId},
+        		    		callback: function (res) {
+        		    			if(res.list.length != 0){
+        		    				if(res.list[0].vocId != "0" && res.list[0].vdoId != "0"){
+        		    					for(var i = 0; i<res.list.length; i++){
+        		    						if(res.list[i].vocId != "0"){
+        		    							vocCount++;
+        		    						}else if(res.list[i].vdoId != "0"){
+        		    							vdoCount++;
+        		    						}
+        		    					}
+        		    					axDialog.alert("음성광고:"+vocCount+"건, 영상광고:"+vdoCount+"건이 계약되어있어 삭제가 불가능합니다.");
+        		    				}
+        		    				else{
+        		    					axboot.ajax({
+        		    						type: "POST",
+        		    						url: "/api/v1/BM0301G0D0",
+        		    						data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+        		    						callback: function (res) {
+        		    							ok(res);
+        		    						}
+        		    					});
+        		    				}
+        		    		  }
+        		    		}
+        		    	});
+                })
+                .then(function (ok) {
+                	caller.formView0.clear();
+                	axToast.push(LANG("ondelete"));
+                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+                })
+                .catch(function () {
+
+                });
+            }
+        }else{
+        	axDialog.alert({
+                msg: LANG("ax.script.contractdelete")
+            });
+        }
+        });
+    	
+    },
+    /**delete end**/
+    
+    
     
     PAGE_SAVE: function (caller, act, data) {
     	 if (caller.formView0.validate()) {
@@ -197,7 +275,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		    	            modalType: "SECOND_PASSWORD",
 		    	            param: "",
 		    	            callback: function (data) {
-		    	            	console.log(data);
 		    	            	if (caller.formView0.validate()) {
 		    	            		var formData = caller.formView0.getData();    					
 		    	            		axboot.promise()
@@ -309,6 +386,7 @@ fnObj.pageStart = function () {
     this.searchView0.initView();
     this.gridView0.initView();
     this.formView0.initView();
+    onChangeFunc();
     
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
@@ -561,3 +639,17 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.target.find('[data-ax-path="key"]').removeAttr("readonly");
     }
 });
+
+/** 추가 함수 **/
+/** onChange시 동작 함수 모음 **/
+function onChangeFunc(){
+	selectGrid0();
+}
+
+/** Grid0 셀렉트박스 변경 시 Grid0 그리드 표출 변경 **/
+function selectGrid0(){
+	$('#conStat').on('change', function(){
+		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	});
+}
+

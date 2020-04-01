@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.tracom.brt.domain.BM0301.BM0301Mapper">
-
-    <select id="BM0301G0S0" parameterType="String" resultType="contractInfoVO">
+	<!--  -->
+    <select id="BM0301G0S0" parameterType="hashmap" resultType="contractInfoVO">
     	SELECT
     		  C.CON_ID
     		, C.CON_NM
@@ -22,13 +22,28 @@
     		LEFT OUTER JOIN BM_CUST_INFO CU
     		ON C.CUST_ID = CU.CUST_ID
     	<where>
-	    	<if test="value != null">
+	    	<if test="filter != null">
 				CON_NO LIKE CONCAT('%', #{value}, '%')
 				OR CON_NM LIKE CONCAT('%', #{value}, '%')
 	    	</if>
+	    	
+    		<if test="conStat == 'CS002'">
+    			AND C.CONFIRM_YN = 'Y'
+    			AND C.CON_ED_DATE &gt;= NOW()
+    		</if>
+    		
+    		<if test="conStat == 'CS003'">
+    			AND C.CONFIRM_YN = 'N'
+    			AND C.CON_ED_DATE &gt;= NOW()
+    		</if>
+    		
+    		<if test="conStat == 'CS004'">
+    			AND C.CON_ED_DATE &lt; NOW()
+    		</if>
     	</where>
     	ORDER BY CONFIRM_YN DESC
     </select>
+    
     
     <select id="BM0301G0S1" parameterType="String" resultType="contractInfoVO">
 	    SELECT

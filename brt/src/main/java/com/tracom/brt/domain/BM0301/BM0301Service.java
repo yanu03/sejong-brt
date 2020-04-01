@@ -1,6 +1,8 @@
 package com.tracom.brt.domain.BM0301;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -15,7 +17,10 @@ public class BM0301Service extends BaseService<ContractInfoVO, String> {
     private BM0301Mapper mapper;
 	
 	public List<ContractInfoVO> BM0301G0S0(RequestParams<ContractInfoVO> requestParams) {
-        return mapper.BM0301G0S0(requestParams.getString("filter"));
+		Map<String, String> map = new HashMap<>();
+		map.put("filter", requestParams.getString("filter"));
+		map.put("conStat", requestParams.getString("conStat"));
+        return mapper.BM0301G0S0(map);
     }
 	
 	public List<ContractInfoVO> BM0301G0S1(RequestParams<ContractInfoVO> requestParams) {

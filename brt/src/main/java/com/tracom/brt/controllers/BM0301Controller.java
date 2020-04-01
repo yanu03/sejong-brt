@@ -32,7 +32,8 @@ public class BM0301Controller extends BaseController {
 
     @GetMapping("/BM0301G0S0")
     @ApiImplicitParams({
-    	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query")
+    	@ApiImplicitParam(name = "filter", value = "검색어", dataType = "String", paramType = "query"),
+    	@ApiImplicitParam(name = "conStat", value = "계약상태", dataType = "String", paramType = "query"),
     })
     public Responses.ListResponse BM0301G0S0(RequestParams<ContractInfoVO> requestParams) {
         List<ContractInfoVO> list = service.BM0301G0S0(requestParams);
