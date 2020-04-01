@@ -45,7 +45,7 @@ public class GlobalConstants {
     	public static final String VOICE_PLAYLIST_TITLE		= "Seq_No,Voice_Code,Audio_FileName,Start_Date,Expire_Date,Text (256Byte)\r\n";
     	
     	public static final String ROUTE_VERSION			= "VERSION:";
-    	public static final String ROUTE_LIST				= "FILE_NAME,VERSION,ROUTE_NO,ROUTE_NAME_KO,ROUTE_NM_EN,ROUT_SHAPE";
+    	public static final String ROUTE_LIST				= "FILE_NAME,VERSION,ROUTE_NO,ROUTE_NAME_KO,ROUTE_NM_EN,ROUT_SHAPE,DAY1,DAY2,SATDAY1,SATDAY2,SUNDAY1,SUNDAY2";
     	public static final String ROUTE_BUSSTOP_TITLE		= "NODE_ID,NODE_NAME,TYPE,RANGE,X,Y,NODE_ENAME,TRANSIT_CODE";
     	public static final String ROUTE_NODELIST_TITLE		= "NODE_ID,NODE_NAME,RANGE,X,Y";
     	public static final String ROUTE_TITLE				= "NODE_ID";
