@@ -20,4 +20,17 @@ public class RoutListCSVVO extends BaseVO {
 	private String routNmEn;
 	
 	private String routShape;
+	
+	private String day1;
+	
+	private String day2;
+	
+	/** 0401 노선별 텍스트를 작성하기 위한 변수 **/
+	private String satDay1;
+	
+	private String satDay2;
+	
+	private String sunDay1;
+	
+	private String sunDay2;
 }
