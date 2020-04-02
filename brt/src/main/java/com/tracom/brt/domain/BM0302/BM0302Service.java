@@ -1,10 +1,15 @@
 package com.tracom.brt.domain.BM0302;
 
-import org.springframework.stereotype.Service;
-import com.tracom.brt.domain.BaseService;
-import javax.inject.Inject;
-import com.chequer.axboot.core.parameter.RequestParams;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import com.chequer.axboot.core.parameter.RequestParams;
+import com.tracom.brt.domain.BaseService;
 
 @Service
 public class BM0302Service extends BaseService<AltContractInfoVO, String> {
@@ -14,7 +19,10 @@ public class BM0302Service extends BaseService<AltContractInfoVO, String> {
 	
 	//Select
     public List<AltContractInfoVO> BM0302G0S0(RequestParams<AltContractInfoVO> requestParams) {
-        return mapper.BM0302G0S0(requestParams.getString("filter"));
+    	Map<String, String> map = new HashMap<>();
+    	map.put("filter", requestParams.getString("filter"));
+    	map.put("conEd", requestParams.getString("conEd"));
+        return mapper.BM0302G0S0(map);
     }
 
     public List<AltContractInfoVO> BM0302G1S0(RequestParams<AltContractInfoVO> requestParams) {

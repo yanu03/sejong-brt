@@ -21,6 +21,9 @@
 		    .grid-cell-yellow{
 		        background: #F3F781;
 		    }
+		    .grid-cell-gray{
+		    	background: #AAAAAA;
+		    }
 		</style>
     </jsp:attribute>
     <jsp:body>
@@ -49,7 +52,8 @@
                         </h3>
                     </div>
                     <div class="right">
-
+						<span style="line-height:28px;">마지막 변경종료일 기준 &nbsp;</span>
+                    	<ax:SM0105 groupCd="CON_END" name="conEnd" id="conEnd" dataPath="conEnd" style="width:80px; float:right;"/>
                     </div>
                 </div>
                 <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>
@@ -77,7 +81,7 @@
 							<ax:td label="ax.admin.BM0301F0.confirmyn" width="260px" >
 								<input type="text" id="confirmYn" data-ax-path="confirmYn" data-key="true" class="form-control W90" readonly="readonly">
 							</ax:td>
-							<ax:td label="ax.admin.BM0301F0.conid" width="80px">
+							<ax:td label="ax.admin.BM0301F0.conid" width="80px" style="border-left: 1px solid #D8D8D8;">
 							    <input type="text" data-ax-path="conId" data-key="true" class="form-control W90" readonly="readonly">
 							</ax:td>                    
                     	</ax:tr>                                   		                   
@@ -86,24 +90,23 @@
                             <ax:td label="ax.admin.BM0302F0.altcd" width="220px">
                             	<div class="input-group" data-ax5picker="date">
 	                            	<input type="text" class="form-control W90" data-ax-path="altConDate" data-ax5formatter="date" placeholder="yyyy/mm/dd" maxlength="10"/>
-	                            	<span class="input-group-addon"><i class="cqc-calendar"></i></span>
+	                            	<span class="input-group-addon" id="chCal"><i class="cqc-calendar"></i></span>
                             	</div>
                             </ax:td>
                         </ax:tr>
                  
                       <ax:tr>
-                         <ax:td label='ax.admin.BM0302F0.altsd' width="220px" labelClazz="required">
+                        <ax:td label='ax.admin.BM0302F0.altsd' width="220px" labelClazz="required">
                             <div class="input-group" data-ax5picker="date">
-                                <input type="text" class="form-control W90" data-ax-path="conStDate" title="<ax:lang id="ax.admin.BM0302F0.altsd"/>" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-validate="required" maxlength="10"/>
+                                <input type="text" class="form-control W90" data-ax-path="conStDate" title="<ax:lang id="ax.admin.BM0302F0.altsd"/>" disabled="disabled" readonly="readonly" data-key="true" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-validate="required" maxlength="10"/>
                                 <span class="input-group-addon"><i class="cqc-calendar"></i></span>
                             </div>
-
-                        </ax:td>
+						</ax:td>
                         
-                        <ax:td label='ax.admin.BM0302F0.alted' width="220px" labelClazz="required" style="padding-left:40px;">
+                        <ax:td label='ax.admin.BM0302F0.alted' width="220px" labelClazz="required" style="margin-left:40px; border-left: 1px solid #D8D8D8;">
                             <div class="input-group" data-ax5picker="date">
                                 <input type="text" class="form-control W90" data-ax-path="conEdDate" title="<ax:lang id="ax.admin.BM0302F0.alted"/>" data-ax5formatter="date" placeholder="yyyy/mm/dd" data-ax-validate="required" maxlength="10"/>
-                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
+                                <span class="input-group-addon" id="edCal"><i class="cqc-calendar"></i></span>
                             </div>
                         </ax:td>
                      </ax:tr>                       	
@@ -111,7 +114,7 @@
                             <ax:td label="ax.admin.BM0301F0.suppamt" width="260px">
                             	<input type="text" data-ax-path="suppAmt" class="form-control W90" style="text-align: right" data-ax5formatter="money" maxlength="15"/>
                             </ax:td>
-                            <ax:td label="ax.admin.BM0301F0.vatamt" width="80px">
+                            <ax:td label="ax.admin.BM0301F0.vatamt" width="80px" style="border-left: 1px solid #D8D8D8;">
                             	<input type="text" id="vatAmt" data-ax-path="vatAmt" class="form-control W90" style="text-align: right" data-ax5formatter="money" maxlength="15"/>
                             </ax:td>
                        	</ax:tr>                                             	

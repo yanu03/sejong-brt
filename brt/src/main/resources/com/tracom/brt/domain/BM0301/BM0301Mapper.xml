@@ -23,8 +23,8 @@
     		ON C.CUST_ID = CU.CUST_ID
     	<where>
 	    	<if test="filter != null">
-				CON_NO LIKE CONCAT('%', #{value}, '%')
-				OR CON_NM LIKE CONCAT('%', #{value}, '%')
+				CON_NO LIKE CONCAT('%', #{filter}, '%')
+				OR CON_NM LIKE CONCAT('%', #{filter}, '%')
 	    	</if>
 	    	
     		<if test="conStat == 'CS002'">

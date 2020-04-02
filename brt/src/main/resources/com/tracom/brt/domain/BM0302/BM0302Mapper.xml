@@ -19,6 +19,7 @@
     	  	, AT.CONFIRM_YN
     	  	, AT.CON_NO
     	  	, CU.CUST_NM
+    	  	, AT.CREATED_AT
     	FROM
     		BM_CON_INFO C
     		LEFT OUTER JOIN BM_CON_ALT AT
@@ -30,19 +31,21 @@
     		AND DL.CO_CD = 'ALT_DIV'
     	WHERE
     		C.CON_ID = #{value}
-    	ORDER BY CON_ED_DATE DESC
+    	ORDER BY CREATED_AT DESC
     </select>
     
-    <select id="BM0302G0S0" parameterType="String" resultType="altContractInfoVO">
+    <select id="BM0302G0S0" parameterType="hashmap" resultType="altContractInfoVO">
 		SELECT
 		   D.CON_ID
 		 , D.CON_NM
 		 , D.CON_NO
 		 , CUST.CUST_NM
-		 , D.CONFIRM_YN
+		 <!--, D.CONFIRM_YN-->
+		 , IF(D.CON_ED_DATE &lt; NOW(), IF(D.ALT_DIV = '타절', 'Y', 'E'), D.CONFIRM_YN) AS CONFIRM_YN
 		 , D.CON_ST_DATE
 		 , D.CON_ED_DATE
-		 , D.ALT_DIV
+		 , IF(D.CON_ED_DATE &lt; NOW(), IF(D.ALT_DIV = '타절', '타절', '계약만료'), D.ALT_DIV) AS ALT_DIV
+		 <!-- , D.ALT_DIV -->
 		 , D.SUPP_AMT
 		 , D.VAT_AMT
 		 , D.REMARK
@@ -107,19 +110,29 @@
 						AL.CONFIRM_YN = "Y"		
 					GROUP BY AL.SEQ DESC ) AS C
 				GROUP BY C.CON_ID) AS B				
-				ON B.CON_ID = A.CON_ID ) AS D
+				ON B.CON_ID = A.CON_ID 
+
+				) AS D
 				LEFT OUTER JOIN BM_CUST_INFO CUST
 				ON D.CUST_ID = CUST.CUST_ID
 				<where>
-				<if test="value != null">	
-						( D.CON_NM LIKE CONCAT('%', #{value}, '%')
-						OR D.CON_ID LIKE CONCAT('%' , #{value}, '%'))
+				<if test="filter != null">	
+						(D.CON_NO LIKE CONCAT('%', #{filter}, '%')
+						OR D.CON_ID LIKE CONCAT('%' , #{filter}, '%'))
 			    </if>
-				AND
-				D.CON_ED_DATE > NOW()
-				AND
-				D.ALT_DIV !="종료";		
+				<if test="conEd == 'CE002'">
+				AND ALT_DIV != '타절'
+				AND D.CON_ED_DATE &gt;= NOW()
+				</if>
+				<if test="conEd =='CE004'">
+				AND ALT_DIV != '타절'
+				AND D.CON_ED_DATE &lt; NOW()
+				</if>
+				<if test="conEd == 'CE003'">
+				AND ALT_DIV = '타절'
+				</if>
 			    </where>		
+			ORDER BY D.CON_ED_DATE DESC
     </select>
     
     <select id="BM0302G0S1" parameterType="String" resultType="altContractInfoVO">
