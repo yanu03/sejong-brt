@@ -28,7 +28,6 @@
 	    	</if>
 	    	
     		<if test="conStat == 'CS002'">
-    			AND C.CONFIRM_YN = 'Y'
     			AND C.CON_ED_DATE &gt;= NOW()
     		</if>
     		

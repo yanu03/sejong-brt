@@ -302,6 +302,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	    		}
 			});
 	    }else{
+	    	//확정된 변경계약이 있는 계약은 확정해제 하지 못합니다.
+	    	
 	    	axDialog.confirm({
 	    		msg: LANG("ax.script.contractconfirmn")
 	    	}, function(){

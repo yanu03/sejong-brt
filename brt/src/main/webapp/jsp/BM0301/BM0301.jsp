@@ -46,6 +46,7 @@
                         </h3>
                     </div>
                     <div class="right">
+                    	<span style="line-height:28px;">신규계약 계약종료일 기준 &nbsp;</span>
                     	<ax:SM0105 groupCd="CON_STAT" name="conStat" id="conStat" dataPath="conStat" style="width:80px; float:right;"/>
                     </div>
                 </div>
