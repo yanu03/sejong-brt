@@ -31,13 +31,11 @@ public class BM0108Service extends BaseService<EplyInfoVO, String> {
     }
     
     //Insert
+    /** 0401 전자노선도 관련 변경사항으로 CERTI삭제, jpg -> png 변경 **/
     public String BM0108F0I0(EplyInfoVO vo) {
     	mapper.BM0108F0I0(vo);
     	if(vo.getEmployeeImg() != null) {
-    		handler.uploadBM0108(vo.getEplyId() + ".jpg", vo.getEmployeeImg());    		
-    	}
-    	if(vo.getCertiImg() != null) {
-    		handler.uploadBM0108(vo.getEplyId() + "_CERTI.jpg", vo.getCertiImg());    		
+    		handler.uploadBM0108(vo.getEplyId() + ".png", vo.getEmployeeImg());    		
     	}
     	return vo.getEplyId();
     }
@@ -45,12 +43,8 @@ public class BM0108Service extends BaseService<EplyInfoVO, String> {
     //Update
     public boolean BM0108F0U0(EplyInfoVO vo) {
     	if(mapper.BM0108F0U0(vo) > 0) {
-    		
     		if(!vo.getEmployeeImg().isEmpty()) {
-    			handler.uploadBM0108(vo.getEplyId() + ".jpg", vo.getEmployeeImg());
-    		}
-    		if(!vo.getCertiImg().isEmpty()) {
-    			handler.uploadBM0108(vo.getEplyId() + "_CERTI.jpg", vo.getCertiImg());
+    			handler.uploadBM0108(vo.getEplyId() + ".png", vo.getEmployeeImg());
     		}
     		return true;
     	} else {

@@ -302,18 +302,21 @@ public class FTPHandler {
 		}
 	}
 	
+	/** 0401 certi 관련 내용은 전자노선도 변경으로 삭제하겠음 **/
 	public void deleteBM0108(EplyInfoVO vo) throws Exception {
 		String dir1 = Paths.get(getRootLocalPath(), getCommonEmployeePath()).toString();
-		String fileDir1 = Paths.get("/" + vo.getEplyId() + ".jpg").toString();
-		String fileDir2 = Paths.get("/" + vo.getEplyId() + "_CERTI.jpg").toString();
+		String fileDir1 = Paths.get("/" + vo.getEplyId() + ".png").toString();
+		//String fileDir2 = Paths.get("/" + vo.getEplyId() + "_CERTI.jpg").toString();
 		File file = new File(dir1 + fileDir1);
-		File file_certi = new File(dir1 + fileDir2);
+		//File file_certi = new File(dir1 + fileDir2);
 		if(file.exists()) {
 			file.delete();
 		}
+		/*
 		if(file_certi.exists()) {
 			file_certi.delete();
 		}
+		*/
 		processSynchronize(getRootLocalPath() + getCommonEmployeePath(), getRootServerPath() + getCommonEmployeePath());
 	}
 	

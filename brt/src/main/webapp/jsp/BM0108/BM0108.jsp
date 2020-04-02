@@ -117,32 +117,19 @@
                     		</ax:td>
                     	</ax:tr>
                     	<ax:tr>
-                    		<ax:td labelStyle="height:360px;" label="ax.admin.BM0108F0.attFile" width="380px" labelClazz="required">
-
-								<div style="float:left;width:260px;border: 0px solid #D8D8D8;">
-									<input type="file" id="employeeImg" name="employeeImg" accept="image/jpeg"
-		                                onchange="preview_ChangeImage(this, 'previewImg');" data-ax-path="employeeImg"
-		                                
-									 />
-								 </div>
-								 <div style="float:left;width:260px;height:300px;padding:10px;border: 0px solid #D8D8D8;">
-								 	<img id="previewImg" src="#" alt="승무사원 이미지" style="width:180px;"
-	                                onError="preview_Image('previewImg');">
-								 </div>
-
-                    		</ax:td>
-                    		<ax:td labelStyle="height:360px;" label="실명제판이미지" width="380px" style="border-left: 1px solid #D8D8D8;" labelClazz="required">
-
-								<div style="float:left;width:260px;border:0px solid #D8D8D8;">
-									<input type="file" id="certiImg" name="certiImg" accept="image/jpeg"
-		                                onchange="preview_ChangeImage(this, 'previewImg2');" data-ax-path="certiImg"
-									 />
-								 </div>
-								 <div style="float:left;width:260px;height:300px;padding:10px;border: 0px solid #D8D8D8;">
-								 	<img id="previewImg2" src="#" alt="실명제판 이미지" style="width:180px;"
-	                                onError="preview_Image('previewImg2');">
-								 </div>
-
+                    		<ax:td labelStyle="height:360px;" label="ax.admin.BM0108F0.attFile" labelClazz="required">
+                    			<div style="width:600px; text-align:center;">
+									<div style="border: 0px solid #D8D8D8;">
+										<input type="file" id="employeeImg" name="employeeImg"
+												accept="image/png"
+												onchange="preview_ChangeImage(this, 'previewImg');"
+												data-ax-path="employeeImg" />
+									 </div>
+									 <div style="height: 300px; padding: 10px;">
+									 	<img id="previewImg" src="#" alt="승무사원 이미지"
+												style="width: 180px;" onError="preview_Image('previewImg');">
+									 </div>
+								</div>
                     		</ax:td>
                     	</ax:tr>
                     	

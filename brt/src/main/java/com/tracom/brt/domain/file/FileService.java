@@ -106,7 +106,7 @@ public class FileService {
 	// 사원 이미지 미리보기
 	private String imagePreview(RequestParams<?> requestParams, HttpServletResponse response) {
 		String eplyId = requestParams.getString("eplyId");
-		return Paths.get(handler.getRootLocalPath(), "/common/employee", eplyId + ".jpg").toString();
+		return Paths.get(handler.getRootLocalPath(), "/common/employee", eplyId + ".png").toString();
 	}
 	
 	// 저장된 음성 미리듣기

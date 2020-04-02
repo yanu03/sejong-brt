@@ -99,14 +99,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	axDialog.alert("사원이미지 파일을 등록해주세요.");
             	return false;
             }
-            
-            
-            if($("#certiImg")[0].files[0]){
-            	formData.append("certiImg", $("#certiImg")[0].files[0]);
-            }else{
-            	axDialog.alert("실명제판이미지 파일을 등록해주세요.");
-            	return false;
-            }
                       
             axboot.promise()
                 .then(function (ok, fail, data) {
@@ -150,10 +142,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	formData.append("employeeImg", $("#employeeImg")[0].files[0]);
             }
             
-            if($("#certiImg")[0].files[0]){
-            	formData.append("certiImg", $("#certiImg")[0].files[0]);
-            }
-
                       
             axboot.promise()
                 .then(function (ok, fail, data) {
@@ -200,13 +188,10 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.setData(data);
         
         $("#employeeImg").val("");
-        $("#certiImg").val("");
         
     	var url = "/api/v1/filePreview?type=image&eplyId=" + data.eplyId + "&" + new Date();
-    	var url2 = "/api/v1/filePreview?type=image&eplyId=" + data.eplyId + "_CERTI&" + new Date();
     	
     	$("#previewImg").attr("src", url);
-    	$("#previewImg2").attr("src", url2);
     	
     	caller.formView0.disable();
     	
