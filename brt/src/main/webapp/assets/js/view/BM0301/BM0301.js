@@ -57,78 +57,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         caller.formView0.enable();
         caller.formView0.validate(true);
     },
-    
-    /*
-    PAGE_DELETE: function(caller, act, data) {
-    	var grid = caller.gridView0.target;
-    	var confirmYn = $('#confirmYn').val();
-    	var vocCount = 0;
-    	var vdoCount = 0;
-
-    	
-    	if(typeof grid.selectedDataIndexs[0] === "undefined") {
-    		axDialog.alert(LANG("ax.script.alert.requireselect"));
-    		return false;
-    	}
-    	
-    	axDialog.confirm({
-            msg: LANG("ax.script.deleteconfirm")
-        }, function() {
-        	if(confirmYn == "미확정") {  		
-        	  if (this.key == "ok") {
-        		  axboot.promise()
-        		  .then(function (ok, fail, data) {
-        			 axboot.ajax({
-        		    		type: "GET",
-        		    		url: "/api/v1/BM0301G0S1",
-        		    		data:{conId : selectedRow.conId},
-        		    		callback: function (res) {
-        		    			if(res.list.length != 0){
-        		    				if(res.list[0].vocId != "0" && res.list[0].vdoId != "0"){
-        		    					for(var i = 0; i<res.list.length; i++){
-        		    						if(res.list[i].vocId != "0"){
-        		    							vocCount++;
-        		    						}else if(res.list[i].vdoId != "0"){
-        		    							vdoCount++;
-        		    						}
-        		    					}
-        		    					axDialog.alert("음성광고:"+vocCount+"건, 영상광고:"+vdoCount+"건이 계약되어있어 삭제가 불가능합니다.");
-        		    				}
-        		    				else{
-        		    					axboot.ajax({
-        		    						type: "POST",
-        		    						url: "/api/v1/BM0301G0D0",
-        		    						data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
-        		    						callback: function (res) {
-        		    							ok(res);
-        		    						}
-        		    					});
-        		    				}
-        		    		  }
-        		    		}
-        		    	});
-                })
-                .then(function (ok) {
-                	caller.formView0.clear();
-                	axToast.push(LANG("ondelete"));
-                    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-            }
-        }else{
-        	axDialog.alert({
-                msg: LANG("ax.script.contractdelete")
-            });
-        }
-        });
-    	
-    },
-    */
+   
     /**delete 변경**/
-    //TODO: 삭제 전 확인해서 count가 있으면 안지울거고, count가 0이면 지울것임
-    //지금은 좀 뭔가 이상해
     PAGE_DELETE: function(caller, act, data) {
     	var grid = caller.gridView0.target;
     	var confirmYn = $('#confirmYn').val();
@@ -148,35 +78,25 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         	  if (this.key == "ok") {
         		  axboot.promise()
         		  .then(function (ok, fail, data) {
-        			 axboot.ajax({
-        		    		type: "GET",
-        		    		url: "/api/v1/BM0301G0S1",
-        		    		data:{conId : selectedRow.conId},
-        		    		callback: function (res) {
-        		    			if(res.list.length != 0){
-        		    				if(res.list[0].vocId != "0" && res.list[0].vdoId != "0"){
-        		    					for(var i = 0; i<res.list.length; i++){
-        		    						if(res.list[i].vocId != "0"){
-        		    							vocCount++;
-        		    						}else if(res.list[i].vdoId != "0"){
-        		    							vdoCount++;
-        		    						}
-        		    					}
-        		    					axDialog.alert("음성광고:"+vocCount+"건, 영상광고:"+vdoCount+"건이 계약되어있어 삭제가 불가능합니다.");
-        		    				}
-        		    				else{
-        		    					axboot.ajax({
-        		    						type: "POST",
-        		    						url: "/api/v1/BM0301G0D0",
-        		    						data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
-        		    						callback: function (res) {
-        		    							ok(res);
-        		    						}
-        		    					});
-        		    				}
-        		    		  }
-        		    		}
-        		    	});
+        			  axboot.ajax({
+        				  type: "POST",
+        				  url: "/api/v1/cntAds",
+        				  data:JSON.stringify({conId : selectedRow.conId}),
+        				  callback: function (res) {
+        					  if(res.list[0].vocCnt != 0 || res.list[0].vdoCnt != 0){
+        						  axDialog.alert("음성광고:"+res.list[0].vocCnt+"건, 영상광고:"+res.list[0].vdoCnt+"건이 계약되어있어 삭제가 불가능합니다.");
+        					  }else{
+    							  axboot.ajax({
+    								  type: "POST",
+    								  url: "/api/v1/BM0301G0D0",
+    								  data: JSON.stringify(grid.list[grid.selectedDataIndexs[0]]),
+    								  callback: function (res) {
+    									  ok(res);
+    								  }
+    							  });
+    						  }
+        				  }
+        			  });
                 })
                 .then(function (ok) {
                 	caller.formView0.clear();
@@ -301,51 +221,64 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		    	        });
 	    		}
 			});
-	    }else{
-	    	//확정된 변경계약이 있는 계약은 확정해제 하지 못합니다.
-	    	
-	    	axDialog.confirm({
-	    		msg: LANG("ax.script.contractconfirmn")
-	    	}, function(){
-	    		if(this.key == "ok"){
-	    			if (caller.formView0.validate()){
-	    				var formData = caller.formView0.getData();
-	    				//2차비밀번호 modal
-	    				axboot.modal.open({
-		    	            modalType: "SECOND_PASSWORD",
-		    	            param: "",
-		    	            callback: function (data) {
-		    	            	if (caller.formView0.validate()) {
-		    	            		var formData = caller.formView0.getData();    					
-		    	            		axboot.promise()
-		    	    				.then(function (ok, fail, data) {
-		    	    				axboot.ajax({
-		    							type: "POST",
-		    							url: "/api/v1/BM0301F0U2",
-		    							data: JSON.stringify(formData),
-		    							callback: function (res) {
-		    								ok(res);
-		    								ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-		    								isUpdate = true;
-		    							}
-		    						});
-		    	    				})
-		    	            		.then(function (ok, fail, data) {
-		    	            			axToast.push(LANG("onsave"));
-		    	            			ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-		    	            			isUpdate = true;
-		    	            		})
-		    	            		.catch(function () {   						
-		    	            		});
-		    	            	}
-		    	                this.close();
-		    	            }
-		    	        });
-	    			}
-	    		}
-	    	}
-	    	);
-	    }				   
+    	}else{
+    		//확정된 변경계약이 있는 계약은 확정해제 하지 못합니다.
+    		var cnt;
+    		axboot.ajax({
+    			type: "POST",
+    			url: "/api/v1/confirmN",
+    			data: JSON.stringify({conId : selectedRow.conId}),
+    			callback: function (res) {
+    				cnt = res.message;
+    				if(cnt > 0){
+    					axDialog.alert("변경계약이 있습니다. 변경계약을 확인하세요.");
+    					return false;
+    				}else{
+    					axDialog.confirm({
+    						msg: LANG("ax.script.contractconfirmn")
+    					}, function(){
+    						if(this.key == "ok"){
+    							if (caller.formView0.validate()){
+    								var formData = caller.formView0.getData();
+    								//2차비밀번호 modal
+    								axboot.modal.open({
+    									modalType: "SECOND_PASSWORD",
+    									param: "",
+    									callback: function (data) {
+    										if (caller.formView0.validate()) {
+    											var formData = caller.formView0.getData();    					
+    											axboot.promise()
+    											.then(function (ok, fail, data) {
+    												axboot.ajax({
+    													type: "POST",
+    													url: "/api/v1/BM0301F0U2",
+    													data: JSON.stringify(formData),
+    													callback: function (res) {
+    														ok(res);
+    														ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    														isUpdate = true;
+    													}
+    												});
+    											})
+    											.then(function (ok, fail, data) {
+    												axToast.push(LANG("onsave"));
+    												ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    												isUpdate = true;
+    											})
+    											.catch(function () {   						
+    											});
+    										}
+    										this.close();
+    									}
+    								});
+    							}
+    						}
+    					});
+    				}
+    			}
+    		});
+
+    	}				   
     },
     
     // 탭닫기
@@ -655,3 +588,22 @@ function selectGrid0(){
 	});
 }
 
+function validateContract(){
+	var result;
+	axboot.promise()
+    .then(function (ok, fail, data) {
+    	axboot.ajax({
+    		type: "POST",
+    		url: "/api/v1/confirmN",
+    		data: JSON.stringify({conId : selectedRow.conId}),
+    		callback: function (res) {
+    			result = res.message;
+    		}
+    	});
+    })
+    .then(function (ok, fail, data) {
+        return result;
+    })
+    .catch(function () {
+    });
+}

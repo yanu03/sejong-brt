@@ -14,4 +14,6 @@ public interface BM0301Mapper extends MyBatisMapper {
 	int BM0301F0U1(ContractInfoVO vo);
 	int BM0301F0U2(ContractInfoVO vo);
 	int BM0301G0D0(ContractInfoVO vo);
+	int confirmN(ContractInfoVO vo);
+	List<ContractInfoVO> cntAds(ContractInfoVO vo);
 }

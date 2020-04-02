@@ -84,4 +84,16 @@ public class BM0301Controller extends BaseController {
     	service.BM0301G0D0(request);
     	return ok();
     }
+    
+    @PostMapping("/confirmN")
+    public ApiResponse confirmN(@RequestBody ContractInfoVO request) {
+    	int result = service.confirmN(request);
+    	return ok(String.valueOf(result));
+    }
+    
+    @PostMapping("/cntAds")
+    public Responses.ListResponse cntAds(@RequestBody ContractInfoVO requestParams){
+    	List<ContractInfoVO> list = service.cntAds(requestParams);
+    	return Responses.ListResponse.of(list);
+    }
 }

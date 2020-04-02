@@ -173,4 +173,27 @@
     	WHERE
     		CON_ID = #{conId}
     </delete>
+    
+    <select id="confirmN" parameterType="contractInfoVO" resultType="Integer">
+    	SELECT
+    		COUNT(*)
+    	FROM
+    		BM_CON_ALT
+    	WHERE
+    		CON_ID = #{conId}
+    </select>
+    
+    <select id="cntAds" parameterType="contractInfoVO" resultType="contractInfoVO">
+    	SELECT
+			COUNT(VOC.VOC_ID) AS VOC_CNT
+		    ,COUNT(VDO.VDO_ID) AS VDO_CNT
+		FROM
+			BM_CON_INFO CON
+			LEFT JOIN BM_VOC_INFO VOC
+			ON CON.CON_ID = VOC.CON_ID
+			LEFT JOIN BM_VDO_INFO VDO
+			ON CON.CON_ID = VDO.CON_ID
+		WHERE
+		   CON.CON_ID = #{conId}
+    </select>
 </mapper>

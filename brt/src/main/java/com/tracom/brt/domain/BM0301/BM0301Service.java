@@ -63,5 +63,12 @@ public class BM0301Service extends BaseService<ContractInfoVO, String> {
     	}
     }
 
+    public int confirmN(ContractInfoVO vo) {
+    	return mapper.confirmN(vo);
+    }
+    
+    public List<ContractInfoVO> cntAds(ContractInfoVO vo) {
+    	return mapper.cntAds(vo);
+    }
 
 }
