@@ -127,7 +127,7 @@
 									 </div>
 									 <div style="height: 300px; padding: 10px;">
 									 	<img id="previewImg" src="#" alt="승무사원 이미지"
-												style="width: 180px;" onError="preview_Image('previewImg');">
+												style="width: 230px;" onError="preview_Image('previewImg');">
 									 </div>
 								</div>
                     		</ax:td>
