@@ -21,6 +21,9 @@
 		    .grid-cell-yellow{
 		        background: #F3F781;
 		    }
+		    .grid-cell-gray{
+		    	background: #AAAAAA;
+		    }
 		</style>
     </jsp:attribute>
     <jsp:body>
@@ -48,6 +51,10 @@
                         <h3><i class="cqc-list"></i>
                             <ax:lang id="ax.admin.BM0301G0.title"/>
                         </h3>
+                    </div>
+                    <div class="right">
+						<span style="line-height:28px;">변경계약 확정 종료일 기준 &nbsp;</span>
+                    	<ax:SM0105 groupCd="CON_END" name="conEnd" id="conEnd" dataPath="conEnd" style="width:80px; float:right;"/>
                     </div>
                 </div>
                <div data-ax5grid="gridView0" data-fit-height-content="gridView0" style="height: 300px;"></div>

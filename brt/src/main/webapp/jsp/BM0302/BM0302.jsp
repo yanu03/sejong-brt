@@ -52,7 +52,7 @@
                         </h3>
                     </div>
                     <div class="right">
-						<span style="line-height:28px;">마지막 변경종료일 기준 &nbsp;</span>
+						<span style="line-height:28px;">변경계약 확정 종료일 기준 &nbsp;</span>
                     	<ax:SM0105 groupCd="CON_END" name="conEnd" id="conEnd" dataPath="conEnd" style="width:80px; float:right;"/>
                     </div>
                 </div>

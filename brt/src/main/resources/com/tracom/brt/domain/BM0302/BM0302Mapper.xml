@@ -40,12 +40,11 @@
 		 , D.CON_NM
 		 , D.CON_NO
 		 , CUST.CUST_NM
-		 <!--, D.CONFIRM_YN-->
-		 , IF(D.CON_ED_DATE &lt; NOW(), IF(D.ALT_DIV = '타절', 'Y', 'E'), D.CONFIRM_YN) AS CONFIRM_YN
+		 <!-- , IF(D.CON_ED_DATE &lt; NOW(), IF(D.ALT_DIV = '타절', 'Y', 'E'), D.CONFIRM_YN) AS CONFIRM_YN -->
+		 , IF(D.CONFIRM_YN = 'Y', '확정', '미확정') AS CONFIRM_YN
 		 , D.CON_ST_DATE
 		 , D.CON_ED_DATE
 		 , IF(D.CON_ED_DATE &lt; NOW(), IF(D.ALT_DIV = '타절', '타절', '계약만료'), D.ALT_DIV) AS ALT_DIV
-		 <!-- , D.ALT_DIV -->
 		 , D.SUPP_AMT
 		 , D.VAT_AMT
 		 , D.REMARK
@@ -79,38 +78,38 @@
 				WHERE
 					CONFIRM_YN = "Y" ) AS A
 					LEFT OUTER JOIN 
-				(SELECT
-					 C.CON_ID
-				  , C.CON_ST_DATE
-				  , C.CON_ED_DATE
-				  , C.ALT_DIV
-				  , C.SUPP_AMT
-				  , C.VAT_AMT
-				  , C.REMARK 
-				FROM
 					(SELECT
-					  AL.SEQ
-					, DL.DL_CD_NM AS ALT_DIV
-					, AL.CON_ID
-					, CI.CON_NM
-					, CI.CON_NO
-					, AL.CON_ST_DATE
-					, AL.CON_ED_DATE
-					, AL.CONFIRM_YN
-					, AL.SUPP_AMT
-					, AL.VAT_AMT
-					, AL.REMARK	
+						 C.CON_ID
+					  , C.CON_ST_DATE
+					  , C.CON_ED_DATE
+					  , C.ALT_DIV
+					  , C.SUPP_AMT
+					  , C.VAT_AMT
+					  , C.REMARK 
 					FROM
-					   BM_CON_ALT AL
-						LEFT OUTER JOIN BM_CON_INFO CI
-						ON AL.CON_ID = CI.CON_ID
-						LEFT OUTER JOIN SM_DL_CD_INFO DL
-						ON AL.ALT_DIV = DL.DL_CD
-					WHERE
-						AL.CONFIRM_YN = "Y"		
-					GROUP BY AL.SEQ DESC ) AS C
-				GROUP BY C.CON_ID) AS B				
-				ON B.CON_ID = A.CON_ID 
+						(SELECT
+						  AL.SEQ
+						, DL.DL_CD_NM AS ALT_DIV
+						, AL.CON_ID
+						, CI.CON_NM
+						, CI.CON_NO
+						, AL.CON_ST_DATE
+						, AL.CON_ED_DATE
+						, AL.CONFIRM_YN
+						, AL.SUPP_AMT
+						, AL.VAT_AMT
+						, AL.REMARK	
+						FROM
+						   BM_CON_ALT AL
+							LEFT OUTER JOIN BM_CON_INFO CI
+							ON AL.CON_ID = CI.CON_ID
+							LEFT OUTER JOIN SM_DL_CD_INFO DL
+							ON AL.ALT_DIV = DL.DL_CD
+						WHERE
+							AL.CONFIRM_YN = "Y"		
+						GROUP BY AL.SEQ DESC ) AS C
+					GROUP BY C.CON_ID) AS B				
+					ON B.CON_ID = A.CON_ID 
 
 				) AS D
 				LEFT OUTER JOIN BM_CUST_INFO CUST

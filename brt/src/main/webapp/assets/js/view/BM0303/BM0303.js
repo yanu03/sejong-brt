@@ -8,6 +8,7 @@ selectedRowG1 = null;
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
+	/*
 	PAGE_SEARCH: function (caller, act, data) {
     	// 새로운 레코드 추가할 시 검색어 삭제
     	var dataFlag = typeof data !== "undefined";
@@ -36,7 +37,41 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 
         return false;
     },
-    
+    //*/
+    ///*
+	PAGE_SEARCH: function (caller, act, data) {
+		// 새로운 레코드 추가할 시 검색어 삭제
+		var dataFlag = typeof data !== "undefined";
+		var filter = caller.searchView0.getData().filter;
+		var conEnd = $('#conEnd').val();
+		var data = {
+				filter : filter,
+				conEd : conEnd
+		};
+		axboot.ajax({
+			type: "GET",
+			url: "/api/v1/BM0302G0S0",
+			data: data,
+			callback: function (res) {
+				caller.gridView0.setData(res);
+
+				if(res.list.length == 0) {
+					isUpdate = false;
+					caller.gridView1.clear();
+
+				} else {
+					if(selectedRow != null) {
+						caller.gridView0.selectRow(selectedRow.__index);
+					} else {
+						caller.gridView0.selectFirstRow();
+					}
+				}
+			}
+		});
+
+		return false;
+	},
+    //*/
     PAGE_EXCEL: function(caller, act, data) {
     	caller.gridView2.target.exportExcel("영상 목록_" + new Date().yyyymmdd() + ".xls");
     },
@@ -144,7 +179,7 @@ fnObj.pageStart = function () {
     this.gridView1.initView();
     this.gridView2.initView();
     this.gridView3.initView();
-    
+    onChangeFunc();
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
@@ -211,8 +246,9 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             sortable: true,
             target: $('[data-ax5grid="gridView0"]'),
             
-            	 columns: [        		
-            		 {key: "confirmYn",	label: ADMIN("ax.admin.BM0301F0.confirmyn"),sortable: true, align: "center", width: 70 , styleClass:function(){return (this.item.confirmYn === "확정") ? "grid-cell-red":"grid-cell-blue" }},
+            	 columns: [   
+            		 {key: "altDiv", label: ADMIN("ax.admin.BM0302F0.altdiv"), align: "center", sortable: true , width: 70, styleClass:function(){return (this.item.altDiv === "계약만료") ? "grid-cell-gray":"" }},
+            		 //{key: "confirmYn",	label: ADMIN("ax.admin.BM0301F0.confirmyn"),sortable: true, align: "center", width: 70 , styleClass:function(){return (this.item.confirmYn === "확정") ? "grid-cell-red":"grid-cell-blue" }},
                  	 {key: "conNo",		label: ADMIN("ax.admin.BM0301F0.conno"),	sortable: true, align: "center", width: 120},                
                      {key: "conNm",		label: ADMIN("ax.admin.BM0301F0.connm"),	width: 120},
                      {key: "conFstDate",label: ADMIN("ax.admin.BM0301F0.confd"),	sortable: true, align: "center", type: "date" , width: 120},
@@ -586,3 +622,16 @@ fnObj.gridView3 = axboot.viewExtend(axboot.gridView, {
     	this.target.selectAll({selected: flag});
     }
 });
+
+/** 추가 함수 **/
+/** onChange시 동작 함수 모음 **/
+function onChangeFunc(){
+	selectGrid0();
+}
+
+/** Grid0 셀렉트박스 변경 시 Grid0 그리드 표출 변경 **/
+function selectGrid0(){
+	$('#conEnd').on('change', function(){
+		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	});
+}

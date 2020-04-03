@@ -58,8 +58,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 				conId : selectedRow.conId,
 				confirmYn : selectedRow.confirmYn,
 				conStDate : selectedRow.conStDate
-				//,suppAmt : selectedRow.suppAmt,
-				//vatAmt : selectedRow.vatAmt
+				,suppAmt : selectedRow.suppAmt
+				,vatAmt : selectedRow.vatAmt
 		};
 		
 		if(formData.length != 0){
