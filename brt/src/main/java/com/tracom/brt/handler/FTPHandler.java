@@ -915,22 +915,23 @@ public class FTPHandler {
         	
         	tmp = line.split(",");
         	
-        	for(String s : tmp){
-        		System.out.println(s);
+        	if(tmp[0] != null) {
+	        	vo.setFileName(tmp[0]);
+	        	vo.setRoutVersion(tmp[1]);
+	        	vo.setRoutNo(tmp[2]);
+	        	vo.setRoutNmKo(tmp[3]);
+	        	vo.setRoutNmEn(tmp[4]);
+	        	vo.setRoutShape(tmp[5]);
+	        	
+	        	if(tmp[6] != null) {
+	        		vo.setDay1(tmp[6]);
+	        		vo.setDay2(tmp[7]);
+	        		vo.setSatDay1(tmp[8]);
+	        		vo.setSatDay2(tmp[9]);
+	        		vo.setSunDay1(tmp[10]);
+	        		vo.setSunDay2(tmp[11]);        		
+	        	}
         	}
-        	
-        	vo.setFileName(tmp[0]);
-        	vo.setRoutVersion(tmp[1]);
-        	vo.setRoutNo(tmp[2]);
-        	vo.setRoutNmKo(tmp[3]);
-        	vo.setRoutNmEn(tmp[4]);
-        	vo.setRoutShape(tmp[5]);
-        	vo.setDay1(tmp[6]);
-        	vo.setDay2(tmp[7]);
-        	vo.setSatDay1(tmp[8]);
-        	vo.setSatDay2(tmp[9]);
-        	vo.setSunDay1(tmp[10]);
-        	vo.setSunDay2(tmp[11]);
         	
         	list.add(vo);
         	}
@@ -969,7 +970,13 @@ public class FTPHandler {
 					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNo() 
 					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNmKo()
 					+ GlobalConstants.CSVForms.COMMA + vo.getRoutNmEn()
-					+ GlobalConstants.CSVForms.COMMA + vo.getRoutShape();
+					+ GlobalConstants.CSVForms.COMMA + vo.getRoutShape()
+					+ GlobalConstants.CSVForms.COMMA + vo.getDay1()
+					+ GlobalConstants.CSVForms.COMMA + vo.getDay2()
+					+ GlobalConstants.CSVForms.COMMA + vo.getSatDay1()
+					+ GlobalConstants.CSVForms.COMMA + vo.getSatDay2()
+					+ GlobalConstants.CSVForms.COMMA + vo.getSunDay1()
+					+ GlobalConstants.CSVForms.COMMA + vo.getSunDay2();
 		}
 		
 		try {
