@@ -915,7 +915,7 @@ public class FTPHandler {
         	
         	tmp = line.split(",");
         	
-        	if(tmp[0] != null) {
+        	if(tmp.length >= 0) {
 	        	vo.setFileName(tmp[0]);
 	        	vo.setRoutVersion(tmp[1]);
 	        	vo.setRoutNo(tmp[2]);
@@ -923,7 +923,7 @@ public class FTPHandler {
 	        	vo.setRoutNmEn(tmp[4]);
 	        	vo.setRoutShape(tmp[5]);
 	        	
-	        	if(tmp[6] != null) {
+	        	if(tmp.length >= 6) {
 	        		vo.setDay1(tmp[6]);
 	        		vo.setDay2(tmp[7]);
 	        		vo.setSatDay1(tmp[8]);
