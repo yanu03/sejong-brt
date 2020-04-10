@@ -1505,45 +1505,48 @@ public class FTPHandler {
 						
 						String line;
 						while((line = io.readLine()) != null) {
-							if(line.equals(""))
+							if(line.length() != 32 || line.equals(""))
 								continue;
 							
-							String[] parseStr = line.split(" ");
-							String fileName = parseStr[2];
+							try {
+								String[] parseStr = line.split(" ");
+								String fileName = parseStr[2];
 							
-							String id = FilenameUtils.removeExtension(fileName);
-							String playDate = parseStr[0] + " "+ parseStr[1];
-							
-							id = id.substring(0, id.length());
-							
-							// 영상과 홍보 음성이 아닐경우 DB저장하지 않음
-							String code = id.substring(0, 2);
-							
-							if(!code.equals("VD") && !code.equals("AV")) {
+								String id = FilenameUtils.removeExtension(fileName);
+								String playDate = parseStr[0] + " "+ parseStr[1];
+								
+								id = id.substring(0, id.length());
+								
+								// 영상과 홍보 음성이 아닐경우 DB저장하지 않음
+								String code = id.substring(0, 2);
+								
+								if(!code.equals("VD") && !code.equals("AV")) {
+									continue;
+								}
+								
+								String mngId = vehicleId;
+								
+								if(code.equals("VD")) {
+									mngId = vehicleId + log.getFilename().split("_")[0];
+								}
+								
+								if(code.equals("AV")) {
+									id = id.substring(0, id.length() - 1);
+								}
+								
+								StatisticsVO data = new StatisticsVO();
+								
+								data.setPlayDate(playDate);
+								data.setMngId(mngId);
+								data.setId(id);
+								
+								dataList.add(data);
+							} catch(Exception e) {
 								continue;
 							}
-							
-							String mngId = vehicleId;
-							
-							if(code.equals("VD")) {
-								mngId = vehicleId + log.getFilename().split("_")[0];
-							}
-							
-							if(code.equals("AV")) {
-								id = id.substring(0, id.length() - 1);
-							}
-							
-							StatisticsVO data = new StatisticsVO();
-							
-							data.setPlayDate(playDate);
-							data.setMngId(mngId);
-							data.setId(id);
-							
-							dataList.add(data);
 						}
 						
 						io.close();
-						
 						// 방어코드 삽입(중복데이터 제거)
 						dataList = dataList
 									.stream()
