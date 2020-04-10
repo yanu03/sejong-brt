@@ -2,12 +2,18 @@ package com.tracom.brt.utils;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 
 import ws.schild.jave.AudioAttributes;
@@ -57,5 +63,17 @@ public class Utils {
 	public static void createCSV(File file, String content) throws Exception {
 		//FileUtils.writeStringToFile(file, content, Charsets.ISO_8859_1);
 		FileUtils.writeStringToFile(file, content, Charset.forName("CP949"));
+	}
+	
+	public static <T> Predicate<T> distinctByKeys(Function<? super T, ?>... keyExtractors) {
+		final Map<List<?>, Boolean> seen = new ConcurrentHashMap<>();
+	   
+		return t -> {
+			final List<?> keys = Arrays.stream(keyExtractors)
+	                .map(ke -> ke.apply(t))
+	                .collect(Collectors.toList());
+	     
+			return seen.putIfAbsent(keys, Boolean.TRUE) == null;
+		};
 	}
 }

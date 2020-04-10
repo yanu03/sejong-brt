@@ -21,6 +21,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 
                 if(res.list.length == 0) {
                 	selectedRow = null;
+                	caller.gridView1.clear();
                 } else {
                 	if(dataFlag) {
 	                	caller.gridView0.selectIdRow(data);
@@ -44,7 +45,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             url: "/api/v1/BM0801G1S0",
             data: {
             		vhcId: selectedRow.vhcId,
-            		conId: selectedRow.conId
+            		conId: selectedRow.conId,
+            		stDate: $("#stDate").val(),
+            		edDate: $("#edDate").val()
             	},
             callback: function (res) {
                 caller.gridView1.setData(res);
@@ -145,7 +148,7 @@ fnObj.searchView0 = axboot.viewExtend(axboot.searchView, {
         this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
         this.filter = $("#filter");
         
-        this.target.find('[data-ax5picker="date"]').ax5picker({
+        $('[data-ax5picker="date"]').ax5picker({
             direction: "auto",
             content: {
                 type: 'date'
@@ -265,13 +268,13 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
             frozenColumnIndex: 0,
-            lineNumberColumnWidth: 30,
+            lineNumberColumnWidth: 40,
             target: $('[data-ax5grid="gridView1"]'),
             	 columns: [
             		 {key: "playDate", label: ADMIN("ax.admin.BM0801G1.play.date"), sortable: true, width: 140, align: "center"},
             		 {key: "id", label: ADMIN("ax.admin.BM0801G1.id"), width: 80, align: "center"},
                      {key: "adType", label: ADMIN("ax.admin.BM0801G1.ad.type"), width: 80, align: "center"},
-                     {key: "adNm", label: ADMIN("ax.admin.BM0801G1.ad.nm"), width: 120},
+                     {key: "adNm", label: ADMIN("ax.admin.BM0801G1.ad.nm"), width: 250},
                  ],
             
             body: {

@@ -56,6 +56,7 @@ import com.tracom.brt.domain.BM0608.BmScrInfoVO;
 import com.tracom.brt.domain.BM0609.BM0609Service;
 import com.tracom.brt.domain.BM0609.ScrRsvVO;
 import com.tracom.brt.domain.BM0801.BM0801Mapper;
+import com.tracom.brt.domain.BM0801.StatisticsVO;
 import com.tracom.brt.domain.BM0901.ElecRouterVO;
 import com.tracom.brt.domain.BM0902.BM0902Mapper;
 import com.tracom.brt.domain.BM0902.EdRsvVO;
@@ -1500,36 +1501,61 @@ public class FTPHandler {
 						String logFilePath = vehiclePath + "/" + log.getFilename();
 						BufferedReader io = new BufferedReader(new InputStreamReader(sftpChannel.get(logFilePath)));
 						
-						List<Map<String, Object>> dataList = new ArrayList<>();
+						List<StatisticsVO> dataList = new ArrayList<>();
 						
 						String line;
 						while((line = io.readLine()) != null) {
+							if(line.equals(""))
+								continue;
+							
 							String[] parseStr = line.split(" ");
-							String[] fileName = parseStr[2].split("/");
-							String id = FilenameUtils.removeExtension(fileName[fileName.length - 1]);
+							String fileName = parseStr[2];
+							
+							String id = FilenameUtils.removeExtension(fileName);
 							String playDate = parseStr[0] + " "+ parseStr[1];
 							
-							id = id.substring(0, id.length() - 2);
+							id = id.substring(0, id.length());
 							
-							// 홍보 음성이 아닐경우 DB저장하지 않음
-							if(!id.substring(0, 2).equals("AV")) {
+							// 영상과 홍보 음성이 아닐경우 DB저장하지 않음
+							String code = id.substring(0, 2);
+							
+							if(!code.equals("VD") && !code.equals("AV")) {
 								continue;
 							}
 							
-							Map<String, Object> data = new HashMap<String, Object>();
-							data.put("playDate", playDate);
-							data.put("mngId", vehicleId);
-							data.put("id", id);
+							String mngId = vehicleId;
+							
+							if(code.equals("VD")) {
+								mngId = vehicleId + log.getFilename().split("_")[0];
+							}
+							
+							if(code.equals("AV")) {
+								id = id.substring(0, id.length() - 1);
+							}
+							
+							StatisticsVO data = new StatisticsVO();
+							
+							data.setPlayDate(playDate);
+							data.setMngId(mngId);
+							data.setId(id);
 							
 							dataList.add(data);
 						}
 						
 						io.close();
 						
+						// 방어코드 삽입(중복데이터 제거)
+						dataList = dataList
+									.stream()
+									.filter(Utils.distinctByKeys(StatisticsVO::getPlayDate, StatisticsVO::getMngId, StatisticsVO::getId))
+									.collect(Collectors.toList());
+						
 						// 데이터 insert
-						Map<String, Object> param = new HashMap<String, Object>();
-						param.put("list", dataList);
-						BM0801Mapper.insertAdLog(param);
+						if(dataList.size() != 0) {
+							Map<String, Object> param = new HashMap<String, Object>();
+							param.put("list", dataList);
+							BM0801Mapper.insertAdLog(param);
+						}
 						
 						// insert 완료 후 파일 삭제
 						sftpChannel.rm(logFilePath);
