@@ -1,5 +1,6 @@
 package com.tracom.brt.domain.SM0107;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,27 +22,45 @@ public class SM0107Service extends BaseService<ReservationVO, String> {
 	private SM0107Mapper mapper;
 	
     public List<VhcDvcUpdateVO> SM0107G0S0(RequestParams<ReservationVO> requestParams) {
-        return mapper.SM0107G0S0();
+    	Map<String, Object> params = new HashMap<>();
+    	params.put("completeYn", requestParams.getString("completeYn"));
+    	
+        return mapper.SM0107G0S0(params);
     }
     
     public List<VHCInfoVO> SM0107G1S0(RequestParams<ReservationVO> requestParams) {
-        return mapper.SM0107G1S0();
+    	Map<String, Object> params = new HashMap<>();
+    	params.put("completeYn", requestParams.getString("completeYn"));
+    	
+        return mapper.SM0107G1S0(params);
     }
     
     public List<VHCInfoVO> SM0107G2S0(RequestParams<ReservationVO> requestParams) {
-        return mapper.SM0107G2S0();
+    	Map<String, Object> params = new HashMap<>();
+    	params.put("completeYn", requestParams.getString("completeYn"));
+    	
+        return mapper.SM0107G2S0(params);
     }
     
     public List<VdoRsvVO> SM0107G3S0(RequestParams<ReservationVO> requestParams) {
-        return mapper.SM0107G3S0();
+    	Map<String, Object> params = new HashMap<>();
+    	params.put("completeYn", requestParams.getString("completeYn"));
+    	
+        return mapper.SM0107G3S0(params);
     }
     
     public List<ScrRsvVO> SM0107G4S0(RequestParams<ReservationVO> requestParams) {
-        return mapper.SM0107G4S0();
+    	Map<String, Object> params = new HashMap<>();
+    	params.put("completeYn", requestParams.getString("completeYn"));
+    	
+        return mapper.SM0107G4S0(params);
     }
     
     public List<EdRsvVO> SM0107G5S0(RequestParams<ReservationVO> requestParams) {
-        return mapper.SM0107G5S0();
+    	Map<String, Object> params = new HashMap<>();
+    	params.put("completeYn", requestParams.getString("completeYn"));
+    	
+        return mapper.SM0107G5S0(params);
     }
     
     public void SM0107G0U0(Map<String, Object> request) {

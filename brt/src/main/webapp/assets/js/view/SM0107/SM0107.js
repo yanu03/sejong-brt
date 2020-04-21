@@ -11,32 +11,38 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			firmwareUpdate: {
 				grid: caller.gridView0,
 				refresh: ACTIONS.RELOAD_G0,
-				reservationComplete: ACTIONS.FIRMWARE_RSV_COMPLETE
+				reservationComplete: ACTIONS.FIRMWARE_RSV_COMPLETE,
+				tabIndex: 0
 			},
 			voiceReservation: {
 				grid: caller.gridView1,
 				refresh: ACTIONS.RELOAD_G1,
-				reservationComplete: ACTIONS.VOICE_RSV_COMPLETE
+				reservationComplete: ACTIONS.VOICE_RSV_COMPLETE,
+				tabIndex: 1
 			},
 			destiReservation: {
 				grid: caller.gridView2,
 				refresh: ACTIONS.RELOAD_G2,
-				reservationComplete: ACTIONS.DESTI_RSV_COMPLETE
+				reservationComplete: ACTIONS.DESTI_RSV_COMPLETE,
+				tabIndex: 2
 			},
 			videoReservation: {
 				grid: caller.gridView3,
 				refresh: ACTIONS.RELOAD_G3,
-				reservationComplete: ACTIONS.VIDEO_RSV_COMPLETE
+				reservationComplete: ACTIONS.VIDEO_RSV_COMPLETE,
+				tabIndex: 3
 			},
 			screenReservation: {
 				grid: caller.gridView4,
 				refresh: ACTIONS.RELOAD_G4,
-				reservationComplete: ACTIONS.SCREEN_RSV_COMPLETE
+				reservationComplete: ACTIONS.SCREEN_RSV_COMPLETE,
+				tabIndex: 4
 			},
 			routerReservation: {
 				grid: caller.gridView5,
 				refresh: ACTIONS.RELOAD_G5,
-				reservationComplete: ACTIONS.ROUTER_RSV_COMPLETE
+				reservationComplete: ACTIONS.ROUTER_RSV_COMPLETE,
+				tabIndex: 5
 			}
 		}
 	},
@@ -48,7 +54,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	ACTIONS.dispatch(ACTIONS.RELOAD_G3);
     	ACTIONS.dispatch(ACTIONS.RELOAD_G4);
     	ACTIONS.dispatch(ACTIONS.RELOAD_G5);
-        return false;
     },
     
     PAGE_CLOSE: function(caller, act, data) {
@@ -60,6 +65,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	ACTIONS.dispatch(buttonEvent[tabId].refresh);
     },
     
+    
+    GRID_REFRESH_TAB_INDEX: function(caller, act, data) {
+    	for(i in buttonEvent) {
+    		if(buttonEvent[i].tabIndex == data.tabIndex) {
+    			ACTIONS.dispatch(buttonEvent[i].refresh);
+    			break;
+    		}
+    	}
+    },
+    
     PAGE_RESERVATION_COMPLETE: function(caller, act, data) {
     	var tabId = $("[data-tab-active='true']").attr("data-tab-id");
     	var list = buttonEvent[tabId].grid.getData("selected");
@@ -67,6 +82,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	if(list.length == 0) {
     		axDialog.alert(LANG("alert.requireselect"));
     		return false;
+    	}
+    	
+    	for(var i = 0; i < list.length; i++) {
+    		if(list[i].completeYn == "Y") {
+    			axDialog.alert("예약종료된 예약은 종료할 수 없습니다.");
+    			return false;
+    		}
     	}
     	
     	axDialog.confirm({
@@ -90,7 +112,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/SM0107G0S0",
-            data: null,
+            data: {
+            	completeYn: $("#completeYn").val()
+            },
             callback: function (res) {
                 caller.gridView0.setData(res);
             }
@@ -102,7 +126,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/SM0107G1S0",
-            data: null,
+            data: {
+            	completeYn: $("#completeYn").val()
+            },
             callback: function (res) {
                 caller.gridView1.setData(res);
             }
@@ -114,7 +140,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/SM0107G2S0",
-            data: null,
+            data: {
+            	completeYn: $("#completeYn").val()
+            },
             callback: function (res) {
                 caller.gridView2.setData(res);
             }
@@ -126,7 +154,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/SM0107G3S0",
-            data: null,
+            data: {
+            	completeYn: $("#completeYn").val()
+            },
             callback: function (res) {
                 caller.gridView3.setData(res);
             }
@@ -138,7 +168,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/SM0107G4S0",
-            data: null,
+            data: {
+            	completeYn: $("#completeYn").val()
+            },
             callback: function (res) {
                 caller.gridView4.setData(res);
             }
@@ -150,7 +182,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     	axboot.ajax({
             type: "GET",
             url: "/api/v1/SM0107G5S0",
-            data: null,
+            data: {
+            	completeYn: $("#completeYn").val()
+            },
             callback: function (res) {
                 caller.gridView5.setData(res);
             }
@@ -324,6 +358,18 @@ fnObj.pageStart = function () {
     
     ACTIONS.dispatch(ACTIONS.PAGE_INIT);
     ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+    
+    $("[data-ax5layout='tabView0']").ax5layout({
+    	onOpenTab: function() {
+    		ACTIONS.dispatch(ACTIONS.GRID_REFRESH_TAB_INDEX, {
+    			tabIndex: this.activePanelIndex
+    		});
+    	}
+    });
+    
+    $(document).on("change", "#completeYn", function(e) {
+    	ACTIONS.dispatch(ACTIONS.GRID_REFRESH);
+    });
 };
 
 fnObj.pageResize = function () {
@@ -367,7 +413,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             showRowSelector: true,
             multipleSelect: true,
         	lineNumberColumnWidth: 30,
-            frozenColumnIndex: 3,
+            frozenColumnIndex: 4,
             target: $('[data-ax5grid="gridView0"]'),
             	 columns: [          		 
             		 {key: "vhcNo",			label: ADMIN("ax.admin.SM0107.vhc.no"),			width: 100,		align:"center",		sortable: true},
@@ -380,6 +426,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
      	       				return "";
             		 }},
             		 {key: "rsvDate",		label: ADMIN("ax.admin.reservation.date"),		width: 80,		align:"center",		sortable: true},
+            		 {key: "proceRst",		label: ADMIN("ax.admin.SM0107.proce.rst"),		width: 80,		align:"center",		sortable: true},
             		 {key: "mngId",			label: ADMIN("ax.admin.SM0107.mng.id"),		width: 150,		align:"center"},
                      {key: "maker",			label: ADMIN("ax.admin.SM0107.maker"),		width: 90,		align:"center"},
                      {key: "dvcKind",		label: ADMIN("ax.admin.SM0107.dvc.kind"),		width: 130,		align:"center"},
@@ -425,7 +472,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
         
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
-        	frozenColumnIndex: 3,
+        	frozenColumnIndex: 4,
             showRowSelector: true,
             multipleSelect : true,
             target: $('[data-ax5grid="gridView1"]'),
@@ -440,6 +487,7 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
 	       				return "";
                 }},
                 {key: "rsvDate",	label: ADMIN("ax.admin.reservation.date"),	width: 80,		align:"center",		sortable: true},
+                {key: "proceRst",	label: ADMIN("ax.admin.SM0107.proce.rst"),	width: 80,		align:"center",		sortable: true},
                 {key: "chasNo", 	label: ADMIN("ax.admin.BM0406G1.chasNo"),	width: 130},
                 {key: "corpNm",		label: ADMIN("ax.admin.BM0406G1.corpId"),	width: 120,		align: "center"},
                 {key: "areaNm",		label: ADMIN("ax.admin.BM0406G1.area"),		width: 100,		align: "center"},
@@ -488,7 +536,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
 
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
-        	frozenColumnIndex: 3,
+        	frozenColumnIndex: 4,
             showLineNumber: true,
             showRowSelector: true,
             multipleSelect :true,
@@ -504,6 +552,7 @@ fnObj.gridView2 = axboot.viewExtend(axboot.gridView, {
 	       				return "";
 	       		}},
 	       		{key: "rsvDate",	label: ADMIN("ax.admin.reservation.date"),	width: 80,		align:"center",		sortable: true},
+	       		{key: "proceRst",	label: ADMIN("ax.admin.SM0107.proce.rst"),	width: 80,		align:"center",		sortable: true},
                 {key: "chasNo", 	label: ADMIN("ax.admin.BM0406G1.chasNo"),	width: 130},
                 {key: "corpNm",		label: ADMIN("ax.admin.BM0406G1.corpId"),	width: 120,		align: "center"},
                 {key: "areaNm",		label: ADMIN("ax.admin.BM0406G1.area"),		width: 100,		align: "center"},
@@ -553,7 +602,7 @@ fnObj.gridView3 = axboot.viewExtend(axboot.gridView, {
         
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
-        	frozenColumnIndex: 3,
+        	frozenColumnIndex: 4,
             showLineNumber: true,
             showRowSelector: true,
             multipleSelect :true,
@@ -569,6 +618,7 @@ fnObj.gridView3 = axboot.viewExtend(axboot.gridView, {
 	       				return "";
 	       		}},
 	       		{key: "rsvDate",		label: ADMIN("ax.admin.reservation.date"),		width: 80,		align:"center",		sortable: true},
+	       		{key: "proceRst",	label: ADMIN("ax.admin.SM0107.proce.rst"),	width: 80,		align:"center",		sortable: true},
 	       		{key: "mngId",			label: ADMIN("ax.admin.SM0107.mng.id"),			width: 150,		align:"center"},
                 {key: "makerNm",		label: ADMIN("ax.admin.SM0107.maker"),			width: 90,		align:"center"},
                 {key: "dvcKindNm",		label: ADMIN("ax.admin.SM0107.dvc.kind"),		width: 130,		align:"center"},
@@ -614,7 +664,7 @@ fnObj.gridView4 = axboot.viewExtend(axboot.gridView, {
         
         this.target = axboot.gridBuilder({
         	lineNumberColumnWidth: 30,
-        	frozenColumnIndex: 3,
+        	frozenColumnIndex: 4,
             showLineNumber: true,
             showRowSelector: true,
             multipleSelect :true,
@@ -630,6 +680,7 @@ fnObj.gridView4 = axboot.viewExtend(axboot.gridView, {
 	       				return "";
 	       		}},
 	       		{key: "rsvDate",		label: ADMIN("ax.admin.reservation.date"),		width: 80,		align:"center",		sortable: true},
+	       		{key: "proceRst",		label: ADMIN("ax.admin.SM0107.proce.rst"),		width: 80,		align:"center",		sortable: true},
 	       		{key: "mngId",			label: ADMIN("ax.admin.SM0107.mng.id"),			width: 150,		align:"center"},
                 {key: "makerNm",		label: ADMIN("ax.admin.SM0107.maker"),			width: 90,		align:"center"},
                 {key: "dvcKindNm",		label: ADMIN("ax.admin.SM0107.dvc.kind"),		width: 130,		align:"center"},
@@ -678,7 +729,7 @@ fnObj.gridView5 = axboot.viewExtend(axboot.gridView, {
             showRowSelector: true,
             multipleSelect: true,
         	lineNumberColumnWidth: 30,
-            frozenColumnIndex: 3,
+            frozenColumnIndex: 4,
             target: $('[data-ax5grid="gridView5"]'),
             	 columns: [          		 
             		 {key: "vhcNo",			label: ADMIN("ax.admin.SM0107.vhc.no"),			width: 100,		align:"center",		sortable: true},
@@ -691,8 +742,9 @@ fnObj.gridView5 = axboot.viewExtend(axboot.gridView, {
      	       				return "";
             		 }},
             		 {key: "rsvDate",		label: ADMIN("ax.admin.reservation.date"),		width: 80,		align:"center",		sortable: true},
-            		 {key: "mngId",			label: ADMIN("ax.admin.SM0107.mng.id"),		width: 150,		align:"center"},
-                     {key: "makerNm",			label: ADMIN("ax.admin.SM0107.maker"),		width: 90,		align:"center"},
+            		 {key: "proceRst",		label: ADMIN("ax.admin.SM0107.proce.rst"),		width: 80,		align:"center",		sortable: true},
+            		 {key: "mngId",			label: ADMIN("ax.admin.SM0107.mng.id"),			width: 150,		align:"center"},
+                     {key: "makerNm",		label: ADMIN("ax.admin.SM0107.maker"),			width: 90,		align:"center"},
                      {key: "dvcKindNm",		label: ADMIN("ax.admin.SM0107.dvc.kind"),		width: 130,		align:"center"},
                      {key: "modelNm",		label: ADMIN("ax.admin.SM0107.model.nm"),		width: 130,		align:"center"},
                      {key: "instLocNm",		label: ADMIN("ax.admin.SM0107.inst.loc"),		width: 130,		align:"center"},

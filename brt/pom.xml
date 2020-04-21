@@ -11,6 +11,12 @@
     <description>Sejong BRT Management System</description>
 
     <repositories>
+    	<repository>
+	        <id>in-project</id>
+	        <name>In Project Repo</name>
+	        <url>file://${project.basedir}/libs</url>
+	    </repository>
+	    
         <repository>
             <id>axboot-release</id>
             <name>AXBoot-Release</name>
@@ -24,12 +30,6 @@
                 <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
-        
-	    <repository>
-	        <id>in-project</id>
-	        <name>In Project Repo</name>
-	        <url>file://${project.basedir}/libs</url>
-	    </repository>
     </repositories>
 
     <properties>

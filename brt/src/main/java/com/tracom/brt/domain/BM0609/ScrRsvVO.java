@@ -51,6 +51,8 @@ public class ScrRsvVO extends BaseVO {
 	
 	private String modelNm;
 	
+	private String proceRst;
+	
 
 	private List<ScrRsvVO> voList;
 }

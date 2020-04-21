@@ -59,6 +59,8 @@ public class VHCInfoVO extends BaseVO {
 	
 	private String vhcFuelNm;
 	
+	private String proceRst;
+	
 	/**버스 광고용 컬럼**/
 	private String adRout;
 	

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.tracom.brt.domain.SM0107.SM0107Mapper">
 
-    <select id="SM0107G0S0" resultType="vhcDvcUpdateVO">
+    <select id="SM0107G0S0" parameterType="hashmap" resultType="vhcDvcUpdateVO">
     	SELECT
 			  U.RSV_ID
 			, V.VHC_NO
@@ -14,6 +14,8 @@
 			, H.MODEL_NM
 			, DC2.DL_CD_NM		AS MAKER
 			, DC3.DL_CD_NM		AS INST_LOC
+			, U.COMPLETE_YN
+			, DC5.DL_CD_NM		AS PROCE_RST
 		FROM
 			BM_UPD_LOG U
 			INNER JOIN BM_UPD_RSV R
@@ -33,12 +35,18 @@
 			LEFT OUTER JOIN SM_DL_CD_INFO DC3
 			ON D.INST_LOC = DC3.DL_CD
 			AND DC3.CO_CD = 'INST_LOC'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC4
+			ON DC4.DL_CD = #{completeYn}
+			AND DC4.CO_CD = 'COMPLETE_YN'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC5
+			ON DC5.DL_CD = U.PROCE_RST
+			AND DC5.CO_CD = 'FTP_RESULT'
 		WHERE
-			U.COMPLETE_YN = 'N'
+			U.COMPLETE_YN = DC4.TXT_VAL1
 		GROUP BY D.DVC_ID
     </select>
     
-    <select id="SM0107G1S0" resultType="vhcInfoVO">
+    <select id="SM0107G1S0" parameterType="hashmap" resultType="vhcInfoVO">
     	SELECT
 			  V.RSV_ID
 			, R.RSV_DATE
@@ -58,6 +66,8 @@
 	        , DL_CD4.DL_CD_NM AS VHC_FUEL_NM
     		, VHC_INFO.REMARK
     		, VHC_INFO.USE_YN
+    		, V.COMPLETE_YN
+    		, DL_CD8.DL_CD_NM	AS PROCE_RST
     	FROM
     		BM_VHC_INFO VHC_INFO
 			LEFT OUTER JOIN BM_CORP_INFO CORP_INFO
@@ -80,6 +90,9 @@
 			LEFT OUTER JOIN SM_DL_CD_INFO DL_CD6
 			ON VHC_INFO.AREA = DL_CD6.DL_CD 
 			AND DL_CD6.CO_CD = 'AREA'
+			LEFT OUTER JOIN SM_DL_CD_INFO DL_CD7
+			ON DL_CD7.DL_CD = #{completeYn}
+			AND DL_CD7.CO_CD = 'COMPLETE_YN'
 			LEFT OUTER JOIN BM_DVC_INFO D
 			ON VHC_INFO.VHC_ID = D.VHC_ID
 			AND D.DVC_KIND = 'CD005'
@@ -87,6 +100,9 @@
 			ON D.MNG_ID = V.MNG_ID
 			INNER JOIN BM_VOC_RSV R
 			ON V.RSV_ID = R.RSV_ID
+			LEFT OUTER JOIN SM_DL_CD_INFO DL_CD8
+			ON DL_CD8.DL_CD = V.PROCE_RST
+			AND DL_CD8.CO_CD = 'FTP_RESULT'
 		WHERE
 			VHC_INFO.USE_YN = 'Y'
 	        AND D.MNG_ID IS NOT NULL
@@ -96,14 +112,14 @@
 				FROM
 					BM_VOC_RSV_RST
 				WHERE
-					COMPLETE_YN = 'N'
+					COMPLETE_YN = DL_CD7.TXT_VAL1
 				GROUP BY RSV_ID
 	        )
 		GROUP BY VHC_INFO.VHC_ID, V.RSV_ID
 		ORDER BY VHC_INFO.VHC_ID ASC
     </select>
     
-    <select id="SM0107G2S0" resultType="vhcInfoVO">
+    <select id="SM0107G2S0" parameterType="hashmap" resultType="vhcInfoVO">
     	SELECT
 			  R.RSV_ID
 			, V.VHC_NO
@@ -121,6 +137,8 @@
 			, DC5.DL_CD_NM				AS LF_YN_NM
 			, DC6.DL_CD_NM				AS VHC_FUEL_NM
 			, V.USE_YN
+			, R.COMPLETE_YN
+			, DC8.DL_CD_NM				AS PROCE_RST
 		FROM
 			BM_DESTI_RSV_RST R
 			INNER JOIN BM_DESTI_RSV DR
@@ -149,6 +167,12 @@
 			LEFT OUTER JOIN SM_DL_CD_INFO DC6
 			ON V.VHC_FUEL = DC6.DL_CD
 			AND DC6.CO_CD = 'VHC_FUEL'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC7
+			ON DC7.DL_CD = #{completeYn}
+			AND DC7.CO_CD = 'COMPLETE_YN'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC8
+			ON DC8.DL_CD = R.PROCE_RST
+			AND DC8.CO_CD = 'FTP_RESULT'
 		WHERE
 			V.USE_YN = 'Y'
 			AND D.USE_YN = 'Y'
@@ -158,13 +182,13 @@
 				FROM
 					BM_DESTI_RSV_RST
 				WHERE
-					COMPLETE_YN = 'N'
+					COMPLETE_YN = DC7.TXT_VAL1
 				GROUP BY RSV_ID
 			)
 		GROUP BY V.VHC_ID
     </select>
     
-    <select id="SM0107G3S0" resultType="vdoRsvVO">
+    <select id="SM0107G3S0" parameterType="hashmap" resultType="vdoRsvVO">
     	SELECT
 			  R.RSV_ID
 			, V.VHC_NO
@@ -175,6 +199,8 @@
 			, DC2.DL_CD_NM		AS DVC_KIND_NM
 			, H.MODEL_NM
 			, DC3.DL_CD_NM		AS INST_LOC_NM
+			, R.COMPLETE_YN
+			, DC5.DL_CD_NM		AS PROCE_RST
 		FROM
 			BM_VDO_RSV_RST R
 			INNER JOIN BM_VDO_RSV VR
@@ -194,14 +220,20 @@
 			LEFT OUTER JOIN SM_DL_CD_INFO DC3
 			ON D.INST_LOC = DC3.DL_CD
 			AND DC3.CO_CD = 'INST_LOC'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC4
+			ON DC4.DL_CD = #{completeYn}
+			AND DC4.CO_CD = 'COMPLETE_YN'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC5
+			ON DC5.DL_CD = R.PROCE_RST
+			AND DC5.CO_CD = 'FTP_RESULT'
 		WHERE
 			V.USE_YN = 'Y'
 			AND D.USE_YN = 'Y'
-			AND R.COMPLETE_YN = 'N'
+			AND R.COMPLETE_YN = DC4.TXT_VAL1
 		GROUP BY D.DVC_ID
     </select>
     
-    <select id="SM0107G4S0" resultType="scrRsvVO">
+    <select id="SM0107G4S0" parameterType="hashmap" resultType="scrRsvVO">
     	SELECT
 			  R.RSV_ID
 			, V.VHC_NO
@@ -212,6 +244,8 @@
 			, DC2.DL_CD_NM		AS DVC_KIND_NM
 			, H.MODEL_NM
 			, DC3.DL_CD_NM		AS INST_LOC_NM
+			, R.COMPLETE_YN
+			, DC5.DL_CD_NM		AS PROCE_RST
 		FROM
 			BM_SCR_RSV_RST R
 			INNER JOIN BM_SCR_RSV SR
@@ -231,14 +265,20 @@
 			LEFT OUTER JOIN SM_DL_CD_INFO DC3
 			ON D.INST_LOC = DC3.DL_CD
 			AND DC3.CO_CD = 'INST_LOC'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC4
+			ON DC4.DL_CD = #{completeYn}
+			AND DC4.CO_CD = 'COMPLETE_YN'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC5
+			ON DC5.DL_CD = R.PROCE_RST
+			AND DC5.CO_CD = 'FTP_RESULT'
 		WHERE
 			V.USE_YN = 'Y'
 			AND D.USE_YN = 'Y'
-			AND R.COMPLETE_YN = 'N'
+			AND R.COMPLETE_YN = DC4.TXT_VAL1
 		GROUP BY D.DVC_ID
     </select>
     
-    <select id="SM0107G5S0" resultType="edRsvVO">
+    <select id="SM0107G5S0" parameterType="hashmap" resultType="edRsvVO">
 		SELECT
 			  R.RSV_ID
 			, V.VHC_NO
@@ -249,6 +289,8 @@
 			, DC2.DL_CD_NM		AS DVC_KIND_NM
 			, H.MODEL_NM
 			, DC3.DL_CD_NM		AS INST_LOC_NM
+			, R.COMPLETE_YN
+			, DC5.DL_CD_NM		AS PROCE_RST
 		FROM
 			BM_ED_RSV_RST R
 			INNER JOIN BM_ED_RSV SR
@@ -268,10 +310,16 @@
 			LEFT OUTER JOIN SM_DL_CD_INFO DC3
 			ON D.INST_LOC = DC3.DL_CD
 			AND DC3.CO_CD = 'INST_LOC'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC4
+			ON DC4.DL_CD = #{completeYn}
+			AND DC4.CO_CD = 'COMPLETE_YN'
+			LEFT OUTER JOIN SM_DL_CD_INFO DC5
+			ON DC5.DL_CD = R.PROCE_RST
+			AND DC5.CO_CD = 'FTP_RESULT'
 		WHERE
 			V.USE_YN = 'Y'
 			AND D.USE_YN = 'Y'
-			AND R.COMPLETE_YN = 'N'
+			AND R.COMPLETE_YN = DC4.TXT_VAL1
 		GROUP BY D.DVC_ID
     </select>
     

@@ -45,6 +45,8 @@ public class EdRsvVO extends BaseVO {
 	
 	private String modelNm;
 	
+	private String proceRst;
+	
 
 	private List<EdRsvVO> voList;
 }

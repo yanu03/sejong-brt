@@ -11,12 +11,12 @@ import com.tracom.brt.domain.BM0609.ScrRsvVO;
 import com.tracom.brt.domain.BM0902.EdRsvVO;
 
 public interface SM0107Mapper extends MyBatisMapper {
-	List<VhcDvcUpdateVO> SM0107G0S0();
-	List<VHCInfoVO> SM0107G1S0();
-	List<VHCInfoVO> SM0107G2S0();
-	List<VdoRsvVO> SM0107G3S0();
-	List<ScrRsvVO> SM0107G4S0();
-	List<EdRsvVO> SM0107G5S0();
+	List<VhcDvcUpdateVO> SM0107G0S0(Map<String, Object> params);
+	List<VHCInfoVO> SM0107G1S0(Map<String, Object> params);
+	List<VHCInfoVO> SM0107G2S0(Map<String, Object> params);
+	List<VdoRsvVO> SM0107G3S0(Map<String, Object> params);
+	List<ScrRsvVO> SM0107G4S0(Map<String, Object> params);
+	List<EdRsvVO> SM0107G5S0(Map<String, Object> params);
 	
 	int SM0107G0U0(Map<String, Object> request);
 	int SM0107G1U0(Map<String, Object> request);
