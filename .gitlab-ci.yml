@@ -1,0 +1,33 @@
+variables:
+  MAVEN_CLI_OPTS: "--batch-mode"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  IMAGE_NAME: brt-tomcat:1.0.0
+
+cache:
+  key: "$CI_COMMIT_REF_NAME"
+  paths:
+    - .m2/repository/
+    - target/
+
+stages:
+  - build
+  - deploy
+  
+build:
+  image: maven:3.3.9
+  stage: build
+  before_script:
+    - mvn install:install-file -Dfile=brt/pttsnet_class.jar -DgroupId=selvytts -DartifactId=selvytts -Dversion=1.0.0 -Dpackaging=jar
+  script:
+    - mvn clean package
+
+deploy:
+  image: docker:latest
+  stage: deploy
+  services:
+    - name: docker:dind
+  script:
+    - docker build . -t $IMAGE_NAME
+    - docker container rm -f brt-tomcat
+    - docker run -d -p 10000:8080 --name brt-tomcat --restart always -v /local/brt:/local/brt -v /local/brtedu:/local/brtedu -v /brt:/brt -v /brtedu:/brtedu $IMAGE_NAME
+    - docker ps
