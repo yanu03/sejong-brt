@@ -17,9 +17,8 @@ build:
   image: maven:3.3.9
   stage: build
   before_script:
-    - mvn install:install-file -Dfile=brt/pttsnet_class.jar -DgroupId=selvytts -DartifactId=selvytts -Dversion=1.0.0 -Dpackaging=jar
+    - mvn install:install-file -Dfile=pttsnet_class.jar -DgroupId=selvytts -DartifactId=selvytts -Dversion=1.0.0 -Dpackaging=jar
   script:
-    - cd brt
     - mvn clean package
 
 deploy:
