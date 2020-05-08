@@ -8,7 +8,7 @@
  * - github.com/thomasjang
  * - www.axisj.com
  */
-@import url(//cdn.rawgit.com/theeluwin/NotoSansKR-Hestia/master/stylesheets/NotoSansKR-Hestia.css);
+@import url(/assets/css/NotoSansKR-Hestia.css);
 
 fieldset {
     padding: 0;

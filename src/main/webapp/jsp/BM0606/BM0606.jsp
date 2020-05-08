@@ -8,14 +8,16 @@
 
 <ax:layout name="base">
 	<jsp:attribute name="js">
-        <script
-			src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
-        <link href="https://vjs.zencdn.net/7.6.6/video-js.css"
-			rel="stylesheet" />
+        <script type="text/javascript" src="<c:url value='/assets/js/videojs-ie8.min.js' />"></script>
+        <link type="text/css" rel="stylesheet" href="<c:url value='/assets/css/video-js.css'/>" />
 
-		<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+		<!-- <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
 		<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script> -->
+		
+		<link type="text/css" rel="stylesheet" href="<c:url value='/assets/css/jsgrid.min.css'/>" />
+		<link type="text/css" rel="stylesheet" href="<c:url value='/assets/css/jsgrid-theme.min.css'/>" />
+		<script type="text/javascript" src="<c:url value='/assets/js/jsgrid.min.js' />"></script>
     </jsp:attribute>
 
 	<jsp:attribute name="script">
