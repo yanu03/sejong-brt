@@ -121,6 +121,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK: function (caller, act, data) {
+    	/*
     	if(($('#previewImg').attr("src") == "" || $('#previewImg').attr("src") == null) && fflag != 0 && selectedRow != data){
     		axDialog.confirm({
         		msg: "이미지파일을 등록하지 않으셨습니다. 이동하시겠습니까?"
@@ -155,6 +156,20 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	        loadBmp();
 	        loadSCH();
     	}
+    	//*/
+    	
+    	// 2020-05-08 -> 팝업메시지 안나오게 수정
+    	uv_height = 0;
+    	selectBox();
+    	selectedRow = data;
+    	//loadSCH(data);
+        caller.formView0.setData(data);
+        caller.formView0.enable();
+        $("#selectBox option:eq(0)").attr("selected", "selected");
+        $('#bmpFile').val("");
+        $('#previewImg').show().attr("src", "");
+        loadBmp();
+        loadSCH();
     	fflag++;
     },
     
@@ -740,5 +755,6 @@ function preview_Image(id){
 	var path;
 	//path = "/assets/images/BM0108/default.jpg";//default path
 	//document.getElementById(id).src=path;
-	document.getElementById(id).src="";
+	//document.getElementById(id).src="";
+	$('#' + id).hide();
 }
