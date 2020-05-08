@@ -53,6 +53,8 @@ public class ScrRsvVO extends BaseVO {
 	
 	private String proceRst;
 	
+	private String sendDate;
+	
 
 	private List<ScrRsvVO> voList;
 }

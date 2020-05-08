@@ -61,6 +61,8 @@ public class VHCInfoVO extends BaseVO {
 	
 	private String proceRst;
 	
+	private String sendDate;
+	
 	/**버스 광고용 컬럼**/
 	private String adRout;
 	

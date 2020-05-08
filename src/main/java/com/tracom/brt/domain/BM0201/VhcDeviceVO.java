@@ -41,4 +41,8 @@ public class VhcDeviceVO extends BaseVO{
 	private String makerCd;
 	private String instLocCd;
 	private String completeYn;
+	private String rsvId;
+	private String rsvDate;
+	private String proceRst;
+	private String sendDate;
 }

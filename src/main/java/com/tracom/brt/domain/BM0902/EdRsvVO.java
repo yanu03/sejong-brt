@@ -47,6 +47,8 @@ public class EdRsvVO extends BaseVO {
 	
 	private String proceRst;
 	
+	private String sendDate;
+	
 
 	private List<EdRsvVO> voList;
 }

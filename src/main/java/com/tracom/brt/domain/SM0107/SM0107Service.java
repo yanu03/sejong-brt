@@ -23,7 +23,8 @@ public class SM0107Service extends BaseService<ReservationVO, String> {
 	
     public List<VhcDvcUpdateVO> SM0107G0S0(RequestParams<ReservationVO> requestParams) {
     	Map<String, Object> params = new HashMap<>();
-    	params.put("completeYn", requestParams.getString("completeYn"));
+    	params.put("completeYn", requestParams.getString("completeYn")); 
+    	params.put("date", requestParams.getString("date"));
     	
         return mapper.SM0107G0S0(params);
     }
@@ -31,6 +32,7 @@ public class SM0107Service extends BaseService<ReservationVO, String> {
     public List<VHCInfoVO> SM0107G1S0(RequestParams<ReservationVO> requestParams) {
     	Map<String, Object> params = new HashMap<>();
     	params.put("completeYn", requestParams.getString("completeYn"));
+    	params.put("date", requestParams.getString("date"));
     	
         return mapper.SM0107G1S0(params);
     }
@@ -38,6 +40,7 @@ public class SM0107Service extends BaseService<ReservationVO, String> {
     public List<VHCInfoVO> SM0107G2S0(RequestParams<ReservationVO> requestParams) {
     	Map<String, Object> params = new HashMap<>();
     	params.put("completeYn", requestParams.getString("completeYn"));
+    	params.put("date", requestParams.getString("date"));
     	
         return mapper.SM0107G2S0(params);
     }
@@ -45,6 +48,7 @@ public class SM0107Service extends BaseService<ReservationVO, String> {
     public List<VdoRsvVO> SM0107G3S0(RequestParams<ReservationVO> requestParams) {
     	Map<String, Object> params = new HashMap<>();
     	params.put("completeYn", requestParams.getString("completeYn"));
+    	params.put("date", requestParams.getString("date"));
     	
         return mapper.SM0107G3S0(params);
     }
@@ -52,6 +56,7 @@ public class SM0107Service extends BaseService<ReservationVO, String> {
     public List<ScrRsvVO> SM0107G4S0(RequestParams<ReservationVO> requestParams) {
     	Map<String, Object> params = new HashMap<>();
     	params.put("completeYn", requestParams.getString("completeYn"));
+    	params.put("date", requestParams.getString("date"));
     	
         return mapper.SM0107G4S0(params);
     }
@@ -59,6 +64,7 @@ public class SM0107Service extends BaseService<ReservationVO, String> {
     public List<EdRsvVO> SM0107G5S0(RequestParams<ReservationVO> requestParams) {
     	Map<String, Object> params = new HashMap<>();
     	params.put("completeYn", requestParams.getString("completeYn"));
+    	params.put("date", requestParams.getString("date"));
     	
         return mapper.SM0107G5S0(params);
     }

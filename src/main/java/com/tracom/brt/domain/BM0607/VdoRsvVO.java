@@ -49,6 +49,8 @@ public class VdoRsvVO extends BaseVO {
 	
 	private String proceRst;
 	
+	private String sendDate;
+	
 	
 	/** playlist **/
 	private String videoType;

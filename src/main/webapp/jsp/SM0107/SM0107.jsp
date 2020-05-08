@@ -15,18 +15,28 @@
     <jsp:body>
 
         <ax:page-buttons>
-        	<button type="button" class="btn btn-info" data-page-btn="gridRefresh"><ax:lang id="ax.admin.reservation.grid.refresh"/></button>
         	<button type="button" class="btn btn-info" data-page-btn="reservationComplete"><ax:lang id="ax.admin.item.reservation.complete"/></button>
         </ax:page-buttons>
+        
+        <div role="page-header">
+                <ax:tbl clazz="ax-search-tbl" minWidth="500px">
+                    <ax:tr>
+                    	<ax:td label='ax.admin.SM0107.rsv.complete' width="230px">
+                            <ax:SM0105 groupCd="COMPLETE_YN" id="completeYn" dataPath="completeYn" style="display: inline-block; width: 100px;"/>
+                        </ax:td>
+                        <ax:td label='ax.admin.SM0107.search.date' width="300px">
+                        	<div class="input-group" data-ax5picker="date">
+                                <input type="text" id="date" class="form-control" data-ax5formatter="date" placeholder="<ax:lang id="ax.admin.date.format.month"/>">
+                                <span class="input-group-addon"><i class="cqc-calendar"></i></span>
+                            </div>
+                        </ax:td>
+                    </ax:tr>
+                </ax:tbl>
+            <div class="H3"></div>
+        </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
             <ax:split-panel width="*" style="padding-right: 10px; height:100%;">
-            
-            	<div style="height: 35px;">
-	            	<span style="display: inline-block;">예약종료여부: </span>
-	            	<ax:SM0105 groupCd="COMPLETE_YN" id="completeYn" dataPath="completeYn" style="display: inline-block; width: 100px;"/>
-            	</div>
-            	
             	<ax:tab-layout name="tabView0">
            			<ax:tab-panel label="차내장치 업데이트 관리" tabId="firmwareUpdate" scroll="scroll" active="true" style="height:95%; padding-bottom:5px;">
 			            <div data-ax5grid="gridView0" data-fit-height-content="gridView0"></div>
