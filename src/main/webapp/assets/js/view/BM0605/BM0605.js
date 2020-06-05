@@ -552,18 +552,13 @@ function changeFiletype(input){
 function preview_Change(input) {
 	//파일유형의 값을 받아와서 이미지이면 image:로 넣고 비디오면 video로 넣음
 	if (input.files && input.files[0]) {
-		var reader = new FileReader();
-		reader.onload = function (e) {
-			switch($('#fileType').val()){
-			case "AV001":
-				$('#videoPreview').attr('src', e.target.result);
-				break;
-			case "AV002":
-				$('#imagePreview').attr('src', e.target.result);
-				break;
-			}
+		switch($('#fileType').val()){
+		case "AV001":
+			$("#videoPreview").attr("src", URL.createObjectURL(input.files[0]));
+			break;
+		case "AV002":
+			$('#imagePreview').attr('src', e.target.result);
+			break;
 		}
-		reader.readAsDataURL(input.files[0]);
 	}
-
 }

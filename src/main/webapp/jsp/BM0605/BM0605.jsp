@@ -8,9 +8,6 @@
 
 <ax:layout name="base">
 	<jsp:attribute name="js">
-	
-        <link type="text/css" rel="stylesheet" href="<c:url value='/assets/css/video-js.css'/>" />
-        <script type="text/javascript" src="<c:url value='/assets/js/videojs-ie8.min.js' />"></script>
     </jsp:attribute>
 
     <jsp:attribute name="script">
@@ -119,20 +116,13 @@
 
                     	<ax:tr style="height:200px;">
                     		<ax:td labelStyle="height:200px;" label="ax.admin.BM0605F0.preview" width="300px">
-                  
-                    			 <img id="imagePreview" src="#" style="width:320px;height:180px;border:1px solid #eee;"
-                    			 onError="/assets/videos/BM0605/Default.png"/>
-                    			 
+                    			 <img id="imagePreview" src="" style="width:320px; height:180px; border:1px solid #eee;" onError="this.src='/assets/videos/BM0605/Default.jpg'">
                     			 
                     			 <video
 								    id="videoPreview"
-								    class="video-js"
 								    controls
-								    preload="auto"
 								    width="320"
 								    height="180"
-								    poster=""
-								    data-setup="{}"
 								 ></video>
                     		</ax:td>
                     	</ax:tr>
