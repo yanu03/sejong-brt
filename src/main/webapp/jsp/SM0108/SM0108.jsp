@@ -7,13 +7,21 @@
 <ax:set key="page_auto_height" value="true"/>
 
 <ax:layout name="base">
+	<jsp:attribute name="css">
+        <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/jplayer.blue.monday.css"/>">
+    </jsp:attribute>
+    
+	<jsp:attribute name="js">
+        <script type="text/javascript" src="<c:url value="/assets/js/jplayer/jquery.jplayer.js"/>"></script>
+    </jsp:attribute>
+    
     <jsp:attribute name="script">
         <ax:script-lang key="ax.script" />
         <ax:script-lang key="ax.admin" var="ADMIN" />
         <script type="text/javascript" src="<c:url value='/assets/js/view/SM0108/SM0108.js' />"></script>
     </jsp:attribute>
+    
     <jsp:body>
-
         <ax:page-buttons>
         </ax:page-buttons>
 
@@ -27,8 +35,13 @@
                         		<textarea name="krTts" data-ax-path="krTts" title="<ax:lang id="ax.admin.BM0401F0.kr.tts"/>" rows="4" class="form-control" maxlength="200"></textarea>
                         	</div>
                         	<div style="float:left;padding-left:5px;">
+                        		<div>	
+	                            	<button type="button" class="btn btn-default" data-btn data-btn-test="krTts">
+	                                	<ax:lang id="ax.admin.test"/>
+	                            	</button>
+	                            </div>
 								<div>	
-		                          	<button type="button" class="btn btn-default" data-btn data-btn-test="krTts">
+		                          	<button type="button" class="btn btn-default" data-btn data-btn-download="krTts">
 		                              	다운로드
 		                          	</button>
 								</div>
@@ -42,14 +55,50 @@
                         		<textarea name="enTts" data-ax-path="enTts" title="<ax:lang id="ax.admin.BM0401F0.en.tts"/>" rows="4" class="form-control" maxlength="200"></textarea>
                         	</div>
                         	<div style="float:left;padding-left:5px;">
+                        		<div>
+	                            	<button type="button" class="btn btn-default" data-btn data-btn-test="enTts">
+	                                	<ax:lang id="ax.admin.test"/>
+	                            	</button>
+								</div>
 	                         	<div>
-		                          	<button type="button" class="btn btn-default" data-btn data-btn-test="enTts">
+		                          	<button type="button" class="btn btn-default" data-btn data-btn-download="enTts">
 		                              	다운로드
 		                          	</button>
 								</div>
 							</div>
                         </ax:td>
                    	</ax:tr>
+                   	
+                   	<ax:tr>
+                    	<ax:td label="ax.admin.test" width="300px">
+                         	<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+							<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
+								<div class="jp-type-single">
+									<div class="jp-gui jp-interface">
+										<div class="jp-controls">
+											<button class="jp-stop" role="button" tabindex="0">stop</button>
+										</div>
+										<div class="jp-progress">
+											<div class="jp-seek-bar">
+												<div class="jp-play-bar"></div>
+											</div>
+										</div>
+										<div class="jp-volume-controls">
+											<button class="jp-mute" role="button" tabindex="0">mute</button>
+											<button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+											<div class="jp-volume-bar">
+												<div class="jp-volume-bar-value"></div>
+											</div>
+										</div>
+										<div class="jp-time-holder">
+											<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+											<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+										</div>
+									</div>
+								</div>
+							</div>
+                    	</ax:td>
+                	</ax:tr>
             	</ax:tbl>
             </ax:split-panel>
         </ax:split-layout>
