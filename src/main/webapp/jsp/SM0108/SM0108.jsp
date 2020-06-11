@@ -40,7 +40,7 @@
 	                                	<ax:lang id="ax.admin.test"/>
 	                            	</button>
 	                            </div>
-								<div>	
+								<div style="padding-top:5px;">
 		                          	<button type="button" class="btn btn-default" data-btn data-btn-download="krTts">
 		                              	다운로드
 		                          	</button>
@@ -60,7 +60,7 @@
 	                                	<ax:lang id="ax.admin.test"/>
 	                            	</button>
 								</div>
-	                         	<div>
+	                         	<div style="padding-top:5px;">
 		                          	<button type="button" class="btn btn-default" data-btn data-btn-download="enTts">
 		                              	다운로드
 		                          	</button>
