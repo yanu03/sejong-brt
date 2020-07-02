@@ -484,6 +484,16 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     		$('#stStaNm').attr("readonly", true).attr("disabled", true);
     		$('#edStaNm').attr("readonly", true).attr("disabled", true);
     	}
+
+		/** 2020 07 02 전자노선도 표시 위해
+		900번 노선일때 방면정보 ReadOnly, Disabled 처리 **/
+		if(data.routNm == '900'){
+			$('#wayInfo').attr("readonly", true).attr("disabled", true);
+		}
+		else{
+			$('#wayInfo').attr("readonly", false).attr("disabled", false);
+		}
+
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());
