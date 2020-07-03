@@ -465,6 +465,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 		$('#routNm').attr("readonly", false).attr("disabled", false);
 		$('#stStaNm').attr("readonly", false).attr("disabled", false);
 		$('#edStaNm').attr("readonly", false).attr("disabled", false);
+		$('#wayInfo').attr("readonly", false).attr("disabled", false);
     },
     disable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
