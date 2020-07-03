@@ -1,7 +1,7 @@
 variables:
   MAVEN_CLI_OPTS: "--batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-  IMAGE_NAME: brt-tomcat:1.0.0
+  IMAGE_NAME: brt-tomcat:latest
 
 cache:
   key: "$CI_COMMIT_REF_NAME"
