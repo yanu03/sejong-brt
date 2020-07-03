@@ -150,7 +150,6 @@
                        		</ax:td>
                        	</ax:tr>
                     </ax:tbl>
-	        	<span style="color:red;">※ 900번 노선은 표시정보1을 수정 할 수 없습니다.</span>
 	        	</ax:form>
 	        </ax:split-panel>
         </ax:split-layout>

@@ -465,7 +465,7 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
 		$('#routNm').attr("readonly", false).attr("disabled", false);
 		$('#stStaNm').attr("readonly", false).attr("disabled", false);
 		$('#edStaNm').attr("readonly", false).attr("disabled", false);
-		$('#wayInfo').attr("readonly", false).attr("disabled", false);
+		//0702$('#wayInfo').attr("readonly", false).attr("disabled", false);
     },
     disable: function() {
     	this.target.find('[data-ax-path][data-key!=true]').each(function(index, element) {
@@ -486,15 +486,16 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     		$('#edStaNm').attr("readonly", true).attr("disabled", true);
     	}
 
-		/** 2020 07 02 전자노선도 표시 위해
-		900번 노선일때 방면정보 ReadOnly, Disabled 처리 **/
+/*
+		 2020 07 02 전자노선도 표시 위해
+		900번 노선일때 방면정보 ReadOnly, Disabled 처리 
 		if(data.routNm == '900'){
 			$('#wayInfo').attr("readonly", true).attr("disabled", true);
 		}
 		else{
 			$('#wayInfo').attr("readonly", false).attr("disabled", false);
 		}
-
+*/
     },
     clear: function () {
         this.model.setModel(this.getDefaultData());
