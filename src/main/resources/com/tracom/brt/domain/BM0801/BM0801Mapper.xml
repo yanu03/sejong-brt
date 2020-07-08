@@ -92,7 +92,7 @@
     	ORDER BY PLAY_DATE DESC
 	</select>
 	
-	<insert id="insertAdLog" parameterType="hashmap">
+	<insert id="insertAdLog" parameterType="statisticsVO">
 		INSERT INTO BM_AD_LOG(
 			  PLAY_DATE
 			, MNG_ID
@@ -101,14 +101,12 @@
 			, AD_NM
 		)
 		VALUES
-		<foreach collection="list" item="item" separator=",">
 		(
-			  #{item.playDate}
-			, #{item.mngId}
-			, #{item.id}
+			  #{playDate}
+			, #{mngId}
+			, #{id}
 			, #{adType}
 			, #{adNm}
 		)
-		</foreach>
 	</insert>
 </mapper>

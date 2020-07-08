@@ -17,9 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -1540,13 +1538,18 @@ public class FTPHandler {
 								data.setMngId(mngId);
 								data.setId(id);
 								
-								dataList.add(data);
+								BM0801Mapper.insertAdLog(data);
+								
+								// dataList.add(data);
 							} catch(Exception e) {
+								e.printStackTrace();
 								continue;
 							}
 						}
 						
 						io.close();
+						
+						/*
 						// 방어코드 삽입(중복데이터 제거)
 						dataList = dataList
 									.stream()
@@ -1559,7 +1562,7 @@ public class FTPHandler {
 							param.put("list", dataList);
 							BM0801Mapper.insertAdLog(param);
 						}
-						
+						//*/
 						// insert 완료 후 파일 삭제
 						sftpChannel.rm(logFilePath);
 					}
