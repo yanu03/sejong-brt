@@ -389,7 +389,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                      {key: "modelNm", label: ADMIN("ax.admin.BM0103F0.modelNm"), align:"center", width: 100},
                      {key: "vhcKind", label: ADMIN("ax.admin.BM0103F0.vhcKind"), align:"center", width: 90},
                      {key: "vhcType", label: ADMIN("ax.admin.BM0103F0.vhcType"), align:"center", width: 80},
-                     {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), align:"center", width: 70},
+                     {key: "lfYn", label: ADMIN("ax.admin.BM0103F0.lfYn"), align:"center", width: 120},
                      {key: "vhcFuel", label: ADMIN("ax.admin.BM0103F0.vhcFuel"), align:"center", width: 70},
                      {key: "remark", label: ADMIN("ax.admin.BM0103F0.remark"), width: 200},
                  ],
