@@ -29,5 +29,5 @@ deploy:
   script:
     - docker build . -t $IMAGE_NAME
     - docker container rm -f brt-tomcat
-    - docker run -d -p 10000:8080 --name brt-tomcat --restart always -v /local/brt:/local/brt -v /local/brtedu:/local/brtedu -v /brt:/brt -v /brtedu:/brtedu $IMAGE_NAME
+    - docker run -d -p 10000:8080 --name brt-tomcat --restart always -v /local/brt:/local/brt -v /local/brtedu:/local/brtedu -v /brt:/brt -v /brtedu:/brtedu -v /srv/brt-tomcat/logs:/usr/local/tomcat/logs $IMAGE_NAME
     - docker ps
