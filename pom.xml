@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tracom</groupId>
     <artifactId>brt</artifactId>
-    <version>1.2.6</version>
+    <version>1.2.7</version>
     <packaging>war</packaging>
     <name>AXBoot BRT Management System</name>
     <description>Sejong BRT Management System</description>

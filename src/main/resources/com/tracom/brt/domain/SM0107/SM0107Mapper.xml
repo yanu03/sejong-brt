@@ -41,8 +41,15 @@
 			AND DC5.CO_CD = 'FTP_RESULT'
 		WHERE
 			U.COMPLETE_YN = DC4.TXT_VAL1
-			AND DATE_FORMAT(R.RSV_DATE, '%Y-%m') = #{date}
-		GROUP BY D.DVC_ID
+			<choose>
+				<when test="completeYn == 'CD001'">
+					AND DATE_FORMAT(R.RSV_DATE, '%Y-%m') &lt;= #{date}
+				</when>
+				<otherwise>
+					AND DATE_FORMAT(R.RSV_DATE, '%Y-%m') = #{date}
+				</otherwise>
+			</choose>
+		ORDER BY V.VHC_NO, R.RSV_DATE DESC, U.SEND_DATE DESC
     </select>
     
     <select id="SM0107G1S0" parameterType="hashmap" resultType="vhcInfoVO">
@@ -115,7 +122,14 @@
 					COMPLETE_YN = DL_CD7.TXT_VAL1
 				GROUP BY RSV_ID
 	        )
-	        AND DATE_FORMAT(R.RSV_DATE, '%Y-%m') = #{date}
+	        <choose>
+				<when test="completeYn == 'CD001'">
+					AND DATE_FORMAT(R.RSV_DATE, '%Y-%m') &lt;= #{date}
+				</when>
+				<otherwise>
+					AND DATE_FORMAT(R.RSV_DATE, '%Y-%m') = #{date}
+				</otherwise>
+			</choose>
 		GROUP BY VHC_INFO.VHC_ID, V.RSV_ID
 		ORDER BY VHC_INFO.VHC_ID ASC
     </select>
@@ -159,7 +173,14 @@
 			D.DVC_ID IS NOT NULL
 			AND D.USE_YN = 'Y'
 			AND R.COMPLETE_YN = DC1.TXT_VAL1
-			AND DATE_FORMAT(DR.RSV_DATE, '%Y-%m') = #{date}
+			<choose>
+				<when test="completeYn == 'CD001'">
+					AND DATE_FORMAT(DR.RSV_DATE, '%Y-%m') &lt;= #{date}
+				</when>
+				<otherwise>
+					AND DATE_FORMAT(DR.RSV_DATE, '%Y-%m') = #{date}
+				</otherwise>
+			</choose>
 		ORDER BY V.VHC_NO, DR.RSV_DATE DESC, R.SEND_DATE DESC
     </select>
     
@@ -174,7 +195,6 @@
 			, DC2.DL_CD_NM		AS DVC_KIND_NM
 			, H.MODEL_NM
 			, DC3.DL_CD_NM		AS INST_LOC_NM
-			, R.COMPLETE_YN
 			, DC5.DL_CD_NM		AS PROCE_RST
 			, DATE_FORMAT(R.SEND_DATE, '%Y-%m-%d %H:%i:%s')	AS SEND_DATE
 		FROM
@@ -206,8 +226,15 @@
 			V.USE_YN = 'Y'
 			AND D.USE_YN = 'Y'
 			AND R.COMPLETE_YN = DC4.TXT_VAL1
-			AND DATE_FORMAT(VR.RSV_DATE, '%Y-%m') = #{date}
-		GROUP BY D.DVC_ID
+			<choose>
+				<when test="completeYn == 'CD001'">
+					AND DATE_FORMAT(VR.RSV_DATE, '%Y-%m') &lt;= #{date}
+				</when>
+				<otherwise>
+					AND DATE_FORMAT(VR.RSV_DATE, '%Y-%m') = #{date}
+				</otherwise>
+			</choose>
+		ORDER BY V.VHC_NO, VR.RSV_DATE DESC, R.SEND_DATE DESC
     </select>
     
     <select id="SM0107G4S0" parameterType="hashmap" resultType="scrRsvVO">
@@ -253,8 +280,15 @@
 			V.USE_YN = 'Y'
 			AND D.USE_YN = 'Y'
 			AND R.COMPLETE_YN = DC4.TXT_VAL1
-			AND DATE_FORMAT(SR.RSV_DATE, '%Y-%m') = #{date}
-		GROUP BY D.DVC_ID
+			<choose>
+				<when test="completeYn == 'CD001'">
+					AND DATE_FORMAT(SR.RSV_DATE, '%Y-%m') &lt;= #{date}
+				</when>
+				<otherwise>
+					AND DATE_FORMAT(SR.RSV_DATE, '%Y-%m') = #{date}
+				</otherwise>
+			</choose>
+		ORDER BY V.VHC_NO, SR.RSV_DATE DESC, R.SEND_DATE DESC
     </select>
     
     <select id="SM0107G5S0" parameterType="hashmap" resultType="edRsvVO">
@@ -300,8 +334,15 @@
 			V.USE_YN = 'Y'
 			AND D.USE_YN = 'Y'
 			AND R.COMPLETE_YN = DC4.TXT_VAL1
-			AND DATE_FORMAT(SR.RSV_DATE, '%Y-%m') = #{date}
-		GROUP BY D.DVC_ID
+			<choose>
+				<when test="completeYn == 'CD001'">
+					AND DATE_FORMAT(SR.RSV_DATE, '%Y-%m') &lt;= #{date}
+				</when>
+				<otherwise>
+					AND DATE_FORMAT(SR.RSV_DATE, '%Y-%m') = #{date}
+				</otherwise>
+			</choose>
+		ORDER BY V.VHC_NO, SR.RSV_DATE DESC, R.SEND_DATE DESC
     </select>
     
     

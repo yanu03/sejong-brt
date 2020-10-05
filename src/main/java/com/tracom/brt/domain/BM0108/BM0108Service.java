@@ -36,6 +36,12 @@ public class BM0108Service extends BaseService<EplyInfoVO, String> {
     	mapper.BM0108F0I0(vo);
     	if(vo.getEmployeeImg() != null) {
     		handler.uploadBM0108(vo.getEplyId() + ".png", vo.getEmployeeImg());    		
+    		/*  2020-09-29 추가
+    		 *  설명: .jpg 이미지와 CERTI 이미지가 없을 경우 운전자 단말기에서 로그인이 되지 않음. 따라서 아래 코드 추가함
+    		 */
+    		handler.uploadBM0108(vo.getEplyId() + ".jpg", vo.getEmployeeImg());
+    		handler.uploadBM0108(vo.getEplyId() + "_CERTI.jpg", vo.getEmployeeImg());
+    		/****************/
     	}
     	return vo.getEplyId();
     }
@@ -45,6 +51,12 @@ public class BM0108Service extends BaseService<EplyInfoVO, String> {
     	if(mapper.BM0108F0U0(vo) > 0) {
     		if(!vo.getEmployeeImg().isEmpty()) {
     			handler.uploadBM0108(vo.getEplyId() + ".png", vo.getEmployeeImg());
+    			/*  2020-09-29 추가
+        		 *  설명: .jpg 이미지와 CERTI 이미지가 없을 경우 운전자 단말기에서 로그인이 되지 않음. 따라서 아래 코드 추가함
+        		 */
+        		handler.uploadBM0108(vo.getEplyId() + ".jpg", vo.getEmployeeImg());
+        		handler.uploadBM0108(vo.getEplyId() + "_CERTI.jpg", vo.getEmployeeImg());
+        		/****************/
     		}
     		return true;
     	} else {
