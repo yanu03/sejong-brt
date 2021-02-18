@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0407.BM0407Mapper">
+
+    <select id="BM0407G0S0" parameterType="String" resultType="voiceInfoVO">
+    	SELECT
+			  VOC_ID
+			, CAST(RIGHT(VOC_ID, 5) AS DECIMAL) AS VOC_NUM
+			, SCR_TXT
+		    , VOC_NM
+		    , PLAY_TYPE
+		    , KR_TTS
+		    , EN_TTS
+		    , REMARK
+		    , PLAY_TM
+		    , VOC_DIV
+		    , CREATED_AT
+		    , CREATED_BY
+		    , UPDATED_AT
+		    , UPDATED_BY
+		FROM
+			BM_VOC_INFO
+		WHERE
+			VOC_DIV = 'CD029'
+	    	<if test="value != null">
+				AND SCR_TXT LIKE CONCAT('%', #{value}, '%')
+				OR VOC_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    </select>
+       
+    <update id="BM0407F0U0" parameterType="voiceInfoVO">
+    	UPDATE BM_VOC_INFO
+    	SET
+    		  VOC_NM		=	#{vocNm}
+    		, SCR_TXT		= 	left(replace(#{scrTxt}, " ", ""), 4)
+    		, PLAY_TYPE		=	#{playType}
+    		, KR_TTS		=	#{krTts}
+    		, REMARK		=	#{remark}
+    		, PLAY_TM		=	#{playTm}
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    		, UPDATED_IP	=	#{updatedIp}
+    	WHERE
+    		VOC_ID = #{vocId}
+    		AND
+    		VOC_DIV = 'CD029'
+    </update>
+    
+    <update id="BM0407G0D0" parameterType="voiceInfoVO">
+    	UPDATE BM_VOC_INFO
+    	SET
+    		  VOC_NM		=	NULL
+    		, SCR_TXT		=	NULL
+    		, PLAY_TYPE		=	NULL
+    		, KR_TTS		=	NULL
+    		, PLAY_TM		=	NULL
+    		, REMARK		=	NULL
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    		, UPDATED_IP	=	#{updatedIp}
+    		
+    	WHERE
+    		VOC_ID = #{vocId}
+    		AND
+    		VOC_DIV = 'CD029'
+    </update>
+</mapper>

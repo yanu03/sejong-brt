@@ -74,6 +74,9 @@ public class FileService {
 			    case GlobalConstants.Types.PNG:
 			    	path = pngPreview(requestParams, response);
 			    	break;
+			    case GlobalConstants.Types.SELECTED:
+			    	path = selectedAudioPreview(requestParams, response);
+			    	break;
 			}
 			
 			file = new File(path);
@@ -134,6 +137,25 @@ public class FileService {
 		
 		Utils.wavToMp3(file, tempFile);
 		
+		return tempFile.getAbsolutePath();
+	}
+	
+	// 2021 선택음성 미리듣기
+	private String selectedAudioPreview(RequestParams<?> requestParams, HttpServletResponse response) throws Exception {
+		int id = Integer.parseInt(requestParams.getString("vocId").substring(2, 7));
+		String playType = requestParams.getString("playType");
+		File file = null;
+		String fileName = "";
+		String path = Paths.get(handler.getRootLocalPath(), handler.getSelectedAudioPath()).toString();
+		if(playType.equals("WAV")) {
+			fileName = String.valueOf(id);
+		} else if(playType.equals("TTS")){
+			fileName = String.valueOf(id);
+		}
+		
+		file = Paths.get(path, fileName + ".wav").toFile();
+		File tempFile = new File(handler.getRootLocalPath(), "/temp/" + fileName + ".mp3");
+		Utils.wavToMp3(file, tempFile);
 		return tempFile.getAbsolutePath();
 	}
 	

@@ -60,6 +60,7 @@ import com.tracom.brt.domain.BM0902.BM0902Mapper;
 import com.tracom.brt.domain.BM0902.EdRsvVO;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
 import com.tracom.brt.domain.file.FileMapper;
+import com.tracom.brt.domain.file.FileService;
 import com.tracom.brt.domain.routeReservation.RoutListCSVVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
@@ -126,6 +127,10 @@ public class FTPHandler {
 	
 	@Value("${sftp.video.directory}")
 	private String VIDEO_PATH;
+	
+	//2021 선택음성
+	@Value("${sftp.common.selectedAudio}")
+	private String SELECTED_AUDIO_PATH;
 	
 	@Inject
 	private ChannelSftp sftpChannel;
@@ -1260,6 +1265,112 @@ public class FTPHandler {
 		return true;
     }
 	
+	/**
+	 * 2021년 신규기능 선택음성
+	 * **/
+	// 2021 BM0407 선택음성 업로드
+	public boolean uploadSelectedAudio(VoiceInfoVO vo, List<VoiceInfoVO> list) {
+		if(vo.getPlayType().equals("TTS")) {
+			uploadSelectedTTS(vo);
+		}else if(vo.getPlayType().equals("WAV")) {
+			if(vo.getWavFile() != null && vo.getWavFile().getSize() != 0) {
+				uploadSelectedWAV(vo);
+			}
+		}
+		
+		try {
+			Thread.sleep(500);
+			String csv = updateSelectedAudioCSV(list);
+			File file = new File(getRootLocalPath() + getSelectedAudioPath() + "/list.csv");
+			
+			try {
+				Utils.createCSV(file, csv.toString());
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				return false;
+			}
+			
+			try {
+				processSynchronize(getRootLocalPath() + getSelectedAudioPath(), getRootServerPath() + getSelectedAudioPath());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		} catch (InterruptedException e2) {
+			e2.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	//BM0407 선택음성 리스트파일 업데이트
+	public String updateSelectedAudioCSV(List<VoiceInfoVO> list) {
+		String csv = "voiceNum,fileName,scrTxt" + GlobalConstants.CSVForms.ROW_SEPARATOR;
+		
+		for(VoiceInfoVO vo : list) {
+			String fileName = "";
+			if(vo.getVocNm() == null || vo.getVocNm() == "") {
+			}else {
+				if(vo.getVocNm().length() != 0) {
+					fileName = vo.getVocNum() + ".wav";					
+				}else {
+					fileName = "";
+				}
+				
+			}
+			
+			String vocNum = vo.getVocNum();
+			String scrTxt = vo.getScrTxt();
+			
+			if(scrTxt == null) {
+				scrTxt = "";
+			}
+			csv += vocNum + GlobalConstants.CSVForms.COMMA + fileName + GlobalConstants.CSVForms.COMMA + scrTxt + GlobalConstants.CSVForms.ROW_SEPARATOR;
+		}
+		return csv;
+	}
+	
+	//2021 BM0407 선택음성 삭제
+	public boolean deleteSelectedAudio(VoiceInfoVO vo, List<VoiceInfoVO> list) {
+		String dir = Paths.get(getRootLocalPath(), getSelectedAudioPath()).toString();
+		
+		String fileName = vo.getVocNum() +  ".wav";
+		
+		File saveFile = Paths.get(dir, fileName).toFile();
+		
+		if(saveFile.exists()) {
+			System.gc();
+			System.runFinalization();
+			saveFile.delete();
+		}
+		
+		try {
+			Thread.sleep(500);
+			String csv = updateSelectedAudioCSV(list);
+			File file = new File(getRootLocalPath() + getSelectedAudioPath() + "/list.csv");
+			try {
+				Utils.createCSV(file, csv.toString());
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				return false;
+			}
+			
+			try {
+				processSynchronize(getRootLocalPath() + getSelectedAudioPath(), getRootServerPath() + getSelectedAudioPath());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		} catch (InterruptedException e2) {
+			e2.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
 	// 음성파일(WAV) 업로드
 	public boolean uploadVoiceWAV(VoiceInfoVO vo) {
 		String id = vo.getVocId();
@@ -1365,6 +1476,79 @@ public class FTPHandler {
 		return true;
 	}
 	
+	/** 
+	 * 2021 선택음성 업로드 
+	 * **/
+	
+	// 2021 0407 선택음성(TTS) 업로드
+	public boolean uploadSelectedTTS(VoiceInfoVO vo) {
+		String id = vo.getVocNum();
+		String krText = vo.getKrTts();
+		String chimeYn = vo.getChimeYn();
+		
+		String dir = Paths.get(getRootLocalPath(), getSelectedAudioPath()).toString();
+		String fileName = id + ".wav";
+		
+		String routId = vo.getRoutId();
+		if(routId != null && !routId.equals("")) {
+			dir = Paths.get(getRootLocalPath(), getRouteAudioPath()).toString(); 
+			fileName = routId + ".wav";
+		}
+		
+		int playTm = 0;
+		
+		File file = new File(Paths.get(dir, fileName).toString());
+		
+		try {
+			if(krText != null && !krText.equals("")) {
+				FileUtils.writeByteArrayToFile(file, voiceService.getWavBuffer(krText, 0, 0, chimeYn));
+				playTm = Utils.getAudioTotalTime(file);
+			}
+			
+			// 재생시간 계산
+			vo.setPlayTm(playTm);
+			
+			/*
+			// 노선별 선택음성이 아닐경우 기존 WAV 업로드 삭제
+			if((routId == null || routId.equals("")) && file.exists()) {
+				file.delete();
+			}
+			*/
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	// 2021 0407선택음성파일(WAV) 업로드
+	public boolean uploadSelectedWAV(VoiceInfoVO vo) {
+		//int id = Integer.parseInt(vo.getVocId().substring(2, 7));
+		String id = vo.getVocNum();
+		MultipartFile file = vo.getWavFile();
+		
+		String dir = Paths.get(getRootLocalPath(), getSelectedAudioPath()).toString();
+		String fileName = id +  "." + FilenameUtils.getExtension(file.getOriginalFilename());
+		
+		File saveFile = Paths.get(dir, fileName).toFile();
+		try {
+			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+			
+			vo.setPlayTm(Utils.getAudioTotalTime(saveFile));
+			
+			if(saveFile.exists()) {
+				saveFile.delete();
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+		
 	// 음성 삭제시 저장된 음성파일 삭제
 	public void deleteVoice(VoiceInfoVO vo) {
 		String playType = vo.getPlayType();
@@ -1908,5 +2092,10 @@ public class FTPHandler {
 	
 	public String getVideoPath() {
 		return VIDEO_PATH;
+	}
+	
+	//2021 선택음성
+	public String getSelectedAudioPath() {
+		return SELECTED_AUDIO_PATH;
 	}
 }

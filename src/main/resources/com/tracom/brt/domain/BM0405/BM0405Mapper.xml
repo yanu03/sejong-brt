@@ -140,7 +140,7 @@
    		VALUES
    		(
    			  #{orgaId}
-   			, #{orgaNm}
+   			, replace(#{orgaNm}, ',', '.')
    			, #{lati}
    			, #{longi}
    			, #{allPlayTm}
