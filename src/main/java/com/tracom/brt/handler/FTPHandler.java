@@ -1472,16 +1472,10 @@ public class FTPHandler {
 	public boolean uploadSelectedTTS(VoiceInfoVO vo) {
 		String id = vo.getVocNum();
 		String krText = vo.getKrTts();
-		String chimeYn = vo.getChimeYn();
+		String chimeYn = "N";
 		
 		String dir = Paths.get(getRootLocalPath(), getSelectedAudioPath()).toString();
 		String fileName = id + ".wav";
-		
-		String routId = vo.getRoutId();
-		if(routId != null && !routId.equals("")) {
-			dir = Paths.get(getRootLocalPath(), getRouteAudioPath()).toString(); 
-			fileName = routId + ".wav";
-		}
 		
 		int playTm = 0;
 		
@@ -1496,12 +1490,6 @@ public class FTPHandler {
 			// 재생시간 계산
 			vo.setPlayTm(playTm);
 			
-			/*
-			// 노선별 선택음성이 아닐경우 기존 WAV 업로드 삭제
-			if((routId == null || routId.equals("")) && file.exists()) {
-				file.delete();
-			}
-			*/
 		} catch(Exception e) {
 			e.printStackTrace();
 			return false;

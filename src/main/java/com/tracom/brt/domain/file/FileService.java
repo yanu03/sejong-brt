@@ -140,22 +140,36 @@ public class FileService {
 		return tempFile.getAbsolutePath();
 	}
 	
-	// 2021 선택음성 미리듣기
+	// 2021 0407 선택음성 미리듣기
 	private String selectedAudioPreview(RequestParams<?> requestParams, HttpServletResponse response) throws Exception {
-		int id = Integer.parseInt(requestParams.getString("vocId").substring(2, 7));
+		//int id = Integer.parseInt(requestParams.getString("vocId").substring(2, 7));
+		String id = requestParams.getString("vocNum");
 		String playType = requestParams.getString("playType");
+		String pText = requestParams.getString("pText");
+		int nSpeakerId = requestParams.getInt("nSpeakerId");
+		int nLanguage = requestParams.getInt("nLanguage");
+		String chimeYn = "N";
+		
+		byte[] buffer = null;
+		
 		File file = null;
-		String fileName = "";
-		String path = Paths.get(handler.getRootLocalPath(), handler.getSelectedAudioPath()).toString();
-		if(playType.equals("WAV")) {
-			fileName = String.valueOf(id);
-		} else if(playType.equals("TTS")){
-			fileName = String.valueOf(id);
+		File tempFile = null;
+		
+		// playType이 TTS일떄
+		if(id == null) {
+			buffer = voiceService.getWavBuffer(pText, nLanguage, nSpeakerId, chimeYn);
+			file = new File(Paths.get(handler.getRootLocalPath(), "/temp/temp.wav").toString());
+			
+			FileUtils.writeByteArrayToFile(file, buffer);
+		}
+		// playType이 WAV일때
+		else {
+			file = new File(handler.getRootLocalPath(), "/temp/temp.mp3");
 		}
 		
-		file = Paths.get(path, fileName + ".wav").toFile();
-		File tempFile = new File(handler.getRootLocalPath(), "/temp/" + fileName + ".mp3");
+		tempFile = new File(Paths.get(handler.getRootLocalPath(), "/temp/temp.mp3").toString());
 		Utils.wavToMp3(file, tempFile);
+		
 		return tempFile.getAbsolutePath();
 	}
 	

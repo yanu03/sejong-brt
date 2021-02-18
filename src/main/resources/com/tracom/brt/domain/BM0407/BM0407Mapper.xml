@@ -33,7 +33,7 @@
     	UPDATE BM_VOC_INFO
     	SET
     		  VOC_NM		=	#{vocNm}
-    		, SCR_TXT		= 	left(replace(#{scrTxt}, " ", ""), 4)
+    		, SCR_TXT		= 	left(replace(replace(#{scrTxt}, " ", ""), ",", ""), 4)
     		, PLAY_TYPE		=	#{playType}
     		, KR_TTS		=	#{krTts}
     		, REMARK		=	#{remark}

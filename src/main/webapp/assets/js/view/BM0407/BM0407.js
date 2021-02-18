@@ -164,6 +164,11 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         	$("#wavFilename").text(data.vocNum + ".wav");
         } else {
         	$("#wavFilename").text("");
+			ACTIONS.dispatch(ACTIONS.TEST_TTS, {
+                	pText: _this.target.find("[data-ax-path='krTts']").val(),
+                	nLanguage: 0,
+                	nSpeakerId: 0,
+            });
         }
     },
     
@@ -325,6 +330,11 @@ function drawDD(res){
 
 function ddClick(num){
 	ACTIONS.dispatch(ACTIONS.DD_SELECT, num);
+	ACTIONS.dispatch(ACTIONS.TEST_TTS, {
+                	pText: _this.target.find("[data-ax-path='krTts']").val(),
+                	nLanguage: 0,
+                	nSpeakerId: 0,
+                });
 }
 /********************************************************************************************************************/
 
