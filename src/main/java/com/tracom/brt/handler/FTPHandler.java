@@ -1278,26 +1278,20 @@ public class FTPHandler {
 			}
 		}
 		
+		String csv = updateSelectedAudioCSV(list);
+		File file = new File(getRootLocalPath() + getSelectedAudioPath() + "/list.csv");
+		
 		try {
-			Thread.sleep(500);
-			String csv = updateSelectedAudioCSV(list);
-			File file = new File(getRootLocalPath() + getSelectedAudioPath() + "/list.csv");
-			
-			try {
-				Utils.createCSV(file, csv.toString());
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				return false;
-			}
-			
-			try {
-				processSynchronize(getRootLocalPath() + getSelectedAudioPath(), getRootServerPath() + getSelectedAudioPath());
-			} catch (Exception e) {
-				e.printStackTrace();
-				return false;
-			}
-		} catch (InterruptedException e2) {
-			e2.printStackTrace();
+			Utils.createCSV(file, csv.toString());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return false;
+		}
+		
+		try {
+			processSynchronize(getRootLocalPath() + getSelectedAudioPath(), getRootServerPath() + getSelectedAudioPath());
+		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		
@@ -1344,26 +1338,20 @@ public class FTPHandler {
 			System.runFinalization();
 			saveFile.delete();
 		}
+			
+		String csv = updateSelectedAudioCSV(list);
+		File file = new File(getRootLocalPath() + getSelectedAudioPath() + "/list.csv");
+		try {
+			Utils.createCSV(file, csv.toString());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return false;
+		}
 		
 		try {
-			Thread.sleep(500);
-			String csv = updateSelectedAudioCSV(list);
-			File file = new File(getRootLocalPath() + getSelectedAudioPath() + "/list.csv");
-			try {
-				Utils.createCSV(file, csv.toString());
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				return false;
-			}
-			
-			try {
-				processSynchronize(getRootLocalPath() + getSelectedAudioPath(), getRootServerPath() + getSelectedAudioPath());
-			} catch (Exception e) {
-				e.printStackTrace();
-				return false;
-			}
-		} catch (InterruptedException e2) {
-			e2.printStackTrace();
+			processSynchronize(getRootLocalPath() + getSelectedAudioPath(), getRootServerPath() + getSelectedAudioPath());
+		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -1532,15 +1520,11 @@ public class FTPHandler {
 		String fileName = id +  "." + FilenameUtils.getExtension(file.getOriginalFilename());
 		
 		File saveFile = Paths.get(dir, fileName).toFile();
+		
 		try {
 			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
 			
 			vo.setPlayTm(Utils.getAudioTotalTime(saveFile));
-			
-			if(saveFile.exists()) {
-				saveFile.delete();
-			}
-			
 		} catch(Exception e) {
 			e.printStackTrace();
 			return false;
