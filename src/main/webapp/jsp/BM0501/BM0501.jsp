@@ -82,7 +82,7 @@
                         <ax:tr>
                             <ax:td label="미리보기" width="100%" style="height: 100px;">
 	                             	<div>
-	                             		<img id="previewImg" src="#" alt="행선지안내기 미리보기" onError="preview_Image('previewImg');"></div>
+	                             		<img id="previewImg" src="#" alt="행선지안내기 미리보기" onError="noImage('previewImg');"></div>
                             </ax:td>
                         </ax:tr>
                         

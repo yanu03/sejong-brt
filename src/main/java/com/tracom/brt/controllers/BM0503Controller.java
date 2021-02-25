@@ -1,6 +1,5 @@
 package com.tracom.brt.controllers;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;

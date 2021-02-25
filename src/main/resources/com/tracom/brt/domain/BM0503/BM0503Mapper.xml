@@ -142,4 +142,79 @@
 				)
 	</insert>
 	
+	<select id="selectCD" resultType="commonCodeDetailInfoVO">
+		SELECT
+			  CO_CD
+			, DL_CD
+		    , DL_CD_NM
+		    , SORT_ODR
+		    , TXT_VAL1
+		    , TXT_VAL2
+		    , TXT_VAL3
+		    , NUM_VAL4
+		    , NUM_VAL5
+		    , NUM_VAL6
+		    , USE_YN
+		FROM
+			SM_DL_CD_INFO
+		WHERE
+			CO_CD = 'DVC_KIND' AND
+		    TXT_VAL1 = 'RD' AND
+		    USE_YN = 'Y'
+	</select>
+	
+	<select id="selectDvcCd" parameterType="vhcInfoVO" resultType="dvcCodeVO">
+		SELECT
+			  VHC_ID
+			, SUBSTRING(MNG_ID, 1, 10) AS IMP_ID
+		    , DVC_ID
+		    , MNG_ID
+		    , DVC_KIND
+		    , DL_CD
+		    , DL_CD_NM
+		    , TXT_VAL1
+		    , TXT_VAL2
+		    , TXT_VAL3
+		    , NUM_VAL4
+		    , NUM_VAL5
+		    , NUM_VAL6
+		FROM
+			(
+			SELECT
+				*
+			FROM
+				(SELECT
+					  DVC_ID
+					, DVC_KIND
+					, MNG_ID
+					, VHC_ID
+				FROM
+					BM_DVC_INFO
+				WHERE
+					VHC_ID = #{vhcId}) A
+				LEFT JOIN
+					(SELECT
+						  CO_CD
+						, DL_CD
+						, DL_CD_NM
+						, SORT_ODR
+						, TXT_VAL1
+						, TXT_VAL2
+						, TXT_VAL3
+						, NUM_VAL4
+						, NUM_VAL5
+						, NUM_VAL6
+						, USE_YN
+					FROM
+						SM_DL_CD_INFO
+					WHERE
+						CO_CD = 'DVC_KIND' AND
+						TXT_VAL1 = 'RD' AND
+						USE_YN = 'Y'
+				) B
+			ON A.DVC_KIND = B.DL_CD
+			) C
+		WHERE CO_CD IS NOT NULL
+	</select>
+	
 </mapper>

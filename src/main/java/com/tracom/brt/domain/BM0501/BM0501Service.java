@@ -33,14 +33,15 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 		//String updown = DLCDMapper.SM0105G2S2(vo.getUserWayDiv());
 		String fileNameTail = ".SCH";
 		String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
-		return ftpHandler.readSCH(fileName);
+		return ftpHandler.readSCH(vo, fileName);
 	}
 
 	public List<DestinationVO> selectSCHFileLOGO(DestinationVO vo) throws Exception{
+		String dvcCd = vo.getDvcKindCd();
 		String fileNameHeader = vo.getDvcKind();
 		String fileNameTail = ".SCH";
 		String fileName = fileNameHeader + "LOGO" + fileNameTail;
-		return ftpHandler.readSCH(fileName);
+		return ftpHandler.readSCH(vo, fileName);
 	}
 	
 	@Transactional
@@ -61,7 +62,8 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 			String fileNameHeader = DLCDMapper.SM0105G2S1(vo.getDvcKindCd()).getTxtVal2();
 			//String updown = DLCDMapper.SM0105G2S2(vo.getUserWayDiv());
 			String fileNameTail = ".BMP";
-			String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
+			String filePath = vo.getDvcKindCd() + "/";
+			String fileName = filePath + fileNameHeader + vo.getDvcName() + fileNameTail;
 			return ftpHandler.writeBmp(fileName, vo.getAttFile());
 		}else {
 			return true;
@@ -73,12 +75,13 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 		//String updown = DLCDMapper.SM0105G2S2(vo.getUserWayDiv());
 		String fileNameTail = ".SCH";
 		String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
-		return ftpHandler.writeSCH(vo.getVoList(), fileName);
+		//return ftpHandler.writeSCH(vo.getVoList(), fileName);
+		return ftpHandler.writeSCH(vo, fileName);
 	}
 	
 	public boolean writeBmpFileLOGO(DestinationVO vo) {
 		if(vo.getAttFile() != null) {
-			String fileNameHeader = vo.getDvcKind();
+			String fileNameHeader = vo.getDvcKindCd() + "/" + vo.getDvcKind();
 			String fileNameTail = ".BMP";
 			String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
 			return ftpHandler.writeBmp(fileName, vo.getAttFile());
@@ -86,12 +89,12 @@ public class BM0501Service extends BaseService<DestinationVO, String>{
 			return true;
 		}
 	}
-	
+
 	public boolean writeSCHFileLOGO(DestinationVO vo) {
 		String fileNameHeader = vo.getDvcKind();
 		String fileNameTail = ".SCH";
 		String fileName = fileNameHeader + vo.getDvcName() + fileNameTail;
-		return ftpHandler.writeSCH(vo.getVoList(), fileName);
+		return ftpHandler.writeSCH(vo, fileName);
 	}
 	
 	public CommonCodeDetailInfoVO getHeader(String value) {

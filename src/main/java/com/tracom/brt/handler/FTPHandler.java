@@ -41,11 +41,13 @@ import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 import com.tracom.brt.code.GlobalConstants;
+import com.tracom.brt.domain.BM0103.VHCInfoVO;
 import com.tracom.brt.domain.BM0104.BmRoutNodeInfoVO;
 import com.tracom.brt.domain.BM0108.EplyInfoVO;
 import com.tracom.brt.domain.BM0201.VhcDeviceVO;
 import com.tracom.brt.domain.BM0405.VoiceOrganizationVO;
 import com.tracom.brt.domain.BM0501.DestinationVO;
+import com.tracom.brt.domain.BM0503.DvcCodeVO;
 import com.tracom.brt.domain.BM0503.RoutRsvVO;
 import com.tracom.brt.domain.BM0605.VideoInfoVO;
 import com.tracom.brt.domain.BM0607.BM0607Mapper;
@@ -60,7 +62,6 @@ import com.tracom.brt.domain.BM0902.BM0902Mapper;
 import com.tracom.brt.domain.BM0902.EdRsvVO;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
 import com.tracom.brt.domain.file.FileMapper;
-import com.tracom.brt.domain.file.FileService;
 import com.tracom.brt.domain.routeReservation.RoutListCSVVO;
 import com.tracom.brt.domain.voice.VoiceInfoVO;
 import com.tracom.brt.domain.voice.VoiceService;
@@ -692,9 +693,12 @@ public class FTPHandler {
 		}
 	}
 	
+	/*구버전*/
 	//BM0503 행선지안내기 예약(파일이동)
+	/*
 	public void reserveDst(RoutRsvVO vo) throws Exception {
-		String path = Paths.get(getRootLocalPath(), "/temp/destination/images").toString();
+		System.out.println(vo);
+		String path = Paths.get(getRootLocalPath(), "/temp/destination/").toString();
 		String toPath = Paths.get(getRootLocalPath(), "/destination", "/images").toString();
 		String fPath = getRootServerPath() + "/destination/images/";
 		
@@ -711,10 +715,21 @@ public class FTPHandler {
 		File fFileSLOGOSCH = new File(path + "/SLOGO.SCH");
 		File tFileSLOGOSCH = new File(toPath + "/SLOGO.SCH");
 		
-		copyFile(fFileFLOGOBMP, tFileFLOGOBMP);
-		copyFile(fFileFLOGOSCH, tFileFLOGOSCH);
-		copyFile(fFileSLOGOBMP, tFileSLOGOBMP);
-		copyFile(fFileSLOGOSCH, tFileSLOGOSCH);
+		if(fFileFLOGOBMP.exists()) {
+			copyFile(fFileFLOGOBMP, tFileFLOGOBMP);			
+		}
+		
+		if(fFileFLOGOSCH.exists()) {
+			copyFile(fFileFLOGOSCH, tFileFLOGOSCH);			
+		}
+		
+		if(fFileSLOGOBMP.exists()) {
+			copyFile(fFileSLOGOBMP, tFileSLOGOBMP);			
+		}
+		
+		if(fFileSLOGOSCH.exists()) {
+			copyFile(fFileSLOGOSCH, tFileSLOGOSCH);			
+		}
 		
 		for(RoutRsvVO v : voList) {
 			File fFile1 = new File(path + "/F" + v.getDvcName() + ".SCH");
@@ -727,39 +742,144 @@ public class FTPHandler {
 			File fFile4 = new File(path + "/S" + v.getDvcName() + ".BMP");
 			File tFile4 = new File(toPath + "/S" + v.getDvcName() + ".BMP");
 			
-			copyFile(fFile1, tFile1);
-			copyFile(fFile2, tFile2);
-			copyFile(fFile3, tFile3);
-			copyFile(fFile4, tFile4);
+			if(fFile1.exists()) {
+				copyFile(fFile1, tFile1);				
+			}
+			if(fFile2.exists()) {
+				copyFile(fFile2, tFile2);				
+			}
+			if(fFile3.exists()) {
+				copyFile(fFile3, tFile3);				
+			}
+			if(fFile4.exists()) {
+				copyFile(fFile4, tFile4);				
+			}
 			
 		}
-		processSynchronize(toPath, fPath);
-		
-		
+		//processSynchronize(toPath, fPath);
+	}
+	*/
+	
+	/*2021 신버전*/
+	//BM0503 행선지안내기 예약(파일이동)
+	public void reserveDst(RoutRsvVO vo, List<DvcCodeVO> dlist, VHCInfoVO vhcVO) throws Exception {
+		for(DvcCodeVO dcvo : dlist) {
+			String localPath = Paths.get(getRootLocalPath(), "temp/destination/", dcvo.getDlCd()).toString();
+			String localPath2 = Paths.get(getRootLocalPath(), "vehicle/", dcvo.getImpId(), "/device/destination/images/").toString();
+			//String ftpPath = getRootServerPath() + "/vehicle/"+ dcvo.getImpId() +"/device/destination/images/";
+			
+			File temp = new File(localPath2);
+			
+			//destination폴더 없으면 생성
+			if(!temp.isDirectory()) {
+				temp.mkdirs();
+			}
+			
+			//images폴더 없으면 생성
+			temp = new File(localPath2);
+			if(!temp.isDirectory()) {
+				temp.mkdirs();
+			}
+			
+			String fileNameHeader = dcvo.getTxtVal2();
+			String fileNameBody = vo.getDvcName();
+			String bmpExt = ".BMP";
+			String schExt = ".SCH";
+					
+			/** 로고파일 복사 **/
+			String logoBmpName = fileNameHeader + "LOGO" + bmpExt;
+			String logoSchName = fileNameHeader + "LOGO" + schExt;
+			
+			File logoBmpFile1 = new File(localPath + "/" + logoBmpName);
+			File logoSchFile1 = new File(localPath + "/" + logoSchName);
+			
+			File logoBmpFile2 = new File(localPath2 + "/" + logoBmpName);
+			File logoSchFile2 = new File(localPath2 + "/" + logoSchName);
+			
+			if(logoBmpFile1.exists()) {
+				//복사
+				copyFile(logoBmpFile1, logoBmpFile2);
+			}else {}
+			
+			if(logoSchFile1.exists()) {
+				//복사
+				copyFile(logoSchFile1, logoSchFile2);
+			}else {}
+			
+			File bmp1 = new File(localPath + "/" + fileNameHeader + fileNameBody + bmpExt);
+			File bmp2 = new File(localPath2 + "/" + fileNameHeader + fileNameBody + bmpExt);
+			File sch1 = new File(localPath + "/" + fileNameHeader + fileNameBody + schExt);
+			File sch2 = new File(localPath2 + "/" + fileNameHeader + fileNameBody + schExt);
+			
+			if(bmp1.exists()) {
+				copyFile(bmp1, bmp2);
+			}else {}
+			
+			if(sch1.exists()) {
+				copyFile(sch1, sch2);
+			}else {}
+		}
 	}
 	
-	
-	
 	//BM0503행선지안내기 예약(list 생성)
-	public void makeDstConfig(List<RoutRsvVO> rsvVO) throws Exception {
-		String txt = "";
-		txt += "FLOGO.BMP" + GlobalConstants.CSVForms.COMMA + "A" + GlobalConstants.CSVForms.ROW_SEPARATOR + 
-				"FLOGO.SCH" + GlobalConstants.CSVForms.COMMA + "A" + GlobalConstants.CSVForms.ROW_SEPARATOR +
-				"SLOGO.BMP" + GlobalConstants.CSVForms.COMMA + "A" + GlobalConstants.CSVForms.ROW_SEPARATOR +
-				"SLOGO.SCH" + GlobalConstants.CSVForms.COMMA + "A";
-		for(int i = 0; i < rsvVO.size(); i ++) {
-			txt +=  GlobalConstants.CSVForms.ROW_SEPARATOR + "F" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" + 
-					GlobalConstants.CSVForms.ROW_SEPARATOR + "F" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A" +
-					GlobalConstants.CSVForms.ROW_SEPARATOR + "S" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" + 
-					GlobalConstants.CSVForms.ROW_SEPARATOR + "S" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A";
+	public void makeDstConfig(List<VHCInfoVO> vhcVOList, List<RoutRsvVO> rsvVO) throws Exception {
+		for(VHCInfoVO vhcVo : vhcVOList) {
+			String txt = "";
+			String impId = vhcVo.getMngId().substring(0, 10);
+			String localPath2 = Paths.get(getRootLocalPath(), "vehicle/", impId, "/device/destination/images/").toString();
+			File fBmpFile = new File(localPath2 + "/FLOGO.BMP");
+			if(fBmpFile.exists()) {
+				txt +=	"FLOGO.BMP" + GlobalConstants.CSVForms.COMMA + "A" + GlobalConstants.CSVForms.ROW_SEPARATOR + 
+						"FLOGO.SCH" + GlobalConstants.CSVForms.COMMA + "A";
+				
+			}else {}
+			File sBmpFile = new File(localPath2 + "/SLOGO.BMP");
+			if(sBmpFile.exists()) {
+				txt +=	GlobalConstants.CSVForms.ROW_SEPARATOR +
+						"SLOGO.BMP" + GlobalConstants.CSVForms.COMMA + "A" + GlobalConstants.CSVForms.ROW_SEPARATOR +
+						"SLOGO.SCH" + GlobalConstants.CSVForms.COMMA + "A";
+			}else {}
 			
+			for(int i = 0; i < rsvVO.size(); i ++) {
+				txt +=  GlobalConstants.CSVForms.ROW_SEPARATOR + "F" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" + 
+						GlobalConstants.CSVForms.ROW_SEPARATOR + "F" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A" +
+						GlobalConstants.CSVForms.ROW_SEPARATOR + "S" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" + 
+						GlobalConstants.CSVForms.ROW_SEPARATOR + "S" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A";
+			}
+			String listLocalPath = Paths.get(getRootLocalPath(), "/vehicle/", impId, "/device/destination/").toString();
+			String listFTPPath = getRootServerPath() + "/vehicle/" + impId + "/device/destination/";
+			File localList = new File(listLocalPath + "/list/" + "list.csv");
+			Utils.createCSV(localList, txt);
+			processSynchronize(listLocalPath, listFTPPath);
 		}
-
+		
+		
+		/*
 		String path = Paths.get(getRootLocalPath(), "/destination/list").toString();
 		String fPath = getRootServerPath() + "/destination/list/";
 		File file = new File(path + "/list.csv");
 		Utils.createCSV(file, txt);
 		processSynchronize(path, fPath);
+		 */
+/*		
+		for(VHCInfoVO vo : vhcVO) {
+			String SID = vo.getMngId().substring(0, 10);
+			String localPath = Paths.get(getRootLocalPath(), "/vehicle/", SID, "/device/destination/").toString();
+			String ftpPath = getRootServerPath() + "/vehicle/" + SID + "/device/destination";
+
+			File dir = new File(localPath);
+			
+			if(!dir.isDirectory()) {
+				dir.mkdirs();
+			}
+			
+			File file = new File(localPath + "list.csv");
+			
+			Utils.createCSV(file, txt);
+			//processSynchronize(localPath, ftpPath);
+		}
+		
+		*/
 	}
 	
 	//BM0902 전자노선도예약
@@ -1123,8 +1243,7 @@ public class FTPHandler {
 	
 	//BMP파일 write
 	public boolean writeBmp(String fileName, MultipartFile file) {
-		//String path = Paths.get(getRootLocalPath(), getDestinationPath(), getDestinationImagesPath()).toString();
-		String path = Paths.get(getRootLocalPath(), "/temp/destination/images").toString();
+		String path = Paths.get(getRootLocalPath(), "/temp/destination").toString();
 		
 		File saveFile = Paths.get(path, "/" ,fileName).toFile();
 		try {
@@ -1138,16 +1257,19 @@ public class FTPHandler {
 	}
 	
 	//SCH파일 read
-	public List<DestinationVO> readSCH(String fileName) throws IOException {
-		String path = Paths.get(getRootLocalPath(), "/temp/destination/images").toString();
-		
+	public List<DestinationVO> readSCH(DestinationVO dvo, String fileName) throws IOException {
+		String path = Paths.get(getRootLocalPath(), "/temp/destination/", dvo.getDvcKindCd()).toString();
 		File file = new File(path + "/" + fileName);
 		FileReader fr = null;
 		List<DestinationVO> list = new ArrayList<>();
+		System.out.println("CreateFile");
+		System.out.println(dvo);
+		System.out.println(path);
+		System.out.println(fileName);
 		try {
 			fr = new FileReader(file);
 		} catch (FileNotFoundException e) {
-			createSCH(fileName);
+			createSCH(dvo, fileName);
 			fr = new FileReader(file);
 		}
         //입력 버퍼 생성
@@ -1167,12 +1289,11 @@ public class FTPHandler {
         	list.add(vo);
         }
         br.close();
-        
         return list;
 		
 	}
 	
-	public boolean createSCH(String fileName) {
+	public boolean createSCH(DestinationVO dvo, String fileName) {
 		List<DestinationVO> realList = new ArrayList<>();
 		
 		for(int i = 0; i < 10; i ++) {
@@ -1184,15 +1305,16 @@ public class FTPHandler {
 			vo.setShowTime("0000");
 			realList.add(vo);
 		}
-		
-		return writeSCH(realList, fileName);
+		dvo.setVoList(realList);
+		return writeSCH(dvo, fileName);
 	}
 	
 	//SCH파일 write
-	public boolean writeSCH(List<DestinationVO> list, String fileName) {
-		String path = Paths.get(getRootLocalPath(), "/temp/destination/images").toString();
+	public boolean writeSCH(DestinationVO vo, String fileName) {
+		String path = Paths.get(getRootLocalPath(), "/temp/destination/", vo.getDvcKindCd()).toString();
 		String txt = "";
-		
+		//
+		List<DestinationVO> list = vo.getVoList();
 		for(int i = 0; i < list.size(); i++) {
 			if(i == 0) {
 				txt += list.get(i).getFrameNo() + GlobalConstants.SCH.TAB + SM0105Mapper.SM0105G3S0(list.get(i).getEffType()) + GlobalConstants.SCH.TAB + String.format("%02d", Integer.valueOf(list.get(i).getEffSpeed())) + GlobalConstants.SCH.TAB + String.format("%04d", Integer.valueOf(list.get(i).getShowTime()));

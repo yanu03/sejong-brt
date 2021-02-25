@@ -6,20 +6,37 @@ selectedRow = null;
 /*************************************************************************************************************/
 
 /***사용자 변수***/
-uv_frontwidth = 348;
-uv_frontheight = 64;
-uv_sidewidth = 160;
-uv_sideheight = 32;
-uv_dvc_type = null;
+var uv_dvc_type = null;
 
-uv_frontwidthz = 0;
-uv_frontheightz = 0;
-uv_sidewidthz = 0;
-uv_sideheightz = 0;
+//해당 장치의 w,h값
+var uv_w = 0;
+var uv_h = 0;
 
-frontCode = 'CD001';
-sideCode = 'CD002';
+//가로세로사이즈
+var xy;
+
+var row;
+//몇줄짜리인지
+var rowCnt = 0;
+
+//어디에 부착되어있는지? F? S? R?
+var loc;
+
+//스케쥴이 몇개인지?
+var scheduleH = 0;
+var imageH = 0;
+var selectSize = 0;
+var divSize = [];
+var divCd;
+
 /**************/
+
+$(function(){
+	makeSBox();
+	onLoad();
+	checkImg();
+});
+
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
 var ACTIONS = axboot.actionExtend(fnObj, {
@@ -39,12 +56,16 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     
     PAGE_UPDATE: function(caller, act, data) {
     	
-    	var formDataF = new FormData();
-    	formDataF.append("dvcKind", "F");
-    	formDataF.append("dvcName", "LOGO");
+		uv_dvc_type = $("#selectBox option:selected").val();
+    	var formData = new FormData();
+		//업데이트기능 해야함
+		
+		formData.append("dvcKindCd", uv_dvc_type);
+    	formData.append("dvcKind", loc);
+    	formData.append("dvcName", "LOGO");
   
-    	if($("#bmpFileF")[0].files[0]){
-        	formDataF.append("attFile", $("#bmpFileF")[0].files[0]);
+    	if($("#bmpFile")[0].files[0]){
+        	formData.append("attFile", $("#bmpFile")[0].files[0]);
         }
     	
     	axboot.promise()
@@ -54,7 +75,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             	enctype: "multipart/form-data",
             	processData: false,
                 url: "/api/v1/BM0502G1U0",
-                data: formDataF,
+                data: formData,
                 callback: function (res) {
                     ok(res);
                 },
@@ -68,54 +89,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         	axboot.promise().then(function(ok, fail, data){
         		var input = {};
         		input.voList = fnObj.gridView0.getData();
-        		input.dvcKind = "F";
-        		input.dvcName = "LOGO";
-        		axboot.ajax({
-        			type: "POST",
-                    url: "/api/v1/BM0502G1U1",
-                    data: JSON.stringify(input),
-                    callback: function (res) {
-                        ok(res);
-                    }
-        		});
-        	});
-        	
-    		axToast.push(LANG("onsave"));
-    		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-        })
-        .catch(function () {
-
-        });
-    	/////////////////
-      	var formDataS = new FormData();
-    	formDataS.append("dvcKind", "S");
-    	formDataS.append("dvcName", "LOGO");
-    	if($("#bmpFileS")[0].files[0]){
-        	formDataS.append("attFile", $("#bmpFileS")[0].files[0]);
-        }
-    	
-    	axboot.promise()
-        .then(function (ok, fail, data) {
-        	axboot.ajax({
-            	type: "POST",
-            	enctype: "multipart/form-data",
-            	processData: false,
-                url: "/api/v1/BM0502G1U0",
-                data: formDataS,
-                callback: function (res) {
-                    ok(res);
-                },
-                options: {
-                	contentType:false
-                }
-            });
-        })
-        .then(function (ok) {
-        	//파일업로드하고 진행
-        	axboot.promise().then(function(ok, fail, data){
-        		var input = {};
-        		input.voList = fnObj.gridView1.getData();
-        		input.dvcKind = "S";
+				input.dvcKindCd = uv_dvc_type;
+        		input.dvcKind = loc;
         		input.dvcName = "LOGO";
         		axboot.ajax({
         			type: "POST",
@@ -141,7 +116,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK: function (caller, act, data) {
-    	var element = document.getElementById("previewImgF");
+    	var element = document.getElementById("previewImg");
     	var seq = data.__index + 1;
     	
         //loadSCH();
@@ -153,119 +128,6 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
 
 });
-
-function styleEdit(){
-	if(this.item.__index >= uv_height){
-		return "grid-cell-gray";
-	}
-	else{
-		return "grid-cell-black";
-	}
-}
-
-function editCaseFront(input){
-	switch(input){
-	
-		case 'effSpeed' :
-			return {
-				type: "number",
-				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
-					return this.item.__index >= uv_frontheightz;
-				},
-				attributes: {
-					'maxlength': 2,
-				}
-		};
-		case 'showTime' :
-			return {
-				type: "number",
-				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
-					return this.item.__index >= uv_frontheightz;
-				},
-				attributes: {
-					'maxlength': 4
-				}
-		};
-		case 'effType' :
-			return {
-			type: "select",
-			config: {
-				columnKeys: {
-					optionValue: "CD", optionText: "NM"
-				},
-				options: [	{CD : "화면그대로 표출", NM: "화면그대로 표출"},
-					{CD : "왼쪽으로 쉬프트하면서 밀어내기", NM: "왼쪽으로 쉬프트하면서 밀어내기"},
-					{CD : "오른쪽으로 쉬프트하면서 밀어내기", NM: "오른쪽으로 쉬프트하면서 밀어내기"},
-					{CD : "위로 쉬프트하면서 밀어내기", NM: "위로 쉬프트하면서 밀어내기"},
-					{CD : "아래로 쉬프트하면서 밀어내기", NM: "아래로 쉬프트하면서 밀어내기"}]
-			},
-			disabled: function(){
-				return this.item.__index >= uv_frontheightz;
-			}
-		};
-	}
-}
-
-function editCaseSide(input){
-	switch(input){
-	
-		case 'effSpeed' :
-			return {
-				type: "number",
-				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
-					return this.item.__index >= uv_sideheightz;
-				},
-				attributes: {
-					'maxlength': 2,
-				}
-		};
-		case 'showTime' :
-			return {
-				type: "number",
-				disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
-					return this.item.__index >= uv_sideheightz;
-				},
-				attributes: {
-					'maxlength': 4
-				}
-		};
-		case 'effType' :
-			return {
-			type: "select",
-			config: {
-				columnKeys: {
-					optionValue: "CD", optionText: "NM"
-				},
-				options: [	{CD : "화면그대로 표출", NM: "화면그대로 표출"},
-					{CD : "왼쪽으로 쉬프트하면서 밀어내기", NM: "왼쪽으로 쉬프트하면서 밀어내기"},
-					{CD : "오른쪽으로 쉬프트하면서 밀어내기", NM: "오른쪽으로 쉬프트하면서 밀어내기"},
-					{CD : "위로 쉬프트하면서 밀어내기", NM: "위로 쉬프트하면서 밀어내기"},
-					{CD : "아래로 쉬프트하면서 밀어내기", NM: "아래로 쉬프트하면서 밀어내기"}]
-			},
-			disabled: function(){
-				return this.item.__index >= uv_sideheightz;
-			}
-		};
-	}
-}
-
-function styleEditFront(){
-	if(this.item.__index >= uv_frontheightz){
-		return "grid-cell-gray";
-	}
-	else{
-		return "";
-	}
-}
-
-function styleEditSide(){
-	if(this.item.__index >= uv_sideheightz){
-		return "grid-cell-gray";
-	}
-	else{
-		return "";
-	}
-}
 
 /**
  * gridView0
@@ -292,10 +154,10 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
             	columnHeight: 28
             	},
             columns: [
-            	{key: "frameNo",			label: "프레임번호",			width: 100,																	styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effType",			label: "효과",				width: 140, editor: editCaseFront('effType'),  align:"center",					styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 160, editor: editCaseFront('effSpeed'), align:"right",					styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 160, editor: editCaseFront('showTime'), align:"right",					styleClass: function(){return (this.item.__index >= uv_frontheightz) ?   "grid-cell-gray":"" }}
+            	{key: "frameNo",			label: "프레임번호",			width: 100,																	styleClass: function(){return (this.item.__index >= scheduleH) ?   "grid-cell-":"grid-cell-black" }},
+            	{key: "effType",			label: "효과",				width: 140, editor: editCase('effType'),  align:"center",					styleClass: function(){return (this.item.__index >= scheduleH) ?   "grid-cell-":"grid-cell-black" }},
+            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 160, editor: editCase('effSpeed'), align:"right",					styleClass: function(){return (this.item.__index >= scheduleH) ?   "grid-cell-":"grid-cell-black" }},
+                {key: "showTime",			label: "표출시간(1=10ms)",		width: 160, editor: editCase('showTime'), align:"right",					styleClass: function(){return (this.item.__index >= scheduleH) ?   "grid-cell-":"grid-cell-black" }}
             ],
             body: {
                 onClick: function () {
@@ -367,175 +229,6 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
     }
 });
 
-/**
- * gridView1
- */
-fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
-    page: {
-        pageNumber: 0,
-        pageSize: 10
-    },
-    
-    initView: function () {
-        var _this = this;
-        
-        this.target = axboot.gridBuilder({
-        	showLineNumber: true,
-        	showRowSelector: false,
-        	lineNumberColumnWidth: 30,
-        	rowSelectorColumnWidth: 30,
-        	frozenColumnIndex: 0,
-            sortable: false,
-            target: $('[data-ax5grid="gridView1"]'),
-            header: {
-            	align: "center",
-            	columnHeight: 28
-            	},
-            columns: [
-            	{key: "frameNo",			label: "프레임번호",			width: 100,																		styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effType",			label: "효과",				width: 140, editor: editCaseSide('effType'), align:"center",						styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 160, editor: editCaseSide('effSpeed'), align:"right",					styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 160, editor: editCaseSide('showTime'), align:"right",					styleClass: function(){return (this.item.__index >= uv_sideheightz) ?   "grid-cell-gray":"" }}
-            ],
-            body: {
-                onClick: function () {
-                    this.self.select(this.dindex);
-            		ACTIONS.dispatch(ACTIONS.ITEM_CLICK2, this.item);
-                }
-            },
-        });
-    },
-    getData: function (_type) {
-        var list = [];
-        var _list = this.target.getList(_type);
-
-        if (_type == "modified" || _type == "deleted") {
-            list = ax5.util.filter(_list, function () {
-                delete this.deleted;
-                return this.key;
-            });
-        } else {
-            list = _list;
-        }
-        return list;
-    },
-    addRow: function (data) {
-    	if(typeof data === "undefined") {
-    		this.target.addRow({__created__: true}, "last");
-    	} else {
-    		data["__created__"] = true;
-            this.target.addRow(data, "last");
-    	}
-    },
-    selectFirstRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(0);
-    	} else {
-    	}
-    },
-    selectLastRow: function() {
-    	if(this.target.list.length != 0) {
-    		this.selectRow(this.target.list.length - 1);
-    	} else {
-    	}
-    },
-    selectRow: function(index) {
-    	var data = this.target.list[index];
-    	
-    	if(typeof data === "undefined") {
-    		this.selectLastRow();
-    	} else {
-    		this.target.select(index);
-    		ACTIONS.dispatch(ACTIONS.ITEM_CLICK2, data);
-    	}
-    },
-    selectIdRow: function(id) {
-    	var i;
-    	var length = this.target.list.length;
-    	for(i = 0; i < length; i++) {
-    		if(this.target.list[i].routId == id) {
-    			this.selectRow(i);
-    			break;
-    		}
-    	}
-    	
-    	if(i == length) {
-    	}
-    },
-    selectAll: function(flag) {
-    	this.target.selectAll({selected: flag});
-    }
-});
-
-var shortRoutNmEdit = {
-		type: "text",
-		disabled: function () { //클릭했을때 그 라우트아이디를 배열에 넣음, 나중에 저장할때 이 배열의 아이디를 받아서 리스트를 뽑아올거임
-			if(!updateList.includes(this.item.routId)){
-				updateList.push(this.item.routId);									
-			}
-		}
-	};
-
-
-/*이미지확인*/
-$("input[id=bmpFileF]").change(function(){
-    
-    var ext = $(this).val().split(".").pop().toLowerCase();
-    
-    if($.inArray(ext,["bmp", "BMP", ""]) == -1) {
-    	axDialog.alert("bmp 파일만 업로드 가능합니다.");
-        $("input[id=bmpFileF]").val("");
-        return;
-    }else if($.inArray(ext,["bmp", "BMP", ""]) == 2) {
-    	$("input[id=bmpFileF]").val("");
-        return;
-    }
-    
-    var file  = this.files[0];
-    var _URL = window.URL || window.webkitURL;
-    var img = new Image();
-    
-    img.src = _URL.createObjectURL(file);
-    img.onload = function() {
-        uv_frontheightz = img.height / uv_frontheight + 1;
-        preview_ChangeImage("src", "previewImgF");
-    }
-});
-
-
-$("input[id=bmpFileS]").change(function(){
-    
-    var ext = $(this).val().split(".").pop().toLowerCase();
-    
-    if($.inArray(ext,["bmp", "BMP"]) == -1) {
-    	axDialog.alert("bmp 파일만 업로드 가능합니다.");
-        $("input[id=bmpFileS]").val("");
-        return;
-    }else if($.inArray(ext,["bmp", "BMP", ""]) == 2) {
-    	$("input[id=bmpFileS]").val("");
-        return;
-    }
-    
-    /*var fileSize = this.files[0].size;
-    var maxSize = 1024 * 1024;
-    if(fileSize > maxSize) {
-        axDialog.alert("파일용량을 초과하였습니다.");
-        return;
-    }*/
-    
-    var file  = this.files[0];
-    var _URL = window.URL || window.webkitURL;
-    var img = new Image();
-    
-    img.src = _URL.createObjectURL(file);
-    img.onload = function() {
-    	uv_sideheightz = img.height / uv_sideheight + 1;
-        preview_ChangeImage("src", "previewImgS");
-        //axDialog.alert(img.width);
-        //axDialog.alert(img.height);
-        
-    }
-});
 
 /********************************************************************************************************************/
 
@@ -543,11 +236,8 @@ $("input[id=bmpFileS]").change(function(){
 fnObj.pageStart = function () {
     this.pageButtonView.initView();
     this.gridView0.initView();
-    this.gridView1.initView();
     this.formView0.initView();
-    this.formView1.initView();
 	this.searchView0.initView();
-	loadSCH();
 };
 
 fnObj.pageResize = function () {
@@ -679,192 +369,211 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     }
 });
 
-/**
- * formView0
- */
-fnObj.formView1 = axboot.viewExtend(axboot.formView, {
-    getDefaultData: function () {
-        return $.extend({}, axboot.formView.defaultData, {
-        });
-    },
-    initView: function () {
-    	_this = this;
-        this.target = $("#formView0");
-        this.model = new ax5.ui.binder();
-        this.model.setModel(this.getDefaultData(), this.target);
-        this.modelFormatter = new axboot.modelFormatter(this.model); // 모델 포메터 시작
-        this.initEvent();
-
-        this.target.find('[data-ax5picker="date"]').ax5picker({
-            direction: "auto",
-            content: {
-                type: 'date'
-            }
-        });
-        
-        axboot.buttonClick(this, "data-btn-test", {
-        });
-        
-        axboot.buttonClick(this, "data-btn-common-txt", {
-        })
-        
-    },
-    initEvent: function () {
-        var _this = this;
-    },
-    getData: function () {
-        var data = this.modelFormatter.getClearData(this.model.get()); // 모델의 값을 포멧팅 전 값으로 치환.
-        return $.extend({}, data);
-    },
-    setData: function (data) {
-
-        if (typeof data === "undefined") data = this.getDefaultData();
-        data = $.extend({}, data);
-        
-        this.model.setModel(data);
-        this.modelFormatter.formatting(); // 입력된 값을 포메팅 된 값으로 변경
-    },
-    validate: function (flag) {
-        var rs = this.model.validate();
-        if (rs.error) {
-        	if(!flag) {
-        		axDialog.alert(LANG("ax.script.form.validate", rs.error[0].jquery.attr("title")));
-        	}
-            rs.error[0].jquery.focus();
-            return false;
-        }
-        return true;
-    },
-    enable: function() {
-    	var _this = this;
-    	this.target.find("[data-btn],[data-ax-path][data-key!=true]").each(function(index, element) {
-    		$(element).attr("readonly", false).attr("disabled", false);
-    	});
-    },
-    disable: function() {
-    	this.target.find('#wavFile,[data-btn],[data-ax-path][data-key!=true]').each(function(index, element) {
-    		$(element).attr("readonly", true).attr("disabled", true);
-    	});
-    },
-    clear: function () {
-        this.model.setModel(this.getDefaultData());
-        this.target.find('[data-ax-path="key"]').removeAttr("readonly");
-    }
-});
-
-
-function loadSCH(){
-	var inputF = {};
-	var inputS = {};
-	inputF.dvcKind = "F";
-	inputS.dvcKind = "S";
-	
-	
-	$.when(loadBmpF()).done(function(){
-		axboot.ajax({
-			type: "POST",
-			data: JSON.stringify(inputF),
-			url: "/api/v1/BM0502F0S0",
-			callback: function (res) {
-				fnObj.gridView0.setData(res);
-			}
-		});		
-	});
-	
-	$.when(loadBmpS()).done(function(){
-		axboot.ajax({
-			type: "POST",
-			data: JSON.stringify(inputS),
-			url: "/api/v1/BM0502F0S0",
-			callback: function (res) {
-				fnObj.gridView1.setData(res);
-			}
-		});			
-	});
-}
-
-
-function loadBmpF(){
-	var url = "/api/v1/filePreview?type=BMPLOGO&dvcKindCd=F&dvcName=LOGO";
-	$("#previewImgF").attr("src", url);
-	fnObj.gridView0.initView();
-	
-	$.when(
-		$('#previewImgF').each(function(){
-			$.when(
-				$(this).load(function(){
-				})
-				).done(function(){
-					uv_frontheightz = this.height / uv_frontheight;
-				});
-			})
-		).done(function(){
-			setTimeValFront(uv_frontheightz);
-		
-	});
-	
-}
-
-function loadBmpS(){
-	var url = "/api/v1/filePreview?type=BMPLOGO&dvcKindCd=S&dvcName=LOGO";
-
-	$("#previewImgS").attr("src", url);
-	fnObj.gridView1.initView();
-	
-	$('#previewImgS').each(function(){
-		$(this).load(function(){
-			uv_sideheightz = this.height / uv_sideheight;
+/******************** function *********************/
+//장치선택 셀렉트박스
+function makeSBox(){
+	var options = [];
+	axboot.ajax({
+		type	: "GET",
+		url		: "/api/v1/BM0501G2S0",
+		callback: function(res){
+			selectSize = res.list.length;
+			divSize = [];
 			
-			setTimeValSide(uv_sideheightz);
-		});
+			for(var i=0; i<selectSize; i++){
+				divSize.push({divCd		: res.list[i].dlCd
+							, xy		: res.list[i].numVal4
+							, x			: res.list[i].numVal4 * res.list[i].numVal5
+							, y			: res.list[i].numVal4 * res.list[i].numVal6
+							, row		: res.list[i].numVal6
+							, loc		: res.list[i].txtVal2
+				});
+				options.push({value: res.list[i].dlCd, text : res.list[i].dlCdNm});		
+			}
+			uv_dvc_type = divSize[0].divCd;
+			loc = divSize[0].loc;
+			$('[data-ax5select]').ax5select({
+				options: options,
+				onChange: function(){
+					$("input[id=bmpFile]").val("");
+					uv_dvc_type = $('[data-ax5select="selectType"]').ax5select("getValue")[0].value;
+					for(var i = 0; i < divSize.length; i++){
+						if(divSize[i].divCd == uv_dvc_type){
+							xy			= divSize[i].xy;
+							loc			= divSize[i].loc;
+							row			= divSize[i].row;
+							break;
+						}
+					}
+					//셀렉트박스가 체인지되면 그림파일 재로딩
+					loadBMP(uv_dvc_type);
+					loadSize(uv_dvc_type);
+				}
+			});
+			loadBMP(uv_dvc_type);
+		}
 	});
+}
+
+
+/** gridView1용 함수 **/
+function editCase(input){
+	switch(input){
+		case 'effSpeed' :
+			return {
+				type: "number",
+				disabled: function () {
+					return this.item.__index >= scheduleH;
+				},
+				attributes: {
+					'maxlength': 2,
+				}
+		};
+		case 'showTime' :
+			return {
+				type: "number",
+				disabled: function () {
+					return this.item.__index >= scheduleH;
+				},
+				attributes: {
+					'maxlength': 4
+				}
+		};
+		case 'effType' :
+			return {
+			type: "select",
+			config: {
+				columnKeys: {
+					optionValue: "CD", optionText: "NM"
+				},
+				options: [	{CD : "화면그대로 표출", NM: "화면그대로 표출"},
+							{CD : "왼쪽으로 쉬프트하면서 밀어내기", NM: "왼쪽으로 쉬프트하면서 밀어내기"},
+							{CD : "오른쪽으로 쉬프트하면서 밀어내기", NM: "오른쪽으로 쉬프트하면서 밀어내기"},
+							{CD : "위로 쉬프트하면서 밀어내기", NM: "위로 쉬프트하면서 밀어내기"},
+							{CD : "아래로 쉬프트하면서 밀어내기", NM: "아래로 쉬프트하면서 밀어내기"}]
+			},
+			disabled: function(){
+				return this.item.__index >= scheduleH;
+			}
+		};
+	}
+}
+
+function isInt(n){
+	return n % 1 === 0;
+}
+
+//schedule 로드
+function loadSCH(){
+	//uv_dvc_type = $('#selectBox option:selected').val();
+	var foo = {};
+	foo.dvcKindCd = uv_dvc_type;
+	foo.dvcKind = loc;
+	var input = Object.assign(foo, selectedRow);
+	axboot.ajax({
+		type: "POST",
+		data: JSON.stringify(input),
+		url: "/api/v1/BM0502F0S0",
+		callback: function (res) {
+			//fnObj.gridView0.setData(res);
+			toZero(res);
+		}
+	});			
+}
+
+/*이미지확인*/
+function checkImg(){
+	$("input[id=bmpFile]").change(function(){
+	    var ext = $(this).val().split(".").pop().toLowerCase();
+	    
+	    if($.inArray(ext,["bmp", "BMP", ""]) == -1) {
+	    	axDialog.alert("bmp 파일만 업로드 가능합니다.");
+	        $("input[id=bmpFile]").val("");
+	        return;
+	    }else if($.inArray(ext,["bmp", "BMP", ""]) == 2) {
+	    	$("input[id=bmpFile]").val("");
+	        return;
+	    }
+	    
+	    var file  = this.files[0];
+	    var _URL = window.URL || window.webkitURL;
+	    var img = new Image();
+	    
+	    img.src = _URL.createObjectURL(file);
 	
+	    img.onload = function() {
+			if(!isInt(img.height / uv_h) || !isInt(img.width / uv_w)){
+				axDialog.alert("이미지 사이즈를 확인하세요");
+				$("#bmpFile").val("");
+			}else{
+				scheduleH = img.height / uv_h;
+				previewImg($("#bmpFile"), "previewImg");
+			}
+		}
+	});
 }
 
-function preview_ChangeImage(input, id) {
-    if (input.files && input.files[0]) {
-    var reader = new FileReader();
-
-    
-    reader.onload = function (e) {
-    	$('#' + id).attr('src', e.target.result);
-        }
-    	reader.readAsDataURL(input.files[0]);
+function previewImg(input, id){
+	if (input[0].files && input[0].files[0]) {
+	    var reader = new FileReader();
+	    reader.onload = function (e) {
+	    	$('#' + id).show().attr('src', e.target.result);
+	    }
+	    
+		reader.readAsDataURL(input[0].files[0]);
+	
+		loadSize(uv_dvc_type);
+		scheduleH = this.height / uv_h;
+		imageH = this.height;
+		fnObj.gridView0.initView();
+		loadSCH();
     }
-    setTimeValFront(uv_frontheightz);
-    setTimeValSide(uv_sideheightz);
 }
 
-function setTimeValFront(uv_height){
-	var d = fnObj.gridView0.getData();
-	var list = new Array;
-	if(uv_height > 0){
-		for(var i=0; i < d.length; i++){
-			if(d[i].__index >= uv_height){
-				d[i].effSpeed = '00';
-				d[i].showTime = '0000';
-				list.push(d[i]);
-			}else{
-				list.push(d[i]);
-			}
+//bmp 파일 불러오기
+function loadBMP(dvcType){
+	scheduleH = 0;
+	fnObj.gridView0.clear();
+	$("#previewImg").show();
+	$("#previewImg").empty();
+	var url = "/api/v1/filePreview?type=BMPLOGO&dvcKind=" + loc + "&dvcKindCd=" + uv_dvc_type + "&dvcName=LOGO";
+	
+	$("#previewImg").attr("src", url);
+	loadSCH();
+	loadSize(uv_dvc_type);
+}
+
+//이미지 로딩완료시 
+function onLoad(){
+	$("#previewImg").load(function(){
+		loadSize(uv_dvc_type);
+		scheduleH = this.height / uv_h;
+		imageH = this.height;
+		fnObj.gridView0.initView();
+	});
+}
+
+//사이즈 로딩
+function loadSize(dvcType){
+	for(var i = 0; i < divSize.length; i++){
+		if(divSize[i].divCd == uv_dvc_type){
+			xy			= divSize[i].xy;
+			uv_w		= divSize[i].x;
+			uv_h		= divSize[i].y;
+			loc			= divSize[i].loc;
+			row			= divSize[i].row;
+			break;
 		}
-		fnObj.gridView0.setData(list);
 	}
 }
 
-function setTimeValSide(uv_height){
-	var d = fnObj.gridView1.getData();
-	var list = new Array;
-	if(uv_height > 0){
-		for(var i=0; i < d.length; i++){
-			if(d[i].__index >= uv_height){
-				d[i].effSpeed = '00';
-				d[i].showTime = '0000';
-				list.push(d[i]);
-			}else{
-				list.push(d[i]);
-			}
-		}
-		fnObj.gridView1.setData(list);
+function toZero(res){
+	//var grid = fnObj.gridView1.getData();
+	var grid = res.list;
+	for(var i=0; i<grid.length; i++){
+		if(i >= scheduleH){
+			grid[i].showTime = "0000";
+		}	
 	}
+	fnObj.gridView0.setData(grid);
 }

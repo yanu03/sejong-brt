@@ -6,33 +6,34 @@ selectedRow = null;
 /*************************************************************************************************************/
 
 /***사용자 변수***/
-var uv_dvc_type = null; //장치코드가 들어감
-
-//해당 장치의 w, h값
-var uv_w = 0;
-var uv_h = 0;
-
-var xy;
-var row;
-//몇줄짜리인지
-var rowCnt = 0;
-
-//front?side?rear?
-var loc;
-
-//스케쥴이 몇개인지 bmp그림사이즈/uv_h
-var scheduleH = 0;
-var imageH = 0;
+uv_frontwidth = 384;
+uv_frontheight = 64;
+uv_sidewidth = 160;
+uv_sideheight = 32;
+uv_dvc_type = null; //장치코드가 들어감
+uv_width = 0;
+uv_height = 0;
+frontCode = 'CD001';
+sideCode = 'CD002';
 var selectSize = 0;
 var divSize = [];
-
 /**************/
 
 /*****************************************시작시 실행******************************************************/
 $(function(){
-	makeSBox();
-	onLoad();
-	checkImg();
+
+//화면
+//할거없음
+//시정홍보는 추가필요
+//시정홍보는 bm0501참조하여 작성
+
+//스크립트
+//화면 진입시 코드별 화면 크기 쿼리해옴
+//리스트만들겠지뭐
+//front인지 side인지 구분은 공통코드에 넣어둔 text예비컬럼 2번째 값을 참조함 ('F', 'S', 'R')
+//파일업로드할때 해당 값이랑 열
+
+
 });
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -74,6 +75,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
                 }
             }
         });
+        //loadSCH();
         return false;
     },
     
@@ -138,21 +140,85 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     ITEM_CLICK: function (caller, act, data) {
-//		$("#selectBox").empty();
-		uv_dvc_type = divSize[0].divCd;
-		loadSize(uv_dvc_type);
-		makeSBox();
+    	// 2020-05-08 -> 팝업메시지 안나오게 수정
     	uv_height = 0;
-		selectedRow = data;
-		loadBMP(divSize[0].divCd);
+    	selectBox();
+    	selectedRow = data;
+    	//loadSCH(data);
+        caller.formView0.setData(data);
+        caller.formView0.enable();
+        $("#selectBox option:eq(0)").attr("selected", "selected");
+        $('#bmpFile').val("");
+        $('#previewImg').show().attr("src", "");
+        //loadBmp();
+        loadSCH();
     },
     
     ITEM_CLICK2: function (caller, act, data) {
     	var element = document.getElementById("previewImg");
     	var seq = data.__index + 1;
+    	if(uv_dvc_type == frontCode){
+    	}
     },
 
 });
+
+function getEffType(){
+	var effArr = new Array();
+}
+
+function editCase(input){
+	switch(input){
+		case 'effSpeed' :
+			return {
+				type: "number",
+				disabled: function () {
+					return this.item.__index >= uv_height;
+				},
+				attributes: {
+					'maxlength': 2,
+				}
+		};
+		case 'showTime' :
+			return {
+				type: "number",
+				disabled: function () {
+					return this.item.__index >= uv_height;
+				},
+				attributes: {
+					'maxlength': 4
+				}
+		};
+		case 'effType' :
+			return {
+			type: "select",
+			config: {
+				columnKeys: {
+					optionValue: "CD", optionText: "NM"
+				},
+				options: [	{CD : "화면그대로 표출", NM: "화면그대로 표출"},
+							{CD : "왼쪽으로 쉬프트하면서 밀어내기", NM: "왼쪽으로 쉬프트하면서 밀어내기"},
+							{CD : "오른쪽으로 쉬프트하면서 밀어내기", NM: "오른쪽으로 쉬프트하면서 밀어내기"},
+							{CD : "위로 쉬프트하면서 밀어내기", NM: "위로 쉬프트하면서 밀어내기"},
+							{CD : "아래로 쉬프트하면서 밀어내기", NM: "아래로 쉬프트하면서 밀어내기"}]
+			},
+			disabled: function(){
+				return this.item.__index >= uv_height;
+			}
+		};
+	}
+}
+
+
+
+function styleEdit(){
+	if(this.item.__index >= uv_height){
+		return "grid-cell-gray";
+	}
+	else{
+		return "grid-cell-black";
+	}
+}
 
 /**
  * gridView0
@@ -177,10 +243,10 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
             	columnHeight: 28
             	},
             columns: [
-            	{key: "frameNo",			label: "프레임번호",			width: 70,													styleClass: function(){return (this.item.__index >= scheduleH) ?   "grid-cell-":"grid-cell-black" }},
-            	{key: "effType",			label: "효과",				width: 200, editor: editCase('effType'), align:"left",		styleClass: function(){return (this.item.__index >= scheduleH) ?   "grid-cell-":"grid-cell-black" }},
-            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 130, editor: editCase('effSpeed'), align:"right",	styleClass: function(){return (this.item.__index >= scheduleH) ?   "grid-cell-":"grid-cell-black" }},
-                {key: "showTime",			label: "표출시간(1=10ms)",		width: 130, editor: editCase('showTime'), align:"right",	styleClass: function(){return (this.item.__index >= scheduleH) ?   "grid-cell-":"grid-cell-black" }}
+            	{key: "frameNo",			label: "프레임번호",			width: 70,													styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+            	{key: "effType",			label: "효과",				width: 200, editor: editCase('effType'), align:"left",		styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+            	{key: "effSpeed",			label: "효과속도(1=10ms)",		width: 130, editor: editCase('effSpeed'), align:"right",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }},
+                {key: "showTime",			label: "표출시간(1=10ms)",		width: 130, editor: editCase('showTime'), align:"right",	styleClass: function(){return (this.item.__index >= uv_height) ?   "grid-cell-gray":"" }}
             ],
             body: {
                 onClick: function () {
@@ -252,11 +318,70 @@ fnObj.gridView1 = axboot.viewExtend(axboot.gridView, {
     }
 });
 
+var shortRoutNmEdit = {
+		type: "text",
+		disabled: function () {
+			if(!updateList.includes(this.item.routId)){
+				updateList.push(this.item.routId);									
+			}
+		}
+	};
+
+
+/*이미지확인*/
+$("input[id=bmpFile]").change(function(){
+    var ext = $(this).val().split(".").pop().toLowerCase();
+    
+    if($.inArray(ext,["bmp", "BMP", ""]) == -1) {
+    	axDialog.alert("bmp 파일만 업로드 가능합니다.");
+        $("input[id=bmpFile]").val("");
+        return;
+    }else if($.inArray(ext,["bmp", "BMP", ""]) == 2) {
+    	$("input[id=bmpFile]").val("");
+        return;
+    }
+    
+    var file  = this.files[0];
+    var _URL = window.URL || window.webkitURL;
+    var img = new Image();
+    
+    img.src = _URL.createObjectURL(file);
+
+    img.onload = function() {
+        if(uv_dvc_type == frontCode){
+        	if(!isInt(img.height/uv_frontheight) || !isInt(img.width/uv_frontwidth)){
+        		axDialog.alert("이미지 사이즈를 확인하세요");
+        		$('#bmpFile').val('');
+        		return;
+        	}else{
+        		uv_height = img.height / uv_frontheight;
+        		preview_ChangeImage($('#bmpFile'), "previewImg");
+        	}
+    	}else if(uv_dvc_type == sideCode){
+    		if(!isInt(img.height/uv_sideheight) || !isInt(img.width/uv_sidewidth)){
+    			axDialog.alert("이미지 사이즈를 확인하세요");
+    			$('#bmpFile').val('');
+    			return;
+    		}else{
+    			uv_height = img.height / uv_sideheight;    			
+    			preview_ChangeImage($('#bmpFile'), "previewImg");
+    		}
+    	}else{
+    		console.log('error');
+    	}
+    }
+});
+
+function isInt(n){
+	return n % 1 === 0;
+}
+
 /********************************************************************************************************************/
 
 /******************************************* 페이지 처음 로딩시 호출 ******************************************************/
 fnObj.pageStart = function () {
-	this.gridView1.initView();
+	selectBox();
+	//this.gridView1.initView();
     this.pageButtonView.initView();
     this.gridView0.initView();
     this.formView0.initView();
@@ -505,209 +630,140 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
     }
 });
 
-/******************** function *********************/
-//장치선택 셀렉트박스
-function makeSBox(){
+function selectBox(){
 	var options = [];
 	axboot.ajax({
-		type	: "GET",
-		url		: "/api/v1/BM0501G2S0",
-		callback: function(res){
+		type: "GET",
+		url: "/api/v1/BM0501G2S0",
+		callback: function (res) {
 			selectSize = res.list.length;
-			divSize = [];
 
-			for(var i=0; i<selectSize; i++){
-				divSize.push({divCd		: res.list[i].dlCd
-							, xy		: res.list[i].numVal4
-							, x			: res.list[i].numVal4 * res.list[i].numVal5
-							, y			: res.list[i].numVal4 * res.list[i].numVal6
-							, row		: res.list[i].numVal6
-							, loc		: res.list[i].txtVal2
-				});
-				options.push({value: res.list[i].dlCd, text : res.list[i].dlCdNm});		
-				uv_dvc_type = divSize[0].divCd;
+			for(var i=0; i<res.list.length; i++){
+				if(divSize.length < selectSize){
+					divSize.push({divCd		: res.list[i].dlCd
+								, xy		: res.list[i].numVal4
+								, x			: res.list[i].numVal4 * res.list[i].numVal5
+								, y			: res.list[i].numVal4 * res.list[i].numVal6
+								, row		: res.list[i].numVal6
+								, loc		: res.list[i].txtVal2
+					});
+				}
+				
+				options.push({value: res.list[i].dlCd, text : res.list[i].dlCdNm});				
 			}
+
 			$('[data-ax5select]').ax5select({
 				options: options,
 				onChange: function(){
 					$("input[id=bmpFile]").val("");
 					uv_dvc_type = $('[data-ax5select="selectType"]').ax5select("getValue")[0].value;
-					//셀렉트박스가 체인지되면 그림파일 재로딩
-					loadBMP(uv_dvc_type);
-					loadSize(uv_dvc_type);
+					loadSCH();
+					
 				}
 			});
 		}
 	});
 }
 
-
-//bmp 파일 불러오기
-function loadBMP(dvcType){
-	scheduleH = 0;
-	fnObj.gridView1.clear();
-	$("#previewImg").show();
-	$("#previewImg").empty();
-
-	var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + dvcType + "&userWayDiv=" + selectedRow.userWayDiv + "&dvcName="+selectedRow.dvcName;
-	
-	$("#previewImg").attr("src", url);
-	loadSCH();
-	loadSize(uv_dvc_type);
-}
-
-//이미지 로딩완료시 
-function onLoad(){
-	$("#previewImg").load(function(){
-		loadSize(uv_dvc_type);
-		scheduleH = this.height / uv_h;
-		imageH = this.height;
-		fnObj.gridView1.initView();
-	});
-}
-//사이즈 로딩
-function loadSize(dvcType){
-	for(var i = 0; i < divSize.length; i++){
-		if(divSize[i].divCd == uv_dvc_type){
-			xy			= divSize[i].xy;
-			uv_w		= divSize[i].x;
-			uv_h		= divSize[i].y;
-			loc			= divSize[i].loc;
-			row			= divSize[i].row;
-			break;
-		}
-	}	
-}
-
-//이미지가 없으면 숨김
-function noImage(id){
-	$('#' + id).hide();
-}
-
-
-/************* gridView 1 ****************/
-
-//schedule 로드
 function loadSCH(){
 	uv_dvc_type = $('#selectBox option:selected').val();
 	var foo = {};
 	foo.dvcKindCd = uv_dvc_type;
 	var input = Object.assign(foo, selectedRow);
 	
+	
+	loadBmp();
 	axboot.ajax({
 		type: "POST",
 		data: JSON.stringify(input),
 		url: "/api/v1/BM0501F0S0",
 		callback: function (res) {
-			//fnObj.gridView1.setData(res);
-			toZero(res);
+			fnObj.gridView1.setData(res);
 		}
+	});			
+
+}
+
+
+function loadBmp(){
+	uv_dvc_type = $('#selectBox option:selected').val();
+	var url = "/api/v1/filePreview?type=BMP&dvcKindCd=" + uv_dvc_type + "&userWayDiv=" + selectedRow.userWayDiv + "&dvcName="+selectedRow.dvcName;
+
+
+	$('#previewImg').each(function(){
+		$('#previewImg').empty();
+		
+		$(this).load(function(){
+			var loc;
+			
+			for(var i = 0; i < divSize.length; i++){
+				if(divSize[i].divCd == uv_dvc_type){
+					xy			= divSize[i].xy;
+					uv_width	= divSize[i].x;
+					uv_height	= divSize[i].y;
+					loc			= divSize[i].loc;
+					row			= divSize[i].row;
+					break;
+				}
+			}
+			
+			uv_height = this.height / (xy * row);
+		});
+		$("#previewImg").attr("src", url);
 	});
 	
-}
-function editCase(input){
-	switch(input){
-		case 'effSpeed' :
-			return {
-				type: "number",
-				disabled: function () {
-					return this.item.__index >= scheduleH;
-				},
-				attributes: {
-					'maxlength': 2,
-				}
-		};
-		case 'showTime' :
-			return {
-				type: "number",
-				disabled: function () {
-					return this.item.__index >= scheduleH;
-				},
-				attributes: {
-					'maxlength': 4
-				}
-		};
-		case 'effType' :
-			return {
-			type: "select",
-			config: {
-				columnKeys: {
-					optionValue: "CD", optionText: "NM"
-				},
-				options: [	{CD : "화면그대로 표출", NM: "화면그대로 표출"},
-							{CD : "왼쪽으로 쉬프트하면서 밀어내기", NM: "왼쪽으로 쉬프트하면서 밀어내기"},
-							{CD : "오른쪽으로 쉬프트하면서 밀어내기", NM: "오른쪽으로 쉬프트하면서 밀어내기"},
-							{CD : "위로 쉬프트하면서 밀어내기", NM: "위로 쉬프트하면서 밀어내기"},
-							{CD : "아래로 쉬프트하면서 밀어내기", NM: "아래로 쉬프트하면서 밀어내기"}]
-			},
-			disabled: function(){
-				return this.item.__index >= scheduleH;
-			}
-		};
-	}
-}
-
-function isInt(n){
-	return n % 1 === 0;
-}
-
-/*이미지확인*/
-
-function checkImg(){
-	$("input[id=bmpFile]").change(function(){
-	    var ext = $(this).val().split(".").pop().toLowerCase();
-	    
-	    if($.inArray(ext,["bmp", "BMP", ""]) == -1) {
-	    	axDialog.alert("bmp 파일만 업로드 가능합니다.");
-	        $("input[id=bmpFile]").val("");
-	        return;
-	    }else if($.inArray(ext,["bmp", "BMP", ""]) == 2) {
-	    	$("input[id=bmpFile]").val("");
-	        return;
-	    }
-	    
-	    var file  = this.files[0];
-	    var _URL = window.URL || window.webkitURL;
-	    var img = new Image();
-	    
-	    img.src = _URL.createObjectURL(file);
+	fnObj.gridView1.initView();
+	setTimeVal(uv_height);
 	
-	    img.onload = function() {
-			if(!isInt(img.height / uv_h) || !isInt(img.width / uv_w)){
-				axDialog.alert("이미지 사이즈를 확인하세요");
-				$("#bmpFile").val("");
-			}else{
-				scheduleH = img.height / uv_h;
-				previewImg($("#bmpFile"), "previewImg");
-			}
-		}
-	});
 }
 
-function previewImg(input, id){
-		if (input[0].files && input[0].files[0]) {
+
+function preview_ChangeImage(input, id) {
+	if (input[0].files && input[0].files[0]) {
 	    var reader = new FileReader();
 	    reader.onload = function (e) {
 	    	$('#' + id).show().attr('src', e.target.result);
 	    }
 	    
     	reader.readAsDataURL(input[0].files[0]);
-
-		loadSize(uv_dvc_type);
-		scheduleH = this.height / uv_h;
-		imageH = this.height;
-		fnObj.gridView1.initView();
-		loadSCH();
     }
+    setTimeVal(uv_height);
 }
 
-function toZero(res){
-	//var grid = fnObj.gridView1.getData();
-	var grid = res.list;
-	for(var i=0; i<grid.length; i++){
-		if(i >= scheduleH){
-			grid[i].showTime = "0000";
-		}	
+function setTimeVal(uv_height){
+	var d = fnObj.gridView1.getData();
+	var list = new Array;
+	if(uv_height > 0){
+		for(var i=0; i < d.length; i++){
+			if(d[i].__index >= uv_height){
+				d[i].effSpeed = '00';
+				d[i].showTime = '0000';
+				list.push(d[i]);
+			}else{
+				list.push(d[i]);
+			}
+		}
+		fnObj.gridView1.setData(list);
 	}
-	fnObj.gridView1.setData(grid);
+}
+
+function preview_Image(id){
+	var path;
+	//path = "/assets/images/BM0108/default.jpg";//default path
+	//document.getElementById(id).src=path;
+	//document.getElementById(id).src="";
+	$('#' + id).hide();
+}
+
+function noDupArr(arr){
+	var result = arr.slice() // 정렬하기 전에 복사본을 만든다.
+		.sort(function(a,b){
+			return a - b;
+		})
+		.reduce(function(a,b){
+			if (a.slice(-1)[0] !== b) a.push(b); // slice(-1)[0] 을 통해 마지막 아이템을 가져온다.
+			return a;
+		},[]); //a가 시작될 때를 위한 비어있는 배열
+		
+	return result;
 }

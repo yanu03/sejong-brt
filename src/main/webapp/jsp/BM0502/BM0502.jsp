@@ -36,10 +36,10 @@
         </div>
 
         <ax:split-layout name="ax1" orientation="vertical">
-            <ax:split-panel width="*" style="padding-right: 10px;" scroll="scroll">
+            <ax:split-panel width="*" style="padding-right: 0px;" scroll="scroll">
                 <div class="ax-button-group" role="panel-header">
                     <div class="left">
-                        <i class="cqc-news"></i>전면 시정홍보
+                        <i class="cqc-news"></i>시정홍보
                     </div>
                     <div class="right">
 						<!-- 우측에 필요시 -->
@@ -47,9 +47,14 @@
                 </div>
                 <ax:form name="formView0">
                     <ax:tbl clazz="ax-form-tbl" minWidth="500px">
+                 		<ax:tr>
+                            <ax:td label="장치유형" width="500px" labelClazz="required">
+                            	<div data-ax5select="selectType" id="selectBox"></div>
+                            </ax:td>
+                        </ax:tr>
                         <ax:tr>
-                            <ax:td label="전면 행선지 안내기" width="100%" labelClazz="required">
-								<input type="file" id="bmpFileF" name="bmpFileF" accept="image/bmp" onchange="preview_ChangeImage(this, 'previewImgF');"/>
+                            <ax:td label="파일 선택" width="100%" labelClazz="required">
+								<input type="file" id="bmpFile" name="bmpFile" accept="image/bmp"/>
                             </ax:td>
                         </ax:tr>
                         <ax:tr>
@@ -62,12 +67,13 @@
                         <ax:tr>
                             <ax:td label="미리보기" width="100%" style="height: 100px;">
 	                             	<div>
-	                             		<img id="previewImgF" src="#" alt="전면 시정홍보 미리보기" onError="/assets/videos/BM0605/Default.png"></div>
+	                             		<img id="previewImg" src="#" alt="시정홍보 미리보기" onError="/assets/videos/BM0605/Default.png"></div>
                             </ax:td>
                         </ax:tr>
                     </ax:tbl>
                 </ax:form>
             </ax:split-panel>
+            <!-- 
             <ax:splitter></ax:splitter>
             <ax:split-panel width="*" style="padding-left:10px; height:100%;" scroll="scroll">
             	                <div class="ax-button-group" role="panel-header">
@@ -75,7 +81,6 @@
                         <i class="cqc-news"></i>측면 시정홍보
                     </div>
                     <div class="right">
-						<!-- 우측에 필요시 -->
                     </div>
                 </div>
                 <ax:form name="formView1">
@@ -87,7 +92,6 @@
                         </ax:tr>
                         <ax:tr>
                             <ax:td label="동작설정" width="100%" labelClazz="required">
-	                             <!-- 그리드 -->
 	                             <div data-ax5grid="gridView1" style="height: 280px;"></div>
                             </ax:td>
                         </ax:tr>
@@ -102,6 +106,8 @@
                     </ax:tbl>
                 </ax:form>
             </ax:split-panel>
+             -->
+             
         </ax:split-layout>
 
     </jsp:body>

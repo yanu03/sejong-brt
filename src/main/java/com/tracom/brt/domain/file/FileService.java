@@ -246,16 +246,18 @@ public class FileService {
 		String fileNameTail = ".BMP";
 		String fileName = "";
 		
-		fileName = fileNameHeader + fileNameBody + fileNameTail;			
-		return Paths.get(handler.getRootLocalPath(), "temp/destination/images/", fileName).toString();
+		String dvcCd = requestParams.getNotEmptyString("dvcKindCd");
+		fileName = fileNameHeader + fileNameBody + fileNameTail;
+		return Paths.get(handler.getRootLocalPath(), "temp/destination/", dvcCd, "/", fileName).toString();
 	}
 	
 	private String bmpPreviewLOGO(RequestParams<?> requestParams, HttpServletResponse response) {
 		String fileNameBody = requestParams.getString("dvcName");
 		String fileNameTail = ".BMP";
-		
-		String fileName = requestParams.getString("dvcKindCd") + fileNameBody + fileNameTail;
-		return Paths.get(handler.getRootLocalPath(), "temp/destination/images/", fileName).toString();
+		String loc = requestParams.getString("dvcKind");
+		String dvcKindCd = requestParams.getString("dvcKindCd");
+		String fileName = loc + fileNameBody + fileNameTail;
+		return Paths.get(handler.getRootLocalPath(), "temp/destination/", dvcKindCd + "/" , fileName).toString();
 	}
 	
 	private String pngPreview(RequestParams<?> requestParams, HttpServletResponse response) {
