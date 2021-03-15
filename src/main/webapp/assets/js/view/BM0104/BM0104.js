@@ -339,6 +339,7 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "userWayDivNm",	label: "<font color=0000FF>" + ADMIN("ax.admin.BM0104G0.userWayDiv") + "</font>",	width: 120,		align: "center"},
                 //{key: "turnDivNm",	label: ADMIN("ax.admin.BM0104G0.turnDiv"),width: 100},
                 {key: "dvcName",		label: ADMIN("ax.admin.BM0104G0.dvcName"),											width: 90},
+                {key: "expressName",	label: ADMIN("ax.admin.BM0104G0.expressName"),										width: 90},
                 {key: "line1Str",		label: ADMIN("ax.admin.BM0104G0.line1Str"),											width: 200},
                 {key: "line2Str",		label: ADMIN("ax.admin.BM0104G0.line2Str"),											width: 200},
                 {key: "line1Satstr",	label: ADMIN("ax.admin.BM0104G0.line1Satstr"),										width: 200},

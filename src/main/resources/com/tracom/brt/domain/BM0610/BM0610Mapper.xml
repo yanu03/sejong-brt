@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.BM0610.BM0610Mapper">
+
+    <select id="BM0610G0S0" parameterType="String" resultType="innerLEDVO">
+    	SELECT
+    		*
+    	FROM
+    		BM_INNER_LED
+    	WHERE
+    		SEQ IS NOT NULL
+    		AND
+    		TXT_CD = 'CD005'
+	    	<if test="value != null">
+	    		AND
+				ILD_ID LIKE CONCAT('%', #{value}, '%')
+				OR ILD_NM LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	ORDER BY SEQ
+    </select>
+
+	<select id="getSeq" resultType="String">
+		SELECT
+			IFNULL(MAX(SEQ), 0)+1
+		FROM
+			BM_INNER_LED
+	</select>
+	
+    <insert id="BM0610F0I0" parameterType="innerLEDVO">
+    	<selectKey keyProperty="ildId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('ILD', LPAD(NEXTVAL(SEQ_BM_INNER_LED_0), 5, '0'))
+    	</selectKey>
+    	
+    	INSERT INTO BM_INNER_LED(
+    		  ILD_ID
+    		, ILD_NM
+    		, SEQ
+    		, TXT_A
+    		, TXT_B
+    		, VOC_ID
+    		, TXT_CD
+    		, REMARK
+    		, CREATED_AT
+    		, CREATED_BY
+    		, UPDATED_AT
+    		, UPDATED_BY)
+   		VALUES(
+   			  #{ildId}
+   			, #{ildNm}
+   			, #{seq}
+   			, REPLACE(REPLACE(#{txtA}, '\r\n', ' '), '\r', '')
+   			, REPLACE(REPLACE(#{txtB}, '\r\n', ' '), '\r', '')
+   			, #{ildId}
+   			, 'CD005'
+   			, #{remark}
+   			, #{createdAt}
+   			, #{createdBy}
+   			, #{updatedAt}
+   			, #{updatedBy}
+   		)
+    </insert>
+    
+    <update id="BM0610F0U0" parameterType="innerLEDVO">
+    	UPDATE BM_INNER_LED
+    	SET
+    		  ILD_NM		=	#{ildNm}
+    		, SEQ			=	#{seq}
+    		, TXT_A			=	REPLACE(REPLACE(#{txtA}, '\r\n', ' '), '\r', '')
+    		, TXT_B			=	REPLACE(REPLACE(#{txtB}, '\r\n', ' '), '\r', '')
+    		, TXT_CD		=	#{txtCd}
+    		, REMARK		=	#{remark}
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		ILD_ID = #{ildId}
+    </update>
+    
+    <delete id="BM0610G0D0" parameterType="innerLEDVO">
+    	DELETE
+    		FROM BM_INNER_LED
+    	WHERE
+    		ILD_ID = #{ildId}
+    </delete>
+    
+    <select id="getMax" resultType="commonCodeDetailInfoVO">
+    	SELECT
+			*
+		FROM
+			SM_DL_CD_INFO
+		WHERE
+			CO_CD = 'INNER_LED'
+		    AND
+			DL_CD = 'CD003'
+    </select>
+    
+    <update id="BM0610G0U1" parameterType="innerLEDVO">
+    	UPDATE BM_INNER_LED
+    	SET
+    		SEQ = #{seq}
+    	WHERE
+    		ILD_ID = #{ildId}
+    </update>
+    
+    <select id="selectIldHelp" resultType="hashmap">
+    	SELECT
+			  DL_CD_NM AS tag
+			, TXT_VAL1 AS description
+			, REMARK AS example
+		FROM
+			SM_DL_CD_INFO
+		WHERE
+			CO_CD = 'INNER_LED'
+		    AND	TXT_VAL3 = 'tag'
+			AND USE_YN = 'Y'
+		ORDER BY SORT_ODR ASC
+    </select>
+    
+    <select id="currentLength" parameterType="String" resultType="String">
+    	SELECT
+    		LENGTH(CONVERT(#{value} USING EUCKR)) AS BYTES
+    </select>
+    
+    <select id="isExists" parameterType="String" resultType="String">
+    	SELECT
+    		COUNT(*) AS COUNT
+    	FROM
+    		BM_INNER_LED
+    	WHERE
+    		VOC_ID = CONCAT(#{value})
+    </select>
+    
+    <select id="makeIldID" parameterType="String" resultType="String">
+    		
+    </select>
+</mapper>

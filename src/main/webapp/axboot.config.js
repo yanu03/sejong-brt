@@ -223,6 +223,15 @@
 				},
 				header: false
 			},
+			
+			"ILD_HELP": {
+				width: 690,
+				height: 400,
+				iframe: {
+					url: "/jsp/common/ild_modal.jsp"
+				},
+				header: false
+			},
         };
     }
 

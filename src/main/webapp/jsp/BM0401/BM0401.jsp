@@ -159,6 +159,7 @@
                             	<textarea name="scrTxtEn" data-ax-path="scrTxtEn" class="form-control" title="<ax:lang id="ax.admin.BM0401F0.scr.txt.en"/>" data-ax-validate="required" rows="3" maxlength="200"></textarea>
                             </ax:td>
                        	</ax:tr>
+
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.test" width="300px">
@@ -190,6 +191,37 @@
 								</div>
                             </ax:td>
                        	</ax:tr>
+                       	
+                       	
+                       	                       	
+                       	<ax:tr>
+                            <ax:td label="ax.admin.BM0401F0.txtKrA" width="100%" labelClazz="required">
+                            	<textarea name="txtKrA" data-ax-path="txtKrA" id="txtKrA" class="form-control" title="<ax:lang id="ax.admin.BM0401F0.txtKrA"/>" rows="3" maxlength="120" onkeyup="currentLength('krA')" data-ax-validate="required"></textarea>
+                            	<div id="txtKrALen" style="text-align: right;"></div>
+                            </ax:td>
+                       	</ax:tr>
+                       	
+                       	<ax:tr>
+                            <ax:td label="ax.admin.BM0401F0.txtKrB" width="100%">
+                            	<textarea name="txtKrB" data-ax-path="txtKrB" id="txtKrB" class="form-control" title="<ax:lang id="ax.admin.BM0401F0.txtKrB"/>" rows="3" maxlength="120" onkeyup="currentLength('krB')"></textarea>
+                            	<div id="txtKrBLen" style="text-align: right;"></div>
+                            </ax:td>
+                       	</ax:tr>
+                       	
+                       	<ax:tr>
+                            <ax:td label="ax.admin.BM0401F0.txtEnA" width="100%">
+                            	<textarea name="txtEnA" data-ax-path="txtEnA" id="txtEnA" class="form-control" title="<ax:lang id="ax.admin.BM0401F0.txtEnA"/>" rows="3" maxlength="120" onkeyup="currentLength('enA')"></textarea>
+                            	<div id="txtEnALen" style="text-align: right;"></div>
+                            </ax:td>
+                       	</ax:tr>
+                       	
+                       	<ax:tr>
+                            <ax:td label="ax.admin.BM0401F0.txtEnB" width="100%">
+                            	<textarea name="txtEnB" data-ax-path="txtEnB" id="txtEnB" class="form-control" title="<ax:lang id="ax.admin.BM0401F0.txtEnB"/>" rows="3" maxlength="120" onkeyup="currentLength('enB')"></textarea>
+                            	<div id="txtEnBLen" style="text-align: right;"></div>
+                            </ax:td>
+                       	</ax:tr>
+                       	
                        	
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0401F0.remark" width="100%">

@@ -5,6 +5,12 @@ var fnObj = {}, CODE = {};
 var isUpdate = false;
 var selectedRow = null;
 var validateReg = new RegExp(/\,/g);
+//글자수 최대
+maxFlag = false;
+var krAFlag = true;
+var krBFlag = true;
+var enAFlag = true;
+var enBFlag = true;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -115,7 +121,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 		});
     },
     
-    PAGE_SAVE: function (caller, act, data) {  
+    PAGE_SAVE: function (caller, act, data) { 
+	if(maxFlag){
         if (caller.formView0.validate()) {
         	var formData = new FormData(caller.formView0.target[0]);
         	
@@ -160,45 +167,52 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 	            .catch(function () {
 	
 	            });
-        }
+      		}
+		}else{
+			axToast.push("실내전광판 문구 글자수를 확인하세요!");
+		}
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-        if (caller.formView0.validate()) {
-        	var formData = new FormData(caller.formView0.target[0]);
-        	
-        	var scrTxt = caller.formView0.model.get("scrTxt");
-        	var scrTxtEn = caller.formView0.model.get("scrTxtEn");
-        	
-        	if(validateReg.test(scrTxt) || validateReg.test(scrTxtEn)) {
-        		axDialog.alert(ADMIN("ax.admin.BM0401F0.scr.test"));
-        		return false;
-        	}
-        	
-            axboot.promise()
-                .then(function (ok, fail, data) {
-                    axboot.ajax({
-                    	type: "POST",
-                        url: "/api/v1/BM0401F0U0",
-                        enctype: "multipart/form-data",
-                        processData: false,
-                        data: formData,
-                        callback: function (res) {
-                            ok(res);
-                        },
-                        options: {
-                        	contentType:false
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onsave"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-        }
+		if(maxFlag){
+	        if (caller.formView0.validate()) {
+	        	var formData = new FormData(caller.formView0.target[0]);
+	        	
+	        	var scrTxt = caller.formView0.model.get("scrTxt");
+	        	var scrTxtEn = caller.formView0.model.get("scrTxtEn");
+	        	
+	        	if(validateReg.test(scrTxt) || validateReg.test(scrTxtEn)) {
+	        		axDialog.alert(ADMIN("ax.admin.BM0401F0.scr.test"));
+	        		return false;
+	        	}
+	        	
+	            axboot.promise()
+	                .then(function (ok, fail, data) {
+	                    axboot.ajax({
+	                    	type: "POST",
+	                        url: "/api/v1/BM0401F0U0",
+	                        enctype: "multipart/form-data",
+	                        processData: false,
+	                        data: formData,
+	                        callback: function (res) {
+	                            ok(res);
+	                        },
+	                        options: {
+	                        	contentType:false
+	                        }
+	                    });
+	                })
+	                .then(function (ok, fail, data) {
+	            		axToast.push(LANG("onsave"));
+	            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	                })
+	                .catch(function () {
+	
+	                });
+	        }			
+		}else{
+			axToast.push("실내전광판 문구 글자수를 확인하세요!");
+		}
     },
     
     // 탭닫기
@@ -226,6 +240,12 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         } else {
         	$("#wavFilename").text("");
         }
+
+		maxFlag = true;
+		currentLength("krA");
+		currentLength("krB");
+		currentLength("enA");
+		currentLength("enB");
     },
     
     CHANGE_PLAY_TYPE: function(caller, cat, data) {
@@ -476,6 +496,10 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "enTts", label: ADMIN("ax.admin.BM0401F0.en.tts"), width: 200},
                 {key: "scrTxt", label: ADMIN("ax.admin.BM0401F0.scr.txt"), width: 200},
                 {key: "scrTxtEn", label: ADMIN("ax.admin.BM0401F0.scr.txt.en"), width: 200},
+				{key: "txtKrA",	label: ADMIN("ax.admin.BM0401F0.txtKrA"), width: 200},
+				{key: "txtKrB",	label: ADMIN("ax.admin.BM0401F0.txtKrB"), width: 200},
+				{key: "txtEnA",	label: ADMIN("ax.admin.BM0401F0.txtEnA"), width: 200},
+				{key: "txtEnB",	label: ADMIN("ax.admin.BM0401F0.txtEnB"), width: 200},
                 {key: "remark", label: ADMIN("ax.admin.BM0401F0.remark"), width: 200},
             ],
             body: {
@@ -665,3 +689,89 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.target.find('[data-ax-path="key"]').removeAttr("readonly");
     }
 });
+
+
+
+function currentLength(data){
+	var txt;
+	if(data == 'krA'){
+		txt = $('#txtKrA').val();
+		var lenKrA = getByteLen(txt);
+		$('#txtKrALen').html(lenKrA + " / 120 bytes");
+
+		if(lenKrA > 120){
+			krAFlag = false;
+			var newKrA = cutByteLen(txt, 120);
+			document.getElementById('txtKrALen').style.color='red';
+			$('#txtKrA').val(newKrA);
+		}else{
+			krAFlag = true;
+			document.getElementById('txtKrALen').style.color='';
+		}
+	}else if(data == 'krB'){
+		txt = $('#txtKrB').val();
+		var lenKrB = getByteLen(txt);
+		$('#txtKrBLen').html(lenKrB + " / 120 bytes");
+
+		if(lenKrB > 120){
+			krBFlag = false;
+			var newKrB = cutByteLen(txt, 120);
+			document.getElementById('txtKrBLen').style.color='red';
+			$('#txtKrB').val(newKrB);
+		}else{
+			krBFlag = true;
+			document.getElementById('txtKrBLen').style.color='';
+		}
+	}else if(data == 'enA'){
+		txt = $('#txtEnA').val();
+		var lenEnA = getByteLen(txt);
+		$('#txtEnALen').html(lenEnA + " / 120 bytes");
+
+		if(lenEnA > 120){
+			enAFlag = false;
+			var newEnA = cutByteLen(txt, 120);
+			document.getElementById('txtEnALen').style.color='red';
+			$('#txtEnA').val(newEnA);
+		}else{
+			enAFlag = true;
+			document.getElementById('txtEnALen').style.color='';
+		}
+	}else if(data == 'enB'){
+		txt = $('#txtEnB').val();
+		var lenEnB = getByteLen(txt);
+		$('#txtEnBLen').html(lenEnB + " / 120 bytes");
+
+		if(lenEnB > 120){
+			enBFlag = false;
+			var newEnB = cutByteLen(txt, 120);
+			document.getElementById('txtEnBLen').style.color='red';
+			$('#txtEnB').val(newEnB);
+		}else{
+			enBFlag = true;
+			document.getElementById('txtEnBLen').style.color='';
+		}
+	}
+	
+	if(krAFlag && krBFlag && enAFlag && enBFlag){
+		maxFlag = true;
+	}else{
+		maxFlag = false;
+	}
+}
+
+function getByteLen(str){
+    var l = 0;
+    for (var i=0; i<str.length; i++) l += (str.charCodeAt(i) > 128) ? 2 : 1;
+    return l;
+}
+
+function cutByteLen(str, len) {
+    var l = 0;
+    for (var i=0; i<str.length; i++) {
+        l += (str.charCodeAt(i) > 128) ? 2 : 1;
+        if (l > len){
+			return str.substring(0,i);
+		}
+    }
+    return str;
+}

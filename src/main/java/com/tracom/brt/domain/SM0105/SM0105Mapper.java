@@ -25,5 +25,6 @@ public interface SM0105Mapper extends MyBatisMapper {
 	String SM0105G3S0(String value);
 	String SM0105G3S1(String value);
 	
-	
+	/** 선택음성용 **/
+	CommonCodeDetailInfoVO StopAnnounce(String value);
 }

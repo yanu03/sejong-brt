@@ -46,6 +46,9 @@ public class BmRoutInfoVO extends BaseVO {
 	
 	private String dvcName;
 	
+	//승객용안내기, 전자노선도 표출용 컬럼
+	private String expressName; 
+	
 	private String line1Str;
 	private String line2Str;
 	

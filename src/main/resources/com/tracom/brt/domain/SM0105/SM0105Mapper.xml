@@ -256,4 +256,14 @@
 		   	USE_YN = 'Y'
 		ORDER BY SORT_ODR ASC
     </select>
+    
+    <select id="StopAnnounce" parameterType="String" resultType="commonCodedetailInfoVO">
+	    SELECT
+			*
+		FROM
+			SM_DL_CD_INFO
+		WHERE
+			CO_CD = 'INNER_LED'
+	        AND DL_CD = #{value}
+    </select>
 </mapper>

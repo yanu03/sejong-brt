@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -55,11 +56,14 @@ import com.tracom.brt.domain.BM0607.VdoRsvVO;
 import com.tracom.brt.domain.BM0608.BmScrInfoVO;
 import com.tracom.brt.domain.BM0609.BM0609Service;
 import com.tracom.brt.domain.BM0609.ScrRsvVO;
+import com.tracom.brt.domain.BM0610.BM0610Mapper;
+import com.tracom.brt.domain.BM0610.InnerLEDVO;
 import com.tracom.brt.domain.BM0801.BM0801Mapper;
 import com.tracom.brt.domain.BM0801.StatisticsVO;
 import com.tracom.brt.domain.BM0901.ElecRouterVO;
 import com.tracom.brt.domain.BM0902.BM0902Mapper;
 import com.tracom.brt.domain.BM0902.EdRsvVO;
+import com.tracom.brt.domain.SM0105.CommonCodeDetailInfoVO;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
 import com.tracom.brt.domain.file.FileMapper;
 import com.tracom.brt.domain.routeReservation.RoutListCSVVO;
@@ -133,6 +137,10 @@ public class FTPHandler {
 	@Value("${sftp.common.selectedAudio}")
 	private String SELECTED_AUDIO_PATH;
 	
+	//2021 실내led
+	@Value("${sftp.common.innerLED}")
+	private String INNER_LED_PATH;
+	
 	@Inject
 	private ChannelSftp sftpChannel;
 	
@@ -150,6 +158,9 @@ public class FTPHandler {
 	
 	@Inject
 	private BM0801Mapper BM0801Mapper;
+	
+	@Inject
+	private BM0610Mapper BM0610Mapper;
 	
 	@Inject
 	private BM0902Mapper BM0902Mapper;
@@ -576,6 +587,8 @@ public class FTPHandler {
 		String filePath = Paths.get("/" + vo.getFileName()).toString();
 		File file = new File(path + filePath);
 		if(file.exists()) {
+			System.gc();
+			System.runFinalization();
 			file.delete();
 		}
 		
@@ -1061,8 +1074,13 @@ public class FTPHandler {
 	        		vo.setSatDay1(tmp[8]);
 	        		vo.setSatDay2(tmp[9]);
 	        		vo.setSunDay1(tmp[10]);
-	        		vo.setSunDay2(tmp[11]);        		
+	        		vo.setSunDay2(tmp[11]);        
+	        		
+	        		if(tmp.length >= 13) {
+	        			vo.setExpressName(tmp[12]);	        			
+	        		}
 	        	}
+	        	
         	}
         	
         	list.add(vo);
@@ -1108,7 +1126,8 @@ public class FTPHandler {
 					+ GlobalConstants.CSVForms.COMMA + vo.getSatDay1()
 					+ GlobalConstants.CSVForms.COMMA + vo.getSatDay2()
 					+ GlobalConstants.CSVForms.COMMA + vo.getSunDay1()
-					+ GlobalConstants.CSVForms.COMMA + vo.getSunDay2();
+					+ GlobalConstants.CSVForms.COMMA + vo.getSunDay2()
+					+ GlobalConstants.CSVForms.COMMA + vo.getExpressName();
 		}
 		
 		try {
@@ -1181,6 +1200,7 @@ public class FTPHandler {
 				list.get(seq).setSatDay2(newRow.getSatDay2());
 				list.get(seq).setSunDay1(newRow.getSunDay1());
 				list.get(seq).setSunDay2(newRow.getSunDay2());
+				list.get(seq).setExpressName(newRow.getExpressName());
 			}else {
 				list.add(newRow);
 			}
@@ -1206,7 +1226,8 @@ public class FTPHandler {
 					+ GlobalConstants.CSVForms.COMMA + vo.getSatDay1()
 					+ GlobalConstants.CSVForms.COMMA + vo.getSatDay2()
 					+ GlobalConstants.CSVForms.COMMA + vo.getSunDay1()
-					+ GlobalConstants.CSVForms.COMMA + vo.getSunDay2();
+					+ GlobalConstants.CSVForms.COMMA + vo.getSunDay2()
+					+ GlobalConstants.CSVForms.COMMA + vo.getExpressName();
 					
 		}
 		
@@ -1263,9 +1284,6 @@ public class FTPHandler {
 		FileReader fr = null;
 		List<DestinationVO> list = new ArrayList<>();
 		System.out.println("CreateFile");
-		System.out.println(dvo);
-		System.out.println(path);
-		System.out.println(fileName);
 		try {
 			fr = new FileReader(file);
 		} catch (FileNotFoundException e) {
@@ -1295,8 +1313,12 @@ public class FTPHandler {
 	
 	public boolean createSCH(DestinationVO dvo, String fileName) {
 		List<DestinationVO> realList = new ArrayList<>();
+		int max = 10;
+		if(fileName.contains("LOGO")) {
+			max = 3;
+		}
 		
-		for(int i = 0; i < 10; i ++) {
+		for(int i = 0; i < max; i ++) {
 			DestinationVO vo = new DestinationVO();
 			int seq = i + 1;
 			vo.setFrameNo("FRAME" + seq);
@@ -1308,7 +1330,7 @@ public class FTPHandler {
 		dvo.setVoList(realList);
 		return writeSCH(dvo, fileName);
 	}
-	
+		
 	//SCH파일 write
 	public boolean writeSCH(DestinationVO vo, String fileName) {
 		String path = Paths.get(getRootLocalPath(), "/temp/destination/", vo.getDvcKindCd()).toString();
@@ -1693,6 +1715,7 @@ public class FTPHandler {
 		
 		try {
 			FileUtils.deleteDirectory(new File(playListPath));
+			
 			FileUtils.forceMkdir(new File(playListPath));
 			
 			for(VoiceOrganizationVO orgaVO : orgaList) {
@@ -1701,16 +1724,19 @@ public class FTPHandler {
 				csvContent.append(GlobalConstants.CSVForms.VOICE_PLAYLIST_TITLE);
 				
 				for(VoiceInfoVO v : orgaVO.getPlayList()) {
-		    		if(v.getPlayType().equals("TTS")) {
+					// 한국어
+
+					if(v.getPlayType().equals("TTS")) {
 		    			if(v.getVocCode() == GlobalConstants.PlayListVoiceTypes.BUS_KR) {
-			    			// 한국어
 			    			csvContent.append(
 					    			v.getSeq() + GlobalConstants.CSVForms.COMMA
 					    			+ GlobalConstants.PlayListVoiceTypes.BUS_KR + GlobalConstants.CSVForms.COMMA
 					    			+ v.getVocId() + GlobalConstants.VoiceTypes.KR + ".wav" + GlobalConstants.CSVForms.COMMA 
 					    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
 					    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
-					    			+ v.getScrTxt() + GlobalConstants.CSVForms.ROW_SEPARATOR);
+					    			+ v.getScrTxt() + GlobalConstants.CSVForms.COMMA
+			    					+ makeIldID(v.getVocId() + GlobalConstants.VoiceTypes.KR)
+			    					+ GlobalConstants.CSVForms.ROW_SEPARATOR);
 			    			
 			    			// 영어
 			    			csvContent.append(
@@ -1719,7 +1745,8 @@ public class FTPHandler {
 					    			+ v.getVocId() + GlobalConstants.VoiceTypes.EN + ".wav" + GlobalConstants.CSVForms.COMMA 
 					    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
 					    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
-					    			+ v.getScrTxtEn());
+					    			+ v.getScrTxtEn() + GlobalConstants.CSVForms.COMMA
+			    					+ makeIldID(v.getVocId() + GlobalConstants.VoiceTypes.EN));
 			    		} else {
 			    			// 기타 다른음성들
 			    			csvContent.append(
@@ -1728,7 +1755,8 @@ public class FTPHandler {
 					    			+ v.getVocId() + GlobalConstants.VoiceTypes.KR + ".wav" + GlobalConstants.CSVForms.COMMA 
 					    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
 					    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
-					    			+ v.getScrTxt());
+					    			+ v.getScrTxt() + GlobalConstants.CSVForms.COMMA
+			    					+ makeIldID(v.getVocId() + GlobalConstants.VoiceTypes.KR));
 			    		}
 		    		} else {
 		    			// WAV 업로드 음성
@@ -1738,8 +1766,10 @@ public class FTPHandler {
 				    			+ v.getVocId() + GlobalConstants.VoiceTypes.US + ".wav" + GlobalConstants.CSVForms.COMMA 
 				    			+ v.getPlayStDate() + GlobalConstants.CSVForms.COMMA 
 				    			+ v.getPlayEdDate() + GlobalConstants.CSVForms.COMMA
-				    			+ v.getScrTxt());
+				    			+ v.getScrTxt() + GlobalConstants.CSVForms.COMMA
+				    			+ makeIldID(v.getVocId() + GlobalConstants.VoiceTypes.US));
 		    		}
+					
 		    		csvContent.append(GlobalConstants.CSVForms.ROW_SEPARATOR);
 		    	}
 				
@@ -1756,6 +1786,181 @@ public class FTPHandler {
 		}
     	return true;
 	}
+	
+	public String makeIldID(String vocId) {
+		if(Integer.parseInt(BM0610Mapper.isExists(vocId)) > 0) {
+			return vocId + ".ild";
+		}else {
+			return "";
+		}
+	}
+	
+	/**2021 03 04 실내 전광판 표출문구 관련 **/
+	
+	//텍스트, 바이트 길이 받아서 해당 길이만큼 잘라 반환
+	public String getKrString(String txt, int length) {
+	    byte[] bytes = null;
+		
+	    try {
+			bytes = txt.getBytes("euc-kr");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+	    byte[] result = new byte[length];
+
+	    if(bytes.length <= length){
+	    	return bytes.toString();
+	    }else {
+	    	for(int i = 0; i < length; i++){
+	    		result[i] = bytes[i];
+	    	}
+	    	
+	    	return result.toString();	    	
+	    }
+	    
+
+	}
+	
+	/*
+	 * CD001이면 한글이고
+	 * CD002이면 영어임
+	 * TXT_A값이 있다면
+	 * TXT_VAL1꺼 받아서 젤윗줄붙이고
+	 * TXT_A값 그다음줄
+	 * TXT_B값이 있다면
+	 * TXT_VAL2꺼 받아서 그다음줄
+	 * TXT_B값 그다음줄
+	 * 
+	*/
+	//ild생성
+	public boolean makeIld(InnerLEDVO vo) {
+		String ildPath = Paths.get(getRootLocalPath(), getInnerLEDPath(), "/data").toString();
+		String fileNm = null;
+		String kr = "CD001";
+		String en = "CD002";
+		
+		String txt = "";
+		if(vo.getTxtCd().equals(kr)) {//한글안내음성일경우
+			CommonCodeDetailInfoVO voKr = new CommonCodeDetailInfoVO();
+			voKr = SM0105Mapper.StopAnnounce(kr);
+			String thisStopKr = voKr.getTxtVal1();
+			String nextStopKr = voKr.getTxtVal2();
+			
+			if(vo.getTxtA().equals("") || vo.getTxtA() == null) {
+				
+			}else {
+				txt += thisStopKr + GlobalConstants.CSVForms.ROW_SEPARATOR
+						+ vo.getTxtA();				
+			}
+			
+			if(vo.getTxtB().equals("") || vo.getTxtB() == null) {
+			}else {
+				txt += GlobalConstants.CSVForms.ROW_SEPARATOR
+						+ nextStopKr + GlobalConstants.CSVForms.ROW_SEPARATOR
+						+ vo.getTxtB();				
+			}
+			
+		}else if(vo.getTxtCd().equals(en)) {//영어안내음성일경우
+			CommonCodeDetailInfoVO voEn = new CommonCodeDetailInfoVO();
+			voEn = SM0105Mapper.StopAnnounce(en);
+			String thisStopEn = voEn.getTxtVal1();
+			String nextStopEn = voEn.getTxtVal2();
+			
+			if(vo.getTxtA().equals("") || vo.getTxtA() == null) {
+			
+			}else {
+				txt += thisStopEn + GlobalConstants.CSVForms.ROW_SEPARATOR
+						+ vo.getTxtA();				
+			}
+			
+			if(vo.getTxtB().equals("") || vo.getTxtB() == null) {
+				
+			}else {				
+				txt += GlobalConstants.CSVForms.ROW_SEPARATOR
+						+ nextStopEn + GlobalConstants.CSVForms.ROW_SEPARATOR
+						+ vo.getTxtB();
+			}
+			
+		}else{//기타음성일경우
+			txt += vo.getTxtA() + GlobalConstants.CSVForms.ROW_SEPARATOR
+					+ vo.getTxtB();
+		}
+		
+		
+		if(vo.getVocId() == null) {
+			fileNm = vo.getIldId();
+		}else {
+			fileNm = vo.getVocId();
+		}
+		File file = new File(ildPath + "/" + fileNm + ".ild");
+		
+		try {
+			Utils.createCSV(file, txt);
+			processSynchronize(getRootLocalPath() + getInnerLEDPath() + "/data", getRootServerPath() + getInnerLEDPath() + "/data");
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean makeIldList(List<InnerLEDVO> list) {
+		String listPath = Paths.get(getRootLocalPath(), getInnerLEDPath(), "/list").toString();
+		
+		String txt = "SEQ_NO" + GlobalConstants.CSVForms.COMMA + "FILE_NAME" + GlobalConstants.CSVForms.ROW_SEPARATOR;
+		for(int i=0; i<list.size(); i++) {
+			if(list.get(i).getSeq() != null && list.get(i).getVocId() != null) {
+				txt += list.get(i).getSeq() + GlobalConstants.CSVForms.COMMA + list.get(i).getVocId() + ".ild";			
+				if(i < list.size() - 1) {
+					txt += GlobalConstants.CSVForms.ROW_SEPARATOR;
+				}else {
+				}
+			}
+		}
+		
+		File file = new File(listPath + "/list.csv");
+		
+		try {
+			Utils.createCSV(file, txt);
+			processSynchronize(getRootLocalPath() + getInnerLEDPath() + "/list", getRootServerPath() + getInnerLEDPath() + "/list");
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean deleteIld(String ildId) {
+		String dir = Paths.get(getRootLocalPath(), getInnerLEDPath(), "/data").toString();
+		
+		String fileName = ildId +  ".ild";
+		
+		File saveFile = Paths.get(dir, fileName).toFile();
+		
+		if(saveFile.exists()) {
+			System.gc();
+			System.runFinalization();
+			saveFile.delete();
+		}
+			
+		try {
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return false;
+		}
+		
+		try {
+			processSynchronize(getRootLocalPath() + getInnerLEDPath() + "/data", getRootServerPath() + getInnerLEDPath() + "/data");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	
+	
 	
 	// Read FTP 로그파일
 	@SuppressWarnings("unchecked")
@@ -1856,6 +2061,7 @@ public class FTPHandler {
 			}
 		}
 	}
+
 	
 	// 서버FTP와 Synchronization
 	private void processSynchronize(String localPath, String serverPath) throws Exception {
@@ -2191,5 +2397,10 @@ public class FTPHandler {
 	//2021 선택음성
 	public String getSelectedAudioPath() {
 		return SELECTED_AUDIO_PATH;
+	}
+	
+	//2021 실내led
+	public String getInnerLEDPath() {
+		return INNER_LED_PATH;
 	}
 }

@@ -68,6 +68,7 @@
 					, ST_STA_NM
 				    , ED_STA_NM
 				    , DVC_NAME
+				    , ROUT.EXPRESS_NAME AS EXPRESS_NAME
 				    , LINE1_STR
 				    , LINE2_STR
 				    , LINE1_SATSTR
@@ -145,6 +146,7 @@
 						, ROUT_NM
 						, SHORT_ROUT_NM
 						, DVC_NAME
+						, EXPRESS_NAME
 						, WAY_INFO
 						, DIR_INFO						
 						, ST_STA_NM
@@ -162,6 +164,7 @@
 					, REPLACE(#{voList.routNm}, ',', '.')
 					, REPLACE(#{voList.routNm}, ',', '.')<!-- SHORT ROUT NM -->
 					, #{voList.routNm}<!-- DVC NM -->
+					, REPLACE(#{voList.routNm}, ',', '.')<!-- EXPRESS NAME -->
 					, REPLACE(SUBSTR(#{voList.stStaNm}, 1, 10), ',', '.')<!-- WAY_INFO -->
 			        , REPLACE(SUBSTR(#{voList.edStaNm}, 1, 10), ',', '.')<!-- DIR_INFO --> 
 			        , REPLACE(#{voList.stStaNm}, ',', '.')
@@ -199,6 +202,7 @@
 			  WAY_DIV		= #{wayDiv}
 			, USER_WAY_DIV 	= #{wayDiv}
 		    , TURN_DIV		= #{turnDiv}
+		    , EXPRESS_NAME	= #{routNm}
 		    , UPDATED_AT	= #{updatedAt}
 		    , UPDATED_BY	= #{updatedBy}
 		WHERE
@@ -227,6 +231,7 @@
 			, WAY_INFO		= #{voList.wayInfo}
 		    , USER_WAY_DIV	= #{voList.userWayDiv}
 		    , DVC_NAME		= #{voList.dvcName}
+		    , EXPRESS_NAME	= #{voList.expressName}
 		    , LINE1_STR		= #{voList.line1Str}
 		    , LINE2_STR		= #{voList.line2Str}
 		    , LINE1_SATSTR	= #{voList.line1Satstr}
@@ -268,6 +273,7 @@
 		        , ST_STA_NM
 		        , ED_STA_NM
 		        , DVC_NAME
+		        , EXPRESS_NAME
 		        , LINE1_STR
 		        , LINE2_STR
 		        , LINE1_SATSTR
@@ -292,6 +298,7 @@
 				  , REPLACE(#{stStaNm}, ',', '.')
 				  , REPLACE(#{edStaNm}, ',', '.')
 				  , #{dvcName}
+				  , #{expressName}
 				  , #{line1Str}
 				  , #{line2Str}
 				  , #{line1Satstr}
@@ -319,6 +326,7 @@
 		    , ST_STA_NM		= REPLACE(#{stStaNm}, ',', '.')
 		    , ED_STA_NM		= REPLACE(#{edStaNm}, ',', '.')
 		    , DVC_NAME		= #{dvcName}
+		    , EXPRESS_NAME	= #{expressName}
 		    , LINE1_STR		= #{line1Str}
 		    , LINE2_STR		= #{line2Str}
 		    , LINE1_SATSTR	= #{line1Satstr}
@@ -366,6 +374,7 @@
 						, ROUT_NM
 						, SHORT_ROUT_NM
 						, DVC_NAME
+						, EXPRESS_NAME
 						, WAY_INFO
 						, DIR_INFO						
 						, ST_STA_NM
@@ -381,6 +390,7 @@
 					, REPLACE(#{routNm}, ',', '.')
 					, REPLACE(#{routNm}, ',', '.')<!-- SHORT ROUT NM -->
 					, #{routNm}<!-- DVC NM -->
+					, #{routNm}
 					, REPLACE(SUBSTR(#{stStaNm}, 1, 10), ',', '.')<!-- WAY_INFO -->
 			        , REPLACE(SUBSTR(#{edStaNm}, 1, 10), ',', '.')<!-- DIR_INFO --> 
 			        , REPLACE(#{stStaNm}, ',', '.')

@@ -33,4 +33,6 @@ public class RoutListCSVVO extends BaseVO {
 	private String sunDay1;
 	
 	private String sunDay2;
+	
+	private String expressName;
 }

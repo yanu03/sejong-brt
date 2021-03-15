@@ -103,6 +103,12 @@
                             </ax:td>
                         </ax:tr>
                         
+						<ax:tr>
+                            <ax:td label="ax.admin.BM0104G0.expressName" width="250px" labelClazz="required">
+                            	<input type="text" data-ax-path="expressName" title="<ax:lang id="ax.admin.BM0104G0.expressName"/>" class="form-control" maxlength="10" data-ax-validate="required"/>
+                            </ax:td>
+                        </ax:tr>
+                        
                         <ax:tr>
                             <ax:td label="ax.admin.BM0104G0.wayInfo" width="250px" labelClazz="required">
                             	<input type="text" id="wayInfo" data-ax-path="wayInfo" title="<ax:lang id="ax.admin.BM0104G0.wayInfo"/>" class="form-control" maxlength="10" data-ax-validate="required"/>

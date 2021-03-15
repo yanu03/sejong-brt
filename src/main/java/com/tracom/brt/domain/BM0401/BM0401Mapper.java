@@ -10,4 +10,14 @@ public interface BM0401Mapper extends MyBatisMapper {
 	int BM0401F0I0(VoiceInfoVO vo);
 	int BM0401F0U0(VoiceInfoVO vo);
 	int BM0401G0D0(VoiceInfoVO vo);
+	
+	int insertTxtKr(VoiceInfoVO vo);
+	int insertTxtEn(VoiceInfoVO vo);
+	int updateTxtKr(VoiceInfoVO vo);
+	int updateTxtEn(VoiceInfoVO vo);
+	int deleteTxtKr(VoiceInfoVO vo);
+	int deleteTxtEn(VoiceInfoVO vo);
+	
+	String krIsExists(VoiceInfoVO vo);
+	String enIsExists(VoiceInfoVO vo);
 }

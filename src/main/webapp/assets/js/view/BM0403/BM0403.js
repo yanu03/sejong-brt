@@ -4,6 +4,8 @@ var fnObj = {}, CODE = {};
 /***************************************** 전역 변수 초기화 ******************************************************/
 isUpdate = false;
 selectedRow = null;
+//글자수 최대
+maxFlag = false;
 /*************************************************************************************************************/
 
 /***************************************** 이벤트 처리 코드 ******************************************************/
@@ -115,74 +117,82 @@ var ACTIONS = axboot.actionExtend(fnObj, {
     },
     
     PAGE_SAVE: function (caller, act, data) {  
-        if (caller.formView0.validate()) {
-        	var formData = new FormData(caller.formView0.target[0]);
-        	
-        	if(caller.formView0.model.get("playType") == "WAV") {
-    	    	var element = $("#wavFile");
-    	    	
-    	    	if(!element[0].files[0]){
-    	    		axDialog.alert(element.attr("title") + "을 선택해주세요");
-    	        	return false;
-    	        }
-        	}
-        	
-            axboot.promise()
-                .then(function (ok, fail, data) {
-                    axboot.ajax({
-                        type: "POST",
-                        url: "/api/v1/BM0403F0I0",
-                        enctype: "multipart/form-data",
-                        processData: false,
-                        data: formData,
-                        callback: function (res) {
-                            ok(res);
-                        },
-                        options: {
-                        	contentType:false
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onsave"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
-                    isUpdate = true;
-                })
-                .catch(function () {
-
-                });
-            //*/
-        }
+		if(maxFlag){
+	        if (caller.formView0.validate()) {
+	        	var formData = new FormData(caller.formView0.target[0]);
+	        	
+	        	if(caller.formView0.model.get("playType") == "WAV") {
+	    	    	var element = $("#wavFile");
+	    	    	
+	    	    	if(!element[0].files[0]){
+	    	    		axDialog.alert(element.attr("title") + "을 선택해주세요");
+	    	        	return false;
+	    	        }
+	        	}
+	        	
+	            axboot.promise()
+	                .then(function (ok, fail, data) {
+	                    axboot.ajax({
+	                        type: "POST",
+	                        url: "/api/v1/BM0403F0I0",
+	                        enctype: "multipart/form-data",
+	                        processData: false,
+	                        data: formData,
+	                        callback: function (res) {
+	                            ok(res);
+	                        },
+	                        options: {
+	                        	contentType:false
+	                        }
+	                    });
+	                })
+	                .then(function (ok, fail, data) {
+	            		axToast.push(LANG("onsave"));
+	            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, data.message);
+	                    isUpdate = true;
+	                })
+	                .catch(function () {
+	
+	                });
+	            //*/
+	        }			
+		}else{
+			axToast.push("실내전광판 문구 글자수를 확인하세요!");
+		}
     },
     
     PAGE_UPDATE: function(caller, act, data) {
-        if (caller.formView0.validate()) {
-        	var formData = new FormData(caller.formView0.target[0]);
-        	
-            axboot.promise()
-                .then(function (ok, fail, data) {
-                    axboot.ajax({
-                    	type: "POST",
-                        url: "/api/v1/BM0403F0U0",
-                        enctype: "multipart/form-data",
-                        processData: false,
-                        data: formData,
-                        callback: function (res) {
-                            ok(res);
-                        },
-                        options: {
-                        	contentType:false
-                        }
-                    });
-                })
-                .then(function (ok, fail, data) {
-            		axToast.push(LANG("onsave"));
-            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
-                })
-                .catch(function () {
-
-                });
-        }
+		if(maxFlag){
+	        if (caller.formView0.validate()) {
+	        	var formData = new FormData(caller.formView0.target[0]);
+	        	
+	            axboot.promise()
+	                .then(function (ok, fail, data) {
+	                    axboot.ajax({
+	                    	type: "POST",
+	                        url: "/api/v1/BM0403F0U0",
+	                        enctype: "multipart/form-data",
+	                        processData: false,
+	                        data: formData,
+	                        callback: function (res) {
+	                            ok(res);
+	                        },
+	                        options: {
+	                        	contentType:false
+	                        }
+	                    });
+	                })
+	                .then(function (ok, fail, data) {
+	            		axToast.push(LANG("onsave"));
+	            		ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
+	                })
+	                .catch(function () {
+	
+	                });
+	        }		
+		}else{
+			axToast.push("실내전광판 문구 글자수를 확인하세요!");
+		}
     },
     
     // 탭닫기
@@ -210,6 +220,9 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         } else {
         	$("#wavFilename").text("");
         }
+
+		currentLength("A");
+		currentLength("B");
     },
     
     CHANGE_PLAY_TYPE: function(caller, cat, data) {
@@ -440,6 +453,8 @@ fnObj.gridView0 = axboot.viewExtend(axboot.gridView, {
                 {key: "playDate", label: ADMIN("ax.admin.BM0403F0.play.date"), width: 150, align: "center"},
                 {key: "krTts", label: ADMIN("ax.admin.BM0403F0.kr.tts"), width: 200},
                 {key: "scrTxt", label: ADMIN("ax.admin.BM0403F0.scr.txt"), width: 200},
+				{key: "txtA", label: ADMIN("ax.admin.BM0402F0.txtA"), width: 200},
+				{key: "txtB", label: ADMIN("ax.admin.BM0402F0.txtB"), width: 200},
                 {key: "remark", label: ADMIN("ax.admin.BM0403F0.remark"), width: 200},
             ],
             body: {
@@ -627,3 +642,67 @@ fnObj.formView0 = axboot.viewExtend(axboot.formView, {
         this.target.find('[data-ax-path="key"]').removeAttr("readonly");
     }
 });
+
+
+var aFlag = true;
+var bFlag = true;
+
+function currentLength(data){
+	var txt;
+	if(data == 'A'){
+		txt = $('#txtA').val();
+		var lenA = getByteLen(txt);
+		$('#txtALen').html(lenA + " / 120 bytes");
+
+		if(lenA > 120){
+			aFlag = false;
+			var newA = cutByteLen(txt, 120);
+			document.getElementById('txtALen').style.color='red';
+			$('#txtA').val(newA);
+		}else{
+			aFlag = true;
+			document.getElementById('txtALen').style.color='';
+		}
+		if(aFlag && bFlag){
+			maxFlag = true;
+		}else{
+			maxFlag = false;
+		}
+	}else if(data == 'B'){
+		txt = $('#txtB').val();
+		var lenB = getByteLen(txt);
+		$('#txtBLen').html(lenB + " / 120 bytes");
+
+		if(lenB > 120){
+			bFlag = false;
+			var newB = cutByteLen(txt, 120);
+			document.getElementById('txtBLen').style.color='red';
+			$('#txtB').val(newB);
+		}else{
+			bFlag = true;
+			document.getElementById('txtBLen').style.color='';
+		}
+		if(aFlag && bFlag){
+			maxFlag = true;
+		}else{
+			maxFlag = false;
+		}
+	}
+}
+
+function getByteLen(str){
+    var l = 0;
+    for (var i=0; i<str.length; i++) l += (str.charCodeAt(i) > 128) ? 2 : 1;
+    return l;
+}
+
+function cutByteLen(str, len) {
+    var l = 0;
+    for (var i=0; i<str.length; i++) {
+        l += (str.charCodeAt(i) > 128) ? 2 : 1;
+        if (l > len){
+			return str.substring(0,i);
+		}
+    }
+    return str;
+}

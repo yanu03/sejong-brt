@@ -5,29 +5,35 @@
 
     <select id="BM0402G0S0" parameterType="String" resultType="voiceInfoVO">
     	SELECT
-    		  V.VOC_ID
-    		, V.VOC_NM
-    		, V.PLAY_ST_DATE
-    		, V.PLAY_TYPE
-    		, V.KR_TTS
-    		, V.EN_TTS
-    		, V.VOC_DIV
-    		, V.REMARK
-    		, V.PLAY_TM
-    		, V.CON_ID
-    		, C.CON_NM
-    		, V.PLAY_ED_DATE
-    		, CONCAT(DATE_FORMAT(V.PLAY_ST_DATE, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(V.PLAY_ED_DATE, '%Y-%m-%d')) PLAY_DATE
+    		  V.VOC_ID		AS VOC_ID
+    		, V.VOC_NM		AS VOC_NM
+    		, V.PLAY_ST_DATE	AS PLAY_ST_DATE
+    		, V.PLAY_TYPE		AS PLAY_TYPE
+    		, V.KR_TTS		AS KR_TTS
+    		, V.EN_TTS		AS EN_TTX
+    		, V.VOC_DIV		AS VOC_DIV
+    		, V.REMARK		AS REMARK
+    		, V.PLAY_TM		AS PLAY_TM
+    		, V.CON_ID		AS CON_ID
+    		, C.CON_NM		AS CON_NM
+            , LED.TXT_A		AS TXT_A
+            , LED.TXT_B		AS TXT_B
+    		, V.PLAY_ED_DATE	AS PLAY_ED_DATE
+    		, CONCAT(DATE_FORMAT(V.PLAY_ST_DATE, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(V.PLAY_ED_DATE, '%Y-%m-%d')) AS PLAY_DATE
     	FROM
     		BM_VOC_INFO V
     		LEFT OUTER JOIN BM_CON_INFO C
     		ON V.CON_ID = C.CON_ID
+    		
+    		LEFT JOIN BM_INNER_LED LED
+            ON CONCAT(V.VOC_ID, 'U') = LED.VOC_ID
     	WHERE
     		V.VOC_DIV = 'CD026'
 	    	<if test="value != null">
 				AND V.VOC_ID LIKE CONCAT('%', #{value}, '%')
 				OR V.VOC_NM LIKE CONCAT('%', #{value}, '%')
 	    	</if>
+	    ORDER BY V.VOC_ID
     </select>
     
     <insert id="BM0402F0I0" parameterType="voiceInfoVO">
@@ -101,4 +107,60 @@
     	WHERE
     		VOC_ID = #{vocId}
     </delete>
+
+    <!-- 2021 03 04 실내 LED용 -->
+    <insert id="insertTxt" parameterType="voiceInfoVO">
+    	<selectKey keyProperty="ildId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('ILD', LPAD(NEXTVAL(SEQ_BM_INNER_LED_0), 5, '0'))
+    	</selectKey>
+    	INSERT INTO BM_INNER_LED(
+    		  ILD_ID
+    		, TXT_A
+    		, TXT_B
+    		, VOC_ID
+    		, TXT_CD
+    		, CREATED_AT
+    		, CREATED_BY
+    		, UPDATED_AT
+    		, UPDATED_BY)
+    	VALUES(
+    		  #{ildId}
+    		, REPLACE(REPLACE(#{txtA}, '\r\n', ' '), '\r', '')
+    		, REPLACE(REPLACE(#{txtB}, '\r\n', ' '), '\r', '')
+    		, CONCAT(#{vocId}, 'U')
+    		, 'CD007'
+    		, #{createdAt}
+    		, #{createdBy}
+    		, #{updatedAt}
+    		, #{updatedBy}
+    		)
+    </insert>
+    
+   	<update id="updateTxt" parameterType="voiceInfoVO">
+	   	UPDATE BM_INNER_LED
+	    	SET
+	    		  TXT_A			=	REPLACE(REPLACE(#{txtA}, '\r\n', ' '), '\r', '')
+	    		, TXT_B			=	REPLACE(REPLACE(#{txtB}, '\r\n', ' '), '\r', '')
+	    		, TXT_CD		=	'CD007'
+	    		, UPDATED_AT	=	#{updatedAt}
+	    		, UPDATED_BY	=	#{updatedBy}
+	    	WHERE
+	    		VOC_ID = CONCAT(#{vocId}, 'U')
+    </update>
+    
+    <delete id="deleteTxt" parameterType="voiceInfoVO">
+    	DELETE
+    		FROM BM_INNER_LED
+    	WHERE
+    		VOC_ID = CONCAT(#{vocId}, 'U')
+    </delete>
+    
+    <select id="isExists" parameterType="voiceInfoVO" resultType="String">
+    	SELECT
+    		COUNT(*) AS COUNT
+    	FROM
+    		BM_INNER_LED
+    	WHERE
+    		VOC_ID = CONCAT(#{vocId}, 'U')
+    </select>
 </mapper>

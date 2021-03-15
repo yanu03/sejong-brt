@@ -181,6 +181,19 @@
                             </ax:td>
                        	</ax:tr>
                        	
+                       	
+                       	<ax:tr>
+                            <ax:td label="ax.admin.BM0402F0.txtA" width="100%">
+                            	<textarea name="txtA" data-ax-path="txtA" id="txtA" class="form-control" maxlength="120" onkeyup="currentLength('A')"></textarea>
+                            	<div id="txtALen" style="text-align: right;"></div>
+                            </ax:td>
+                        </ax:tr>
+                        <ax:tr>
+                            <ax:td label="ax.admin.BM0402F0.txtB" width="100%">
+                            	<textarea name="txtB" data-ax-path="txtB" id="txtB" class="form-control" maxlength="120" onkeyup="currentLength('B')"></textarea>
+                            	<div id="txtBLen" style="text-align: right;"></div>
+                            </ax:td>
+                        </ax:tr>
                        	<ax:tr>
                             <ax:td label="ax.admin.BM0403F0.remark" width="100%">
                             	<textarea name="remark" data-ax-path="remark" class="form-control" maxlength="200"></textarea>

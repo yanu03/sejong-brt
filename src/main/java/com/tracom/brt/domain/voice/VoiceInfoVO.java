@@ -38,6 +38,15 @@ public class VoiceInfoVO extends BaseVO {
 	private String isDeadline;
 	private String vocDivNm;
 	
+	//2021 03 04 실내led용 추가
+	private String ildId;
+	private String txtKrA;
+	private String txtKrB;
+	private String txtEnA;
+	private String txtEnB;
+	private String txtA;
+	private String txtB;
+	
 	public void setScrTxt(String scrTxt) {
 		if(scrTxt != null) {
 			this.scrTxt = scrTxt.replace("\r\n", "");
