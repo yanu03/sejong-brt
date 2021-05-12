@@ -29,6 +29,7 @@
     "js-beautify": "^1.5.10",
     "markdown-it": "^8.1.0",
     "node-sass": "*",
-    "strip-indent": "^2.0.0"
+    "strip-indent": "^2.0.0",
+    "private": "true"
   }
 }

@@ -2,6 +2,7 @@ package com.tracom.brt.domain.BM0607;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jcraft.jsch.SftpException;
 import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.handler.FTPHandler;
 
@@ -31,7 +33,7 @@ public class BM0607Service extends BaseService<VdoRsvVO, String>{
 	}
 
 	@Transactional
-	public void BM0607G1I0(VdoRsvVO vo) throws Exception {
+	public boolean BM0607G1I0(VdoRsvVO vo){
 		List<String> impList = new ArrayList<>();
 		for(VdoRsvVO v : vo.getVoList()) {
 			impList.add(v.getMngId().substring(0, 10));
@@ -46,26 +48,54 @@ public class BM0607Service extends BaseService<VdoRsvVO, String>{
 		for(VdoRsvVO v : vo.getVoList()) {
 			v.setRsvDate(vo.getRsvDate());
 			v.setOrgaId(vo.getOrgaId());
+			v.setImpId(v.getMngId().substring(0, 10));
+			v.setDvcId(v.getMngId().substring(10));
 			
-			if(mapper.BM0607G1I0(v) > 0) {
-				if(mapper.BM0607G1I1(v) > 0) {
-					v.setImpId(v.getMngId().substring(0, 10));
-					v.setDvcId(v.getMngId().substring(10));
-					handler.reserveVideo(v);
-			
+			try {
+				boolean t = handler.reserveVideo(v);
+				if(t == false) {
+					return false;
 				}
+				if(mapper.BM0607G1I0(v) > 0) {
+					if(mapper.BM0607G1I1(v) <= 0) {
+						return false;
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
 			}
+			/*
+			 * if(mapper.BM0607G1I0(v) > 0) { if(mapper.BM0607G1I1(v) > 0) {
+			 * v.setImpId(v.getMngId().substring(0, 10));
+			 * v.setDvcId(v.getMngId().substring(10)); try { boolean t =
+			 * handler.reserveVideo(v); if(t == false) { return false; } } catch (Exception
+			 * e) { e.printStackTrace(); return false; }
+			 * 
+			 * } }
+			 */
 		}
 		
 		/**예약 종료 후 파일정리**/
 		for(String impId : impDisList) {
 			List<String> screenList = mapper.getScreenId(impId);
-			List<String> impVdoList = handler.impVdoFiles(impId, screenList);
+			List<String> impVdoList;
+			try {
+				impVdoList = handler.impVdoFiles(impId, screenList);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
 			String toPath = Paths.get(handler.getRootLocalPath(), "/vehicle", "/", impId, "/device/passenger").toString();
 			File path = new File(toPath);
 			File[] files = path.listFiles();
 			
-			handler.getForDel(files, impVdoList, impId);
+			try {
+				handler.getForDel(files, impVdoList, impId);
+			} catch (SftpException e) {
+				e.printStackTrace();
+				return false;
+			}
 			
 		}
 		
@@ -73,5 +103,7 @@ public class BM0607Service extends BaseService<VdoRsvVO, String>{
 		for(VdoRsvVO v : vo.getVoList()) {
 			handler.syncVdoFile(v);
 		}
+		
+		return true;
 	}
 }

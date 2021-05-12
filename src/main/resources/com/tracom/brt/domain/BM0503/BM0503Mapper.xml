@@ -106,7 +106,7 @@
 			VHC.USE_YN = 'Y'
 			AND MNG_ID IS NOT NULL
 			AND DVC.USE_YN = 'Y'
-            AND (DVC.DVC_KIND = 'CD001' || DVC.DVC_KIND = 'CD002')
+			AND SUBSTRING(MNG_ID, 11, 2) = 'RD'
 			AND	VHC.VHC_ID = #{value}
 	</select>
 	

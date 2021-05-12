@@ -147,7 +147,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             param: "",
             callback: function (data) {
                 this.close();
-    	
+    			var msg = "";
 				axboot.modal.open({
 		            modalType: "RESERVATION",
 		            param: "",
@@ -170,12 +170,17 @@ var ACTIONS = axboot.actionExtend(fnObj, {
 			    	                url: "/api/v1/BM0607G1I0",
 			    	                data: JSON.stringify(data),
 			    	                callback: function (res) {
+										msg = res.message;
 			    	                    ok(res);
 			    	                }
 			    	            });
 			    	        })
 			    	        .then(function (ok, fail, data) {
-			    	        	axToast.push(LANG("ax.script.alert.reservation"));
+								if(msg == "success"){
+				    	        	axToast.push(LANG("ax.script.alert.reservation"));									
+								}else{
+									axDialog.alert("예약에 실패했습니다. 관리자에게 문의하세요.");
+								}
 			    	        	ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 			    	        })
 			    	        .catch(function () {

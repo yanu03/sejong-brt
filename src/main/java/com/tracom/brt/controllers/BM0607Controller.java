@@ -1,6 +1,5 @@
 package com.tracom.brt.controllers;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,9 +31,14 @@ public class BM0607Controller extends BaseController{
     }
     
     @PostMapping("/BM0607G1I0")
-    public ApiResponse BM0607G1I0(@RequestBody VdoRsvVO requestParam) throws Exception {
-    	service.BM0607G1I0(requestParam);
-    	return ok();
+    public ApiResponse BM0607G1I0(@RequestBody VdoRsvVO requestParam){
+    	boolean result = service.BM0607G1I0(requestParam);
+    	System.out.println(result);
+    	if(result) {
+    		return ok("success");    		
+    	}else {
+    		return ok("fail");
+    	}
     }
 	
 }

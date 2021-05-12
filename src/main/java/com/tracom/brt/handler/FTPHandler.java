@@ -520,8 +520,14 @@ public class FTPHandler {
 		}
 	}
 
-	public void copyFile(File fFile, File tFile) throws IOException {
-		FileUtils.copyFile(fFile, tFile);
+	public boolean copyFile(File fFile, File tFile) {
+		try {
+			FileUtils.copyFile(fFile, tFile);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	//배열 두개 확장자빼고 비교해서 지울거 뱉어내는 함수 0316
@@ -596,7 +602,7 @@ public class FTPHandler {
 	}
 	
 	//BM0607 영상예약
-	public void reserveVideo(VdoRsvVO vo) throws Exception {
+	public boolean reserveVideo(VdoRsvVO vo){
 		String videoPath = "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";
 		String path = Paths.get(getRootLocalPath(), videoPath).toString();
 		String fromPath = Paths.get(getRootLocalPath(), "/video").toString();
@@ -615,8 +621,13 @@ public class FTPHandler {
 			listDir.mkdirs();
 		}
 		
-		createFtpDirectory(fPath);
-		createFtpDirectory(vfPath);
+		try {
+			createFtpDirectory(fPath);
+			createFtpDirectory(vfPath);
+		} catch (SftpException e1) {
+			e1.printStackTrace();
+			return false;
+		}
 		
 		
 		
@@ -639,7 +650,11 @@ public class FTPHandler {
 			File fFile = new File(fromPath + "/" + voList.get(i).getVideoFile());
 			File tFile = new File(toPath + "/" + voList.get(i).getVideoFile());
 			
-			copyFile(fFile, tFile);
+			boolean t = copyFile(fFile, tFile);
+			if(t == false) {
+				return false;
+			}
+		
 
 		}
 		
@@ -648,13 +663,16 @@ public class FTPHandler {
 		
 		try {
 			Utils.createCSV(file, txt);
+			processSynchronize(path, vfPath);
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 	
 	//영상 예약 싱크
-	public void syncVdoFile(VdoRsvVO vo) throws Exception {
+	public boolean syncVdoFile(VdoRsvVO vo){
 		String videoPath = "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";
 		String path = Paths.get(getRootLocalPath(), videoPath).toString();
 		String toPath = Paths.get(getRootLocalPath(), "/vehicle", "/", vo.getImpId(), "/device/passenger").toString();
@@ -662,12 +680,19 @@ public class FTPHandler {
 		
 		String vfPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/playlist";
 
-		processSynchronize(toPath, fPath);
-		processSynchronize(path, vfPath);
+		try {
+			processSynchronize(toPath, fPath);
+			processSynchronize(path, vfPath);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
 	}
 	
 	//BM0609 화면예약
-	public void reserveScreen(ScrRsvVO vo) throws Exception {
+	public boolean reserveScreen(ScrRsvVO vo) {
 		String path = Paths.get(getRootLocalPath(), "/vehicle", "/" , vo.getImpId(), "/device" , "/", vo.getDvcId(), "/config").toString();
 		String fromPath = Paths.get(getRootLocalPath(), "/template/", vo.getSetId()).toString();
 		String fPath = getRootServerPath() + "/vehicle/" + vo.getImpId() + "/device/" + vo.getDvcId() + "/config/";
@@ -685,7 +710,12 @@ public class FTPHandler {
 			txt += row;
 		}
 		File file = new File(path + "/config.csv");
-		Utils.createCSV(file, txt);
+		try {
+			Utils.createCSV(file, txt);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return false;
+		}
 		
 		File fFile1 = new File(fromPath + "/background.png");
 		File tFile1 = new File(path + "/background.png");
@@ -694,16 +724,18 @@ public class FTPHandler {
 		File fFile3 = new File(fromPath + "/nextstopbg.png");
 		File tFile3 = new File(path + "/nextstopbg.png");
 		
-		copyFile(fFile1, tFile1);
-		copyFile(fFile2, tFile2);
-		copyFile(fFile3, tFile3);
-		
-		
-		try {
-			processSynchronize(path, fPath);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(copyFile(fFile1, tFile1) && copyFile(fFile2, tFile2) && copyFile(fFile3, tFile3)) {
+			try {
+				processSynchronize(path, fPath);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}			
+		}else {
+			return false;
 		}
+		
+		return true;
 	}
 	
 	/*구버전*/
@@ -854,10 +886,16 @@ public class FTPHandler {
 			}else {}
 			
 			for(int i = 0; i < rsvVO.size(); i ++) {
+				File rearFile = new File(localPath2 + "/R" + rsvVO.get(i).getDvcName() + ".BMP");
 				txt +=  GlobalConstants.CSVForms.ROW_SEPARATOR + "F" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" + 
 						GlobalConstants.CSVForms.ROW_SEPARATOR + "F" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A" +
 						GlobalConstants.CSVForms.ROW_SEPARATOR + "S" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" + 
 						GlobalConstants.CSVForms.ROW_SEPARATOR + "S" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A";
+				
+				if(rearFile.exists()) {
+					txt += GlobalConstants.CSVForms.ROW_SEPARATOR + "R" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" +
+							GlobalConstants.CSVForms.ROW_SEPARATOR + "R" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A";
+				}
 			}
 			String listLocalPath = Paths.get(getRootLocalPath(), "/vehicle/", impId, "/device/destination/").toString();
 			String listFTPPath = getRootServerPath() + "/vehicle/" + impId + "/device/destination/";
