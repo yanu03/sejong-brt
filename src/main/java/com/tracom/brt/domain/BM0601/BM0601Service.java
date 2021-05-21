@@ -175,7 +175,7 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 						 for(int i = 0; i<skyCheckVO.size(); i++) {
 							 skyCheck = String.valueOf(skyCheckVO.get(i).getNumVal4()).substring(0, 1);
 							 if(skyCheck.equals(ai.getTagValue("pty", eElement))) {
-								 weatVO.setSkyCond(skyCheckVO.get(i).getDlCd());
+								 weatVO.setSkyCond(skyCheckVO.get(i+4).getDlCd());
 							 }
 						 }
 					 }
