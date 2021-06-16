@@ -350,12 +350,13 @@ public class FTPHandler {
 		//가지고온 관리id값이 통플인지 아닌지 비교
 		if(id.length() > 10) {
 			path = "/vehicle/" + id.substring(0, 10) + "/device/" + id.substring(10, 16) + "/firmware";
-		} else {
+		} else { //통합플랫폼
 			path = "/vehicle/" + id.substring(0, 10) + "/firmware";
 		}
 		String dir = Paths.get(getRootLocalPath() , path).toString();
 		String ext = FilenameUtils.getExtension(file.getOriginalFilename());
 		String fileName;
+		
 		
 		if(id.length() == 10) {
 			fileName = "firmware." + ext;
@@ -383,7 +384,6 @@ public class FTPHandler {
 		} catch(Exception e){
 			e.printStackTrace();
 		}
-		
 	}
 	
 	//BM0201에서 device 생성시 folder 생성
@@ -459,6 +459,41 @@ public class FTPHandler {
 		}
 	}
 	
+	/** 2021 06 15 싸인전용 파일 업로드 **/
+	//BM0504 싸인전용 파일 업로드
+	public void uploadBM0504(String id, MultipartFile file) {
+		String path;
+		path = "/vehicle/" + id.substring(0, 10) + "/device/destination/etc";
+
+		String dir = Paths.get(getRootLocalPath() , path).toString();
+		String ext = FilenameUtils.getExtension(file.getOriginalFilename());
+		String fileName = "";
+		
+		File p = new File(dir);
+		if(!p.isDirectory()) {
+			p.mkdirs();
+		}
+		
+		if(id.substring(10, 12).equals("RK")) {
+			switch(ext) {
+			case "SYS" :
+				fileName = "NOSUN.SYS";
+				break;
+			}
+			
+		}else {
+			return;
+		}
+		
+		File saveFile = Paths.get(dir, fileName).toFile();
+		try {
+			FileUtils.writeByteArrayToFile(saveFile, file.getBytes());
+			
+			processSynchronize(getRootLocalPath() + path, getRootServerPath() + path);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 
 	//BM0606 영상, 이미지파일 업로드
 	public void uploadBM0605(String id, MultipartFile file, String type) {
