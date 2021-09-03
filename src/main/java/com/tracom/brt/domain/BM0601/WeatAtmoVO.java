@@ -41,4 +41,55 @@ public class WeatAtmoVO extends BaseVO{
 	private String weatApiKey;
 	private String atmoApiKey;
 	private String remark;
+	
+	public void setSdc(String sdc) {
+		if(sdc.equals("-")) {
+			this.sdc = "0";
+		}else {
+			this.sdc = sdc;
+		}
+	}
+	
+	public void setCmc(String cmc) {
+		if(cmc.equals("-")) {
+			this.cmc = "0";
+		}else {
+			this.cmc = cmc;
+		}
+	}
+	
+	 public void setOzonec(String ozonec) {
+		 if(ozonec.equals("-")) {
+			 this.ozonec = "0";
+		 }else {
+			 this.ozonec = ozonec;
+		 }
+	}
+	 
+	 
+	 public void setNdc(String ndc) {
+		 if(ndc.equals("-")) {
+			 this.ndc = "0";
+		 }else {
+			 this.ndc = ndc;
+		 }
+	 }
+	 
+	 public void setDustc(String dustc) {
+		 if(dustc.equals("-")) {
+			 this.dustc = "0";
+		 }else {
+			 this.dustc = dustc;
+			 
+		 }
+	 }
+	 
+	 public void setSDustc(String sDustc) {
+		 if(sDustc.equals("-")) {
+			 this.sDustc = "0";
+		 }else {
+			 this.sDustc = sDustc; 
+		 }
+	 }
+	 
 }

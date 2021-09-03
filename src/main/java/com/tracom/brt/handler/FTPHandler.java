@@ -922,10 +922,16 @@ public class FTPHandler {
 			
 			for(int i = 0; i < rsvVO.size(); i ++) {
 				File rearFile = new File(localPath2 + "/R" + rsvVO.get(i).getDvcName() + ".BMP");
+				File side2File = new File(localPath2 + "/B" + rsvVO.get(i).getDvcName() + ".BMP");
 				txt +=  GlobalConstants.CSVForms.ROW_SEPARATOR + "F" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" + 
 						GlobalConstants.CSVForms.ROW_SEPARATOR + "F" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A" +
 						GlobalConstants.CSVForms.ROW_SEPARATOR + "S" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" + 
 						GlobalConstants.CSVForms.ROW_SEPARATOR + "S" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A";
+				
+				if(side2File.exists()) {
+					txt += GlobalConstants.CSVForms.ROW_SEPARATOR + "B" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" +
+							GlobalConstants.CSVForms.ROW_SEPARATOR + "B" + rsvVO.get(i).getDvcName() + ".SCH" + GlobalConstants.CSVForms.COMMA + "A";
+				}
 				
 				if(rearFile.exists()) {
 					txt += GlobalConstants.CSVForms.ROW_SEPARATOR + "R" + rsvVO.get(i).getDvcName() + ".BMP" + GlobalConstants.CSVForms.COMMA + "A" +

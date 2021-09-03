@@ -1,6 +1,8 @@
 package com.tracom.brt.domain.BM0601;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,6 +12,8 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.jdo.annotations.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -22,10 +26,13 @@ import com.tracom.brt.domain.BaseService;
 import com.tracom.brt.domain.Interface.AtmoDataInterface;
 import com.tracom.brt.domain.SM0105.CommonCodeDetailInfoVO;
 import com.tracom.brt.domain.SM0105.SM0105Mapper;
+import com.tracom.brt.domain.file.FileService;
 
 @EnableScheduling
 @Service
 public class BM0601Service extends BaseService<WeatAtmoVO, String>{
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Inject
 	private BM0601Mapper mapper;
@@ -84,18 +91,27 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
     	CommonCodeDetailInfoVO codeVO2 = mapper_0105.SM0105G1S1(codeVO);
     	   	
     	String baseUrl = codeVO2.getRemark();
-    			
+
+    	
 		codeVO.setCoCd(ai.LINK_SET); 
 		codeVO.setDlCd(ai.KEY_CODE_OPENAPI_ROUT_ATMO);
 		codeVO2= mapper_0105.SM0105G1S1(codeVO);
     	
     	String apiKey = codeVO2.getRemark();
     	
+    	try {
+			baseUrl = encodeURIStandard(baseUrl);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	
     	String url = baseUrl + "&serviceKey=" + apiKey;
 
     	NodeList nodeList = ai.interface_XML(url);
     	
+    	
     	WeatAtmoVO vo = new WeatAtmoVO();
+    	
     	
     	//파싱 tag값 가져오는 for문
     	for(int i = 0; i<nodeList.getLength(); i++) {
@@ -124,7 +140,6 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 	
 	@Scheduled(cron="0 5 5-23,0 * * *")
 	public void NewWeatScheduler() {
-		
 		/* 기상 */
 		 CommonCodeDetailInfoVO codeVO = new CommonCodeDetailInfoVO();
 		 WeatAtmoVO weatVO = new WeatAtmoVO();
@@ -132,7 +147,6 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 		 codeVO.setCoCd(ai.LINK_SET);
 		 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		 Date time = new Date();
-		 
 		 String notiDate = dateFormat.format(time);
 		 codeVO.setDlCd(ai.URL_CODE_OPENAPI_ROUT_WEAT); 
 		 CommonCodeDetailInfoVO weatCodeVO = mapper_0105.SM0105G1S1(codeVO);
@@ -140,6 +154,12 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 		 List<CommonCodeDetailInfoVO> skyCheckVO = mapper_0105.SM0105G1S2(codeVO);
 		 
 		 String waetBaseUrl = weatCodeVO.getRemark();
+		 
+		 try {
+			waetBaseUrl = encodeURIStandard(waetBaseUrl);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		  
 		 NodeList weatList = ai.weatInterface_XML(waetBaseUrl);
 		 
@@ -161,6 +181,7 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 						 notiDt = notiDate.substring(0, 11)+checkNotiDt+":00:00";
 						 weatVO.setNotiDt(notiDt);
 					 }
+					 
 					 weatVO.setTempc(ai.getTagValue("temp", eElement));
 					 weatVO.setTempHigh(ai.getTagValue("tmx", eElement));
 					 weatVO.setTempMini(ai.getTagValue("tmn", eElement));
@@ -195,4 +216,16 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
 	public List<WeatAtmoVO> BM0601G2S2(RequestParams<WeatAtmoVO> requestParams) {
 		return mapper.BM0601G2S2(requestParams.getString("filter"));
 	}
+	
+    public String encodeURIStandard(String strURI) throws UnsupportedEncodingException {
+
+        return URLEncoder.encode(strURI, "UTF-8")
+                .replace("%3A", ":")
+                .replace("%2F", "/")
+                .replace("%3D", "=")
+                .replace("%2B", "+")
+                .replace("%26", "&")
+                .replace("%3F", "?");
+
+    }
 }

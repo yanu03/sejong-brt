@@ -3,8 +3,10 @@ package com.tracom.brt.domain.Interface;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -48,12 +50,17 @@ public class AtmoDataInterface {
 	
 	public String NEWS_UPDATE_COUNT = "CD043";
 	
-	public String BASE_URL_ATMO = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?numOfRows=999&pageNo=1&sidoName=세종&ver=1.3";
+	//예전엔...
+	//public String BASE_URL_ATMO = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?numOfRows=999&pageNo=1&sidoName=세종&ver=1.3";
+	
+	//2021 09 03 변경
+	public String BASE_URL_ATMO = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?numOfRows=999&pageNo=1&sidoName=세종&ver=1.3";
 	
 	//교통정보시스템 노선검색 URL
 	
 	public String atmoInterface(String routId) {
-		String baseUrl = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?numOfRows=999&pageNo=1&sidoName=세종&ver=1.3";
+		//String baseUrl = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?numOfRows=999&pageNo=1&sidoName=세종&ver=1.3";
+		String baseUrl = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?numOfRows=999&pageNo=1&sidoName=세종&ver=1.3";
 		return interface_URL("POST", baseUrl);
 	}
 	
@@ -85,17 +92,20 @@ public class AtmoDataInterface {
         try {
             //OpenApi호출
             
+        	
             URL url = new URL(inputUrl);
+            
             HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
             
             //응답 읽기
             br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(), "UTF-8"));
+            
             String result = "";
             String line;
             while ((line = br.readLine()) != null) {
                 result = result + line.trim();// result = URL로 XML을 읽은 값
             }
-            
+
             // xml 파싱하기
             InputSource is = new InputSource(new StringReader(result));
             builder = factory.newDocumentBuilder();
@@ -240,5 +250,5 @@ public class AtmoDataInterface {
 		}
 		return node.getNodeValue();
 	}
-	
+		
 }
