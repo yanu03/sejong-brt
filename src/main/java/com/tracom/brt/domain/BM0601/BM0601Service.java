@@ -130,10 +130,14 @@ public class BM0601Service extends BaseService<WeatAtmoVO, String>{
             }
     	}
     	List<WeatAtmoVO> measDtCk = mapper.BM0601F0S0(vo.getMeasDt());
-    	if(!measDtCk.get(0).getMeasDt().substring(0, measDtCk.get(0).getMeasDt().length()-5).equals(vo.getMeasDt())) {
-    		mapper.BM0601F0I0(vo);
+    	if(measDtCk.size() != 0) {
+    		if(!measDtCk.get(0).getMeasDt().substring(0, measDtCk.get(0).getMeasDt().length()-5).equals(vo.getMeasDt())) {
+    			mapper.BM0601F0I0(vo);
+    		}else {
+    			System.out.println("발표시간이 중복되었습니다.");
+    		}    		
     	}else {
-    		System.out.println("발표시간이 중복되었습니다.");
+    		mapper.BM0601F0I0(vo);
     	}
 		/* 대기 */  	   	
 	}
