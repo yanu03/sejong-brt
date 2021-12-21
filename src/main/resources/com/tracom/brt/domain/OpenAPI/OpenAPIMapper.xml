@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.OpenAPI.OpenAPIMapper">
+
+	<!-- 굴절버스 리스트 출력 (LF_YN = LF010) -->
+    <select id="getBusList" parameterType="HashMap" resultType="busListVO">
+	    SELECT
+			  VHC.VHC_NO		AS BUS_NO
+		    , CORP.CORP_NM		AS CORP_NM
+		    , DLCD1.DL_CD_NM	AS AREA
+		    , DLCD2.DL_CD_NM	AS MAKER
+		    , DLCD4.DL_CD_NM	AS BUS_KIND
+		    , DLCD3.DL_CD_NM	AS FUEL
+		FROM
+			IMP_MT_TERMINAL TER
+			LEFT JOIN BM_VHC_INFO VHC
+			ON TER.IMP_NAME = VHC.VHC_NO
+		    LEFT JOIN BM_CORP_INFO CORP
+		    ON VHC.CORP_ID = CORP.CORP_ID
+		    LEFT JOIN SM_DL_CD_INFO DLCD1
+		    ON DLCD1.CO_CD = 'AREA' AND VHC.AREA = DLCD1.DL_CD
+		    LEFT JOIN SM_DL_CD_INFO DLCD2
+		    ON DLCD2.CO_CD = 'VHC_MAKER' AND VHC.MAKER = DLCD2.DL_CD
+		    LEFT JOIN SM_DL_CD_INFO DLCD3
+		    ON DLCD3.CO_CD = 'VHC_FUEL' AND VHC.VHC_FUEL = DLCD3.DL_CD
+		    LEFT JOIN SM_DL_CD_INFO DLCD4
+		    ON VHC.LF_YN = DLCD4.DL_CD
+		WHERE
+			<if test="value=='ALL'">
+				VHC.LF_YN IN ('LF010', 'LF011')
+			</if>
+			
+			<if test="value=='ELEC'">
+				VHC.LF_YN IN ('LF010')
+			</if>
+			
+			<if test="value=='CNG'">
+				VHC.LF_YN IN ('LF011')
+			</if>
+			AND MODEL_NM IS NOT NULL
+		ORDER BY
+			VHC_ID
+    </select>
+    
+    <!-- 선택한 굴절버스 최근 위치 -->
+    <select id="getBusLocation" parameterType="string" resultType="busLocationVO">
+		SELECT
+			TER.IMP_NAME	AS BUS_NO
+		    , IFNULL(LOC.LATI, 0)		AS LATI
+		    , IFNULL(LOC.LONGI, 0)		AS LONGI
+		    , IFNULL(LOC.ALTI, 0)		AS ALTI
+		    , IFNULL(LOC.SPD, 0)		AS SPD
+		    , IFNULL(LOC.HEADING, 0)	AS HEADING
+		    , IFNULL(LOC.ROUT_ID, '')	AS ROUT_ID
+		    , IFNULL(LOC.GPS_STAT, 0)	AS GPS_STAT
+		    , IFNULL(LOC.SAT_NO, 0)		AS SAT_CNT
+		    , IFNULL(LOC.EVT_CODE, '')	AS EVT_CODE
+		    , IFNULL(LOC.EVT_DATA, '')	AS EVT_DATA
+		    , date_format(LOC.SEND_DATE, '%Y-%m-%d %H:%i:%s')	AS UPD_DTM
+		FROM
+			BM_DVC_LOC LOC
+		    LEFT JOIN IMP_MT_TERMINAL TER
+		    ON LOC.MNG_ID = TER.IMP_ID
+		    LEFT JOIN BM_VHC_INFO VHC
+		    ON TER.IMP_NAME = VHC.VHC_NO
+		    LEFT JOIN SM_DL_CD_INFO DLCD
+		    ON VHC.LF_YN = DLCD.DL_CD
+		WHERE
+			DLCD.DL_CD IN ('LF010', 'LF011')
+			AND TER.IMP_NAME = #{busNo}
+    </select>
+    
+    <!-- 모든 버스 최근 위치 -->
+    <select id="getAllBusLocation" resultType="busLocationListVO">
+		SELECT
+			TER.IMP_NAME	AS BUS_NO
+		    , IFNULL(LOC.LATI, 0)		AS LATI
+		    , IFNULL(LOC.LONGI, 0)		AS LONGI
+		    , IFNULL(LOC.ALTI, 0)		AS ALTI
+		    , IFNULL(LOC.SPD, 0)		AS SPD
+		    , IFNULL(LOC.HEADING, 0)	AS HEADING
+		    , IFNULL(LOC.ROUT_ID, '')	AS ROUT_ID
+		    , IFNULL(LOC.GPS_STAT, 0)	AS GPS_STAT
+		    , IFNULL(LOC.SAT_NO, 0)		AS SAT_CNT
+		    , IFNULL(LOC.EVT_CODE, '')	AS EVT_CODE
+		    , IFNULL(LOC.EVT_DATA, '')	AS EVT_DATA
+		    , date_format(LOC.SEND_DATE, '%Y-%m-%d %H:%i:%s')	AS UPD_DTM
+		FROM
+			BM_DVC_LOC LOC
+		    LEFT JOIN IMP_MT_TERMINAL TER
+		    ON LOC.MNG_ID = TER.IMP_ID
+		    LEFT JOIN BM_VHC_INFO VHC
+		    ON TER.IMP_NAME = VHC.VHC_NO
+		    LEFT JOIN SM_DL_CD_INFO DLCD
+		    ON VHC.LF_YN = DLCD.DL_CD
+		WHERE
+			DLCD.DL_CD IN ('LF010', 'LF011')
+    </select>
+    
+    <!-- 모든 굴절버스 최근 위치 -->
+    <select id="getAllElecBusLocation" resultType="busLocationListVO">
+		SELECT
+			TER.IMP_NAME	AS BUS_NO
+, IFNULL(LOC.LATI, 0)		AS LATI
+		    , IFNULL(LOC.LONGI, 0)		AS LONGI
+		    , IFNULL(LOC.ALTI, 0)		AS ALTI
+		    , IFNULL(LOC.SPD, 0)		AS SPD
+		    , IFNULL(LOC.HEADING, 0)	AS HEADING
+		    , IFNULL(LOC.ROUT_ID, '')	AS ROUT_ID
+		    , IFNULL(LOC.GPS_STAT, 0)	AS GPS_STAT
+		    , IFNULL(LOC.SAT_NO, 0)		AS SAT_CNT
+		    , IFNULL(LOC.EVT_CODE, '')	AS EVT_CODE
+		    , IFNULL(LOC.EVT_DATA, '')	AS EVT_DATA
+		    , date_format(LOC.SEND_DATE, '%Y-%m-%d %H:%i:%s')	AS UPD_DTM
+		FROM
+			BM_DVC_LOC LOC
+		    LEFT JOIN IMP_MT_TERMINAL TER
+		    ON LOC.MNG_ID = TER.IMP_ID
+		    LEFT JOIN BM_VHC_INFO VHC
+		    ON TER.IMP_NAME = VHC.VHC_NO
+		    LEFT JOIN SM_DL_CD_INFO DLCD
+		    ON VHC.LF_YN = DLCD.DL_CD
+		WHERE
+			DLCD.DL_CD IN ('LF010')
+    </select>
+    
+    <!-- 모든 CNG버스 최근 위치 -->
+    <select id="getAllCngBusLocation" resultType="busLocationListVO">
+		SELECT
+			TER.IMP_NAME	AS BUS_NO
+		    , IFNULL(LOC.LATI, 0)		AS LATI
+		    , IFNULL(LOC.LONGI, 0)		AS LONGI
+		    , IFNULL(LOC.ALTI, 0)		AS ALTI
+		    , IFNULL(LOC.SPD, 0)		AS SPD
+		    , IFNULL(LOC.HEADING, 0)	AS HEADING
+		    , IFNULL(LOC.ROUT_ID, '')	AS ROUT_ID
+		    , IFNULL(LOC.GPS_STAT, 0)	AS GPS_STAT
+		    , IFNULL(LOC.SAT_NO, 0)		AS SAT_CNT
+		    , IFNULL(LOC.EVT_CODE, '')	AS EVT_CODE
+		    , IFNULL(LOC.EVT_DATA, '')	AS EVT_DATA
+		    , date_format(LOC.SEND_DATE, '%Y-%m-%d %H:%i:%s')	AS UPD_DTM
+		FROM
+			BM_DVC_LOC LOC
+		    LEFT JOIN IMP_MT_TERMINAL TER
+		    ON LOC.MNG_ID = TER.IMP_ID
+		    LEFT JOIN BM_VHC_INFO VHC
+		    ON TER.IMP_NAME = VHC.VHC_NO
+		    LEFT JOIN SM_DL_CD_INFO DLCD
+		    ON VHC.LF_YN = DLCD.DL_CD
+		WHERE
+			DLCD.DL_CD IN ('LF011')
+    </select>
+    
+    <!-- 선택한 굴절버스 선택한 일자 (최대 일주일) -->
+    <select id="getBusLocationHistory" parameterType="HashMap" resultType="busLocationListVO">
+		SELECT
+			  IMP_NAME	AS BUS_NO
+		    , IFNULL(LATI, 0)		AS LATI
+		    , IFNULL(LONGI, 0)		AS LONGI
+		    , IFNULL(ALTI, 0)		AS ALTI
+		    , IFNULL(SPD, 0)		AS SPD
+		    , IFNULL(HEADING, 0)	AS HEADING
+            , IFNULL(ROUT_ID, '')	AS ROUT_ID
+            , IFNULL(GPS_STAT, 0)	AS GPS_STAT
+            , IFNULL(SAT_NO, 0)		AS SAT_CNT
+            , IFNULL(EVT_CODE, '')	AS EVT_CODE
+            , IFNULL(EVT_DATA, '')	AS EVT_DATA
+		    , date_format(LOC_LOG.SEND_DATE, '%Y-%m-%d %H:%i:%s')	AS UPD_DTM
+		FROM
+			BM_DVC_LOC_LOG LOC_LOG
+		    LEFT JOIN IMP_MT_TERMINAL IMP
+		    	ON LOC_LOG.MNG_ID = IMP.IMP_ID
+            LEFT JOIN BM_VHC_INFO VHC
+            	ON IMP.IMP_NAME = VHC.VHC_NO
+            LEFT JOIN SM_DL_CD_INFO DLCD
+            	ON VHC.LF_YN = DLCD.DL_CD
+		WHERE
+			IMP_NAME = #{busNo}
+            AND DLCD.DL_CD IN ('LF010', 'LF011')
+		    AND LOC_LOG.SEND_DATE BETWEEN CONCAT(#{stDt}, ' 00:00:00') AND CONCAT(#{edDt}, ' 23:59:59')
+    </select>
+    
+    <!-- 노선정보 목록 조회 -->
+    <select id="getRoutList" resultType="routInfoVO">
+    	SELECT
+		      INTER_ROUT_ID	AS ROUT_ID
+		    , EXPRESS_NAME	AS ROUT_NM
+		    <!-- 
+		    , CASE
+				WHEN WAY_DIV = 2 THEN '하행'
+		        WHEN WAY_DIV = 1 THEN '상행'
+		        WHEN WAY_DIV = 4 THEN '순환'
+			  END 			AS WAY_DIV
+		     -->
+			, IFNULL(WAY_DIV, '')		AS WAY_DIV 
+		    , IFNULL(WAY_INFO, '')		AS TXT1
+		    , IFNULL(DIR_INFO, '')		AS TXT2
+		    , IFNULL(ST_STA_NM, '')		AS ST_STN_NM 
+		    , IFNULL(ED_STA_NM, '')		AS ED_STN_NM
+		FROM
+			BM_ROUT_INFO
+		WHERE
+			EXPRESS_NAME IS NOT NULL
+    </select>
+    
+    <select id="getRoutNode" parameterType="String" resultType="routNodeVO">
+    	SET @SEQ=0;
+    	
+    	SELECT
+    		@SEQ := @SEQ + 1 AS NODE_SEQ
+			, NODE_ID
+		    , NODE_NM
+		    <!-- 
+		    , CASE
+				WHEN NODE_TYPE = '30' THEN 'NODE'
+		        WHEN NODE_TYPE = '1' THEN 'STN'
+			END AS NODE_TYPE
+		     -->
+		    , NODE_TYPE
+		    , LATI
+		    , LONGI
+		FROM 
+		BM_ROUT_RESULT
+		WHERE ROUT_ID = (SELECT ROUT_ID FROM BM_ROUT_INFO WHERE INTER_ROUT_ID = #{routId})
+		AND NODE_TYPE IN ('1', '30')
+		ORDER BY SEQ ASC;
+    </select>
+    
+    <select id="getRoutStn" parameterType="String" resultType="routNodeVO">
+    	SET @SEQ=0;
+    	
+    	SELECT
+    	   	@SEQ := @SEQ + 1 AS NODE_SEQ
+			, NODE_ID		AS STN_ID
+		    , NODE_NM	AS STN_NM
+		    , LATI
+		    , LONGI
+		FROM 
+		BM_ROUT_RESULT
+		WHERE ROUT_ID = (SELECT ROUT_ID FROM BM_ROUT_INFO WHERE INTER_ROUT_ID = #{routId})
+		AND NODE_TYPE IN ('1')
+		ORDER BY SEQ ASC;
+    </select>
+    
+    <!-- 로그 INSERT -->
+    <insert id="insertApiLog" parameterType="ApiLogVO">
+    	INSERT INTO BM_API_CALL_HIS VALUES(
+		DATE(NOW())
+		, (SELECT COUNT(*) + 1 FROM BM_API_CALL_HIS A WHERE REQ_DT = DATE(NOW()))
+		, NOW()
+		, #{endPoint}
+		, #{query}
+		, #{ip}
+		, #{resultCd}
+		, #{resultDetailCd}
+		)
+    </insert>
+</mapper>

@@ -57,7 +57,8 @@ public class AXBootSecurityConfig extends WebSecurityConfigurerAdapter {
             "/setup/**",
             "/h2-console/**",
             "/health",
-            "/api/v1/aes/**"
+            "/api/v1/aes/**",
+            "/api/open/**", //2021-11-24 openAPI 적용을 위함
     };
 
     @Inject

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tracom.brt.domain.SM0109.SM0109Mapper">
+
+    <select id="SM0109G0S0" parameterType="String" resultType="apiVO">
+		SELECT
+			  API_ID
+		    , API_NAME
+		    , API_END_POINT
+		    , ALLOWED_IP
+		    , EXPIRE_DATE
+		    , USE_YN
+		    , API_KEY
+		    , REMARK
+		FROM
+			BM_API_INFO
+    	<where>
+	    	<if test="value != null">
+				API_NAME LIKE CONCAT('%', #{value}, '%')
+				OR ALLOWED_IP LIKE CONCAT('%', #{value}, '%')
+	    	</if>
+    	</where>
+    	ORDER BY API_ID
+    </select>
+    
+    <insert id="SM0109F0I0" parameterType="apiVO">
+    	<selectKey keyProperty="apiId" resultType="String" order="BEFORE">
+    		SELECT CONCAT('AP', LPAD(NEXTVAL(SEQ_BM_API_INFO_0), 5, '0'))
+    	</selectKey>
+    
+    	INSERT INTO BM_API_INFO(
+    		  API_ID
+    		, API_NAME
+    		, API_END_POINT
+    		, ALLOWED_IP
+    		, EXPIRE_DATE
+    		, USE_YN
+    		, API_KEY
+    		, REMARK
+    		, CREATED_AT
+    		, CREATED_BY
+    		, UPDATED_AT
+    		, UPDATED_BY
+    		)
+   		VALUES(
+   			  #{apiId}
+   			, #{apiName}
+   			, '*'
+   			, #{allowedIp}
+   			, #{expireDate}
+   			, #{useYn}
+   			, #{apiKey}
+   			, #{remark}
+   			, #{createdAt}
+   			, #{createdBy}
+   			, #{updatedAt}
+   			, #{updatedBy}
+   			)
+    </insert>
+    
+     <update id="SM0109F0U0" parameterType="apiVO">
+    	UPDATE BM_API_INFO
+    	SET
+    		  API_NAME		=	#{apiName}
+    		, EXPIRE_DATE	=	#{expireDate}
+    		, USE_YN		=	#{useYn}
+    		, REMARK		=	#{remark}
+    		, UPDATED_AT	=	#{updatedAt}
+    		, UPDATED_BY	=	#{updatedBy}
+    	WHERE
+    		API_ID = #{apiId}
+    </update>
+    
+    <delete id="SM0109G0D0" parameterType="apiVO">
+    	DELETE
+    		FROM BM_API_INFO
+    	WHERE
+    		API_ID = #{apiId}
+    </delete>
+    
+    <insert id="ApiCallHis" parameterType="apiCallHisVO">
+       	<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+    		SELECT MAX(SEQ)+1 AS SEQ FROM BM_API_CALL_HIS WHERE DATE(REQ_DT) = DATE(NOW())
+    	</selectKey>
+    	
+    	INSERT INTO BM_API_CALL_HIS(
+    		  REQ_DT
+    		, SEQ
+    		, REQ_END_POINT
+    		, REQ_QUERY
+    		, REQ_IP
+    		, RESULT
+    	)
+    	VALUES(
+    		NOW()
+    		, #{seq}
+    		, #{reqEndPoint}
+    		, #{reqQuery}
+    		, #{reqIp}
+    		, #{result}
+    	)
+    </insert>
+    
+    <select id="IfKeyExists" parameterType="String" resultType="apiVO">
+    	SELECT
+			*
+		FROM
+			BM_API_INFO
+		WHERE
+			API_KEY = #{authKey}
+			AND USE_YN = 'Y'
+    </select>
+    
+    <select id="KeyAlives" parameterType="String" resultType="boolean">
+    <![CDATA[
+    	SELECT
+			IF(NOW() <= EXPIRE_DATE, TRUE, FALSE)
+		FROM
+			BM_API_INFO
+		WHERE
+			API_KEY = #{authKey}
+    ]]>  		
+    </select> 
+</mapper>
