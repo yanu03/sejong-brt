@@ -49,11 +49,26 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 	public static String API_AUTHFAIL = "접근권한 없는 API";
 	public static String API_AUTHFAIL_CD = "14";
 	
+	public static String API_PARAMNULL = "파라미터 누락";
+	public static String API_PARAMNULL_CD = "15";
+	
 	private String salt = "tracom3452TRACOM#$%@";
+
+	/** 에러 반환 
+	 * @throws SQLException **/
+	public ErrorVO returnParamError() {
+		ErrorVO result = new ErrorVO();
+		result.setResultCd(OpenAPIService.FAIL_CD);
+		result.setResultDetailCd(OpenAPIService.API_PARAMNULL_CD);
+		//result.setErrMsg(OpenAPIService.API_PARAMNULL);
+		result.setErrMsg(getResultMsg(API_PARAMNULL_CD, API_PARAMNULL));
+		
+		return result;
+	}
 	
-	
-	/** 버스 리스트 **/
-	public BusListVO getBusList(String value){
+	/** 버스 리스트 
+	 * @throws SQLException **/
+	public BusListVO getBusList(String value) {
 		
 		BusListVO result = new BusListVO();
 		
@@ -69,14 +84,16 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 		} catch (Exception e) {
 			result.setResultCd(FAIL_CD);
 			result.setResultDetailCd(SYSTEM_ERROR_CD);
-			result.setErrMsg(SYSTEM_ERROR);
+			//result.setErrMsg(SYSTEM_ERROR);
+			result.setErrMsg(getResultMsg(SYSTEM_ERROR_CD, SYSTEM_ERROR));
 			return result;
 		}
 		
 	}
 	
 	
-	/** 선택 버스 위치정보 **/
+	/** 선택 버스 위치정보 
+	 * @throws SQLException **/
 	public BusLocationVO getBusLocation(String busNo) {
 		
 		BusLocationVO result = new BusLocationVO();
@@ -91,14 +108,16 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 		} catch (Exception e) {
 			result.setResultCd(FAIL_CD);
 			result.setResultDetailCd(SYSTEM_ERROR_CD);
-			result.setErrMsg(SYSTEM_ERROR);
+			//result.setErrMsg(SYSTEM_ERROR);
+			result.setErrMsg(getResultMsg(SYSTEM_ERROR_CD, SYSTEM_ERROR));
 			
 			return result;
 		
 		}
 	}
 	
-	/** 모든 버스 위치정보 **/
+	/** 모든 버스 위치정보 
+	 * @throws SQLException **/
 	public BusLocationListVO getAllBusLocation() {
 		BusLocationListVO result = new BusLocationListVO();
 		
@@ -110,12 +129,14 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 		}catch(Exception e) {
 			result.setResultCd(FAIL_CD);
 			result.setResultDetailCd(SYSTEM_ERROR_CD);
-			result.setErrMsg(SYSTEM_ERROR);
+			//result.setErrMsg(SYSTEM_ERROR);
+			result.setErrMsg(getResultMsg(SYSTEM_ERROR_CD, SYSTEM_ERROR));
 			return result;
 		}
 	}
 	
-	/** 모든 전기굴절버스 위치정보 **/
+	/** 모든 전기굴절버스 위치정보 
+	 * @throws SQLException **/
 	public BusLocationListVO getAllElecBusLocation() {
 		BusLocationListVO result = new BusLocationListVO();
 		
@@ -127,13 +148,15 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 		}catch(Exception e) {
 			result.setResultCd(FAIL_CD);
 			result.setResultDetailCd(SYSTEM_ERROR_CD);
-			result.setErrMsg(SYSTEM_ERROR);
+			//result.setErrMsg(SYSTEM_ERROR);
+			result.setErrMsg(getResultMsg(SYSTEM_ERROR_CD, SYSTEM_ERROR));
 			return result;
 		}
 	}
 	
 
-	/** 모든 Cng버스 위치정보 **/
+	/** 모든 Cng버스 위치정보 
+	 * @throws SQLException **/
 	public BusLocationListVO getAllCngBusLocation() {
 		BusLocationListVO result = new BusLocationListVO();
 		
@@ -145,12 +168,14 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 		}catch(Exception e) {
 			result.setResultCd(FAIL_CD);
 			result.setResultDetailCd(SYSTEM_ERROR_CD);
-			result.setErrMsg(SYSTEM_ERROR);
+			//result.setErrMsg(SYSTEM_ERROR);
+			result.setErrMsg(getResultMsg(SYSTEM_ERROR_CD, SYSTEM_ERROR));
 			return result;
 		}
 	}
 	
-	/** 위치정보 히스토리 **/
+	/** 위치정보 히스토리 
+	 * @throws SQLException **/
 	public BusLocationListVO getBusLocationHistory(Map<String, Object> param) {
 		BusLocationListVO result = new BusLocationListVO();
 		
@@ -162,12 +187,14 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 		}catch(Exception e) {
 			result.setResultCd(FAIL_CD);
 			result.setResultDetailCd(SYSTEM_ERROR_CD);
-			result.setErrMsg(SYSTEM_ERROR);
+			//result.setErrMsg(SYSTEM_ERROR);
+			result.setErrMsg(getResultMsg(SYSTEM_ERROR_CD, SYSTEM_ERROR));
 			return result;
 		}
 	}
 	
-	/** 노선 목록 조회 **/
+	/** 노선 목록 조회 
+	 * @throws SQLException **/
 	public RoutInfoVO getRoutList() {
 		RoutInfoVO result = new RoutInfoVO();
 		
@@ -179,12 +206,14 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 		}catch(Exception e) {
 			result.setResultCd(FAIL_CD);
 			result.setResultDetailCd(SYSTEM_ERROR_CD);
-			result.setErrMsg(SYSTEM_ERROR);
+			//result.setErrMsg(SYSTEM_ERROR);
+			result.setErrMsg(getResultMsg(SYSTEM_ERROR_CD, SYSTEM_ERROR));
 			return result;
 		}
 	}
 	
-	/** 노선별 노드 목록 조회 **/
+	/** 노선별 노드 목록 조회 
+	 * @throws SQLException **/
 	public RoutNodeVO getRoutNodeList(String routId) {
 		RoutNodeVO result = new RoutNodeVO();
 		
@@ -196,12 +225,14 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 		}catch(Exception e) {
 			result.setResultCd(FAIL_CD);
 			result.setResultDetailCd(SYSTEM_ERROR_CD);
-			result.setErrMsg(SYSTEM_ERROR);
+			//result.setErrMsg(SYSTEM_ERROR);
+			result.setErrMsg(getResultMsg(SYSTEM_ERROR_CD, SYSTEM_ERROR));
 			return result;
 		}
 	}
 	
-	/** 노선별 정류장 목록 조회 **/
+	/** 노선별 정류장 목록 조회 
+	 * @throws SQLException **/
 	public RoutNodeVO getRoutStnList(String routId) {
 		RoutNodeVO result = new RoutNodeVO();
 		try {
@@ -212,7 +243,8 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 		}catch(Exception e) {
 			result.setResultCd(FAIL_CD);
 			result.setResultDetailCd(SYSTEM_ERROR_CD);
-			result.setErrMsg(SYSTEM_ERROR);
+			//result.setErrMsg(SYSTEM_ERROR);
+			result.setErrMsg(getResultMsg(SYSTEM_ERROR_CD, SYSTEM_ERROR));
 			return result;
 		}
 	}
@@ -236,6 +268,7 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 	/**
 	 * 키 인증
 	 * 키가 있는지 확인 후 정상적인접근인지 확인
+	 * @throws SQLException 
 	 * **/
 	public Map<String, Object> authKey(String authKey, HttpServletRequest request) {
 		List<ApiVO> list = smMapper.IfKeyExists(authKey);
@@ -258,20 +291,20 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 						//error : 키가 만료되었습니다.
 						resultCd = FAIL_CD;
 						resultMap.put("resultDetailCd", KEY_EXPIRED_CD);
-						resultMap.put("msg", KEY_EXPIRED);
+						resultMap.put("msg", getResultMsg(KEY_EXPIRED_CD, KEY_EXPIRED));
 					}
 					
 				}else if(!pmu && pmi) {
 					//api 접근권한이 없습니다.(uri)
 					resultCd = FAIL_CD;
 					resultMap.put("resultDetailCd", API_AUTHFAIL_CD);
-					resultMap.put("msg", API_AUTHFAIL);
+					resultMap.put("msg", getResultMsg(API_AUTHFAIL_CD, API_AUTHFAIL));
 					
 				}else if(pmu && !pmi) {
 					//api 접근권한이 없습니다. (ip)
 					resultCd = FAIL_CD;
 					resultMap.put("resultDetailCd", IP_AUTHFAIL_CD);
-					resultMap.put("msg", IP_AUTHFAIL);
+					resultMap.put("msg", getResultMsg(IP_AUTHFAIL_CD, IP_AUTHFAIL));
 					
 				}else {
 					//둘다없으면 다음꺼
@@ -283,7 +316,7 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 			//error : key 인증 실패.
 			resultCd = FAIL_CD;
 			resultMap.put("resultDetailCd", KEY_NOTFOUND_CD);
-			resultMap.put("msg", KEY_NOTFOUND);
+			resultMap.put("msg", getResultMsg(KEY_NOTFOUND_CD, KEY_NOTFOUND));
 		}
 
 		resultMap.put("resultCd", resultCd);
@@ -392,4 +425,22 @@ public class OpenAPIService extends BaseService<BusLocationVO, String> {
 		return result;
 	}
 	
+	public String getResultMsg(String errorCd, String errorMsg) {
+		String result;
+		try {
+			result = mapper.getResultMsg(errorCd);
+			
+			if(result == null) {
+				return errorMsg;
+			}else {
+				if(result.equals("")) {
+					return errorMsg;
+				}else {
+					return result;
+				}				
+			}
+		} catch (SQLException e) {
+			return errorMsg;
+		}
+	}
 }

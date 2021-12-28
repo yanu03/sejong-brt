@@ -24,4 +24,7 @@ public interface OpenAPIMapper extends MyBatisMapper {
 	
 	/** logging **/
 	int insertApiLog(ApiLogVO vo) throws SQLException;
+	
+	/** resultCd **/
+	String getResultMsg(String value) throws SQLException;
 }

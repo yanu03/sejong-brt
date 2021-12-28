@@ -13,6 +13,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.chequer.axboot.core.controllers.BaseController;
+import com.tracom.brt.domain.OpenAPI.ErrorVO;
 import com.tracom.brt.domain.OpenAPI.OpenAPIService;
 import com.tracom.brt.domain.OpenAPI.RoutInfoVO;
 import com.tracom.brt.domain.OpenAPI.RoutNodeVO;
@@ -26,8 +27,14 @@ public class RoutInfoServiceController extends BaseController {
 
 	/** 노선 리스트, 노선 정보 **/
 	@GetMapping("/getRoutList")
-    public Object getRoutList(@RequestParam String serviceKey) {
+    public Object getRoutList(@RequestParam(value="serviceKey", required=true, defaultValue="") String serviceKey) {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		
+		if(serviceKey.equals("")) {
+			ErrorVO result = service.returnParamError();
+			service.insertApiLog(request, result.getResultCd(), result.getResultDetailCd());
+			return result;
+		}
 		
 		Map<String, Object> authResult = service.authKey(serviceKey, request);
 		if(authResult.getOrDefault("resultCd", "FAIL").equals("SUCCESS")) {
@@ -43,8 +50,15 @@ public class RoutInfoServiceController extends BaseController {
 	
 	/** 노선 별 경로 정보 **/
 	@GetMapping("/getRoutNodeList")
-    public Object getRoutNodeList(@RequestParam String routId, @RequestParam String serviceKey) {
+    public Object getRoutNodeList(@RequestParam(value="routId", required=true, defaultValue="") String routId
+    							, @RequestParam(value="serviceKey", required=true, defaultValue="") String serviceKey) {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		
+		if(serviceKey.equals("") || routId.equals("")) {
+			ErrorVO result = service.returnParamError();
+			service.insertApiLog(request, result.getResultCd(), result.getResultDetailCd());
+			return result;
+		}
 		
 		Map<String, Object> authResult = service.authKey(serviceKey, request);
 		if(authResult.getOrDefault("resultCd", "FAIL").equals("SUCCESS")) {
@@ -60,8 +74,15 @@ public class RoutInfoServiceController extends BaseController {
 	
 	/** 노선 별 정류장 정보 **/
 	@GetMapping("/getRoutStnList")
-    public Object getRoutStnList(@RequestParam String routId, @RequestParam String serviceKey) {
+    public Object getRoutStnList(@RequestParam(value="routId", required=true, defaultValue="") String routId
+    							, @RequestParam(value="serviceKey", required=true, defaultValue="") String serviceKey) {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		
+		if(serviceKey.equals("") || routId.equals("")) {
+			ErrorVO result = service.returnParamError();
+			service.insertApiLog(request, result.getResultCd(), result.getResultDetailCd());
+			return result;
+		}
 		
 		Map<String, Object> authResult = service.authKey(serviceKey, request);
 		if(authResult.getOrDefault("resultCd", "FAIL").equals("SUCCESS")) {

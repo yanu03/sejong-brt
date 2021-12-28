@@ -16,6 +16,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.tracom.brt.domain.OpenAPI.BusLocationListVO;
 import com.tracom.brt.domain.OpenAPI.BusLocationVO;
+import com.tracom.brt.domain.OpenAPI.ErrorVO;
 import com.tracom.brt.domain.OpenAPI.OpenAPIService;
 
 @RestController
@@ -27,8 +28,14 @@ public class BusLocationServiceController extends BaseController {
 
 	/** 모든 굴절버스 위치 **/
 	@GetMapping("/getElecBusLocation")
-    public Object getElecBusLocation(@RequestParam String serviceKey) {
+    public Object getElecBusLocation(@RequestParam(value="serviceKey", required=true, defaultValue="") String serviceKey) {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		
+		if(serviceKey.equals("")) {
+			ErrorVO result = service.returnParamError();
+			service.insertApiLog(request, result.getResultCd(), result.getResultDetailCd());
+			return result;
+		}
 		
 		Map<String, Object> authResult = service.authKey(serviceKey, request);
 		if(authResult.getOrDefault("resultCd", "FAIL").equals("SUCCESS")) {
@@ -43,8 +50,14 @@ public class BusLocationServiceController extends BaseController {
 	
 	/** 모든 CNG버스 위치**/
 	@GetMapping("/getCngBusLocation")
-    public Object getCngBusLocation(@RequestParam String serviceKey) {
+    public Object getCngBusLocation(@RequestParam(value="serviceKey", required=true, defaultValue="") String serviceKey) {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		
+		if(serviceKey.equals("")) {
+			ErrorVO result = service.returnParamError();
+			service.insertApiLog(request, result.getResultCd(), result.getResultDetailCd());
+			return result;
+		}
 		
 		Map<String, Object> authResult = service.authKey(serviceKey, request);
 		if(authResult.getOrDefault("resultCd", "FAIL").equals("SUCCESS")) {
@@ -60,8 +73,14 @@ public class BusLocationServiceController extends BaseController {
 	
 	/** 모든 굴절버스, CNG버스 위치 **/
 	@GetMapping("/getAllBusLocation")
-    public Object getAllBusLocation(@RequestParam String serviceKey) {
+    public Object getAllBusLocation(@RequestParam(value="serviceKey", required=true, defaultValue="") String serviceKey) {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+	
+		if(serviceKey.equals("")) {
+			ErrorVO result = service.returnParamError();
+			service.insertApiLog(request, result.getResultCd(), result.getResultDetailCd());
+			return result;
+		}
 		
 		Map<String, Object> authResult = service.authKey(serviceKey, request);
 		if(authResult.getOrDefault("resultCd", "FAIL").equals("SUCCESS")) {
@@ -77,8 +96,15 @@ public class BusLocationServiceController extends BaseController {
 	
 	/** 선택 버스 위치 **/
 	@GetMapping("/getBusLocation")
-    public Object getBusLocation(@RequestParam String busNo, @RequestParam String serviceKey) {
+    public Object getBusLocation(@RequestParam(value="busNo", required=true, defaultValue="") String busNo
+    							, @RequestParam(value="serviceKey", required=true, defaultValue="") String serviceKey) {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		
+		if(serviceKey.equals("") || busNo.equals("")) {
+			ErrorVO result = service.returnParamError();
+			service.insertApiLog(request, result.getResultCd(), result.getResultDetailCd());
+			return result;
+		}
 		
 		Map<String, Object> authResult = service.authKey(serviceKey, request);
 		if(authResult.getOrDefault("resultCd", "FAIL").equals("SUCCESS")) {
@@ -93,10 +119,19 @@ public class BusLocationServiceController extends BaseController {
 	
 	/** 선택 버스 위치 이력 (최대 1주일 전부터) **/
 	@GetMapping("/getBusLocationHistory")
-    public Object getBusLocationHistory(@RequestParam String busNo, @RequestParam String startDt, @RequestParam String endDt, @RequestParam String serviceKey) {
+    public Object getBusLocationHistory(@RequestParam(value="busNo", required=true, defaultValue="") String busNo
+    									, @RequestParam(value="startDt", required=true, defaultValue="") String startDt
+    									, @RequestParam(value="endDt", required=true, defaultValue="") String endDt
+    									, @RequestParam(value="serviceKey", required=true, defaultValue="") String serviceKey) {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
-		Map<String, Object> param = new HashMap<>();
 		
+		if(serviceKey.equals("") || busNo.equals("") || startDt.equals("") || endDt.equals("")) {
+			ErrorVO result = service.returnParamError();
+			service.insertApiLog(request, result.getResultCd(), result.getResultDetailCd());
+			return result;
+		}
+		
+		Map<String, Object> param = new HashMap<>();
 		param.put("busNo", busNo);
 		param.put("stDt", toHyphenDate(startDt));
 		param.put("edDt", toHyphenDate(endDt));

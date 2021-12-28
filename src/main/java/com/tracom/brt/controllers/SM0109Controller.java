@@ -39,7 +39,7 @@ public class SM0109Controller extends BaseController {
         	if(ip.length == 4) {
         		vo.setAllowedIp1(ip[0]);
         		vo.setAllowedIp2(ip[1]);
-        		vo.setAllowedIp3(ip[3]);
+        		vo.setAllowedIp3(ip[2]);
         		vo.setAllowedIp4(ip[3]);        		
         	}
         }

@@ -256,4 +256,14 @@
 		, #{resultDetailCd}
 		)
     </insert>
+    
+    <select id="getResultMsg" parameterType="String" resultType="String">
+    	SELECT
+			IFNULL(TXT_VAL1, '') AS RESULT_MSG
+		FROM
+			SM_DL_CD_INFO
+		WHERE
+			CO_CD = 'API_RESULT'
+		    AND NUM_VAL4 = #{value}
+    </select>
 </mapper>

@@ -1,27 +1,25 @@
 package com.tracom.brt.controllers.openAPI;
 
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.chequer.axboot.core.controllers.BaseController;
 import com.tracom.brt.domain.OpenAPI.BusListVO;
-import com.tracom.brt.domain.OpenAPI.BusLocationVO;
+import com.tracom.brt.domain.OpenAPI.ErrorVO;
 import com.tracom.brt.domain.OpenAPI.OpenAPIService;
 
 @RestController
 @RequestMapping("/api/open/busInfoService")
-public class BusInfoServiceController extends BaseController {
+public class BusInfoServiceController {
 	
 	@Inject
 	private OpenAPIService service;  
@@ -33,10 +31,16 @@ public class BusInfoServiceController extends BaseController {
 	
 	/** 전체버스리스트 출력 (조건 : LF_YN = LF010 || LF011) **/ 
 	@GetMapping("/getAllBusList")
-	@ResponseBody
-    public Object getAllBusList(@RequestParam String serviceKey) {
+    public Object getAllBusList(@RequestParam(value="serviceKey", required=true, defaultValue="") String serviceKey) throws MissingServletRequestParameterException{
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 
+		
+		if(serviceKey.equals("")) {
+			ErrorVO result = service.returnParamError();
+			service.insertApiLog(request, result.getResultCd(), result.getResultDetailCd());
+			return result;
+		}
+		
 		Map<String, Object> authResult = service.authKey(serviceKey, request);
 		if(authResult.getOrDefault("resultCd", "FAIL").equals("SUCCESS")) {
 			BusListVO result = service.getBusList("ALL");
@@ -50,8 +54,14 @@ public class BusInfoServiceController extends BaseController {
 	
 	/** 전기굴절버스리스트 출력 (조건 : LF_YN = LF010) **/
 	@GetMapping("/getElecBusList")
-    public Object getElecBusList(@RequestParam String serviceKey) {
+    public Object getElecBusList(@RequestParam(value="serviceKey", required=true, defaultValue="") String serviceKey) {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		
+		if(serviceKey.equals("")) {
+			ErrorVO result = service.returnParamError();
+			service.insertApiLog(request, result.getResultCd(), result.getResultDetailCd());
+			return result;
+		}
 		
 		Map<String, Object> authResult = service.authKey(serviceKey, request);
 		if(authResult.getOrDefault("resultCd", "FAIL").equals("SUCCESS")) {
@@ -66,8 +76,14 @@ public class BusInfoServiceController extends BaseController {
 	
 	/** CNG버스리스트 출력 (조건 : LF_YN = LF010) **/
 	@GetMapping("/getCngBusList")
-    public Object getCNGBusList(@RequestParam String serviceKey) {
+    public Object getCNGBusList(@RequestParam(value="serviceKey", required=true, defaultValue="") String serviceKey) {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		
+		if(serviceKey.equals("")) {
+			ErrorVO result = service.returnParamError();
+			service.insertApiLog(request, result.getResultCd(), result.getResultDetailCd());
+			return result;
+		}
 		
 		Map<String, Object> authResult = service.authKey(serviceKey, request);
 		if(authResult.getOrDefault("resultCd", "FAIL").equals("SUCCESS")) {
@@ -80,8 +96,4 @@ public class BusInfoServiceController extends BaseController {
 		}
 	}
 
-	
-	//노선 정류장 위치
-	//노선경로정보
-	//운행상태
 }
