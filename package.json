@@ -21,7 +21,7 @@
     "gulp-notify": "",
     "gulp-plumber": "",
     "gulp-replace": "",
-    "gulp-sass": "^2.1.1",
+    "gulp-sass": "^3.1.0",
     "gulp-shell": "^0.6.3",
     "gulp-sourcemaps": "",
     "gulp-uglify": "^1.5.1",
